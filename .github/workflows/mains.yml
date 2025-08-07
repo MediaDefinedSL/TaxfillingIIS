@@ -2,48 +2,52 @@ name: CI/CD for TaxFiling Solution
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build_and_deploy:
     runs-on: windows-latest
 
+    env:
+      USERNAME: ${{ secrets.IIS_USER }}
+      PASSWORD: ${{ secrets.IIS_PASSWORD }}
+      SERVER: ${{ secrets.IIS_SERVER }}
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '7.0.x'  # Change based on your target version
+      - name: ⚙️ Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x' # Or whatever version you're targeting
 
-    - name: Restore
-      run: dotnet restore TaxFiling.sln
+      - name: 📦 Restore NuGet packages
+        run: dotnet restore TaxFiling.sln
 
-    - name: Build
-      run: dotnet build TaxFiling.sln --configuration Release
+      - name: 🛠️ Build solution
+        run: dotnet build TaxFiling.sln --configuration Release --no-restore
 
-    - name: Test
-      run: dotnet test TaxFiling.sln --no-build --verbosity normal
+      - name: 🧪 Run tests
+        run: dotnet test TaxFiling.sln --no-build --verbosity normal
 
-    - name: Publish API
-      run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./publish/API
+      - name: 🚀 Publish API
+        run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./publish/API
 
-    - name: Publish Web
-      run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web
+      - name: 🚀 Publish Web
+        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web
 
-    - name: Deploy API to IIS
-      run: |
-        net use \\62.146.232.250\TaxFiling\TaxfilingAPI /user:<USERNAME> <PASSWORD>
-        robocopy ./publish/API \\62.146.232.250\TaxFiling\TaxfilingAPI /MIR
-      env:
-        USERNAME: ${{ secrets.IIS_USER }}
-        PASSWORD: ${{ secrets.IIS_PASSWORD }}
+      - name: 📤 Deploy API to IIS
+        shell: pwsh
+        run: |
+          net use \\$env:SERVER\TaxFiling\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
+          robocopy ./publish/API \\$env:SERVER\TaxFiling\TaxfilingAPI /MIR
+          net use \\$env:SERVER\TaxFiling\TaxfilingAPI /delete
 
-    - name: Deploy Web to IIS
-      run: |
-        net use \\62.146.232.250\TaxFiling\TaxfilingWeb /user:<USERNAME> <PASSWORD>
-        robocopy ./publish/Web \\62.146.232.250\TaxFiling\TaxfilingWeb /MIR
-      env:
-        USERNAME: ${{ secrets.IIS_USER }}
-        PASSWORD: ${{ secrets.IIS_PASSWORD }}
+      - name: 📤 Deploy Web to IIS
+        shell: pwsh
+        run: |
+          net use \\$env:SERVER\TaxFiling\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
+          robocopy ./publish/Web \\$env:SERVER\TaxFiling\TaxfilingWeb /MIR
+          net use \\$env:SERVER\TaxFiling\TaxfilingWeb /delete
