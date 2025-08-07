@@ -1,54 +1,49 @@
-name: Build and Push Docker Images for API and Web (.NET 9)
+name: CI/CD for TaxFiling Solution
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
+  build_and_deploy:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '7.0.x'  # Change based on your target version
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Restore
+      run: dotnet restore TaxFiling.sln
 
-      # ----------------- Build API Project -----------------
-      - name: Build TaxFiling.API
-        run: dotnet build ./TaxFiling.API/TaxFiling.API.csproj --configuration Release
+    - name: Build
+      run: dotnet build TaxFiling.sln --configuration Release
 
-      - name: Publish TaxFiling.API
-        run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./out-api
+    - name: Test
+      run: dotnet test TaxFiling.sln --no-build --verbosity normal
 
-      # ----------------- Build Web Project -----------------
-      - name: Build TaxFiling.Web
-        run: dotnet build ./TaxFiling.Web/TaxFiling.Web.csproj --configuration Release
+    - name: Publish API
+      run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./publish/API
 
-      - name: Publish TaxFiling.Web
-        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./out-web
+    - name: Publish Web
+      run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web
 
-      # ----------------- Docker Login -----------------
-      - name: Docker login (hardcoded - remove before production)
-        run: echo "dckr_pat_gNENbZMpmXJQX__CfELGGA2fCxA" | docker login -u malaka538 --password-stdin
+    - name: Deploy API to IIS
+      run: |
+        net use \\62.146.232.250\TaxFiling\TaxfilingAPI /user:<USERNAME> <PASSWORD>
+        robocopy ./publish/API \\62.146.232.250\TaxFiling\TaxfilingAPI /MIR
+      env:
+        USERNAME: ${{ secrets.IIS_USER }}
+        PASSWORD: ${{ secrets.IIS_PASSWORD }}
 
-      # ----------------- Build & Push API Docker Image -----------------
-      - name: Build Docker image for API
-        run: docker build -t malaka538/taxfilingapi:latest -f ./TaxFiling.API/Dockerfile .
-
-      - name: Push API Docker image
-        run: docker push malaka538/taxfilingapi:latest
-
-      # ----------------- Build & Push Web Docker Image -----------------
-      - name: Build Docker image for Web
-        run: docker build -t malaka538/taxfilingweb:latest -f ./TaxFiling.Web/Dockerfile .
-
-      - name: Push Web Docker image
-        run: docker push malaka538/taxfilingweb:latest
+    - name: Deploy Web to IIS
+      run: |
+        net use \\62.146.232.250\TaxFiling\TaxfilingWeb /user:<USERNAME> <PASSWORD>
+        robocopy ./publish/Web \\62.146.232.250\TaxFiling\TaxfilingWeb /MIR
+      env:
+        USERNAME: ${{ secrets.IIS_USER }}
+        PASSWORD: ${{ secrets.IIS_PASSWORD }}
