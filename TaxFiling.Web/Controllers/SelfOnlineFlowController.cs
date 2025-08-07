@@ -1,0 +1,620 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Reflection;
+using System.Text.Json;
+using TaxFiling.Web.Models;
+using TaxFiling.Web.Models.Common;
+using TaxFiling.Web.Models.User;
+
+namespace TaxFiling.Web.Controllers;
+
+[Authorize(AuthenticationSchemes = "AuthCookie")]
+public class SelfOnlineFlowController : Controller
+{
+    public readonly IConfiguration _configuration;
+    public readonly IHttpClientFactory _httpClientFactory;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private readonly HttpClient _httpClient;
+
+    private readonly string _baseApiUrl;
+
+
+    public SelfOnlineFlowController(IConfiguration configuration, IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializerOptions)
+    {
+        _configuration = configuration;
+        _httpClientFactory = httpClientFactory;
+        _jsonSerializerOptions = jsonSerializerOptions;
+        _httpClient = httpClientFactory.CreateClient("ApiClient");
+        _baseApiUrl = _configuration.GetValue<string>("BaseAPIUrl") ?? string.Empty;
+    }
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    public async Task<IActionResult> SelfOnlineDashboard(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        var packageId = User.FindFirst("PackageId")?.Value;
+
+        PackagesViewModel package = new();
+
+
+        if (packageId != null)
+        {
+            var queryParams = new Dictionary<string, string?> {
+                { "id", packageId.ToString()}
+            };
+
+            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/packeges/get", queryParams);
+            var response = await _httpClient.GetAsync(url, ctx);
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    package = JsonSerializer.Deserialize<PackagesViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+                }
+            }
+        }
+        ViewBag.packageName = package.Name;
+        ViewBag.packageId = package.PackagesId;
+
+        return View();
+    }
+
+    public async Task<IActionResult> SelfOnlineFlow(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        var packageId = User.FindFirst("PackageId")?.Value;
+        int year = DateTime.Now.Year;
+        var responseResult = false;
+
+        PackagesViewModel package = new();
+
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+
+        if (packageId != null)
+        {
+            var queryParams = new Dictionary<string, string?> {
+                { "id", packageId.ToString()}
+            };
+
+            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/packeges/get", queryParams);
+            var response = await _httpClient.GetAsync(url, ctx);
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    package = JsonSerializer.Deserialize<PackagesViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+                }
+            }
+
+            var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+            string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
+            var responseuser = await _httpClient.GetAsync(urluser, ctx);
+            if (responseuser != null && responseuser.IsSuccessStatusCode)
+            {
+                var responseContentUser = await responseuser.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContentUser))
+                {
+                    personalInformation = JsonSerializer.Deserialize<SelfOnlineFlowPersonalInformation>(responseContentUser, _jsonSerializerOptions) ?? new();
+                }
+                else
+                {
+                    string urluserAdd = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/save_useridyear", queryUserParams);
+                    var responseusersave = await _httpClient.PostAsync(urluserAdd, null);
+                    if (responseusersave != null && responseusersave.IsSuccessStatusCode)
+                    {
+                        var responseContentUsersave = await responseusersave.Content.ReadAsStringAsync();
+
+                    }
+                }
+            }
+
+        }
+
+        ViewBag.packageName = package.Name;
+        ViewBag.curancy = package.Curancy;
+        ViewBag.price = package.Price;
+
+        return View();
+    }
+
+    public IActionResult LoadInThisSection()
+    {
+
+        return PartialView("Partial/_InThisSection");
+    }
+
+    public async Task<IActionResult> LoadTaxPayer(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+        List<TaxPayer> taxPayers = [];
+        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/taxpayer_list", ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                taxPayers = JsonSerializer.Deserialize<List<TaxPayer>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
+        var responseuser = await _httpClient.GetAsync(urluser, ctx);
+        if (responseuser != null && responseuser.IsSuccessStatusCode)
+        {
+            var responseContentUser = await responseuser.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContentUser))
+            {
+                personalInformation = JsonSerializer.Deserialize<SelfOnlineFlowPersonalInformation>(responseContentUser, _jsonSerializerOptions) ?? new();
+            }
+
+        }
+        var taxpayerId = personalInformation.TaxpayerId;
+        ViewBag.taxpayer_id = taxpayerId;
+
+        return PartialView("Partial/_TaxPayerSection", taxPayers);
+    }
+    public async Task<IActionResult> LoadMaritalStatus(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+        List<MaritalStatus> maritalStatuses = [];
+        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                maritalStatuses = JsonSerializer.Deserialize<List<MaritalStatus>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
+        var responseuser = await _httpClient.GetAsync(urluser, ctx);
+        if (responseuser != null && responseuser.IsSuccessStatusCode)
+        {
+            var responseContentUser = await responseuser.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContentUser))
+            {
+                personalInformation = JsonSerializer.Deserialize<SelfOnlineFlowPersonalInformation>(responseContentUser, _jsonSerializerOptions) ?? new();
+            }
+
+        }
+        var maritalStatusId = personalInformation.MaritalStatusId;
+        ViewBag.maritalStatusId = maritalStatusId;
+        return PartialView("Partial/_MaritalStatusSection", maritalStatuses);
+    }
+    public async Task<IActionResult> LoadTaxReturnLastyear(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+        List<TaxReturnLastyear> taxReturnLastyears = [];
+        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/taxlastyears_list", ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                taxReturnLastyears = JsonSerializer.Deserialize<List<TaxReturnLastyear>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
+        var responseuser = await _httpClient.GetAsync(urluser, ctx);
+        if (responseuser != null && responseuser.IsSuccessStatusCode)
+        {
+            var responseContentUser = await responseuser.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContentUser))
+            {
+                personalInformation = JsonSerializer.Deserialize<SelfOnlineFlowPersonalInformation>(responseContentUser, _jsonSerializerOptions) ?? new();
+            }
+
+        }
+        var taxReturnLastYearId = personalInformation.TaxReturnLastYearId;
+        ViewBag.taxReturnLastYearId = taxReturnLastYearId;
+
+        return PartialView("Partial/_TaxReturnLastyear", taxReturnLastyears);
+    }
+    public async Task<IActionResult> LoadIdentification(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+        UserViewModel user = new();
+        IdentificationsViewModel identifications = new();
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
+        var responseuser = await _httpClient.GetAsync(urluser, ctx);
+        if (responseuser != null && responseuser.IsSuccessStatusCode)
+        {
+            var responseContentUser = await responseuser.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContentUser))
+            {
+                personalInformation = JsonSerializer.Deserialize<SelfOnlineFlowPersonalInformation>(responseContentUser, _jsonSerializerOptions) ?? new();
+            }
+
+        }
+
+       
+        identifications = new IdentificationsViewModel
+        {
+            UserId = userId,
+            Year = year,
+            FirstName = personalInformation.FirstName,
+            MiddleName = personalInformation.MiddleName,
+            LastName = personalInformation.LastName,
+            DateOfBirth = personalInformation.DateOfBirth,
+            TaxNumber = personalInformation.TaxNumber
+        };
+
+        if(personalInformation.FirstName == null)
+        {
+            var queryParams = new Dictionary<string, string?> {
+                { "Id", userId.ToString()}
+            };
+
+            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
+            var response = await _httpClient.GetAsync(url, ctx);
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    user = JsonSerializer.Deserialize<UserViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+
+                    identifications = new IdentificationsViewModel
+                    {
+                        UserId = userId,
+                        Year = year,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        TaxNumber = user.TinNo
+                    };
+                }
+            }
+        }
+        return PartialView("Partial/_Identification", identifications);
+    }
+
+    public async Task<IActionResult> LoadContactInformation(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        ContactInfromationViewModel contactInfromation = new();
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
+        var responseuser = await _httpClient.GetAsync(urluser, ctx);
+        if (responseuser != null && responseuser.IsSuccessStatusCode)
+        {
+            var responseContentUser = await responseuser.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContentUser))
+            {
+                personalInformation = JsonSerializer.Deserialize<SelfOnlineFlowPersonalInformation>(responseContentUser, _jsonSerializerOptions) ?? new();
+            }
+
+        }
+
+        contactInfromation = new ContactInfromationViewModel
+        {
+            UserId = userId,
+            Year = year,
+            CareOf = personalInformation.CareOf,
+            Apt = personalInformation.Apt,
+            StreetNumber = personalInformation.StreetNumber,
+            Street = personalInformation.Street,
+            City = personalInformation.City
+        };
+
+        return PartialView("Partial/_ContactInformation" , contactInfromation);
+    }
+
+    public async Task<IActionResult> LoadSummary(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        ContactInfromationViewModel contactInfromation = new();
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
+        var responseuser = await _httpClient.GetAsync(urluser, ctx);
+        if (responseuser != null && responseuser.IsSuccessStatusCode)
+        {
+            var responseContentUser = await responseuser.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContentUser))
+            {
+                personalInformation = JsonSerializer.Deserialize<SelfOnlineFlowPersonalInformation>(responseContentUser, _jsonSerializerOptions) ?? new();
+            }
+
+        }
+
+        List<MaritalStatus> maritalStatuses = [];
+        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                maritalStatuses = JsonSerializer.Deserialize<List<MaritalStatus>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        string? maritalStatusName = null;
+
+        if (personalInformation.MaritalStatusId.HasValue)
+        {
+            maritalStatusName = maritalStatuses
+                .FirstOrDefault(m => m.Id == personalInformation.MaritalStatusId.Value)?.Name;
+        }
+
+        ViewBag.MaritalStatusName = maritalStatusName;
+
+        List<TaxPayer> taxPayers = [];
+        var response2 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/taxpayer_list", ctx);
+        if (response2 != null && response2.IsSuccessStatusCode)
+        {
+            var responseContent = await response2.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                taxPayers = JsonSerializer.Deserialize<List<TaxPayer>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+        string? taxPayerName = null;
+
+        if (personalInformation.TaxpayerId.HasValue)
+        {
+            taxPayerName = taxPayers
+                .FirstOrDefault(m => m.Id == personalInformation.TaxpayerId.Value)?.Name;
+        }
+
+        ViewBag.TaxPayerName = taxPayerName;
+
+        List<TaxReturnLastyear> taxReturnLastyears = [];
+        var response3 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/taxlastyears_list", ctx);
+        if (response3 != null && response3.IsSuccessStatusCode)
+        {
+            var responseContent = await response3.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                taxReturnLastyears = JsonSerializer.Deserialize<List<TaxReturnLastyear>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+        string? lastyearsName = null;
+
+        if (personalInformation.TaxReturnLastYearId.HasValue)
+        {
+            lastyearsName = taxReturnLastyears
+                .FirstOrDefault(m => m.Id == personalInformation.TaxReturnLastYearId.Value)?.Name;
+        }
+
+        ViewBag.LastyearsName = lastyearsName;
+
+        return PartialView("Partial/_SummarySection", personalInformation);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateTaxPayerID(int taxPayerId, CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "taxPayerId", taxPayerId.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_taxpayer", queryUserParams);
+        var response = await _httpClient.PutAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Taxpayer selected successfully" });
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateMaritalStatus(int maritalStatusId, CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "maritalStatusId", maritalStatusId.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_maritalstatus", queryUserParams);
+        var response = await _httpClient.PutAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "MaritalStatus selected successfully" });
+    }
+    [HttpPut]
+    public async Task<IActionResult> UpdateLastYear(int taxReturnlastyearId, CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "lastyearId", taxReturnlastyearId.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_lastyear", queryUserParams);
+        var response = await _httpClient.PutAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "TaxReturn Last Year selected successfully" });
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateUserIdentifications([FromBody] IdentificationsViewModel user)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+        var birthday = user.DateOfBirth ?? new DateTime(1901, 1, 1);
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "firstName", user.FirstName},
+                { "middleName", user.MiddleName},
+                { "lastName", user.LastName},
+                { "dateofbirth", birthday.ToString("yyyy-MM-dd") },
+                { "taxnumber", user.TaxNumber}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_identification", queryUserParams);
+        var response = await _httpClient.PutAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Use rIdentifications selected successfully" });
+    }
+    [HttpPut]
+    public async Task<IActionResult> UpdateContactInfromation([FromBody] ContactInfromationViewModel user)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "careof", user.CareOf},
+                { "apt", user.Apt},
+                { "streetnumber", user.StreetNumber},
+                { "street", user.Street},
+                { "city", user.City}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", queryUserParams);
+        var response = await _httpClient.PutAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Contact Infromation selected successfully" });
+    }
+    public async Task<IActionResult> PersonalData(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+        SelfOnlineFlowPersonalInformation personalInformation = new();
+
+        List<TaxPayer> taxPayers = [];
+        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/taxpayer_list", ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                taxPayers = JsonSerializer.Deserialize<List<TaxPayer>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+        
+
+        return PartialView("Partial/_PersonalData", taxPayers);
+    }
+
+    //------------------Income and tax Credit 
+
+    public async Task<IActionResult> LoadIncomeLiableTax(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+       
+
+        return PartialView("IncomeTaxPartial/_IncomeLiableTaxSection");
+    }
+
+}

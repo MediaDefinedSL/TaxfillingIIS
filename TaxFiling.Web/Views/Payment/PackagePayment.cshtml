@@ -1,0 +1,79 @@
+﻿@using System.Security.Claims
+@model TaxFiling.Web.Models.PackagesViewModel
+
+@{
+    var userId = "";
+    var userName = "";
+    try
+    {
+        userName = User.FindFirst(ClaimTypes.Name)?.Value;
+        userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+    }
+    catch (Exception ex)
+    {
+        var aa = ex.Message;
+    }
+}
+
+    <main class="main">
+
+        <!-- Page Title -->
+        <div class="page-title accent-background">
+            <div class="container d-lg-flex justify-content-between align-items-center">
+                <div class="col-lg-4 col-md-6">
+                    <h2 class="mb-2 mb-lg-0 font-weight-bold">Package Price</h2></br>
+                <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <nav class="breadcrumbs">
+                        <ol>
+                            @* <li><a href="index.html">Home</a></li>
+                            <li class="current">Assisted Filing</li> *@
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div><!-- End Page Title -->
+        <!-- File my taxes Section -->
+        <section id="File-my-taxes" class="blog-posts section">
+
+            <div class="container shadow p-3 mb-5 bg-white rounded Packages-blog">
+                <div class="row">
+                    <div class="col-sm-4 text-black Package-Name">
+                        <h5 class=" mb-6 pb-3 fw-bold" style="letter-spacing: 1px;">Package Name</h5>
+
+                        <h6 class="Package-title">
+                        @Model.Name
+                        </h6>
+
+
+                    </div>
+
+                    <div class="col-sm-4 d-none d-sm-block Package-Discription">
+                    <h5 class=" mb-6 pb-3 fw-bold" style="letter-spacing: 1px;">Package Description</h5>
+                    @Html.Raw(Model.Description)
+
+                    </div>
+                    <div class="col-sm-4 d-none d-sm-block Package Price">
+                        <h5 class=" mb-6 pb-3 fw-bold" style="letter-spacing: 1px;">Package Price</h5>
+                    <span class="Package-price"><span>@Model.Curancy</span> @Model.Price</span>
+
+                @*    <button type="button" class="btn btn-primary Continue" id="btnContinue">Continue</button>  *@
+
+                    <form asp-controller="Payment" asp-action="StartPayment"  method="post" style="display: inline-block;" >
+                        <input type="hidden" name="packageId" value="@Model.PackagesId" />
+                        <input type="hidden" name="Price" value="@Model.Price" />
+                        <button type="submit" class="btn btn-primary Continue">Continue</button>
+                    </form>  
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- /File my taxes -->
+
+    </main>
+
+
+
+@* <script src="~/scripts/package.payment.js"></script> *@

@@ -1,0 +1,78 @@
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title accent-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <h2 class="mb-2 mb-lg-0 font-weight-bold">Self Online Flow</h2></br>
+                <h1 class="mb-2 mb-lg-0">Wellcome <span>Mr. Name</span></h1>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <nav class="breadcrumbs">
+                    <ol>
+                        <li><a href="index.html">Home</a></li>
+                        <li class="current">Self Online Flow</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div><!-- End Page Title -->
+    <!-- File my taxes Section -->
+    <section id="Self-Online-Flow" class="">
+        <div class="sidebar-main">
+            <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed" >
+                <button class="toggle-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="p-4">
+                    <h4 class="logo-text fw-bold mb-0">Self Employed</h4>
+                    <h4 class="logo-text fw-bold mb-0">LKR 120.00</h4>
+                    <p class="small fw-bold mb-0">TAX REFUND</p>
+                </div>
+
+                <div class="nav flex-column">
+
+                    <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
+                        <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
+                        Get Started
+                    </button>
+                    <div class="dropdown-container" style="display: none;">
+                     
+                        <a href="#" id="linkInThisSection">In This Section</a>
+                        <a href="#" id="linkTaxPayer">TaxPayer(s)</a>
+                        <a href="#" id="linkMaritalStatus">Marital Status</a>
+                        <a href="#">Last Year</a>
+                        <a href="#">Identification</a>
+                        <a href="#">Immigration/Emigration</a>
+                        <a href="#">Place of Residence</a>
+                        <a href="#">Contact Information</a>
+                    </div>
+                    <a href="#" class="sidebar-link active text-decoration-none p-3">
+                        <i class="bi bi-person-bounding-box"></i> &nbsp;&nbsp;
+                        <span class="hide-on-collapse">Name's Return</span>
+                    </a>
+                   
+                </div>
+
+
+                <div class="profile-section mt-auto p-4">
+                    <div class="d-flex align-items-center">
+                        <img src="https://randomuser.me/api/portraits/women/70.jpg" style="height:60px" class="rounded-circle" alt="Profile">
+                        <div class="ms-3 profile-info">
+                            <h6 class="text-white mb-0">Alex Morgan</h6>
+                            <small class="text-muted">Admin</small>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+           
+            <div id="in-this-section-container"></div>
+   
+        </div>
+
+    </section>
+    <!-- /File my taxes -->
+
+</main>
+<script src="~/scripts/selfonline.flow.js" asp-append-version="true"></script>

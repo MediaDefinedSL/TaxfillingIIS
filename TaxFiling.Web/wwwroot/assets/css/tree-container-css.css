@@ -1,0 +1,152 @@
+﻿/*css changes*/
+
+.tree-container {
+    padding: 1rem;
+    border: 1px solid #a0d4ff;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 15px;
+}
+
+.tree-item {
+    padding: 4px 0 4px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+    .tree-item:hover {
+        background-color: #e9ecef;
+        border-radius: 4px;
+    }
+
+.tree-node {
+    border-left: 2px solid #2a9ffe;
+    margin-left: 12px;
+    padding-left: 16px;
+    border-left-style: dashed;
+}
+
+.tree-icon {
+    width: 1rem;
+    text-align: center;
+}
+
+.tree-toggle i.fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.tree-toggle.collapsed i.fa-chevron-down {
+    transform: rotate(-90deg);
+}
+
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-toggle {
+    transition: 0.2s;
+    background: linear-gradient(90deg, rgb(0 141 255 / 83%) 23%, rgb(33 150 243 / 72%) 100%);
+    color: #fff !important;
+    padding: 12px !important;
+    cursor: pointer !important;
+    margin-top: 0px;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-toggle {
+    margin-bottom: 0px;
+    color: #fff !important;
+    margin-top: 0px;
+    border-radius: 4px;
+    transition: 0.2s;
+    padding: 6px !important;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-item.tree-toggle.collapsed {
+    margin-bottom: 0px;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-item.tree-toggle {
+    margin-bottom: 11px;
+}
+
+    .Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-item.tree-toggle.first {
+        margin-bottom: 20px;
+    }
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-toggle span {
+    width: 98%;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-toggle:hover {
+    scale: 1.004;
+}
+
+section.blog-posts.section.Self-Online {
+    padding: 10px;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5 span {
+    width: 96%;
+}
+
+
+
+.Self-Online i.bi.bi-caret-down-fill {
+    float: right;
+    float: right !important;
+    rotate: 180deg !important;
+    padding: 0px !important;
+}
+
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 {
+    box-shadow: 0px 2px 5px rgb(0 0 0 / 21%) !important;
+    padding: 4px !important;
+}
+
+.Self-Online .tree-container {
+    margin-bottom: 18px;
+}
+
+.Self-Online .tree-node {
+    margin-top: -8px;
+    padding-top: 10px;
+}
+
+.Self-Online s.tree-node .tree-node {
+    margin-top: -16px;
+}
+
+
+.page-title {
+    padding: 10px 0;
+}
+
+    .page-title.accent-background .mb-2.mb-lg-0 {
+        margin-top: -12px;
+        font-size: 18px;
+    }
+
+    .page-title.accent-background h2.mb-2.mb-lg-0.font-weight-bold {
+        margin-top: -1px !important;
+        /* font-size: 12px; */
+        font-size: 1.4rem;
+    }
+
+
+
+section#File-my-taxes.blog-posts.section img {
+    width: 100%;
+}
+
+
+
+
+.Self-Online .tree-node .tree-node {
+    margin-top: -17px;
+}
+
+/*END css changes*/

@@ -1,0 +1,73 @@
+﻿@model TaxFiling.Web.Models.ContactInfromationViewModel
+
+<main class="main-content">
+    <div class="container-fluid">
+
+        <div class="text-center">
+            <i class="bi bi-mailbox" style="font-size: 2rem;"></i><br>
+            <h2>Your Contact Information</h2><br>
+        </div>
+
+        <h4> Mailling Address</h4>
+        <br>
+
+        <form asp-action="SubmitIdentification" method="post">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label for="FirstName">Care of</label>
+                    @Html.TextBoxFor(m => m.CareOf, new { @class = "form-control" })
+
+                </div>
+              
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label for="DateOfBirth">Apt.</label>
+                    @Html.TextBoxFor(m => m.Apt, new { @class = "form-control" })
+
+                </div>
+                <div class="col-md-4">
+                    <span class="text-danger"> *</span>
+                    <label for="TaxIdentificationNumber">Street number </label>
+                    @Html.TextBoxFor(m => m.StreetNumber, new { @class = "form-control" })
+
+                </div>
+                <div class="col-md-4">
+                    <span class="text-danger"> *</span>
+                    <label for="TaxIdentificationNumber">Street </label>
+                    @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <span class="text-danger"> *</span>
+                    <label for="FirstName">City </label>
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+
+                </div>
+
+            </div>
+
+        </form>
+
+
+        <br><br>
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6 btn-prv">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
+                    Back
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 right next-btn" id="linkTaxPayerContinue">
+                <button class="btn btn-primary btn-lg">
+                    Continue
+                </button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script src="~/scripts/contactinfromation_section.js" asp-append-version="true"></script>

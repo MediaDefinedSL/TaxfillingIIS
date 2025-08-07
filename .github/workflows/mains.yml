@@ -1,0 +1,54 @@
+name: Build and Push Docker Images for API and Web (.NET 9)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # ----------------- Build API Project -----------------
+      - name: Build TaxFiling.API
+        run: dotnet build ./TaxFiling.API/TaxFiling.API.csproj --configuration Release
+
+      - name: Publish TaxFiling.API
+        run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./out-api
+
+      # ----------------- Build Web Project -----------------
+      - name: Build TaxFiling.Web
+        run: dotnet build ./TaxFiling.Web/TaxFiling.Web.csproj --configuration Release
+
+      - name: Publish TaxFiling.Web
+        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./out-web
+
+      # ----------------- Docker Login -----------------
+      - name: Docker login (hardcoded - remove before production)
+        run: echo "dckr_pat_gNENbZMpmXJQX__CfELGGA2fCxA" | docker login -u malaka538 --password-stdin
+
+      # ----------------- Build & Push API Docker Image -----------------
+      - name: Build Docker image for API
+        run: docker build -t malaka538/taxfilingapi:latest -f ./TaxFiling.API/Dockerfile .
+
+      - name: Push API Docker image
+        run: docker push malaka538/taxfilingapi:latest
+
+      # ----------------- Build & Push Web Docker Image -----------------
+      - name: Build Docker image for Web
+        run: docker build -t malaka538/taxfilingweb:latest -f ./TaxFiling.Web/Dockerfile .
+
+      - name: Push Web Docker image
+        run: docker push malaka538/taxfilingweb:latest

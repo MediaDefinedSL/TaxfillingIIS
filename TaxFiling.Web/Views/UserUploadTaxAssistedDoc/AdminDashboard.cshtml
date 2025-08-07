@@ -1,0 +1,112 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+
+@{
+    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+  
+
+}
+
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title accent-background" ">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <h2 class="mb-2 mb-lg-0 font-weight-bold">Dashboard</h2></br>
+                <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <nav class="breadcrumbs">
+                    <ol>
+    @* <li><a href="index.html">Home</a></li>
+                        <li class="current">Assisted Filing</li> *@
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div><!-- End Page Title -->
+
+    <section id="admindashboard" class="blog-posts section admin-dashboard">
+
+        <div class="container">
+            <div class="row gy-4">
+                <input type="hidden" name="UserId" id="UserId" value=@userId />
+               <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
+                 
+                    <div class="mb-4">
+                        <h4 class="mb-3"  style="font-weight: 700;">
+                            <i class="fas fa-user-circle text-primary me-2"></i>
+                            Welcome to Dashboard
+                        </h4>
+                    </div>
+                        <br>
+                        
+                        
+
+                    <div class="row">
+                        <!-- View Uploaded Files -->
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 bg-white rounded shadow-sm center">
+                                <div class="view-user-file-uplode"></div>
+                                <div>
+                                    <a href="@Url.Action("TaxAssistedDocUploadUserList", "UserUploadTaxAssistedDoc")">
+                                        <h4 class="mb-1">View User's Uploaded Files</h4>
+                                    </a>
+                                    <p class="mb-0 text-muted">Check all files you've submitted and their current review status.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Upload Documents -->
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 bg-white rounded shadow-sm  center">
+                            <div class="dash-icon-uplode"></div>
+                                <div style=" /* vertical-align: text-bottom !important; */">
+                                    <h4 class="mb-1">Upload Documents</h4>
+                                    <p class="mb-0 text-muted">Easily upload the required tax documents in PDF or image format.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- View Tasks -->
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 bg-white rounded shadow-sm center">
+                                <div class="view-your-task"></div>
+                                <div>
+                                    <h4 class="mb-1">View Your Tasks</h4>
+
+                                    <p class="mb-0 text-muted">See a list of pending tasks and upcoming deadlines.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                      
+
+                        <!-- Notifications -->
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 bg-white rounded shadow-sm center">
+                                <div class="notification-reminders"></div>
+                                <div>
+                                    <h4 class="mb-1">Notifications &amp; Reminders</h4>
+                                    <p class="mb-0 text-muted">Stay informed about missing documents, deadlines, and updates.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+            </div>
+
+            </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+

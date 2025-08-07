@@ -1,0 +1,86 @@
+﻿@model TaxFiling.Web.Models.IdentificationsViewModel
+
+<main class="main-content">
+    <div class="container-fluid">
+
+        <div class="text-center">
+            <i class="bi bi-person-vcard" style="font-size: 2rem;"></i><br>
+            <h2>Your Identification</h2><br>
+        </div>
+
+        <form asp-action="SubmitIdentification" method="post">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <span class="text-danger"> *</span>
+                    <label for="FirstName">First name</label>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+
+                </div>
+                <div class="col-md-4">
+                    <label for="MiddleName">Middle name</label>
+                    @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    <span class="text-danger"> *</span>
+                    <label for="LastName">Last name </label>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <span class="text-danger"> *</span>
+                    <label for="DateOfBirth">Date of birth *</label>
+                    @* @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", Type = "date", value = Model.DateOfBirth?.ToString("dd/mm/yyyy") }) *@
+
+                    @if (Model.DateOfBirth != null && Model.DateOfBirth?.Year > 1901)
+                    {
+                        var birthday = Model.DateOfBirth ?? new DateTime(1901, 1, 1);
+                        <input type="date"
+                               id="DateOfBirth"
+                               name="DateOfBirth"
+                               value="@birthday.ToString("yyyy-MM-dd")"
+                               class="form-control"
+                               max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.DateOfBirth, new
+                            {
+                                @class = "form-control",
+                                type = "date",
+                                value = Model.DateOfBirth?.ToString("yyyy-MM-dd"),
+                                max = DateTime.Today.ToString("yyyy-MM-dd")
+                            })
+                    }
+
+                  
+                </div>
+                <div class="col-md-4">
+                    <label for="TaxIdentificationNumber">Tax Identification Number</label>
+                    @Html.TextBoxFor(m => m.TaxNumber, new { @class = "form-control", disabled = "disabled" })
+                </div>
+            </div>
+
+        </form>
+
+
+        <br><br>
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6 btn-prv">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
+                   Back
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 right next-btn" id="linkTaxPayerContinue">
+                <button class="btn btn-primary btn-lg">
+                    Continue
+                </button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+<script src="~/scripts/identification_section.js" asp-append-version="true"></script>

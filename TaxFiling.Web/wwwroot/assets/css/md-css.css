@@ -1,0 +1,1640 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.header .logo img {
+    max-height: 56px;
+}
+
+header#header {
+    background: none !important;
+    background-color: #ffffffe3 !important;
+}
+
+.footer .footer-about .logo img {
+    max-height: 80px !important;
+}
+
+.navmenu a {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.sign-in a {
+    padding-left: 0px !important;
+    color: #fff !important;
+}
+
+.link-info {
+    color: #2196F3 !important;
+}
+
+.page-title h1 {
+    font-weight: 400;
+}
+
+.page-title h2 {
+    font-weight: 600;
+}
+
+.rounded-md,
+.rounded-md-image {
+    border-radius: 20px !important;
+}
+
+.blog-posts .post-date {
+    font-size: 16px !important;
+}
+
+li.list-group-item.price-list {
+    padding: 0px;
+    border: none;
+    padding-bottom: 8px;
+}
+
+.price-texts {
+    display: inline-block;
+    width: 84%;
+    padding-left: 2%;
+}
+
+li.list-group-item.price-list i {
+    vertical-align: top;
+}
+
+
+li.list-group-item.price-list i {
+    vertical-align: top;
+    font-size: 28px !important;
+    color: #2196f3;
+    display: inline-block;
+    margin-top: -8px !important;
+}
+
+.body-header {
+    font-weight: 700;
+    color: #333333;
+    margin-top: 0px;
+}
+
+button.btn.btn-primary a {
+    color: #fff !important;
+}
+
+.about .post-img.position-relative.overflow-hidden.rounded-md-image {
+    height: 200px;
+}
+
+.about .our-story {
+    padding: 14px;
+}
+
+img.img-fluid.image-round {
+    border-radius: 100%;
+    height: 269px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    padding: 14px;
+}
+
+.header .header-social-links {
+    padding: 0 0 0 45px;
+}
+
+
+h5.comment-name {
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+
+.rating-stars .bi-star {
+    color: #FFC107 !important;
+    font-size: 30px;
+}
+
+.rating-stars {
+    margin-bottom: 24px !important;
+}
+
+
+.body-header:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 181px;
+    height: 3px;
+    background: var(--accent-color);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+
+h2.mb-lg-0.font-weight-bold.text-center.body-header.mb-4 {
+    position: relative;
+    padding-bottom: 20px !important;
+    color: #ffffff;
+}
+
+.body-header {
+    padding-bottom: 20px !important;
+    position: relative;
+}
+
+.customers-saying {
+    background-image: url(../img/comment-tax.jpg);
+    background-size: cover;
+}
+
+    .customers-saying .service-item {
+        background-color: var(--surface-color);
+        box-shadow: 0px 5px 30px 0px rgb(30 30 30 / 58%);
+        height: 100%;
+        padding: 60px 30px;
+        text-align: center;
+        transition: 0.3s;
+        border-radius: 5px;
+    }
+
+
+.d-block.test {
+    display: block !important;
+    z-index: 99999 !important;
+    position: absolute;
+    opacity: 1 !important;
+    background-color: #000000d1;
+}
+
+
+    .d-block.test .modal-dialog {
+        margin-top: 10%;
+    }
+
+span.color-tax-blue {
+    color: #2196F3 !important;
+    font-weight: 600;
+}
+
+h2.mb-2.mb-lg-0.font-weight-bold.text-center.tax-message {
+    font-weight: 600;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    h2.mb-2.mb-lg-0.font-weight-bold.text-center.tax-message.color-blue {
+        color: #2196f3;
+    }
+
+.testimonials .testimonial-item .testimonial-img {
+    border-radius: 0px;
+    margin-top: -24px !important;
+}
+
+.testimonials .testimonial-item:hover {
+    scale: 1.02;
+}
+
+.hero .container {
+    top: -26%;
+}
+
+.float-right {
+    float: right;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+h6.Package-title {
+    color: #5b5b5b;
+    line-height: 26px;
+    margin-bottom: 18px !important;
+}
+
+ul.list-group.price-list.Package-title li {
+    color: #5b5b5b !important;
+}
+
+span.Package-price {
+    background-color: #535353;
+    color: var(--contrast-color);
+    /* position: absolute; */
+    right: 0;
+    bottom: 0;
+    text-transform: uppercase;
+    font-size: 17px;
+    padding: 9px 12px;
+    font-weight: 500;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+button.btn.btn-primary.Continue {
+    margin-left: 21px !important;
+    margin-top: -4px !important;
+    /* float: right; */
+}
+
+
+
+.container.shadow.p-3.mb-5.bg-white.rounded.Packages-blog {
+    padding: 30px !important;
+}
+
+.toast.toast-error {
+    background-color: #f31d1d !important;
+}
+
+.toast.toast-success {
+    background-color: green !important;
+}
+
+@-moz-document url-prefix() {
+    @media (min-width: 992px) {
+        .col-lg-4 {
+            flex: 0 0 auto;
+            width: 32.333%;
+        }
+    }
+}
+
+.hero .container {
+    top: -26%;
+}
+
+.float-right {
+    float: right;
+}
+
+#heroVideo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 0;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+    .hero-video:before {
+        background-color: #0000df !important;
+        opacity: 0.7;
+    }
+
+    .hero-video:after {
+        background: linear-gradient(rgba(12, 12, 12, 0), #0c0c0c);
+    }
+
+.container.col-sm-3.shadow.mb-5.bg-white.rounded.Sign-in-col {
+    z-index: 1;
+    position: relative;
+    background-color: #fffffff2 !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    margin-top: 5%;
+}
+
+.container.col-sm-3.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col input#Username,
+.container.col-sm-3.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col input#Password {
+    background-color: #ffffff00 !important;
+}
+
+
+.hero-video:after {
+    content: "";
+    background-color: #2196f3 !important;
+    opacity: 0.9;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.container-fluid.not-padding.menubar-css {
+    padding: 0px;
+    position: fixed;
+    z-index: 99999;
+}
+
+
+button.btn.btn-secondary.dropdown-toggle {
+    font-size: 0px;
+    background-image: url(http://images.netexam.com/images/10229/LINKEDIN-Profile-Picture-AI.jpg) !important;
+    width: 48px;
+    height: 48px;
+    background-size: contain;
+    border-radius: 100%;
+    position: absolute;
+    top: -2px !important;
+    border: solid 4px #2196f3;
+    margin-left: 10px;
+}
+
+
+
+section#register .form-outline.mb-4.col-sm-4 {
+    display: inline-block;
+}
+
+button.btn.btn-secondary.dropdown-toggle {
+    padding-right: 21px !important;
+}
+
+button.btn.btn-secondary.dropdown-toggle {
+    /* padding-bottom: 50px !important; */
+    display: flex;
+    position: relative;
+}
+
+a.dropdown-item.profile-btn {
+    font-weight: 400;
+    color: var(--bs-dropdown-link-color);
+    padding-left: 16px !important;
+    font-size: 16px !important;
+}
+
+button.btn.btn-secondary.dropdown-toggle:after {
+    content: "";
+    font-size: 33px;
+    color: #adadad !important;
+    font-weight: 600;
+    margin-top: 40px !important;
+    width: 20px;
+    height: 20px;
+    margin-left: -3px !important;
+    margin-top: 11px !important;
+    margin-left: 37px !important;
+    border-radius: 5px;
+}
+
+main.main {
+    padding-top: 78px;
+}
+
+input {
+    font-size: 16px !important;
+}
+
+#toast-container {
+    position: absolute !important;
+    top: 48% !important;
+    right: 42% !important;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+.container.reg-col {
+    z-index: 999;
+    position: relative;
+    background-color: #ffffff !important;
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-size: auto, 110%;
+    background-repeat: no-repeat;
+    background-position: center, bottom;
+}
+
+    .container.reg-col input {
+        background: none !important;
+    }
+
+.footer .footer-about .logo img {
+    max-height: 72px !important;
+}
+
+.social-links.d-flex {
+    float: right;
+    margin-top: 39px !important;
+}
+
+.footer .footer-top {
+    padding-top: 20px;
+}
+
+.footer .copyright {
+    padding-top: 42px;
+}
+
+.col-lg-4.col-md-6.footer-links {
+    margin-bottom: 0px !important;
+}
+
+.container.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col {
+    z-index: 1;
+    position: relative;
+    background-color: #fffffff2 !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    margin-top: 5%;
+}
+
+
+
+.header .header-social-links a {
+    padding-left: 15px;
+    color: #212529 !important;
+}
+
+.carousel-item .dropdown-menu.show {
+    margin-top: 13px !important;
+}
+
+
+
+#hero-carousel .btn.btn-primary.btn-lg {
+    margin-right: 10px;
+}
+
+
+.page-title.accent-background.reg-col {
+    z-index: 999;
+}
+
+#register .form-outline.mb-4.col-md-4 {
+    display: inline-block;
+}
+
+
+.btn-primary {
+    background-color: #0d6efd !important;
+}
+
+
+@media (min-width: 768px) {
+    #register .col-md-4 {
+        flex: 0 0 auto;
+        width: 48.333333%;
+    }
+
+    #register .col-sm-9.text-black {
+        padding-left: 35px;
+    }
+
+
+
+    #register .col-sm-4 {
+        flex: 0 0 auto;
+        width: 46.333%;
+    }
+}
+
+#register .form-outline.mb-4.col-md-4 {
+    vertical-align: top;
+}
+
+
+.d-sm-block img.img-fluid {
+    border-radius: 100%;
+    border: solid 3px #0d6efd !important;
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+.modal-dialog {
+    margin-top: 10%;
+}
+
+.container.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col {
+    margin-top: 0%;
+}
+
+h2.inner-title {
+    font-size: 2.1rem !important;
+}
+
+.tax-no {
+    height: 50vh;
+}
+
+iframe {
+    margin-top: 3%;
+    /*! background-color: #fff !important; */
+}
+
+section#about {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+}
+
+section#clients {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+}
+
+.btn.btn-primary.disabled,
+.btn.btn-primary:disabled {
+    background-color: #b2b2b2 !important; /* ash color */
+    border-color: #b2b2b2 !important;
+    color: white !important;
+}
+
+.image-box .parent {
+    height: 100vh;
+}
+
+    .image-box .parent > .row {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+.image-box .col img {
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    transition: transform 1s;
+    object-fit: cover;
+}
+
+.image-box .col label {
+    overflow: hidden;
+    position: relative;
+}
+
+.image-box .imgbgchk:checked + label > .tick_container {
+    opacity: 1;
+}
+/*         aNIMATION */
+.image-box .imgbgchk:checked + label > img {
+    transform: scale(1.25);
+    opacity: 0.3;
+}
+
+.image-box .tick_container {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    cursor: pointer;
+    text-align: center;
+}
+
+.image-box .tick {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 6px 12px;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+}
+
+.image-box .col {
+    flex: auto !important;
+}
+
+.Tax-pesonaldetail-icon label {
+    border: solid 1px #bbbbbb !important;
+    border-radius: 6px;
+    height: 106px;
+    display: block;
+    box-shadow: 0px 0px 6px 0px rgba(156,156,156,0.75);
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(156,156,156,0.75);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(156,156,156,0.75);
+    border-bottom: solid 2px #0d6efd !important;
+    transition: all 0.2s ease;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .Tax-pesonaldetail-icon label:hover {
+        scale: 1.04;
+    }
+
+.h1-line:after {
+    content: "";
+    display: block;
+    width: 34%;
+    height: 4px;
+    background-color: #0d6efd !important;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    border-radius: 100%;
+}
+
+.next-btn button {
+    background: none !important;
+    border: none;
+    font-size: 0px;
+    background-image: url(https://images.netexam.com/images/10229/next-button.png) !important;
+    width: 150px;
+    height: 59px;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    transition: all 0.2s ease;
+}
+
+.btn-prv button {
+    background: none !important;
+    border: none;
+    font-size: 0px;
+    background-image: url(https://images.netexam.com/images/10229/priv-button-2025.png) !important;
+    width: 150px;
+    height: 59px;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    transition: all 0.2s ease;
+}
+
+    .btn-prv button:hover {
+        background-position-x: 13px !important;
+    }
+
+.next-btn button:hover {
+    background-position-x: 17px !important;
+}
+
+.Tax-pesonaldetail-icon {
+    text-align: center !important;
+}
+
+
+
+#Self-Online-Flow .sub-link.active {
+    background-color: #30313d !important;
+}
+
+.Tax-pesonaldetail-icon label {
+    display: block !important;
+    padding-bottom: 40px !important;
+    height: 135px;
+}
+
+.nametag {
+    font-weight: 600;
+}
+
+#File-my-taxes.selfOnline-dashboard img.img-fluid.rounded-md-image {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto !important;
+    margin-top: 5% !important;
+}
+
+#File-my-taxes.selfOnline-dashboard .post-img.position-relative.overflow-hidden.rounded-md-image {
+    text-align: center;
+    background-color: #7bbbef;
+}
+
+.blog-posts .post-title span {
+    color: #2196f3;
+    font-style: italic;
+}
+
+
+.about .post-img.position-relative.overflow-hidden.rounded-md-image {
+    /* height: 400px; */
+}
+
+.home-about {
+    height: 850px !important;
+    max-height: unset !important;
+    min-height: unset;
+}
+
+    .home-about ul.list-group.price-list {
+        height: 176px;
+    }
+
+#Self-Online-Flow .collapsed .dropdown-container a {
+    width: 64px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+#Self-Online-Flow nav.sidebar p.small.fw-bold.mb-0 {
+    color: #fff;
+    margin-top: 10px;
+}
+
+/*Profile page css*/
+.profile .form-outline.mb-4.col-sm-4.mr-10 {
+    vertical-align: top;
+}
+
+
+.profile .rounded-circle {
+    border: solid 4px #0d6efd;
+    width: 71%;
+}
+
+.profile .btn.btn-primary {
+    cursor: pointer;
+}
+
+    .profile .btn.btn-primary label {
+        cursor: pointer !important;
+    }
+
+.profile .container {
+    z-index: 999;
+    position: relative;
+    background-color: #ffffff !important;
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-size: auto, 110%;
+    background-repeat: no-repeat;
+    background-position: center, bottom;
+}
+/*END Profile page changes*/
+
+#Self-Online-Flow .dropdown-container a {
+    cursor: pointer !important;
+}
+
+/*Upload  page css - mayuri*/
+.header-doument {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-content-doument {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #2196f3;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.user-details h1 {
+    font-size: 2.2em;
+    font-weight: 700;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+.user-details h2 {
+    font-size: 1.1em;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.contact-info {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-size: 0.9em;
+}
+
+/*END Upload  page css - mayuri*/
+
+
+
+
+/*css changes*/
+
+.m-b-0 {
+    margin-bottom: 0px;
+}
+
+.collapsed-bar {
+    padding: 12px;
+    background-color: #4aadfd !important;
+    border-color: #4aadfd !important;
+    transition: 0.2s;
+}
+
+    .collapsed-bar h5 {
+        color: #fff;
+        font-weight: 700;
+    }
+
+    .collapsed-bar h5 {
+        border-color: #fbc24f !important;
+        border: none !important;
+        padding-left: 0px !important;
+    }
+
+        .collapsed-bar h5 i {
+            padding-right: 4px !important;
+            padding-left: 0px !important;
+        }
+
+    .collapsed-bar:hover {
+        scale: 1.004;
+    }
+
+    .collapsed-bar.collapsed i.bi.bi-caret-down-fill {
+        float: right;
+        rotate: 0deg !important;
+        padding: 0px !important;
+    }
+
+    .collapsed-bar .bi.bi-caret-down-fill {
+        float: right !important;
+        rotate: 180deg !important;
+        padding: 0px !important;
+    }
+
+img.user-avatar.user-title {
+    border-color: #fff;
+}
+
+.page-title .user-details h2 {
+    color: #fff;
+    font-weight: 800;
+}
+
+.page-title i.bi.bi-envelope,
+.page-title i.bi.bi-phone {
+    font-size: 22px;
+    color: #fff !important;
+}
+
+.page-title .contact-item {
+    padding-left: 0px !important;
+    padding-bottom: 0px;
+}
+
+.container-fluid.cotent-all {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    border-bottom: solid 2px #2196f3;
+}
+
+/*Document part changes*/
+
+.site-color {
+    width: auto;
+    background-color: #f8f9fa !important;
+}
+
+    .site-color th,
+    .site-color td,
+    .site-color tr {
+        color: #414141 !important;
+        padding: 0px;
+        padding-right: 10px;
+        line-height: 30px;
+        background-color: #f8f9fa !important;
+    }
+
+
+
+div#dashboard-section {
+    border: solid 3px #2196f3;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(156, 156, 156, 0.75) !important;
+    -moz-box-shadow: 0px 0px 6px 0px rgba(156,156,156,0.75);
+}
+
+table.table.table-bordered.table-striped th {
+    background-color: #4aadfd;
+}
+
+
+input.form-check-input.checkbox-lg {
+    width: 22px;
+    height: 22px;
+}
+
+
+div#documents-section,
+div#employment-section,
+#bank-section,
+#assets-section,
+#other-section,
+#declaration-section,
+#File-my-taxes.selfOnline-dashboard.userDocList .container {
+    border: solid 3px #2196f3;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(156, 156, 156, 0.75) !important;
+    -moz-box-shadow: 0px 0px 6px 0px rgba(156,156,156,0.75);
+}
+
+    div#documents-section h4,
+    div#employment-section h4,
+    #bank-section h4,
+    #assets-section h4,
+    #other-section h4,
+    #declaration-section h4 {
+        margin-bottom: 26px;
+    }
+
+
+
+.document-guidelines {
+    font-size: 14px;
+}
+
+
+.mb-3.tab-btn-list button {
+    /* border: none; */
+    border-radius: 0px;
+    margin-right: 0px !important;
+    float: left;
+    border-right: none;
+    border-color: #4aadfd !important;
+    background-color: #4aadfd;
+    color: #fff !important;
+    padding: 10px;
+    border: none !important;
+    min-width: 70px;
+    border-right: solid 1px #ccc !important;
+    /* margin-top: 10px; */
+}
+
+.mb-3.tab-btn-list {
+    display: block !important;
+    width: 100% !important;
+    height: 44px !important;
+    border-bottom: solid 2px #0d6efd;
+    margin-top: 26px;
+}
+
+    .mb-3.tab-btn-list button:last-child {
+        border-right: solid 1px #ccc;
+        color: #fff !important;
+    }
+
+    .mb-3.tab-btn-list button:hover {
+        background-color: #3fa1f0;
+    }
+
+    /*END Document part changes*/
+
+    /*Dashboard part changes*/
+
+    .mb-3.tab-btn-list.Dash {
+        margin-top: 0px;
+    }
+
+        .mb-3.tab-btn-list.Dash button {
+            /* border: none; */
+            border-radius: 0px;
+            margin-right: 0px !important;
+            float: left;
+            border-right: none;
+            border-color: #4aadfd !important;
+            background-color: #4aadfd !important;
+            color: #fff !important;
+            padding: 10px;
+            border: none !important;
+            min-width: 70px;
+            border-right: solid 1px #ccc !important;
+            /* margin-top: 10px; */
+            font-weight: 700;
+        }
+
+.mb-3.tab-btn-list {
+    display: block !important;
+    width: 100% !important;
+    height: 44px !important;
+    border-bottom: solid 2px #4aadfd;
+    margin-top: 26px;
+}
+
+
+
+table.table.table-bordered.table-striped th {
+    color: #fff;
+    font-weight: 500;
+}
+
+.collapsed-bar {
+    background: #0076d6;
+    background: linear-gradient(90deg, rgb(0 141 255) 23%, rgba(33, 150, 243, 1) 100%);
+}
+
+    .collapsed-bar i {
+        color: #fff !important;
+    }
+
+#user-uploaddocuments div.collapse {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+section#user-uploaddocuments,
+#File-my-taxes {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+}
+
+.font-weight-bold {
+    font-weight: 600;
+}
+.mb-3.tab-btn-list.Dash button:hover {
+    scale: 1.02 !important;
+}
+
+.mb-3.tab-btn-list.Dash button {
+    transition: 0.2s;
+}
+/*END Dashboard part changes*/
+
+/*dashboard changes*/
+
+.dash-icon-uplode {
+    display: block;
+    background-image: url(http://images.netexam.com/images/10229/uplode-tax-file.gif) !important;
+    width: 160px;
+    height: 160px;
+    display: block;
+    background-position: center;
+    background-size: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.view-your-task {
+    display: block;
+    background-image: url(http://images.netexam.com/images/10229/View-Your-Tasks.gif) !important;
+    width: 160px;
+    height: 160px;
+    display: block;
+    background-position: center;
+    background-size: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.view-user-file-uplode {
+    display: block;
+    background-image: url(http://images.netexam.com/images/10229/view-user-file-uplode.gif) !important;
+    width: 160px;
+    height: 160px;
+    display: block;
+    background-position: center;
+    background-size: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.notification-reminders {
+    display: block;
+    background-image: url(http://images.netexam.com/images/10229/Notifications-Reminders.gif) !important;
+    width: 160px;
+    height: 160px;
+    display: block;
+    background-position: center;
+    background-size: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#dashboard-section .col-md-3.mb-3 {
+    cursor: pointer !important;
+    transition: all 0.2s ease;
+}
+
+    div#dashboard-section .col-md-3.mb-3:hover {
+        scale: 1.04;
+    }
+
+div#dashboard-section .center {
+    height: 344px !important;
+}
+
+/*END dashboard changes*/
+
+/*img table*/
+
+.img-box-layout {
+    width: 100%;
+    text-align: center;
+}
+
+.mage-box-row .aos-animate {
+    border-right: solid 1px #ccc;
+}
+
+    .mage-box-row .aos-animate:last-child {
+        border: none;
+    }
+
+    .mage-box-row .aos-animate h6 {
+        background-color: #2196f3;
+        padding: 8px;
+        border-radius: 10px;
+        color: #fff;
+    }
+
+/*UserUploadDoumentFlow changes*/
+
+.mage-box-row .image-box.justify-content-between.parent .col {
+    border: solid 3px #2196f3;
+    border-radius: 6px;
+    width: 246px;
+    height: 159px;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 17px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3) !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 24px;
+    transition: all 0.2s ease;
+}
+
+    .mage-box-row .image-box.justify-content-between.parent .col:hover {
+        scale: 1.02;
+    }
+
+div#in-this-section-container .main-content {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+}
+
+.mage-box-row .aos-animate h6 {
+    font-weight: 700;
+}
+
+.icon-text-mrg {
+    display: inline-block;
+    margin-bottom: 17px;
+    width: 100%;
+    border-bottom: solid 3px #2196f3;
+}
+
+    .icon-text-mrg .font-weight-bold {
+        display: inline-block;
+    }
+
+    .icon-text-mrg i {
+        margin-right: 5px;
+        margin-bottom: 10px !important;
+    }
+
+
+.information-box .col-md-4 label {
+    margin-bottom: 6px;
+}
+/*END UserUploadDoumentFlow changes*/
+
+#Self-Online-Flow .main-content .mb-3.tab-btn-list button {
+    border-right: solid 3px #f8f9fa !important;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px !important;
+    border: none !important;
+    margin-right: 4px !important;
+}
+
+    #Self-Online-Flow .main-content .mb-3.tab-btn-list button:last-child {
+        border: none !important;
+    }
+
+#Self-Online-Flow .main-content .mb-3.tab-btn-list {
+    height: 47px !important;
+    ';
+}
+
+    #Self-Online-Flow .main-content .mb-3.tab-btn-list button:hover {
+        scale: 1.02 !important;
+    }
+
+
+
+
+.upload-form-up .btn-group.mb-4.tab-btn {
+    width: 100%;
+    padding-right: 72%;
+    border-bottom: solid 3px #4aadfd !important;
+    border-radius: 0px;
+}
+
+    .upload-form-up .btn-group.mb-4.tab-btn label {
+        border-radius: 0px;
+        padding: 9px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px !important;
+    }
+
+.upload-form-up label.btn.btn-outline-secondary {
+    background-color: #4aadfd;
+    border-color: #4aadfd;
+    color: #fff;
+}
+
+.upload-form-up label.btn.btn-outline-secondary {
+    background-color: #4aadfd !important;
+    border-color: #4aadfd !important;
+    color: #fff;
+    margin-right: 5px;
+}
+
+.upload-form-up .btn-group.mb-4.tab-btn label:hover {
+    scale: 1.02 !important;
+    color: #fff !important;
+}
+
+
+
+.upload-form-up div#manualTableSection th {
+    background-color: #4aadfd;
+    color: #fff !important;
+}
+
+#assets-form input[type="radio"].btn-check:checked + label {
+    border-color: #0d6efd;
+    color: #fff;
+    background-color: #0d6efd;
+}
+
+.bordered-checkbox {
+    border: 2px solid #0d6efd; /* Bootstrap primary blue */
+}
+
+/*Self-Online changes*/
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5 {
+    transition: 0.2s;
+    background: linear-gradient(90deg, rgb(0 141 255) 23%, rgba(33, 150, 243, 1) 100%);
+    color: #fff !important;
+    padding: 12px !important;
+    cursor: pointer !important;
+    margin-top: 0px;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5 {
+    margin-bottom: 0px;
+    color: #fff !important;
+    margin-top: 0px;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+
+    .Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5 span {
+        width: 98%;
+        display: inline-block;
+        font-weight: 700;
+    }
+
+    .Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5:hover {
+        scale: 1.004;
+    }
+
+.Self-Online .main {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 {
+    padding: 0px !important;
+    margin-bottom: 34px !important;
+    transition: 0.2s;
+    border: none !important;
+    background: none !important;
+}
+
+.Self-Online .mt-2 {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    margin-top: 13px !important;
+    /* background: none !important; */
+}
+
+.Self-Online .collapsed .bi.bi-caret-down-fill {
+    float: right !important;
+    padding: 0px !important;
+}
+
+
+.Self-Online .collapsed .bi.bi-caret-down-fill {
+    float: right !important;
+    rotate: 0deg !important;
+    padding: 0px !important;
+}
+
+section.blog-posts.section.Self-Online {
+    padding-top: 0px;
+}
+
+div#in-this-section-container {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+    /* position: relative; */
+    background-color: #ffffff !important;
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-size: auto, 110%;
+    background-repeat: no-repeat;
+    background-position: center, bottom;
+}
+
+main.main {
+    min-height: 90vh;
+}
+
+/*END Self-Online changes*/
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .no-wrap {
+        white-space: nowrap;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    #declaration-section, #declaration-section * {
+        visibility: visible;
+    }
+
+    #declaration-section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+
+
+#documentsTableBody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray */
+}
+
+#documentsTableBody tr:nth-child(odd) {
+    background-color: #ffffff; /* White */
+}
+
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5 {
+    transition: 0.2s;
+    background: linear-gradient(90deg, rgb(0 141 255) 23%, rgba(33, 150, 243, 1) 100%);
+    color: #fff !important;
+    padding: 12px !important;
+    cursor: pointer !important;
+    margin-top: 0px;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5 {
+    margin-bottom: 0px;
+    color: #fff !important;
+    margin-top: 0px;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+
+    .Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5 span {
+        width: 98%;
+        display: inline-block;
+        font-weight: 700;
+    }
+
+    .Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 h5:hover {
+        scale: 1.004;
+    }
+
+.Self-Online .main {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+}
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 {
+    padding: 0px !important;
+    margin-bottom: 34px !important;
+    transition: 0.2s;
+    border: none !important;
+    background: none !important;
+}
+
+.Self-Online .mt-2 {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    margin-top: 13px !important;
+    /* background: none !important; */
+}
+
+.Self-Online .collapsed .bi.bi-caret-down-fill {
+    float: right !important;
+    padding: 0px !important;
+}
+
+
+.Self-Online .collapsed .bi.bi-caret-down-fill {
+    float: right !important;
+    rotate: 0deg !important;
+    padding: 0px !important;
+}
+
+section.blog-posts.section.Self-Online {
+    padding-top: 0px;
+}
+
+div#in-this-section-container {
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+    /* position: relative; */
+    background-color: #ffffff !important;
+    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-size: auto, 110%;
+    background-repeat: no-repeat;
+    background-position: center, bottom;
+}
+
+main.main {
+    min-height: 90vh;
+}
+
+/*END Self-Online changes*/
+
+/*mayu view-toggle */
+.form-check-input.view-toggle {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+}
+
+.form-check-input.view-toggle:checked {
+    background-color: #198754; /* Optional: custom green for checked */
+}
+/*END mayu view-toggle */
+.page-title {
+    padding: 10px 0;
+}
+
+.page-title.accent-background .mb-2.mb-lg-0 {
+   margin-top: -12px;
+   font-size: 20px;
+}
+
+ .page-title.accent-background h2.mb-2.mb-lg-0.font-weight-bold {
+        margin-top: -1px !important;
+        /* font-size: 12px; */
+        font-size: 1.6rem;
+  }
+
+
+.doc-viewstatus {
+    border: none !important;
+    font-size: 1.6rem;
+    padding: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.enhanced-modal {
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+
+.enhanced-modal-content {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    position: relative;
+    border-left: 8px solid;
+    animation: fadeInScale 0.3s ease forwards;
+}
+
+/* Colors based on alert type */
+.modal-success {
+    border-color: #28a745;
+}
+
+.modal-error {
+    border-color: #dc3545;
+}
+
+.modal-info {
+    border-color: #17a2b8;
+}
+
+.enhanced-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s;
+}
+
+    .enhanced-close:hover {
+        color: #000;
+    }               
+
+
+    .doc-viewstatus:hover {
+        background: none !important;
+        color: #198754 !important;
+    }
+
+.Self-Online .card.shadow-sm.border-1.rounded-3.p-3.mb-3 .tree-container .tree-toggle span {
+    font-size: 1rem;
+}
+
+.Self-Online .accordion-item {
+    margin-bottom: 12px;
+}
+
+.category-btn {
+    background-color: #f9f9f9; /* very light background */
+    color: #888; /* lighter text */
+    border: 1px solid #eee;
+    opacity: 0.6;
+    font-weight: 500;
+    box-shadow: none;
+    transition: all 0.2s ease-in-out;
+}
+
+    .category-btn:hover {
+        background-color: #efefef;
+        opacity: 0.8;
+        color: #666;
+    }
+
+    .category-btn.active {
+        background: linear-gradient(to right, #007bff, #0056b3); /* strong gradient */
+        color: #fff;
+        border: 2px solid #0046a0;
+        font-weight: 700;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+        transform: scale(1.05);
+        opacity: 1;
+        z-index: 1;
+    }

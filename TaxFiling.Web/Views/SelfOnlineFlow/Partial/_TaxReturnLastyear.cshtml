@@ -1,0 +1,63 @@
+﻿@model List<TaxFiling.Web.Models.TaxReturnLastyear>
+
+<main class="main-content">
+    <div class="container-fluid">
+
+
+        <h2 class="center">How did you file your tax return last year?</h2><br><br>
+
+        <div class="image-box  justify-content-between  parent">
+            <div class="row">
+
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var taxReturnLastyear in Model)
+                    {
+                        var isChecked = (ViewBag.taxReturnLastYearId == taxReturnLastyear.Id);
+
+                        <div class='col col-lg-3 col-md-3 p-3  text-center Tax-pesonaldetail-icon'>
+                            <input type="radio" name="imgbackground" id="@taxReturnLastyear.Id" class="d-none imgbgchk" value="@taxReturnLastyear.Id" @(isChecked ? "checked" : "")>
+                            <label for="@taxReturnLastyear.Id">
+                                <img src="@taxReturnLastyear.ImageUrl" alt="Image @taxReturnLastyear.Id">
+                                <div class="nametag">
+                                    @taxReturnLastyear.Name
+                                </div>
+                               
+                                <div class="tick_container">
+                                    <div class="tick"><i class="fa fa-check"></i></div>
+                                </div>
+                            </label>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>No taxpayers found.</p>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <br><br>
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6 btn-prv">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
+                    Back
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 right next-btn">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerContinue">
+                    Continue
+                </button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+
+<script src="~/scripts/taxreturnlastyear_selected.js" asp-append-version="true"></script>

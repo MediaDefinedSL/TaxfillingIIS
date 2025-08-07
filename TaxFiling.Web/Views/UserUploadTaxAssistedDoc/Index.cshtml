@@ -1,0 +1,2335 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+
+@{
+    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+    bool isAuthenticated = !string.IsNullOrEmpty(userId);
+    var apiUrl = Configuration["BaseAPIUrl"];
+    var tinNo = User.Claims.FirstOrDefault(c => c.Type == "TinNo")?.Value;
+   // var userUploadDocStatus = User.FindFirst("UserUploadDocStatus")?.Value;
+    //int docStatus = int.TryParse(userUploadDocStatus, out var parsedStatus) ? parsedStatus : -1;
+    int docStatus = ViewBag.UploadedDocStatus ?? -1;
+}
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title accent-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <h2 class="mb-2 mb-lg-0 font-weight-bold">Tax Assisted Filing</h2></br>
+                <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <nav class="breadcrumbs">
+                    <ol>
+                        @* <li><a href="index.html">Home</a></li>
+                        <li class="current">Self Online Flow</li> *@
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div><!-- End Page Title -->
+    <!-- File my taxes Section -->
+    <section id="Self-Online-Flow" class="">
+        <div class="sidebar-main">
+            <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed" style="
+    /* position: absolute !important; */">
+                <button class="toggle-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="p-4">
+                    <!-- <h4 class="logo-text fw-bold mb-0">@ViewBag.packageName</h4>
+                    <h4 class="logo-text fw-bold mb-0">@ViewBag.curancy @ViewBag.price</h4>-->
+                 </div>
+
+                <div class="nav flex-column">
+
+
+                    <div class="dropdown-container" style="display: none;">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                    <a href="#" class="sidebar-link active text-decoration-none p-3" data-target="dashboard-section">
+                        <i class="fas fa-home me-3"></i>
+                        <span class="hide-on-collapse">Dashboard</span>
+                    </a>
+                    <a href="#documents-submenu" class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center"
+                       data-bs-toggle="collapse" aria-expanded="false" data-target="documents-section">
+                        <span>
+                            <i class="fas fa-chart-bar me-3"></i>
+                            <span class="hide-on-collapse">Documents</span>
+                        </span>
+                        <i class="fas fa-chevron-down small"></i>
+                    </a>
+
+                    <!-- Sub-links under Documents -->
+                    <div class="collapse ps-4" id="documents-submenu">
+                        <a href="#" class="sidebar-link text-decoration-none py-2 d-block" data-target="employment-section">
+                            <i class="fas fa-briefcase me-2"></i> Employment Docs
+                        </a>
+                        <a href="#" class="sidebar-link text-decoration-none py-2 d-block" data-target="bank-section">
+                            <i class="fas fa-university me-2"></i> Bank Confirmation
+                        </a>
+                        <a href="#" class="sidebar-link text-decoration-none py-2 d-block" data-target="assets-section">
+                            <i class="fas fa-balance-scale me-2"></i> Assets & Liabilities
+                        </a>
+                        <a href="#" class="sidebar-link text-decoration-none py-2 d-block" data-target="other-section">
+                            <i class="fas fa-folder me-2"></i> Other Docs
+                        </a>
+                    </div>
+
+                    <a href="#" class="sidebar-link active text-decoration-none p-3" data-target="declaration-section">
+                        <i class="fas fa-file-signature me-2"></i>
+                        <span class="hide-on-collapse">Declaration</span>
+                    </a>
+
+
+                </div>
+
+                <div class="profile-section mt-auto p-4">
+                    <div class="d-flex align-items-center">
+                        <img src="https://randomuser.me/api/portraits/women/70.jpg" style="height:60px" class="rounded-circle" alt="Profile">
+                        <div class="ms-3 profile-info">
+                            <h6 class="text-white mb-0">Alex Morgan</h6>
+                            <small class="text-muted">Admin</small>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="main-content">
+                <div class="container-fluid">
+                    <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
+                        <h4 class="mb-3"><i class="fas fa-table text-primary me-2"></i> Individual Income Tax Filing Summary</h4>
+
+                        <div class="mb-3 ">
+                            <table class="table table-borderless site-color">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><strong>Taxpayer Identification Number (TIN)  </strong></th>
+                                        <th scope="col">@tinNo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><strong>Name of taxpayer</strong></th>
+                                        <td>@userName</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><strong>Year of assessment </strong></th>
+                                        <td> 2024/2025</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        @{
+                            int totalRequiredDocs = 10; // Expected doc types
+                            int uploadedDocs =6;       // Actual uploaded docs
+                            int progressPercent = totalRequiredDocs > 0 ? (int)(((double)uploadedDocs / totalRequiredDocs) * 100) : 0;
+
+                            string progressLabel = $"{uploadedDocs} / {totalRequiredDocs} Uploaded";
+                            string barColor = progressPercent == 100 ? "bg-success"
+                            : progressPercent >= 75 ? "bg-primary"
+                            : progressPercent >= 40 ? "bg-warning"
+                            : "bg-danger";
+                        }
+                        <div class="p-3 mb-4 bg-white rounded shadow-sm border position-relative">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-upload text-primary fs-4 me-2"></i>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Document Upload Progress</h6>
+                                        <small class="text-muted">Track your tax document submission</small>
+                                    </div>
+                                </div>
+                                @if (progressPercent == 100)
+                                {
+                                    <span class="badge bg-success rounded-pill px-3 py-2">
+                                        <i class="fas fa-check-circle me-1"></i> Complete
+                                    </span>
+                                }
+                            </div>
+
+                            <div class="progress" style="height: 1.5rem;">
+                                <div class="progress-bar @barColor fw-semibold text-dark" role="progressbar"
+                                     style="width: @progressPercent%;"
+                                     aria-valuenow="@uploadedDocs" aria-valuemin="0" aria-valuemax="@totalRequiredDocs">
+                                    @progressLabel
+                                </div>
+                            </div>
+                        </div>
+                        <p>
+                            If you wish to submit documents for file a return, please check an assessment year and click "Start" button. <br />
+                            To delete the draft, check and click the "Remove" button.
+                        </p>
+                        @{
+                            int startYear = 2019;
+                            int endYear = DateTime.Now.Month >= 4 ? DateTime.Now.Year - 1 : DateTime.Now.Year - 2;
+                        }
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped mt-3">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th width="64"></th>
+                                        <th>Year of assessment</th>
+                                        <th>Due date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int year = endYear; year >= startYear; year--)
+                                    {
+                                        var dueDate = new DateTime(year + 1, 11, 30).ToString("yyyy-MM-dd");
+                                        var isCurrentAssessmentYear = year == endYear;
+
+                                        string status = "SUBMITTED"; // default for past years
+                                        if (isCurrentAssessmentYear)
+                                        {
+                                            status = docStatus switch
+                                            {
+                                                0 => "NEW",
+                                                1 => "DRAFT",
+                                                2 => "SUBMITTED",
+                                                3 => "REUPLOAD",
+                                               4 => "RESUBMITTED",
+                                                 _ => "UNKNOWN"
+                                            };
+                                        }
+
+                                        var badgeClass = status switch
+                                        {
+                                            "NEW" => "bg-secondary",
+                                            "DRAFT" => "bg-warning text-dark",
+                                            "SUBMITTED" => "bg-success",
+                                            "REUPLOAD" => "bg-danger-subtle text-danger",
+                                            "RESUBMITTED" => "bg-info-subtle text-info",
+                                            _ => "bg-dark"
+                                        };
+                                        // Unique ID for row and badge
+                                        var rowId = $"assessment-row-{year}";
+                                        var badgeId = $"status-badge-{year}";
+                                        <tr id="@rowId">
+                                            <td width="64" align="center">
+                                                <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "") />
+                                            </td>
+                                            <td>@year/@(year + 1)</td>
+                                            <td>@dueDate</td>
+                                            <td>
+                                                <span id="@badgeId" class="badge @badgeClass">@status</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="mt-3 d-flex justify-content-start gap-2">
+                            <button class="btn btn-primary" id="start-btn">
+                                <i class="fas fa-arrow-right me-1"></i> Start
+                            </button>
+                            <button class="btn btn-danger">
+                                <i class="fas fa-trash-alt me-1"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <br>
+                <div id="documents-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
+                    <!-- Header Section -->
+                    <div class="d-lg-flex justify-content-between align-items-center mb-4">
+                        <div class="col-lg-9 col-md-12">
+                            <h4>
+                                <i class="fas fa-folder-open text-primary me-2"></i> Documents
+                            </h4>
+                            <p class="text-muted">
+                                <i class="fas fa-lock me-1 text-secondary"></i>
+                                Upload and manage your tax documents securely and easily.
+                            </p>
+                        </div>
+                        <div class="col-lg-3 col-md-12 text-lg-end text-md-center mt-3 mt-lg-0">
+                            <!-- You can place a summary or help link here -->
+                        </div>
+                    </div>
+
+                    <!-- Upload Prompt -->
+                    <div class="uplode-parts">
+                        <div class="alert alert-primary d-flex align-items-center p-4 shadow-lg border border-2 border-primary rounded-4" role="alert" style="background: #e9f4ff;">
+                            <i class="fas fa-cloud-upload-alt fa-2x me-4 text-primary pulse-icon"></i>
+                            <div>
+                                <h5 class="mb-2 fw-bold text-primary">📤 Ready to submit?</h5>
+                                <p class="mb-2">
+                                    Click below to upload your
+                                    <span class="text-decoration-underline fw-semibold">2024/2025 Tax Documents</span>.
+                                </p>
+                                <button class="btn btn-primary btn-lg px-4 py-2" id="uploadDoc-btn">
+                                    <i class="fas fa-upload me-2"></i> Upload Documents
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Optional: Additional Details or Instructions -->
+                    <div class="mt-4 document-guidelines">
+                        <h5><i class="fas fa-info-circle text-secondary me-2"></i>Document Guidelines</h5>
+                        <ul class="text-muted">
+                            <li>Accepted formats: <strong>PDF, JPG, PNG</strong></li>
+                            <li>Maximum size per file: <strong>5MB</strong></li>
+                            <li>Include all necessary forms and receipts for the selected tax year</li>
+                        </ul>
+                    </div>
+
+                    
+        </div>
+
+                <div id="employment-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
+                    <h4><i class="fas fa-briefcase text-primary me-2"></i> Employment Documents</h4>
+                    
+                    <!-- Toggle Buttons for Category -->
+                    <div class="mb-3 tab-btn-list d-flex flex-wrap gap-2">
+                        <button type="button" class="btn category-btn active" data-category="T10">T10</button>
+                        <button type="button" class="btn category-btn" data-category="TerminalBenefit">Terminal Benefit</button>
+                        <button type="button" class="btn category-btn" data-category="AnyOther">Any Other</button>
+                    </div>
+
+                    <!-- T10 Form -->
+                    <div id="t10-form" class="upload-form-section" style="display: none;">
+
+                        <input type="hidden" name="CategoryName" value="T10" />
+                        <div class="mb-3">
+                            <div class="alert alert-info mt-2" role="alert">
+                                <strong>Note:</strong> Please upload your T10 Certificate for the relevant period. If you have multiple T10 Certificates for different employees, kindly upload each separately. <br>
+                                <a href="/assets/files/T10.pdf" download class="text-primary text-decoration-underline">
+                                    Download Sample T10 Certificate
+                                </a>
+                            </div>
+                            <label>Employer Name</label>
+                            <input type="text" name="T10EmployerName" class="form-control" id="T10EmployerName" />
+                            <form method="post" enctype="multipart/form-data" class="mt-3">
+                                <label>Upload File</label>
+                            <input type="file" id="fileInput" name="UploadedFile" class="form-control" />
+                        </form>
+                        </div>
+
+                    </div>
+
+                    <!-- Terminal Benefit Form -->
+                    <div id="terminal-form" class="upload-form-section" style="display: none;">
+
+                        <input type="hidden" name="CategoryName" value="TerminalBenefit" />
+                        <div class="mb-3">
+                            <label>Employer Name</label>
+                            <input type="text" name="TerminalEmployerName" class="form-control" id="TerminalEmployerName" />
+                            <form method="post" enctype="multipart/form-data" class="mt-3">
+                               
+                                <label>Upload File</label>
+                            <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control" />
+                       </form>
+                        </div>
+
+                    </div>
+
+                    <!-- Any Other Form -->
+                    <div id="AnyOther-form" class="upload-form-section" style="display: none;">
+
+                        <input type="hidden" name="CategoryName" value="AnyOther" />
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" name="OtherType" id="AnyOtherType">
+                                <option value="">-- Select Type --</option>
+                                <option value="SalarySlips">Salary Slips</option>
+                                <option value="PaySheets">Pay Sheets</option>
+                            </select>
+                            <form method="post" enctype="multipart/form-data" class="mt-3">
+                                <label>Upload File</label>
+                                <input type="file" id="fileInputAnyOther" name="UploadedFile" class="form-control" />
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="btn btn-primary submit-btn" id="submitBtn"><i class="fas fa-save me-1"></i>Upload</button>
+                    
+                    <div id="uploadedDocs" class="mt-5" style="display: none;">
+                        <h5 class="mb-3" id="categoryHeading">Your Documents for 2024/2025</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Document Name</th>
+                                        <th>Category</th>
+                                        <th>Employer Name/Any Other Type</th>
+                                        <th>Uploaded On</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="documentsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button class="btn btn-primary " id="btnNext">
+                            Next <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                    
+                </div>
+
+                <div id="bank-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
+                    <h4><i class="fas fa-university me-2 text-primary me-2"></i> Bank Confirmation</h4>
+
+                    <!-- T10 Form -->
+                    <div id="bank-form" class="upload-form-section" style="display: block;">
+
+                        <input type="hidden" name="CategoryName" value="T10" />
+                        <div class="mb-3">
+                            <label class="form-label">Bank Confirmation Type</label>
+                            <select class="form-select" name="BankConfirmationType" id="BankConfirmationType">
+                                <option value="">-- Select Type --</option>
+                                <option value="Savings and Fixed Deposits">Savings and Fixed Deposits</option>
+                                <option value="Loans and Leases">Loans and Leases</option>
+                                <option value="Credit Cards">Credit Cards</option>
+                                <option value="Money Market Accounts">Money Market Accounts</option>
+                                <option value="Unit Trust Accounts">Unit Trust Accounts</option>
+                                <option value="Any other">Any other </option>
+                                
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Bank Name</label>
+                            <input type="text" class="form-control" name="BankName" id="BankName" />
+                        </div>
+                        <form method="post" enctype="multipart/form-data" >
+                            <div class="mb-3">
+                                <label>Upload File</label>
+                                <input type="file" id="fileInputBank" name="UploadedFile" class="form-control" />
+                            </div>
+                            <button type="button" class="btn btn-primary submit-btn" id="submitBankBtn"><i class="fas fa-save me-1"></i>Upload</button>
+                        </form>
+                        <div id="uploadedBankDocs" class="mt-5" style="display: none;">
+                            <h5 class="mb-3" id="categoryHeading"><span class="text-muted">Your Uploaded</span> <span class="badge bg-primary">Bank Confirmation</span> <span class="text-muted">Documents for 2024/2025</span></h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped mt-2">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th >#</th>
+                                            <th class="col-document-name">Document Name</th>
+                                            <th class="col-category">Category</th>
+                                            <th class="col-employer-name">Employer Name/Any Other Type</th>
+                                            <th class="col-confirmation-type">Bank Confirmation Type</th>
+                                            <th class="col-bank-name">Bank Name</th>                                            
+                                            <th>Uploaded On</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="documentsTableBankBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <button class="btn btn-primary" id="btnAssestsNext">
+                                Next <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div id="assets-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
+                    <h4><i class="fas fa-balance-scale me-2 text-primary me-2"></i> Assets & Liabilities</h4>
+
+                    <!-- T10 Form -->
+                    <div id="assets-form" class="upload-form-section" style="display: block">
+
+                        <input type="hidden" name="CategoryName" value="T10" />
+                        <div class="card p-4 shadow-sm">
+                            <h5 class="mb-3">Assets as at <strong>31.03.2025</strong></h5>
+
+                            <!-- Local/Foreign checkbox summary -->
+                            <!-- <div class="mb-4">
+                                <label class="form-label fw-semibold">Select Asset Location (General)</label>
+                                <div class="form-check form-check-inline me-4">
+                                    <input class="form-check-input bordered-checkbox" type="checkbox" id="summaryLocal">
+                                    <label class="form-check-label" for="summaryLocal">A. Local</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input bordered-checkbox" type="checkbox" id="summaryForeign">
+                                    <label class="form-check-label" for="summaryForeign">B. Foreign</label>
+                                </div>
+                            </div>-->
+                          
+                            <!-- Upload method selection -->
+                            <!-- Upload method selection -->
+                            <label class="form-label fw-semibold mb-2">Please provide your Asset and Liability details as at 31.03.2025 by selecting one of the following options:</label>
+                            <div class="btn-group mb-4" role="group">
+                                <input type="radio" class="btn-check" name="assetInputOption" id="optionExcel" value="1" autocomplete="off"  checked>
+                                <label class="btn btn-outline-secondary" for="optionExcel">Enter Asset & Liability Details Using Excel Template</label>
+
+                                <input type="radio" class="btn-check" name="assetInputOption" id="optionManual" value="2" autocomplete="off">
+                                <label class="btn btn-outline-secondary" for="optionManual">Upload Supporting Documents for Assets & Liabilities</label>
+                            </div>
+
+
+
+                            <!-- Excel Upload Section -->
+                            <div id="excelUploadSection" class="container my-4">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body">
+
+                                        <!-- Info Alert with Download Button -->
+                                        <div class="alert alert-info d-flex justify-content-between align-items-center">
+                                            <span>
+                                                <i class="fas fa-download me-2"></i>
+                                                Please download and fill out the Excel sheet for Assets & Liabilities.
+                                            </span>
+                                            <a href="/assets/files/AssetsAndLiabilityTemplate.xlsx" class="btn btn-sm btn-primary">
+                                                Download Template
+                                            </a>
+                                        </div>
+
+                                        <!-- Visible File Input -->
+                                        <label for="assetsExcelFile" class="form-label fw-semibold">
+                                            Fill in the pre-formatted Excel sheet provided and upload the completed file. No supporting documents are required.
+                                        </label>
+                                        <input type="file" id="assetsExcelFile" name="assetsExcelFile"
+                                               accept=".xlsx" class="form-control mb-2"
+                                               onchange="handleExcelFileChange(event)">
+
+                                        <!-- File Name Display -->
+                                        <div id="uploadedFileName" class="mb-3 text-muted" style="font-size: 0.9rem;"></div>
+
+                                        <!-- Validation Message -->
+                                        <div id="fileValidationMessage" class="text-danger mb-3" style="font-size: 0.9rem;"></div>
+
+                                        <!-- Button Row -->
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button type="submit" class="btn btn-success submit-btn" id="submitExcelBtn" disabled>
+                                                Submit
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="table table-bordered table-striped mt-3" id="uploadedExcelAssetsTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Document Name</th>
+                                                        <th>Uploaded On</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Dynamic rows will be inserted here -->
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Manual Entry Table -->
+                            <!-- Redesigned Manual Entry Section with Tabbed Layout -->
+                            <div class="manual-entry-container p-4 bg-white shadow rounded" id="manualTableSection">
+                                <!-- ✅ Success message block -->
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        @TempData["SuccessMessage"]
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                }
+
+                                <div class="alert alert-info mt-2" role="alert">
+                                    <strong>Note:</strong> Upload all relevant supporting documents (e.g., Deeds for Land, Vehicle Reports, Share Balances, etc. so we can complete the details on your behalf.
+                                </div>
+                                <!-- Tab Buttons -->
+                                <div class="d-flex gap-2 mb-4" id="manualTabs">
+                                    <button type="button" class="btn btn-outline-primary active" id="tabLocal"
+                                            onclick="toggleManualTab('local')">
+                                        A. Local Assests
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" id="tabForeign"
+                                            onclick="toggleManualTab('foreign')">
+                                        B. Foreign Assests
+                                    </button>
+                                </div>
+
+                                <!-- Tab Content: Local -->
+                                <form id="assetForm" enctype="multipart/form-data">
+                                <div id="manualLocalTab" class="tab-pane fade show active" style="display: block;">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered align-middle">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="width: 50px; background-color: #4aadfd;color: #fff !important;">#</th>
+                                                    <th style="background-color: #4aadfd; color: #fff !important">Asset Category</th>
+                                                    <th style="width: 35%;background-color: #4aadfd; color: #fff !important">Value / Notes</th>
+                                                    <th style="width: 25%;background-color: #4aadfd; color: #fff !important">Upload</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="table-light">
+                                                    <td>1</td>
+                                                        <td>Deed of land, building, apartment <input type="hidden" class="AssetCategory" value="Deed of land, building, apartment" /></td>
+                                                        <td><input type="text" name="assets[0].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[0].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-0"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(0)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                        <td>Movable Properties (Motor Vehicles) <input type="hidden" class="AssetCategory" value="Movable Properties (Motor Vehicles)" /</td>
+                                                    <td>
+                                                            <select class="form-select mb-2" name="assets[1].vehicleTypes">
+                                                            <option value="">Select Vehicle Type</option>
+                                                            <option>Motor Car</option>
+                                                            <option>Van</option>
+                                                            <option>Bike</option>
+                                                            <option>Other</option>
+                                                        </select>
+                                                            <input type="text" name="assets[1].Description" class="form-control" placeholder="Value / Description" />
+                                                    </td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[1].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-1"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(1)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-light">
+                                                    <td>3</td>
+                                                        <td>Shares/Stocks/Securities as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Shares/Stocks/Securities" /></td>
+                                                    <td>
+                                                            <select class="form-select mb-2" name="assets[2].InstitutionType">
+                                                                <option value="">Select Institution</option>
+                                                                <option>Share balances on the Sri Lanka Stock Exchange</option>
+                                                                <option>Investments in Treasury bills</option>
+                                                                <option>Investments in Treasury bonds</option>
+                                                                <option>Foreign investments</option>
+                                                                <option>Any other investments</option>                                                               
+                                                        </select>
+                                                            <input type="text" name="assets[2].Description"  class="form-control" placeholder="Enter value or notes" />
+                                                        </td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[2].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-2"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(2)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                        <td>Cash in hand as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Cash in hand" /></td>
+                                                        <td><input type="text" name="assets[3].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-light">
+                                                    <td>5</td>
+                                                        <td>Loans given & amount receivable as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Loans given & amount receivable" /></td>
+                                                        <td><input type="text" name="assets[4].Description"  class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                      
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6</td>
+                                                        <td>Value of gold, silver, gems, jewellery etc. as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Value of gold, silver, gems, jewellery " /></td>
+                                                        <td><input type="text" name="assets[5].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-light">
+                                                    <td>7</td>
+                                                        <td>Business Current and Capital Accounts (Form 15, Partnership Accounts) <input type="hidden" class="AssetCategory" value="Business Current and Capital Accounts" /></td>
+                                                        <td><input type="text" name="assets[6].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[6].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-6"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(6)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>8</td>
+                                                    <td>Any other assets acquired or gifts received during the year<br />Please provide if you have received any gifts from spouse or children acquition of Assets
+                                                            <input type="hidden" class="AssetCategory" value="Any other assets acquired or gifts received" />
+                                                        </td>
+                                                        <td><input type="text" name="assets[7].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[7].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-7"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(7)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-light">
+                                                    <td>9</td>
+                                                    <td>Disposal of assets including shares (sale/transfer/gift) during the year
+                                                            <input type="hidden" class="AssetCategory" value="Disposal of assets including shares" />
+                                                    </td>
+                                                        <td><input type="text" name="assets[8].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                              
+                                <!-- Tab Content: Foreign -->
+                                <div id="manualForeignTab" class="tab-pane fade" style="display: none;">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered align-middle">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="width: 50px;background-color: #4aadfd; color: #fff !important">#</th>
+                                                    <th style="background-color: #4aadfd; color: #fff !important">Asset Category</th>
+                                                    <th style="width: 35%;background-color: #4aadfd; color: #fff !important">Value / Notes</th>
+                                                    <th style="width: 25%;background-color: #4aadfd; color: #fff !important">Upload</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="table-light">
+                                                    <td>1</td>
+                                                        <td>Deed of land, building, apartment <input type="hidden" class="AssetCategory" value="Deed of land, building, apartment" /></td>
+                                                        <td><input type="text" name="assets[0].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[0].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-0"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(0)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                        <td>Movable Properties (Motor Vehicles) <input type="hidden" class="AssetCategory" value="Movable Properties (Motor Vehicles)" /></td>
+                                                    <td>
+                                                        <select class="form-select mb-2" name="assets[1].vehicleTypes">
+                                                            <option value="">Select Vehicle Type</option>
+                                                            <option>Motor Car</option>
+                                                            <option>Van</option>
+                                                            <option>Bike</option>
+                                                            <option>Other</option>
+                                                        </select>
+                                                            <input type="text" name="assets[1].Description" class="form-control" placeholder="Value / Description" />
+                                                    </td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[1].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-1"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(1)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="table-light">
+                                                    <td>3</td>
+                                                        <td>Shares/Stocks/Securities as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Shares/Stocks/Securities" /></td>
+                                                    <td>
+                                                            <select class="form-select mb-2" name="assets[2].InstitutionType">
+                                                                <option value="">Select Institution</option>
+                                                                <option>Share balances on the Sri Lanka Stock Exchange</option>
+                                                                <option>Investments in Treasury bills</option>
+                                                                <option>Investments in Treasury bonds</option>
+                                                                <option>Foreign investments</option>
+                                                                <option>Any other investments</option>
+                                                            </select>
+                                                            <input type="text" name="assets[2].Description" class="form-control" placeholder="Enter value or notes" />
+                                                    </td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[2].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-2"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(2)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                        <td>Business Current and Capital Accounts (Form 15, Partnership Accounts) <input type="hidden" class="AssetCategory" value="Business Current and Capital Accounts" /></td>
+                                                        <td><input type="text" class="form-control" name="assets[3].Description" placeholder="Enter value or notes" /></td>
+                                                    <td>
+                                                        <div class="file-upload-wrapper">
+                                                            <div class="file-input-group mb-2">
+                                                                    <input type="file" name="assets[3].Files" class="form-control" />
+                                                            </div>
+                                                            <div id="extraFileInputs-3"></div>
+                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(3)">
+                                                                ➕ Add More Files
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="text-end mt-4">
+                                        <button type="button" class="btn btn-success px-4 submit-btn" onclick="submitLocalAssets();">Upload</button>
+                                </div>
+                                </form>
+                                <div class="card my-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Uploaded Files Summary</h5>
+                                        <button class="btn btn-sm btn-outline-primary" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#uploadedFilesCollapse"
+                                                aria-expanded="false" aria-controls="uploadedFilesCollapse">
+                                            <i class="bi bi-chevron-down" id="toggleIcon"></i>
+                                        </button>
+                                </div>
+                                <div class="collapse" id="uploadedFilesCollapse">
+                                    <div class="card-body">
+                                            <table class="table table-bordered table-striped mt-3" id="uploadedAssetsTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Category</th>
+                                                        <th>Asset Type</th>
+                                                        <th>Asset Note/Value</th>
+                                                        <th>File Name</th>
+                                                        <th>Uploaded On</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Dynamic rows will be inserted here -->
+                                                </tbody>
+                                            </table>
+
+                                    </div>
+                                </div>
+                             </div>
+                            </div>
+                           
+                        
+                        </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button class="btn btn-primary" id="btnOtherNext">
+                            Next <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+
+                    </div>
+                   
+                </div>
+                <div id="other-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
+                    <h4><i class="fas fa-folder me-2 text-primary me-2"></i> Tax payment slips and other documents</h4>
+                    
+                    <!-- T10 Form -->
+                    <div id="other-form" class="upload-form-section" style="display: block">
+
+                        <input type="hidden" name="CategoryName" value="T10" />
+                        <div class="alert alert-info mt-2" role="alert">
+                            <strong>Note:</strong> Please upload all available tax payment slips here. If you have any additional documents that should be considered for your tax computation, kindly upload them as well.
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Name of the Document</label>
+                            <input type="text" class="form-control" name="docName" id="otherDocName" />
+                        </div>
+                        <form method="post" enctype="multipart/form-data" >
+                            <div class="mb-3">
+                                <label>Upload File</label>
+                                <input type="file" id="fileInputOther" name="UploadedFile" class="form-control" />
+                            </div>
+                            <button type="button" class="btn btn-primary submit-btn" id="submitOtherBtn"><i class="fas fa-save me-1"></i>Upload</button>
+                        </form>
+                        <div id="uploadedOtherDocs" class="mt-5" style="display: none;">
+                            <h5 class="mb-3" id="categoryHeading"><span class="text-muted">Your Uploaded</span> <span class="badge bg-primary">Other Documents</span> <span class="text-muted">Documents for 2024/2025</span></h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped mt-2">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Document Name</th>
+                                            <th>Category</th>
+                                            <th>Employer Name/Any Other Type</th>
+                                            <th>Uploaded On</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="documentsTableOtherBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button class="btn btn-primary" id="btnDeclareNext">
+                            Next <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                
+                </div>
+
+                <div id="declaration-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
+                    <h4 class="mb-3">Declaration of the Tax Payer</h4>
+
+                    <div class="border rounded p-3 bg-light">
+                        <p>
+                            I declare to the best of my knowledge and belief that all particulars furnished in the Return of Income are
+                            true, correct, and complete. I am aware that making an incorrect, false, or misleading statement is an offence.
+                        </p>
+                        <div class="alert alert-info d-flex align-items-center mt-3" role="alert" style="font-size: 0.95rem;">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <div>
+                                <strong>Note:</strong> All documents uploaded in previous sections (such as <em>Asset Declaration</em>, <em>Bank Confirmation</em>, etc.) will be listed below for your final review before submission.
+                            </div>
+                        </div>
+                        <div id="uploadedDeclarationDocs" style="display: block;">
+                            <h5 class="mb-3">Uploaded Documents for Declaration</h5>
+                            <table class="table table-bordered table-striped mt-2" id="declarationDocsTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Document Name/Assest Note</th>
+                                        <th>Category</th>
+                                        <th>Assest Category</th>
+                                        <th>Assest Type</th>
+                                        <th>Uploaded On</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rows will be inserted dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="form-check my-3">
+                            <input class="form-check-input no-print" type="checkbox" id="acceptDeclaration">
+                            <label class="form-check-label no-print" for="acceptDeclaration">
+                                I accept the above declaration.
+                            </label>
+                        </div>
+
+                        <button type="button" class="btn btn-primary no-print" id="submitDeclarationBtn" disabled>
+                            Accept and Submit
+                        </button>
+                        <button type="button" class="btn btn-secondary ms-2 no-print" id="printDeclarationBtn" disabled>
+                            🖨️ Print Declaration
+                        </button>
+                    </div>
+                </div>
+            </main>
+            <!-- Modal Alert Popup -->
+            <div id="enhancedModal" class="enhanced-modal" style="display:none;">
+                <div class="enhanced-modal-content">
+                    <span id="enhancedModalClose" class="enhanced-close">&times;</span>
+                    <p id="enhancedModalMessage"></p>
+                </div>
+            </div>
+
+            <style>
+               
+                
+            </style>
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="confirmDeleteLabel">Confirm Delete</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this document?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button id="confirmDeleteBtn" type="button" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="docUploadStatus" value="@docStatus" />
+            <script>
+                  const sidebarLinks = document.querySelectorAll(".sidebar-link");
+                  const contentPanels = document.querySelectorAll(".content-panel");
+                  const baseApiUrl = "@apiUrl";
+                  console.log("Base API URL:", baseApiUrl);
+                  const userId = '@userId';
+
+                 let selectedFile = null;
+                 let selectedCategoryName = ""; // set this based on button click
+                 let allDocs = [];
+                 const fileInput = document.getElementById('fileInput');
+                 const submitBtn = document.getElementById('submitBtn');
+                 const submitBankBtn = document.getElementById('submitBankBtn');
+                 const submitOtherBtn = document.getElementById('submitOtherBtn');
+
+                const excelRadio = document.getElementById("optionExcel");
+                const manualRadio = document.getElementById("optionManual");
+                const excelSection = document.getElementById("excelSection");
+                const manualSection = document.getElementById("manualSection");
+
+                const collapse = document.getElementById('uploadedFilesCollapse');
+                const icon = document.getElementById('toggleIcon');
+
+                collapse.addEventListener('show.bs.collapse', () => {
+                    icon.classList.remove('bi-chevron-down');
+                    icon.classList.add('bi-chevron-up');
+                });   
+
+                collapse.addEventListener('hide.bs.collapse', () => {
+                    icon.classList.remove('bi-chevron-up');
+                    icon.classList.add('bi-chevron-down');
+                });
+
+                function handleExcelFileChange(event) {
+                    const fileInput = event.target;
+                    const file = fileInput.files[0];
+                    const fileNameDisplay = document.getElementById('uploadedFileName');
+                    const validationMessage = document.getElementById('fileValidationMessage');
+                    const submitBtn = document.getElementById('submitExcelBtn');
+
+                    fileNameDisplay.textContent = "";
+                    validationMessage.textContent = "";
+                    submitBtn.disabled = true;
+
+                    if (!file) return;
+
+                    const fileName = file.name;
+                    const validExtension = /\.xlsx$/i;
+
+                    if (!validExtension.test(fileName)) {
+                        validationMessage.textContent = "Invalid file type. Please upload a .xlsx Excel file.";
+                        fileInput.value = ""; // Clear file
+                    } else {
+                        fileNameDisplay.textContent = "Selected file: " + fileName;
+                        submitBtn.disabled = false;
+                    }
+                 }                 
+
+                 function toggleManualTab(tab) {
+                    const localTab = document.getElementById('manualLocalTab');
+                    const foreignTab = document.getElementById('manualForeignTab');
+                    const btnLocal = document.getElementById('tabLocal');
+                    const btnForeign = document.getElementById('tabForeign');
+
+                    btnLocal.classList.remove('active');
+                    btnForeign.classList.remove('active');
+
+                   localTab.style.display = 'none';
+                   foreignTab.style.display = 'none';
+
+                if (tab === 'local') {
+                    btnLocal.classList.add('active');
+                    localTab.style.display = 'block';
+                    localTab.classList.add('show', 'active');
+                    foreignTab.classList.remove('show', 'active');
+
+                    btnLocal.classList.add('active');
+                    btnLocal.classList.remove('btn-outline-primary');
+                    btnLocal.classList.add('btn-primary');
+
+                    btnForeign.classList.remove('active');
+                    btnForeign.classList.remove('btn-primary');
+                    btnForeign.classList.add('btn-outline-primary');
+                } else {
+                       btnForeign.classList.add('active');
+                       foreignTab.style.display = 'block';
+                       foreignTab.classList.add('show', 'active');
+                       localTab.classList.remove('show', 'active');
+
+                       btnForeign.classList.add('active');
+                       btnForeign.classList.remove('btn-outline-primary');
+                       btnForeign.classList.add('btn-primary');
+
+                       btnLocal.classList.remove('active');
+                       btnLocal.classList.remove('btn-primary');
+                       btnLocal.classList.add('btn-outline-primary');
+                }
+                   
+             }
+
+                function addMoreFiles(rowId) {
+                    const container = document.getElementById(`extraFileInputs-${rowId}`);
+                    const fileInput = document.createElement("div");
+                    fileInput.classList.add("file-input-group", "mb-2");
+                    fileInput.innerHTML = `
+                        <div class="d-flex">
+                                     <input type="file" name="assets[${rowId}].Files" class="form-control me-2" />
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.parentElement.parentElement.remove()">
+                                ✖
+                            </button>
+                        </div>`;
+                    container.appendChild(fileInput);
+                }                  
+
+                function submitLocalAssets() {
+
+                    const isLocal = document.getElementById('tabLocal').classList.contains('active');
+                    const formData = new FormData();                 
+                    let assetIndex = 0;
+
+                       function processRows(containerSelector, isLocal) {
+                             let type = isLocal ? 1 :2;
+                              const rows = $(`${containerSelector} table tbody tr`);
+
+                          rows.each(function (index) {
+                              const row = $(this);
+                              formData.append(`assets[${assetIndex}].UserId`, userId);
+                                 formData.append(`assets[${assetIndex}].AssestType`, type);
+                              const assetCategory = row.find('input.AssetCategory[type="hidden"]').val();
+                                 formData.append(`assets[${assetIndex}].AssetCategory`, assetCategory);
+                              // Description
+                              const description = row.find('input[type="text"], select').first().val() || '';
+                                 formData.append(`assets[${assetIndex}].AssetNote`, description);
+
+                              // Vehicle Type (optional)
+                                const vehicleType = row.find(`select[name="assets[${assetIndex}].vehicleTypes"]`).val();
+                              if (vehicleType)
+                                        formData.append(`assets[${assetIndex}].AssetVehicleType`, vehicleType);
+
+                                   const assestInstitution = row.find(`select[name="assets[${assetIndex}].InstitutionType"]`).val();
+                                if (assestInstitution)
+                                             formData.append(`assets[${assetIndex}].AssetInstitution`, assestInstitution);
+
+                                 // Files
+                              row.find('input[type="file"]').each(function () {
+                                  const input = this;
+                                  if (input.files && input.files.length > 0) {
+                                      for (let i = 0; i < input.files.length; i++) {
+                                             formData.append(`assets[${assetIndex}].Files`, input.files[i]);
+                                      }
+                                  }
+                              });
+                                 assetIndex++;
+                          });
+
+                      }
+
+                       processRows('#manualLocalTab', true);  // Local assets
+                       processRows('#manualForeignTab', false); // Foreign assets
+                       
+                    $.ajax({
+                           url: `${baseApiUrl}api/UserUploadTaxAssistedDoc/SubmitAssets`, // Adjust path if needed
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            showMessage("Assets saved successfully!", "success");
+                            //alert("Assets saved successfully!");                           
+                            loadAssestsUploadedFiles(userId);
+                        },
+                        error: function (xhr) {
+                            alert("Error saving assets.");
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+                
+                document.getElementById("fileInput").addEventListener("change", function () {
+                          if (this.files.length > 0) {
+                         selectedFile = this.files[0];
+                     }
+                 });
+                 document.getElementById("fileInputTerminal").addEventListener("change", function () {
+                           if (this.files.length > 0) {
+                            selectedFile = this.files[0];
+                        }
+                    });
+                  document.getElementById("fileInputAnyOther").addEventListener("change", function () {
+                           if (this.files.length > 0) {
+                            selectedFile = this.files[0];
+                        }
+                    });
+                  document.getElementById("fileInputBank").addEventListener("change", function () {
+                     if (this.files.length > 0) {
+                         selectedFile = this.files[0];
+                     }
+                 });
+                 document.getElementById("fileInputOther").addEventListener("change", function () {
+                     if (this.files.length > 0) {
+                         selectedFile = this.files[0];
+                     }
+                 });
+
+                  document.querySelectorAll('.category-btn').forEach(btn => {
+                     btn.addEventListener('click', function () {
+                          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                          this.classList.add('active');
+                         const category = this.getAttribute('data-category');
+
+                         document.getElementById('t10-form').style.display = (category === 'T10') ? 'block' : 'none';
+                         document.getElementById('terminal-form').style.display = (category === 'TerminalBenefit') ? 'block' : 'none';
+                         document.getElementById('AnyOther-form').style.display = (category === 'AnyOther') ? 'block' : 'none';
+
+                         const categoryText = this.innerText.trim();
+                         selectedCategoryName = categoryText;
+
+                         const selectedCategory = this.dataset.category;
+                         const displayMap = {
+                                "T10": "T10",
+                                "TerminalBenefit": "Terminal Benefit",
+                                "AnyOther": "Any Other"
+                         };
+
+                       const readableCategory = displayMap[selectedCategory] || selectedCategory;
+                       document.getElementById("categoryHeading").innerHTML =
+                      `<span class="text-muted">Your Uploaded</span> <span class="badge bg-primary">${readableCategory}</span> <span class="text-muted">Documents for 2024/2025</span>`;
+                             renderDocsTable(categoryText); // Only filter already loaded docs
+                     });
+                 });
+                 function toggleSidebar() {
+                     const sidebar = document.querySelector('.sidebar');
+                     sidebar.classList.toggle('collapsed');
+                 }
+                 function showPanel(panelId) {
+
+                     contentPanels.forEach(panel => {
+                         panel.style.display = (panel.id === panelId) ? "block" : "none";
+                     });
+                     // Remove "active" from all links
+                     sidebarLinks.forEach(link => {
+                         link.classList.remove("active");
+                     });
+                     // Add "active" to current clicked link
+                     const activeLink = document.querySelector(`.sidebar-link[data-target="${panelId}"]`);
+                     if (activeLink) {
+                         activeLink.classList.add("active");
+                     }
+                     // ✅ If employment-section, auto-select T10
+                     if (panelId === "employment-section") {
+                         const t10Btn = document.querySelector(`.category-btn[data-category="T10"]`);
+                         if (t10Btn) t10Btn.click();
+                     }
+                 }
+                 sidebarLinks.forEach(link => {
+                     link.addEventListener("click", function (e) {
+                         e.preventDefault();
+                         const targetId = this.getAttribute("data-target");
+                         const panelId = this.dataset.target;
+                         showPanel(targetId);
+
+                         if (panelId === "bank-section") {
+                             selectedCategoryName = 'Bank Confirmation';
+                             loadUploadedDocs(userId,'Bank Confirmation'); // userId must be available in this scope
+                         }
+                         if (panelId === "employment-section") {
+                             selectedCategoryName = 'T10';
+                             loadUploadedDocs(userId,'T10'); // userId must be available in this scope
+                         }
+                         else if (panelId === "assets-section") {
+                                loadAssestsUploadedFiles(userId);// userId must be available in this scope
+                                 loadExcelAssestsUploadedFiles(userId);
+                         }
+                         else if (panelId === "other-section") {
+                             selectedCategoryName = 'Other Documents';
+                             loadUploadedDocs(userId,'Other Documents'); // userId must be available in this scope
+                         }
+                            else if (panelId === "declaration-section") {
+                                selectedCategoryName = 'Declaration';
+                                loadDeclarationDocs(userId) ;
+                            }
+                        
+                     });
+                  });
+
+                    function loadAssestsUploadedFiles(userId) {                        
+                            $.ajax({
+                               url: `${baseApiUrl}api/UserUploadTaxAssistedDoc/GetUploadedDocsByUser?userId=${userId}`,
+                            type: 'GET',
+                            success: function (data) {
+                                 const collapseEl = document.getElementById('uploadedFilesCollapse');
+                                 const collapseInstance = new bootstrap.Collapse(collapseEl, {
+                                        show: true,
+                                        toggle: false
+                                    });
+                               collapseInstance.show();
+                                const tbody = $("#uploadedAssetsTable tbody");
+                                tbody.empty();                                
+                                // Filter only Asset or Liability categories in JS
+                               const filteredDocs = data.filter(doc =>
+                                    doc.categoryName?.trim().toLowerCase() === "assets liabilities"
+                                );
+                                      
+                                
+                                if (filteredDocs.length === 0) {
+                                    tbody.append(`<tr><td colspan="5" class="text-center">No Assets/Liabilities uploaded.</td></tr>`);
+                                    return;
+                                }
+
+                                filteredDocs.forEach((doc, index) => {
+                                    const dateOnly = doc.uploadDate.split("T")[0];
+                                    const assetTypeLabel = doc.assestType === 1 ? "Local" : "Foreign";
+                                    const row = `
+                                        <tr>
+                                            <td>${index + 1}</td>
+                                               <td>${doc.assetCategory}</td>
+                                               <td>${assetTypeLabel}</td>
+                                                  <td>${doc.assetNote || ""}</td>
+                                                  <td>${doc.originalName || ""}</td>
+                                                     <td>${dateOnly}</td>
+                                            <td>
+                                                 <button class="btn btn-primary btn-sm" onclick="viewDoc('${doc.fileName}', '${doc.decryptionKey}')">View</button>
+                                                   <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}')">Delete</button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                   
+                                    tbody.append(row);
+
+                                       const docStatus = document.getElementById("docUploadStatus")?.value;
+
+                                     if (docStatus === "2") {
+                                         // Disable all delete buttons after they're dynamically added
+                                             document.querySelectorAll(".delete-btn").forEach(btn => {
+                                                 btn.disabled = true;
+                                                 btn.title = "You cannot delete after submission";
+                                                 btn.removeAttribute("onclick");
+                                             });
+
+                                     }
+                                });
+                            },
+                            error: function (xhr) {
+                                console.error("Error loading uploaded documents", xhr.responseText);
+                            }
+                        });
+                           
+                       }
+
+                       function loadExcelAssestsUploadedFiles(userId) {
+                                  $.ajax({
+                                     url: `${baseApiUrl}api/UserUploadTaxAssistedDoc/GetUploadedDocsByUser?userId=${userId}`,
+                                  type: 'GET',
+                                  success: function (data) {
+                                      // Filter only Asset or Liability categories in JS
+                                     const filteredDocs = data.filter(doc =>
+                                             doc.categoryName?.trim().toLowerCase() === "assests upload excel"
+                                      );
+                                      const tbody = $("#uploadedExcelAssetsTable tbody");
+                                         tbody.empty();
+                                      if (filteredDocs.length === 0) {
+                                          tbody.append(`<tr><td colspan="5" class="text-center">No Assets/Liabilities uploaded.</td></tr>`);
+                                          return;
+                                      }
+
+                                      filteredDocs.forEach((doc, index) => {
+                                          const dateOnly = doc.uploadDate.split("T")[0];
+
+                                          const row = `
+                                              <tr>
+                                                  <td>${index + 1}</td>
+                                                     <td>${doc.originalName}</td>
+                                                     <td>${dateOnly}</td>
+                                                  <td>
+                                                       <button class="btn btn-primary btn-sm" onclick="viewDoc('${doc.fileName}', '${doc.decryptionKey}')">View</button>
+                                                         <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}')">Delete</button>
+                                                  </td>
+                                              </tr>
+                                          `;
+
+                                          tbody.append(row);
+
+                                              const docStatus = document.getElementById("docUploadStatus")?.value;
+
+                                             if (docStatus === "2") {
+                                                 // Disable all delete buttons after they're dynamically added
+                                                     document.querySelectorAll(".delete-btn").forEach(btn => {
+                                                         btn.disabled = true;
+                                                         btn.title = "You cannot delete after submission";
+                                                         btn.removeAttribute("onclick");
+                                                     });
+
+                                             }
+                                      });
+                                  },
+                                  error: function (xhr) {
+                                      console.error("Error loading uploaded documents", xhr.responseText);
+                                  }
+                              });
+                                
+                        }
+
+                    function showBankConfirmationColumns() {
+                        // Hide default columns
+                            $('.col-employer-name').addClass('d-none');
+
+                        // Show bank-specific columns
+                              $('.col-confirmation-type, .col-bank-name').removeClass('d-none');
+                   }
+
+                    function showDefaultColumns() {
+                    // Show default columns
+                           $('.col-employer-name').removeClass('d-none');
+
+                    // Hide bank-specific
+                              $('.col-confirmation-type, .col-bank-name').addClass('d-none');
+                    }
+
+                  async function loadUploadedDocs(userId, selectedCategory = null) {
+                      if(selectedCategory == 'Bank Confirmation'){
+                          document.getElementById("uploadedBankDocs").style.display = "block";                             
+                      }
+                      else if(selectedCategory == 'Other Documents'){
+                          document.getElementById("uploadedOtherDocs").style.display = "block";                             
+                      }
+                      else
+                      {
+                         document.getElementById("uploadedDocs").style.display = "block";                           
+                      }
+
+
+                     try {
+                         const res = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/GetUploadedDocsByUser?userId=${userId}`);
+                         if (!res.ok) {
+                             alert("Failed to load uploaded documents");
+                             return;
+                         }
+
+                         allDocs = await res.json();
+                         renderDocsTable(selectedCategory);
+                     } catch (err) {
+                         console.error("Error loading documents:", err);
+                         alert("An error occurred while loading documents");
+                     }
+                 }
+
+                  function renderDocsTable(categoryFilter = null) {
+                     let tableBody;
+                     if (categoryFilter === 'Bank Confirmation')
+                         tableBody = document.getElementById("documentsTableBankBody");
+                     else if (categoryFilter === 'Other Documents')
+                         tableBody = document.getElementById("documentsTableOtherBody");
+                     else
+                         tableBody = document.getElementById("documentsTableBody");
+
+                     // ❗️Check if the target element exists
+                     if (!tableBody) {
+                         console.error("Table body element not found for the selected category.");
+                         return;
+                     }
+
+                     tableBody.innerHTML = "";
+
+                     const filteredDocs = categoryFilter
+                         ? allDocs.filter(doc => doc.categoryName === categoryFilter)
+                         : allDocs;
+
+                        filteredDocs.forEach((doc, index) => {
+                         const dateOnly = doc.uploadDate.split("T")[0];
+                          let employmentValue = "";
+                          let bankConfirmationType = "";
+                          let bankName ="";
+
+                              if (doc.categoryName === "T10") {
+                                        employmentValue = doc.t10EmployerName;
+                              } else if (doc.categoryName === "Terminal Benefit") {
+                                        employmentValue = doc.terminalEmployerName;
+                               } else {
+                                         employmentValue = doc.anyOtherType;
+                                }                          
+
+                           employmentValue = employmentValue ?? "";
+                           const row = document.createElement("tr");    
+                           
+                           bankConfirmationType = doc.bankConfirmationType ?? "";
+                           bankName = doc.bankName ?? "";
+
+                         row.innerHTML = `
+                            <td>${index + 1}</td>
+                             <td>${doc.originalName}</td>
+                             <td>${doc.categoryName}</td>
+                             <td class="col-employer-name d-none">${employmentValue}</td>
+                              <td class="col-confirmation-type d-none">${bankConfirmationType}</td>
+                              <td class="col-bank-name d-none">${bankName}</td>
+                             <td>${dateOnly}</td>
+                             <td>
+                                 <button class="btn btn-primary btn-sm" onclick="viewDoc('${doc.fileName}', '${doc.decryptionKey}')">View</button>
+                                    <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}')">Delete</button>
+                             </td>
+                         `;
+                         tableBody.appendChild(row);
+                     });
+
+                     if (categoryFilter === 'Bank Confirmation')
+                        showBankConfirmationColumns();
+                    else
+                        showDefaultColumns();
+
+                       const docStatus = document.getElementById("docUploadStatus")?.value;
+
+                       if (docStatus === "2") {
+                           // Disable all delete buttons after they're dynamically added                           
+                               document.querySelectorAll(".delete-btn").forEach(btn => {
+                                   btn.disabled = true;
+                                   btn.title = "You cannot delete after submission";
+                                   btn.removeAttribute("onclick");
+                               });
+                  
+                       }      
+
+                 }
+                  async function viewDoc(fileName, decryptionKey) {
+                     const width = 800;
+                     const height = 600;
+                     const left = (screen.width / 2) - (width / 2);
+                     const top = (screen.height / 2) - (height / 2);
+
+                     const formData = new FormData();
+                     formData.append("filename", fileName); // Match the API's expected field
+                     formData.append("decryptionKey", decryptionKey);
+
+                     const viewRes = await fetch("https://file.taxfiling.lk/view", {
+                         method: "POST",
+                         headers: {
+                         "Content-Type": "application/json"
+                         },
+                         body: JSON.stringify({
+                             filename: fileName,
+                             decryptionKey: decryptionKey
+                         })
+
+                     });
+
+                     if (!viewRes.ok) {
+                         const err = await viewRes.text();
+                         console.error("View API error:", err);
+                         throw new Error("External load failed: " + err);
+                     }                 
+                     const contentType = viewRes.headers.get("Content-Type") || "application/octet-stream";
+                     const blob = await viewRes.blob();
+                     const fileURL = URL.createObjectURL(new Blob([blob], { type: contentType }));
+                     
+                     window.open(
+                         fileURL,
+                         '_blank',
+                         `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
+                     );
+                 }
+                                 function showMessage(message, type = "success", autoClose = true, autoCloseTime = 5000) {
+                  const modal = document.getElementById("enhancedModal");
+                  const modalContent = modal.querySelector(".enhanced-modal-content");
+                  const msgElem = document.getElementById("enhancedModalMessage");
+                  const closeBtn = document.getElementById("enhancedModalClose");
+
+                  // Set message text
+                  msgElem.textContent = message;
+
+                  // Remove previous type classes
+                  modalContent.classList.remove("modal-success", "modal-error", "modal-info");
+
+                  // Add current type class
+                  if (type === "success") modalContent.classList.add("modal-success");
+                  else if (type === "error") modalContent.classList.add("modal-error");
+                  else modalContent.classList.add("modal-info");
+
+                  // Show modal
+                  modal.style.display = "flex";
+
+                  // Close function
+                  function closeModal() {
+                    modal.style.display = "none";
+                    // Cleanup event listeners to avoid duplicates if called again
+                    closeBtn.removeEventListener("click", closeModal);
+                    window.removeEventListener("click", outsideClick);
+                    if (autoCloseTimer) clearTimeout(autoCloseTimer);
+                  }
+
+                  // Close when clicking close button
+                  closeBtn.addEventListener("click", closeModal);
+
+                  // Close when clicking outside modal content
+                  function outsideClick(e) {
+                    if (e.target === modal) closeModal();
+                  }
+                  window.addEventListener("click", outsideClick);
+
+                  // Auto-close timer if enabled
+                  let autoCloseTimer;
+                  if (autoClose) {
+                    autoCloseTimer = setTimeout(closeModal, autoCloseTime);
+                  }
+                }
+
+                 function showDeleteConfirm(userUploadId) {
+
+                     const modalElement = document.getElementById("confirmDeleteModal");
+                     const originalDeleteBtn = document.getElementById("confirmDeleteBtn");
+                                         
+                     const newDeleteBtn = originalDeleteBtn.cloneNode(true);
+                     originalDeleteBtn.parentNode.replaceChild(newDeleteBtn, originalDeleteBtn);
+
+                      newDeleteBtn.addEventListener("click", () => {
+                         const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                         modalInstance.hide();
+
+                         setTimeout(() => {
+                             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+                             document.body.classList.remove('modal-open');
+                         }, 500);
+                        
+                         deleteDoc(userUploadId);
+                     });
+                     
+                     const modal = new bootstrap.Modal(modalElement);
+                     modal.show();
+                 }
+
+                  async function deleteDoc(userUploadId) {
+
+                     try {
+                         const response = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/DeleteDoc/${userUploadId}`, {
+                             method: "DELETE"
+                         });
+
+                         if (!response.ok) {
+                             const errMsg = await response.text();
+                             showMessage("❌ Failed to delete document. " + errorText, "danger");
+                             //throw new Error("Delete failed: " + errMsg);
+                         }
+                         else
+                         {
+                             showMessage("✅ Document deleted successfully.", "success");
+                             const userId = '@User.FindFirst("UserID")?.Value';
+                             loadUploadedDocs(userId,selectedCategoryName);
+                                loadExcelAssestsUploadedFiles(userId);
+                                loadAssestsUploadedFiles(userId);
+                         }
+
+                         // Optionally refresh document list or remove the row from the table
+                     } catch (error) {
+                         console.error(error);
+                         alert("Error: " + error.message);
+                     }
+                 }
+
+                 const acceptCheckbox = document.getElementById("acceptDeclaration");
+                 const submitDeclareBtn = document.getElementById("submitDeclarationBtn");
+                 const printBtn = document.getElementById("printDeclarationBtn");
+                 const declarationSection = document.getElementById("declaration-section");
+
+                    acceptCheckbox.addEventListener("change", function () {
+                     submitDeclareBtn.disabled = !this.checked;
+                       
+                 });
+
+                 submitDeclareBtn.addEventListener("click", function () {
+                        if (acceptCheckbox.checked) {                            
+                                const userId = '@userId'; 
+                                const status = 2; // SUBMITTED
+                                const currentYear = new Date().getFullYear()-1;
+                                const badgeId = `status-badge-${currentYear}`;
+                                const badge = document.getElementById(badgeId);
+                               const payload = {
+                                    userId: userId,
+                                    uploadedDocumentStatus: 2 
+                                };
+                                   fetch(`${baseApiUrl}api/users/update-document-status`, {
+                                    method: 'PUT',
+                                     headers: {
+                                         'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(payload)
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                      if(data.success){
+                                              document.getElementById("docUploadStatus").value = status;
+                                                acceptCheckbox.disabled = true;
+                                              if (badge) {
+                                                badge.innerText = "SUBMITTED";
+                                                badge.className = "badge bg-success";
+                                            }
+                                            //Disable delete and submit buttons
+                                            document.querySelectorAll('.delete-btn, .submit-btn').forEach(btn => {
+                                                btn.disabled = true;
+                                                btn.title = "Disabled after submission";
+
+                                                 // Optional: remove onclick handler
+                                               btn.onclick = function (e) {
+                                                   e.preventDefault();
+                                                   e.stopPropagation();
+                                                   return false;
+                                               };
+                                            });
+
+                                          
+                                            this.disabled = true;
+                                            this.innerText = "Terms Accepted";
+                                           //alert("Your Documents submitted successfully");
+                                             showMessage("Your Documents submitted successfully and Tax admins are contact you ASAP!", "success");
+                                            printBtn.disabled = false;
+                                      }
+                                      else
+                                            alert(data.message);
+                                })
+                                 .catch(err => alert('Error updating status.'));             
+                     
+                     }
+                 });
+
+                 printBtn.addEventListener("click", function () {
+                      window.print();
+                });
+
+                 function toggleUpload(checkboxId, fileInputId) {
+                     const checkbox = document.getElementById(checkboxId);
+                     const fileInput = document.getElementById(fileInputId);
+                     if (checkbox && fileInput) {
+                         fileInput.style.display = checkbox.checked ? "block" : "none";
+                     }
+                 }
+
+                async function loadDeclarationDocs(userId) {
+                    try {
+                        const res = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/GetUploadedDocsByUser?userId=${userId}`);
+                        if (!res.ok) {
+                            alert("Failed to load declaration documents.");
+                            return;
+                        }
+
+                        const allDocs = await res.json();
+                        const tbody = $("#declarationDocsTable tbody");
+                        tbody.empty();
+
+                        if (allDocs && allDocs.length > 0) {
+                            $("#uploadedDeclarationDocs").show();
+                            allDocs.forEach((doc, index) => {
+                                const uploadDate = doc.uploadDate ? doc.uploadDate.split("T")[0] : "";
+                                       const assetTypeLabel = doc.categoryName === "Assets Liabilities"
+                                   ? (doc.assestType === 1 ? "Local" : "Foreign")  : "";
+                                      const displayName = doc.originalName?.trim() || doc.assetNote;
+                                const row = `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                           <td>${displayName || ""}</td>
+                                          <td>${doc.categoryName}</td>
+                                           <td>${doc.assetCategory || "NA"}</td>
+                                               <td>${assetTypeLabel || "NA"}</td>
+                                           <td class="no-wrap">${uploadDate}</td>
+                                        
+                                    </tr>
+                                `;
+                                tbody.append(row);
+                            });
+                        } else {
+                            $("#uploadedDeclarationDocs").hide();
+                        }
+
+                    } catch (err) {
+                        console.error("Error loading declaration docs:", err);
+                        alert("An error occurred while fetching declaration documents.");
+                    }
+                }
+
+                  //page load
+             document.addEventListener("DOMContentLoaded", function () {
+                  const userId = '@User.FindFirst("UserID")?.Value';
+                 loadUploadedDocs(userId,'T10');
+                 toggleManualTab('local');
+                 const docStatus = document.getElementById("docUploadStatus")?.value;
+
+                  if (docStatus === "2") {
+
+                        document.querySelectorAll('.submit-btn').forEach(btn => {
+                            btn.disabled = true;
+                            btn.title = "Disabled after submission";                        
+                         });
+                         document.getElementById("status-badge-2024").innerText = "SUBMITTED";
+                         document.getElementById("status-badge-2024").className = "badge bg-success";
+                         const acceptCheckbox = document.getElementById("acceptDeclaration");
+                         acceptCheckbox.checked = true;
+                           acceptCheckbox.disabled = true;
+                  }
+
+                 const message = '@TempData["SuccessMessage"]';
+                if (message) {
+                    alert(message); // You can use SweetAlert or Bootstrap Toast instead of `alert`
+
+                    // Optional: Scroll to a specific section
+                  // const target = document.getElementById("assets-section");
+                  //   if (target) {
+                  //       target.scrollIntoView({ behavior: 'smooth' });
+                  //   }
+                        showPanel("assets-section");
+                }
+
+                const radioExcel = document.getElementById("optionExcel");
+                const radioManual = document.getElementById("optionManual");
+                const excelSection = document.getElementById("excelUploadSection");
+                const manualSection = document.getElementById("manualTableSection");
+                  
+                function toggleInputMode() {
+                        if (radioExcel.checked) {
+                            excelSection.style.display = "block";
+                            manualSection.style.display = "none";
+                        } else {
+                            excelSection.style.display = "none";
+                            manualSection.style.display = "block";
+                        }
+                }
+
+                     radioExcel.addEventListener("change", toggleInputMode);
+                     radioManual.addEventListener("change", toggleInputMode);
+                      toggleInputMode(); // on load
+
+                  const firstLink = document.querySelector(".sidebar-link[data-target]");
+                 if (firstLink) {
+                     const firstTarget = firstLink.getAttribute("data-target");
+                    // const firstButton = buttons[0];
+                     showPanel(firstTarget);
+                     selectedCategoryName = 'T10'; //firstButton.innerText.trim();
+                 }
+
+                 const startBtn = document.getElementById("start-btn");
+                 if (startBtn) {
+                     startBtn.addEventListener("click", function () {
+                         showPanel("documents-section");
+                     });
+                 }
+
+                 const  nextBtn= document.getElementById("btnNext");
+                 if (nextBtn) {
+                     nextBtn.addEventListener("click", function () {
+                         showPanel("bank-section");
+                        loadUploadedDocs(userId,'Bank Confirmation');
+                     });
+                 }
+
+                 const  nextAssestBtn= document.getElementById("btnAssestsNext");
+                 if (nextAssestBtn) {
+                     nextAssestBtn.addEventListener("click", function () {
+                         showPanel("assets-section");
+                              loadExcelAssestsUploadedFiles(userId);
+                             loadAssestsUploadedFiles(userId);
+
+                     });
+                 }
+
+                 const  nextOtherBtn= document.getElementById("btnOtherNext");
+                 if (nextOtherBtn) {
+                     nextOtherBtn.addEventListener("click", function () {
+                         showPanel("other-section");
+                         loadUploadedDocs(userId,'Other Documents');
+                     });
+                 }
+
+                 const  nextDeclareBtn= document.getElementById("btnDeclareNext");
+                 if (nextDeclareBtn) {
+                     nextDeclareBtn.addEventListener("click", function () {
+                         showPanel("declaration-section");
+                         loadDeclarationDocs(userId) ;
+
+                     });
+                 }
+
+                 const uploadDocBtn = document.getElementById("uploadDoc-btn");
+                 if (uploadDocBtn) {
+                     uploadDocBtn.addEventListener("click", function () {
+                         showPanel("employment-section");
+                         const documentsSubmenu = document.getElementById("documents-submenu");
+                         if (documentsSubmenu && documentsSubmenu.classList.contains("collapse")) {
+                             documentsSubmenu.classList.add("show");
+                         }
+                     });
+                 }
+
+                 // Activate tab from URL parameter
+                 const urlParams = new URLSearchParams(window.location.search);
+                 const section = urlParams.get("section");
+                     if (section) {
+                         
+                         if (section === "assets") {
+                            const manualOption = document.getElementById("optionManual");
+                            if (manualOption) {
+                                    manualOption.checked = true;
+                                   toggleInputMode();
+                                   // document.querySelector('label[for="optionManual"]')?.classList.add("active");
+                                   //document.querySelector('label[for="optionExcel"]')?.classList.remove("active");
+                               }
+                        }
+                        showPanel(`${section}-section`);
+                     } else {
+                         showPanel("dashboard-section"); // default
+                     }
+                 });
+
+                  submitBtn.addEventListener("click", async function () {
+
+                     if (!selectedFile || !selectedCategoryName) return;
+
+                     try {
+                         // 1. Upload to external API
+                         const formData = new FormData();
+                         formData.append("file", selectedFile); // key should match external API
+
+                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                             method: "POST",
+                             body: formData
+                         });
+
+                         if (!uploadRes.ok) throw new Error("External upload failed");
+
+                         const uploadResult = await uploadRes.json();
+
+                         if (!uploadResult.success || !uploadResult.data) {
+                             throw new Error("Upload failed: " + uploadResult.message);
+                         }
+
+                         const data = uploadResult.data;
+
+                         // 2. Call your internal API to save metadata
+                         const saveResponse = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/SaveUploadedDocs`, {
+                             method: "POST",
+                             headers: { "Content-Type": "application/json" },
+                             body: JSON.stringify({
+                                 userId: '@userId',
+                                 categoryName: selectedCategoryName,
+                                 uploadedFileName: data.originalName,
+                                 fileName: data.filename,
+                                 location: data.location,
+                                 uploadTime: data.uploadTime,
+                                 decryptionKey: data.decryptionKey,
+                                 uploadId: data.uploadId,
+                                 originalName: data.originalName,
+                                  // Optional fields based on category
+                                 t10EmployerName: document.getElementById("T10EmployerName")?.value || null,
+                                 terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
+                                 anyOtherType: document.getElementById("AnyOtherType")?.value || null,
+                                 bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
+                                 bankName: document.getElementById("BankName")?.value || null,
+                                 otherDocumentName: document.getElementById("otherDocName")?.value || null
+                             })
+                         });
+
+                         if (!saveResponse.ok) throw new Error("Failed to save metadata");
+
+                         const saveResult = await saveResponse.json();
+                         const userUploadId = saveResult.userUploadId;
+                         showMessage("File Submitted successfully!", "success");
+                        // alert("File submitted successfully!");
+
+                         // Optional: add to table UI
+                         const documentsTable = document.getElementById("documentsTableBody");
+                         const fileSizeKB = (selectedFile.size / 1024).toFixed(2); // Convert bytes to KB
+                         document.getElementById("uploadedDocs").style.display = "block";
+                         let employmentValue = "";
+                         let bankConfirmationType = "";
+                         let bankName = "";
+
+                           if (selectedCategoryName === "T10") {
+                                      employmentValue = document.getElementById("T10EmployerName")?.value || null;
+                            } else if (selectedCategoryName === "Terminal Benefit") {
+                                   employmentValue = document.getElementById("TerminalEmployerName")?.value || null;
+                            } else {
+                                      employmentValue = document.getElementById("otherDocName")?.value || null;
+                            }
+
+                            employmentValue = employmentValue ?? "";
+                            bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
+                            bankName= document.getElementById("BankName")?.value || "";
+
+                         const row = document.createElement("tr");
+                         row.innerHTML = `
+                                <td>${data.originalName}</td>
+                                 <td>${selectedCategoryName}</td>                                         
+                                 <td class="col-employer-name d-none">${employmentValue}</td>
+                                  <td class="col-confirmation-type d-none">${bankConfirmationType}</td>
+                                      <td class="col-bank-name d-none">${bankName}</td>
+                             <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
+                             <td>
+                                 <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
+                                    <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}')">Delete</button>
+                             </td>`;
+
+                         documentsTable.appendChild(row);
+
+                         loadUploadedDocs(userId,selectedCategoryName);
+                         // Reset UI
+                         selectedFile = null;
+                          const fileInput = document.getElementById("fileInput");
+                          if (fileInput) fileInput.value = "";
+                             const fileInputTerminal = document.getElementById("fileInputTerminal");
+                             if (fileInputTerminal) fileInputTerminal.value = "";
+                          const fileInputAnyOther = document.getElementById("fileInputAnyOther");
+                             if (fileInputAnyOther) fileInputAnyOther.value = "";
+           
+                          let el;
+                        (el = document.getElementById("T10EmployerName")) && (el.value = "");
+                           (el = document.getElementById("TerminalEmployerName")) && (el.value = "");
+                        (el = document.getElementById("AnyOtherType")) && (el.selectedIndex = 0);
+                         //document.getElementById("file-name").textContent = "";
+                         //document.getElementById("submitBtn").style.display = "none";
+
+                     } catch (err) {
+                         console.error(err);
+                         alert("Upload failed: " + err.message);
+                     }
+                 });
+
+                 submitBankBtn.addEventListener("click", async function () {
+
+                     if (!selectedFile || !selectedCategoryName) return;
+
+                     try {
+                         // 1. Upload to external API
+                         const formData = new FormData();
+                         formData.append("file", selectedFile); // key should match external API
+
+                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                             method: "POST",
+                             body: formData
+                         });
+
+                         if (!uploadRes.ok) throw new Error("External upload failed");
+
+                         const uploadResult = await uploadRes.json();
+
+                         if (!uploadResult.success || !uploadResult.data) {
+                             throw new Error("Upload failed: " + uploadResult.message);
+                         }
+
+                         const data = uploadResult.data;
+
+                         // 2. Call your internal API to save metadata
+                         const saveResponse = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/SaveUploadedDocs`, {
+                             method: "POST",
+                             headers: { "Content-Type": "application/json" },
+                             body: JSON.stringify({
+                                 userId: '@userId',
+                                 categoryName: selectedCategoryName,
+                                 uploadedFileName: data.originalName,
+                                 fileName: data.filename,
+                                 location: data.location,
+                                 uploadTime: data.uploadTime,
+                                 decryptionKey: data.decryptionKey,
+                                 uploadId: data.uploadId,
+                                 originalName: data.originalName,
+                                  // Optional fields based on category
+                                 t10EmployerName: document.getElementById("T10EmployerName")?.value || null,
+                                 terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
+                                 anyOtherType: document.getElementById("AnyOtherType")?.value || null,
+                                 bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
+                                 bankName: document.getElementById("BankName")?.value || null,
+                                 otherDocumentName: document.getElementById("otherDocName")?.value || null
+                             })
+                         });
+
+                         if (!saveResponse.ok) throw new Error("Failed to save metadata");
+
+                         const saveResult = await saveResponse.json();
+                         const userUploadId = saveResult.userUploadId;
+                          showMessage("File Submitted successfully!", "success");
+                         //alert("File submitted successfully!");
+
+                         // Optional: add to table UI
+                         const documentsTable = document.getElementById("documentsTableBankBody");
+                         const fileSizeKB = (selectedFile.size / 1024).toFixed(2); // Convert bytes to KB
+                         document.getElementById("uploadedBankDocs").style.display = "block";
+
+                            let employmentValue = "";
+                            let bankConfirmationType = "";
+                            let bankName = "";
+
+                              if (selectedCategoryName === "T10") {
+                                         employmentValue = document.getElementById("T10EmployerName")?.value || null;
+                               } else if (selectedCategoryName === "Terminal Benefit") {
+                                      employmentValue = document.getElementById("TerminalEmployerName")?.value || null;
+                               } else {
+                                         employmentValue = document.getElementById("otherDocName")?.value || null;
+                               }
+
+                               employmentValue = employmentValue ?? "";
+                               bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
+                               bankName= document.getElementById("BankName")?.value || "";
+
+                         const row = document.createElement("tr");
+                         row.innerHTML = `
+                             <td>${data.originalName}</td>
+                                <td>${selectedCategoryName}</td>
+                                <td class="col-employer-name d-none">${employmentValue}</td>
+                             <td class="col-confirmation-type d-none">${bankConfirmationType}</td>
+                            <td class="col-bank-name d-none">${bankName}</td>
+                             <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
+                             <td>
+                                 <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
+                                    <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}')">Delete</button>
+                             </td>`;
+
+                         documentsTable.appendChild(row);
+                         
+                         loadUploadedDocs(userId,selectedCategoryName);
+                         // Reset UI
+                         selectedFile = null;
+                         document.getElementById("BankConfirmationType").selectedIndex = 0;
+                         document.getElementById("BankName").value = "";
+                         document.getElementById("fileInputBank").value = "";
+                         //document.getElementById("file-name").textContent = "";
+                         //document.getElementById("submitBtn").style.display = "none";
+
+                     } catch (err) {
+                         console.error(err);
+                         alert("Upload failed: " + err.message);
+                     }
+                 });
+
+              submitExcelBtn.addEventListener("click", async function () {
+
+                    const fileInput = document.getElementById('assetsExcelFile');
+                    const selectedFile = fileInput.files[0];
+                    const selected = document.querySelector('input[name="assetInputOption"]:checked');
+
+                    if (!selectedFile) {
+                        alert("Please select a file before submitting.");
+                        return;
+                    }
+
+                        try {
+
+                            // 1. Upload to external API
+                            const formData = new FormData();
+                            formData.append("file", selectedFile); // key should match external API
+
+                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                                method: "POST",
+                                body: formData
+                            });
+
+                            if (!uploadRes.ok) throw new Error("External upload failed");
+
+                            const uploadResult = await uploadRes.json();
+
+                            if (!uploadResult.success || !uploadResult.data) {
+                                throw new Error("Upload failed: " + uploadResult.message);
+                            }
+
+                            const data = uploadResult.data;
+                            // 2. Call your internal API to save metadata
+                            const saveResponse = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/SaveUploadedDocs`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    userId: '@userId',
+                                     categoryName: 'Assests Upload Excel',
+                                    uploadedFileName: data.originalName,
+                                    fileName: data.filename,
+                                    location: data.location,
+                                    uploadTime: data.uploadTime,
+                                    decryptionKey: data.decryptionKey,
+                                    uploadId: data.uploadId,
+                                    originalName: data.originalName,
+                                     // Optional fields based on category
+                                    t10EmployerName: document.getElementById("T10EmployerName")?.value || null,
+                                    terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
+                                    anyOtherType: document.getElementById("AnyOtherType")?.value || null,
+                                    bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
+                                    bankName: document.getElementById("BankName")?.value || null,
+                                    otherDocumentName: document.getElementById("otherDocName")?.value || null,
+                                    assestOptionType:selected.value,
+                                    AssestsUploadExcelSheetName: data.originalName
+                                })
+                            });
+
+                            if (!saveResponse.ok) throw new Error("Failed to save metadata");
+
+                            const saveResult = await saveResponse.json();
+                            const userUploadId = saveResult.userUploadId;
+                             showMessage("File Submitted successfully!", "success");
+                             loadExcelAssestsUploadedFiles(userId);
+                            //alert("File submitted successfully!");
+
+                            // // Optional: add to table UI
+                            // const documentsTable = document.getElementById("documentsTableOtherBody");
+                            // const fileSizeKB = (selectedFile.size / 1024).toFixed(2); // Convert bytes to KB
+                            // document.getElementById("uploadedOtherDocs").style.display = "block";
+
+                            // const row = document.createElement("tr");
+                            // row.innerHTML = `
+                            //     <td>${data.originalName}</td>
+
+                            //     <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
+                            //     <td>
+                            //         <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
+                            //         <button class="btn btn-danger btn-sm" onclick="showDeleteConfirm('${userUploadId}')">Delete</button>
+                            //     </td>`;
+
+                            // documentsTable.appendChild(row);
+
+                            // loadUploadedDocs(userId,selectedCategoryName);
+                            // // Reset UI
+                            // selectedFile = null;
+                        document.getElementById("assetsExcelFile").value = ""; // clear file input
+                        document.getElementById("uploadedFileName").textContent = ""; // clear filename
+                                        //document.getElementById("file-name").textContent = "";
+                            //document.getElementById("submitBtn").style.display = "none";
+
+                        } catch (err) {
+                            console.error(err);
+                            alert("Upload failed: " + err.message);
+                        }
+                    });
+
+
+                 submitOtherBtn.addEventListener("click", async function () {
+
+                     if (!selectedFile || !selectedCategoryName) return;
+
+                     try {
+
+                         // 1. Upload to external API
+                         const formData = new FormData();
+                         formData.append("file", selectedFile); // key should match external API
+
+                         const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                             method: "POST",
+                             body: formData
+                         });
+
+                         if (!uploadRes.ok) throw new Error("External upload failed");
+
+                         const uploadResult = await uploadRes.json();
+
+                         if (!uploadResult.success || !uploadResult.data) {
+                             throw new Error("Upload failed: " + uploadResult.message);
+                         }
+
+                         const data = uploadResult.data;
+                         // 2. Call your internal API to save metadata
+                         const saveResponse = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/SaveUploadedDocs`, {
+                             method: "POST",
+                             headers: { "Content-Type": "application/json" },
+                             body: JSON.stringify({
+                                 userId: '@userId',
+                                 categoryName: selectedCategoryName,
+                                 uploadedFileName: data.originalName,
+                                 fileName: data.filename,
+                                 location: data.location,
+                                 uploadTime: data.uploadTime,
+                                 decryptionKey: data.decryptionKey,
+                                 uploadId: data.uploadId,
+                                 originalName: data.originalName,
+                                  // Optional fields based on category
+                                 t10EmployerName: document.getElementById("T10EmployerName")?.value || null,
+                                 terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
+                                 anyOtherType: document.getElementById("AnyOtherType")?.value || null,
+                                 bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
+                                 bankName: document.getElementById("BankName")?.value || null,
+                                 otherDocumentName: document.getElementById("otherDocName")?.value || null
+                             })
+                         });
+
+                         if (!saveResponse.ok) throw new Error("Failed to save metadata");
+
+                         const saveResult = await saveResponse.json();
+                         const userUploadId = saveResult.userUploadId;
+                         showMessage("File Submitted successfully!", "success");
+                        // alert("File submitted successfully!");
+
+                         // Optional: add to table UI
+                         const documentsTable = document.getElementById("documentsTableOtherBody");
+                         const fileSizeKB = (selectedFile.size / 1024).toFixed(2); // Convert bytes to KB
+                         document.getElementById("uploadedOtherDocs").style.display = "block";
+
+                            let employmentValue = "";
+                            let bankConfirmationType = "";
+                            let bankName = "";
+
+                              if (selectedCategoryName === "T10") {
+                                         employmentValue = document.getElementById("T10EmployerName")?.value || null;
+                               } else if (selectedCategoryName === "Terminal Benefit") {
+                                      employmentValue = document.getElementById("TerminalEmployerName")?.value || null;
+                               } else {
+                                         employmentValue = document.getElementById("otherDocName")?.value || null;
+                               }
+
+                               employmentValue = employmentValue ?? "";
+                               bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
+                               bankName= document.getElementById("BankName")?.value || "";
+
+                         const row = document.createElement("tr");
+                         row.innerHTML = `
+                             <td>${data.originalName}</td>
+                                <td>${selectedCategoryName}</td>
+                                <td class="col-employer-name d-none">${employmentValue}</td>
+                                <td class="col-confirmation-type d-none">${bankConfirmationType}</td>
+                                <td class="col-bank-name d-none">${bankName}</td>
+                             <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
+                             <td>
+                                 <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
+                                    <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}')">Delete</button>
+                             </td>`;
+
+                         documentsTable.appendChild(row);
+
+                         loadUploadedDocs(userId,selectedCategoryName);
+                         // Reset UI
+                         selectedFile = null;
+                         document.getElementById("otherDocName").value = "";
+                         document.getElementById("fileInputOther").value = "";
+                         //document.getElementById("file-name").textContent = "";
+                         //document.getElementById("submitBtn").style.display = "none";
+
+                     } catch (err) {
+                         console.error(err);
+                         alert("Upload failed: " + err.message);
+                     }
+                 });
+
+
+            </script>
+        </div>
+
+    </section>
+    <!-- /File my taxes -->
+
+</main>

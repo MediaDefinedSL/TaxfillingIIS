@@ -1,0 +1,242 @@
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text.Json;
+using System.Web.WebPages;
+using TaxFiling.Web.Models;
+using TaxFiling.Web.Models.Auth;
+using TaxFiling.Web.Models.Common;
+using TaxFiling.Web.Models.User;
+
+namespace TaxFiling.Web.Controllers;
+
+public sealed class AccountController : Controller
+{
+    public readonly IConfiguration _configuration;
+    public readonly IHttpClientFactory _httpClientFactory;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private readonly HttpClient _httpClient;
+
+    private readonly string _baseApiUrl;
+
+    public AccountController(IConfiguration configuration, IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializerOptions)
+    {
+        _configuration = configuration;
+        _httpClientFactory = httpClientFactory;
+        _jsonSerializerOptions = jsonSerializerOptions;
+        _httpClient = httpClientFactory.CreateClient("ApiClient");
+        _baseApiUrl = _configuration.GetValue<string>("BaseAPIUrl") ?? string.Empty;
+    }
+
+    #region Login...
+
+    [HttpGet]
+    public IActionResult Login(string returnUrl)
+    {
+        ViewBag.returnUrl = returnUrl;
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Register(string returnUrl)
+    {
+        ViewBag.returnUrl = returnUrl;
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UserRegister([FromBody] UserViewModel user)
+    {
+        bool isFirstName = ModelState.ContainsKey("FirstName") && !ModelState["FirstName"].Errors.Any();
+        if (user.FirstName == null )
+        {
+           
+            return View("Register" ,user);
+        }
+        var responseResult = new ResponseResult<object>();
+
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.PostAsJsonAsync($"{_baseApiUrl}api/users/add", user);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            if (responseContent is not null)
+            {
+                responseResult = JsonSerializer.Deserialize<ResponseResult<object>>(responseContent, _jsonSerializerOptions);
+            }
+        }
+        return Json(new { responseResult });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SignIn([FromBody]  LoginModel loginModel)
+    {
+        if (string.IsNullOrEmpty(loginModel.Username))
+        {
+            return Json(new { Message = "User name cannot be blank" });
+        }
+        if (string.IsNullOrEmpty(loginModel.Password))
+        {
+            return Json(new { Message = "Password cannot be blank" });
+        }
+
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.PostAsJsonAsync($"{_baseApiUrl}api/auth/login", loginModel);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+        
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var tokenModel = JsonSerializer.Deserialize<TokenModel>(responseContent, options);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = Request.IsHttps
+            };
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(tokenModel?.AccessToken);
+
+            var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value ?? "0";
+            var firstName = jwtToken.Claims.FirstOrDefault(c => c.Type == "FirstName")?.Value ?? string.Empty;
+            var lastName = jwtToken.Claims.FirstOrDefault(c => c.Type == "LastName")?.Value ?? string.Empty;
+            var roleId = jwtToken.Claims.FirstOrDefault(c => c.Type == "RoleId")?.Value;
+            var isTin = jwtToken.Claims.FirstOrDefault(c => c.Type == "IsTin")?.Value ;
+            var isActivePayment = jwtToken.Claims.FirstOrDefault(c => c.Type == "IsActivePayment")?.Value;
+            var nicNo = jwtToken.Claims.FirstOrDefault(c => c.Type == "NICNO")?.Value ?? string.Empty;
+            var tinNo = jwtToken.Claims.FirstOrDefault(c => c.Type == "TinNo")?.Value ?? string.Empty;
+            var packageId = jwtToken.Claims.FirstOrDefault(c => c.Type == "PackageId")?.Value; 
+            var profileImagePath = jwtToken.Claims.FirstOrDefault(c => c.Type == "ProfileImagePath")?.Value ?? string.Empty;
+            var expClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "exp")?.Value;
+            var userUploadDocumentStatus = jwtToken.Claims.FirstOrDefault(c => c.Type == "UploadedDocumentStatus")?.Value ;
+
+
+            if (expClaim != null)
+            {
+                var expTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expClaim)).UtcDateTime;
+                Console.WriteLine($"Token expires at: {expTime}");
+            }
+
+            // Store the token in a secure cookie
+            Response.Cookies.Append("access_token", tokenModel?.AccessToken!, cookieOptions);
+            Response.Cookies.Append("refresh_token", tokenModel?.RefreshToken!, cookieOptions);
+
+            Response.Cookies.Append("userid", userId!, cookieOptions);
+
+            var fullname = firstName + " " + lastName;
+            var claims = new List<Claim> {
+                new (ClaimTypes.Name, fullname),
+                new Claim("UserID", userId ),
+                new Claim("IsTin", isTin ),
+                new Claim("IsActivePayment", isActivePayment ),
+                new Claim("PackageId", packageId ),
+                new Claim("RoleId", roleId ),
+                new Claim("ProfileImagePath", profileImagePath ),
+                new Claim("TinNo", tinNo),
+                new Claim("UserUploadDocStatus",userUploadDocumentStatus)
+            };
+
+        
+            var claimsIdentity = new ClaimsIdentity(claims, "AuthCookie");
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync("AuthCookie", claimsPrincipal);
+            ViewBag.UserId = userId;
+
+            if (roleId == "1")
+            {
+                return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/UserUploadTaxAssistedDoc/AdminDashboard" });
+            }
+            else if (isActivePayment== "1" && (!string.IsNullOrWhiteSpace(packageId) && !string.IsNullOrWhiteSpace(packageId)))
+            {
+                
+                 if (packageId == "1" || packageId == "4")
+                {
+                    return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/SelfOnlineFlow/SelfOnlineDashboard" });
+                }
+                    
+                //else if (packageId == "4")
+                    //return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/UserUploadTaxAssistedDoc" });
+
+                /*  if(roleId == "1") { 
+
+                  }
+                  else {
+                      //   return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/SelfOnlineFlow/SelfOnlineDashboard" }); UserUploadTaxAssistedDoc/AdminDashboard
+                      return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/UserUploadTaxAssistedDoc/AdminDashboard" });
+                  }*/
+
+            }
+            
+
+        else if (!string.IsNullOrWhiteSpace(nicNo) && !string.IsNullOrWhiteSpace(tinNo))
+            {
+                return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/Home/FileMyTaxes" });
+
+            }
+            else
+            {
+                return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/User/UserProfile?userId={userId}" });
+            }
+        }
+
+        return Json(new { success = false });
+    }
+
+    #endregion
+
+    #region Log Out...
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync("AuthCookie");
+
+        Response.Cookies.Delete("access_token");
+        Response.Cookies.Delete("refresh_token");
+        Response.Cookies.Delete("userId");
+
+        return RedirectToAction("Login");
+    }
+
+    #endregion
+
+
+
+    [HttpGet]
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateUserTinStatus([FromBody] UserTinStatus userTinStatus)
+    {
+        var responseResult = new ResponseResult<object>();
+
+        var queryParams = new Dictionary<string, string> {
+            { "userId", userTinStatus.UserId.ToString() },
+            { "tinStatus", userTinStatus.TinStatus.ToString() }
+        };
+
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.PutAsJsonAsync($"{_baseApiUrl}api/users/updatetinstatus", queryParams);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            if (responseContent is not null)
+            {
+                responseResult = JsonSerializer.Deserialize<ResponseResult<object>>(responseContent, _jsonSerializerOptions);
+            }
+        }
+        return Json(new { responseResult });
+
+    }
+}
+

@@ -1,0 +1,371 @@
+:root {
+    --sidebar-width: 280px;
+    --sidebar-width-collapsed: 80px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+#Self-Online-Flow .sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1c2e 0%, #16181f 100%);
+    transition: all 0.3s ease;
+}
+
+    #Self-Online-Flow .sidebar.collapsed {
+        width: var(--sidebar-width-collapsed);
+    }
+
+#Self-Online-Flow .sidebar-link {
+    color: #a0a3bd;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: 4px 16px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+    #Self-Online-Flow .sidebar-link:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
+
+    #Self-Online-Flow .sidebar-link.active {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+#Self-Online-Flow .logo-text {
+    background: linear-gradient(45deg, #6b8cff, #8b9fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: opacity 0.3s ease;
+}
+
+#Self-Online-Flow .notification-badge {
+    background: #ff6b6b;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+}
+
+#Self-Online-Flow .profile-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#Self-Online-Flow .main-content {
+    margin-left: var(--sidebar-width);
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+#Self-Online-Flow .collapsed ~ .main-content {
+    margin-left: var(--sidebar-width-collapsed);
+    z-index: 9999 !important;
+    position: relative;
+}
+
+#Self-Online-Flow .toggle-btn {
+    position: absolute;
+    right: -15px;
+    top: 20px;
+    background: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#Self-Online-Flow .collapsed .toggle-btn {
+    transform: rotate(180deg);
+    z-index: 99999999;
+}
+
+#Self-Online-Flow .collapsed .hide-on-collapse {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#Self-Online-Flow .collapsed .logo-text {
+    opacity: 0;
+}
+
+#Self-Online-Flow .collapsed .profile-info {
+    opacity: 0;
+}
+
+#Self-Online-Flow .collapsed .sidebar-link {
+    text-align: center;
+    padding: 1rem !important;
+    margin: 4px 8px;
+}
+
+    #Self-Online-Flow .collapsed .sidebar-link i {
+        margin: 0 !important;
+    }
+
+#Self-Online-Flow .profile-info {
+    transition: opacity 0.2s ease;
+}
+
+#Self-Online-Flow nav.sidebar.d-flex.flex-column.flex-shrink-0 {
+    position: absolute !important;
+}
+
+section#Self-Online-Flow {
+    padding: 0px;
+}
+
+#Self-Online-Flow .profile-section.mt-auto.p-4 {
+    display: none;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+#Self-Online-Flow .dropdown-container {
+    display: none;
+    background-color: #262626;
+    padding-left: 8px;
+}
+
+#Self-Online-Flow button.dropdown-btn.sidebar-link.text-decoration-none.p-3.active {
+    border: none;
+}
+
+#Self-Online-Flow button.dropdown-btn.sidebar-link.text-decoration-none.p-3 {
+    border: none;
+    background-color: #30313d !important;
+    color: #fff !important;
+    text-align: left;
+}
+
+#Self-Online-Flow i.fa.fa-caret-down {
+    float: right;
+}
+
+
+#Self-Online-Flow .dropdown-container a {
+    display: block;
+    background: none !important;
+    padding: 10px;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: 4px 16px;
+    color: #fff;
+}
+
+#Self-Online-Flow .dropdown-container {
+    background: none !important;
+}
+
+    #Self-Online-Flow .dropdown-container a:hover {
+        background-color: #30313d !important;
+    }
+
+#Self-Online-Flow .collapsed button.dropdown-btn.sidebar-link.text-decoration-none.p-3 {
+    font-size: 0px;
+    z-index: 1;
+    padding-left: 19px !important;
+}
+
+    #Self-Online-Flow .collapsed button.dropdown-btn.sidebar-link.text-decoration-none.p-3 .fa {
+        font-size: 26px !important;
+        float: left;
+    }
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+#Self-Online-Flow #payment-method-Form .form-header {
+    gap: 5px;
+    text-align: center;
+    font-size: .9em;
+}
+
+    #Self-Online-Flow #payment-method-Form .form-header .stepIndicator {
+        position: relative;
+        flex: 1;
+        padding-bottom: 30px;
+        font-weight: 600;
+    }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator.active {
+            font-weight: 600;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator.finish {
+            font-weight: 600;
+            color: #009688;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            z-index: 9;
+            width: 20px;
+            height: 20px;
+            background-color: #89cbff;
+            border-radius: 50%;
+            border: 3px solid #ecf5f4;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator.active::before {
+            background-color: #a7ede8;
+            border: 3px solid #d5f9f6;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator.finish::before {
+            background-color: #009688;
+            border: 3px solid #b7e1dd;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 8px;
+            width: 100%;
+            height: 3px;
+            background-color: #f3f3f3;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator.active::after {
+            background-color: #a7ede8;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator.finish::after {
+            background-color: #009688;
+        }
+
+        #Self-Online-Flow #payment-method-Form .form-header .stepIndicator:last-child:after {
+            display: none;
+        }
+
+#Self-Online-Flow #payment-method-Form input {
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 1em;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+}
+
+    #Self-Online-Flow #payment-method-Form input:focus {
+        border: 1px solid #009688;
+        outline: 0;
+    }
+
+    #Self-Online-Flow #payment-method-Form input.invalid {
+        border: 1px solid #ffaba5;
+    }
+
+#Self-Online-Flow #payment-method-Form .step {
+    display: none;
+}
+
+#Self-Online-Flow #payment-method-Form .form-footer {
+    overflow: auto;
+    gap: 20px;
+}
+
+    #Self-Online-Flow #payment-method-Form .form-footer button {
+        background-color: #009688;
+        border: 1px solid #009688 !important;
+        color: #ffffff;
+        border: none;
+        padding: 13px 30px;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 5px;
+        flex: 1;
+        margin-top: 5px;
+    }
+
+        #Self-Online-Flow #payment-method-Form .form-footer button:hover {
+            opacity: 0.8;
+        }
+
+    #Self-Online-Flow #payment-method-Form .form-footer #prevBtn {
+        background-color: #fff;
+        color: #009688;
+    }
+
+#Self-Online-Flow .box-layout {
+    border: solid 2px #2196f3;
+    border-radius: 8px;
+    height: 117px;
+    vertical-align: middle !important;
+}
+
+    #Self-Online-Flow .box-layout h6 {
+        vertical-align: middle !important;
+        font-weight: 700;
+        position: relative;
+        margin-top: 46px;
+    }
+
+#Self-Online-Flow #payment-method-Form .form-header .stepIndicator {
+    word-break: break-word;
+    white-space: pre-line;
+    word-wrap: break-word;
+    width: 166px !important;
+    display: block !important;
+    max-width: 200pc !important;
+    padding-bottom: 44px;
+}
+
+    #Self-Online-Flow #payment-method-Form .form-header .stepIndicator:first-child:before {
+        border-color: #0d6efd !important;
+        border: 4px solid;
+        width: 28px;
+        height: 28px;
+    }
+
+    #Self-Online-Flow #payment-method-Form .form-header .stepIndicator::before {
+        border-size: 4px;
+        width: 28px;
+        height: 28px;
+    }
+
+    #Self-Online-Flow #payment-method-Form .form-header .stepIndicator::after {
+        bottom: 12px;
+        height: 4px;
+        background-color: #e9e9e9;
+    }
+
+#Self-Online-Flow .collapsed ~ .main-content {
+    margin-left: var(--sidebar-width-collapsed);
+    z-index: 9999 !important;
+    position: relative;
+}
+
+#Self-Online-Flow .collapsed + div .main-content {
+    margin-left: 80px;
+    z-index: 999999;
+    position: relative;
+}
+
+#Self-Online-Flow .collapsed button.dropdown-btn.sidebar-link.text-decoration-none.p-3 {
+    width: 100%;
+    z-index: 1 !important;
+    padding-left: 13px !important;
+}
+
+#Self-Online-Flow .collapsed button.dropdown-btn.sidebar-link.text-decoration-none i {
+    font-size: 22px;
+}

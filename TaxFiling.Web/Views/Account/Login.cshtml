@@ -1,0 +1,55 @@
+﻿
+<main class="main">
+
+    <section id="Sign-in" class="Sign-in-section">
+
+        <div class="container col-sm-3 shadow p-5 mb-5 bg-white rounded Sign-in-col">
+            <div class="row">
+
+                <div class=" text-black">
+
+                    <div class="d-flex align-items-center h-custom-2  pt-xl-0 mt-xl-n5 ">
+
+                        <form id="frmLogin" style="width: 23rem;">
+
+                            <h3 class=" mb-6 pb-3 fw-bold" style="letter-spacing: 1px;text-align: center;">Sign in to Tax Filing</h3>
+
+                            <div data-mdb-input-init="" class="form-outline mb-4">
+                                <label class="form-label" for="form2Example18">Email address</label>
+                                <input type="email" id="Username" name="Username" class="form-control form-control-lg">
+
+                            </div>
+
+                            <div data-mdb-input-init="" class="form-outline mb-4">
+                                <label class="form-label" for="form2Example28">Password</label>
+                                <input type="password" id="Password" name="Password" class="form-control form-control-lg">
+
+                            </div>
+
+                            <div class="pt-1 mb-4">
+                                <button data-mdb-button-init="" data-mdb-ripple-init="" class=" form-control btn btn-primary" type="button"><a id="btnSignIn" class="d-block">Login</a></button>
+                           
+                            </div>
+
+                            <p class=" pb-sm-0">I forgot my <a class="text-muted link-info" href="#!"> username</a> or<a class="text-muted link-info" href="#!"> password</a></p>
+                            <p>I'm new. <a asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewBag.returnUrl" class="link-info">I want to create an account</a></p>
+                            @* <input type="hidden" name="ReturnUrl" value="@Context.Request.Query[" returnurl"]"=""> *@
+                            <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.returnUrl">
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <div class="hero-video">
+<video id="heroVideo" src="https://v6.netexam.com/Courses6/10229/SharableResources/13949/6_19_2025_3_06_36_AM/pexels-tima-miroshnichenko-6699594.mp4" autoplay="" muted="" loop="" playsinline="" poster="src/img/hero/bg.jpg"></video>
+</div><!-- /Sign in Section -->
+
+</main>
+
+<script src="~/scripts/login.js" asp-append-version="true"></script>

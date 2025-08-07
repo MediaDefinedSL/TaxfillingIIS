@@ -1,0 +1,99 @@
+﻿@model TaxFiling.Web.Models.SelfOnlineFlowPersonalInformation
+
+<main class="main-content">
+    <div class="container-fluid">
+
+        <div class="text-center">
+            <h2>Summary</h2><br>
+        </div>
+
+        <h4> Personal Information</h4><br>
+
+        <div class=" mt-4">
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h6 class="fw-semibold text-dark mb-2">TaxPayer(s)</h6>
+                <p class="mb-1 small">@ViewBag.TaxPayerName</p>
+            </div>
+        
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h6 class="fw-semibold text-dark mb-2">Marital Status</h6>
+                <p class="mb-1 small">@ViewBag.MaritalStatusName</p>
+            </div>
+       
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h6 class="fw-semibold text-dark mb-2">Last Year</h6>
+                <p class="mb-1 small">@ViewBag.LastyearsName</p>
+            </div>
+        </div>
+
+        <div class=" mt-4">
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5> <i class="bi bi-person-vcard" style="font-size: 1rem;"></i> Your Identification</h5><br>
+                <div class="row">
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">First name</h6>
+                        <label class="form-control">@Model.FirstName </label> 
+                    </div>
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Middle Name</h6>
+                        <label class="form-control">@Model.MiddleName </label>
+                    </div>
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Last Name</h6>
+                        <label class="form-control">@Model.LastName </label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Date of birth</h6>
+                        <label class="form-control">@Model.DateOfBirth </label>
+                    </div>
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Tax Identification Number</h6>
+                        <label class="form-control">@Model.TaxNumber </label>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+        <div class=" mt-4">
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5> <i class="bi bi-mailbox" style="font-size: 1rem;"></i> Your Contact infromation</h5><br>
+                <div class="row">
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Care of </h6>
+                        <label class="form-control">@Model.CareOf </label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Apt</h6>
+                        <label class="form-control">@Model.Apt </label>
+                    </div>
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Street number</h6>
+                        <label class="form-control">@Model.StreetNumber </label>
+                    </div>
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Street</h6>
+                        <label class="form-control">@Model.Street </label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">City </h6>
+                        <label class="form-control">@Model.City </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+

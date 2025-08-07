@@ -1,0 +1,116 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+@model List<TaxFiling.Web.Models.PackagesViewModel>
+@{
+      var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+      var  userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+        bool isAuthenticated = !string.IsNullOrEmpty(userId);
+   
+}
+
+@functions {
+    public IHtmlContent PayNowButton(string package, int packageId,  bool isAuthenticated)
+    {
+        if (isAuthenticated)
+        {
+            return new HtmlString($@"<a class='btn btn-primary' href='/Payment/PackagePayment?packageId={packageId}'>Pay Now</a>");
+        }
+        else
+        {
+            string encodedPackage = Uri.EscapeDataString(package);
+            string returnUrl = $"/Payment/PackagePayment?packageId={packageId}";
+            return new HtmlString($@"<a class='btn btn-primary' href='/Account/Login?returnUrl={returnUrl}'>Pay Now</a>");
+        }
+    }
+}
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title accent-background" style="display:@(string.IsNullOrEmpty(userId) ? "none" : "block");">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <h2 class="mb-2 mb-lg-0 font-weight-bold">Assisted Filing</h2></br>
+                <h1 class="mb-2 mb-lg-0">Wellcome <span>@userName</span></h1>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <nav class="breadcrumbs">
+                    <ol>
+                        @* <li><a href="index.html">Home</a></li>
+                        <li class="current">Assisted Filing</li> *@
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div><!-- End Page Title -->
+    <!-- File my taxes Section -->
+    <section id="File-my-taxes" class="blog-posts section">
+
+        <div class="container">
+            <div class="row gy-4">
+                <input type="hidden" name="UserId" id="UserId" value=@userId />
+                <h2 class="mb-2 mb-lg-0 font-weight-bold text-center body-header ">
+                    Pick your package.</h4>
+                    <br>
+                    <br>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var packageses in Model)
+                        {
+                            <div class="col-lg-4 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
+                                <article class="position-relative h-100 rounded-md">
+
+                                    <div class="post-img position-relative overflow-hidden rounded-md-image">
+                                        <img src="@packageses.ImageUrl" class="img-fluid rounded-md-image" alt="">
+                                        <span class="post-date"><span>@packageses.Curancy</span> @packageses.Price</span>
+                                    </div>
+
+                                    <div class="post-content d-flex flex-column">
+
+                                        <h3 class="post-title">
+                                            @packageses.Name
+                                        </h3>
+
+                                        <div class="meta d-flex align-items-center d-none">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-person"></i> <span class="ps-2">John Doe</span>
+                                            </div>
+                                            <span class="px-3 text-black-50">/</span>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-folder2"></i> <span class="ps-2">Politics</span>
+                                            </div>
+                                        </div>
+                                        @Html.Raw(packageses.Description)
+
+
+                                        <hr>
+
+                                        @*  <button type="button" class="btn btn-primary" id="btnSelfEmployed">Pay Now</button> *@
+                                        @PayNowButton("SelfEmployed", @packageses.PackagesId, isAuthenticated)
+
+                                    </div>
+
+                                </article>
+                            </div>
+
+                            <!-- End File my taxes item -->
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <p>No taxpayers found.</p>
+                        </div>
+                    }
+
+
+            </div>
+        </div>
+
+    </section>
+    <!-- /File my taxes -->
+
+</main>
+
+<script src="~/scripts/taxassisted.js" asp-append-version="true"></script>
+                                    

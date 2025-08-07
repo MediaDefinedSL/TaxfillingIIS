@@ -1,0 +1,1590 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+
+@{
+    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+
+
+}
+<link href="~/assets/css/tree-container-css.css" rel="stylesheet">
+
+<main class="main-content">
+    <section class="blog-posts section Self-Online">
+        <div class=" mt-4">
+
+            <!-- Employment income  -->
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5 class="toggle-header text-warning collapsed" data-bs-toggle="collapse" data-bs-target="#collapseEmploymentIncome" aria-expanded="false">
+                    <span><i class="fas fa-folder-open me-2"></i> Employment Income </span>
+                    <i class="bi bi-caret-down-fill"></i>
+                </h5>
+                <div class="mt-2 collapse" id="collapseEmploymentIncome" style="">
+                    <div class="card card-body">
+                        <h4>Individual Income Tax - Schedule 1</h4>
+                        <hr>
+
+                        <form method="post">
+                            <h5 class=" mb-3">Part I - Details of employment income (Both local &amp; foreign)</h5>
+
+                            <div class="row mb-3 ps-4">
+                                <div class="col-sm-6">
+
+
+                                    <div class="row g-3 align-items-center pb-3">
+                                        <div class="col-md-3">
+                                            <label class="col-sm-7 col-form-label font-weight-bold">Residency</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" value="true"> Resident
+                                            </div>
+                                            <div class="form-check form-check-inline ">
+                                                <input class="form-check-input" type="checkbox" value="false"> Non-resident
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-sm-6">
+
+
+                                    <div class="row g-3 align-items-center pb-3">
+                                        <div class="col-md-3">
+                                            <label class="col-sm-10 col-form-label font-weight-bold">Senior Citizen</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr class="my-4">
+
+                            <div class=" mt-4 ">
+                                <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 ps-3 pe-3 pt-4">
+                                    <h5 class="mt-4 mb-3">Employment Details</h5>
+
+
+
+                                    <div class="row mb-3">
+
+                                        <div class="col-sm-6">
+
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label">Type of Employment</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select class="form-select">
+                                                        <option value="A">Primary</option>
+                                                        <option value="B">Secondary</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label">Employer/Company Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" name="TerminalEmployer">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><div class="row mb-3">
+
+                                        <div class="col-sm-6">
+
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label">TIN of Employer</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" maxlength="9">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label"></label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div class="row mb-3">
+
+                                        <div class="col-sm-6">
+
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label">Remuneration (Rs.)</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" maxlength="9">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label"></label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-3">
+
+                                        <div class="col-sm-6">
+
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label">APIT Paid on Primary Employment</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" maxlength="9">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label"></label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-3">
+
+                                        <div class="col-sm-6">
+
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label">APIT Paid on Secondary Employment</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" maxlength="9">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="row g-3 align-items-center pb-3">
+                                                <div class="col-md-6">
+                                                    <label class="col-form-label"></label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <!-- Left Column: Terminal Benefits -->
+
+                                <div class="col-md-6">
+                                    <div class="mt-4 ">
+                                        <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-4 ps-3 pe-3">
+                                            <h5 class=" mb-3">Terminal Benefits (Gratuity, ETF, EPF, Compensation)</h5>
+
+                                            <div class="row g-3 align-items-center pb-3">
+
+
+                                                <div class="col-md-5">
+                                                    <label class="col-form-label">Type of Terminal Benefit</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <select class="form-select">
+                                                        <option value="A">Primary</option>
+                                                        <option value="B">Secondary</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3 align-items-center pb-3">
+
+
+                                                <div class="col-md-5">
+                                                    <label class="col-form-label">Employer/Company Name</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3 align-items-center pb-3">
+
+
+                                                <div class="col-md-5">
+                                                    <label class="col-form-label">TIN of Employer</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class="form-control" maxlength="9">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row g-3 align-items-center pb-3 pt-5">
+
+                                                <div class="col-md-5">
+                                                    <label class="col-form-label">Terminal Benefits (Rs.)</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="number" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Right Column: Exempt Amounts -->
+                                <div class="col-md-6">
+                                    <div class="mt-4 ">
+                                        <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-5 ps-3 pe-3">
+                                            <h5 class=" mb-3">Part II - Exempt Amounts</h5>
+
+                                            <div class="row g-3 align-items-center pb-3">
+
+
+                                                <div class="col-md-5">
+                                                    <label class="col-form-label">Type of Exempt or Excluded Income</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <select class="form-select">
+                                                        <option value="A">Primary</option>
+                                                        <option value="B">Secondary</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3 align-items-center pb-3 pb-4">
+
+
+                                                <div class="col-md-5">
+                                                    <label class="col-form-label">TIN / Name of Employer</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row g-3 align-items-center pb-3 pt-5">
+
+                                                <div class="col-md-5">
+                                                    <label class="col-form-label">Amount (Rs.)</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="number" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="row mb-3">
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-7">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="row g-3 align-items-center pb-3 pt-2">
+                                            <div class="col-md-3">
+                                                <label class="col-sm-10 col-form-label font-weight-bold">Total</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-primary ">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business income ===========================================  -->
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5 class="toggle-header text-danger collapsed" data-bs-toggle="collapse" data-bs-target="#collapseBusinessIncome " aria-expanded="false">
+                    <span><i class="fas fa-folder-open me-2"></i> Business Income </span>
+                    <i class="bi bi-caret-down-fill"></i>
+                </h5>
+                <div class="mt-2 collapse" id="collapseBusinessIncome" style="">
+                    <div class="card card-body">
+                        <div class="">
+                            hi -------Business Income
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment income  ============================================= -->
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5 class="toggle-header text-danger" data-bs-toggle="collapse" data-bs-target="#collapseInvestmentIncome " aria-expanded="true">
+                    <span><i class="fas fa-folder-open me-2"></i> Investment Income  </span>
+                    <i class="bi bi-caret-down-fill"></i>
+                </h5>
+                <div class="mt-2 collapse" id="collapseInvestmentIncome" style="">
+
+                    <!-- Part I -->
+                    <div class="tree-container">
+
+                        <!-- Root -->
+                        <div class="tree-item tree-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#root" aria-expanded="false">
+
+                            <i class="fas fa-folder-open me-2"></i>
+                            <span class="tree-header"> Part I - Details of investment income</span>
+                            <i class="bi bi-caret-down-fill"></i>
+
+                        </div>
+                        <div class="tree-node collapse" id="root" style="">
+
+                            <!-- Documents -->
+                            <div class="tree-item tree-toggle collapsed first" data-bs-toggle="collapse" data-bs-target="#docs-one" aria-expanded="false">
+
+                                <i class="fas fa-folder-open me-2"></i>
+                                <span class="tree-header">A. Details of investment income (interest Fixed Deposit or Saving Accounts)</span>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </div>
+                            <div class="tree-node collapse" id="docs-one" style="">
+                                <!-- Interest on Saving Accounts-->
+                                <div class="tree-item tree-toggle collapsed first" data-bs-toggle="collapse" data-bs-target="#docs" aria-expanded="false">
+
+                                    <i class="fas fa-folder-open me-2"></i>
+                                    <span class="tree-header">Interest on Saving Accounts</span>
+                                    <i class="bi bi-caret-down-fill"></i>
+                                </div>
+                                <div class="tree-node collapse" id="docs" style="">
+                                    <div class="accordion" id="investSavingAccounts">
+                                        <!-- Interest Income Section -->
+                                        <div class="accordion-item">
+
+
+                                            <div class="accordion-body">
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-5 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Activity Code (Investment Income – Individual)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Type of Investment Income</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <select class="form-select">
+                                                                            <option value="">-- Select --</option>
+                                                                            <option value="Interest">Interest</option>
+                                                                            <option value="Dividends">Dividends</option>
+                                                                            <option value="Rent">Rent</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="col-form-label">Remuneration (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" id="inputRemuneration" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3 align-items-center pb-4">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Total investment income other than partnership or trust</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-4 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Name of bank/financial institution</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <select class="form-select">
+                                                                            <option value="">-- Select Bank --</option>
+                                                                            <option value="Bank1">Bank 1</option>
+                                                                            <option value="Bank2">Bank 2</option>
+                                                                            <option value="Bank3">Bank 3</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Account No.</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Amount invested (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Interest (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Opening Balance</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-2">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Balance (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class=" align-items-right" style="text-align: right;">
+
+
+                                                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <hr class="my-4">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mt-2">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Name of bank</th>
+                                                                <th>Account No</th>
+                                                                <th>Opening Balance</th>
+                                                                <th>Balance (Rs.)</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>Bank 1</td>
+                                                                <td>123596633552565</td>
+                                                                <td>100000</td>
+
+                                                                <td>
+                                                                    50000
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--Interest on Fixed Deposit	-->
+                                <div class="tree-item tree-toggle collapsed first" data-bs-toggle="collapse" data-bs-target="#docs-two" aria-expanded="false">
+
+                                    <i class="fas fa-folder-open me-2"></i>
+                                    <span class="tree-header">Interest on Fixed Deposit</span>
+                                    <i class="bi bi-caret-down-fill"></i>
+                                </div>
+                                <div class="tree-node collapse" id="docs-two" style="">
+                                    <div class="accordion" id="investFixedDeposit">
+                                        <!-- Interest Income Section -->
+                                        <div class="accordion-item">
+
+
+                                            <div class="accordion-body">
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-5 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Activity Code (Investment Income – Individual)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Type of Investment Income</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <select class="form-select">
+                                                                            <option value="">-- Select --</option>
+                                                                            <option value="Interest">Interest</option>
+                                                                            <option value="Dividends">Dividends</option>
+                                                                            <option value="Rent">Rent</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="col-form-label">Remuneration (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" id="inputRemuneration" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3 align-items-center pb-4">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Total investment income other than partnership or trust</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-4 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Name of bank/financial institution</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <select class="form-select">
+                                                                            <option value="">-- Select Bank --</option>
+                                                                            <option value="Bank1">Bank 1</option>
+                                                                            <option value="Bank2">Bank 2</option>
+                                                                            <option value="Bank3">Bank 3</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Account No.</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Amount invested (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Interest (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Opening Balance</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-2">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Balance (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class=" align-items-right" style="text-align: right;">
+
+
+                                                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <hr class="my-4">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mt-2">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Name of bank</th>
+                                                                <th>Account No</th>
+                                                                <th>Opening Balance</th>
+                                                                <th>Balance (Rs.)</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>Bank 1</td>
+                                                                <td>123596633552565</td>
+                                                                <td>100000</td>
+
+                                                                <td>
+                                                                    50000
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Dividend Income	-->
+                                <div class="tree-item tree-toggle collapsed first" data-bs-toggle="collapse" data-bs-target="#docs-four" aria-expanded="false">
+
+                                    <i class="fas fa-folder-open me-2"></i>
+                                    <span class="tree-header">Dividend Income</span>
+                                    <i class="bi bi-caret-down-fill"></i>
+                                </div>
+                                <div class="tree-node collapse" id="docs-four" style="">
+
+                                    <div class="accordion" id="investFixedDeposit">
+                                        <!-- Interest Income Section -->
+                                        <div class="accordion-item">
+
+
+                                            <div class="accordion-body">
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-3 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Activity Code (Investment Income – Individual)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Type of Investment Income</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <select class="form-select">
+                                                                            <option value="">-- Select --</option>
+                                                                            <option value="Interest">Interest</option>
+                                                                            <option value="Dividends">Dividends</option>
+                                                                            <option value="Rent">Rent</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="col-form-label">Remuneration (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" id="inputRemuneration" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3 align-items-center pb-4">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Total investment income other than partnership or trust</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-4 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Name of company/institution</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <select class="form-select">
+                                                                            <option value="">-- Select Bank --</option>
+                                                                            <option value="Bank1">Company 1</option>
+                                                                            <option value="Bank2">Company 2</option>
+                                                                            <option value="Bank3">Institution 3</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">No. of shares/stocks </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Date of acquisition</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="date" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Cost of acquisition/market value if not acquired (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Net dividend income (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class=" align-items-right" style="text-align: right;">
+
+
+                                                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <hr class="my-4">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mt-2">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Name of company/institution</th>
+                                                                <th>No of shares/stocks</th>
+                                                                <th>Cost of acquisition</th>
+                                                                <th>Net dividend income</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>Company 1</td>
+                                                                <td>123596633552565</td>
+                                                                <td>100000</td>
+
+                                                                <td>
+                                                                    50000
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- Rent Income-->
+                                <div class="tree-item tree-toggle collapsed first" data-bs-toggle="collapse" data-bs-target="#docs-three" aria-expanded="false">
+
+                                    <i class="fas fa-folder-open me-2"></i>
+                                    <span class="tree-header">Rent Income</span>
+                                    <i class="bi bi-caret-down-fill"></i>
+                                </div>
+                                <div class="tree-node collapse" id="docs-three" style="">
+                                    <div class="accordion" id="investFixedDeposit">
+                                        <!-- Interest Income Section -->
+                                        <div class="accordion-item">
+
+
+                                            <div class="accordion-body">
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-3 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Activity Code (Investment Income – Individual)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Type of Investment Income</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <select class="form-select">
+                                                                            <option value="">-- Select --</option>
+                                                                            <option value="Interest">Interest</option>
+                                                                            <option value="Dividends">Dividends</option>
+                                                                            <option value="Rent">Rent</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="col-form-label">Remuneration (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" id="inputRemuneration" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3 align-items-center pb-4">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Total investment income other than partnership or trust</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="number" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mt-4 ">
+                                                            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-5 ps-3 pe-3">
+                                                                <div class="row g-3 align-items-center pb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Situation of property Deed No</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-4">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Date of acquisition</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input type="date" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div class="row g-3 align-items-center pb-3 pt-1">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Cost (Rs.) / Gift/ Inhreted </label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center pb-5">
+                                                                    <div class="col-md-6">
+                                                                        <label class="form-label">Market value (Rs.)</label>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <input class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class=" align-items-right" style="text-align: right;">
+
+
+                                                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <hr class="my-4">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mt-2">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Situation property Deed No</th>
+                                                                <th>Situation property Deed No</th>
+                                                                <th>Cost Gift/ Inhreted</th>
+                                                                <th>Market value</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>test property</td>
+                                                                <td>123596633552565</td>
+                                                                <td>100000</td>
+
+                                                                <td>
+                                                                    50000
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Images -->
+                            <div class="tree-item tree-toggle collapsed first" data-bs-toggle="collapse" data-bs-target="#images" aria-expanded="false">
+
+                                <i class="fas fa-folder-open me-2"></i>
+                                <span class="tree-header">B. Partner's investment income from partnership (Both local & foreign)</span>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </div>
+                            <div class="collapse tree-node" id="images">
+                                <div class=" mt-4 ">
+                                    <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 ps-3 pe-3 pt-4 pb-4">
+
+                                       
+                                            <div class="row mb-3">
+
+
+                                                <div class="col-sm-6">
+
+                                                    <div class="row g-3 align-items-center pb-3">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">Total Investment Income (Individual)</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" id="Totalid">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Activity Code (Partnership)</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="activityCodePartnership">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Partnership Name</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="partnershipName">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">TIN of Partnership</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="Totalid">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            </div>
+
+                                        </div>
+                                       
+                                        <br>
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Gains and Profits (Rs.) – Partnership</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="Totalid">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Total Investment Income from Partnership</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="Totalid">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            </div>
+
+                                        </div>
+                                       
+                                       
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class=" align-items-right" style="text-align: right;">
+
+
+                                                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tree-item tree-toggle collapsed first" data-bs-toggle="collapse" data-bs-target="#doc-three" aria-expanded="false">
+
+                                <i class="fas fa-folder-open me-2"></i>
+                                <span class="tree-header">C. Beneficiary's investment income from trust (Both local & foreign)</span>
+                                <i class="bi bi-caret-down-fill"></i>
+
+                            </div>
+                            <div class="collapse tree-node" id="doc-three">
+                                <div class=" mt-4 ">
+                                    <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 ps-3 pe-3 pt-5 pb-4">
+
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Activity Code (Trust)</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="activityCodePartnership">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Trust Name</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="partnershipName">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">TIN of Trust</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="Totalid">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            </div>
+
+                                        </div>
+
+                                        
+                                        <br>
+
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Gains and Profits (Rs.) – Trust</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="Totalid">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Total Investment Income from Trust</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="Totalid">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-3">
+
+
+                                            <div class="col-sm-6">
+
+                                                <div class="row g-3 align-items-center pb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Total Investment Income</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="Totalid">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                            </div>
+
+                                        </div>
+                                      
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class=" align-items-right" style="text-align: right;">
+
+
+                                                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Part II -->
+                    <div class="tree-container">
+
+                        <!-- Root -->
+                        <div class="tree-item tree-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#root-one" aria-expanded="false">
+
+                            <i class="fas fa-folder-open me-2"></i>
+                            <span class="tree-header"> Part II - Reliefs for investment income</span>
+                            <i class="bi bi-caret-down-fill"></i>
+                        </div>
+                        <div class="tree-node collapse" id="root-one" style="">
+
+                            <div class=" mt-4 ">
+                                <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 ps-3 pe-3 pt-4 pb-4">
+
+                                    
+                                        <div class="row g-3 align-items-center pb-3">
+                                            <div class="col-md-2">
+                                                <label class="form-label">Relief for Rent Income (25%)</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" id="partnershipTIN">
+                                            </div>
+                                        </div>
+                                        <br />
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class=" align-items-right" style="text-align: right;">
+
+
+                                                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Part III -->
+                    <div class="tree-container">
+
+                        <!-- Root -->
+                        <div class="tree-item tree-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#root-two" aria-expanded="false">
+
+                            <i class="fas fa-folder-open me-2"></i>
+                            <span class="tree-header">Part III - Exempt amounts/gains and profits for Investment Income A Excluded amount</span>
+                            <i class="bi bi-caret-down-fill"></i>
+                        </div>
+                        <div class="tree-node collapse" id="root-two" style="">
+                            
+                                <div class="row g-3 align-items-center pb-3">
+                                    <div class="col-md-5">
+                                        <label class="form-label">Exempt amounts/gains and profits for Investment Income A</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" class="" id="partnershipTIN">
+                                    </div>
+                                </div>
+                                <div class="row g-3 align-items-center pb-3">
+                                    <div class="col-md-5">
+                                        <label class="form-label">Excluded amount B </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="checkbox" class="" id="partnershipTIN">
+                                    </div>
+                                </div>
+                                <br />
+                            <div class="row g-3 align-items-center pb-3">
+                                <div class="col-md-5">
+                                    <label class="form-label">Exempt / Excluded Investment Income</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="partnershipTIN">
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class=" align-items-right" style="text-align: right;">
+
+
+                                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        
+                                </div>
+                           
+                           
+                        </div>
+                    <div class="row mb-3">
+
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                            </div>
+                            <div class="col-md-5">
+                                <div class="row g-3 align-items-center pb-3 pt-2">
+                                    <div class="col-md-3">
+                                        <label class="col-sm-10 col-form-label font-weight-bold">Total</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary ">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+                
+                </div>
+            </div>
+
+
+            <!-- Other income  ================================================================ -->
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5 class="toggle-header text-info collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOtherIncome  " aria-expanded="false">
+                    <span><i class="fas fa-folder-open me-2"></i>  Other Income</span>
+                    <i class="bi bi-caret-down-fill"></i>
+                </h5>
+                <div class="collapse mt-2" id="collapseOtherIncome">
+                    <div class="card card-body">
+                        <div class="">
+                            hi --------Other Income
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    document.querySelectorAll('.toggle-header').forEach(header => {
+        const icon = header.querySelector('.toggle-icon');
+        const collapseId = header.getAttribute('data-bs-target');
+        const collapseEl = document.querySelector(collapseId);
+        const collapse = new bootstrap.Collapse(collapseEl, { toggle: false });
+
+        header.addEventListener('click', () => {
+            const isOpen = collapseEl.classList.contains('show');
+            if (isOpen) {
+                collapse.hide();
+                //icon.classList.remove('fa-minus');
+               // icon.classList.add('fa-plus');
+            } else {
+                collapse.show();
+               // icon.classList.remove('fa-plus');
+               // icon.classList.add('fa-minus');
+            }
+        });
+    });
+</script>

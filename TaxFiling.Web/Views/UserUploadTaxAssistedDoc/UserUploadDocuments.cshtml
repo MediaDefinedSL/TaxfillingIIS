@@ -1,0 +1,739 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+
+@{
+    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+
+    var imageUrl = string.IsNullOrWhiteSpace(ViewBag.ProfileImagePath)
+                       ? "https://images.netexam.com/images/10229/LINKEDIN-Profile-Picture-AI.jpg"
+                       : ViewBag.ProfileImagePath;
+
+}
+
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title accent-background" ">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <h2 class="mb-2 mb-lg-0 font-weight-bold">Dashboard</h2></br>
+                <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+            </div>
+            <div class="col-lg-2 col-md-4">
+                <nav class="breadcrumbs">
+                    <ol>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div><!-- End Page Title -->
+    <!-- File my taxes Section -->
+    <section id="user-uploaddocuments" class="blog-posts section">
+
+        <div class="container">
+
+
+            <div class="header-doument fade-in">
+                <div class="header-content-doument">
+                    <div class="user-info">
+                        <input type="hidden" id="userid" value="@ViewBag.UserId">
+                        <img src="@imageUrl" alt="User Avatar" class="user-avatar">
+                        <div class="user-details">
+                            <h2>@ViewBag.UserFullName  Uploaded Documents</h2>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope" style="color: #667eea;"></i>
+                                    <span>@ViewBag.Email</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-phone" style="color: #28a745;"></i>
+                                    <span>@ViewBag.Phone</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <!-- Example Code Start-->
+            <p class="d-inline-flex gap-1 col-md-12">
+                <button class="btn btn-primary collapsed col-md-12 text-start collapsed-bar " type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmploymentDocs" aria-expanded="false" aria-controls="collapseExample">
+                    <h5 class="border-start border-4 border-info ps-3 m-b-0">
+                        <i class="fas fa-briefcase text-primary me-2"></i> Employment Docs
+                        <i class="bi bi-caret-down-fill"></i>
+                    </h5>
+
+                </button>
+            </p>
+            <div class="collapse" id="collapseEmploymentDocs" style="">
+                <div class="card card-body">
+                    
+                    <div class="mb-3 tab-btn-list Dash">
+                        <button type="button" class="btn btn-primary me-2 category-btn" data-category="T10">T10</button>
+                        <button type="button" class="btn btn-success category-btn" data-category="TerminalBenefit">Terminal Benefit</button>
+                        <button type="button" class="btn btn-success category-btn" data-category="AnyOther">Any Other</button>
+                    </div>
+
+                   
+                    <div id="t10-form" class="upload-form-section" style="display: none;">
+                        <span class="mb-2 mb-lg-0 font-weight-bold employmentdocs_topic"> <i class="bi bi-file-text"></i>  T10 Documents </span>
+                        <br />
+                        <div class="mb-3">
+                            <!-- Table -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped mt-2">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Document Name</th>
+                                            <th>Employee Name</th>
+                                            <th>Uploaded On</th>
+                                            <th>Actions</th>
+                                            <th>View Document</th> 
+                                            <th>View Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Terminal_Statement.pdf</td>
+                                            <td>John Doe</td>
+                                            <td>July 10, 2025</td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> View</a>
+                                                <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" download>
+                                                    <i class="fas fa-download"></i> Download
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input view-toggle" type="checkbox" data-doc-id="1">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="btn btn-outline-success doc-viewstatus"> <i class="bi bi-check-circle-fill"></i></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            
+                        </div>
+
+
+                    </div>
+
+                   
+                 
+
+                    <!-- Terminal Benefit Form -->
+                    <div id="terminal-form" class="upload-form-section" style="display: none;">
+
+                        <span class="mb-2 mb-lg-0 font-weight-bold employmentdocs_topic"> <i class="bi bi-file-text"></i>  Terminal Benefit Documents </span>
+                        <br />
+                    
+                        <div class="mb-3">
+                            <table class="table table-bordered table-striped mt-2">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Document Name</th>
+                                        <th>Employee Name</th>
+                                        <th>Uploaded On</th>
+                                        <th>Actions</th>
+                                        <th>View Document</th>
+                                        <th>View Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Terminal_Statement.pdf</td>
+                                        <td>John wewrwere</td>
+                                        <td>July 10, 2025</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                            <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                                <i class="fas fa-download"></i> Download
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input view-toggle" type="checkbox" data-doc-id="2">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="btn btn-outline-success doc-viewstatus"> <i class="bi bi-check-circle-fill"></i></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Any Other Form -->
+                    <div id="AnyOther-form" class="upload-form-section" style="display: block;">
+                        <span class="mb-2 mb-lg-0 font-weight-bold employmentdocs_topic"> <i class="bi bi-file-text"></i>  Any Other </span>
+                        <br />
+                        
+                        <div class="mb-3">
+                            <table class="table table-bordered table-striped mt-2">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Document Name</th>
+                                        <th>Type</th>
+                                        <th>Uploaded On</th>
+                                        <th>Actions</th>
+                                        <th>View Document</th>
+                                        <th>View Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Terminal_Statement.pdf</td>
+                                        <td>test type</td>
+                                        <td>July 10, 2025</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                            <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                                <i class="fas fa-download"></i> Download
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input view-toggle" type="checkbox" data-doc-id="3">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="btn btn-outline-success doc-viewstatus"> <i class="bi bi-check-circle-fill"></i></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                 
+                </div>
+            </div>
+        </div>
+       
+
+        <!-- Bank Confirmation -->
+        <div class="container">
+            <p class="d-inline-flex gap-1 col-md-12">
+                <button class="btn btn-primary collapsed col-md-12 text-start collapsed-bar " type="button" data-bs-toggle="collapse" data-bs-target="#collapseBank" aria-expanded="false" aria-controls="collapseExample">
+                    <h5 class="border-start border-4 border-info ps-3 m-b-0">
+                        <i class="fas fa-university me-2 text-primary me-2"></i> Bank Confirmation
+                        <i class="bi bi-caret-down-fill"></i>
+                    </h5>
+
+                </button>
+            </p>
+            <div class="collapse" id="collapseBank" style="">
+                <div class="card card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Document Name</th>
+                                    <th>Bank Name</th>
+                                    <th>Bank Type</th>
+                                    <th>Uploaded On</th>
+                                    <th>Actions</th>
+                                    <th>View Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Terminal_Statement.pdf</td>
+                                    <td>John Doe</td>
+                                    <td>Loan</td>
+                                    <td>July 10, 2025</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                        <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input view-toggle" type="checkbox" data-doc-id="4">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- More rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assets Liability -->
+        <div class="container">
+            <p class="d-inline-flex gap-1 col-md-12">
+                <button class="btn btn-primary collapsed col-md-12 text-start collapsed-bar " type="button" data-bs-toggle="collapse" data-bs-target="#collapseAssets" aria-expanded="false" aria-controls="collapseExample">
+                    <h5 class="border-start border-4 border-info ps-3 m-b-0">
+                        <i class="fas fa-balance-scale me-2 text-primary me-2"></i> Assets & Liabilities
+                        <i class="bi bi-caret-down-fill"></i>
+                    </h5>
+
+                </button>
+            </p>
+            <div class="collapse" id="collapseAssets" style="">
+                <div class="card card-body">
+                    <div class="mb-3">
+                       @*  <span class="mb-2 mb-lg-0 font-weight-bold terminalbenefit_topic"> <i class="bi bi-file-text"></i>  Asset Category type </span> *@
+                        <h3 class="mb-2 mb-lg-0 font-weight-bold terminalbenefit_topic"><i class="bi bi-file-text"></i>  Asset Category type </h3>
+                        <br />
+                        
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">1. Deed of land, building, apartment </h5>
+                        <br />
+                        <div class="mb-3">
+                            <label>Value :</label>
+                            <span class="form-control"> fdgdfgdfg </span>
+                        </div>
+                       
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Location</th>
+                                    <th>Document Name</th>
+                                    <th>Actions</th>
+                                    <th>View Document</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Local</td>
+                                    <td>Terminal_Statement.pdf</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                        <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input view-toggle" type="checkbox" data-doc-id="5">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       
+                        <hr class="my-4" />
+                       
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">2. Movable Properties (Motor Vehicles) </h5>
+                       <br />
+                        <div class="mb-3">
+                            <label>Vehical Type :</label>
+                            <span> fdgdfgdfg </span>
+                           
+                            <label>Value :</label>
+                            <span > fdgdfgdfg </span>
+                        </div>
+                        
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Location</th>
+                                    <th>Document Name</th>
+                                    <th>Actions</th>
+                                    <th>View Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Local</td>
+                                    <td>Terminal_Statement.pdf</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                        <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input view-toggle" type="checkbox" data-doc-id="6">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Local</td>
+                                    <td>Terminaldfdsfdfg.pdf</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                        <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input view-toggle" type="checkbox" data-doc-id="6">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <hr class="my-4" />
+                        
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">3. Shares/Stocks/Securities as at 31.03.2025 </h5>
+                      <br />
+                        <div class="mb-3">
+                            <label>Institution Name:</label>
+                            <span> fdgdfgdfg </span>
+                            
+                            <label>Value :</label>
+                            <span> fdgdfgdfg </span>
+                        </div>
+                        
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Location</th>
+                                    <th>Document Name</th>
+                                    <th>Actions</th>
+                                    <th>View Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Local</td>
+                                    <td>Terminal_Statement.pdf</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                        <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input view-toggle" type="checkbox" data-doc-id="7">
+                                        </div>
+                                    </td>
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                       
+                        <hr class="my-4" />
+                       
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">4. Cash in hand as at 31.03.2025 </h5>
+                      <br />
+                        <div class="mb-3">
+                            <label>Value :</label>
+                            <span> fdgdfgdfg </span>
+                        </div>
+
+                       
+                        <hr class="my-4" />
+                        
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">5. Loans given & amount receivable as at 31.03.2025 </h5>
+                       <br />
+                        <div class="mb-3">
+                            <label>Value :</label>
+                            <span> fdgdfgdfg </span>
+                        </div>
+
+                       
+                        <hr class="my-4" />
+                       
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">6. Value of gold, silver, gems, jewellery etc. as at 31.03.2025 </h5>
+                        <br />
+                        <div class="mb-3">
+                            <label>Value :</label>
+                            <span> fdgdfgdfg </span>
+                        </div>
+
+                       
+                        <hr class="my-4" />
+                        
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">7. Business Current and Capital Accounts (Form 15, Partnership Accounts) </h5>
+                        <br />
+                        <div class="mb-3">
+                            <label>Asset Location:</label>
+                            <span> Local </span>
+                           
+                            <label>Value :</label>
+                            <span> ssfsdfsdf </span>
+                        </div>
+
+                       
+                        <hr class="my-4" />
+                       
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">8. Any other assets acquired or gifts received during the year Please provide if you have received any gifts from spouse or children acquition of Assets
+                        </h5>
+                        <br />
+                        <div class="mb-3">
+                           
+                            <label>Value :</label>
+                            <span> ssfsdfsdf </span>
+                        </div>
+                      
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Document Name</th>
+                                    <th>Actions</th>
+                                    <th>View Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Terminal_Statement.pdf</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i>View</a>
+                                        <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input view-toggle" type="checkbox" data-doc-id="8">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        
+                        <hr class="my-4" />
+                       
+                        <h5 class="mb-2 mb-lg-0 font-weight-bold">9. Disposal of assets including shares </h5>
+                        <br />
+                        <div class="mb-3">
+                            <label>Value :</label>
+                            <span> fdgdfgdfg </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assets Liability -->
+        <div class="container">
+            <p class="d-inline-flex gap-1 col-md-12">
+                <button class="btn btn-primary collapsed col-md-12 text-start collapsed-bar " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOtherDocuments" aria-expanded="false" aria-controls="collapseExample">
+                    <h5 class="border-start border-4 border-info ps-3 m-b-0">
+                        <i class="fas fa-folder me-2 text-primary me-2"></i> Other Documents
+                        <i class="bi bi-caret-down-fill"></i>
+                    </h5>
+
+                </button>
+            </p>
+            <div class="collapse" id="collapseOtherDocuments" style="">
+                <div class="card card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Document Name</th>
+                                    <th>Type</th>
+                                    <th>Uploaded On</th>
+                                    <th>Actions</th>
+                                    <th>View Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Terminal_Statement.pdf</td>
+                                    <td>John Doe</td>
+                                    <td>July 10, 2025</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> View</a>
+                                        <a href="/path-to-your-file/Terminal_Statement.pdf" class="btn btn-sm btn-success" title="Download" download>
+                                            <i class="fas fa-download"></i> Download
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input view-toggle" type="checkbox" data-doc-id="9">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- More rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-5">
+                <div class=" align-items-right" style="text-align: right;">
+
+
+                    <button type="button" class="btn btn-primary mt-3">Email Preview</button>
+                    <button type="button" class="btn btn-primary mt-3">Send Email</button>
+                   
+                    <button type="button" class="btn btn-primary mt-3" >
+                        <a href="/UserUploadTaxAssistedDoc/UserUploadDoumentFlow">Submit</a>
+                    </button>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class=" align-items-right" style="text-align: right;">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="verifyModalLabel">Verify Document</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <!-- Is Verified Toggle -->
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="isVerifiedToggle">
+                            <label class="form-check-label" for="isVerifiedToggle">Is Verified</label>
+                        </div>
+
+                        <!-- Dropdown if not verified -->
+                        <div class="mb-3" id="reasonContainer" style="display: none;">
+                            <label for="rejectionReason" class="form-label">Reason for Rejection</label>
+                            <select class="form-select" id="rejectionReason">
+                                <option value="">-- Select Reason --</option>
+                                <option value="Incomplete Document">Incomplete Document</option>
+                                <option value="Invalid Format">Invalid Format</option>
+                                <option value="Wrong Employee">Wrong Employee</option>
+                            </select>
+                            <div class="text-danger mt-1" id="errorReason" style="display: none;">
+                                Please select a reason before submitting.
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button id="submitVerify" type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /File my taxes -->
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const category = this.getAttribute('data-category');
+            document.getElementById('t10-form').style.display = (category === 'T10') ? 'block' : 'none';
+            document.getElementById('terminal-form').style.display = (category === 'TerminalBenefit') ? 'block' : 'none';
+            document.getElementById('AnyOther-form').style.display = (category === 'AnyOther') ? 'block' : 'none';
+        });
+    });
+
+    const verifyModalEl = document.getElementById('verifyModal');
+    const verifyModal = new bootstrap.Modal(verifyModalEl);
+
+    const isVerifiedToggle = document.getElementById("isVerifiedToggle");
+    const reasonContainer = document.getElementById("reasonContainer");
+    const rejectionReason = document.getElementById("rejectionReason");
+    const errorReason = document.getElementById("errorReason");
+    const submitVerify = document.getElementById("submitVerify");
+
+    let activeToggle = null;
+
+    // Event: When any "View Document" toggle is turned ON
+    document.querySelectorAll('.view-toggle').forEach(toggle => {
+        toggle.addEventListener('change', function () {
+            if (this.checked) {
+                activeToggle = this;
+
+                // Reset modal state
+                isVerifiedToggle.checked = true;
+                reasonContainer.style.display = "none";
+                rejectionReason.value = "";
+                errorReason.style.display = "none";
+
+                verifyModal.show();
+            }
+        });
+    });
+
+    // Show/hide dropdown based on "Is Verified" toggle
+    isVerifiedToggle.addEventListener("change", function () {
+        reasonContainer.style.display = this.checked ? "none" : "block";
+        errorReason.style.display = "none";
+        rejectionReason.value = "";
+    });
+
+    // Submit button validation
+    submitVerify.addEventListener("click", function () {
+        if (!isVerifiedToggle.checked && rejectionReason.value === "") {
+            errorReason.style.display = "block";
+            return;
+        }
+
+        alert("Submitted successfully!");
+        verifyModal.hide();
+    });
+
+    // Hide error on dropdown selection
+    rejectionReason.addEventListener("change", function () {
+        if (this.value !== "") {
+            errorReason.style.display = "none";
+        }
+    });
+
+    // Reset modal and toggle when closed
+    verifyModalEl.addEventListener('hidden.bs.modal', function () {
+        if (activeToggle) {
+            activeToggle.checked = false;
+            activeToggle = null;
+        }
+
+        isVerifiedToggle.checked = true;
+        reasonContainer.style.display = "none";
+        errorReason.style.display = "none";
+        rejectionReason.value = "";
+    });
+
+
+
+
+</script>
+
+

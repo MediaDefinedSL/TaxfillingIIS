@@ -1,0 +1,121 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+@model List<TaxFiling.Web.Models.UserUploadTaxAssistedDocViewModel> 
+
+@{
+    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+
+
+}
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title accent-background" ">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+    <div class="col-lg-4 col-md-6">
+    <h2 class="mb-2 mb-lg-0 font-weight-bold">Dashboard</h2></br>
+    <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+    </div>
+    <div class="col-lg-2 col-md-4">
+    <nav class="breadcrumbs">
+    <ol>
+    </ol>
+    </nav>
+    </div>
+    </div>
+    </div><!-- End Page Title -->
+    <section id="File-my-taxes" class="blog-posts section selfOnline-dashboard userDocList">
+
+    <div class="container  p-4 bg-light rounded shadow-sm">
+
+    <div class="mt-0">
+    <h5><i class="fas fa-file-alt text-warning me-2"></i>User's Uploaded Documents</h5>
+    <br>
+
+    <!-- Search and Filter Section -->
+    <div class="search-filter">
+    <div class="row">
+    <div class="col-md-4">
+    <div class="form-group">
+    <label class="form-label"><i class="fas fa-search me-1"></i>Search Users</label>
+    <input type="text" class="form-control" id="searchInput" placeholder="Search by name" onkeyup="filterUsers()">
+    </div>
+    </div>
+    </div>
+    </div>
+    <br>
+    @if (Model != null && Model.Any())
+    {
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-2">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 5%;">No</th>
+                        <th style="width: 35%;">Name</th>
+                        <th style="width: 45%;">Contact</th>
+                        <th style="width: 15%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{var index = 0;}
+                    @foreach (var uploadUserList in Model)
+                    {
+                        
+                    var imageUrl = string.IsNullOrWhiteSpace(uploadUserList.ProfileImagePath)
+                        ? "https://images.netexam.com/images/10229/LINKEDIN-Profile-Picture-AI.jpg"
+                        : uploadUserList.ProfileImagePath;
+
+                        <tr>
+                            <td> @(++index)</td>
+
+                            <!-- Name with image -->
+                                        <td class="d-flex align-items-center">
+                                            <img src="@imageUrl"
+                                                 onerror="this.onerror=null; this.src='https://images.netexam.com/images/10229/LINKEDIN-Profile-Picture-AI.jpg';"
+                                                 alt="User Image"
+                                                 class="rounded-circle me-2"
+                                                 width="40"
+                                                 height="40">
+                                            <span>@uploadUserList.FullName</span>
+                                        </td>
+
+                            <!-- Contact with icons -->
+                            <td>
+                                            <div><i class="fas fa-envelope text-primary me-1"></i> @uploadUserList.Email</div>
+                                            <div><i class="fas fa-phone text-success me-1"></i> @uploadUserList.Phone</div>
+                            </td>
+
+                            <!-- Action buttons -->
+                            <td>
+                                <a href="@Url.Action("UserUploadDocuments", "UserUploadTaxAssistedDoc", new { id = uploadUserList.UserId })" class="btn btn-sm btn-primary me-1">
+                                      <i class="fas fa-eye"></i> View
+                                 </a>
+                                <a href="@Url.Action("UserUploadDoumentFlow", "UserUploadTaxAssistedDoc")" class="btn btn-sm btn-success">
+                                    <i class="fas fa-paper-plane"></i> Submit
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                 
+                </tbody>
+            </table>
+        </div>
+   }
+    else
+    {
+                    <div class="col-12">
+                        <p>No taxpayers found.</p>
+                    </div>
+    }
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

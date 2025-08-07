@@ -1,0 +1,103 @@
+﻿@model TaxFiling.Web.Models.User.UserViewModel
+
+<main class="main">
+
+    <section id="register" class="register-section">
+        <div class="container shadow p-5 mb-5 bg-white rounded reg-col col-sm-8">
+            <div class="row">
+
+                <div class="col-sm-3 px-0 d-none d-sm-block">
+                    <img src="/assets/img/online-registration-illustration.png" class="img-fluid" alt="Login image" style="object-fit: cover; object-position: left;">
+                </div>
+                <div class="col-sm-9 text-black">
+
+                    <div class=" align-items-center h-custom-2  pt-xl-0 mt-xl-n5 ">
+
+                        <form >
+
+                            <h5 class=" mb-6 pb-3 fw-bold" style="letter-spacing: 1px;">
+                                Get your taxes started
+                            </h5>
+
+                            <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4 mr-10">
+                                <span class="text-danger"> *</span>
+                                <label class="form-label" for="form2Example18">First Name</label>
+                          @*       @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control form-control-lg" }) *@
+                                @Html.TextBoxFor(m => m.FirstName, new
+                                    {
+                                        @class = "form-control form-control-lg " + (ViewData.ModelState["FirstName"]?.Errors.Count > 0 ? "is-invalid" : "")
+                                    })
+
+                                @Html.ValidationMessageFor(m => m.FirstName, "ffffffffff", new { @class = "invalid-feedback" })
+                            </div>
+                            <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4" >
+                                <span class="text-danger"> *</span>
+                                <label class="form-label" for="form2Example18">Last name</label>
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control form-control-lg" })
+                            </div>
+                            <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4 mr-10">
+                                <span class="text-danger"> *</span>
+                                <label class="form-label" for="form2Example18">Email address</label>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg" })
+
+                            </div>
+                            <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4">
+                                <span class="text-danger"> *</span>
+                                <label class="form-label" for="form2Example18">Phone Number</label>
+                                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control form-control-lg" })
+                            </div>
+                            <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4 mr-10">
+                                <span class="text-danger"> *</span>
+                                <label class="form-label" for="form2Example18">Password</label>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg" })
+                            </div>
+
+                            <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4">
+                                <label class="form-label" for="form2Example28">Confirm Password</label>
+                                <input type="password" id="ConfirmPassword" name="ConfirmPassword"  class="form-control form-control-lg">
+
+                            </div>
+
+                            <div class="pt-1 mb-4 col-sm-4">
+                                <button data-mdb-button-init="" data-mdb-ripple-init="" class=" form-control btn btn-primary" type="button"><a id="btnAddUser" class="d-block">Register</a></button>
+                            </div>
+                            <input type="hidden" name="UserId" id="UserId" value="" />
+                            <input type="hidden" name="UserFullName" id="UserFullName" value="" />
+                            <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.returnUrl" />
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </section><!-- /Sign in Section -->
+    <div class="hero-video">
+<video id="heroVideo" src="https://v6.netexam.com/Courses6/10229/SharableResources/13949/6_19_2025_3_06_36_AM/pexels-tima-miroshnichenko-6699594.mp4" autoplay="" muted="" loop="" playsinline="" poster="src/img/hero/bg.jpg"></video>
+</div
+</main>
+
+<!-- Modal: File My Taxes -->
+<div class="modal fade" id="File-my-taxes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header d-block">
+                <h5 class="modal-title text-center" id="exampleModalLabel">
+                    <b>Are you a <span class="color-tax-blue">TIN</span> Member?</b>
+                </h5>
+            </div>
+
+            <div class="modal-body text-center">
+                <button type="button" class="btn btn-primary me-md-2" id="btnRegisterUserTinYesStatus">Yes</button>
+                <button type="button" class="btn btn-primary" id="btnRegisterUserTinNoStatus">No</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/scripts/user.js" asp-append-version="true"></script>

@@ -1,0 +1,59 @@
+﻿@model List<TaxFiling.Web.Models.MaritalStatus>
+
+<main class="main-content">
+    <div class="container-fluid">
+
+
+        <h2 class="center">Marital Status on December 31,2025 </h2><br><br>
+
+        <div class="image-box  justify-content-between  parent">
+            <div class="row">
+            @if (Model != null && Model.Any())
+                {
+                    foreach (var maritalStatus in Model)
+                    {
+                        var isChecked = (ViewBag.maritalStatusId == maritalStatus.Id);
+                        <div class='col col-lg-3 col-md-3 p-3  text-center Tax-pesonaldetail-icon'>
+                            <input type="radio" name="imgbackground" id="@maritalStatus.Id" class="d-none imgbgchk" value="@maritalStatus.Id" @(isChecked ? "checked" : "")>
+                            <label for="@maritalStatus.Id">
+                                <img src="@maritalStatus.ImageUrl" alt="Image @maritalStatus.Id">
+                                <div class="nametag">
+                                    @maritalStatus.Name
+                                </div>
+                                
+                                <div class="tick_container">
+                                    <div class="tick"><i class="fa fa-check"></i></div>
+                                </div>
+                            </label>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>No taxpayers found.</p>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <br><br>
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6 btn-prv">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
+                    Back
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 right next-btn">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerContinue" >
+                    Continue
+                </button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+<script src="~/scripts/maritastatus_section.js" asp-append-version="true"></script>

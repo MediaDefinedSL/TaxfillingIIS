@@ -1,0 +1,36 @@
+﻿namespace TaxFiling.Web.Models;
+
+public class UserUploadTaxAssistedDocViewModel
+{
+    public int UserUploadId { get; set; }
+    public string UserId { get; set; }
+    public string FullName { get; set; } = string.Empty;
+    public string ProfileImagePath { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public int Year { get; set; }
+    public DateTime? UploadDate { get; set; }
+    public string CategoryName { get; set; }
+    public string T10EmployerName { get; set; }
+    public string TerminalEmployerName { get; set; }
+    public string AnyOtherType { get; set; }
+    public string BankConfirmationType { get; set; }
+    public string BankName { get; set; }
+    public string UploadedFileName { get; set; }
+    // External API values
+    public string FileName { get; set; }
+    public string Location { get; set; }
+    public string DecryptionKey { get; set; }
+    public string UploadId { get; set; }
+    public string OriginalName { get; set; }
+    public DateTime? UploadTime { get; set; }
+    public string OtherDocumentName { get; set; }
+    public int? AssestOptionType { get; set; }
+    public string AssestsUploadExcelSheetName { get; set; }
+    public int? AssestType { get; set; }
+    public string AssetCategory { get; set; }
+    public string AssetNote { get; set; }
+    public string AssetVehicleType { get; set; }
+    public string AssetInstitution { get; set; }
+    public List<IFormFile> Files { get; set; }
+}

@@ -1,0 +1,59 @@
+﻿@model List<TaxFiling.Web.Models.TaxPayer>
+
+<main class="main-content">
+    <div class="container-fluid">
+
+
+        <h2 class="center h1-line">Who are you Preparing this return for?</h2><br><br>
+
+        <div class="image-box  justify-content-between  parent">
+            <div class="row">
+
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var taxpayer in Model)
+                    {
+                        var isChecked = (ViewBag.taxpayer_id == taxpayer.Id);
+                        <div class='col col-lg-3 col-md-3 p-3  text-center Tax-pesonaldetail-icon'>
+                            <input type="radio" name="imgbackground" id="@taxpayer.Id" class="d-none imgbgchk" value="@taxpayer.Id" @(isChecked ? "checked" : "")>
+                            <label for="@taxpayer.Id">
+                                <img src="@taxpayer.ImageUrl" alt="Image @taxpayer.Id">
+                                <div class="nametag">
+                                    @taxpayer.Name
+                                </div>
+                                <div class="tick_container">
+                                    <div class="tick"><i class="fa fa-check"></i></div>
+                                </div>
+                            </label>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>No taxpayers found.</p>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <br>
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6 btn-prv">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
+                    Back
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 right next-btn">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerContinue">
+                    Continue
+                </button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script src="~/scripts/taxpayer_section.js" asp-append-version="true"></script>
