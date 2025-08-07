@@ -1,4 +1,4 @@
-name: CI/CD for TaxFiling Solution
+name: Build and Deploy .NET 9 App to IIS
 
 on:
   push:
@@ -18,10 +18,10 @@ jobs:
       - name: 🔄 Checkout code
         uses: actions/checkout@v3
 
-      - name: ⚙️ Setup .NET
+      - name: ⚙️ Setup .NET 9 SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x' # Or whatever version you're targeting
+          dotnet-version: '9.0.x'
 
       - name: 📦 Restore NuGet packages
         run: dotnet restore TaxFiling.sln
@@ -41,13 +41,13 @@ jobs:
       - name: 📤 Deploy API to IIS
         shell: pwsh
         run: |
-          net use \\$env:SERVER\TaxFiling\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
-          robocopy ./publish/API \\$env:SERVER\TaxFiling\TaxfilingAPI /MIR
-          net use \\$env:SERVER\TaxFiling\TaxfilingAPI /delete
+          net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
+          robocopy ./publish/API \\$env:SERVER\TaxfilingAPI /MIR
+          net use \\$env:SERVER\TaxfilingAPI /delete
 
       - name: 📤 Deploy Web to IIS
         shell: pwsh
         run: |
-          net use \\$env:SERVER\TaxFiling\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
-          robocopy ./publish/Web \\$env:SERVER\TaxFiling\TaxfilingWeb /MIR
-          net use \\$env:SERVER\TaxFiling\TaxfilingWeb /delete
+          net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
+          robocopy ./publish/Web \\$env:SERVER\TaxfilingWeb /MIR
+          net use \\$env:SERVER\TaxfilingWeb /delete
