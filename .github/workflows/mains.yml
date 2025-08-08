@@ -48,14 +48,18 @@ jobs:
       - name: 🔻 Stop IIS App Pools (API & Web)
         shell: powershell
         run: |
-          $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
-          $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
+               $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
+               $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
 
-          Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
-            Import-Module WebAdministration
-            Stop-WebAppPool -Name $using:API_POOL
-            Stop-WebAppPool -Name $using:WEB_POOL
-          }
+               $apiPool = $env:API_POOL
+               $webPool = $env:WEB_POOL
+
+               Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
+               param($apiPoolName, $webPoolName)
+               Import-Module WebAdministration
+               Stop-WebAppPool -Name $apiPoolName
+               Stop-WebAppPool -Name $webPoolName
+               } -ArgumentList $apiPool, $webPool
 
       - name: 📤 Copy ZIP Files to IIS
         shell: powershell
