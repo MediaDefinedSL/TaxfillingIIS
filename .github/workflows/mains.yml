@@ -45,17 +45,17 @@ jobs:
         run: |
           # Write deploy script locally
           @'
-Import-Module WebAdministration
+           Import-Module WebAdministration
 
-Stop-WebAppPool -Name "TaxFilingAPIAppPool"
-Stop-WebAppPool -Name "TaxFilingWebAppPool"
+           Stop-WebAppPool -Name "TaxFilingAPIAppPool"
+           Stop-WebAppPool -Name "TaxFilingWebAppPool"
 
-Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
-Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
 
-Start-WebAppPool -Name "TaxFilingAPIAppPool"
-Start-WebAppPool -Name "TaxFilingWebAppPool"
-'@ | Out-File -FilePath deploy.ps1 -Encoding utf8
+          Start-WebAppPool -Name "TaxFilingAPIAppPool"
+          Start-WebAppPool -Name "TaxFilingWebAppPool"
+          '@ | Out-File -FilePath deploy.ps1 -Encoding utf8
 
           # Connect to shares
           net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
