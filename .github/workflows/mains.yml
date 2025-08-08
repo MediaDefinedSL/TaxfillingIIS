@@ -1,4 +1,4 @@
-name: Build and Deploy .NET 9 App to IIS
+name: new
 
 on:
   push:
@@ -13,6 +13,8 @@ jobs:
       USERNAME: ${{ secrets.IIS_USER }}
       PASSWORD: ${{ secrets.IIS_PASSWORD }}
       SERVER: ${{ secrets.IIS_SERVER }}
+      API_POOL: ${{ secrets.API_APP_POOL }}
+      WEB_POOL: ${{ secrets.WEB_APP_POOL }}
 
     steps:
       - name: 🔄 Checkout code
@@ -38,16 +40,54 @@ jobs:
       - name: 🚀 Publish Web
         run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web
 
-      - name: 📤 Deploy API to IIS
-        shell: pwsh
+      - name: 🗜️ Compress Published Folders
+        run: |
+          Compress-Archive -Path ./publish/API/* -DestinationPath api.zip
+          Compress-Archive -Path ./publish/Web/* -DestinationPath web.zip
+
+      - name: 🔻 Stop IIS App Pools (API & Web)
+        shell: powershell
+        run: |
+          $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
+          $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
+
+          Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
+            Import-Module WebAdministration
+            Stop-WebAppPool -Name $using:API_POOL
+            Stop-WebAppPool -Name $using:WEB_POOL
+          }
+
+      - name: 📤 Copy ZIP Files to IIS
+        shell: powershell
         run: |
           net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
-          robocopy ./publish/API \\$env:SERVER\TaxfilingAPI /MIR
-          net use \\$env:SERVER\TaxfilingAPI /delete
-
-      - name: 📤 Deploy Web to IIS
-        shell: pwsh
-        run: |
           net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
-          robocopy ./publish/Web \\$env:SERVER\TaxfilingWeb /MIR
+
+          Copy-Item api.zip "\\$env:SERVER\TaxfilingAPI\api.zip" -Force
+          Copy-Item web.zip "\\$env:SERVER\TaxfilingWeb\web.zip" -Force
+
+          net use \\$env:SERVER\TaxfilingAPI /delete
           net use \\$env:SERVER\TaxfilingWeb /delete
+
+      - name: 📦 Unzip Files on IIS Server
+        shell: powershell
+        run: |
+          $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
+          $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
+
+          Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
+            Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
+            Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
+          }
+
+      - name: 🔼 Start IIS App Pools (API & Web)
+        shell: powershell
+        run: |
+          $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
+          $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
+
+          Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
+            Import-Module WebAdministration
+            Start-WebAppPool -Name $using:API_POOL
+            Start-WebAppPool -Name $using:WEB_POOL
+          }
