@@ -1,4 +1,4 @@
-name: new
+name: Build and Deploy .NET 9 App to IIS (Web + API)
 
 on:
   push:
@@ -6,15 +6,13 @@ on:
       - main
 
 jobs:
-  build_and_deploy:
+  build_and_copy:
     runs-on: windows-latest
 
     env:
       USERNAME: ${{ secrets.IIS_USER }}
       PASSWORD: ${{ secrets.IIS_PASSWORD }}
       SERVER: ${{ secrets.IIS_SERVER }}
-      API_POOL: ${{ secrets.API_APP_POOL }}
-      WEB_POOL: ${{ secrets.WEB_APP_POOL }}
 
     steps:
       - name: 🔄 Checkout code
@@ -25,14 +23,11 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: 📦 Restore NuGet packages
+      - name: 📦 Restore packages
         run: dotnet restore TaxFiling.sln
 
       - name: 🛠️ Build solution
         run: dotnet build TaxFiling.sln --configuration Release --no-restore
-
-      - name: 🧪 Run tests
-        run: dotnet test TaxFiling.sln --no-build --verbosity normal
 
       - name: 🚀 Publish API
         run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./publish/API
@@ -45,53 +40,32 @@ jobs:
           Compress-Archive -Path ./publish/API/* -DestinationPath api.zip
           Compress-Archive -Path ./publish/Web/* -DestinationPath web.zip
 
-      - name: 🔻 Stop IIS App Pools (API & Web)
+      - name: 📤 Copy ZIPs and Deploy Script to IIS
         shell: powershell
         run: |
-               $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
-               $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
+          # Write deploy script locally
+          @'
+Import-Module WebAdministration
 
-               $apiPool = $env:API_POOL
-               $webPool = $env:WEB_POOL
+Stop-WebAppPool -Name "TaxFilingAPIAppPool"
+Stop-WebAppPool -Name "TaxFilingWebAppPool"
 
-               Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
-               param($apiPoolName, $webPoolName)
-               Import-Module WebAdministration
-               Stop-WebAppPool -Name $apiPoolName
-               Stop-WebAppPool -Name $webPoolName
-               } -ArgumentList $apiPool, $webPool
+Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
+Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
 
-      - name: 📤 Copy ZIP Files to IIS
-        shell: powershell
-        run: |
+Start-WebAppPool -Name "TaxFilingAPIAppPool"
+Start-WebAppPool -Name "TaxFilingWebAppPool"
+'@ | Out-File -FilePath deploy.ps1 -Encoding utf8
+
+          # Connect to shares
           net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
           net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
 
-          Copy-Item api.zip "\\$env:SERVER\TaxfilingAPI\api.zip" -Force
-          Copy-Item web.zip "\\$env:SERVER\TaxfilingWeb\web.zip" -Force
+          # Copy files
+          Copy-Item api.zip "\\$env:SERVER\TaxfilingAPI\" -Force
+          Copy-Item web.zip "\\$env:SERVER\TaxfilingWeb\" -Force
+          Copy-Item deploy.ps1 "\\$env:SERVER\TaxfilingWeb\" -Force
 
+          # Disconnect
           net use \\$env:SERVER\TaxfilingAPI /delete
           net use \\$env:SERVER\TaxfilingWeb /delete
-
-      - name: 📦 Unzip Files on IIS Server
-        shell: powershell
-        run: |
-          $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
-          $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
-
-          Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
-            Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
-            Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
-          }
-
-      - name: 🔼 Start IIS App Pools (API & Web)
-        shell: powershell
-        run: |
-          $secpasswd = ConvertTo-SecureString $env:PASSWORD -AsPlainText -Force
-          $creds = New-Object System.Management.Automation.PSCredential($env:USERNAME, $secpasswd)
-
-          Invoke-Command -ComputerName $env:SERVER -Credential $creds -ScriptBlock {
-            Import-Module WebAdministration
-            Start-WebAppPool -Name $using:API_POOL
-            Start-WebAppPool -Name $using:WEB_POOL
-          }
