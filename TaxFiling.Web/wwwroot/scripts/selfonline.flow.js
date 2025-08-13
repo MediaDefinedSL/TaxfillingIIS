@@ -22,6 +22,22 @@ $(function () {
         });
     });
 
+    $('#btndashboardSection').on('click', function () {
+
+       
+
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadDashboardSection',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
     $('#btnLoadSection').on('click', function () {
        
         $('.sub-link').removeClass('active');

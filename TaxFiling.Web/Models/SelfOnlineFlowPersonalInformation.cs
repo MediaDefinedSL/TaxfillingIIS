@@ -25,6 +25,9 @@ public class SelfOnlineFlowPersonalInformation
     public DateTime? DateOfBirth { get; set; }
 
     public string? TaxNumber { get; set; }
+    public string? NIC_NO { get; set; }
+    public string? Address { get; set; }
+    public string? Gender { get; set; }
 
     public string? CareOf { get; set; }
 
@@ -35,5 +38,12 @@ public class SelfOnlineFlowPersonalInformation
     public string? Street { get; set; }
 
     public string? City { get; set; }
+    public string SpouseName { get; set; } = string.Empty;
+    public string SpouseTINNo { get; set; } = string.Empty;
+    public string SpouseNIC { get; set; } = string.Empty;
+
+    public string SomeoneName { get; set; } = string.Empty;
+    public string Relationship { get; set; } = string.Empty;
+    public string SomeoneTINNo { get; set; } = string.Empty;
 
 }

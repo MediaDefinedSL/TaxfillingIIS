@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaxFiling.Domain.Dtos;
 using TaxFiling.Domain.Entities;
 
 namespace TaxFiling.Data;
@@ -28,5 +29,9 @@ public class Context : DbContext
 
     public DbSet<SelfOnlineFlowPersonalInformation> SelfOnlineFlowPersonalInformation { get; set; }
     public DbSet<UserUploadTaxAssistedDoc> UserUploadTaxAssistedDocs { get; set; }
+    public DbSet<SelfOnlineEmploymentIncome> SelfOnlineEmploymentIncomes { get; set; }
+    public DbSet<SelfOnlineEmploymentIncomeDetails> SelfOnlineEmploymentIncomeDetails { get; set; }
+
+    public DbSet<UserTaxAssistedOtherAssetsDetails> UserTaxAssistedOtherAssetsDetails { get; set; }
 
 }

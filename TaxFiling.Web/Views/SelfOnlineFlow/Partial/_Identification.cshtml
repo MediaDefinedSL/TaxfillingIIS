@@ -14,7 +14,6 @@
                     <span class="text-danger"> *</span>
                     <label for="FirstName">First name</label>
                     @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-
                 </div>
                 <div class="col-md-4">
                     <label for="MiddleName">Middle name</label>
@@ -22,7 +21,7 @@
                 </div>
                 <div class="col-md-4">
                     <span class="text-danger"> *</span>
-                    <label for="LastName">Last name </label>
+                    <label for="LastName">Last name</label>
                     @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
                 </div>
             </div>
@@ -30,9 +29,7 @@
             <div class="row mb-4">
                 <div class="col-md-4">
                     <span class="text-danger"> *</span>
-                    <label for="DateOfBirth">Date of birth *</label>
-                    @* @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", Type = "date", value = Model.DateOfBirth?.ToString("dd/mm/yyyy") }) *@
-
+                    <label for="DateOfBirth">Date of birth</label>
                     @if (Model.DateOfBirth != null && Model.DateOfBirth?.Year > 1901)
                     {
                         var birthday = Model.DateOfBirth ?? new DateTime(1901, 1, 1);
@@ -53,16 +50,40 @@
                                 max = DateTime.Today.ToString("yyyy-MM-dd")
                             })
                     }
-
-                  
                 </div>
                 <div class="col-md-4">
                     <label for="TaxIdentificationNumber">Tax Identification Number</label>
                     @Html.TextBoxFor(m => m.TaxNumber, new { @class = "form-control", disabled = "disabled" })
                 </div>
+                <div class="col-md-4">
+                    <label for="NIC">NIC</label>
+                    @Html.TextBoxFor(m => m.NIC_NO, new { @class = "form-control", disabled = "disabled" })
+                </div>
             </div>
 
+        
+            <div class="row mb-4">
+               
+                <div class="col-md-4">
+                    <label for="Gender">Gender</label>
+                    @Html.DropDownListFor(m => m.Gender,
+                             new SelectList(new[]
+                             {
+                    new { Value = "Male", Text = "Male" },
+                    new { Value = "Female", Text = "Female" },
+                    new { Value = "Other", Text = "Other" }
+                    }, "Value", "Text"),
+                             "-- Select Gender --",
+                             new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    <label for="Address">Address</label>
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                </div>
+            </div>
+          
         </form>
+
 
 
         <br><br>

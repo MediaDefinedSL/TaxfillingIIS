@@ -1,4 +1,4 @@
-﻿@model List<TaxFiling.Web.Models.TaxPayer>
+﻿@model List<TaxFiling.Web.Models.TaxPayerViewModel>
 
 <main class="main-content">
     <div class="container-fluid">
@@ -6,18 +6,22 @@
 
         <h2 class="center h1-line">Who are you Preparing this return for?</h2><br><br>
 
-        <div class="image-box  justify-content-between  parent">
+        <div class="image-box justify-content-between parent">
             <div class="row">
-
                 @if (Model != null && Model.Any())
                 {
                     foreach (var taxpayer in Model)
                     {
-                        var isChecked = (ViewBag.taxpayer_id == taxpayer.Id);
-                        <div class='col col-lg-3 col-md-3 p-3  text-center Tax-pesonaldetail-icon'>
-                            <input type="radio" name="imgbackground" id="@taxpayer.Id" class="d-none imgbgchk" value="@taxpayer.Id" @(isChecked ? "checked" : "")>
-                            <label for="@taxpayer.Id">
-                                <img src="@taxpayer.ImageUrl" alt="Image @taxpayer.Id">
+                        var isChecked = (ViewBag.taxpayer_id == taxpayer.TaxpayerId);
+                        <div class='col col-lg-3 col-md-3 p-3 text-center Tax-pesonaldetail-icon'>
+                            <input type="radio" name="imgbackground"
+                                   id="@taxpayer.TaxpayerId"
+                                   class="d-none imgbgchk"
+                                   value="@taxpayer.TaxpayerId"
+                                   data-name="@taxpayer.Name"
+                            @(isChecked ? "checked" : "")>
+                            <label for="@taxpayer.TaxpayerId">
+                                <img src="@taxpayer.ImageUrl" alt="Image @taxpayer.TaxpayerId">
                                 <div class="nametag">
                                     @taxpayer.Name
                                 </div>
@@ -29,13 +33,61 @@
 
                     }
                 }
-                else
+              else
                 {
                     <div class="col-12">
                         <p>No taxpayers found.</p>
                     </div>
-                }
+                }  
+            </div>
+        </div>
 
+
+        <br />
+
+        @{
+            var selectedTaxpayer = Model.FirstOrDefault(t => t.TaxpayerId == (int?)ViewBag.taxpayer_id);
+        }
+        <!-- Spouse Details -->
+        <div id="spouseDetails" class="mt-4" style="display:none;">
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5>Spouse Details</h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Name of Spouse</label>
+                        <input type="text" class="form-control" name="SpouseName" id="SpouseName" value="@selectedTaxpayer?.SpouseName" />
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">TIN Number</label>
+                        <input type="text" class="form-control" name="SpouseTINNo" id="SpouseTINNo" value="@selectedTaxpayer?.SpouseTINNo" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">NIC</label>
+                        <input type="text" class="form-control" name="SpouseNIC" id="SpouseNIC" value="@selectedTaxpayer?.SpouseNIC" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Someone Else Details -->
+        <div id="someoneElseDetails" class="mt-4" style="display:none;">
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <h5>Other Person Details</h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" name="OtherName" value="@selectedTaxpayer?.SomeoneName" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Relationship</label>
+                        <input type="text" class="form-control" name="OtherRelationship" value="@selectedTaxpayer?.Relationship" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">TIN Number</label>
+                        <input type="text" class="form-control" name="OtherTIN" value="@selectedTaxpayer?.SomeoneTINNo" />
+                    </div>
+                </div>
             </div>
         </div>
 

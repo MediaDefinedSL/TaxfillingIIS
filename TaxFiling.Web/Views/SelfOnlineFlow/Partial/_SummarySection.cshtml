@@ -13,8 +13,46 @@
             <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
                 <h6 class="fw-semibold text-dark mb-2">TaxPayer(s)</h6>
                 <p class="mb-1 small">@ViewBag.TaxPayerName</p>
+               
+                @if (@Model.TaxpayerId == 3)
+                {
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="fw-semibold text-dark mb-2">Name</h6>
+                            <label class="form-control">@Model.SomeoneName </label>
+                        </div>
+                        <div class="col">
+                            <h6 class="fw-semibold text-dark mb-2">Relationship</h6>
+                            <label class="form-control">@Model.Relationship </label>
+                        </div>
+                        <div class="col">
+                            <h6 class="fw-semibold text-dark mb-2">TIN Number</h6>
+                            <label class="form-control">@Model.SomeoneTINNo </label>
+                        </div>
+                    </div>
+                }
+                @if (@Model.TaxpayerId == 2)
+                {
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="fw-semibold text-dark mb-2">Name of Spouse</h6>
+                            <label class="form-control">@Model.SpouseName </label>
+                        </div>
+                        <div class="col">
+                            <h6 class="fw-semibold text-dark mb-2">TIN Number</h6>
+                            <label class="form-control">@Model.SpouseTINNo </label>
+                        </div>
+                        <div class="col">
+                            <h6 class="fw-semibold text-dark mb-2">NIC</h6>
+                            <label class="form-control">@Model.SpouseNIC </label>
+                        </div>
+                    </div>
+                }
             </div>
-        
+            
+
             <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
                 <h6 class="fw-semibold text-dark mb-2">Marital Status</h6>
                 <p class="mb-1 small">@ViewBag.MaritalStatusName</p>
@@ -47,13 +85,32 @@
                 <div class="row">
                     <div class="col">
                         <h6 class="fw-semibold text-dark mb-2">Date of birth</h6>
-                        <label class="form-control">@Model.DateOfBirth </label>
+                        <label class="form-control">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("MM/dd/yyyy") : "") </label>
                     </div>
                     <div class="col">
                         <h6 class="fw-semibold text-dark mb-2">Tax Identification Number</h6>
                         <label class="form-control">@Model.TaxNumber </label>
                     </div>
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Tax Identification Number</h6>
+                        <label class="form-control">@Model.NIC_NO </label>
+                    </div>
                     
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Date of birth</h6>
+                        <label class="form-control">@Model.Gender </label>
+                    </div>
+                    <div class="col">
+                        <h6 class="fw-semibold text-dark mb-2">Tax Identification Number</h6>
+                        <label class="form-control">@Model.Address </label>
+                    </div>
+                    <div class="col">
+                       
+                    </div>
+
                 </div>
             </div>
 

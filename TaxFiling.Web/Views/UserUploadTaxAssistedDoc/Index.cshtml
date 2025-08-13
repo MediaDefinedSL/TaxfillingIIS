@@ -376,6 +376,10 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
+                        <!-- Previous Button -->
+                        <button class="btn btn-outline-secondary" id="btnPrevious">
+                            <i class="fas fa-arrow-left me-2"></i> Previous
+                        </button>
                         <button class="btn btn-primary " id="btnNext">
                             Next <i class="fas fa-arrow-right ms-2"></i>
                         </button>
@@ -575,144 +579,172 @@
                                                     <th style="background-color: #4aadfd; color: #fff !important">Asset Category</th>
                                                     <th style="width: 35%;background-color: #4aadfd; color: #fff !important">Value / Notes</th>
                                                     <th style="width: 25%;background-color: #4aadfd; color: #fff !important">Upload</th>
+                                                        <th style="width: 5%;background-color: #4aadfd; color: #fff !important">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="table-light">
-                                                    <td>1</td>
-                                                        <td>Deed of land, building, apartment <input type="hidden" class="AssetCategory" value="Deed of land, building, apartment" /></td>
-                                                        <td><input type="text" name="assets[0].Description" class="form-control" placeholder="Enter value or notes" /></td>
-                                                    <td>
-                                                        <div class="file-upload-wrapper">
-                                                            <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[0].Files" class="form-control" />
+                                                    <tr class="table-light align-middle">
+                                                        <td class="text-center" style="width: 40px;">1</td>
+                                                        <td style="min-width: 220px; font-weight: normal;">
+                                                            Deed of land, building, apartment
+                                                            <input type="hidden" class="AssetCategory" value="Deed of land, building, apartment" />
+                                                        </td>
+                                                        <td style="min-width: 280px;">
+                                                            <div id="notesContainer-0">
+                                                                <input type="text"
+                                                                       name="assets[0].Description"
+                                                                       class="form-control form-control-sm mb-2"
+                                                                       placeholder="Enter value or notes"
+                                                                       aria-label="Enter value or notes for asset 1" />
                                                             </div>
-                                                            <div id="extraFileInputs-0"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(0)">
-                                                                ➕ Add More Files
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td style="min-width: 220px;">
+                                                            <div class="file-upload-wrapper">
+                                                                <div class="file-input-group mb-2">
+                                                                    <input type="file"
+                                                                           name="assets[0].Files"
+                                                                           class="form-control form-control-sm"
+                                                                           aria-label="Upload file for asset 1" />
+                                                                </div>
+                                                            </div> <!-- Closing div was missing -->
+                                                        </td>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(0,1)"
+                                                                    aria-label="Upload asset 1"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
+                                                    </tr>
                                                 <tr>
                                                     <td>2</td>
                                                         <td>Movable Properties (Motor Vehicles) <input type="hidden" class="AssetCategory" value="Movable Properties (Motor Vehicles)" /</td>
-                                                    <td>
-                                                            <select class="form-select mb-2" name="assets[1].vehicleTypes">
-                                                            <option value="">Select Vehicle Type</option>
-                                                            <option>Motor Car</option>
-                                                            <option>Van</option>
-                                                            <option>Bike</option>
-                                                            <option>Other</option>
-                                                        </select>
-                                                            <input type="text" name="assets[1].Description" class="form-control" placeholder="Value / Description" />
-                                                    </td>
+                                                        <td>
+                                                            <div id="vehicleNoteContainer-1">
+                                                                <div class="vehicle-note-group mb-2 d-flex gap-2">
+                                                                    <select class="form-select" name="assets[1].vehicleTypes">
+                                                                        <option value="">Select Vehicle Type</option>
+                                                                        <option>Motor Car</option>
+                                                                        <option>Van</option>
+                                                                        <option>Bike</option>
+                                                                        <option>Other</option>
+                                                                    </select>
+                                                                    <input type="text" name="assets[1].Description" class="form-control" placeholder="Value / Description" />
+                                                                </div>
+                                                            </div>                                                            
+                                                        </td>
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
                                                                     <input type="file" name="assets[1].Files" class="form-control" />
-                                                            </div>
-                                                            <div id="extraFileInputs-1"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(1)">
-                                                                ➕ Add More Files
-                                                            </a>
+                                                            </div>                                                            
                                                         </div>
                                                     </td>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(1,1)"
+                                                                    aria-label="Upload asset 2"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
                                                 </tr>
-                                                <tr class="table-light">
+                                                    <tr class="table-light align-middle">
                                                     <td>3</td>
                                                         <td>Shares/Stocks/Securities as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Shares/Stocks/Securities" /></td>
-                                                    <td>
-                                                            <select class="form-select mb-2" name="assets[2].InstitutionType">
-                                                                <option value="">Select Institution</option>
-                                                                <option>Share balances on the Sri Lanka Stock Exchange</option>
-                                                                <option>Investments in Treasury bills</option>
-                                                                <option>Investments in Treasury bonds</option>
-                                                                <option>Foreign investments</option>
-                                                                <option>Any other investments</option>                                                               
-                                                        </select>
-                                                            <input type="text" name="assets[2].Description"  class="form-control" placeholder="Enter value or notes" />
+                                                   
+                                                        <td>
+                                                            <div id="institutionTypeNoteContainer-2">
+                                                                <div class="institution-note-group mb-2 d-flex gap-2">
+                                                                    <select class="form-select mb-2" name="assets[2].InstitutionType">
+                                                                        <option value="">Select Institution</option>
+                                                                        <option>Share balances on the Sri Lanka Stock Exchange</option>
+                                                                        <option>Investments in Treasury bills</option>
+                                                                        <option>Investments in Treasury bonds</option>
+                                                                        <option>Foreign investments</option>
+                                                                        <option>Any other investments</option>
+                                                                    </select>
+                                                                    <input type="text" name="assets[2].Description" class="form-control" placeholder="Value / Description" />
+                                                                </div>
+                                                            </div>                                                            
                                                         </td>
+
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
                                                                     <input type="file" name="assets[2].Files" class="form-control" />
-                                                            </div>
-                                                            <div id="extraFileInputs-2"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(2)">
-                                                                ➕ Add More Files
-                                                            </a>
-                                                        </div>
+                                                            </div>                                                            
                                                     </td>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(2,1)"
+                                                                    aria-label="Upload asset 3"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
                                                 </tr>
-                                                <tr>
+                                                  <tr >
                                                     <td>4</td>
-                                                        <td>Cash in hand as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Cash in hand" /></td>
-                                                        <td><input type="text" name="assets[3].Description" class="form-control" placeholder="Enter value or notes" /></td>
-                                                    <td>
-                                                        
-                                                    </td>
-                                                </tr>
-                                                <tr class="table-light">
-                                                    <td>5</td>
-                                                        <td>Loans given & amount receivable as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Loans given & amount receivable" /></td>
-                                                        <td><input type="text" name="assets[4].Description"  class="form-control" placeholder="Enter value or notes" /></td>
-                                                    <td>
-                                                      
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>6</td>
-                                                        <td>Value of gold, silver, gems, jewellery etc. as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Value of gold, silver, gems, jewellery " /></td>
-                                                        <td><input type="text" name="assets[5].Description" class="form-control" placeholder="Enter value or notes" /></td>
-                                                    <td>
-                                                        
-                                                    </td>
-                                                </tr>
-                                                <tr class="table-light">
-                                                    <td>7</td>
                                                         <td>Business Current and Capital Accounts (Form 15, Partnership Accounts) <input type="hidden" class="AssetCategory" value="Business Current and Capital Accounts" /></td>
-                                                        <td><input type="text" name="assets[6].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                        <td>
+                                                            <div id="notesContainer-3">
+                                                                <input type="text" name="assets[3].Description" class="form-control mb-2" placeholder="Enter value or notes" />
+                                                            </div>                                                           
+                                                        </td>
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[6].Files" class="form-control" />
-                                                            </div>
-                                                            <div id="extraFileInputs-6"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(6)">
-                                                                ➕ Add More Files
-                                                            </a>
+                                                                    <input type="file" name="assets[3].Files" class="form-control" />
+                                                            </div>                                                          
                                                         </div>
                                                     </td>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(3,1)"
+                                                                    aria-label="Upload asset 4"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>8</td>
+                                                    <tr class="table-light align-middle">
+                                                    <td>5</td>
                                                     <td>Any other assets acquired or gifts received during the year<br />Please provide if you have received any gifts from spouse or children acquition of Assets
                                                             <input type="hidden" class="AssetCategory" value="Any other assets acquired or gifts received" />
                                                         </td>
-                                                        <td><input type="text" name="assets[7].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                        <td>
+                                                            <div id="notesContainer-4">
+                                                                <input type="text" name="assets[4].Description" class="form-control mb-2" placeholder="Enter value or notes" />
+                                                            </div>                                                           
+                                                        </td>
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[7].Files" class="form-control" />
-                                                            </div>
-                                                            <div id="extraFileInputs-7"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(7)">
-                                                                ➕ Add More Files
-                                                            </a>
+                                                                    <input type="file" name="assets[4].Files" class="form-control" />
+                                                            </div>                                                            
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr class="table-light">
-                                                    <td>9</td>
-                                                    <td>Disposal of assets including shares (sale/transfer/gift) during the year
-                                                            <input type="hidden" class="AssetCategory" value="Disposal of assets including shares" />
-                                                    </td>
-                                                        <td><input type="text" name="assets[8].Description" class="form-control" placeholder="Enter value or notes" /></td>
-                                                    <td>
-                                                        
-                                                    </td>
-                                                </tr>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(4,1)"
+                                                                    aria-label="Upload asset 5"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
+                                                </tr>                                               
 
                                             </tbody>
                                         </table>
@@ -729,91 +761,135 @@
                                                     <th style="background-color: #4aadfd; color: #fff !important">Asset Category</th>
                                                     <th style="width: 35%;background-color: #4aadfd; color: #fff !important">Value / Notes</th>
                                                     <th style="width: 25%;background-color: #4aadfd; color: #fff !important">Upload</th>
+                                                        <th style="width: 5%;background-color: #4aadfd; color: #fff !important">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr class="table-light">
                                                     <td>1</td>
                                                         <td>Deed of land, building, apartment <input type="hidden" class="AssetCategory" value="Deed of land, building, apartment" /></td>
-                                                        <td><input type="text" name="assets[0].Description" class="form-control" placeholder="Enter value or notes" /></td>
+                                                        <td>
+                                                            <div id="notesContainer-5">
+                                                                <input type="text" name="assets[5].Description" class="form-control mb-2" placeholder="Enter value or notes" />
+                                                            </div>                                                            
+                                                        </td>
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[0].Files" class="form-control" />
-                                                            </div>
-                                                            <div id="extraFileInputs-0"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(0)">
-                                                                ➕ Add More Files
-                                                            </a>
+                                                                    <input type="file" name="assets[5].Files" class="form-control" />
+                                                            </div>                                                           
                                                         </div>
                                                     </td>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(5,2)"
+                                                                    aria-label="Upload asset 1"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                     <td>2</td>
                                                         <td>Movable Properties (Motor Vehicles) <input type="hidden" class="AssetCategory" value="Movable Properties (Motor Vehicles)" /></td>
-                                                    <td>
-                                                        <select class="form-select mb-2" name="assets[1].vehicleTypes">
-                                                            <option value="">Select Vehicle Type</option>
-                                                            <option>Motor Car</option>
-                                                            <option>Van</option>
-                                                            <option>Bike</option>
-                                                            <option>Other</option>
-                                                        </select>
-                                                            <input type="text" name="assets[1].Description" class="form-control" placeholder="Value / Description" />
-                                                    </td>
+                                                        <td>
+                                                            <div id="vehicleNoteContainer-6">
+                                                                <div class="vehicle-note-group mb-2 d-flex gap-2">
+                                                                    <select class="form-select" name="assets[6].vehicleTypes">
+                                                                        <option value="">Select Vehicle Type</option>
+                                                                        <option>Motor Car</option>
+                                                                        <option>Van</option>
+                                                                        <option>Bike</option>
+                                                                        <option>Other</option>
+                                                                    </select>
+                                                                    <input type="text" name="assets[6].Description" class="form-control" placeholder="Value / Description" />
+                                                                </div>
+                                                            </div>                                                            
+                                                        </td>
+
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[1].Files" class="form-control" />
-                                                            </div>
-                                                            <div id="extraFileInputs-1"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(1)">
-                                                                ➕ Add More Files
-                                                            </a>
+                                                                    <input type="file" name="assets[6].Files" class="form-control" />
+                                                            </div>                                                           
                                                         </div>
                                                     </td>
+                                                     <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(6,2)"
+                                                                    aria-label="Upload asset 2"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
                                                 </tr>
                                                 <tr class="table-light">
                                                     <td>3</td>
                                                         <td>Shares/Stocks/Securities as at 31.03.2025 <input type="hidden" class="AssetCategory" value="Shares/Stocks/Securities" /></td>
-                                                    <td>
-                                                            <select class="form-select mb-2" name="assets[2].InstitutionType">
-                                                                <option value="">Select Institution</option>
-                                                                <option>Share balances on the Sri Lanka Stock Exchange</option>
-                                                                <option>Investments in Treasury bills</option>
-                                                                <option>Investments in Treasury bonds</option>
-                                                                <option>Foreign investments</option>
-                                                                <option>Any other investments</option>
-                                                            </select>
-                                                            <input type="text" name="assets[2].Description" class="form-control" placeholder="Enter value or notes" />
-                                                    </td>
+                                                        <td>
+                                                            <div id="institutionTypeNoteContainer-7">
+                                                                <div class="institution-note-group mb-2 d-flex gap-2">
+                                                                    <select class="form-select mb-2" name="assets[7].InstitutionType">
+                                                                        <option value="">Select Institution</option>
+                                                                        <option>Share balances on the Sri Lanka Stock Exchange</option>
+                                                                        <option>Investments in Treasury bills</option>
+                                                                        <option>Investments in Treasury bonds</option>
+                                                                        <option>Foreign investments</option>
+                                                                        <option>Any other investments</option>
+                                                                    </select>
+                                                                    <input type="text" name="assets[7].Description" class="form-control" placeholder="Value / Description" />
+                                                                </div>
+                                                            </div>
+                                                           
+                                                        </td>
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[2].Files" class="form-control" />
-                                                            </div>
-                                                            <div id="extraFileInputs-2"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(2)">
-                                                                ➕ Add More Files
-                                                            </a>
+                                                                    <input type="file" name="assets[7].Files" class="form-control" />
+                                                            </div>                                                           
                                                         </div>
                                                     </td>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(7,2)"
+                                                                    aria-label="Upload asset 3"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                     <td>4</td>
                                                         <td>Business Current and Capital Accounts (Form 15, Partnership Accounts) <input type="hidden" class="AssetCategory" value="Business Current and Capital Accounts" /></td>
-                                                        <td><input type="text" class="form-control" name="assets[3].Description" placeholder="Enter value or notes" /></td>
+                                                        <td>
+                                                            <div id="notesContainer-8">
+                                                                <input type="text" name="assets[8].Description" class="form-control mb-2" placeholder="Enter value or notes" />
+                                                            </div>                                                            
+                                                        </td>
                                                     <td>
                                                         <div class="file-upload-wrapper">
                                                             <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[3].Files" class="form-control" />
+                                                                    <input type="file" name="assets[8].Files" class="form-control" />
                                                             </div>
-                                                            <div id="extraFileInputs-3"></div>
-                                                            <a href="javascript:void(0)" class="text-primary small" onclick="addMoreFiles(3)">
-                                                                ➕ Add More Files
-                                                            </a>
+                                                            
                                                         </div>
                                                     </td>
+                                                        <td class="text-center" style="width: 110px; vertical-align: middle;">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-success px-3"
+                                                                    style="padding-top: 0.375rem; padding-bottom: 0.375rem; line-height: 1.25; min-height: 32px;"
+                                                                    onclick="uploadAsset(8,2)"
+                                                                    aria-label="Upload asset 4"
+                                                                    title="Upload">
+                                                                <i class="bi bi-cloud-upload-fill me-1"></i> Upload
+                                                            </button>
+                                                        </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -821,9 +897,9 @@
                                 </div>
 
                                 <!-- Submit Button -->
-                                <div class="text-end mt-4">
+                                @* <div class="text-end mt-4">
                                         <button type="button" class="btn btn-success px-4 submit-btn" onclick="submitLocalAssets();">Upload</button>
-                                </div>
+                                </div> *@
                                 </form>
                                 <div class="card my-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -908,14 +984,132 @@
                                 </table>
                             </div>
                         </div>
-
+                        </div>
+                   
+                   
+                    <!-- Collapsible Trigger (Styled as a Bar) -->
+                    <div class="mt-5">
+                        <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border"
+                             role="button"
+                             data-bs-toggle="collapse"
+                             data-bs-target="#financialDetailsCollapse"
+                             aria-expanded="true"
+                             aria-controls="financialDetailsCollapse"
+                             id="financialToggle"
+                             style="font-weight: normal;">
+                            <span style="font-weight: normal;">
+                                <i class="fas fa-file-invoice-dollar me-2"></i>
+                                Income Tax payments and Details for expenses for Assessment Year 2024/2025
+                            </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
                     </div>
+
+                    <!-- Collapsible Section -->
+                    <div class="collapse mt-3 show" id="financialDetailsCollapse">
+                        <div class="card card-body border shadow-sm">
+
+                            <div class="alert alert-info mt-3" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Please provide the following information for the year <strong>01.04.2024 to 31.03.2025</strong>.
+                            </div>
+
+                            <!-- Assets Box -->
+                            <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                                <h6 class="mb-4 text-primary">
+                                    <i class="fas fa-boxes me-2"></i> Income Tax Payment Details as at 31.03.2025
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Cash in hand</label>
+                                        <input type="number" class="form-control" name="CashInHand" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Loans given / Receivables</label>
+                                        <input type="number" class="form-control" name="LoansGiven" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Value of Gold, Silver, Gems, Jewellery</label>
+                                        <input type="number" class="form-control" name="JewelleryValue" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Disposal of assets (shares/sale/gift etc.)</label>
+                                        <input type="text" class="form-control" name="AssetDisposals" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expense Fields Box -->
+                            <div class="p-4 mb-4 border rounded bg-light shadow-sm">
+                                <h6 class="mb-4 text-primary">
+                                    <i class="fas fa-wallet me-2"></i> Expenses Details
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Living Expenses</label>
+                                        <input type="number" class="form-control" name="LivingExpenses" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">EPF 8%</label>
+                                        <input type="number" class="form-control" name="EPF8Percent" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Fixed Salary Deductions</label>
+                                        <input type="number" class="form-control" name="FixedDeductions" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Children Education Expenses</label>
+                                        <input type="number" class="form-control" name="ChildrenEducation" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Vehicle Expenses (Fuel, Maintenance)</label>
+                                        <input type="number" class="form-control" name="VehicleExpenses" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Medical Expenses</label>
+                                        <input type="number" class="form-control" name="MedicalExpenses" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Loan Re-Payments</label>
+                                        <input type="number" class="form-control" name="LoanRepayments" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Credit Card Payments</label>
+                                        <input type="number" class="form-control" name="CreditCardPayments" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">House Rent</label>
+                                        <input type="number" class="form-control" name="HouseRent" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Donation</label>
+                                        <input type="number" class="form-control" name="Donations" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Life/Medical Insurance Premium</label>
+                                        <input type="number" class="form-control" name="InsurancePremium" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Any Other Expenses</label>
+                                        <input type="text" class="form-control" name="OtherExpenses" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="button" class="btn btn-success" id="saveFinancialDetailsBtn">
+                                    <i class="fas fa-check-circle me-1"></i> Save 
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div class="d-flex justify-content-end mt-4">
                         <button class="btn btn-primary" id="btnDeclareNext">
                             Next <i class="fas fa-arrow-right ms-2"></i>
                         </button>
                     </div>
-                
                 </div>
 
                 <div id="declaration-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
@@ -1031,6 +1225,20 @@
                     icon.classList.add('bi-chevron-down');
                 });
 
+                const toggleButton = document.getElementById("financialToggle");
+                const collapseIcon = document.getElementById("collapseIcon");
+                const collapseTarget = document.getElementById("financialDetailsCollapse");
+
+                collapseTarget.addEventListener("show.bs.collapse", () => {
+                    collapseIcon.classList.remove("fa-chevron-down");
+                    collapseIcon.classList.add("fa-chevron-up");
+                });
+
+                collapseTarget.addEventListener("hide.bs.collapse", () => {
+                    collapseIcon.classList.remove("fa-chevron-up");
+                    collapseIcon.classList.add("fa-chevron-down");
+                });
+
                 function handleExcelFileChange(event) {
                     const fileInput = event.target;
                     const file = fileInput.files[0];
@@ -1094,9 +1302,124 @@
                        btnLocal.classList.remove('active');
                        btnLocal.classList.remove('btn-primary');
                        btnLocal.classList.add('btn-outline-primary');
-                }
+                }                 
                    
              }
+
+                   function addMoreInstitutionTypeNote(index) {
+                          const container = document.getElementById(`institutionTypeNoteContainer-${index}`);
+
+                       const wrapper = document.createElement("div");
+                          wrapper.className = "institution-note-group mb-2 d-flex gap-2";
+
+                       const select = document.createElement("select");
+                       select.className = "form-select";
+                          select.name = `assets[${index}].InstitutionType`;
+                       select.innerHTML = `
+                                       <option value="">Select Institution</option>
+                                        <option>Share balances on the Sri Lanka Stock Exchange</option>
+                                        <option>Investments in Treasury bills</option>
+                                        <option>Investments in Treasury bonds</option>
+                                         <option>Foreign investments</option>
+                                        <option>Any other investments</option>
+                       `;
+
+                       const input = document.createElement("input");
+                       input.type = "text";
+                       input.name = `assets[${index}].Description`;
+                       input.className = "form-control";
+                       input.placeholder = "Value / Description";
+
+                       const removeBtn = document.createElement("button");
+                       removeBtn.type = "button";
+                       removeBtn.className = "btn btn-outline-danger btn-sm";
+                       removeBtn.innerHTML = "✖";
+                       removeBtn.onclick = function () {
+                           removeInstitutionNoteInput(removeBtn);
+                       };
+
+                       wrapper.appendChild(select);
+                       wrapper.appendChild(input);
+                       wrapper.appendChild(removeBtn);
+                       container.appendChild(wrapper);
+                   }
+
+                      function removeInstitutionNoteInput(button) {
+                                       const wrapper = button.closest(".institution-note-group");
+                       if (wrapper) wrapper.remove();
+                   }
+
+                 function addMoreVehicleNote(index) {
+                    const container = document.getElementById(`vehicleNoteContainer-${index}`);
+
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "vehicle-note-group mb-2 d-flex gap-2";
+
+                    const select = document.createElement("select");
+                    select.className = "form-select";
+                    select.name = `assets[${index}].vehicleTypes`;
+                    select.innerHTML = `
+                        <option value="">Select Vehicle Type</option>
+                        <option>Motor Car</option>
+                        <option>Van</option>
+                        <option>Bike</option>
+                        <option>Other</option>
+                    `;
+
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.name = `assets[${index}].Description`;
+                    input.className = "form-control";
+                    input.placeholder = "Value / Description";
+
+                    const removeBtn = document.createElement("button");
+                    removeBtn.type = "button";
+                    removeBtn.className = "btn btn-outline-danger btn-sm";
+                    removeBtn.innerHTML = "✖";
+                    removeBtn.onclick = function () {
+                        removeVehicleNoteInput(removeBtn);
+                    };
+
+                    wrapper.appendChild(select);
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(removeBtn);
+                    container.appendChild(wrapper);
+                }
+
+                function removeVehicleNoteInput(button) {
+                    const wrapper = button.closest(".vehicle-note-group");
+                    if (wrapper) wrapper.remove();
+                }
+
+                function addMoreNotes(index) {
+                   const container = document.getElementById(`notesContainer-${index}`);
+
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "note-input-group mb-2 d-flex gap-2";
+
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.name = `assets[${index}].Description`;
+                    input.className = "form-control";
+                    input.placeholder = "Enter value or notes";
+
+                    const removeBtn = document.createElement("button");
+                    removeBtn.type = "button";
+                    removeBtn.className = "btn btn-outline-danger btn-sm";
+                    removeBtn.innerHTML = "✖";
+                    removeBtn.onclick = function () {
+                        removeNoteInput(removeBtn);
+                    };
+
+                    wrapper.appendChild(input);
+                    wrapper.appendChild(removeBtn);
+                    container.appendChild(wrapper);
+                }
+
+                function removeNoteInput(button) {
+                    const wrapper = button.closest(".note-input-group");
+                    if (wrapper) wrapper.remove();
+                }
 
                 function addMoreFiles(rowId) {
                     const container = document.getElementById(`extraFileInputs-${rowId}`);
@@ -1129,17 +1452,31 @@
                               const assetCategory = row.find('input.AssetCategory[type="hidden"]').val();
                                  formData.append(`assets[${assetIndex}].AssetCategory`, assetCategory);
                               // Description
-                              const description = row.find('input[type="text"], select').first().val() || '';
-                                 formData.append(`assets[${assetIndex}].AssetNote`, description);
+                              //const description = row.find('input[type="text"], select').first().val() || '';
+                                // formData.append(`assets[${assetIndex}].AssetNote`, description);
 
                               // Vehicle Type (optional)
-                                const vehicleType = row.find(`select[name="assets[${assetIndex}].vehicleTypes"]`).val();
-                              if (vehicleType)
-                                        formData.append(`assets[${assetIndex}].AssetVehicleType`, vehicleType);
+                               // const vehicleType = row.find(`select[name="assets[${assetIndex}].vehicleTypes"]`).val();
+                              //if (vehicleType)
+                                 //       formData.append(`assets[${assetIndex}].AssetVehicleType`, vehicleType);
 
-                                   const assestInstitution = row.find(`select[name="assets[${assetIndex}].InstitutionType"]`).val();
-                                if (assestInstitution)
-                                             formData.append(`assets[${assetIndex}].AssetInstitution`, assestInstitution);
+                                 row.find(`select[name="assets[${assetIndex}].vehicleTypes"]`).each(function (typeIndex) {
+                                    const typeVal = $(this).val();
+                                    if (typeVal && typeVal.trim() !== "") {
+                                           formData.append(`assets[${assetIndex}].AssetVehicleTypes[${typeIndex}]`, typeVal);
+                                    }
+                                });
+
+                                //const assestInstitution = row.find(`select[name="assets[${assetIndex}].InstitutionType"]`).val();
+                              //  if (assestInstitution)
+                                        //     formData.append(`assets[${assetIndex}].AssetInstitution`, assestInstitution);
+                                   row.find(`select[name="assets[${assetIndex}].InstitutionType"]`).each(function (typeIndex) {
+                                    const typeVal = $(this).val();
+                                    if (typeVal && typeVal.trim() !== "") {
+                                               formData.append(`assets[${assetIndex}].AssetInstitutions[${typeIndex}]`, typeVal);
+                                    }
+                                 });
+
 
                                  // Files
                               row.find('input[type="file"]').each(function () {
@@ -1150,6 +1487,17 @@
                                       }
                                   }
                               });
+                            //     row.find('input[name^="assets["][name$=".Description"]').each(function (noteIndex) {
+                            //     formData.append(`assets[${assetIndex}].AssetNotes[${noteIndex}]`, $(this).val());
+                            // });
+
+                                row.find(`input[name="assets[${assetIndex}].Description"]`).each(function (noteIndex) {
+                                    const noteVal = $(this).val();
+                                    if (noteVal && noteVal.trim() !== "") {
+                                        formData.append(`assets[${assetIndex}].AssetNotes[${noteIndex}]`, noteVal);
+                                    }
+                                });
+
                                  assetIndex++;
                           });
 
@@ -1159,7 +1507,7 @@
                        processRows('#manualForeignTab', false); // Foreign assets
                        
                     $.ajax({
-                           url: `${baseApiUrl}api/UserUploadTaxAssistedDoc/SubmitAssets`, // Adjust path if needed
+                                 url: `${baseApiUrl}api/UserUploadTaxAssistedDoc/SubmitAssets`, // Adjust path if needed
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -1175,6 +1523,155 @@
                         }
                     });
                 }
+
+                 document.getElementById('saveFinancialDetailsBtn').addEventListener('click', async () => {
+                  const container = document.getElementById('financialDetailsCollapse');
+                  const dataArray = [];
+
+                  container.querySelectorAll('input').forEach(input => {
+                    const parentDiv = input.closest('.col-md-6');
+                    if (parentDiv) {
+                      const label = parentDiv.querySelector('label.form-label');
+                      if (label) {
+                           const value = input.value.trim();
+                            if (value !== "") {  // only add if not empty
+                              dataArray.push({
+                                Category: label.innerText.trim(),
+                                Value: value
+                              });
+                            }
+                      }
+                    }
+                  });
+
+                  // Add any other info you want, e.g., userId, assessmentYear
+                  const payload = {
+                    UserId: userId, // dynamically set
+                    AssessmentYear: '2024/2025',
+                    Details: dataArray
+                  };
+
+                  try {
+                          const response = await fetch(`${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/SaveUserOtherTaxDetails`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(payload),
+                    });
+
+                    if (!response.ok) {
+                      const err = await response.text();
+                      alert('Error: ' + err);
+                      return;
+                    }
+
+                       showMessage("Data saved successfully!", "success");
+                  } catch (err) {
+                    alert('Failed to submit: ' + err.message);
+                  }
+                });
+
+                   async function loadFinancialDetails(userId, assessmentYear) {
+                  try {
+                             const url = `${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/GetUserOtherTaxDetails?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentYear)}`;
+                       const response = await fetch(url);
+                          
+                          if (!response.ok) {
+                      alert('Failed to load data');
+                      return;
+                    }
+                    const data = await response.json();
+
+                                   if (data && data.details && data.details.length > 0) {
+                     document.getElementById('saveFinancialDetailsBtn').innerText = "Update"; // change to update
+                } else {
+                     document.getElementById('saveFinancialDetailsBtn').innerText = "Save";
+                }
+
+                    // Populate inputs by matching label text with category
+                    data.details.forEach(detail => {
+                      document.querySelectorAll('#financialDetailsCollapse .col-md-6').forEach(div => {
+                        const label = div.querySelector('label.form-label');
+                        const input = div.querySelector('input');
+                        if (label && input && label.innerText.trim() === detail.category) {
+                          input.value = detail.value;
+                        }
+                      });
+                    });
+                  } catch (err) {
+                    alert('Error loading data: ' + err.message);
+                  }
+                }
+
+
+                 function uploadAsset(index, assetType) {
+                  // Get the note input
+                  const noteInput = $(`input[name="assets[${index}].Description"]`);
+                  const note = noteInput.val().trim();
+
+                  // Get the file input
+                  const fileInput = $(`input[name="assets[${index}].Files"]`)[0];
+                  const file = fileInput.files[0];
+
+                // Vehicle Type (optional)
+                  const vehicleType =$(`select[name="assets[${index}].vehicleTypes"]`).val();
+                  const assestInstitution = $(`select[name="assets[${index}].InstitutionType"]`).val();
+                 const vehicleTypeSelect = $(`select[name="assets[${index}].vehicleTypes"]`);
+                const institutionSelect = $(`select[name="assets[${index}].InstitutionType"]`);                
+
+                  // Basic validation
+                  // if (!note) {
+                  //   alert("Please enter a note or value.");
+                  //   noteInput.focus();
+                  //   return;
+                  // }
+                  // if (!file) {
+                  //   alert("Please select a file to upload.");
+                  //   fileInput.focus();
+                  //   return;
+                  // }
+
+                  // Prepare form data for AJAX
+                  const formData = new FormData();
+                 // formData.append(`assets[${index}].AssetNote`, note);
+                  formData.append(`AssetNote`, note);
+                  formData.append(`Files`, file);
+                  formData.append(`AssetCategory`, $(".AssetCategory").eq(index).val()); // category hidden input
+                  formData.append(`UserId`, userId);
+                     formData.append(`AssestType`, assetType);
+                  if (vehicleType)
+                       formData.append(`AssetVehicleType`, vehicleType);
+                   if (assestInstitution)
+                          formData.append(`AssetInstitution`, assestInstitution);
+                  // Disable button to prevent multiple clicks
+                  const btn = $(`button[onclick='uploadAsset(${index})']`);
+                  btn.prop("disabled", true).text("Uploading...");
+
+                  // AJAX upload call (adjust URL to your API endpoint)
+                     $.ajax({
+                                url:`${baseApiUrl}api/UserUploadTaxAssistedDoc/SubmitAssets`,
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                         showMessage("Assets saved successfully!", "success");
+                               //alert("Assets saved successfully!");
+                        loadAssestsUploadedFiles(userId);
+                      // Clear inputs or update UI as needed
+                      noteInput.val("");
+                      fileInput.value = "";
+                            vehicleTypeSelect.prop('selectedIndex', 0); // Reset vehicle type dropdown
+                           institutionSelect.prop('selectedIndex', 0); // Reset institution dropdown
+                    },
+                    error: function (xhr, status, error) {
+                      alert("Upload failed: " + error);
+                    },
+                    complete: function () {
+                      btn.prop("disabled", false).html('<i class="bi bi-cloud-upload-fill me-1"></i> Upload');
+                    },
+                  });
+                }
+
                 
                 document.getElementById("fileInput").addEventListener("change", function () {
                           if (this.files.length > 0) {
@@ -1274,6 +1771,7 @@
                          else if (panelId === "other-section") {
                              selectedCategoryName = 'Other Documents';
                              loadUploadedDocs(userId,'Other Documents'); // userId must be available in this scope
+                                loadFinancialDetails(userId, '2024/2025');
                          }
                             else if (panelId === "declaration-section") {
                                 selectedCategoryName = 'Declaration';
@@ -1303,7 +1801,7 @@
                                       
                                 
                                 if (filteredDocs.length === 0) {
-                                    tbody.append(`<tr><td colspan="5" class="text-center">No Assets/Liabilities uploaded.</td></tr>`);
+                                    tbody.append(`<tr><td colspan="7" class="text-center">No Assets/Liabilities uploaded.</td></tr>`);
                                     return;
                                 }
 
@@ -1315,7 +1813,11 @@
                                             <td>${index + 1}</td>
                                                <td>${doc.assetCategory}</td>
                                                <td>${assetTypeLabel}</td>
-                                                  <td>${doc.assetNote || ""}</td>
+                                                <td>
+                                                  ${doc.assetNote || ""}
+                                                  ${doc.assetVehicleType ? ' - ' + doc.assetVehicleType : ''}
+                                                              ${!doc.assetVehicleType && doc.assetInstitution ? ' - ' + doc.assetInstitution : ''}
+                                                </td>
                                                   <td>${doc.originalName || ""}</td>
                                                      <td>${dateOnly}</td>
                                             <td>

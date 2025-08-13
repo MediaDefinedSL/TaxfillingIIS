@@ -1,6 +1,7 @@
-﻿namespace TaxFiling.Web.Models;
 
-public class IdentificationsViewModel
+namespace TaxFiling.Domain.Dtos;
+
+public class IdentificationsDto
 {
     public string UserId { get; set; }
 

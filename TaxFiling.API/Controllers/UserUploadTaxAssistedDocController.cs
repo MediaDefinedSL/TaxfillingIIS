@@ -84,11 +84,11 @@ public class UserUploadTaxAssistedDocController : ControllerBase
     }
 
     [HttpPost("submitassets")]
-    public async Task<IActionResult> SubmitAssets([FromForm] List<UserUploadTaxAssistedDocDto> assets)
+    public async Task<IActionResult> SubmitAssets([FromForm] UserUploadTaxAssistedDocDto asset)
     {
-        var result = await _userUploadTaxAssistedDocRepository.SubmitAssetsAsync(assets);
+        var result = await _userUploadTaxAssistedDocRepository.SubmitAssetsAsync(asset);
 
-        return Ok(new { message = "Form data received successfully", assetCount = assets.Count });
+        return Ok(new { message = "Form data received successfully" });
     }
 
     

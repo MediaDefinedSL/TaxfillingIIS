@@ -34,11 +34,11 @@ public class SelfOnlineFlowController : ControllerBase
     }
 
     [HttpGet("taxpayer_list")]
-    public async Task<IActionResult> GetTaxPayers(CancellationToken ctx)
+    public async Task<IActionResult> GetTaxPayers(string userId, int year,CancellationToken ctx)
     {
         try
         {
-            var taxPayers = await _selfOnlineFlowRepository.GetTaxPayers(ctx);
+            var taxPayers = await _selfOnlineFlowRepository.GetTaxPayers(userId, year,ctx);
             //var responseResult = new ResponseResult
             //{
             //    Data = varients
@@ -117,11 +117,11 @@ public class SelfOnlineFlowController : ControllerBase
     }
 
     [HttpPut("update_taxpayer")]
-    public async Task<IActionResult> UpdateTaxPayer([FromQuery]string userId, [FromQuery] int year,[FromQuery] int taxPayerId)
+    public async Task<IActionResult> UpdateTaxPayer(TaxPayerDetailsDto taxPayerdetails)
     {
         try
         {
-            var isSuccess = await _selfOnlineFlowRepository.UpdateTaxPayer(userId, year, taxPayerId);
+            var isSuccess = await _selfOnlineFlowRepository.UpdateTaxPayer(taxPayerdetails);
            
             return Ok(isSuccess);
         }
@@ -159,11 +159,11 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpPut("update_identification")]
-    public async Task<IActionResult> UpdatelIdentification(string userId, int year, string firstName, string middleName, string lastName, DateTime dateofbirth,string taxnumber)
+    public async Task<IActionResult> UpdatelIdentification(IdentificationsDto identifications)
     {
         try
         {
-            var isSuccess = await _selfOnlineFlowRepository.UpdatelIdentification(userId, year, firstName, middleName, lastName, dateofbirth, taxnumber);
+            var isSuccess = await _selfOnlineFlowRepository.UpdatelIdentification(identifications);
 
             return Ok(isSuccess);
         }
@@ -186,4 +186,104 @@ public class SelfOnlineFlowController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPost("save_employmentincome")]
+    public async Task<IActionResult> SaveSelfOnlineEmploymentIncome(SelfOnlineEmploymentIncomeDto selfOnlineEmploymentIncome)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfOnlineEmploymentIncome(selfOnlineEmploymentIncome);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("get_employmentincome")]
+    public async Task<IActionResult> GetSelfOnlineEmploymentIncome(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var employmentIncome = await _selfOnlineFlowRepository.GetSelfOnlineEmploymentIncome(userId, year, ctx);
+            if (employmentIncome is null)
+            {
+                return NoContent();
+            }
+
+            return Ok(employmentIncome);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("save_employmentincomedetails")]
+    public async Task<IActionResult> SaveSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfOnlineEmploymentIncomeDetails(selfOnlineEmploymentIncomeDetails);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("employmentincome_list")]
+    public async Task<IActionResult> GetSelfOnlineEmploymentIncomeList(string userId, int year,  CancellationToken ctx)
+    {
+        try
+        {
+            var employmentincomeList = await _selfOnlineFlowRepository.GetSelfOnlineEmploymentIncomeList(userId, year,  ctx);
+            //var responseResult = new ResponseResult
+            //{
+            //    Data = varients
+            //};
+
+            return Ok(employmentincomeList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("update_eincometerminalbenefits")]
+    public async Task<IActionResult> UpdateEmploymentIncomeTerminalBenefits(string userId, int year, int employmentIncomeId , bool terminalBenefits)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.UpdateEmploymentIncomeTerminalBenefits(userId, year, employmentIncomeId, terminalBenefits);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("update_eincomeexemptamounts")]
+    public async Task<IActionResult> UpdateEmploymentIncomeExemptAmounts(string userId, int year, int employmentIncomeId, bool exemptAmounts)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.UpdateEmploymentIncomeExemptAmounts(userId, year, employmentIncomeId, exemptAmounts);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
 }

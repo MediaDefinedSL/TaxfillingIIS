@@ -27,7 +27,13 @@ public class SelfOnlineFlowPersonalInformation
     [Column("date_of_birth")]
     public DateTime? DateOfBirth { get; set; }
     [Column("tax_number")]
-    public string? TaxNumber { get; set; }
+    public string TaxNumber { get; set; }
+    [Column("NIC_NO")]
+    public string NIC_NO { get; set; }
+    [Column("Address")]
+    public string Address { get; set; }
+    [Column("Gender")]
+    public string Gender { get; set; }
     [Column("careof")]
     public string? CareOf { get; set; }
     [Column("apt")]
@@ -44,4 +50,16 @@ public class SelfOnlineFlowPersonalInformation
     public string? TelNoWork { get; set; }
     [Column("extension")]
     public string? Extension { get; set; }
+    [Column("SpouseName")]
+    public string SpouseName { get; set; }
+    [Column("SpouseTINNo")]
+    public string SpouseTINNo { get; set; }
+    [Column("SpouseNIC")]
+    public string SpouseNIC { get; set; }
+    [Column("SomeoneName")]
+    public string SomeoneName { get; set; }
+    [Column("Relationship")]
+    public string Relationship { get; set; }
+    [Column("SomeoneTINNo")]
+    public string SomeoneTINNo { get; set; }
 }

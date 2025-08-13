@@ -20,6 +20,7 @@ public static class ServiceExtensions
         services.AddTransient<ISelfOnlineFlowRepository, SelfOnlineFlowRepository>();
 
         services.AddTransient<IUserUploadTaxAssistedDocRepository, UserUploadTaxAssistedDocRepository>();
+        services.AddTransient<IUserTaxAssistedOtherAssetsDetailsRepository, UserTaxAssistedOtherAssetsDetailsRepository>();
 
 
     }

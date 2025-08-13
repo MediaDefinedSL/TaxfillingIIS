@@ -1,0 +1,105 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+
+@{
+    var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+    var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+    bool isAuthenticated = !string.IsNullOrEmpty(userId);
+    var tinNo = User.Claims.FirstOrDefault(c => c.Type == "TinNo")?.Value;
+}
+
+
+<main class="main-content">
+    <div class="container-fluid">
+
+        <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
+            <h4 class="mb-3"><i class="fas fa-table text-primary me-2"></i> Individual Income Tax Filing Summary</h4>
+
+            <div class="mb-3 ">
+                <table class="table table-borderless site-color">
+                    <thead>
+                        <tr>
+                            <th scope="col"><strong>Taxpayer Identification Number (TIN)  </strong></th>
+                            <th scope="col">@tinNo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><strong>Name of taxpayer</strong></th>
+                            <td>@userName</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><strong>Year of assessment </strong></th>
+                            <td> 2024/2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        
+          
+            @{
+                int startYear = 2019;
+                int endYear = DateTime.Now.Month >= 4 ? DateTime.Now.Year - 1 : DateTime.Now.Year - 2;
+            }
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th width="64"></th>
+                            <th>Year of assessment</th>
+                            <th>Due date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int year = endYear; year >= startYear; year--)
+                        {
+                            var dueDate = new DateTime(year + 1, 11, 30).ToString("yyyy-MM-dd");
+                            var isCurrentAssessmentYear = year == endYear;
+
+                            string status = "SUBMITTED"; // default for past years
+                            if (isCurrentAssessmentYear)
+                            {
+                                status = 0 switch
+                                {
+                                    0 => "NEW",
+                                    1 => "DRAFT",
+                                    2 => "SUBMITTED",
+                                    3 => "REUPLOAD",
+                                    4 => "RESUBMITTED",
+                                    _ => "UNKNOWN"
+                                };
+                            }
+
+                            var badgeClass = status switch
+                            {
+                                "NEW" => "bg-secondary",
+                                "DRAFT" => "bg-warning text-dark",
+                                "SUBMITTED" => "bg-success",
+                                "REUPLOAD" => "bg-danger-subtle text-danger",
+                                "RESUBMITTED" => "bg-info-subtle text-info",
+                                _ => "bg-dark"
+                            };
+                            // Unique ID for row and badge
+                            var rowId = $"assessment-row-{year}";
+                            var badgeId = $"status-badge-{year}";
+                            <tr id="@rowId">
+                                <td width="64" align="center">
+                                    <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "") />
+                                </td>
+                                <td>@year/@(year + 1)</td>
+                                <td>@dueDate</td>
+                                <td>
+                                    <span id="@badgeId" class="badge @badgeClass">@status</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        
+        </div>
+        </div>
+        </main>

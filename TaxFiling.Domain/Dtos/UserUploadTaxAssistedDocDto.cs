@@ -34,9 +34,15 @@ public class UserUploadTaxAssistedDocDto
     public int? AssestType { get; set; }
     public string AssetCategory { get; set; }
     public string AssetNote { get; set; }
+    public List<string> AssetNotes { get; set; }
     public string AssetVehicleType { get; set; }
     public string AssetInstitution { get; set; }
     public List<IFormFile> Files { get; set; }
+
+    public List<AssetUploadItem> Items { get; set; }
+    public List<string> AssetVehicleTypes { get; set; } // Changed to List
+
+    public List<string> AssetInstitutions { get; set; } // Changed to List
 
 
 

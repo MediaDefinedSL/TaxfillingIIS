@@ -1,0 +1,495 @@
+@model TaxFiling.Web.Models.SelfOnlineEmploymentIncome
+
+@{
+    var terminalExpanded = Model.TerminalBenefits == true;
+    var exemptAmountsExpanded = Model.ExemptAmounts == true;
+}
+
+<div class="card card-body">
+    <h4>Individual Income Tax</h4>
+    <hr>
+
+    <form method="post">
+        <h5 class=" mb-3">Details of employment income (Both local &amp; foreign)</h5>
+        <input type="hidden" id="hndSelfOnlineEmploymentIncomeId" value="@Model.SelfOnlineEmploymentIncomeId" name="hndSelfOnlineEmploymentIncomeId" />
+        <div class="row ps-3">
+            <div class="col-sm-8">
+
+
+                <div class="row g-3 align-items-center pb-3">
+                    <div class="col-md-3">
+                        <label class="col-sm-7 col-form-label font-weight-bold">Residency</label>
+                    </div>
+                    <div class="col-md-7">
+
+                        <div class="form-check form-check-inline">
+                            @Html.RadioButtonFor(m => m.Residency, 1, new { @class = "form-check-input", id = "resident" })
+                            <label class="form-check-label" for="resident">Resident</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            @Html.RadioButtonFor(m => m.Residency, 0, new { @class = "form-check-input", id = "nonresident" })
+                            <label class="form-check-label" for="nonresident">Non-resident</label>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-sm-4">
+                <div class="row g-3 align-items-center pb-3">
+                    <div class="col-md-6">
+                        <label class="col-sm-10 col-form-label font-weight-bold">Senior Citizen</label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.CheckBoxFor(m => m.SeniorCitizen, new { id = "seniorCitizen" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <div class=" align-items-right" style="text-align: right;">
+                    <button type="button" class="btn btn-primary mt-3" id="btnEmploymentIncome">Submit</button>
+                </div>
+            </div>
+        </div>
+        <hr class="my-3">
+
+        <div class=" mt-4 ">
+            <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 ps-3 pe-3 pt-4">
+                <h5 class="mt-0 mb-3">Employment Details</h5>
+
+
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-6">
+
+                        <div class="row g-3 align-items-center pb-3">
+                            <div class="col-md-6">
+                                <label class="col-form-label">Type of Employment</label>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-select" id="drpTypeEmployment" name="drpTypeEmployment">
+                                    <option value="Primary">Primary</option>
+                                    <option value="Secondary">Secondary</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="row g-3 align-items-center pb-3">
+                            <div class="col-md-6">
+                                <label class="col-form-label">Remuneration (Rs.)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" maxlength="9" id="txtRemuneration" name="txtRemuneration">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div><div class="row mb-3">
+
+                    <div class="col-sm-6">
+
+                        <div class="row g-3 align-items-center pb-3">
+                            <div class="col-md-6">
+                                <label class="col-form-label">Employer/Company Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="txtEmpDetailsECName" name="txtEmpDetailsECName">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="row g-3 align-items-center pb-3">
+                            <div class="col-md-6">
+                                <label class="col-form-label">APIT Paid on Primary Employment</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" maxlength="9" id="txtAPITPrimaryEmployment" name="txtAPITPrimaryEmployment">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-sm-6">
+                        <div class="row g-3 align-items-center pb-3">
+                            <div class="col-md-6">
+                                <label class="col-form-label">TIN of Employer</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" maxlength="9" id="txtTINEmployer" name="txtTINEmployer">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="row g-3 align-items-center pb-3">
+                            <div class="col-md-6">
+                                <label class="col-form-label">APIT Paid on Secondary Employment</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" maxlength="9" id="txtAPITSecondaryEmployment" name="txtAPITSecondaryEmployment">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class=" align-items-right" style="text-align: right;">
+
+
+                                <button type="button" class="btn btn-primary mt-3" id="btnEmploymentDetails">Submit</button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr class="my-4">
+                    <div class="table-responsive" id="employmentDetailsGrid">
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Type Employment</th>
+                                    <th>Name</th>
+                                    <th>TIN Employer</th>
+                                    <th>Remuneration</th>
+                                    <th>APIT Primary</th>
+                                    <th>APIT Secondary</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+                                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "EmploymentDetails"))
+                                {
+                                    var index = 0;
+                                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                                    .Where(d => d.CategoryName == "EmploymentDetails"))
+                                    {
+                                        <tr>
+                                            <td>@(++index)</td>
+                                            <td>@eploymentIncome.TypeOfName</td>
+                                            <td>@eploymentIncome.EmployerORCompanyName</td>
+                                            <td>@eploymentIncome.TINOfEmployer</td>
+                                            <td>@eploymentIncome.Remuneration</td>
+                                            <td>@eploymentIncome.APITPrimaryEmployment</td>
+                                            <td>@eploymentIncome.APITSecondaryEmployment</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm">Edit</button>
+                                                <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center">No Employment Details found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+          
+
+            <div class="col-md-12">
+                <div class="mt-1 ">
+                    <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 pt-4 pb-4 ps-3 pe-3">
+
+
+                        <!--  Terminal Benefits -->
+                        <div class="tree-item tree-toggle check-box mb-3 @(terminalExpanded ? "" : "collapsed")" data-bs-toggle="collapse" data-bs-target="#etf" aria-expanded="@(terminalExpanded.ToString().ToLower())">
+
+                            <i class="fas fa-folder-open me-2"></i>
+                            <span class="tree-header">Terminal Benefits (Gratuity, ETF, EPF, Compensation)</span>
+                            <i class="bi bi-check"></i>
+
+                        </div>
+                        <div class="tree-node collapse @(terminalExpanded ? "show" : "")" id="etf" style="">
+                            <div class=" mt-4 ">
+                                <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 ps-3 pe-3 pt-4 pb-4">
+
+                                    <div class="row g-3 align-items-center pb-3">
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">Type of Terminal Benefit</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-select" id="dpdTypeTerminal" name="dpdTypeTerminal">
+                                                <option value="Primary">Primary</option>
+                                                <option value="Secondary">Secondary</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 align-items-center pb-3">
+
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">Employer/Company Name</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="txtTerminalECName" name="txtTerminalECName">
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 align-items-center pb-3">
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">TIN of Employer</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" maxlength="9" id="txtTerminalTINNo" name="txtTerminalTINNo">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 align-items-center pb-3 pt-5">
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">Terminal Benefits (Rs.)</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="number" class="form-control" id="txtTerminalBenefits" name="txtTerminalBenefits">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class=" align-items-right" style="text-align: right;">
+                                                <button type="button" class="btn btn-primary mt-3" id="btnTerminalSubmit">Submit</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="my-4">
+                                    <div class="table-responsive" id="terminalDetailsGrid">
+                                        <table class="table table-bordered table-striped mt-2">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Type Employment</th>
+                                                    <th>Name</th>
+                                                    <th>TIN Employer</th>
+                                                    <th>Terminal Benefits</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+                                                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "TerminalBenefits"))
+                                                {
+                                                    var indexT = 0;
+                                                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                                                    .Where(d => d.CategoryName == "TerminalBenefits"))
+                                                    {
+                                                        <tr>
+                                                            <td>@(++indexT)</td>
+                                                            <td>@eploymentIncome.TypeOfName</td>
+                                                            <td>@eploymentIncome.EmployerORCompanyName</td>
+                                                            <td>@eploymentIncome.TINOfEmployer</td>
+                                                            <td>@eploymentIncome.TerminalBenefits</td>
+                                                            <td>
+                                                                <button class="btn btn-primary btn-sm">Edit</button>
+                                                                <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="8" class="text-center">No Terminal Benefits found.</td>
+                                                    </tr>
+                                                }
+                                               
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--  Exempt Amounts -->
+
+                        <div class="tree-item tree-toggle check-box @(exemptAmountsExpanded ? "" : "collapsed")" data-bs-toggle="collapse" data-bs-target="#Exemptt" aria-expanded="@(exemptAmountsExpanded.ToString().ToLower())">
+
+                            <i class="fas fa-folder-open me-2"></i>
+                            <span class="tree-header">Exempt Amounts</span>
+                            <i class="bi bi-check"></i>
+
+                        </div>
+
+                        <div class="tree-node collapse  @(exemptAmountsExpanded ? "show" : "")" id="Exemptt" style="">
+                            <div class=" mt-4 ">
+                                <div class="card shadow-sm border-1 rounded-2 p-1 mb-1 ps-3 pe-3 pt-4 pb-4">
+
+                                    <div class="row g-3 align-items-center pb-3">
+
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">Type of Exempt or Excluded Income</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-select" id="dpdExemptType" name="dpdExemptType">
+                                                <option value="Primary">Primary</option>
+                                                <option value="Secondary">Secondary</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 align-items-center pb-3 pb-4">
+
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">TIN / Name of Employer</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="txtExemptTinEmployerName" name="txtExemptTinEmployerName">
+                                        </div>
+                                    </div>
+                                    <div class="row g-3 align-items-center pb-3">
+
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">TIN of Employer</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" maxlength="9" id="txtExemptTin" name="txtExemptTin">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 align-items-center pb-3 pt-5">
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label">Amount (Rs.)</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="number" class="form-control" id="txtExemptAmount" name="txtExemptAmount">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class=" align-items-right" style="text-align: right;">
+                                                <button type="button" class="btn btn-primary mt-3" id="btnExemptSubmit">Submit</button>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="my-4">
+                                    <div class="table-responsive" id="exemptDetailsGrid">
+                                        <table class="table table-bordered table-striped mt-2">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Type Employment</th>
+                                                    <th>Name</th>
+                                                    <th>TIN Employer</th>
+                                                    <th>Amount </th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+                                                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "ExemptAmounts"))
+                                                {
+                                                    var indexT = 0;
+                                                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                                                    .Where(d => d.CategoryName == "ExemptAmounts"))
+                                                    {
+                                                        <tr>
+                                                            <td>@(++indexT)</td>
+                                                            <td>@eploymentIncome.TypeOfName</td>
+                                                            <td>@eploymentIncome.EmployerORCompanyName</td>
+                                                            <td>@eploymentIncome.TINOfEmployer</td>
+                                                            <td>@eploymentIncome.Amount</td>
+                                                            <td>
+                                                                <button class="btn btn-primary btn-sm">Edit</button>
+                                                                <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="8" class="text-center">No Exempt Amounts found.</td>
+                                                    </tr>
+                                                }
+                                               
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Column: Exempt Amounts -->
+
+
+        </div>
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered terminalbenefits-delete">
+                <div class="modal-content">
+                    <div class="terminalbenefits-deleteheder">
+                        <h5 class="modal-title" id="confirmDeleteLabel">Confirm Deletion</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-0">Are you sure you want to <strong>delete</strong> this data? This action cannot be undone.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </form>
+</div>
+
+<script src="~/scripts/selfonline.employmentincome.js" asp-append-version="true"></script>

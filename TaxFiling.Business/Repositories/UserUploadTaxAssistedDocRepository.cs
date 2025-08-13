@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -119,7 +120,7 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
 
                 AssestOptionType = input.AssestOptionType,
                 AssestsUploadExcelSheetName = input.AssestsUploadExcelSheetName
-                 
+
 
             };
 
@@ -143,22 +144,24 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
             uploadedDocs = await _context.UserUploadTaxAssistedDocs
                 .Where(t => t.UserId == userId) // ✅ Filter by user
                  .Select(t => new UserUploadTaxAssistedDocDto
-                {
-                    UserUploadId = t.UserUploadId,
-                    UserId = t.UserId,                    
-                    UploadDate = t.UploadDate,                    
-                    FileName = t.FileName,
-                    CategoryName = t.CategoryName,
-                    DecryptionKey = t.DecryptionKey ,
-                    OriginalName = t.OriginalName,
-                    AssetCategory = t.AssetCategory,
-                    AssestType = t.AssestType,
-                    T10EmployerName = t.T10EmployerName,
-                    TerminalEmployerName = t.TerminalEmployerName,
-                    AnyOtherType = t.AnyOtherType,
-                    BankConfirmationType = t.BankConfirmationType,
-                    BankName = t.BankName,
-                     AssetNote = t.AssetNote
+                 {
+                     UserUploadId = t.UserUploadId,
+                     UserId = t.UserId,
+                     UploadDate = t.UploadDate,
+                     FileName = t.FileName,
+                     CategoryName = t.CategoryName,
+                     DecryptionKey = t.DecryptionKey,
+                     OriginalName = t.OriginalName,
+                     AssetCategory = t.AssetCategory,
+                     AssestType = t.AssestType,
+                     T10EmployerName = t.T10EmployerName,
+                     TerminalEmployerName = t.TerminalEmployerName,
+                     AnyOtherType = t.AnyOtherType,
+                     BankConfirmationType = t.BankConfirmationType,
+                     BankName = t.BankName,
+                     AssetNote = t.AssetNote,
+                     AssetInstitution = t.AssetInstitution,
+                     AssetVehicleType = t.AssetVehicleType
 
                  })
                 .ToListAsync();
@@ -171,7 +174,7 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
             .ThenBy(t => t.CategoryName)
             .ThenBy(t => t.UploadDate)
             .ToList();
-      }
+        }
         catch (Exception e)
         {
             _logger.LogError(e, "");
@@ -199,106 +202,377 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
         }
     }
 
-    public async Task<int?> SubmitAssetsAsync(List<UserUploadTaxAssistedDocDto> assets)
+    //public async Task<int?> SubmitAssetsAsync(List<UserUploadTaxAssistedDocDto> assets)
+    //{
+    //    try
+    //    {
+    //        foreach (var asset in assets)
+    //        {
+    //            Console.WriteLine("---- Asset ----");
+    //            Console.WriteLine($"AssetType: {asset.AssestType}");
+    //            Console.WriteLine($"AssetCategory: {asset.AssetCategory}");
+    //            Console.WriteLine($"AssetVehicleType: {asset.AssetVehicleType}");
+    //            Console.WriteLine($"AssetInstitution: {asset.AssetInstitution}");
+    //            Console.WriteLine($"T10EmployerName: {asset.T10EmployerName}");
+
+    //            // Pair notes and files manually
+    //            var pairedItems = new List<AssetUploadItem>();
+    //            var notes = asset.AssetNotes ?? new List<string>();
+    //            var files = asset.Files ?? new List<IFormFile>();                
+    //            var usedNoteIndexes = new HashSet<int>();
+    //            int noteCount = asset.AssetNotes?.Count ?? 0;
+    //            int fileCount = asset.Files?.Count ?? 0;
+    //            int pairCount = Math.Min(noteCount, fileCount);
+
+    //            var unpairedNotes = new List<AssetUploadItem>();
+    //            var unpairedFiles = new List<AssetUploadItem>();
+    //            var vehicleTypes = asset.AssetVehicleTypes ?? new List<string>();
+    //            var institutions = asset.AssetInstitutions ?? new List<string>();
+
+    //            var maxCount = Math.Max(fileCount, noteCount);
+    //            if (asset.AssetCategory != "Cash in hand" && asset.AssetCategory != "Loans given & amount receivable" && asset.AssetCategory != "Value of gold, silver, gems, jewellery" && asset.AssetCategory != "Disposal of assets including shares")
+    //            {
+    //                for (int i = 0; i < maxCount; i++)
+    //                {
+    //                    var hasFile = i < fileCount && files[i] != null;
+    //                    var hasNote = i < noteCount && !string.IsNullOrWhiteSpace(notes[i]);
+
+    //                    var vehicleType = i < vehicleTypes.Count ? vehicleTypes[i] : null;
+    //                    var institution = i < institutions.Count ? institutions[i] : null;
+    //                    var note = i < notes.Count ? notes[i] : null;
+    //                    var file = i < files.Count ? files[i] : null;
+
+    //                    if (hasFile && hasNote)
+    //                    {
+    //                        pairedItems.Add(new AssetUploadItem
+    //                        {
+    //                            AssetNote = note,
+    //                            File = file,
+    //                            AssetVehicleType = vehicleType,
+    //                            AssetInstitution= institution
+    //                        });
+    //                        // usedNoteIndexes.Add(i);
+    //                    }
+    //                    else if (hasNote)
+    //                    {
+    //                        // ❗ Note exists without a file
+    //                        unpairedNotes.Add(new AssetUploadItem
+    //                        {
+    //                            AssetNote = notes[i],
+    //                            AssetVehicleType = vehicleType,
+    //                            AssetInstitution = institution
+    //                        });
+    //                    }
+    //                    else if (hasFile)
+    //                    {
+    //                        // ❗ File exists without a note
+    //                        unpairedFiles.Add(new AssetUploadItem
+    //                        {
+    //                            File = files[i],
+    //                            AssetVehicleType = vehicleType,
+    //                            AssetInstitution = institution
+    //                        });
+    //                    }
+    //                }
+    //            }
+
+    //            if (pairedItems.Any())
+    //            {
+    //                foreach (var item in pairedItems)
+    //                {
+    //                    using var httpClient = new HttpClient();
+    //                    using var content = new MultipartFormDataContent();
+
+    //                    using var stream = item.File.OpenReadStream();
+    //                    var fileContent = new StreamContent(stream);
+    //                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(item.File.ContentType);
+    //                    content.Add(fileContent, "file", item.File.FileName);
+
+    //                    var response = await httpClient.PostAsync("http://129.213.51.109:3001/upload", content);
+    //                    response.EnsureSuccessStatusCode();
+
+    //                    var apiResponse = await response.Content.ReadAsStringAsync();
+    //                    using JsonDocument doc = JsonDocument.Parse(apiResponse);
+    //                    var root = doc.RootElement;
+
+    //                    if (!root.GetProperty("success").GetBoolean())
+    //                        return null;
+
+    //                    var data = root.GetProperty("data");
+    //                    string filename = data.GetProperty("filename").GetString();
+    //                    string location = data.GetProperty("location").GetString();
+    //                    string decryptionKey = data.GetProperty("decryptionKey").GetString();
+    //                    string uploadId = data.GetProperty("uploadId").GetString();
+    //                    string originalName = data.GetProperty("originalName").GetString();
+    //                    DateTime uploadTime = data.GetProperty("uploadTime").GetDateTime();
+
+    //                    var entity = new UserUploadTaxAssistedDoc
+    //                    {
+    //                        UserId = asset.UserId,
+    //                        Year = DateTime.Today.Year,
+    //                        UploadDate = DateTime.UtcNow,
+    //                        CategoryName = "Assets Liabilities",
+    //                        AssestOptionType = 2,
+    //                        AssetCategory = asset.AssetCategory,
+    //                        AssetNote = item.AssetNote,
+    //                        AssetVehicleType = item.AssetVehicleType,
+    //                        AssetInstitution = item.AssetInstitution,
+    //                        AssestType = asset.AssestType,
+
+    //                        UploadedFileName = originalName,
+    //                        FileName = filename,
+    //                        Location = location,
+    //                        DecryptionKey = decryptionKey,
+    //                        UploadId = uploadId,
+    //                        OriginalName = originalName,
+    //                        UploadTime = uploadTime
+    //                    };
+
+    //                    _context.UserUploadTaxAssistedDocs.Add(entity);
+    //                }
+
+    //                await _context.SaveChangesAsync();
+
+    //                if (unpairedNotes.Any())
+    //                {
+    //                    foreach (var item in unpairedNotes)                        
+    //                   {
+    //                        var entity = new UserUploadTaxAssistedDoc
+    //                        {
+    //                            UserId = asset.UserId,
+    //                            Year = DateTime.Today.Year,
+    //                            UploadDate = DateTime.UtcNow,
+    //                            CategoryName = "Assets Liabilities",
+    //                            AssestOptionType = 2,
+    //                            AssetCategory = asset.AssetCategory,
+    //                            AssetNote = item.AssetNote,
+    //                            AssetVehicleType = item.AssetVehicleType,
+    //                            AssetInstitution = item.AssetInstitution,
+    //                            AssestType = asset.AssestType
+    //                        };
+
+    //                        _context.UserUploadTaxAssistedDocs.Add(entity);
+    //                    }
+
+    //                    await _context.SaveChangesAsync();
+    //                }
+
+    //                if (unpairedFiles.Any() )
+    //                {
+    //                    foreach (var item in unpairedFiles)
+    //                    {
+    //                        using var httpClient = new HttpClient();
+    //                        using var content = new MultipartFormDataContent();
+
+    //                        using var stream = item.File.OpenReadStream();
+    //                        var fileContent = new StreamContent(stream);
+    //                        fileContent.Headers.ContentType = new MediaTypeHeaderValue(item.File.ContentType);
+    //                        content.Add(fileContent, "file", item.File.FileName);
+
+    //                        var response = await httpClient.PostAsync("http://129.213.51.109:3001/upload", content);
+    //                        response.EnsureSuccessStatusCode();
+
+    //                        var apiResponse = await response.Content.ReadAsStringAsync();
+    //                        using JsonDocument doc = JsonDocument.Parse(apiResponse);
+    //                        var root = doc.RootElement;
+
+    //                        if (!root.GetProperty("success").GetBoolean())
+    //                            return null;
+
+    //                        var data = root.GetProperty("data");
+    //                        string filename = data.GetProperty("filename").GetString();
+    //                        string location = data.GetProperty("location").GetString();
+    //                        string decryptionKey = data.GetProperty("decryptionKey").GetString();
+    //                        string uploadId = data.GetProperty("uploadId").GetString();
+    //                        string originalName = data.GetProperty("originalName").GetString();
+    //                        DateTime uploadTime = data.GetProperty("uploadTime").GetDateTime();
+
+    //                        var entity = new UserUploadTaxAssistedDoc
+    //                        {
+    //                            UserId = asset.UserId,
+    //                            Year = DateTime.Today.Year,
+    //                            UploadDate = DateTime.UtcNow,
+    //                            CategoryName = "Assets Liabilities",
+    //                            AssestOptionType = 2,
+    //                            AssetCategory = asset.AssetCategory,
+    //                            AssetVehicleType = item.AssetVehicleType,
+    //                            AssetInstitution = item.AssetInstitution,
+    //                            AssestType = asset.AssestType,
+
+    //                            UploadedFileName = originalName,
+    //                            FileName = filename,
+    //                            Location = location,
+    //                            DecryptionKey = decryptionKey,
+    //                            UploadId = uploadId,
+    //                            OriginalName = originalName,
+    //                            UploadTime = uploadTime
+    //                        };
+
+    //                        _context.UserUploadTaxAssistedDocs.Add(entity);
+    //                    }
+
+    //                    await _context.SaveChangesAsync();
+    //                }
+    //            }
+    //            else
+    //            {                   
+    //                    if(files.Count > 0)
+    //                    {
+    //                        foreach (var item in files)
+    //                        {
+    //                            using var httpClient = new HttpClient();
+    //                            using var content = new MultipartFormDataContent();
+
+    //                            using var stream = item.OpenReadStream();
+    //                            var fileContent = new StreamContent(stream);
+    //                            fileContent.Headers.ContentType = new MediaTypeHeaderValue(item.ContentType);
+    //                            content.Add(fileContent, "file", item.FileName);
+
+    //                            var response = await httpClient.PostAsync("http://129.213.51.109:3001/upload", content);
+    //                            response.EnsureSuccessStatusCode();
+
+    //                            var apiResponse = await response.Content.ReadAsStringAsync();
+    //                            using JsonDocument doc = JsonDocument.Parse(apiResponse);
+    //                            var root = doc.RootElement;
+
+    //                            if (!root.GetProperty("success").GetBoolean())
+    //                                return null;
+
+    //                            var data = root.GetProperty("data");
+    //                            string filename = data.GetProperty("filename").GetString();
+    //                            string location = data.GetProperty("location").GetString();
+    //                            string decryptionKey = data.GetProperty("decryptionKey").GetString();
+    //                            string uploadId = data.GetProperty("uploadId").GetString();
+    //                            string originalName = data.GetProperty("originalName").GetString();
+    //                            DateTime uploadTime = data.GetProperty("uploadTime").GetDateTime();
+
+    //                            var entity = new UserUploadTaxAssistedDoc
+    //                            {
+    //                                UserId = asset.UserId,
+    //                                Year = DateTime.Today.Year,
+    //                                UploadDate = DateTime.UtcNow,
+    //                                CategoryName = "Assets Liabilities",
+    //                                AssestOptionType = 2,
+    //                                AssetCategory = asset.AssetCategory,
+    //                                AssetVehicleType = asset.AssetVehicleType,
+    //                                AssetInstitution = asset.AssetInstitution,
+    //                                AssestType = asset.AssestType,
+
+    //                                UploadedFileName = originalName,
+    //                                FileName = filename,
+    //                                Location = location,
+    //                                DecryptionKey = decryptionKey,
+    //                                UploadId = uploadId,
+    //                                OriginalName = originalName,
+    //                                UploadTime = uploadTime
+    //                            };
+
+    //                            _context.UserUploadTaxAssistedDocs.Add(entity);
+    //                        }
+
+    //                        await _context.SaveChangesAsync();
+
+    //                    }
+    //                    if (notes.Count > 0 && notes[0] != null)
+    //                    {
+
+    //                        var entity = new UserUploadTaxAssistedDoc
+    //                        {
+    //                            UserId = asset.UserId,
+    //                            Year = DateTime.Today.Year,
+    //                            UploadDate = DateTime.UtcNow,
+    //                            CategoryName = "Assets Liabilities",
+    //                            AssestOptionType = 2,
+    //                            AssetCategory = asset.AssetCategory,
+    //                            AssetVehicleType = asset.AssetVehicleType,
+    //                            AssetInstitution = asset.AssetInstitution,
+    //                            AssestType = asset.AssestType,
+    //                            AssetNote = notes[0],
+    //                        };
+
+    //                        _context.UserUploadTaxAssistedDocs.Add(entity);
+    //                        await _context.SaveChangesAsync();
+
+    //                    }                  
+
+    //            }
+    //        }
+
+    //        return 1;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Console.WriteLine("Error: " + ex.Message);
+    //        return null;
+    //    }
+    //}
+
+    public async Task<int?> SubmitAssetsAsync(UserUploadTaxAssistedDocDto asset)
     {
         try
         {
-            foreach (var asset in assets)
+            //foreach (var asset in assets)
+            //  {
+            Console.WriteLine("---- Asset ----");
+            Console.WriteLine($"AssetType: {asset.AssestType}");
+            Console.WriteLine($"AssetCategory: {asset.AssetCategory}");
+            Console.WriteLine($"AssetNote: {asset.AssetNote}");
+            Console.WriteLine($"AssetVehicleType: {asset.AssetVehicleType}");
+            Console.WriteLine($"AssetInstitution: {asset.AssetInstitution}");
+            Console.WriteLine($"T10EmployerName: {asset.T10EmployerName}");
+
+            if (asset.Files != null)
             {
-                Console.WriteLine("---- Asset ----");
-                Console.WriteLine($"AssetType: {asset.AssestType}");
-                Console.WriteLine($"AssetCategory: {asset.AssetCategory}");
-                Console.WriteLine($"AssetNote: {asset.AssetNote}");
-                Console.WriteLine($"AssetVehicleType: {asset.AssetVehicleType}");
-                Console.WriteLine($"AssetInstitution: {asset.AssetInstitution}");
-                Console.WriteLine($"T10EmployerName: {asset.T10EmployerName}");
-
-                if (asset.Files != null)
+                Console.WriteLine($"Files Count: {asset.Files.Count}");
+                foreach (var file in asset.Files)
                 {
-                    Console.WriteLine($"Files Count: {asset.Files.Count}");
-                    foreach (var file in asset.Files)
-                    {
-                        Console.WriteLine($"Uploaded File: {file.FileName}, Size: {file.Length}");
-                        using var httpClient = new HttpClient();
-                        using var content = new MultipartFormDataContent();
+                    Console.WriteLine($"Uploaded File: {file.FileName}, Size: {file.Length}");
+                    using var httpClient = new HttpClient();
+                    using var content = new MultipartFormDataContent();
 
-                        var stream = file.OpenReadStream();
-                        var fileContent = new StreamContent(stream);
-                        fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                        content.Add(fileContent, "file", file.FileName); // Adjust 'files' key if needed by external API
+                    var stream = file.OpenReadStream();
+                    var fileContent = new StreamContent(stream);
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                    content.Add(fileContent, "file", file.FileName); // Adjust 'files' key if needed by external API
 
 
                         var response = await httpClient.PostAsync("https://file.taxfiling.lk/upload", content);
                         response.EnsureSuccessStatusCode();
 
-                        var apiResponse = await response.Content.ReadAsStringAsync();
+                    var apiResponse = await response.Content.ReadAsStringAsync();
 
-                        using JsonDocument doc = JsonDocument.Parse(apiResponse);
+                    using JsonDocument doc = JsonDocument.Parse(apiResponse);
 
-                        var root = doc.RootElement;
+                    var root = doc.RootElement;
 
-                        bool success = root.GetProperty("success").GetBoolean();
-                        string message = root.GetProperty("message").GetString();
+                    bool success = root.GetProperty("success").GetBoolean();
+                    string message = root.GetProperty("message").GetString();
 
-                        if (success)
-                        {
-                            var data = root.GetProperty("data");
-
-                            string filename = data.GetProperty("filename").GetString();
-                            string location = data.GetProperty("location").GetString();
-                            string decryptionKey = data.GetProperty("decryptionKey").GetString();
-                            string uploadId = data.GetProperty("uploadId").GetString();
-                            string originalName = data.GetProperty("originalName").GetString();
-                            DateTime uploadTime = data.GetProperty("uploadTime").GetDateTime();
-
-                            var entity = new UserUploadTaxAssistedDoc
-                            {
-                                UserId = asset.UserId,//input.UserId,
-                                Year = DateTime.Today.Year,
-                                UploadDate = DateTime.UtcNow,
-                                CategoryName = "Assets Liabilities",
-
-                                UploadedFileName = originalName,
-                                FileName = filename,
-                                Location = location,
-                                DecryptionKey = decryptionKey,
-                                UploadId = uploadId,
-                                OriginalName = originalName,
-                                UploadTime = uploadTime,
-
-                                AssestOptionType = 2,
-                                AssetCategory = asset.AssetCategory,
-                                AssetNote = asset.AssetNote,
-                                AssetVehicleType = asset.AssetVehicleType,
-                                AssetInstitution = asset.AssetInstitution,
-                                AssestType = asset.AssestType
-                            };
-
-                            _context.UserUploadTaxAssistedDocs.Add(entity);
-                            await _context.SaveChangesAsync();
-                            //return entity.UserUploadId;
-
-                        }
-                        else
-                        {
-                            return null;
-
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Files: null");
-                    if (!string.IsNullOrWhiteSpace(asset.AssetNote) ||
-                        !string.IsNullOrWhiteSpace(asset.AssetVehicleType) ||
-                            !string.IsNullOrWhiteSpace(asset.AssetInstitution))
+                    if (success)
                     {
+                        var data = root.GetProperty("data");
+
+                        string filename = data.GetProperty("filename").GetString();
+                        string location = data.GetProperty("location").GetString();
+                        string decryptionKey = data.GetProperty("decryptionKey").GetString();
+                        string uploadId = data.GetProperty("uploadId").GetString();
+                        string originalName = data.GetProperty("originalName").GetString();
+                        DateTime uploadTime = data.GetProperty("uploadTime").GetDateTime();
+
                         var entity = new UserUploadTaxAssistedDoc
                         {
                             UserId = asset.UserId,//input.UserId,
                             Year = DateTime.Today.Year,
                             UploadDate = DateTime.UtcNow,
                             CategoryName = "Assets Liabilities",
+
+                            UploadedFileName = originalName,
+                            FileName = filename,
+                            Location = location,
+                            DecryptionKey = decryptionKey,
+                            UploadId = uploadId,
+                            OriginalName = originalName,
+                            UploadTime = uploadTime,
 
                             AssestOptionType = 2,
                             AssetCategory = asset.AssetCategory,
@@ -310,12 +584,46 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
 
                         _context.UserUploadTaxAssistedDocs.Add(entity);
                         await _context.SaveChangesAsync();
+                        //return entity.UserUploadId;
 
-                        // return null;
+                    }
+                    else
+                    {
+                        return null;
 
                     }
                 }
             }
+            else
+            {
+                Console.WriteLine("Files: null");
+                if (!string.IsNullOrWhiteSpace(asset.AssetNote) ||
+                    !string.IsNullOrWhiteSpace(asset.AssetVehicleType) ||
+                        !string.IsNullOrWhiteSpace(asset.AssetInstitution))
+                {
+                    var entity = new UserUploadTaxAssistedDoc
+                    {
+                        UserId = asset.UserId,//input.UserId,
+                        Year = DateTime.Today.Year,
+                        UploadDate = DateTime.UtcNow,
+                        CategoryName = "Assets Liabilities",
+
+                        AssestOptionType = 2,
+                        AssetCategory = asset.AssetCategory,
+                        AssetNote = asset.AssetNote,
+                        AssetVehicleType = asset.AssetVehicleType,
+                        AssetInstitution = asset.AssetInstitution,
+                        AssestType = asset.AssestType
+                    };
+
+                    _context.UserUploadTaxAssistedDocs.Add(entity);
+                    await _context.SaveChangesAsync();
+
+                    // return null;
+
+                }
+            }
+            // }
             return null;
         }
         catch
@@ -324,6 +632,30 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
             return null;
         }
     }
-    
+    private UserUploadTaxAssistedDoc CloneWithNote(UserUploadTaxAssistedDoc source, string note)
+    {
+        return new UserUploadTaxAssistedDoc
+        {
+            UserId = source.UserId,
+            Year = source.Year,
+            UploadDate = source.UploadDate,
+            CategoryName = source.CategoryName,
 
+            UploadedFileName = source.UploadedFileName,
+            FileName = source.FileName,
+            Location = source.Location,
+            DecryptionKey = source.DecryptionKey,
+            UploadId = source.UploadId,
+            OriginalName = source.OriginalName,
+            UploadTime = source.UploadTime,
+
+            AssestOptionType = source.AssestOptionType,
+            AssetCategory = source.AssetCategory,
+            AssetVehicleType = source.AssetVehicleType,
+            AssetInstitution = source.AssetInstitution,
+            AssestType = source.AssestType,
+
+            AssetNote = note
+        };
+    }
 }

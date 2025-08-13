@@ -7,6 +7,9 @@
 
         let dateOfBirth = $("#DateOfBirth").val();
         let taxNumber = $("#TaxNumber").val();
+        let NIC_NO = $("#NIC_NO").val();
+        let gender = $("#Gender").val();
+        let address = $("#Address").val();
 
 
         var user = {
@@ -14,7 +17,10 @@
             MiddleName: $("#MiddleName").val(),
             LastName: $("#LastName").val(),
             DateOfBirth: $("#DateOfBirth").val(),
-            TaxNumber: $("#TaxNumber").val()
+            TaxNumber: $("#TaxNumber").val(),
+            NIC_NO: $("#NIC_NO").val(),
+            Gender: $("#Gender").val(),
+            Address: $("#Address").val(),
         };
 
         console.log(user);
@@ -30,6 +36,10 @@
         else if (DateOfBirth.length == 0) {
             notifyError(false, "Date Birthday is required");
            
+        }
+        else if (DateOfBirth.length == 0) {
+            notifyError(false, "Gender is required");
+
         }
 
         else { 

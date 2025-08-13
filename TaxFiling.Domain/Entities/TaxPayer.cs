@@ -16,4 +16,6 @@ public class TaxPayer : Entity
 
     [Column("css_imagepath")]
     public string ImageUrl { get; set; }
+  
+  
 }
