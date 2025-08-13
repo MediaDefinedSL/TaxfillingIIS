@@ -10,8 +10,14 @@
                 <div class="container">
                     <h2>File Your Taxes Your Way</h2>
                     <p>Get expert support with Tax <b>Assisted Filing</b> or complete your taxes independently with <b>Self Filing</b>. Whichever you choose, we’re here to help.</p>
-                    <button class="btn btn-primary btn-lg"><a asp-controller="Home" asp-action="TaxAssisted">Tax Assisted Filing</a></button> 
-                    <button class="btn btn-primary btn-lg"><a asp-controller="Home" asp-action="SelfFiling">Self Filing</a></button>
+                   @*  <button class="btn btn-primary btn-lg"><a asp-controller="Home" asp-action="TaxAssisted">Tax Assisted Filing</a></button>  *@
+                    <button class="btn btn-primary btn-lg">
+                        <a href="/Home/TaxAssisted">
+                            <i class="bi bi-person" style=""></i> Tax Assisted Filing
+                        </a>
+                    </button>
+                   @*  <button class="btn btn-primary btn-lg"><a asp-controller="Home" asp-action="SelfFiling">Self Filing</a></button> *@
+                    <button class="btn btn-primary btn-lg"><a href="/Home/SelfFiling"><i class="bi bi-check-circle"></i> Self Filing</a></button>
                 </div>
             </div><!-- End Carousel Item -->
 
@@ -20,7 +26,8 @@
                 <div class="container">
                     <h2>Your Trusted Partner in Tax Filing</h2>
                     <p>Whether you are an individual taxpayer, a business owner, or an expert, TaxFiling.lk is here to help you file your taxes quickly and accurately. Our secure online platform and expert team ensure you meet all compliance requirements while saving time and stress.</p>
-                    <a asp-controller="Home" asp-action="About" class="btn-get-started">Read More</a>
+                  @*   <a asp-controller="Home" asp-action="About" class="btn-get-started">Read More</a> *@
+                    <a class="btn-get-started" href="/Home/About"><i class="bi bi-arrow-right-short"></i> Read More</a>
                 </div>
             </div><!-- End Carousel Item -->
             <!--  <div class="carousel-item">
