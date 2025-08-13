@@ -91,10 +91,9 @@ jobs:
          $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
 
-         # Run the remote deploy script on your IIS server
          Invoke-Command -ComputerName $env:SERVER `
          -Credential $cred `
          -Authentication Basic `
          -ScriptBlock {
-         # your script
+           powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
          }
