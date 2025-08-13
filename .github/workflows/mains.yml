@@ -93,8 +93,8 @@ jobs:
 
          # Run the remote deploy script on your IIS server
          Invoke-Command -ComputerName $env:SERVER `
-                   -Credential $cred `
-                   -Authentication Basic `
-                   -ScriptBlock {
-                     & "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
-                   }
+         -Credential $cred `
+         -Authentication Basic `
+         -ScriptBlock {
+         # your script
+         }
