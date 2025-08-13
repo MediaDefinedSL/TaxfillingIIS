@@ -1,4 +1,4 @@
-name: Build and Push Docker Images for API and Web (.NET 9)
+name: Build and Deploy .NET 9 App to IIS (Web + API)
 
 on:
   push:
@@ -6,49 +6,66 @@ on:
       - main
 
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
+  build_and_copy:
+    runs-on: windows-latest
+
+    env:
+      USERNAME: ${{ secrets.IIS_USER }}
+      PASSWORD: ${{ secrets.IIS_PASSWORD }}
+      SERVER: ${{ secrets.IIS_SERVER }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup .NET 9
+      - name: ⚙️ Setup .NET 9 SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: 📦 Restore packages
+        run: dotnet restore TaxFiling.sln
 
-      # ----------------- Build API Project -----------------
-      - name: Build TaxFiling.API
-        run: dotnet build ./TaxFiling.API/TaxFiling.API.csproj --configuration Release
+      - name: 🛠️ Build solution
+        run: dotnet build TaxFiling.sln --configuration Release --no-restore
 
-      - name: Publish TaxFiling.API
-        run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./out-api
+      - name: 🚀 Publish API
+        run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./publish/API
 
-      # ----------------- Build Web Project -----------------
-      - name: Build TaxFiling.Web
-        run: dotnet build ./TaxFiling.Web/TaxFiling.Web.csproj --configuration Release
+      - name: 🚀 Publish Web
+        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web
 
-      - name: Publish TaxFiling.Web
-        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./out-web
+      - name: 🗜️ Compress Published Folders
+        run: |
+          Compress-Archive -Path ./publish/API/* -DestinationPath api.zip
+          Compress-Archive -Path ./publish/Web/* -DestinationPath web.zip
 
-      # ----------------- Docker Login -----------------
-      - name: Docker login (hardcoded - remove before production)
-        run: echo "dckr_pat_gNENbZMpmXJQX__CfELGGA2fCxA" | docker login -u malaka538 --password-stdin
+      - name: 📤 Copy ZIPs and Deploy Script to IIS
+        shell: powershell
+        run: |
+          # Write deploy script locally
+          @'
+           Import-Module WebAdministration
 
-      # ----------------- Build & Push API Docker Image -----------------
-      - name: Build Docker image for API
-        run: docker build -t malaka538/taxfilingapi:latest -f ./TaxFiling.API/Dockerfile .
+           Stop-WebAppPool -Name "TaxFilingAPIAppPool"
+           Stop-WebAppPool -Name "TaxFilingWebAppPool"
 
-      - name: Push API Docker image
-        run: docker push malaka538/taxfilingapi:latest
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
 
-      # ----------------- Build & Push Web Docker Image -----------------
-      - name: Build Docker image for Web
-        run: docker build -t malaka538/taxfilingweb:latest -f ./TaxFiling.Web/Dockerfile .
+          Start-WebAppPool -Name "TaxFilingAPIAppPool"
+          Start-WebAppPool -Name "TaxFilingWebAppPool"
+          '@ | Out-File -FilePath deploy.ps1 -Encoding utf8
 
-      - name: Push Web Docker image
-        run: docker push malaka538/taxfilingweb:latest
+          # Connect to shares
+          net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
+          net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
+
+          # Copy files
+          Copy-Item api.zip "\\$env:SERVER\TaxfilingAPI\" -Force
+          Copy-Item web.zip "\\$env:SERVER\TaxfilingWeb\" -Force
+          Copy-Item deploy.ps1 "\\$env:SERVER\TaxfilingWeb\" -Force
+
+          # Disconnect
+          net use \\$env:SERVER\TaxfilingAPI /delete
+          net use \\$env:SERVER\TaxfilingWeb /delete
