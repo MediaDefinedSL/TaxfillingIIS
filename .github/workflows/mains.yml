@@ -84,6 +84,6 @@ jobs:
           $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
           $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
 
-          Invoke-Command -ComputerName $env:SERVER -Credential $cred -ScriptBlock {
+          Invoke-Command -ComputerName $env:SERVER -Credential $cred -Authentication Basic -UseSSL:$false -ScriptBlock {
             & "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
           }
