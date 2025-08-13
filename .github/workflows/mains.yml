@@ -81,18 +81,20 @@ jobs:
       - name: ▶️ Execute deploy script remotely
         shell: pwsh
         run: |
-          # Enable unencrypted traffic (needed for WinRM over HTTP)
-          Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true
+         # Enable unencrypted traffic on the GitHub Actions runner
+         Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true
 
-          # Set credentials
-          $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
-          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
+         # Add the remote Windows server to TrustedHosts
+         Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$env:SERVER" -Force
 
-          # Execute deploy script remotely
-          Invoke-Command -ComputerName $env:SERVER `
-                         -Credential $cred `
-                         -Authentication Basic `
-                         -UseSSL:$false `
-                         -ScriptBlock {
-                            & "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
-                         }
+         # Set credentials
+         $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
+         $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
+
+         # Run the remote deploy script on your IIS server
+         Invoke-Command -ComputerName $env:SERVER `
+                   -Credential $cred `
+                   -Authentication Basic `
+                   -ScriptBlock {
+                     & "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
+                   }
