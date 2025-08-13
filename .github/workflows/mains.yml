@@ -59,9 +59,13 @@ jobs:
           Start-WebAppPool -Name "Taxfilingapi"
           Start-WebAppPool -Name "taxfilinf.lk"
           Start-WebAppPool -Name "TexfilingWeb"
+
+          "Deploy script executed at $(Get-Date)" | Out-File C:\Taxfiling\deploy-log.txt -Append
           '@ | Out-File -FilePath deploy.ps1 -Encoding utf8
 
-          # Connect to shares
+      - name: 📤 Copy ZIPs and Deploy Script to IIS Server
+        shell: powershell
+        run: |
           net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
           net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
 
@@ -73,3 +77,13 @@ jobs:
           # Disconnect
           net use \\$env:SERVER\TaxfilingAPI /delete
           net use \\$env:SERVER\TaxfilingWeb /delete
+
+      - name: ▶️ Execute deploy script remotely
+        shell: pwsh
+        run: |
+          $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
+
+          Invoke-Command -ComputerName $env:SERVER -Credential $cred -ScriptBlock {
+            & "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
+          }
