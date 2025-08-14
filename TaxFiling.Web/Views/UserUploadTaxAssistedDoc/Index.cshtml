@@ -2534,6 +2534,10 @@
                                bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
                                bankName= document.getElementById("BankName")?.value || "";
 
+                                const tableBody = document.querySelector("#documentsTableBody");
+                                  const currentCount = tableBody.querySelectorAll("tr").length;
+                                 const index = currentCount + 1; // next index
+
                             const row = document.createElement("tr");
                             row.innerHTML = `
                             <td>${index + 1}</td>
@@ -2649,6 +2653,9 @@
                                   bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
                                   bankName= document.getElementById("BankName")?.value || "";
 
+                                  const tableBody = document.querySelector("#documentsTableBankBody");
+                                  const currentCount = tableBody.querySelectorAll("tr").length;
+                                 const index = currentCount + 1; // next index
                             const row = document.createElement("tr");
                             row.innerHTML = `
                             <td>${index + 1}</td>
