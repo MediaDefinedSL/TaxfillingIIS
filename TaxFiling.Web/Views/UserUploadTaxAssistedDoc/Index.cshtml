@@ -375,10 +375,10 @@
                             </table>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end mt-4">
+                    <div class="d-flex justify-content-between">
                         <!-- Previous Button -->
-                        <button class="btn btn-outline-secondary" id="btnPrevious">
-                            <i class="fas fa-arrow-left me-2"></i> Previous
+                        <button class="btn btn-primary" id="btnPrevious">
+                            <i class="fas fa-arrow-left me-2" ></i> Previous
                         </button>
                         <button class="btn btn-primary " id="btnNext">
                             Next <i class="fas fa-arrow-right ms-2"></i>
@@ -438,7 +438,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end mt-4">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary" id="btnEmployementPrevious">
+                                <i class="fas fa-arrow-left me-2"></i> Previous
+                            </button>
                             <button class="btn btn-primary" id="btnAssestsNext">
                                 Next <i class="fas fa-arrow-right ms-2"></i>
                             </button>
@@ -936,7 +939,10 @@
 
 
                         </div>
-                        <div class="d-flex justify-content-end mt-4">
+                        <div class="d-flex justify-content-between" style="margin-top: 20px;">
+                            <button class="btn btn-primary" id="btnBankPrevious">
+                                <i class="fas fa-arrow-left me-2"></i> Previous
+                            </button>
                             <button class="btn btn-primary" id="btnOtherNext">
                                 Next <i class="fas fa-arrow-right ms-2"></i>
                             </button>
@@ -1071,7 +1077,10 @@
                     </div>
 
                     <!-- Bottom Navigation -->
-                    <div class="d-flex justify-content-end mt-4">
+                    <div class="d-flex justify-content-between" style="margin-top: 20px;">
+                        <button class="btn btn-primary" id="btnAssetsPrevious" >
+                            <i class="fas fa-arrow-left me-2"></i> Previous
+                        </button>
                         <button class="btn btn-primary" id="btnDeclareNext">
                             Next <i class="fas fa-arrow-right ms-2"></i>
                         </button>
@@ -1125,7 +1134,14 @@
                             🖨️ Print Declaration
                         </button>
                     </div>
+                    <div class="d-flex justify-content-between" style="margin-top: 20px;">
+                        <button class="btn btn-primary" id="btnOtherPrevious">
+                            <i class="fas fa-arrow-left me-2"></i> Previous
+                        </button>
+
+                    </div>
                 </div>
+               
             </main>
             <!-- Modal Alert Popup -->
             <div id="enhancedModal" class="enhanced-modal" style="display:none;">
@@ -1537,19 +1553,26 @@
 
                       async function loadFinancialDetails(userId, assessmentYear) {
                      try {
-                                const url = `${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/GetUserOtherTaxDetails?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentYear)}`;
+                          const url = `${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/GetUserOtherTaxDetails?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentYear)}`;
                           const response = await fetch(url);
 
                              if (!response.ok) {
-                         alert('Failed to load data');
-                         return;
+                                alert('Failed to load data');
+                                return;
                        }
                        const data = await response.json();
 
-                                      if (data && data.details && data.details.length > 0) {
+                      if (data && data.details && data.details.length > 0) {
                         document.getElementById('saveFinancialDetailsBtn').innerText = "Update"; // change to update
                    } else {
                         document.getElementById('saveFinancialDetailsBtn').innerText = "Save";
+                   }
+
+                   const docStatus = document.getElementById("docUploadStatus")?.value;
+
+                   if(docStatus === "2")
+                   {
+                       document.getElementById('saveFinancialDetailsBtn').disabled = true;
                    }
 
                        // Populate inputs by matching label text with category
@@ -1559,7 +1582,17 @@
                            const input = div.querySelector('input');
                            if (label && input && label.innerText.trim() === detail.category) {
                              input.value = detail.value;
+                             if (docStatus === "2") {
+                                 input.disabled = true;
+                             }
                            }
+                           else
+                           {
+                               if (docStatus === "2") {
+                                 input.disabled = true;
+                             }
+                           }
+
                          });
                        });
                      } catch (err) {
@@ -1996,7 +2029,7 @@
                         formData.append("filename", fileName); // Match the API's expected field
                         formData.append("decryptionKey", decryptionKey);
 
-                        const viewRes = await fetch("http://129.213.51.109:3001/view", {
+                        const viewRes = await fetch("https://file.taxfiling.lk/view", {
                             method: "POST",
                             headers: {
                             "Content-Type": "application/json"
@@ -2326,7 +2359,7 @@
                             showPanel("bank-section");
                            loadUploadedDocs(userId,'Bank Confirmation');
                         });
-                    }
+                    }                    
 
                     const  nextAssestBtn= document.getElementById("btnAssestsNext");
                     if (nextAssestBtn) {
@@ -2352,6 +2385,45 @@
                         nextDeclareBtn.addEventListener("click", function () {
                             showPanel("declaration-section");
                             loadDeclarationDocs(userId) ;
+
+                        });
+                    }
+
+                    const  previousBtn= document.getElementById("btnPrevious");
+                    if (previousBtn) {
+                        previousBtn.addEventListener("click", function () {
+                           showPanel("documents-section");
+                        });
+                    }
+
+                    const  previousEmploymentBtn= document.getElementById("btnEmployementPrevious");
+                    if (previousEmploymentBtn) {
+                        previousEmploymentBtn.addEventListener("click", function () {
+                           showPanel("employment-section");
+
+                        });
+                    }
+
+                    const  previousBankBtn= document.getElementById("btnBankPrevious");
+                    if (previousBankBtn) {
+                        previousBankBtn.addEventListener("click", function () {
+                           showPanel("bank-section");
+                          
+                        });
+                    }
+
+                   const  previousOtherBtn= document.getElementById("btnOtherPrevious");
+                    if (previousOtherBtn) {
+                        previousOtherBtn.addEventListener("click", function () {
+                                  showPanel("other-section");
+
+                        });
+                    }
+
+                    const  previousAssetsBtn= document.getElementById("btnAssetsPrevious");
+                    if (previousAssetsBtn) {
+                        previousAssetsBtn.addEventListener("click", function () {
+                           showPanel("assets-section");
 
                         });
                     }
@@ -2396,7 +2468,7 @@
                             const formData = new FormData();
                             formData.append("file", selectedFile); // key should match external API
 
-                            const uploadRes = await fetch("http://129.213.51.109:3001/upload", {
+                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
@@ -2509,7 +2581,7 @@
                             const formData = new FormData();
                             formData.append("file", selectedFile); // key should match external API
 
-                            const uploadRes = await fetch("http://129.213.51.109:3001/upload", {
+                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
@@ -2623,7 +2695,7 @@
                                const formData = new FormData();
                                formData.append("file", selectedFile); // key should match external API
 
-                               const uploadRes = await fetch("http://129.213.51.109:3001/upload", {
+                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                    method: "POST",
                                    body: formData
                                });
@@ -2713,7 +2785,7 @@
                             const formData = new FormData();
                             formData.append("file", selectedFile); // key should match external API
 
-                            const uploadRes = await fetch("http://129.213.51.109:3001/upload", {
+                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
