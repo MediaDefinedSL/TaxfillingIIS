@@ -40,62 +40,47 @@ jobs:
           Compress-Archive -Path ./publish/API/* -DestinationPath api.zip
           Compress-Archive -Path ./publish/Web/* -DestinationPath web.zip
 
-      - name: 📤 Copy ZIPs and Deploy Script to IIS
+      - name: 📝 Create Deploy Script
         shell: powershell
         run: |
-          # Write deploy script locally with app pool state check
           @'
           Import-Module WebAdministration
-
           $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
-
           foreach ($appPool in $appPools) {
               if ((Get-WebAppPoolState -Name $appPool).Value -eq "Started") {
                   Stop-WebAppPool -Name $appPool
               }
           }
-
           Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
           Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
-
           foreach ($appPool in $appPools) {
               Start-WebAppPool -Name $appPool
           }
-
           "Deploy script executed at $(Get-Date)" | Out-File C:\Taxfiling\deploy-log.txt -Append
           '@ | Out-File -FilePath deploy.ps1 -Encoding utf8
 
-      - name: 📤 Copy ZIPs and Deploy Script to IIS Server
+      - name: 📤 Copy Files to IIS Server
         shell: powershell
         run: |
           net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
           net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
 
-          # Copy files
           Copy-Item api.zip "\\$env:SERVER\TaxfilingAPI\" -Force
           Copy-Item web.zip "\\$env:SERVER\TaxfilingWeb\" -Force
           Copy-Item deploy.ps1 "\\$env:SERVER\TaxfilingWeb\" -Force
 
-          # Disconnect
           net use \\$env:SERVER\TaxfilingAPI /delete
           net use \\$env:SERVER\TaxfilingWeb /delete
 
-      - name: ▶️ Execute deploy script remotely
+      - name: ▶️ Execute Deploy Script Remotely
         shell: pwsh
         run: |
-         # Enable unencrypted traffic on the GitHub Actions runner
-         Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true
+          $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
 
-         # Add the remote Windows server to TrustedHosts
-         Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$env:SERVER" -Force
-
-         # Set credentials
-         $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
-         $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
-
-         Invoke-Command -ComputerName $env:SERVER `
-         -Credential $cred `
-         -Authentication Basic `
-         -ScriptBlock {
-           powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
-         }
+          Invoke-Command -ComputerName $env:SERVER `
+            -Credential $cred `
+            -Authentication Basic `
+            -ScriptBlock {
+              powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
+            }
