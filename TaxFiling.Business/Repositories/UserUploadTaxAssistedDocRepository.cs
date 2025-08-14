@@ -161,7 +161,8 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
                      BankName = t.BankName,
                      AssetNote = t.AssetNote,
                      AssetInstitution = t.AssetInstitution,
-                     AssetVehicleType = t.AssetVehicleType
+                     AssetVehicleType = t.AssetVehicleType,
+                     OtherDocumentName = t.OtherDocumentName
 
                  })
                 .ToListAsync();
