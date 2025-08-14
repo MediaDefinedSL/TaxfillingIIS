@@ -342,7 +342,7 @@ button.btn.btn-primary.Continue {
 
 button.btn.btn-secondary.dropdown-toggle {
     font-size: 0px;
-    background-image: url(http://images.netexam.com/images/10229/LINKEDIN-Profile-Picture-AI.jpg) !important;
+    background-image: url(/assets/img/LINKEDIN-Profile-Picture-AI.jpg) !important;
     width: 48px;
     height: 48px;
     background-size: contain;
@@ -410,7 +410,7 @@ input {
     z-index: 999;
     position: relative;
     background-color: #ffffff !important;
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-image: url(/assets/img/curves-1.png), url(/assets/img/bg-fin-bar.png) !important;
     background-size: auto, 110%;
     background-repeat: no-repeat;
     background-position: center, bottom;
@@ -536,13 +536,13 @@ iframe {
 }
 
 section#about {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
 }
 
 section#clients {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
 }
@@ -649,7 +649,7 @@ section#clients {
     background: none !important;
     border: none;
     font-size: 0px;
-    background-image: url(https://images.netexam.com/images/10229/next-button.png) !important;
+    background-image: url(/assets/img/next-button.png) !important;
     width: 150px;
     height: 59px;
     background-repeat: no-repeat !important;
@@ -661,7 +661,7 @@ section#clients {
     background: none !important;
     border: none;
     font-size: 0px;
-    background-image: url(https://images.netexam.com/images/10229/priv-button-2025.png) !important;
+    background-image: url(/assets/img/priv-button-2025.png) !important;
     width: 150px;
     height: 59px;
     background-repeat: no-repeat !important;
@@ -765,7 +765,7 @@ section#clients {
     z-index: 999;
     position: relative;
     background-color: #ffffff !important;
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-image: url(/assets/img/curves-1.png), url(/assets/img/bg-fin-bar.png) !important;
     background-size: auto, 110%;
     background-repeat: no-repeat;
     background-position: center, bottom;
@@ -1071,7 +1071,7 @@ table.table.table-bordered.table-striped th {
 
 section#user-uploaddocuments,
 #File-my-taxes {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
 }
@@ -1107,7 +1107,7 @@ section#user-uploaddocuments,
 
 .view-your-task {
     display: block;
-    background-image: url(http://images.netexam.com/images/10229/View-Your-Tasks.gif) !important;
+    background-image: url(https://images.netexam.com/images/10229/View-Your-Tasks.gif) !important;
     width: 160px;
     height: 160px;
     display: block;
@@ -1121,7 +1121,7 @@ section#user-uploaddocuments,
 
 .view-user-file-uplode {
     display: block;
-    background-image: url(http://images.netexam.com/images/10229/view-user-file-uplode.gif) !important;
+    background-image: url(https://images.netexam.com/images/10229/view-user-file-uplode.gif) !important;
     width: 160px;
     height: 160px;
     display: block;
@@ -1134,7 +1134,7 @@ section#user-uploaddocuments,
 
 .notification-reminders {
     display: block;
-    background-image: url(http://images.netexam.com/images/10229/Notifications-Reminders.gif) !important;
+    background-image: url(/assets/img/Notifications-Reminders.gif) !important;
     width: 160px;
     height: 160px;
     display: block;
@@ -1203,7 +1203,7 @@ div#dashboard-section .center {
     }
 
 div#in-this-section-container .main-content {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
 }
@@ -1338,7 +1338,7 @@ div#in-this-section-container .main-content {
     }
 
 .Self-Online .main {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
 }
@@ -1375,12 +1375,12 @@ section.blog-posts.section.Self-Online {
 }
 
 div#in-this-section-container {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
     /* position: relative; */
     background-color: #ffffff !important;
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-image: url(/assets/img/curves-1.png), url(/assets/img/bg-fin-bar.png) !important;
     background-size: auto, 110%;
     background-repeat: no-repeat;
     background-position: center, bottom;
@@ -1455,7 +1455,7 @@ main.main {
     }
 
 .Self-Online .main {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
 }
@@ -1492,12 +1492,12 @@ section.blog-posts.section.Self-Online {
 }
 
 div#in-this-section-container {
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png) !important;
+    background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
     /* position: relative; */
     background-color: #ffffff !important;
-    background-image: url(http://images.netexam.com/images/10229/curves-1.png), url(http://images.netexam.com/images/10229/bg-fin-bar.png) !important;
+    background-image: url(/assets/img/curves-1.png), url(/assets/img/bg-fin-bar.png) !important;
     background-size: auto, 110%;
     background-repeat: no-repeat;
     background-position: center, bottom;
@@ -1936,6 +1936,7 @@ section#services {
 
     #hero-carousel .btn.btn-primary.btn-lg:hover, #hero-carousel .btn-get-started:hover {
         background-color: #cecece8a !important;
+
     }
 
 /* Slider */
@@ -2076,4 +2077,7 @@ section#services {
     margin-top: 10px !important;
     margin-bottom: 10px;
 }
+
+
+    }
 

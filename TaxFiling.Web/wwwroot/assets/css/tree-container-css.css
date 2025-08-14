@@ -277,7 +277,7 @@ input.form-check-input {
 
 
 .savings {
-    background-image: url(http://images.netexam.com/images/10229/savings.png) !important;
+    background-image: url(/assets/img/savings.png) !important;
     background-size: cover;
 }
 
@@ -304,25 +304,25 @@ input.form-check-input {
 
 
 .fixed-deposit {
-    background-image: url(http://images.netexam.com/images/10229/fixed-deposit.png) !important;
+    background-image: url(/assets/img/fixed-deposit.png) !important;
     background-size: cover;
 }
 
 .divident {
-    background-image: url(http://images.netexam.com/images/10229/divident.png) !important;
+    background-image: url(/assets/img/divident.png) !important;
     background-size: cover;
     background-size: 62px !important;
 }
 
 .rent {
-    background-image: url(http://images.netexam.com/images/10229/rent-and-other-income.png) !important;
+    background-image: url(/assets/img/rent-and-other-income.png) !important;
     background-size: cover;
     background-size: 62px !important;
     /* background-position-y: 10px !important; */
 }
 
 .other {
-    background-image: url(http://images.netexam.com/images/10229/other-incomee.png) !important;
+    background-image: url(/assets/img/other-incomee.png) !important;
     background-size: cover;
     background-size: 93px !important;
     /* background-position-y: 10px !important; */
