@@ -13,7 +13,7 @@
 #add comments
 TaxFiling.API/appsettings.json
 TaxFiling.Web/appsettings.json
-
+appsettings.json
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
