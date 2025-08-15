@@ -5,7 +5,7 @@ $(function () {
        // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+       // $btn.setButtonDisabled(true);
         let residency = $("input[name='Residency']:checked").val();
         let seniorCitizen = $("#seniorCitizen").val();
 
@@ -26,7 +26,7 @@ $(function () {
             type: 'POST',
             data: employmentIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+               // $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
             },
             error: function () {
@@ -40,7 +40,7 @@ $(function () {
         // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+     //   $btn.setButtonDisabled(true);
 
         let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
         let typeEmployment = $("#drpTypeEmployment").val();
@@ -69,7 +69,7 @@ $(function () {
             type: 'POST',
             data: employIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+              //  $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
@@ -95,7 +95,7 @@ $(function () {
         // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+      //  $btn.setButtonDisabled(true);
 
         let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
         let typeTerminal = $("#dpdTypeTerminal").val();
@@ -118,7 +118,7 @@ $(function () {
             type: 'POST',
             data: terminalIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+               // $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
@@ -142,7 +142,7 @@ $(function () {
         // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+      //  $btn.setButtonDisabled(true);
 
         let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
         let exemptType = $("#dpdExemptType").val();
@@ -165,7 +165,7 @@ $(function () {
             type: 'POST',
             data: exemptIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+              //  $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
@@ -232,6 +232,11 @@ $(function () {
             success: function (response) {
                 $('#confirmDeleteModal').modal('hide');
                 $('#etf').off('hide.bs.collapse').collapse('hide');
+
+                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
+                });
+
             },
             error: function () {
                 alert("Error deleting.");
@@ -263,24 +268,40 @@ $(function () {
   
     $('#Exemptt').on('hide.bs.collapse', function () {
 
-        let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
+       // e.preventDefault();
+        deleteTargetId = $("#hndSelfOnlineEmploymentIncomeId").val();
+        $('#exemptConfirmDeleteModal').modal('show');
 
-        var terminalBenefits = {
-            employmentIncomeId: selfOnlineEmploymentIncomeId,
-            exemptAmounts: false
-        }
+        
+    }); 
+
+    $('#exemptConfirmDeleteBtn').on('click', function () {
+        if (!deleteTargetId) return;
+
+        var exempt = {
+            employmentIncomeId: deleteTargetId,
+            terminalBenefits: false
+        };
+
+
         $.ajax({
             url: '/SelfOnlineFlow/UpdateEmploymentIncomeExemptAmounts',
             type: 'POST',
-            data: terminalBenefits,
+            data: exempt,
             success: function (response) {
-                notifySuccess("", "Saved successfully");
+                $('#exemptConfirmDeleteModal').modal('hide');
+                $('#Exemptt').off('hide.bs.collapse').collapse('hide');
+
+                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
+                });
+
             },
             error: function () {
-                alert("Error saving .");
+                alert("Error deleting.");
             }
         });
-    }); 
+    });
     
 });
 
