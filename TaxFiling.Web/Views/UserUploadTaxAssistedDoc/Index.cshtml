@@ -1975,10 +1975,12 @@
                                            employmentValue = doc.t10EmployerName;
                                  } else if (doc.categoryName === "Terminal Benefit") {
                                            employmentValue = doc.terminalEmployerName;
-                                  } else {
+                                  } else if (doc.categoryName === "Any Other") {
                                             employmentValue = doc.anyOtherType;
+                                   } else if(doc.categoryName === "Other Documents"){
+                                            employmentValue = doc.otherDocumentName;
                                    }
-
+                                   
                               employmentValue = employmentValue ?? "";
                               const row = document.createElement("tr");
 
@@ -2356,6 +2358,7 @@
                     const  nextBtn= document.getElementById("btnNext");
                     if (nextBtn) {
                         nextBtn.addEventListener("click", function () {
+                            selectedCategoryName = 'Bank Confirmation';
                             showPanel("bank-section");
                            loadUploadedDocs(userId,'Bank Confirmation');
                         });
@@ -2364,6 +2367,7 @@
                     const  nextAssestBtn= document.getElementById("btnAssestsNext");
                     if (nextAssestBtn) {
                         nextAssestBtn.addEventListener("click", function () {
+                            
                             showPanel("assets-section");
                                  loadExcelAssestsUploadedFiles(userId);
                                 loadAssestsUploadedFiles(userId);
@@ -2374,6 +2378,7 @@
                     const  nextOtherBtn= document.getElementById("btnOtherNext");
                     if (nextOtherBtn) {
                         nextOtherBtn.addEventListener("click", function () {
+                            selectedCategoryName = 'Other Documents';
                             showPanel("other-section");
                             loadUploadedDocs(userId,'Other Documents');
                                   loadFinancialDetails(userId,'2024/2025');
@@ -2398,7 +2403,7 @@
 
                     const  previousEmploymentBtn= document.getElementById("btnEmployementPrevious");
                     if (previousEmploymentBtn) {
-                        previousEmploymentBtn.addEventListener("click", function () {
+                        previousEmploymentBtn.addEventListener("click", function () {                            
                            showPanel("employment-section");
 
                         });
@@ -2407,6 +2412,7 @@
                     const  previousBankBtn= document.getElementById("btnBankPrevious");
                     if (previousBankBtn) {
                         previousBankBtn.addEventListener("click", function () {
+                             selectedCategoryName = 'Bank Confirmation';
                            showPanel("bank-section");
                           
                         });
@@ -2415,6 +2421,7 @@
                    const  previousOtherBtn= document.getElementById("btnOtherPrevious");
                     if (previousOtherBtn) {
                         previousOtherBtn.addEventListener("click", function () {
+                            selectedCategoryName =  'Other Documents';
                                   showPanel("other-section");
 
                         });
@@ -2483,6 +2490,8 @@
 
                             const data = uploadResult.data;
 
+                            console.log("Employement" + selectedCategoryName);
+
                             // 2. Call your internal API to save metadata
                             const saveResponse = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/SaveUploadedDocs`, {
                                 method: "POST",
@@ -2526,8 +2535,8 @@
                                          employmentValue = document.getElementById("T10EmployerName")?.value || null;
                                } else if (selectedCategoryName === "Terminal Benefit") {
                                       employmentValue = document.getElementById("TerminalEmployerName")?.value || null;
-                               } else {
-                                         employmentValue = document.getElementById("otherDocName")?.value || null;
+                               } else if (selectedCategoryName === "Any Other") {
+                                         employmentValue = document.getElementById("AnyOtherType")?.value || null;
                                }
 
                                employmentValue = employmentValue ?? "";
@@ -2540,10 +2549,10 @@
 
                             const row = document.createElement("tr");
                             row.innerHTML = `
-                            <td>${index + 1}</td>
+                            <td>${index }</td>
                                    <td>${data.originalName}</td>
                                     <td>${selectedCategoryName}</td>
-                                    <td class="col-employer-name d-none">${employmentValue}</td>
+                                    <td class="col-employer-name ">${employmentValue}</td>
                                      <td class="col-confirmation-type d-none">${bankConfirmationType}</td>
                                          <td class="col-bank-name d-none">${bankName}</td>
                                 <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
@@ -2554,7 +2563,7 @@
 
                             documentsTable.appendChild(row);
 
-                            loadUploadedDocs(userId,selectedCategoryName);
+                            //loadUploadedDocs(userId,selectedCategoryName);
                             // Reset UI
                             selectedFile = null;
                              const fileInput = document.getElementById("fileInput");
@@ -2600,7 +2609,7 @@
                             }
 
                             const data = uploadResult.data;
-
+                            console.log("Bank" + selectedCategoryName);
                             // 2. Call your internal API to save metadata
                             const saveResponse = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/SaveUploadedDocs`, {
                                 method: "POST",
@@ -2656,14 +2665,15 @@
                                   const tableBody = document.querySelector("#documentsTableBankBody");
                                   const currentCount = tableBody.querySelectorAll("tr").length;
                                  const index = currentCount + 1; // next index
+                                 console.log("bank index" + index + ","  + currentCount )
                             const row = document.createElement("tr");
                             row.innerHTML = `
-                            <td>${index + 1}</td>
+                            <td>${index }</td>
                                 <td>${data.originalName}</td>
                                    <td>${selectedCategoryName}</td>
                                    <td class="col-employer-name d-none">${employmentValue}</td>
-                                <td class="col-confirmation-type d-none">${bankConfirmationType}</td>
-                               <td class="col-bank-name d-none">${bankName}</td>
+                                <td class="col-confirmation-type ">${bankConfirmationType}</td>
+                               <td class="col-bank-name ">${bankName}</td>
                                 <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
@@ -2672,7 +2682,7 @@
 
                             documentsTable.appendChild(row);
 
-                            loadUploadedDocs(userId,selectedCategoryName);
+                            //loadUploadedDocs(userId,selectedCategoryName);
                             // Reset UI
                             selectedFile = null;
                             document.getElementById("BankConfirmationType").selectedIndex = 0;
@@ -2808,6 +2818,7 @@
                             }
 
                             const data = uploadResult.data;
+                                     console.log("Other" + selectedCategoryName);
                             // 2. Call your internal API to save metadata
                             const saveResponse = await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/SaveUploadedDocs`, {
                                 method: "POST",
@@ -2847,6 +2858,7 @@
                                let employmentValue = "";
                                let bankConfirmationType = "";
                                let bankName = "";
+                               
 
                                  if (selectedCategoryName === "T10") {
                                             employmentValue = document.getElementById("T10EmployerName")?.value || null;
@@ -2859,12 +2871,18 @@
                                   employmentValue = employmentValue ?? "";
                                   bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
                                   bankName= document.getElementById("BankName")?.value || "";
+                                 
+
+                                  const tableBody = document.querySelector("#documentsTableOtherBody");
+                                  const currentCount = tableBody.querySelectorAll("tr").length;
+                                 const index = currentCount + 1; // next index
 
                             const row = document.createElement("tr");
                             row.innerHTML = `
+                             <td>${index}</td>
                                 <td>${data.originalName}</td>
                                    <td>${selectedCategoryName}</td>
-                                   <td class="col-employer-name d-none">${employmentValue}</td>
+                                   <td class="col-employer-name">${employmentValue}</td>
                                    <td class="col-confirmation-type d-none">${bankConfirmationType}</td>
                                    <td class="col-bank-name d-none">${bankName}</td>
                                 <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
@@ -2875,7 +2893,7 @@
 
                             documentsTable.appendChild(row);
 
-                            loadUploadedDocs(userId,selectedCategoryName);
+                           // loadUploadedDocs(userId,selectedCategoryName);
                             // Reset UI
                             selectedFile = null;
                             document.getElementById("otherDocName").value = "";
