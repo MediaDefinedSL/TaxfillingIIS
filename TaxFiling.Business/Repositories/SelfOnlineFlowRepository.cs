@@ -416,7 +416,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             SeniorCitizen=b.SeniorCitizen,
                                             Residency = b.Residency,
                                             TerminalBenefits = b.TerminalBenefits,
-                                            ExemptAmounts = b.ExemptAmounts
+                                            ExemptAmounts = b.ExemptAmounts,
+                                            Total = b.Total
 
                                         })
                                         .AsNoTracking()
@@ -432,6 +433,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         var dbTrans = await _context.Database.BeginTransactionAsync();
         try
         {
+            decimal? addToTotal = 0;
+
             if (selfOnlineEmploymentIncomeDetails.CategoryName == "EmploymentDetails")
             {
                 var _employmentDetailsIncome = new SelfOnlineEmploymentIncomeDetails
@@ -454,6 +457,13 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 _context.SelfOnlineEmploymentIncomeDetails.Add(_employmentDetailsIncome);
                 await _context.SaveChangesAsync();
 
+
+                addToTotal = (selfOnlineEmploymentIncomeDetails.Remuneration ?? 0)
+                       + (selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? 0)
+                       + (selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? 0);
+
+               
+
             }
             else if (selfOnlineEmploymentIncomeDetails.CategoryName == "TerminalBenefits")
             {
@@ -475,7 +485,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 _context.SelfOnlineEmploymentIncomeDetails.Add(_terminalBenefits);
                 await _context.SaveChangesAsync();
 
-                
+                addToTotal = (selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? 0);
             }
             else if (selfOnlineEmploymentIncomeDetails.CategoryName == "ExemptAmounts")
             {
@@ -496,11 +506,21 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
                 _context.SelfOnlineEmploymentIncomeDetails.Add(_exemptAmounts);
                 await _context.SaveChangesAsync();
+
+                addToTotal = (selfOnlineEmploymentIncomeDetails.Amount ?? 0);
             }
 
+            var mainIncome = await _context.SelfOnlineEmploymentIncomes
+           .FirstOrDefaultAsync(x => x.SelfOnlineEmploymentIncomeId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId);
+
+            if (mainIncome != null)
+            {
+                mainIncome.Total = (mainIncome.Total ?? 0) + addToTotal;
+                _context.SelfOnlineEmploymentIncomes.Update(mainIncome);
+                await _context.SaveChangesAsync();
+            }
 
             isSuccess = true;
-
 
             await dbTrans.CommitAsync();
 
