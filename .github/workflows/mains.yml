@@ -43,6 +43,10 @@ jobs:
       - name: 🛑 Stop IIS App Pools before deployment
         shell: pwsh
         run: |
+          # Allow unencrypted WinRM and trust remote server
+          Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true
+          Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value "$env:SERVER" -Force
+
           $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
           $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
 
