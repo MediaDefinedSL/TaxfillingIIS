@@ -96,7 +96,6 @@ jobs:
          Invoke-Command -ComputerName $env:SERVER `
          -Credential $cred `
          -Authentication Basic `
-         -UseSSL `
          -ScriptBlock {
            powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
          }
