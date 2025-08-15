@@ -5,56 +5,561 @@
     <div class="page-title accent-background">
         <div class="container d-lg-flex justify-content-between align-items-center">
             <h2 class="mb-2 mb-lg-0 mb-2 mb-lg-0 font-weight-bold">
-                Contact Us</h2>
-                <nav class="breadcrumbs">
-                    <ol>
-                        @* <li><a href="index.html">Home</a></li>
+                Contact Us
+            </h2>
+            <nav class="breadcrumbs">
+                <ol>
+                    @* <li><a href="index.html">Home</a></li>
                         <li class="current">Contact</li> *@
-                    </ol>
-                </nav>
+                </ol>
+            </nav>
         </div>
     </div><!-- End Page Title -->
     <!-- Contact Section -->
-    <section id="contact" class="contact section">
+    <section id="contact" class="contact section" role="tabpanel" aria-labelledby="contact-tab">
 
-        <div class="mb-5">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1980.4623065747812!2d79.89393027596525!3d6.899619551339877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae3694f0372ebbb%3A0x711cf1811781ed03!2sUniversal%20Secretaries%20(Private)%20Limited!5e0!3m2!1sen!2slk!4v1754909649618!5m2!1sen!2slk" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div><!-- End Google Maps -->
+        <!-- End Google Maps -->
 
         <div class="container aos-init aos-animate" data-aos="fade">
 
-            <div class="row gy-5 gx-lg-5">
+            <div class="container  tab-panel-contact">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false" tabindex="-1">Service &amp; Company </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Tax Filing &amp; Compliance</button>
+                    </li>
+
+                </ul>
+
+                <div class="tab-content mt-3" id="myTabContent">
+                    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#financialDetailsCollapse" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q1" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>1. What is TaxFiling.lk?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="financialDetailsCollapse" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>TaxFiling.lk is Sri Lanka’s first fully online tax filing platform, designed to make submitting your Inland Revenue Department (IRD) return fast, accurate, and stress-free. We offer both self-filing tools and advisor-assisted services.													</p>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse02" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q2" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>2. What services do you offer?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse02" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p></p><h4>We provide:</h4>
+                                <ul>
+                                    <li>Self-Filing: Guided online form, reviewed by our tax experts before submission.	</li>
+
+                                    <li>Advisor-Assisted Filing: Upload your documents and let our experts prepare and file your return.</li>
+
+                                    <li>Tax Consultation: Expert advice on tax planning, exemptions, and compliance.</li>
+
+                                    <li>Tax Planning: Strategies to reduce future tax liabilities legally.</li>
+                                </ul>	<p></p>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse03" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q3" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>3. How does the online tax filing process work? (Step-by-step)
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse03" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p></p><ul>
+                                    <li>Choose your filing method (Self-Filing or Advisor-Assisted).</li>
+
+                                    <li>Create your account and enter your TIN &amp; personal details.</li>
+
+                                    <li>Upload documents or fill in income and expense details.</li>
+
+                                    <li>Our team reviews and prepares your return.</li>
+                                    <li>You approve the draft.</li>
+                                    <li>We submit electronically to the IRD and send you the acknowledgment.</li>
+                                </ul>												<p></p>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse04" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q4" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>4. What makes TaxFiling.lk different from other tax services?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse04" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p></p><ul>
+                                    <li>100% online convenience — no physical visits.</li>
+
+                                    <li>IRD-compliant, accurate calculations.</li>
+
+                                    <li>Secure data handling with encryption.</li>
+
+                                    <li>Flexible filing options to suit your needs.</li>
+                                    <li>Year-round support, not just during tax season.</li>
+
+                                </ul>													<p></p>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse05" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q5" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>5. Is my personal and financial data secure?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse05" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Yes. We use bank-level encryption, secure cloud storage, and IRD-compliant protocols to protect your data.												</p>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse06" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q6" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>6. How much does it cost to file my tax return?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse06" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Our pricing starts from Rs. 1,000 for standard individual returns. Complex cases (multiple income sources, overseas income) may cost more.												</p>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse07" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q7" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>7. What payment methods do you accept?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse07" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>We accept bank transfers, credit/debit cards, and online payment gateways.													</p>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse08" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q8" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>8. Do you handle both Sri Lankan residents and non-residents?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse08" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Yes. We file returns for residents and non-residents with Sri Lankan-sourced income.													</p>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse09" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q9" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>9. Can I switch from self-filing to advisor-assisted after starting?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse09" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Yes, you can upgrade anytime. Your saved data will transfer to the advisor-assisted process.													</p>
+
+                            </div>
+                        </div>
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse10" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q10" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>10. Do you provide year-round tax support or only during filing season?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse10" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>We offer year-round consultation, tax planning, and compliance services.													</p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#financialDetailsCollapse" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q1" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>1. Who needs to file an Individual Income Tax Return in Sri Lanka?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="financialDetailsCollapse" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Any resident or non-resident who earned income in Sri Lanka between 1 April 2024 and 31 March 2025 must file, even if tax was deducted at source.												</p>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse02" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q2" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>2. When is the deadline?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse02" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Final payment is due by 30 September 2025, and the final return for the 2024/2025 year of assessment must be submitted by 30 November 2025.</p>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse03" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q3" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>3. Is e-filing mandatory?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse03" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Yes, all individuals must file electronically via the IRD portal.</p>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse04" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q4" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>4. What documents do I need?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse04" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>TIN, income statements, bank interest/dividend statements, rental agreements, WHT/AIT certificates, proof of qualifying payments, asset &amp; liability details.</p>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse05" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q5" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>5. What income must be declared?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse05" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Employment, business, investment (interest, dividends, rental, capital gains), and other income such as foreign remittances.											</p>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse06" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q6" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>6. What exemptions/reliefs are available?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse06" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Personal relief, 25% rental income relief, solar panel installation relief (up to Rs. 600,000), and approved donations.											</p>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse07" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q7" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>7. How is rental income taxed?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse07" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>As investment income, with a 25% relief before applying tax rates.													</p>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse08" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q8" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>8. What are qualifying payments?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse08" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>
+                                    Donations to government/approved charities, investments in government projects, solar installations, and approved film industry expenditure.
+                                </p>
+                            </div>
+                        </div>
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse09" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q9" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>9. How to declare assets &amp; liabilities?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse09" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>Include immovable property, vehicles, bank balances, shares, jewellery, loans given, liabilities, and disposals/acquisitions during the year as at 31 March 2025.												</p>
+
+                            </div>
+                        </div>
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse10" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q10" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>10. Penalties for late filing?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse10" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>5% of tax due + 1% monthly, or Rs. 50,000 + Rs. 10,000 per month late. Late payment penalties and interest also apply.													</p>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse10" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q10" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>11. What if I have no taxable income?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse10" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>You must still file a NIL return if registered with the IRD.													</p>
+
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#Collapse10" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q10" style="font-weight: normal;">
+                                <span style="font-weight: normal;">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>12. How can TaxFiling.lk help?
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 collapse" id="Collapse10" style="">
+                            <div class="card card-body border shadow-sm">
+
+                                <p>We guide you step-by-step, ensure compliance, claim all reliefs, and submit your return electronically.												</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <h2 class="mb-3">Contact</h2>
+                        <p class="lead">This is the contact tab content.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="terminal-form" class="upload-form-section" style="display: none;">
+
+                <input type="hidden" name="CategoryName" value="TerminalBenefit">
+                <div class="mb-3">
+                    <label>Employer Name</label>
+                    <input type="text" name="TerminalEmployerName" class="form-control" id="TerminalEmployerName">
+                    <form method="post" enctype="multipart/form-data" class="mt-3">
+
+                        <label>Upload File</label>
+                        <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control">
+                        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8KhSW7X0JcRIpwnA1U_OFm9kXfve5-X5bDc2GEW0ib0f1_E5bUjB1FAt78o7D8uZjt9GG5-BNH318Msu_OLPOZrcjD-UP5MWNyLnOqXe44wobx1PX773_RuAqEJ3JE6YM_J45r7SdfilBEK21dZwKDJcFR9gKfiOUfWm6rzXr9Zb2mNYO624PP5-2jNX2XpnaQ">
+                    </form>
+                </div>
+
+            </div>
+            <br>
+            <br>
+
+            <div class="row ">
 
                 <div class="col-lg-4">
 
                     <div class="info">
                         <h3>Get in touch</h3>
-                        <p>Have questions about your taxes or need help using our services?
-We’re here to make your tax filing experience smooth and stress-free.
-Reach out to us by phone, email, or the form below. Our team will respond as soon as possible.</p>
 
+
+                        <br>
                         <div class="info-item d-flex">
                             <i class="bi bi-geo-alt flex-shrink-0"></i>
                             <div>
-                                <h4>Location:</h4>
-                                <p>No. 55/1/A, Koswattha Road, Rajagiriya. 20000 Colombo, Sri Lanka</p>
+                                <h4>Direct message</h4>
+                                <p>Send us a direct message on our social channels and we will get back to you soon</p>
                             </div>
                         </div><!-- End Info Item -->
 
                         <div class="info-item d-flex">
-                            <i class="bi bi-envelope flex-shrink-0"></i>
+                            <i class="bi bi-chat flex-shrink-0"></i>
                             <div>
-                                <h4>Email:</h4>
-                                <p>support@taxfiling.lk</p>
+                                <h4>Online chat</h4>
+                                <p>Use our chat bot or let us connect you to an agent for specific queries.</p>
                             </div>
                         </div><!-- End Info Item -->
+
+
+
+
 
                         <div class="info-item d-flex">
                             <i class="bi bi-phone flex-shrink-0"></i>
                             <div>
-                                <h4>Call:</h4>
-                                <p>
-077 408 7869</p>
+                                <h4>Call us</h4>
+                                <p>Still need help? Give us a call.</p>
+                            </div>
+                        </div><div class="info-item d-flex">
+                            <i class="bi bi-whatsapp flex-shrink-0"></i>
+                            <div>
+                                <h4>WhatsApp</h4>
+                                <p>Chat with our virtual WhatsApp assistant or save this number for <br><strong>later: +971 56 688 9003</strong></p>
                             </div>
                         </div><!-- End Info Item -->
 

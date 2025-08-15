@@ -83,7 +83,8 @@ $(function () {
         e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+        //$btn.setButtonDisabled(true);
+        $btn.prop("disabled", true); // disable button
 
         //let formData = new FormData();
 
@@ -106,44 +107,54 @@ $(function () {
         };
         if (firstName.length == 0) {
             notifyError(false, "First Name is required");
-            $btn.setButtonDisabled(false);
+            // $btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else if (lastName.length == 0) {
             notifyError(false, "Last Name is required");
-            $btn.setButtonDisabled(false);
+            //$btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else if (email.length == 0) {
             notifyError(false, "Email is required");
-            $btn.setButtonDisabled(false);
+            //$btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else if (!emailPattern.test(email)) {
             notifyError(false, "Ivalid email");
-            $btn.setButtonDisabled(false);
+            //$btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else if (phone.length == 0) {
             notifyError(false, "Phone is required");
-            $btn.setButtonDisabled(false);
+            // $btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else if (!phonePattern.test(phone)) {
             notifyError(false, "Invalid phone number!");
-            $btn.setButtonDisabled(false);
+            //$btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else if (password.length == 0) {
             notifyError(false, "Password is required");
-            $btn.setButtonDisabled(false);
+            //  $btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         if (password.length < 6) {
             notifyError(false, "Password must be at least 6 characters.");
-            $btn.setButtonDisabled(false);
+            //$btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
             
         }
         else if (confirmPassword.length == 0) {
             notifyError(false, "Confirm Password is required");
-            $btn.setButtonDisabled(false);
+            // $btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else if (password !== confirmPassword) {
             notifyError(false, "Passwords do not match.");
-            $btn.setButtonDisabled(false);
+            // $btn.setButtonDisabled(false);
+            $btn.prop("disabled", false); // disable button
         }
         else {
             $.ajax({
@@ -176,10 +187,12 @@ $(function () {
                         notifyError(false, 'An error occurred while registering the User.');
                     }
 
-                    $btn.setButtonDisabled(false);
+                    //$btn.setButtonDisabled(false);
+                    $btn.prop("disabled", false); // disable button
                 },
                 error: function (xhr) {
-                    $btn.setButtonDisabled(false);
+                    //$btn.setButtonDisabled(false);
+                    $btn.prop("disabled", false); // disable button
                     notifyError(false, 'An error occurred while registering the User.');
                 }
             });
@@ -301,7 +314,8 @@ $(function () {
         e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+        //$btn.setButtonDisabled(true);
+        $btn.prop("disabled", true); // disable button
         var userId = $('#UserId').val();
         var name = $('#UserFullName').val();
         var email = $('#Email').val();
@@ -355,10 +369,12 @@ $(function () {
                     notifyError(false, 'An error occurred while updating the User.');
                 }
 
-                $btn.setButtonDisabled(false);
+                //$btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
             },
             error: function (xhr) {
-                $btn.setButtonDisabled(false);
+                //$btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
                 notifyError(false, 'An error occurred while updating the User.');
             }
         });
@@ -369,7 +385,8 @@ $(function () {
         e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+        //$btn.setButtonDisabled(true);
+        $btn.prop("disabled", true); // disable button
         var userId = $('#UserId').val();
         var name = $('#UserFullName').val();
         var email = $('#Email').val();
@@ -422,11 +439,12 @@ $(function () {
                 else {
                     notifyError(false, 'An error occurred while updating the User.');
                 }
-
-                $btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
+               // $btn.setButtonDisabled(false);
             },
             error: function (xhr) {
-                $btn.setButtonDisabled(false);
+                //$btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
                 notifyError(false, 'An error occurred while updating the User.');
             }
         });
@@ -437,7 +455,8 @@ $(function () {
         e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+        // $btn.setButtonDisabled(true);
+        $btn.prop("disabled", true); // disable button
         var userId = $('#UserId').val();
         var name = $('#UserFullName').val();
         console.log("UserId:", userId);
@@ -466,10 +485,12 @@ $(function () {
                     notifyError(false, 'An error occurred while updating the User.');
                 }
 
-                $btn.setButtonDisabled(false);
+                //$btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
             },
             error: function (xhr) {
-                $btn.setButtonDisabled(false);
+                //  $btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
                 notifyError(false, 'An error occurred while updating the User.');
             }
         });
@@ -480,7 +501,8 @@ $(function () {
         e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+        //$btn.setButtonDisabled(true);
+        $btn.prop("disabled", true); // disable button
         var userId = $('#UserId').val();
         var name = $('#UserFullName').val();
         console.log("UserId:", userId);
@@ -508,10 +530,12 @@ $(function () {
                     notifyError(false, 'An error occurred while updating the User.');
                 }
 
-                $btn.setButtonDisabled(false);
+                //$btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
             },
             error: function (xhr) {
-                $btn.setButtonDisabled(false);
+                // $btn.setButtonDisabled(false);
+                $btn.prop("disabled", false); // disable button
                 notifyError(false, 'An error occurred while updating the User.');
             }
         });
