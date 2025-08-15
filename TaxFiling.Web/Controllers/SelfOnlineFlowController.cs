@@ -660,7 +660,8 @@ public class SelfOnlineFlowController : Controller
                 TerminalBenefits = employmentIncome.TerminalBenefits,
                 ExemptAmounts = employmentIncome.ExemptAmounts,
                 UserId = employmentIncome.UserId,
-                Year = employmentIncome.Year
+                Year = employmentIncome.Year,
+                Total = employmentIncome.Total
             }
         };
         return PartialView("IncomeTaxPartial/_IncomeLiableTaxSection", model);
