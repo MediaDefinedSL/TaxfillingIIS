@@ -20,6 +20,8 @@ public class SelfOnlineEmploymentIncome : Entity
     public bool? TerminalBenefits { get; set; }
     [Column("ExemptAmounts")]
     public bool? ExemptAmounts { get; set; }
+    [Column("Total")]
+    public decimal? Total { get; set; }
 
 
 
