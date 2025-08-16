@@ -311,9 +311,11 @@ $(function () {
                 $('#etf').off('hide.bs.collapse').collapse('hide');
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
-                    $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
+                    $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    $("#spnEmploymentIncomeTotal").text(newTotal);
+                    $("#taxTotal").text(newTotal);
                 });
-
             },
             error: function () {
                 alert("Error deleting.");
@@ -371,6 +373,9 @@ $(function () {
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
                     $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    $("#spnEmploymentIncomeTotal").text(newTotal);
+                    $("#taxTotal").text(newTotal);
                 });
 
             },
