@@ -2215,6 +2215,9 @@ section#contact {
     background-image: url(/assets/img/curves-1.png) !important;
 }
 
+#Self-Online-Flow .sidebar {
+    height: -webkit-fill-available;
+}
 h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     display: inline-block;
     float: right;
@@ -2226,6 +2229,7 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     border-radius: 4px;
     padding-top: 2px;
     margin-top: -4px;
+
 }
 
 #global-upload-tracker {
@@ -2246,6 +2250,7 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     #global-upload-tracker .upload-label {
         font-weight: 500;
         margin-right: 6px;
+
     }
 
 #Self-Online-Flow .sidebar {
@@ -2280,4 +2285,5 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
 .Tax-pesonaldetail-icon label {
     border-bottom: solid 6px #0d6efd !important;
 }
+
 

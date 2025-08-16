@@ -47,16 +47,29 @@
 
                 <div class="nav flex-column">
 
-
-                    <div class="dropdown-container" style="display: none;">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
                     <a href="#" class="sidebar-link active text-decoration-none p-3" data-target="dashboard-section">
                         <i class="fas fa-home me-3"></i>
                         <span class="hide-on-collapse">Dashboard</span>
                     </a>
+
+                    <a class="sidebar-link dropdown-btn text-decoration-none p-3" id="btnLoadSection">
+                        <i class="bi bi-person-fill-down"></i>
+                        <span class="hide-on-collapse">Personal Information</span>
+                    </a>
+
+                    <!-- <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3">
+                         <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
+                         Personal Information
+                      </button>-->
+                    <div class="dropdown-container" style="display: none;">
+                        <a class="sub-link" id="linkTaxPayer">TaxPayer(s)</a>
+                        <a class="sub-link" id="linkMaritalStatus">Marital Status</a>
+                        <a class="sub-link" id="linkLastYear">Last Year</a>
+                        <a class="sub-link" id="linkIdentification">Identification</a>
+                        <a class="sub-link" id="linkContactInformation">Contact Information</a>
+                        <a class="sub-link" id="linkSummary">Summary</a>
+                    </div>
+
                     <a href="#documents-submenu" class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center"
                        data-bs-toggle="collapse" aria-expanded="false" data-target="documents-section">
                         <span>
@@ -101,6 +114,8 @@
                 </div>
             </nav>
 
+
+
             <main class="main-content">
                 <div class="container-fluid">
                     <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
@@ -137,11 +152,11 @@
                             : progressPercent >= 40 ? "bg-warning"
                             : "bg-danger";
                         }
-                        <div class="p-3 mb-4 bg-white rounded shadow-sm border position-relative">
+                        <div class="p-3 mb-4 bg-white rounded shadow-sm border position-relative" style="display:none">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-upload text-primary fs-4 me-2"></i>
-                                    <div>
+                                    <div >
                                         <h6 class="mb-0 fw-bold">Document Upload Progress</h6>
                                         <small class="text-muted">Track your tax document submission</small>
                                     </div>
@@ -242,6 +257,18 @@
                 </div>
                 <br>
                 <br>
+                <!-- Upload Tracker (place inside each section header) -->
+                <!-- Global Upload Tracker -->
+                
+                <div id="global-upload-tracker">
+                    <span class="upload-label">
+                        <i class="fas fa-upload me-1 text-primary"></i> Uploaded
+                    </span>
+                    <span id="globalUploadCount" class="fw-bold text-dark">0 </span> 
+                    <span class="fw-bold text-dark">files </span>
+                </div>
+               
+                <div id="in-this-section-container" style="display: none;"></div>
                 <div id="documents-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
                     <!-- Header Section -->
                     <div class="d-lg-flex justify-content-between align-items-center mb-4">
@@ -286,6 +313,21 @@
                         </ul>
                     </div>
 
+                    <div class="d-flex justify-content-between">
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnDocPrevious">
+                                Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right next-btn">
+                            <button class="btn btn-primary btn-lg" id="btnDocNext">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+
+
 
                 </div>
 
@@ -306,9 +348,25 @@
                         <div class="mb-3">
                             <div class="alert alert-info mt-2" role="alert">
                                 <strong>Note:</strong> Please upload your T10 Certificate for the relevant period. If you have multiple T10 Certificates for different employees, kindly upload each separately. <br>
-                                <a href="/assets/files/T10.pdf" download class="text-primary text-decoration-underline">
-                                    Download Sample T10 Certificate
+                                <a href="#" class="text-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#t10Modal">
+                                    View Sample T10 Certificate
                                 </a>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="t10Modal" tabindex="-1" aria-labelledby="t10ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+                                    <!-- smaller width -->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="t10ModalLabel">Sample T10 Certificate</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" style="height: 400px;">
+                                            <!-- smaller height -->
+                                            <iframe src="/assets/files/T10.pdf" style="width:100%; height:100%;" frameborder="0"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <label>Employer Name</label>
                             <input type="text" name="T10EmployerName" class="form-control" id="T10EmployerName" />
@@ -345,8 +403,15 @@
                             <select class="form-select" name="OtherType" id="AnyOtherType">
                                 <option value="">-- Select Type --</option>
                                 <option value="SalarySlips">Salary Slips</option>
-                                <option value="PaySheets">Pay Sheets</option>
+                                <option value="Otherbenefits">Other benefits received from the employer</option>
+                                <option value="Anyotherdocuments">Any other documents relevant to employment income</option>
                             </select>
+                            <!-- Message container -->
+                            <div id="otherTypeAlert" class="alert alert-warning mt-2" role="alert" style="display:none;">
+                                Such as a vehicle for private use, a house for residential purposes, and company shares.
+                            </div>
+
+                            
                             <form method="post" enctype="multipart/form-data" class="mt-3">
                                 <label>Upload File</label>
                                 <input type="file" id="fileInputAnyOther" name="UploadedFile" class="form-control" />
@@ -376,14 +441,19 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <!-- Previous Button -->
-                        <button class="btn btn-primary" id="btnPrevious">
-                            <i class="fas fa-arrow-left me-2" ></i> Previous
-                        </button>
-                        <button class="btn btn-primary " id="btnNext">
-                            Next <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnPrevious">
+                                Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right next-btn">
+                            <button class="btn btn-primary btn-lg" id="btnNext">
+                                Next
+                            </button>
+                        </div>
                     </div>
+
 
                 </div>
 
@@ -439,13 +509,19 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary" id="btnEmployementPrevious">
-                                <i class="fas fa-arrow-left me-2"></i> Previous
-                            </button>
-                            <button class="btn btn-primary" id="btnAssestsNext">
-                                Next <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
+                            <div class="col-lg-6 col-md-6 btn-prv">
+                                <!-- Previous Button -->
+                                <button class="btn btn-primary btn-lg" id="btnEmployementPrevious">
+                                    Previous
+                                </button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 right next-btn">
+                                <button class="btn btn-primary btn-lg" id="btnAssestsNext">
+                                    Next
+                                </button>
+                            </div>
                         </div>
+
 
                     </div>
 
@@ -939,13 +1015,18 @@
 
 
                         </div>
-                        <div class="d-flex justify-content-between" style="margin-top: 20px;">
-                            <button class="btn btn-primary" id="btnBankPrevious">
-                                <i class="fas fa-arrow-left me-2"></i> Previous
-                            </button>
-                            <button class="btn btn-primary" id="btnOtherNext">
-                                Next <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
+                        <div class="d-flex justify-content-between">
+                            <div class="col-lg-6 col-md-6 btn-prv">
+                                <!-- Previous Button -->
+                                <button class="btn btn-primary btn-lg" id="btnBankPrevious">
+                                    Previous
+                                </button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 right next-btn">
+                                <button class="btn btn-primary btn-lg" id="btnOtherNext">
+                                    Next
+                                </button>
+                            </div>
                         </div>
 
                     </div>
@@ -1076,15 +1157,21 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Navigation -->
-                    <div class="d-flex justify-content-between" style="margin-top: 20px;">
-                        <button class="btn btn-primary" id="btnAssetsPrevious" >
-                            <i class="fas fa-arrow-left me-2"></i> Previous
-                        </button>
-                        <button class="btn btn-primary" id="btnDeclareNext">
-                            Next <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
+                    <div class="d-flex justify-content-between">
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnAssetsPrevious">
+                                Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right next-btn">
+                            <button class="btn btn-primary btn-lg" id="btnDeclareNext">
+                                Next
+                            </button>
+                        </div>
                     </div>
+
+
                 </div>
 
 
@@ -1134,14 +1221,19 @@
                             🖨️ Print Declaration
                         </button>
                     </div>
-                    <div class="d-flex justify-content-between" style="margin-top: 20px;">
-                        <button class="btn btn-primary" id="btnOtherPrevious">
-                            <i class="fas fa-arrow-left me-2"></i> Previous
-                        </button>
+                    <div class="d-flex justify-content-between">
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnOtherPrevious">
+                                Previous
+                            </button>
+                        </div>
 
                     </div>
+
+
                 </div>
-               
+
             </main>
             <!-- Modal Alert Popup -->
             <div id="enhancedModal" class="enhanced-modal" style="display:none;">
@@ -1173,7 +1265,10 @@
                 </div>
             </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
+            <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
+
+
                      const sidebarLinks = document.querySelectorAll(".sidebar-link");
                      const contentPanels = document.querySelectorAll(".content-panel");
                      const baseApiUrl = "@apiUrl";
@@ -1183,6 +1278,8 @@
                     let selectedFile = null;
                     let selectedCategoryName = ""; // set this based on button click
                     let allDocs = [];
+                    let globalUploadCount = 0;               
+
                     const fileInput = document.getElementById('fileInput');
                     const submitBtn = document.getElementById('submitBtn');
                     const submitBankBtn = document.getElementById('submitBankBtn');
@@ -1206,6 +1303,19 @@
                        icon.classList.add('bi-chevron-down');
                    });
 
+                
+                    const select = document.getElementById('AnyOtherType');
+                      const message = document.getElementById('otherTypeAlert');
+
+                    select.addEventListener('change', function() {
+                        if (select.value === 'Otherbenefits') {
+                            message.style.display = 'block'; // show message
+                        } else {
+                            message.style.display = 'none'; // hide message
+                        }
+                    });
+           
+
                    const toggleButton = document.getElementById("financialToggle");
                    const collapseIcon = document.getElementById("collapseIcon");
                    const collapseTarget = document.getElementById("financialDetailsCollapse");
@@ -1219,6 +1329,24 @@
                    //     collapseIcon.classList.remove("fa-chevron-up");
                    //     collapseIcon.classList.add("fa-chevron-down");
                    // });
+
+                 function incrementUploadCount() {
+                    globalUploadCount++;
+                    $('#globalUploadCount').text(globalUploadCount);
+                }
+
+              function decrementUploadCount() {
+                    globalUploadCount--;
+                    $('#globalUploadCount').text(globalUploadCount);
+                }
+
+                function updateGlobalUploadCount() {
+                    if(globalUploadCount == 0)
+                    {
+                        globalUploadCount = allDocs.length ;
+                    }                    
+                    $('#globalUploadCount').text(globalUploadCount);
+                }
 
                    function handleExcelFileChange(event) {
                        const fileInput = event.target;
@@ -1653,6 +1781,7 @@
                        contentType: false,
                        success: function (response) {
                             showMessage("Assets saved successfully!", "success");
+                              incrementUploadCount();
                                   //alert("Assets saved successfully!");
                            loadAssestsUploadedFiles(userId);
                          // Clear inputs or update UI as needed
@@ -1674,11 +1803,13 @@
                    document.getElementById("fileInput").addEventListener("change", function () {
                              if (this.files.length > 0) {
                             selectedFile = this.files[0];
+                            
                         }
                     });
                     document.getElementById("fileInputTerminal").addEventListener("change", function () {
                               if (this.files.length > 0) {
                                selectedFile = this.files[0];
+                                
                            }
                        });
                      document.getElementById("fileInputAnyOther").addEventListener("change", function () {
@@ -1729,6 +1860,7 @@
                     }
                     function showPanel(panelId) {
 
+                        document.getElementById('in-this-section-container').style.display = 'none';
                         contentPanels.forEach(panel => {
                             panel.style.display = (panel.id === panelId) ? "block" : "none";
                         });
@@ -1752,6 +1884,7 @@
                             e.preventDefault();
                             const targetId = this.getAttribute("data-target");
                             const panelId = this.dataset.target;
+
                             showPanel(targetId);
 
                             if (panelId === "bank-section") {
@@ -1937,6 +2070,7 @@
                             }
 
                             allDocs = await res.json();
+                           updateGlobalUploadCount();
                             renderDocsTable(selectedCategory);
                         } catch (err) {
                             console.error("Error loading documents:", err);
@@ -1980,7 +2114,7 @@
                                    } else if(doc.categoryName === "Other Documents"){
                                             employmentValue = doc.otherDocumentName;
                                    }
-                                   
+
                               employmentValue = employmentValue ?? "";
                               const row = document.createElement("tr");
 
@@ -2143,6 +2277,7 @@
                             {
                                 showMessage("✅ Document deleted successfully.", "success");
                                 const userId = '@User.FindFirst("UserID")?.Value';
+                                  decrementUploadCount();
                                 loadUploadedDocs(userId,selectedCategoryName);
                                    loadExcelAssestsUploadedFiles(userId);
                                    loadAssestsUploadedFiles(userId);
@@ -2351,7 +2486,9 @@
                     const startBtn = document.getElementById("start-btn");
                     if (startBtn) {
                         startBtn.addEventListener("click", function () {
-                            showPanel("documents-section");
+                        document.getElementById("btnLoadSection").click();
+
+                            //showPanel("documents-section");
                         });
                     }
 
@@ -2362,12 +2499,12 @@
                             showPanel("bank-section");
                            loadUploadedDocs(userId,'Bank Confirmation');
                         });
-                    }                    
+                    }
 
                     const  nextAssestBtn= document.getElementById("btnAssestsNext");
                     if (nextAssestBtn) {
                         nextAssestBtn.addEventListener("click", function () {
-                            
+
                             showPanel("assets-section");
                                  loadExcelAssestsUploadedFiles(userId);
                                 loadAssestsUploadedFiles(userId);
@@ -2393,6 +2530,22 @@
 
                         });
                     }
+                    const  btnDocNext= document.getElementById("btnDocNext");
+
+                     if (btnDocNext) {
+                        btnDocNext.addEventListener("click", function () {
+                            showPanel("employment-section");
+
+                        });
+                    }
+                     const  btnDocPrevious= document.getElementById("btnDocPrevious");
+
+                     if (btnDocPrevious) {
+                        btnDocPrevious.addEventListener("click", function () {
+                            $('#linkSummary').click();
+
+                        });
+                    }
 
                     const  previousBtn= document.getElementById("btnPrevious");
                     if (previousBtn) {
@@ -2403,8 +2556,9 @@
 
                     const  previousEmploymentBtn= document.getElementById("btnEmployementPrevious");
                     if (previousEmploymentBtn) {
-                        previousEmploymentBtn.addEventListener("click", function () {                            
+                        previousEmploymentBtn.addEventListener("click", function () {
                            showPanel("employment-section");
+                            loadUploadedDocs(userId,'T10');
 
                         });
                     }
@@ -2414,7 +2568,8 @@
                         previousBankBtn.addEventListener("click", function () {
                              selectedCategoryName = 'Bank Confirmation';
                            showPanel("bank-section");
-                          
+                            loadUploadedDocs(userId,'Bank Confirmation');
+
                         });
                     }
 
@@ -2423,6 +2578,7 @@
                         previousOtherBtn.addEventListener("click", function () {
                             selectedCategoryName =  'Other Documents';
                                   showPanel("other-section");
+                                   loadUploadedDocs(userId,'Other Documents');
 
                         });
                     }
@@ -2431,7 +2587,8 @@
                     if (previousAssetsBtn) {
                         previousAssetsBtn.addEventListener("click", function () {
                            showPanel("assets-section");
-
+                            loadExcelAssestsUploadedFiles(userId);
+                                loadAssestsUploadedFiles(userId);
                         });
                     }
 
@@ -2517,10 +2674,11 @@
                             });
 
                             if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                             incrementUploadCount();
                             const saveResult = await saveResponse.json();
                             const userUploadId = saveResult.userUploadId;
                             showMessage("File Submitted successfully!", "success");
+                           
                            // alert("File submitted successfully!");
 
                             // Optional: add to table UI
@@ -2635,7 +2793,7 @@
                             });
 
                             if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                             incrementUploadCount();
                             const saveResult = await saveResponse.json();
                             const userUploadId = saveResult.userUploadId;
                              showMessage("File Submitted successfully!", "success");
@@ -2755,7 +2913,7 @@
                                });
 
                                if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                                incrementUploadCount();
                                const saveResult = await saveResponse.json();
                                const userUploadId = saveResult.userUploadId;
                                 showMessage("File Submitted successfully!", "success");
@@ -2844,7 +3002,7 @@
                             });
 
                             if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                             incrementUploadCount();
                             const saveResult = await saveResponse.json();
                             const userUploadId = saveResult.userUploadId;
                             showMessage("File Submitted successfully!", "success");
@@ -2858,7 +3016,7 @@
                                let employmentValue = "";
                                let bankConfirmationType = "";
                                let bankName = "";
-                               
+
 
                                  if (selectedCategoryName === "T10") {
                                             employmentValue = document.getElementById("T10EmployerName")?.value || null;
@@ -2871,7 +3029,7 @@
                                   employmentValue = employmentValue ?? "";
                                   bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
                                   bankName= document.getElementById("BankName")?.value || "";
-                                 
+
 
                                   const tableBody = document.querySelector("#documentsTableOtherBody");
                                   const currentCount = tableBody.querySelectorAll("tr").length;
