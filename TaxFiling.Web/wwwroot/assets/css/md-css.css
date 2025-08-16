@@ -2228,6 +2228,26 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     margin-top: -4px;
 }
 
+#global-upload-tracker {
+    position: fixed;
+    top: 178px; /* adjust vertical position */
+    right: 20px; /* distance from right edge */
+    background: linear-gradient(135deg, #cceeff, #99ddff); /* light blue gradient */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    color: #333; /* dark text for contrast */
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1); /* lighter shadow */
+    z-index: 1050;
+    border-radius: 20px; /* pill shape */
+}
+
+    #global-upload-tracker .upload-label {
+        font-weight: 500;
+        margin-right: 6px;
+    }
+
 #Self-Online-Flow .sidebar {
     height: -webkit-fill-available;
 }
@@ -2260,3 +2280,4 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
 .Tax-pesonaldetail-icon label {
     border-bottom: solid 6px #0d6efd !important;
 }
+
