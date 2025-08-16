@@ -38,7 +38,9 @@ public class User : Entity
 
     [Column("profile_imagePath")]
     public string ProfileImagePath { get; set; }
-   
+    [Column("TaxTotal")]
+    public decimal? TaxTotal { get; set; }
+
     [Column("is_active")]
     public int IsActive { get; set; }
     [Column("package_id")]

@@ -513,10 +513,19 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             var mainIncome = await _context.SelfOnlineEmploymentIncomes
            .FirstOrDefaultAsync(x => x.SelfOnlineEmploymentIncomeId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId);
 
+            var mainTaxIncome = await _context.Users
+           .FirstOrDefaultAsync(x => x.UserId.ToString() == selfOnlineEmploymentIncomeDetails.UserId  );
+
             if (mainIncome != null)
             {
                 mainIncome.Total = (mainIncome.Total ?? 0) + addToTotal;
                 _context.SelfOnlineEmploymentIncomes.Update(mainIncome);
+                await _context.SaveChangesAsync();
+            }
+            if (mainTaxIncome != null)
+            {
+                mainTaxIncome.TaxTotal = (mainTaxIncome.TaxTotal ?? 0) + addToTotal;
+                _context.Users.Update(mainTaxIncome);
                 await _context.SaveChangesAsync();
             }
 
