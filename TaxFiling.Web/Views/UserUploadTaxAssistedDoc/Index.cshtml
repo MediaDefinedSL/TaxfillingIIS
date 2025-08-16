@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="nav flex-column">
-                    
+
                     <a href="#" class="sidebar-link active text-decoration-none p-3" data-target="dashboard-section">
                         <i class="fas fa-home me-3"></i>
                         <span class="hide-on-collapse">Dashboard</span>
@@ -57,11 +57,11 @@
                         <span class="hide-on-collapse">Personal Information</span>
                     </a>
 
-                   <!-- <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3">
-                        <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
-                        Personal Information
-                     </button>-->
-                    <div class="dropdown-container" style="display: none;">                        
+                    <!-- <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3">
+                         <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
+                         Personal Information
+                      </button>-->
+                    <div class="dropdown-container" style="display: none;">
                         <a class="sub-link" id="linkTaxPayer">TaxPayer(s)</a>
                         <a class="sub-link" id="linkMaritalStatus">Marital Status</a>
                         <a class="sub-link" id="linkLastYear">Last Year</a>
@@ -114,7 +114,7 @@
                 </div>
             </nav>
 
-            
+
 
             <main class="main-content">
                 <div class="container-fluid">
@@ -257,6 +257,17 @@
                 </div>
                 <br>
                 <br>
+                <!-- Upload Tracker (place inside each section header) -->
+                <!-- Global Upload Tracker -->
+                
+                <div id="global-upload-tracker">
+                    <span class="upload-label">
+                        <i class="fas fa-upload me-1 text-primary"></i> Uploaded
+                    </span>
+                    <span id="globalUploadCount" class="fw-bold text-dark">0 </span> 
+                    <span class="fw-bold text-dark">files </span>
+                </div>
+               
                 <div id="in-this-section-container" style="display: none;"></div>
                 <div id="documents-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
                     <!-- Header Section -->
@@ -487,7 +498,7 @@
                                 </button>
                             </div>
                         </div>
-                       
+
 
                     </div>
 
@@ -993,7 +1004,7 @@
                                     Next
                                 </button>
                             </div>
-                        </div>                        
+                        </div>
 
                     </div>
 
@@ -1137,7 +1148,7 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
 
 
@@ -1194,12 +1205,12 @@
                                 Previous
                             </button>
                         </div>
-                        
+
                     </div>
 
-                  
+
                 </div>
-               
+
             </main>
             <!-- Modal Alert Popup -->
             <div id="enhancedModal" class="enhanced-modal" style="display:none;">
@@ -1234,7 +1245,7 @@
             <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
 
-                           
+
                      const sidebarLinks = document.querySelectorAll(".sidebar-link");
                      const contentPanels = document.querySelectorAll(".content-panel");
                      const baseApiUrl = "@apiUrl";
@@ -1244,6 +1255,8 @@
                     let selectedFile = null;
                     let selectedCategoryName = ""; // set this based on button click
                     let allDocs = [];
+                    let globalUploadCount = 0;               
+
                     const fileInput = document.getElementById('fileInput');
                     const submitBtn = document.getElementById('submitBtn');
                     const submitBankBtn = document.getElementById('submitBankBtn');
@@ -1280,6 +1293,24 @@
                    //     collapseIcon.classList.remove("fa-chevron-up");
                    //     collapseIcon.classList.add("fa-chevron-down");
                    // });
+
+                 function incrementUploadCount() {
+                    globalUploadCount++;
+                    $('#globalUploadCount').text(globalUploadCount);
+                }
+
+              function decrementUploadCount() {
+                    globalUploadCount--;
+                    $('#globalUploadCount').text(globalUploadCount);
+                }
+
+                function updateGlobalUploadCount() {
+                    if(globalUploadCount == 0)
+                    {
+                        globalUploadCount = allDocs.length ;
+                    }                    
+                    $('#globalUploadCount').text(globalUploadCount);
+                }
 
                    function handleExcelFileChange(event) {
                        const fileInput = event.target;
@@ -1735,11 +1766,13 @@
                    document.getElementById("fileInput").addEventListener("change", function () {
                              if (this.files.length > 0) {
                             selectedFile = this.files[0];
+                            
                         }
                     });
                     document.getElementById("fileInputTerminal").addEventListener("change", function () {
                               if (this.files.length > 0) {
                                selectedFile = this.files[0];
+                                
                            }
                        });
                      document.getElementById("fileInputAnyOther").addEventListener("change", function () {
@@ -1814,7 +1847,7 @@
                             e.preventDefault();
                             const targetId = this.getAttribute("data-target");
                             const panelId = this.dataset.target;
-                            
+
                             showPanel(targetId);
 
                             if (panelId === "bank-section") {
@@ -2000,6 +2033,7 @@
                             }
 
                             allDocs = await res.json();
+                           updateGlobalUploadCount();
                             renderDocsTable(selectedCategory);
                         } catch (err) {
                             console.error("Error loading documents:", err);
@@ -2043,7 +2077,7 @@
                                    } else if(doc.categoryName === "Other Documents"){
                                             employmentValue = doc.otherDocumentName;
                                    }
-                                   
+
                               employmentValue = employmentValue ?? "";
                               const row = document.createElement("tr");
 
@@ -2206,6 +2240,7 @@
                             {
                                 showMessage("✅ Document deleted successfully.", "success");
                                 const userId = '@User.FindFirst("UserID")?.Value';
+                                  decrementUploadCount();
                                 loadUploadedDocs(userId,selectedCategoryName);
                                    loadExcelAssestsUploadedFiles(userId);
                                    loadAssestsUploadedFiles(userId);
@@ -2415,7 +2450,7 @@
                     if (startBtn) {
                         startBtn.addEventListener("click", function () {
                         document.getElementById("btnLoadSection").click();
-                            
+
                             //showPanel("documents-section");
                         });
                     }
@@ -2427,12 +2462,12 @@
                             showPanel("bank-section");
                            loadUploadedDocs(userId,'Bank Confirmation');
                         });
-                    }                    
+                    }
 
                     const  nextAssestBtn= document.getElementById("btnAssestsNext");
                     if (nextAssestBtn) {
                         nextAssestBtn.addEventListener("click", function () {
-                            
+
                             showPanel("assets-section");
                                  loadExcelAssestsUploadedFiles(userId);
                                 loadAssestsUploadedFiles(userId);
@@ -2459,15 +2494,15 @@
                         });
                     }
                     const  btnDocNext= document.getElementById("btnDocNext");
-                   
+
                      if (btnDocNext) {
                         btnDocNext.addEventListener("click", function () {
-                            showPanel("employment-section");                          
+                            showPanel("employment-section");
 
                         });
                     }
                      const  btnDocPrevious= document.getElementById("btnDocPrevious");
-                    
+
                      if (btnDocPrevious) {
                         btnDocPrevious.addEventListener("click", function () {
                             $('#linkSummary').click();
@@ -2484,7 +2519,7 @@
 
                     const  previousEmploymentBtn= document.getElementById("btnEmployementPrevious");
                     if (previousEmploymentBtn) {
-                        previousEmploymentBtn.addEventListener("click", function () {                            
+                        previousEmploymentBtn.addEventListener("click", function () {
                            showPanel("employment-section");
                             loadUploadedDocs(userId,'T10');
 
@@ -2497,7 +2532,7 @@
                              selectedCategoryName = 'Bank Confirmation';
                            showPanel("bank-section");
                             loadUploadedDocs(userId,'Bank Confirmation');
-                          
+
                         });
                     }
 
@@ -2602,10 +2637,11 @@
                             });
 
                             if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                             incrementUploadCount();
                             const saveResult = await saveResponse.json();
                             const userUploadId = saveResult.userUploadId;
                             showMessage("File Submitted successfully!", "success");
+                           
                            // alert("File submitted successfully!");
 
                             // Optional: add to table UI
@@ -2720,7 +2756,7 @@
                             });
 
                             if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                             incrementUploadCount();
                             const saveResult = await saveResponse.json();
                             const userUploadId = saveResult.userUploadId;
                              showMessage("File Submitted successfully!", "success");
@@ -2840,7 +2876,7 @@
                                });
 
                                if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                                incrementUploadCount();
                                const saveResult = await saveResponse.json();
                                const userUploadId = saveResult.userUploadId;
                                 showMessage("File Submitted successfully!", "success");
@@ -2929,7 +2965,7 @@
                             });
 
                             if (!saveResponse.ok) throw new Error("Failed to save metadata");
-
+                             incrementUploadCount();
                             const saveResult = await saveResponse.json();
                             const userUploadId = saveResult.userUploadId;
                             showMessage("File Submitted successfully!", "success");
@@ -2943,7 +2979,7 @@
                                let employmentValue = "";
                                let bankConfirmationType = "";
                                let bankName = "";
-                               
+
 
                                  if (selectedCategoryName === "T10") {
                                             employmentValue = document.getElementById("T10EmployerName")?.value || null;
@@ -2956,7 +2992,7 @@
                                   employmentValue = employmentValue ?? "";
                                   bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
                                   bankName= document.getElementById("BankName")?.value || "";
-                                 
+
 
                                   const tableBody = document.querySelector("#documentsTableOtherBody");
                                   const currentCount = tableBody.querySelectorAll("tr").length;
@@ -3000,6 +3036,5 @@
     <!-- /File my taxes -->
 
 </main>
-
 
 
