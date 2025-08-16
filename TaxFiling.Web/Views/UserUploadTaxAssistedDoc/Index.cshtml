@@ -2486,6 +2486,7 @@
                     if (previousEmploymentBtn) {
                         previousEmploymentBtn.addEventListener("click", function () {                            
                            showPanel("employment-section");
+                            loadUploadedDocs(userId,'T10');
 
                         });
                     }
@@ -2495,6 +2496,7 @@
                         previousBankBtn.addEventListener("click", function () {
                              selectedCategoryName = 'Bank Confirmation';
                            showPanel("bank-section");
+                            loadUploadedDocs(userId,'Bank Confirmation');
                           
                         });
                     }
@@ -2504,6 +2506,7 @@
                         previousOtherBtn.addEventListener("click", function () {
                             selectedCategoryName =  'Other Documents';
                                   showPanel("other-section");
+                                   loadUploadedDocs(userId,'Other Documents');
 
                         });
                     }
@@ -2512,7 +2515,8 @@
                     if (previousAssetsBtn) {
                         previousAssetsBtn.addEventListener("click", function () {
                            showPanel("assets-section");
-
+                            loadExcelAssestsUploadedFiles(userId);
+                                loadAssestsUploadedFiles(userId);
                         });
                     }
 
