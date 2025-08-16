@@ -138,6 +138,11 @@ public class SelfOnlineFlowController : Controller
 
         return PartialView("Partial/_InThisSection");
     }
+    public IActionResult LoadTaxAssistedInThisSection()
+    {
+
+        return PartialView("Partial/_InThisSectionTaxAssisted");
+    }
 
     public async Task<IActionResult> LoadTaxPayer(CancellationToken ctx)
     {

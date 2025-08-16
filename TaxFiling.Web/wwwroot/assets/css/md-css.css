@@ -2214,3 +2214,7 @@ section#register {
 section#contact {
     background-image: url(/assets/img/curves-1.png) !important;
 }
+
+#Self-Online-Flow .sidebar {
+    height: -webkit-fill-available;
+}

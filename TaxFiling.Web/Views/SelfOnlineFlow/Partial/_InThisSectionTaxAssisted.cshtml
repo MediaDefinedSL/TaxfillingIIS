@@ -1,0 +1,108 @@
+﻿
+<main class="main-content">
+    <div class="container-fluid">
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6">
+                <h1 class="">Time to fill in your personal information with ease.</h1>
+            </div>
+            <div class="col-lg-6 col-md-6 center">
+                <img src="~/assets/img/istockphoto-1171898735-612x612.jpg" class="img-fluid" width="80%">
+            </div>
+        </div>
+
+        <br><br>
+
+        <form id="payment-method-Form" action="#!" style="display:none">
+            <div class="form-header d-flex mb-4">
+                <span class="stepIndicator">Personal Information </span>
+                <span class="stepIndicator">Income and Tax Credits</span>
+                <span class="stepIndicator">Assets & Liabilities</span>
+                <span class="stepIndicator">Receipts & Payments </span>
+                <span class="stepIndicator">Review & Declaration </span>
+                <span class="stepIndicator">Submission </span>
+            </div>
+
+        </form>
+
+        <br><br>
+
+
+
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6 btn-prv">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
+                    Back
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 right">
+                <button class="btn btn-primary btn-lg" id="linkTaxPayerContinue">
+                    Personal Information
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    $(function () {
+         $('#linkTaxPayerNext').on('click', function () {
+                showPanel('dashboard-section');
+         });
+
+         $('#linkTaxPayerContinue').on('click', function () {
+              var queryUserParams = {
+                                userId: userId.toString(),
+                                year:  new Date().getFullYear().toString()
+               };
+
+               // Build the GET URL with query params
+                var urlUser = `${baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details?${$.param(queryUserParams)}`;
+
+                $.ajax({
+                    url: urlUser,
+                    method: "GET",
+                    success: function (responseContentUser) {
+                        if (responseContentUser && $.trim(responseContentUser) !== "") {
+                            // This would be equivalent to your C# JsonSerializer.Deserialize
+                            //var personalInformation = JSON.parse(responseContentUser);
+                            var personalInformation = responseContentUser;
+                            console.log("Personal Information:", personalInformation);
+                        } else {
+                            // Build POST URL for save
+                            var urlUserAdd = `${baseApiUrl}api/selfOnlineflow/save_useridyear?` + $.param(queryUserParams);
+                            $.ajax({
+                                url: urlUserAdd,
+                                method: "POST",
+                                success: function (responseContentUsersave) {
+                                    console.log("User saved:", responseContentUsersave);
+                                },
+                                error: function () {
+                                    console.error("Error saving user.");
+                                }
+                            });
+                        }
+                        
+                    },
+                    error: function () {
+                        console.error("Error fetching user details.");
+                    }
+                });
+
+
+                $.ajax({
+                   url: '/SelfOnlineFlow/LoadTaxPayer',
+                   type: 'GET',
+                   success: function (data) {
+                        $('#in-this-section-container').html(data);
+                         $('.sub-link').removeClass('active');
+                         $('#linkTaxPayer').addClass('active');
+
+                    },
+                   error: function () {
+                            alert("Error loading section content.");
+                    }
+                });
+
+         });
+    });
+</script>
