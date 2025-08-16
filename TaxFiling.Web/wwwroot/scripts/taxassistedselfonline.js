@@ -203,5 +203,5 @@ function toggleSidebar() {
 }
 
 function hideAllSections() {
-    $('#employment-section, #documents-section, #bank-section, #assets-section, #other-section, #declaration-section').hide();
+    $('#dashboard-section, #employment-section, #documents-section, #bank-section, #assets-section, #other-section, #declaration-section').hide();
 }
