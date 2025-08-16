@@ -667,7 +667,6 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
                 if (recordsToDelete.Any())
                 {
-
                     // Calculate the sum of TerminalBenefits before deleting
                     var sumExemptAmounts = recordsToDelete
                         .Where(r => r.Amount.HasValue)
