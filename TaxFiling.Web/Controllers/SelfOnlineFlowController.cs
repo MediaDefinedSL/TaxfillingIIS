@@ -72,25 +72,41 @@ public class SelfOnlineFlowController : Controller
         int year = DateTime.Now.Year;
         var responseResult = false;
 
-        PackagesViewModel package = new();
+       // PackagesViewModel package = new();
+        UserViewModel user = new();
 
         SelfOnlineFlowPersonalInformation personalInformation = new();
 
 
         if (packageId != null)
         {
+            //var queryParams = new Dictionary<string, string?> {
+            //    { "id", packageId.ToString()}
+            //};
+
+            //string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/packeges/get", queryParams);
+            //var response = await _httpClient.GetAsync(url, ctx);
+            //if (response != null && response.IsSuccessStatusCode)
+            //{
+            //    var responseContent = await response.Content.ReadAsStringAsync(ctx);
+            //    if (!string.IsNullOrWhiteSpace(responseContent))
+            //    {
+            //        package = JsonSerializer.Deserialize<PackagesViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+            //    }
+            //}
+
             var queryParams = new Dictionary<string, string?> {
-                { "id", packageId.ToString()}
+                { "Id", userId.ToString() }
             };
 
-            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/packeges/get", queryParams);
+            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
             var response = await _httpClient.GetAsync(url, ctx);
             if (response != null && response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync(ctx);
                 if (!string.IsNullOrWhiteSpace(responseContent))
                 {
-                    package = JsonSerializer.Deserialize<PackagesViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+                    user = JsonSerializer.Deserialize<UserViewModel>(responseContent, _jsonSerializerOptions) ?? new();
                 }
             }
 
@@ -122,9 +138,8 @@ public class SelfOnlineFlowController : Controller
 
         }
 
-        ViewBag.packageName = package.Name;
-        ViewBag.curancy = package.Curancy;
-        ViewBag.price = package.Price;
+      
+        ViewBag.TaxTotal = user.TaxTotal;
 
         return View();
     }
@@ -665,7 +680,8 @@ public class SelfOnlineFlowController : Controller
                 TerminalBenefits = employmentIncome.TerminalBenefits,
                 ExemptAmounts = employmentIncome.ExemptAmounts,
                 UserId = employmentIncome.UserId,
-                Year = employmentIncome.Year
+                Year = employmentIncome.Year,
+                Total = employmentIncome.Total
             }
         };
         return PartialView("IncomeTaxPartial/_IncomeLiableTaxSection", model);

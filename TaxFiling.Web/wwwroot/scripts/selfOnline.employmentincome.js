@@ -5,7 +5,7 @@ $(function () {
        // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+       // $btn.setButtonDisabled(true);
         let residency = $("input[name='Residency']:checked").val();
         let seniorCitizen = $("#seniorCitizen").val();
 
@@ -26,7 +26,7 @@ $(function () {
             type: 'POST',
             data: employmentIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+               // $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
             },
             error: function () {
@@ -40,7 +40,7 @@ $(function () {
         // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+     //   $btn.setButtonDisabled(true);
 
         let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
         let typeEmployment = $("#drpTypeEmployment").val();
@@ -50,6 +50,28 @@ $(function () {
         let TINEmployer = $("#txtTINEmployer").val();
         let APITSecondaryEmployment = $("#txtAPITSecondaryEmployment").val();
 
+        
+        let isValid = true;
+
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+        if (!typeEmployment) {
+            $("#drpTypeEmployment").after('<div class="text-danger validation-error">Please select Type of Employment.</div>');
+            isValid = false;
+        }
+        if (!empDetailsECName.trim()) {
+            $("#txtEmpDetailsECName").after('<div class="text-danger validation-error">Name is required.</div>');
+            isValid = false;
+        }
+        if (!remuneration.trim()) {
+            $("#txtRemuneration").after('<div class="text-danger validation-error">Remuneration is required.</div>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return;
+        }
 
 
         var employIncome = {
@@ -69,14 +91,18 @@ $(function () {
             type: 'POST',
             data: employIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+              //  $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
                     $('#employmentDetailsGrid').html($(html).find('#employmentDetailsGrid').html()); // Direct replace
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    $("#spnEmploymentIncomeTotal").text(newTotal);
+                   // var newTaxTotal = $(html).find("#taxTotal").text();
+                    $("#taxTotal").text(newTotal);
                 });
 
-                $("#drpTypeEmployment").val("");
+                $("#drpTypeEmployment").val("Primary");
                 $("#txtRemuneration").val("");
                 $("#txtEmpDetailsECName").val("");
                 $("#txtAPITPrimaryEmployment").val("");
@@ -95,13 +121,35 @@ $(function () {
         // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+      //  $btn.setButtonDisabled(true);
 
         let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
         let typeTerminal = $("#dpdTypeTerminal").val();
         let terminalECName = $("#txtTerminalECName").val();
         let TINTerminal = $("#txtTerminalTINNo").val();
         let terminalBenefits = $("#txtTerminalBenefits").val();
+
+        let isValid = true;
+
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+        if (!typeTerminal) {
+            $("#dpdTypeTerminal").after('<div class="text-danger validation-error">Please select Type of Terminal Benefit.</div>');
+            isValid = false;
+        }
+        if (!terminalECName.trim()) {
+            $("#txtTerminalECName").after('<div class="text-danger validation-error">Employer/Company Name is required.</div>');
+            isValid = false;
+        }
+        if (!terminalBenefits.trim()) {
+            $("#txtTerminalBenefits").after('<div class="text-danger validation-error">Terminal Benefits (Rs.) is required.</div>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return;
+        }
 
         var terminalIncome = {
             SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
@@ -118,14 +166,18 @@ $(function () {
             type: 'POST',
             data: terminalIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+               // $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
                     $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html()); // Direct replace
+
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    $("#spnEmploymentIncomeTotal").text(newTotal);
+                    $("#taxTotal").text(newTotal);
                 });
 
-                $("#dpdTypeTerminal").val("");
+                $("#dpdTypeTerminal").val("Primary");
                 $("#txtTerminalECName").val("");
                 $("#txtTerminalTINNo").val("");
                 $("#txtTerminalBenefits").val("");
@@ -142,13 +194,35 @@ $(function () {
         // e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+      //  $btn.setButtonDisabled(true);
 
         let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
         let exemptType = $("#dpdExemptType").val();
         let exemptTinEmployerName = $("#txtExemptTinEmployerName").val();
         let TINExempt = $("#txtExemptTin").val();
         let exemptAmount = $("#txtExemptAmount").val();
+
+        let isValid = true;
+
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+        if (!exemptType) {
+            $("#dpdExemptType").after('<div class="text-danger validation-error">Please select Type of Exempt or Excluded Income.</div>');
+            isValid = false;
+        }
+        if (!exemptTinEmployerName.trim()) {
+            $("#txtExemptTinEmployerName").after('<div class="text-danger validation-error">Employer/Company Name is required.</div>');
+            isValid = false;
+        }
+        if (!exemptAmount.trim()) {
+            $("#txtExemptAmount").after('<div class="text-danger validation-error">Amount is required.</div>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return;
+        }
 
         var exemptIncome = {
             SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
@@ -165,11 +239,14 @@ $(function () {
             type: 'POST',
             data: exemptIncome,
             success: function (response) {
-                $btn.setButtonDisabled(false);
+              //  $btn.setButtonDisabled(false);
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
                     $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html()); 
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    $("#spnEmploymentIncomeTotal").text(newTotal);
+                    $("#taxTotal").text(newTotal);
                 });
 
                 $("#dpdExemptType").val("");
@@ -232,6 +309,11 @@ $(function () {
             success: function (response) {
                 $('#confirmDeleteModal').modal('hide');
                 $('#etf').off('hide.bs.collapse').collapse('hide');
+
+                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
+                });
+
             },
             error: function () {
                 alert("Error deleting.");
@@ -263,24 +345,40 @@ $(function () {
   
     $('#Exemptt').on('hide.bs.collapse', function () {
 
-        let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
+       // e.preventDefault();
+        deleteTargetId = $("#hndSelfOnlineEmploymentIncomeId").val();
+        $('#exemptConfirmDeleteModal').modal('show');
 
-        var terminalBenefits = {
-            employmentIncomeId: selfOnlineEmploymentIncomeId,
-            exemptAmounts: false
-        }
+        
+    }); 
+
+    $('#exemptConfirmDeleteBtn').on('click', function () {
+        if (!deleteTargetId) return;
+
+        var exempt = {
+            employmentIncomeId: deleteTargetId,
+            terminalBenefits: false
+        };
+
+
         $.ajax({
             url: '/SelfOnlineFlow/UpdateEmploymentIncomeExemptAmounts',
             type: 'POST',
-            data: terminalBenefits,
+            data: exempt,
             success: function (response) {
-                notifySuccess("", "Saved successfully");
+                $('#exemptConfirmDeleteModal').modal('hide');
+                $('#Exemptt').off('hide.bs.collapse').collapse('hide');
+
+                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
+                });
+
             },
             error: function () {
-                alert("Error saving .");
+                alert("Error deleting.");
             }
         });
-    }); 
+    });
     
 });
 

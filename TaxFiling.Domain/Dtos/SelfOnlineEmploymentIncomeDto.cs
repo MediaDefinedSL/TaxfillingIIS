@@ -11,5 +11,6 @@ public class SelfOnlineEmploymentIncomeDto
     public bool SeniorCitizen { get; set; }
     public bool? TerminalBenefits { get; set; }
     public bool? ExemptAmounts { get; set; }
-   
+    public decimal? Total { get; set; }
+
 }

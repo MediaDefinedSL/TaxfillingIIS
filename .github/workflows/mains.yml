@@ -40,30 +40,28 @@ jobs:
           Compress-Archive -Path ./publish/API/* -DestinationPath api.zip
           Compress-Archive -Path ./publish/Web/* -DestinationPath web.zip
 
-      - name: 📤 Copy ZIPs and Deploy Script to IIS
-        shell: powershell
+      - name: 🛑 Stop IIS App Pools before deployment
+        shell: pwsh
         run: |
-          # Write deploy script locally with app pool state check
-          @'
-          Import-Module WebAdministration
+          # Allow unencrypted WinRM and trust remote server
+          Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true
+          Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value "$env:SERVER" -Force
 
-          $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
+          $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
 
-          foreach ($appPool in $appPools) {
-              if ((Get-WebAppPoolState -Name $appPool).Value -eq "Started") {
-                  Stop-WebAppPool -Name $appPool
+          Invoke-Command -ComputerName $env:SERVER `
+            -Credential $cred `
+            -Authentication Basic `
+            -ScriptBlock {
+              Import-Module WebAdministration
+              $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
+              foreach ($appPool in $appPools) {
+                  if ((Get-WebAppPoolState -Name $appPool).Value -eq "Started") {
+                      Stop-WebAppPool -Name $appPool
+                  }
               }
-          }
-
-          Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
-          Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
-
-          foreach ($appPool in $appPools) {
-              Start-WebAppPool -Name $appPool
-          }
-
-          "Deploy script executed at $(Get-Date)" | Out-File C:\Taxfiling\deploy-log.txt -Append
-          '@ | Out-File -FilePath deploy.ps1 -Encoding utf8
+            }
 
       - name: 📤 Copy ZIPs and Deploy Script to IIS Server
         shell: powershell
@@ -74,28 +72,39 @@ jobs:
           # Copy files
           Copy-Item api.zip "\\$env:SERVER\TaxfilingAPI\" -Force
           Copy-Item web.zip "\\$env:SERVER\TaxfilingWeb\" -Force
-          Copy-Item deploy.ps1 "\\$env:SERVER\TaxfilingWeb\" -Force
 
-          # Disconnect
-          net use \\$env:SERVER\TaxfilingAPI /delete
-          net use \\$env:SERVER\TaxfilingWeb /delete
+          # Write deploy script and copy
+          @'
+          Import-Module WebAdministration
+
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
+
+          $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
+          foreach ($appPool in $appPools) {
+              Start-WebAppPool -Name $appPool
+          }
+
+          "Deploy script executed at $(Get-Date)" | Out-File C:\Taxfiling\deploy-log.txt -Append
+          '@ | Out-File deploy.ps1 -Encoding utf8
+
+          Copy-Item deploy.ps1 "\\$env:SERVER\TaxfilingWeb\" -Force
 
       - name: ▶️ Execute deploy script remotely
         shell: pwsh
         run: |
-         # Enable unencrypted traffic on the GitHub Actions runner
-         Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true
+          $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
 
-         # Add the remote Windows server to TrustedHosts
-         Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$env:SERVER" -Force
+          Invoke-Command -ComputerName $env:SERVER `
+            -Credential $cred `
+            -Authentication Basic `
+            -ScriptBlock {
+              powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
+            }
 
-         # Set credentials
-         $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
-         $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
-
-         Invoke-Command -ComputerName $env:SERVER `
-         -Credential $cred `
-         -Authentication Basic `
-         -ScriptBlock {
-           powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
-         }
+      - name: 🔌 Disconnect network shares
+        shell: powershell
+        run: |
+          net use \\$env:SERVER\TaxfilingAPI /delete
+          net use \\$env:SERVER\TaxfilingWeb /delete

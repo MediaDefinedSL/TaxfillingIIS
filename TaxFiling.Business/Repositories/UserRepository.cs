@@ -67,7 +67,8 @@ public class UserRepository : IUserRepository
                               .Select(u => new UserDto
                               {
                                   UserId = u.UserId,
-                                  UserName = u.UserName
+                                  UserName = u.UserName,
+                                  TaxTotal = u.TaxTotal
                               })
                               .FirstOrDefaultAsync();
         }
@@ -302,7 +303,8 @@ public class UserRepository : IUserRepository
                                 IsTin = user.IsTin,
                                 IsActivePayment = user.IsActivePayment,
                                 PackageId = user.PackageId,
-                                ProfileImagePath = user.ProfileImagePath
+                                ProfileImagePath = user.ProfileImagePath,
+                                TaxTotal = user.TaxTotal
                             })
                             .FirstOrDefaultAsync(ctx);
 
