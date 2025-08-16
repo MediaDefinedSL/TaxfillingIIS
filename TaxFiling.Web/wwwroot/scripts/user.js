@@ -204,7 +204,7 @@ $(function () {
         e.preventDefault();
 
         var $btn = $(this);
-        $btn.setButtonDisabled(true);
+       // $btn.setButtonDisabled(true);
 
         let formData = new FormData();
 
@@ -239,43 +239,43 @@ $(function () {
         console.log(formData);
         if (firstName.length == 0) {
             notifyError(false, "First Name is required");
-            $btn.setButtonDisabled(false);
+          //  $btn.setButtonDisabled(false);
         }
         else if (lastName.length == 0) {
             notifyError(false, "Last Name is required");
-            $btn.setButtonDisabled(false);
+           // $btn.setButtonDisabled(false);
         }
         else if (email.length == 0) {
             notifyError(false, "Email is required");
-            $btn.setButtonDisabled(false);
+           // $btn.setButtonDisabled(false);
         }
         else if (!emailPattern.test(email)) {
             notifyError(false, "Ivalid email");
-            $btn.setButtonDisabled(false);
+          //  $btn.setButtonDisabled(false);
         }
         else if (phone.length == 0) {
             notifyError(false, "Phone is required");
-            $btn.setButtonDisabled(false);
+           // $btn.setButtonDisabled(false);
         }
         else if (!phonePattern.test(phone)) {
             notifyError(false, "Invalid phone number!");
-            $btn.setButtonDisabled(false);
+            //$btn.setButtonDisabled(false);
         }
         else if (password.length == 0) {
             notifyError(false, "Password is required");
-            $btn.setButtonDisabled(false);
+           // $btn.setButtonDisabled(false);
         }
         else if (nicNo.length == 0) {
             notifyError(false, "NIC No  is required");
-            $btn.setButtonDisabled(false);
+           // $btn.setButtonDisabled(false);
         }
         else if (tinNO.length == 0) {
             notifyError(false, "Tin No  is required");
-            $btn.setButtonDisabled(false);
+           // $btn.setButtonDisabled(false);
         }
         else if (!validateNIC(nicNo)) {
             notifyError(false, "Invalid NIC number.");
-            $btn.setButtonDisabled(false);
+           // $btn.setButtonDisabled(false);
         }
         else {
 
@@ -299,10 +299,10 @@ $(function () {
                         notifyError(false, 'An error occurred while updating the User.');
                     }
 
-                    $btn.setButtonDisabled(false);
+                   // $btn.setButtonDisabled(false);
                 },
                 error: function (xhr) {
-                    $btn.setButtonDisabled(false);
+                  //  $btn.setButtonDisabled(false);
                     notifyError(false, 'An error occurred while updating the User.');
                 }
             });
