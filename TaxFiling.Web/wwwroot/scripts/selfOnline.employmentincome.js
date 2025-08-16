@@ -98,6 +98,8 @@ $(function () {
                     $('#employmentDetailsGrid').html($(html).find('#employmentDetailsGrid').html()); // Direct replace
                     var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
                     $("#spnEmploymentIncomeTotal").text(newTotal);
+                   // var newTaxTotal = $(html).find("#taxTotal").text();
+                    $("#taxTotal").text(newTotal);
                 });
 
                 $("#drpTypeEmployment").val("Primary");
@@ -172,6 +174,7 @@ $(function () {
 
                     var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
                     $("#spnEmploymentIncomeTotal").text(newTotal);
+                    $("#taxTotal").text(newTotal);
                 });
 
                 $("#dpdTypeTerminal").val("Primary");
@@ -241,6 +244,9 @@ $(function () {
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
                     $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html()); 
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    $("#spnEmploymentIncomeTotal").text(newTotal);
+                    $("#taxTotal").text(newTotal);
                 });
 
                 $("#dpdExemptType").val("");

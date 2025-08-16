@@ -20,6 +20,7 @@ public class UserDto
     public int IsActivePayment { get; set; }
     public int UserRoleId { get; set; }
     public string ProfileImagePath { get; set; }
+    public decimal? TaxTotal { get; set; }
     public bool IsActive { get; set; }
     public int PackageId { get; set; }
     public int? taxAssistedUserUploadDocsStatus { get; set; }
