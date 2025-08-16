@@ -46,17 +46,30 @@
                 </div>
 
                 <div class="nav flex-column">
-
-
-                    <div class="dropdown-container" style="display: none;">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
+                    
                     <a href="#" class="sidebar-link active text-decoration-none p-3" data-target="dashboard-section">
                         <i class="fas fa-home me-3"></i>
                         <span class="hide-on-collapse">Dashboard</span>
                     </a>
+
+                    <a class="sidebar-link dropdown-btn text-decoration-none p-3" id="btnLoadSection">
+                        <i class="bi bi-person-fill-down"></i>
+                        <span class="hide-on-collapse">Personal Information</span>
+                    </a>
+
+                   <!-- <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3">
+                        <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
+                        Personal Information
+                     </button>-->
+                    <div class="dropdown-container" style="display: none;">                        
+                        <a class="sub-link" id="linkTaxPayer">TaxPayer(s)</a>
+                        <a class="sub-link" id="linkMaritalStatus">Marital Status</a>
+                        <a class="sub-link" id="linkLastYear">Last Year</a>
+                        <a class="sub-link" id="linkIdentification">Identification</a>
+                        <a class="sub-link" id="linkContactInformation">Contact Information</a>
+                        <a class="sub-link" id="linkSummary">Summary</a>
+                    </div>
+
                     <a href="#documents-submenu" class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center"
                        data-bs-toggle="collapse" aria-expanded="false" data-target="documents-section">
                         <span>
@@ -100,6 +113,8 @@
                     </div>
                 </div>
             </nav>
+
+            
 
             <main class="main-content">
                 <div class="container-fluid">
@@ -242,6 +257,7 @@
                 </div>
                 <br>
                 <br>
+                <div id="in-this-section-container" style="display: none;"></div>
                 <div id="documents-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
                     <!-- Header Section -->
                     <div class="d-lg-flex justify-content-between align-items-center mb-4">
@@ -285,6 +301,21 @@
                             <li>Include all necessary forms and receipts for the selected tax year</li>
                         </ul>
                     </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnDocPrevious">
+                                Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right next-btn">
+                            <button class="btn btn-primary btn-lg" id="btnDocNext">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+
 
 
                 </div>
@@ -376,14 +407,19 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <!-- Previous Button -->
-                        <button class="btn btn-primary" id="btnPrevious">
-                            <i class="fas fa-arrow-left me-2" ></i> Previous
-                        </button>
-                        <button class="btn btn-primary " id="btnNext">
-                            Next <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnPrevious">
+                                Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right next-btn">
+                            <button class="btn btn-primary btn-lg" id="btnNext">
+                                Next
+                            </button>
+                        </div>
                     </div>
+
 
                 </div>
 
@@ -439,13 +475,19 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary" id="btnEmployementPrevious">
-                                <i class="fas fa-arrow-left me-2"></i> Previous
-                            </button>
-                            <button class="btn btn-primary" id="btnAssestsNext">
-                                Next <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
+                            <div class="col-lg-6 col-md-6 btn-prv">
+                                <!-- Previous Button -->
+                                <button class="btn btn-primary btn-lg" id="btnEmployementPrevious">
+                                    Previous
+                                </button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 right next-btn">
+                                <button class="btn btn-primary btn-lg" id="btnAssestsNext">
+                                    Next
+                                </button>
+                            </div>
                         </div>
+                       
 
                     </div>
 
@@ -939,14 +981,19 @@
 
 
                         </div>
-                        <div class="d-flex justify-content-between" style="margin-top: 20px;">
-                            <button class="btn btn-primary" id="btnBankPrevious">
-                                <i class="fas fa-arrow-left me-2"></i> Previous
-                            </button>
-                            <button class="btn btn-primary" id="btnOtherNext">
-                                Next <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
-                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="col-lg-6 col-md-6 btn-prv">
+                                <!-- Previous Button -->
+                                <button class="btn btn-primary btn-lg" id="btnBankPrevious">
+                                    Previous
+                                </button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 right next-btn">
+                                <button class="btn btn-primary btn-lg" id="btnOtherNext">
+                                    Next
+                                </button>
+                            </div>
+                        </div>                        
 
                     </div>
 
@@ -1076,15 +1123,21 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Navigation -->
-                    <div class="d-flex justify-content-between" style="margin-top: 20px;">
-                        <button class="btn btn-primary" id="btnAssetsPrevious" >
-                            <i class="fas fa-arrow-left me-2"></i> Previous
-                        </button>
-                        <button class="btn btn-primary" id="btnDeclareNext">
-                            Next <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
+                    <div class="d-flex justify-content-between">
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnAssetsPrevious">
+                                Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right next-btn">
+                            <button class="btn btn-primary btn-lg" id="btnDeclareNext">
+                                Next
+                            </button>
+                        </div>
                     </div>
+
+                    
                 </div>
 
 
@@ -1134,12 +1187,17 @@
                             🖨️ Print Declaration
                         </button>
                     </div>
-                    <div class="d-flex justify-content-between" style="margin-top: 20px;">
-                        <button class="btn btn-primary" id="btnOtherPrevious">
-                            <i class="fas fa-arrow-left me-2"></i> Previous
-                        </button>
-
+                    <div class="d-flex justify-content-between">
+                        <div class="col-lg-6 col-md-6 btn-prv">
+                            <!-- Previous Button -->
+                            <button class="btn btn-primary btn-lg" id="btnOtherPrevious">
+                                Previous
+                            </button>
+                        </div>
+                        
                     </div>
+
+                  
                 </div>
                
             </main>
@@ -1173,7 +1231,10 @@
                 </div>
             </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
+            <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
+
+                           
                      const sidebarLinks = document.querySelectorAll(".sidebar-link");
                      const contentPanels = document.querySelectorAll(".content-panel");
                      const baseApiUrl = "@apiUrl";
@@ -1729,6 +1790,7 @@
                     }
                     function showPanel(panelId) {
 
+                        document.getElementById('in-this-section-container').style.display = 'none';
                         contentPanels.forEach(panel => {
                             panel.style.display = (panel.id === panelId) ? "block" : "none";
                         });
@@ -1752,6 +1814,7 @@
                             e.preventDefault();
                             const targetId = this.getAttribute("data-target");
                             const panelId = this.dataset.target;
+                            
                             showPanel(targetId);
 
                             if (panelId === "bank-section") {
@@ -2351,7 +2414,9 @@
                     const startBtn = document.getElementById("start-btn");
                     if (startBtn) {
                         startBtn.addEventListener("click", function () {
-                            showPanel("documents-section");
+                        document.getElementById("btnLoadSection").click();
+                            
+                            //showPanel("documents-section");
                         });
                     }
 
@@ -2390,6 +2455,22 @@
                         nextDeclareBtn.addEventListener("click", function () {
                             showPanel("declaration-section");
                             loadDeclarationDocs(userId) ;
+
+                        });
+                    }
+                    const  btnDocNext= document.getElementById("btnDocNext");
+                   
+                     if (btnDocNext) {
+                        btnDocNext.addEventListener("click", function () {
+                            showPanel("employment-section");                          
+
+                        });
+                    }
+                     const  btnDocPrevious= document.getElementById("btnDocPrevious");
+                    
+                     if (btnDocPrevious) {
+                        btnDocPrevious.addEventListener("click", function () {
+                            $('#linkSummary').click();
 
                         });
                     }
@@ -2915,5 +2996,6 @@
     <!-- /File my taxes -->
 
 </main>
+
 
 

@@ -17,7 +17,7 @@
             notifyError(false, "Street is required");
 
         }
-        else if (DateOfBirth.length == 0) {
+        else if (city.length == 0) {
             notifyError(false, "City  is required");
 
         }
