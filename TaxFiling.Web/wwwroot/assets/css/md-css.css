@@ -2250,5 +2250,40 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     #global-upload-tracker .upload-label {
         font-weight: 500;
         margin-right: 6px;
-        
+
     }
+
+#Self-Online-Flow .sidebar {
+    height: -webkit-fill-available;
+}
+
+
+#Self-Online-Flow .main-content {
+    height: -webkit-fill-available !important;
+    min-height: 150vh !important;
+}
+
+span#taxTotal {
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    color: #fff !important;
+}
+
+
+
+h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
+    font-family: sans-serif;
+    padding-top: 5px;
+    padding-bottom: 4px;
+}
+
+.check-box i.bi.bi-check {
+    color: #fff;
+}
+
+.Tax-pesonaldetail-icon label {
+    border-bottom: solid 6px #0d6efd !important;
+}
+
+
