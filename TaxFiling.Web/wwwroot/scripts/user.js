@@ -1,76 +1,6 @@
 ﻿
 $(function () {
 
-
-    //// File upload functionality
-    //const fileUpload = document.getElementById('fileUpload');
-    //const fileInput = document.getElementById('ProfileImage');
-    //const previewContainer = document.getElementById('previewContainer');
-    //const previewImage = document.getElementById('previewImage');
-    //const profileImageError = document.getElementById('ProfileImageError');
-
-    //fileUpload.addEventListener('click', () => {
-    //    fileInput.click();
-    //});
-
-    //fileUpload.addEventListener('dragover', (e) => {
-    //    e.preventDefault();
-    //    fileUpload.classList.add('dragover');
-    //});
-
-    //fileUpload.addEventListener('dragleave', () => {
-    //    fileUpload.classList.remove('dragover');
-    //});
-
-    //fileUpload.addEventListener('drop', (e) => {
-    //    e.preventDefault();
-    //    fileUpload.classList.remove('dragover');
-    //    const files = e.dataTransfer.files;
-    //    if (files.length > 0) {
-    //        handleFileSelection(files[0]);
-    //    }
-    //});
-
-    //fileInput.addEventListener('change', (e) => {
-    //    const file = e.target.files[0];
-    //    if (file) {
-    //        handleFileSelection(file);
-    //    }
-    //});
-
-    //function handleFileSelection(file) {
-    //    profileImageError.textContent = '';
-
-    //    // Validate file type
-    //    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-    //    if (!allowedTypes.includes(file.type)) {
-    //        profileImageError.textContent = 'Invalid file format. Only JPG, JPEG, PNG, and GIF are allowed.';
-    //        return;
-    //    }
-
-    //    // Validate file size (5MB)
-    //    if (file.size > 5 * 1024 * 1024) {
-    //        profileImageError.textContent = 'File size exceeds 5MB limit.';
-    //        return;
-    //    }
-
-    //    // Show preview
-    //    const reader = new FileReader();
-    //    reader.onload = (e) => {
-    //        previewImage.src = e.target.result;
-    //        previewContainer.style.display = 'block';
-    //        fileUpload.style.display = 'none';
-    //    };
-    //    reader.readAsDataURL(file);
-
-    //    // Update file input
-    //    const dataTransfer = new DataTransfer();
-    //    dataTransfer.items.add(file);
-    //    fileInput.files = dataTransfer.files;
-    //}
-
-   
-
     var istin = $("#isTin").val();
 
     //if (istin == 0) {
@@ -205,6 +135,7 @@ $(function () {
 
         var $btn = $(this);
        // $btn.setButtonDisabled(true);
+        $btn.prop("disabled", true);
 
         let formData = new FormData();
 
@@ -239,42 +170,52 @@ $(function () {
         console.log(formData);
         if (firstName.length == 0) {
             notifyError(false, "First Name is required");
+            $btn.prop("disabled", false);
           //  $btn.setButtonDisabled(false);
         }
         else if (lastName.length == 0) {
             notifyError(false, "Last Name is required");
+            $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
         else if (email.length == 0) {
             notifyError(false, "Email is required");
+            $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
         else if (!emailPattern.test(email)) {
             notifyError(false, "Ivalid email");
+            $btn.prop("disabled", false);
           //  $btn.setButtonDisabled(false);
         }
         else if (phone.length == 0) {
             notifyError(false, "Phone is required");
+            $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
         else if (!phonePattern.test(phone)) {
             notifyError(false, "Invalid phone number!");
+            $btn.prop("disabled", false);
             //$btn.setButtonDisabled(false);
         }
         else if (password.length == 0) {
             notifyError(false, "Password is required");
+            $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
         else if (nicNo.length == 0) {
             notifyError(false, "NIC No  is required");
+            $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
         else if (tinNO.length == 0) {
             notifyError(false, "Tin No  is required");
+            $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
         else if (!validateNIC(nicNo)) {
             notifyError(false, "Invalid NIC number.");
+            $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
         else {
@@ -299,10 +240,12 @@ $(function () {
                         notifyError(false, 'An error occurred while updating the User.');
                     }
 
-                   // $btn.setButtonDisabled(false);
+                    // $btn.setButtonDisabled(false);
+                    $btn.prop("disabled", false);
                 },
                 error: function (xhr) {
-                  //  $btn.setButtonDisabled(false);
+                    //  $btn.setButtonDisabled(false);
+                    $btn.prop("disabled", false);
                     notifyError(false, 'An error occurred while updating the User.');
                 }
             });
