@@ -1781,6 +1781,7 @@
                        contentType: false,
                        success: function (response) {
                             showMessage("Assets saved successfully!", "success");
+                              incrementUploadCount();
                                   //alert("Assets saved successfully!");
                            loadAssestsUploadedFiles(userId);
                          // Clear inputs or update UI as needed
