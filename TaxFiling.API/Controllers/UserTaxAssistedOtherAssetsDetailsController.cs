@@ -45,8 +45,8 @@ namespace TaxFiling.API.Controllers
         public async Task<IActionResult> GetUserOtherTaxDetails(string userId, string assessmentYear)
         {
             var data = await _userTaxAssistedOtherAssetsDetailsRepository.GetByUserAndYearAsync(userId, assessmentYear);
-            if (data == null)
-                return NotFound();
+            //if (data == null)
+            //    return NotFound();
 
             return Ok(data);
         }
@@ -62,8 +62,8 @@ namespace TaxFiling.API.Controllers
                 // Call service to delete draft data
                 bool deleted = await _userTaxAssistedOtherAssetsDetailsRepository.DeleteDraftOtherAssetsByUserAndYear(userId, assessmentYear);
 
-                if (!deleted)
-                    return NotFound("No draft data found to delete.");
+                //if (!deleted)
+                    //return NotFound("No draft data found to delete.");
 
                 return Ok("Draft Other Assets data deleted successfully.");
             }

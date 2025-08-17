@@ -104,8 +104,8 @@ public class UserUploadTaxAssistedDocController : ControllerBase
             // Call your service/repository to delete the documents
             bool deleted = await _userUploadTaxAssistedDocRepository.DeleteAllUploadedDocsByUserAndYear(userId, assessmentYear);
 
-            if (!deleted)
-                return NotFound("No documents found to delete.");
+            //if (!deleted)
+               // return NotFound("No documents found to delete.");
 
             return Ok("All uploaded documents deleted successfully.");
         }
