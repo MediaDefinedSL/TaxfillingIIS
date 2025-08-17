@@ -483,7 +483,10 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Bank Name</label>
-                            <input type="text" class="form-control" name="BankName" id="BankName" />
+                           <!-- <input type="text" class="form-control" name="BankName" id="BankName" />-->
+                            <select id="BankName" name="BankName" class="form-select" style="width:100%">
+                                <option value="">-- Select Bank Branch --</option>
+                            </select>
                         </div>
                         <form method="post" enctype="multipart/form-data">
                             <div class="mb-3">
@@ -2471,6 +2474,51 @@
 
                      //page load
                 document.addEventListener("DOMContentLoaded", function () {
+                let allBranches = [];
+
+                // Load all branches once
+                $.getJSON("https://mail.taxfiling.lk/bank-branches", function(data) {
+                    allBranches = data.map(branch => ({
+                        id: branch.BranchCode,
+                       // text: branch.BranchName + " (" + branch.bankName + ")" // show both branch and bank
+                         text: branch.BranchName
+                    }));
+
+                    $('#BankName').select2({
+                        placeholder: "Select bank",
+                        minimumInputLength: 0, // allow opening full list without typing
+                        data: allBranches,
+                        matcher: function(params, data) {
+                            // If no search term, show all
+                            if ($.trim(params.term) === '') {
+                                return data;
+                            }
+
+                            // Match text anywhere (contains match, not just startsWith)
+                            if (data.text.toLowerCase().startsWith(params.term.toLowerCase())) {
+                                return data;
+                            }
+
+                            return null;
+                        },
+                        dropdownAutoWidth: true,
+                        width: 'resolve',
+                        allowClear: true
+                    });
+                });
+
+                 $('#BankName').on('select2:open', function() {
+                    let searchBox = document.querySelector('.select2-container--open .select2-search__field');
+                    if (searchBox) {
+                        searchBox.setAttribute('placeholder', 'Filter your choice');
+                    }
+                });
+
+                
+
+
+
+
                      const userId = '@User.FindFirst("UserID")?.Value';
                     loadUploadedDocs(userId,'T10');
                     toggleManualTab('local');
@@ -2713,7 +2761,7 @@
                                     terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
                                     anyOtherType: document.getElementById("AnyOtherType")?.value || null,
                                     bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
-                                    bankName: document.getElementById("BankName")?.value || null,
+                                      bankName: null,//document.getElementById("BankName")?.value || null,
                                     otherDocumentName: document.getElementById("otherDocName")?.value || null
                                 })
                             });
@@ -2744,7 +2792,7 @@
 
                                employmentValue = employmentValue ?? "";
                                bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
-                               bankName= document.getElementById("BankName")?.value || "";
+                               bankName= "";//document.getElementById("BankName")?.value || "";
 
                                 const tableBody = document.querySelector("#documentsTableBody");
                                   const currentCount = tableBody.querySelectorAll("tr").length;
@@ -2832,7 +2880,7 @@
                                     terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
                                     anyOtherType: document.getElementById("AnyOtherType")?.value || null,
                                     bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
-                                    bankName: document.getElementById("BankName")?.value || null,
+                                        bankName: $('#BankName').select2('data')[0].text,//document.getElementById("BankName")?.value || null,
                                     otherDocumentName: document.getElementById("otherDocName")?.value || null
                                 })
                             });
@@ -2863,7 +2911,7 @@
 
                                   employmentValue = employmentValue ?? "";
                                   bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
-                                  bankName= document.getElementById("BankName")?.value || "";
+                                    bankName= $('#BankName').select2('data')[0].text;//document.getElementById("BankName")?.value || "";
 
                                   const tableBody = document.querySelector("#documentsTableBankBody");
                                   const currentCount = tableBody.querySelectorAll("tr").length;
@@ -2889,7 +2937,8 @@
                             // Reset UI
                             selectedFile = null;
                             document.getElementById("BankConfirmationType").selectedIndex = 0;
-                            document.getElementById("BankName").value = "";
+                            //document.getElementById("BankName").value = "";
+                              $('#BankName').val(null).trigger('change');
                             document.getElementById("fileInputBank").value = "";
                             //document.getElementById("file-name").textContent = "";
                             //document.getElementById("submitBtn").style.display = "none";
@@ -2950,7 +2999,7 @@
                                        terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
                                        anyOtherType: document.getElementById("AnyOtherType")?.value || null,
                                        bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
-                                       bankName: document.getElementById("BankName")?.value || null,
+                                       bankName: null,//document.getElementById("BankName")?.value || null,
                                        otherDocumentName: document.getElementById("otherDocName")?.value || null,
                                        assestOptionType:selected.value,
                                        AssestsUploadExcelSheetName: data.originalName
@@ -3041,7 +3090,7 @@
                                     terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
                                     anyOtherType: document.getElementById("AnyOtherType")?.value || null,
                                     bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
-                                    bankName: document.getElementById("BankName")?.value || null,
+                                    bankName: null,//document.getElementById("BankName")?.value || null,
                                     otherDocumentName: document.getElementById("otherDocName")?.value || null
                                 })
                             });
@@ -3073,7 +3122,7 @@
 
                                   employmentValue = employmentValue ?? "";
                                   bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
-                                  bankName= document.getElementById("BankName")?.value || "";
+                                  bankName="";// document.getElementById("BankName")?.value || "";
 
 
                                   const tableBody = document.querySelector("#documentsTableOtherBody");

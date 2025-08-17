@@ -2253,6 +2253,14 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
 
     }
 
+
+/* Style the search input placeholder */
+.select2-container--open .select2-search__field::placeholder {
+    color: blue;
+    font-style: italic;
+    opacity: 0.8; /* make it slightly transparent */
+}
+
 #Self-Online-Flow .sidebar {
     height: -webkit-fill-available;
 }
@@ -2297,3 +2305,4 @@ div#terminalDetailsGrid td:last-child {
     display: inline-flex;
     column-gap: 4px;
 }
+
