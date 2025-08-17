@@ -218,7 +218,7 @@
 
                                         var badgeClass = status switch
                                         {
-                                            "NEW" => "bg-secondary",
+                                            "NEW" => "bg-info text-dark",
                                             "DRAFT" => "bg-warning text-dark",
                                             "SUBMITTED" => "bg-success",
                                             "REUPLOAD" => "bg-danger-subtle text-danger",
@@ -248,7 +248,7 @@
                             <button class="btn btn-primary" id="start-btn">
                                 <i class="fas fa-arrow-right me-1"></i> Start
                             </button>
-                            <button class="btn btn-danger">
+                            <button class="btn btn-danger" id="btnRemoveDraft">
                                 <i class="fas fa-trash-alt me-1"></i> Remove
                             </button>
                         </div>
@@ -1260,10 +1260,24 @@
                 </div>
             </div>
 
-            <style>
-
-
-            </style>
+            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h5 class="modal-title">Warning</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Your uploaded documents will be deleted. Are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="confirmDeleteDocsBtn">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
             <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -1364,6 +1378,76 @@
                     }                    
                     $('#globalUploadCount').text(globalUploadCount);
                 }
+
+                $("#btnRemoveDraft").click(function () {
+                    // Show confirmation modal
+                     $("#deleteConfirmationModal").modal("show");
+                });
+
+
+                   $("#confirmDeleteDocsBtn").click(async function () {
+                          $("#deleteConfirmationModal").modal("hide");
+
+                    $("tr[id^='assessment-row-']").each(async function () {
+                        const row = $(this);
+                        const statusBadge = row.find("span[id^='status-badge-']");
+                        const status = statusBadge.text().trim();
+
+                        if (status === "DRAFT") {
+                            const assessmentText = row.find("td:nth-child(2)").text().trim();
+                            const assessmentYear = assessmentText.split("/")[1]; // e.g., "2025"
+
+                            try {
+                                // Delete uploaded documents
+                                await fetch(`${baseApiUrl}api/UserUploadTaxAssistedDoc/DeleteAllByUserAndYear?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentYear)}`, {
+                                    method: "DELETE"
+                                });
+
+                                // Delete draft data
+                                await fetch(`${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/DeleteDraftOtherTaxByUserAndYear?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentText)}`, {
+                                    method: "DELETE"
+                                });
+
+                                  const payload = {
+                                         userId: userId,
+                                         uploadedDocumentStatus: 0
+                                     };
+                                        fetch(`${baseApiUrl}api/users/update-document-status`, {
+                                         method: 'PUT',
+                                          headers: {
+                                              'Content-Type': 'application/json'
+                                         },
+                                         body: JSON.stringify(payload)
+                                     })
+                                     .then(res => res.json())
+                                     .then(data => {
+                                           if(data.success){
+                                                     // Update status to NEW
+                                                statusBadge.text("NEW")
+                                                .removeClass("bg-warning")
+                                                .addClass("bg-info text-dark");                            
+                                        
+                                           }
+                                           else
+                                                 alert(data.message);
+                                     })
+                                      .catch(err => alert('Error updating status.'));
+
+
+                               
+
+                                // Uncheck the checkbox
+                               // row.find("input[type='checkbox']").prop("checked", false);
+
+                            } catch (err) {
+                                console.error(`Failed to delete draft for ${assessmentYear}:`, err);
+                                alert(`Failed to delete draft data for ${assessmentYear}`);
+                            }
+                        }
+                    });
+
+                    //modalInstance.hide(); // Close modal after processing
+                });
 
                    function handleExcelFileChange(event) {
                        const fileInput = event.target;
@@ -1701,10 +1785,10 @@
                           const url = `${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/GetUserOtherTaxDetails?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentYear)}`;
                           const response = await fetch(url);
 
-                             if (!response.ok) {
-                                alert('Failed to load data');
-                                return;
-                       }
+                            //  if (!response.ok) {
+                            //     alert('Failed to load data');
+                            //     return;
+                            // }
                        const data = await response.json();
 
                       if (data && data.details && data.details.length > 0) {
