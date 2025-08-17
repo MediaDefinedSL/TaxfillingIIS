@@ -78,6 +78,21 @@ namespace TaxFiling.Business.Repositories
             return dto;
         }
 
+        public async Task<bool> DeleteDraftOtherAssetsByUserAndYear(string userId, string assessmentYear)
+        {
+            var draftRecords = await _context.UserTaxAssistedOtherAssetsDetails
+                .Where(d => d.UserId == userId && d.AssessmentYear == assessmentYear)
+                .ToListAsync();
+
+            if (!draftRecords.Any())
+                return false;
+
+            _context.UserTaxAssistedOtherAssetsDetails.RemoveRange(draftRecords);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
 
     }
 }

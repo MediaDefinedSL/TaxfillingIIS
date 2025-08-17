@@ -661,4 +661,19 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
             AssetNote = note
         };
     }
+
+    public async Task<bool> DeleteAllUploadedDocsByUserAndYear(string userId, int assessmentYear)
+    {
+        var docs = await _context.UserUploadTaxAssistedDocs
+            .Where(d => d.UserId == userId && d.Year == assessmentYear)
+            .ToListAsync();
+
+        if (!docs.Any())
+            return false;
+
+        _context.UserUploadTaxAssistedDocs.RemoveRange(docs);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }

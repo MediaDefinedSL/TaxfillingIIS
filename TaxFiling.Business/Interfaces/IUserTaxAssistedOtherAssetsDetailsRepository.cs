@@ -13,6 +13,7 @@ namespace TaxFiling.Business.Interfaces
     {
         Task SaveUserOtherTaxDetailsAsync(UserTaxAssistedOtherAssetsDetailsDto dto);
         Task<UserTaxAssistedOtherAssetsDetailsDto> GetByUserAndYearAsync(string userId, string assessmentYear);
+        Task<bool> DeleteDraftOtherAssetsByUserAndYear(string userId, string assessmentYear);
 
     }
 }
