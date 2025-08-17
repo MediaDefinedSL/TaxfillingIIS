@@ -10,5 +10,6 @@ namespace TaxFiling.Domain.Dtos
     {
         public string Category { get; set; }
         public string Value { get; set; }
+        public string CreatedDate { get; set; }
     }
 }
