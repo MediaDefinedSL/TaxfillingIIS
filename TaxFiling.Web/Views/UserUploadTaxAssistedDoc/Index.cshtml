@@ -2447,10 +2447,6 @@
                                             assetCategoryDisplayName = doc.assetCategory;
                                   else if(doc.categoryName === "Other Documents")
                                                   assetCategoryDisplayName =`${doc.otherDocumentName ?? ""}`;
-
-
-
-
                                    const row = `
                                        <tr>
                                            <td>${index + 1}</td>
@@ -2465,6 +2461,28 @@
                            } else {
                                $("#uploadedDeclarationDocs").hide();
                            }
+                      const assessmentYear ="2024/2025";
+                        // --- Second API: Other Tax Details ---
+                const resOtherAssets = await fetch(`${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/GetUserOtherTaxDetails?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentYear)}`);
+                if (resOtherAssets.ok) {
+                    const otherAssets = await resOtherAssets.json();
+                    if (otherAssets && otherAssets.details.length > 0) {
+                          otherAssets.details.forEach((doc, index) => {
+
+                            const row = `
+                                <tr>
+                                    <td>${tbody.children().length + 1}</td>
+                                      <td>${doc.category}</td>
+                                      <td>${doc.value}</td>
+                                        <td class="no-wrap">${doc.createdDate}</td>
+                                </tr>
+                            `;
+                            tbody.append(row);
+                        });
+                    }
+                } else {
+                    alert("Failed to load other tax details.");
+                }
 
                        } catch (err) {
                            console.error("Error loading declaration docs:", err);

@@ -66,11 +66,12 @@ namespace TaxFiling.Business.Repositories
             var dto = new UserTaxAssistedOtherAssetsDetailsDto
             {
                 UserId = userId,
-                AssessmentYear = assessmentYear,
+                AssessmentYear = assessmentYear,                
                 Details = records.Select(r => new OtherTaxDetailDto
                 {
                     Category = r.OtherAssetCategory,
-                    Value = r.OtherAssetValue.ToString()
+                    Value = r.OtherAssetValue.ToString()  ,
+                    CreatedDate = r.CreatedDate.ToString("yyyy-MM-dd")
                 }).ToList()
             };
 
