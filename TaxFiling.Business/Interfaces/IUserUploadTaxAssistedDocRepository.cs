@@ -14,4 +14,5 @@ public interface IUserUploadTaxAssistedDocRepository
 
     Task<bool> DeleteUploadedDocAsync(int userUploadId);
     Task<int?> SubmitAssetsAsync(UserUploadTaxAssistedDocDto asset);
+    Task<bool> DeleteAllUploadedDocsByUserAndYear(string userId, int assessmentYear);
 }

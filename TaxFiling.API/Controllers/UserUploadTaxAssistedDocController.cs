@@ -91,7 +91,32 @@ public class UserUploadTaxAssistedDocController : ControllerBase
         return Ok(new { message = "Form data received successfully" });
     }
 
-    
+    [HttpDelete("DeleteAllByUserAndYear")]
+    public async Task<IActionResult> DeleteAllByUserAndYear([FromQuery] string userId, [FromQuery] int assessmentYear)
+    {
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(assessmentYear.ToString()))
+        {
+            return BadRequest("UserId and AssessmentYear are required.");
+        }
+
+        try
+        {
+            // Call your service/repository to delete the documents
+            bool deleted = await _userUploadTaxAssistedDocRepository.DeleteAllUploadedDocsByUserAndYear(userId, assessmentYear);
+
+            if (!deleted)
+                return NotFound("No documents found to delete.");
+
+            return Ok("All uploaded documents deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Log exception
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+
 
 }
 

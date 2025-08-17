@@ -50,5 +50,28 @@ namespace TaxFiling.API.Controllers
 
             return Ok(data);
         }
+
+        [HttpDelete("DeleteDraftOtherTaxByUserAndYear")]
+        public async Task<IActionResult> DeleteDraftOtherTaxByUserAndYear([FromQuery] string userId, [FromQuery] string assessmentYear)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(assessmentYear))
+                return BadRequest("UserId and AssessmentYear are required.");
+
+            try
+            {
+                // Call service to delete draft data
+                bool deleted = await _userTaxAssistedOtherAssetsDetailsRepository.DeleteDraftOtherAssetsByUserAndYear(userId, assessmentYear);
+
+                if (!deleted)
+                    return NotFound("No draft data found to delete.");
+
+                return Ok("Draft Other Assets data deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
