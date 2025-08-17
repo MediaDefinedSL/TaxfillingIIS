@@ -584,34 +584,54 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
         try
         {
-            var _employmentIncomuser = await _context.SelfOnlineEmploymentIncomes
+            var employmentIncome = await _context.SelfOnlineEmploymentIncomes
                               .Where(p => p.UserId == userId && p.Year == year && p.SelfOnlineEmploymentIncomeId == employmentIncomeId)
                               .FirstOrDefaultAsync();
-
-            if (_employmentIncomuser != null)
+            if (employmentIncome != null)
             {
-                _employmentIncomuser.TerminalBenefits = terminalBenefits;
-            }
+                employmentIncome.TerminalBenefits = terminalBenefits;
 
-          
-
-            if (!terminalBenefits)
-            {
-                var recordsToDelete = await _context.SelfOnlineEmploymentIncomeDetails
-                    .Where(b => b.UserId == userId
-                             && b.Year == year
-                             && b.SelfOnlineEmploymentIncomeId == employmentIncomeId
-                             && b.CategoryName == "TerminalBenefits")
-                    .ToListAsync();
-
-                if (recordsToDelete.Any())
+                if (!terminalBenefits)
                 {
-                    _context.SelfOnlineEmploymentIncomeDetails.RemoveRange(recordsToDelete);
-                }
-            }
-            await _context.SaveChangesAsync();
-            isSuccess = true;
+                    // Find all terminal benefits records
+                    var recordsToDelete = await _context.SelfOnlineEmploymentIncomeDetails
+                        .Where(b => b.UserId == userId
+                                 && b.Year == year
+                                 && b.SelfOnlineEmploymentIncomeId == employmentIncomeId
+                                 && b.CategoryName == "TerminalBenefits")
+                        .ToListAsync();
 
+                    if (recordsToDelete.Any())
+                    {
+                        // Calculate the sum of TerminalBenefits before deleting
+                        var sumTerminalBenefits = recordsToDelete
+                            .Where(r => r.TerminalBenefits.HasValue)
+                            .Sum(r => r.TerminalBenefits.Value);
+
+                        // Subtract from parent Total
+                        if (employmentIncome.Total.HasValue)
+                        {
+                            employmentIncome.Total = (employmentIncome.Total ?? 0) - sumTerminalBenefits;
+
+                            var mainTaxIncome = await _context.Users
+                            .FirstOrDefaultAsync(x => x.UserId.ToString() == userId);
+
+
+                            if (mainTaxIncome != null)
+                            {
+                                mainTaxIncome.TaxTotal = (mainTaxIncome.TaxTotal ?? 0) - sumTerminalBenefits;
+                                _context.Users.Update(mainTaxIncome);
+                               // await _context.SaveChangesAsync();
+                            }
+                        }
+                        // Remove records
+                        _context.SelfOnlineEmploymentIncomeDetails.RemoveRange(recordsToDelete);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                isSuccess = true;
+            }
 
         }
         catch (Exception e)
@@ -647,6 +667,29 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
                 if (recordsToDelete.Any())
                 {
+                    // Calculate the sum of TerminalBenefits before deleting
+                    var sumExemptAmounts = recordsToDelete
+                        .Where(r => r.Amount.HasValue)
+                        .Sum(r => r.Amount.Value);
+
+                    // Subtract from parent Total
+                    if (_employmentIncomuser.Total.HasValue)
+                    {
+                        _employmentIncomuser.Total = (_employmentIncomuser.Total ?? 0) - sumExemptAmounts;
+
+                        var mainTaxIncome = await _context.Users
+                        .FirstOrDefaultAsync(x => x.UserId.ToString() == userId);
+
+
+                        if (mainTaxIncome != null)
+                        {
+                            mainTaxIncome.TaxTotal = (mainTaxIncome.TaxTotal ?? 0) - sumExemptAmounts;
+                            _context.Users.Update(mainTaxIncome);
+                            // await _context.SaveChangesAsync();
+                        }
+                    }
+
+
                     _context.SelfOnlineEmploymentIncomeDetails.RemoveRange(recordsToDelete);
                 }
             }

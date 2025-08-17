@@ -2250,8 +2250,9 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     #global-upload-tracker .upload-label {
         font-weight: 500;
         margin-right: 6px;
-        
+
     }
+
 
 /* Style the search input placeholder */
 .select2-container--open .select2-search__field::placeholder {
@@ -2259,3 +2260,49 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     font-style: italic;
     opacity: 0.8; /* make it slightly transparent */
 }
+
+#Self-Online-Flow .sidebar {
+    height: -webkit-fill-available;
+}
+
+
+#Self-Online-Flow .main-content {
+    height: -webkit-fill-available !important;
+    min-height: 150vh !important;
+}
+
+span#taxTotal {
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    color: #fff !important;
+}
+
+
+
+h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
+    font-family: sans-serif;
+    padding-top: 5px;
+    padding-bottom: 4px;
+}
+
+.check-box i.bi.bi-check {
+    color: #fff;
+}
+
+.Tax-pesonaldetail-icon label {
+    border-bottom: solid 6px #0d6efd !important;
+}
+
+
+#Self-Online-Flow nav.sidebar.d-flex.flex-column.flex-shrink-0 {
+    height: auto;
+    min-height: -webkit-fill-available !important;
+}
+
+div#terminalDetailsGrid td:last-child {
+    text-align: center;
+    display: inline-flex;
+    column-gap: 4px;
+}
+
