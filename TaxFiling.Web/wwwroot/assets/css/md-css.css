@@ -2252,3 +2252,10 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
         margin-right: 6px;
         
     }
+
+/* Style the search input placeholder */
+.select2-container--open .select2-search__field::placeholder {
+    color: blue;
+    font-style: italic;
+    opacity: 0.8; /* make it slightly transparent */
+}
