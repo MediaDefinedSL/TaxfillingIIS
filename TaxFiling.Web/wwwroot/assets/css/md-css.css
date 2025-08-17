@@ -2287,3 +2287,13 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
 }
 
 
+#Self-Online-Flow nav.sidebar.d-flex.flex-column.flex-shrink-0 {
+    height: auto;
+    min-height: -webkit-fill-available !important;
+}
+
+div#terminalDetailsGrid td:last-child {
+    text-align: center;
+    display: inline-flex;
+    column-gap: 4px;
+}
