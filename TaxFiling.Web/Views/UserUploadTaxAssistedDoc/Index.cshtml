@@ -1910,6 +1910,7 @@
                                 loadUploadedDocs(userId,'T10'); // userId must be available in this scope
                             }
                             else if (panelId === "assets-section") {
+                                    selectedCategoryName = 'Assets Liabilities';
                                    loadAssestsUploadedFiles(userId);// userId must be available in this scope
                                     loadExcelAssestsUploadedFiles(userId);
                             }
@@ -1967,7 +1968,7 @@
                                                         <td>${dateOnly}</td>
                                                <td>
                                                     <button class="btn btn-primary btn-sm" onclick="viewDoc('${doc.fileName}', '${doc.decryptionKey}')">View</button>
-                                                      <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}')">Delete</button>
+                                                        <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}', '${doc.uploadId}')">Delete</button>
                                                </td>
                                            </tr>
                                        `;
@@ -2020,7 +2021,7 @@
                                                         <td>${dateOnly}</td>
                                                      <td>
                                                           <button class="btn btn-primary btn-sm" onclick="viewDoc('${doc.fileName}', '${doc.decryptionKey}')">View</button>
-                                                            <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}')">Delete</button>
+                                                              <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}', '${doc.uploadId}')">Delete</button>
                                                      </td>
                                                  </tr>
                                              `;
@@ -2145,7 +2146,7 @@
                                 <td>${dateOnly}</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" onclick="viewDoc('${doc.fileName}', '${doc.decryptionKey}')">View</button>
-                                       <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}')">Delete</button>
+                                         <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${doc.userUploadId}', '${doc.uploadId}')">Delete</button>
                                 </td>
                             `;
                             tableBody.appendChild(row);
@@ -2251,7 +2252,7 @@
                      }
                    }
 
-                    function showDeleteConfirm(userUploadId) {
+                    function showDeleteConfirm(userUploadId,uploadId) {
 
                         const modalElement = document.getElementById("confirmDeleteModal");
                         const originalDeleteBtn = document.getElementById("confirmDeleteBtn");
@@ -2269,11 +2270,37 @@
                             }, 500);
 
                             deleteDoc(userUploadId);
+                            deleteFilefromServer(uploadId);
+
                         });
 
                         const modal = new bootstrap.Modal(modalElement);
                         modal.show();
                     }
+
+                      async function deleteFilefromServer(uploadId) {
+
+                          try {
+                                const response = await fetch(`https://file.taxfiling.lk/file/${uploadId}`, {
+                                  method: "DELETE"
+                              });
+
+                              if (!response.ok) {
+                                  const errMsg = await response.text();
+                                  showMessage("❌ Failed to delete document. " + errorText, "danger");
+                                  //throw new Error("Delete failed: " + errMsg);
+                              }
+                              else
+                              {
+                                 const message = await response.text();
+                              }
+
+                              // Optionally refresh document list or remove the row from the table
+                          } catch (error) {
+                              console.error(error);
+                              alert("Error: " + error.message);
+                          }
+                      }
 
                      async function deleteDoc(userUploadId) {
 
@@ -2293,8 +2320,12 @@
                                 const userId = '@User.FindFirst("UserID")?.Value';
                                   decrementUploadCount();
                                 loadUploadedDocs(userId,selectedCategoryName);
-                                   loadExcelAssestsUploadedFiles(userId);
-                                   loadAssestsUploadedFiles(userId);
+                                      if(selectedCategoryName == "Assets Liabilities" || selectedCategoryName == "Assests Upload Excel")
+                                      {
+                                            loadExcelAssestsUploadedFiles(userId);
+                                             loadAssestsUploadedFiles(userId);
+                                      }
+                                    
                             }
 
                             // Optionally refresh document list or remove the row from the table
@@ -2730,7 +2761,7 @@
                                 <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
-                                       <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}')">Delete</button>
+                                           <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}','${data.uploadId}')">Delete</button>
                                 </td>`;
 
                             documentsTable.appendChild(row);
@@ -2849,7 +2880,7 @@
                                 <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
-                                       <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}')">Delete</button>
+                                         <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}','${data.uploadId}')">Delete</button>
                                 </td>`;
 
                             documentsTable.appendChild(row);
@@ -3060,7 +3091,7 @@
                                 <td>${new Date(data.uploadTime).toISOString().split("T")[0]}</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" onclick="viewDoc('${data.filename}', '${data.decryptionKey}')">View</button>
-                                       <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}')">Delete</button>
+                                         <button class="btn btn-danger btn-sm delete-btn" onclick="showDeleteConfirm('${userUploadId}','${data.uploadId}')">Delete</button>
                                 </td>`;
 
                             documentsTable.appendChild(row);
