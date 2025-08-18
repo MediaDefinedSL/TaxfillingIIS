@@ -1364,7 +1364,43 @@
                  function incrementUploadCount() {
                     globalUploadCount++;
                     $('#globalUploadCount').text(globalUploadCount);
+                    if(globalUploadCount == 1)
+                    {
+                           const payload = {
+                                userId: userId,
+                                uploadedDocumentStatus: 1
+                            };
+                                fetch(`${baseApiUrl}api/users/update-document-status`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(payload)
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                    if(data.success){
+                                            // Update status to NEW
+                                         const row = document.querySelector('#assessment-row-2024');
+                                         // Find the badge by ID
+                                        const badge = document.querySelector('#status-badge-2024');
+                                        const removeBtn = document.getElementById("btnRemoveDraft");
+                                        // Update text and classes
+                                        if (badge) {
+                                          badge.textContent = 'DRAFT';
+                                          badge.classList.remove('bg-info');   // remove old status color
+                                             badge.classList.add('bg-warning');   // example new color
+                                              removeBtn.disabled = false;
+                                           }
+                                      
+
+                                    }
+                                    else
+                                        alert(data.message);
+                            })
+                            .catch(err => alert('Error updating status.'));
                 }
+             }
 
               function decrementUploadCount() {
                     globalUploadCount--;
@@ -1425,8 +1461,9 @@
                                                      // Update status to NEW
                                                 statusBadge.text("NEW")
                                                 .removeClass("bg-warning")
-                                                .addClass("bg-info text-dark");                            
-                                        
+                                                .addClass("bg-info text-dark");
+                                                   $('#globalUploadCount').text("0");
+                                                      updateRemoveBtn();
                                            }
                                            else
                                                  alert(data.message);
@@ -1803,6 +1840,12 @@
                    {
                        document.getElementById('saveFinancialDetailsBtn').disabled = true;
                    }
+
+                       // Clear all inputs first
+                        document.querySelectorAll('#income-expenses .col-md-6 input').forEach(input => {
+                            input.value = '';      // clear old values
+                            input.disabled = false; // re-enable unless docStatus disables again later
+                        });
 
                        // Populate inputs by matching label text with category
                        data.details.forEach(detail => {
@@ -2574,8 +2617,47 @@
                        }
                    }
 
+                function updateRemoveBtn() {
+                    // find the checked row
+                    const checked = document.querySelector(".checkbox-lg:checked");
+                    const removeBtn = document.getElementById("btnRemoveDraft");
+                    if (checked) {
+                        const row = checked.closest("tr");
+                        const status = row.querySelector("span.badge").innerText.trim();
+
+                        // disable remove button if status is SUBMITTED or NEW
+                        if (status === "SUBMITTED" || status === "NEW") {
+                            removeBtn.disabled = true;
+                        } else {
+                            removeBtn.disabled = false;
+                        }
+                    } else {
+                        removeBtn.disabled = true; // nothing selected
+                    }
+                }
+
                      //page load
                 document.addEventListener("DOMContentLoaded", function () {
+
+                   const checkboxes = document.querySelectorAll(".checkbox-lg");
+                   const removeBtn = document.getElementById("btnRemoveDraft");
+
+                checkboxes.forEach(cb => {
+                    cb.addEventListener("change", function () {
+                        if (this.checked) {
+                            // uncheck all others
+                            checkboxes.forEach(other => {
+                                if (other !== this) other.checked = false;
+                            });
+                        }
+
+                        updateRemoveBtn();
+                    });
+                });
+
+                // Initial state: disable remove button until a valid row is selected
+               updateRemoveBtn();
+
                 let allBranches = [];
 
                 // Load all branches once
