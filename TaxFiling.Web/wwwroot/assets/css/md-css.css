@@ -2306,3 +2306,72 @@ div#terminalDetailsGrid td:last-child {
     column-gap: 4px;
 }
 
+.tab-pane.fade {
+    box-shadow: 0px 2px 15px rgb(0 0 0 / 18%) !important;
+    padding: 17px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+#contact .tab-panel-contact .tab-pane .mt-4 .d-flex {
+    box-shadow: none !important;
+}
+
+.row.contact-detalis .info-item {
+    width: 22%;
+    display: inline-block !important;
+    /* column-gap: 10%; */
+    margin-right: 3%;
+    border: none;
+    vertical-align: top;
+    margin-top: 0px;
+    padding-top: 0px;
+    border: solid 1px #e3e3e3;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0px 2px 8px rgb(0 0 0 / 28%);
+    background-color: #fff;
+    height: 135px;
+}
+
+.contact .info {
+    /* column-gap: 10%; */
+    /* display: inline-flex; */
+    padding: 14px;
+}
+
+.row.contact-detalis .col-lg-12 {
+    margin-bottom: 4%;
+}
+
+.contact .info-item i {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+    background-color: #fff !important;
+}
+
+.row.contact-detalis .info-item div {
+    display: inline-block;
+    position: relative;
+    width: 75%;
+}
+
+.contact .info {
+    box-shadow: none !important;
+    background: no-repeat;
+}
+
+.row.contact-detalis .info-item:last-child {
+    margin-right: 0px !important;
+}
+
+
+i.bi.bi-person-fill-down {
+    margin-right: 1rem !important;
+}
+
+#Self-Online-Flow .collapsed .sidebar-link i {
+    float: left;
+}
+
