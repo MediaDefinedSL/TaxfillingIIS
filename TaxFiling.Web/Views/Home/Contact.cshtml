@@ -1,5 +1,4 @@
-﻿
-<main class="main">
+﻿<main class="main">
 
     <!-- Page Title -->
     <div class="page-title accent-background">
@@ -9,8 +8,6 @@
             </h2>
             <nav class="breadcrumbs">
                 <ol>
-                    @* <li><a href="index.html">Home</a></li>
-                        <li class="current">Contact</li> *@
                 </ol>
             </nav>
         </div>
@@ -25,16 +22,16 @@
             <div class="container  tab-panel-contact">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false" tabindex="-1">Service &amp; Company </button>
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Service &amp; Company </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Tax Filing &amp; Compliance</button>
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Tax Filing &amp; Compliance</button>
                     </li>
 
                 </ul>
 
                 <div class="tab-content mt-3" id="myTabContent">
-                    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
 
                         <div class="mt-4">
                             <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#financialDetailsCollapse" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q1" style="font-weight: normal;">
@@ -261,7 +258,7 @@
                         </div>
 
                     </div>
-                    <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="mt-4">
                             <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded shadow-sm border collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#financialDetailsCollapse" aria-expanded="false" aria-controls="financialDetailsCollapse" id="q1" style="font-weight: normal;">
                                 <span style="font-weight: normal;">
@@ -513,6 +510,7 @@
                         <label>Upload File</label>
                         <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control">
                         <input name="__RequestVerificationToken" type="hidden" value="CfDJ8KhSW7X0JcRIpwnA1U_OFm9kXfve5-X5bDc2GEW0ib0f1_E5bUjB1FAt78o7D8uZjt9GG5-BNH318Msu_OLPOZrcjD-UP5MWNyLnOqXe44wobx1PX773_RuAqEJ3JE6YM_J45r7SdfilBEK21dZwKDJcFR9gKfiOUfWm6rzXr9Zb2mNYO624PP5-2jNX2XpnaQ">
+                        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Oe9MmWcXChHs9XupbHYfgI1ezk7fEqPBnHeG64HE6BF9imYkxv7riIua1fwz8GHbsOQQlB3EbXCyhgw0KZWhjVcVhTVsr88-kafz2GUpokGE632B6teeMyY0TKaT3kEk_giSwTU1B-lTv6QPh6JSW0">
                     </form>
                 </div>
 
@@ -520,9 +518,9 @@
             <br>
             <br>
 
-            <div class="row ">
+            <div class="row  contact-detalis">
 
-                <div class="col-lg-4">
+                <div class="col-lg-12">
 
                     <div class="info">
                         <h3>Get in touch</h3>
@@ -567,7 +565,7 @@
 
                 </div>
 
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <form action="forms/contact.php" method="post" role="form" class="php-email-form">
                         <div class="row">
                             <div class="col-md-6 form-group">
