@@ -1295,6 +1295,11 @@
                     </div>
                 </div>
             </div>
+
+            <div id="loadMask" class="load-mask" style="display:none">
+                <div class="spinner"></div>
+                <div class="load-text">Uploading, please wait...</div>
+            </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
             <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
@@ -1323,6 +1328,15 @@
 
                    const collapse = document.getElementById('uploadedFilesCollapse');
                    const icon = document.getElementById('toggleIcon');
+
+                 function showLoadMask() {
+                      //     document.getElementById('loadMask').style.display = 'block';
+                    document.getElementById("loadMask").style.display = "flex";
+                }
+
+                function hideLoadMask() {
+                    document.getElementById("loadMask").style.display = "none";
+                }
 
                    collapse.addEventListener('show.bs.collapse', () => {
                        icon.classList.remove('bi-chevron-down');
@@ -1875,6 +1889,7 @@
 
                     function uploadAsset(index, assetType) {
                      // Get the note input
+                     showLoadMask();
                      const noteInput = $(`input[name="assets[${index}].Description"]`);
                      const note = noteInput.val().trim();
 
@@ -1938,6 +1953,7 @@
                          alert("Upload failed: " + error);
                        },
                        complete: function () {
+                           hideLoadMask();
                          btn.prop("disabled", false).html('<i class="bi bi-cloud-upload-fill me-1"></i> Upload');
                        },
                      });
@@ -2903,6 +2919,7 @@
                      submitBtn.addEventListener("click", async function () {
 
                         if (!selectedFile || !selectedCategoryName) return;
+                           showLoadMask(); 
 
                         try {
                             // 1. Upload to external API
@@ -3019,12 +3036,15 @@
                             console.error(err);
                             alert("Upload failed: " + err.message);
                         }
+                        finally {
+                             hideLoadMask(); 
+                        }
                     });
 
                     submitBankBtn.addEventListener("click", async function () {
 
                         if (!selectedFile || !selectedCategoryName) return;
-
+                        showLoadMask();
                         try {
                             // 1. Upload to external API
                             const formData = new FormData();
@@ -3131,6 +3151,9 @@
                             console.error(err);
                             alert("Upload failed: " + err.message);
                         }
+                        finally{
+                            hideLoadMask();
+                        }
                     });
 
                  submitExcelBtn.addEventListener("click", async function () {
@@ -3143,6 +3166,8 @@
                            alert("Please select a file before submitting.");
                            return;
                        }
+
+                       showLoadMask();
 
                            try {
 
@@ -3227,12 +3252,17 @@
                                console.error(err);
                                alert("Upload failed: " + err.message);
                            }
+                              finally{
+                               hideLoadMask();
+                           }
                        });
 
 
                     submitOtherBtn.addEventListener("click", async function () {
 
                         if (!selectedFile || !selectedCategoryName) return;
+
+                        showLoadMask();
 
                         try {
 
@@ -3341,6 +3371,9 @@
                             console.error(err);
                             alert("Upload failed: " + err.message);
                         }
+                           finally{
+                               hideLoadMask();
+                           }
                     });
 
 
