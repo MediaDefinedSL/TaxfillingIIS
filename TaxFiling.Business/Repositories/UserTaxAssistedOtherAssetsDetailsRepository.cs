@@ -60,8 +60,8 @@ namespace TaxFiling.Business.Repositories
                 .Where(x => x.UserId == userId && x.AssessmentYear == assessmentYear)
                 .ToListAsync();
 
-            if (!records.Any())
-                return null;
+           // if (!records.Any())
+                //return null;
 
             var dto = new UserTaxAssistedOtherAssetsDetailsDto
             {
