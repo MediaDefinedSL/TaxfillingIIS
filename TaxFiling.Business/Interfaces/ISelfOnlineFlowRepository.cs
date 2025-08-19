@@ -15,7 +15,7 @@ public interface ISelfOnlineFlowRepository
     Task<bool> UpdateMaritalStatus(string userId, int year, int maritalStatusId);
     Task<bool> UpdatelLastYear(string userId, int year, int lastyearId);
     Task<bool> UpdatelIdentification(IdentificationsDto identifications);
-    Task<bool> UpdatelContactInformation(string userId, int year, string careof, string apt, string streetnumber, string street, string city);
+    Task<bool> UpdatelContactInformation(string userId, int year, string? careof, string? apt, string streetnumber, string street, string city);
     Task<bool> SaveSelfOnlineEmploymentIncome(SelfOnlineEmploymentIncomeDto selfOnlineEmploymentIncome);
     Task<SelfOnlineEmploymentIncomeDto> GetSelfOnlineEmploymentIncome(string userId, int year, CancellationToken ctx);
     Task<bool> SaveSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails);

@@ -173,7 +173,7 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpPut("update_contactinformation")]
-    public async Task<IActionResult> UpdatelContactInformation(string userId, int year, string careof,string apt , string streetnumber , string street , string city)
+    public async Task<IActionResult> UpdatelContactInformation(string userId, int year, string? careof,string? apt , string streetnumber , string street , string city)
     {
         try
         {

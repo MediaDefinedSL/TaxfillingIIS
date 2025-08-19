@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using System.Reflection;
 using System.Text.Json;
 using TaxFiling.Web.Models;
 using TaxFiling.Web.Models.Common;
@@ -72,7 +71,7 @@ public class SelfOnlineFlowController : Controller
         int year = DateTime.Now.Year;
         var responseResult = false;
 
-       // PackagesViewModel package = new();
+        // PackagesViewModel package = new();
         UserViewModel user = new();
 
         SelfOnlineFlowPersonalInformation personalInformation = new();
@@ -138,7 +137,7 @@ public class SelfOnlineFlowController : Controller
 
         }
 
-      
+
         ViewBag.TaxTotal = user.TaxTotal;
 
         return View();
@@ -181,7 +180,7 @@ public class SelfOnlineFlowController : Controller
                 taxPayers = JsonSerializer.Deserialize<List<TaxPayerViewModel>>(responseContent, _jsonSerializerOptions)!;
             }
         }
-       
+
 
         string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
         var responseuser = await _httpClient.GetAsync(urluser, ctx);
@@ -300,7 +299,7 @@ public class SelfOnlineFlowController : Controller
 
         }
 
-       
+
         identifications = new IdentificationsViewModel
         {
             UserId = userId,
@@ -315,7 +314,7 @@ public class SelfOnlineFlowController : Controller
             Address = personalInformation.Address
         };
 
-        if(personalInformation.FirstName == null)
+        if (personalInformation.FirstName == null)
         {
             var queryParams = new Dictionary<string, string?> {
                 { "Id", userId.ToString()}
@@ -382,7 +381,7 @@ public class SelfOnlineFlowController : Controller
             City = personalInformation.City
         };
 
-        return PartialView("Partial/_ContactInformation" , contactInfromation);
+        return PartialView("Partial/_ContactInformation", contactInfromation);
     }
 
     public async Task<IActionResult> LoadSummary(CancellationToken ctx)
@@ -432,10 +431,10 @@ public class SelfOnlineFlowController : Controller
 
         ViewBag.MaritalStatusName = maritalStatusName;
 
-        
+
         List<TaxPayerViewModel> taxPayers = [];
         string taxPayersListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/taxpayer_list", queryUserParams);
-       
+
         var response2 = await _httpClient.GetAsync(taxPayersListUrl, ctx);
         if (response2 != null && response1.IsSuccessStatusCode)
         {
@@ -588,12 +587,14 @@ public class SelfOnlineFlowController : Controller
         var queryUserParams = new Dictionary<string, string?> {
                 { "userId", userId.ToString()},
                 { "year", year.ToString()},
-                { "careof", user.CareOf},
-                { "apt", user.Apt},
+                { "careof", string.IsNullOrWhiteSpace(user.CareOf) ? "" : user.CareOf},
+                { "apt", string.IsNullOrWhiteSpace(user.Apt) ? "" : user.Apt},
                 { "streetnumber", user.StreetNumber},
                 { "street", user.Street},
                 { "city", user.City}
             };
+
+
 
         string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", queryUserParams);
         var response = await _httpClient.PutAsync(urluser, null);
@@ -622,7 +623,7 @@ public class SelfOnlineFlowController : Controller
                 taxPayers = JsonSerializer.Deserialize<List<TaxPayer>>(responseContent, _jsonSerializerOptions)!;
             }
         }
-        
+
 
         return PartialView("Partial/_PersonalData", taxPayers);
     }
@@ -687,7 +688,7 @@ public class SelfOnlineFlowController : Controller
         return PartialView("IncomeTaxPartial/_IncomeLiableTaxSection", model);
     }
     [HttpPost]
-    public async Task<IActionResult> AddEmploymentIncome( SelfOnlineEmploymentIncome employmentIncome)
+    public async Task<IActionResult> AddEmploymentIncome(SelfOnlineEmploymentIncome employmentIncome)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
@@ -790,4 +791,51 @@ public class SelfOnlineFlowController : Controller
     }
 
 
+
+    public async Task<IActionResult> LoadEmploymentDetails(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_EmploymentDetailsSection", employmentIncomeList);
+    }
+    public async Task<IActionResult> LoadETerminalBenefits(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_TerminalBenefitsSection", employmentIncomeList);
+    }
 }
