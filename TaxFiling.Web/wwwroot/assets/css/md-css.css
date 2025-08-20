@@ -342,7 +342,7 @@ button.btn.btn-primary.Continue {
 
 button.btn.btn-secondary.dropdown-toggle {
     font-size: 0px;
-    background-image: url(/assets/img/LINKEDIN-Profile-Picture-AI.jpg) !important;
+    background-image: url(/assets/img/LINKEDIN-Profile-Picture-AI.jpg);
     width: 48px;
     height: 48px;
     background-size: contain;
