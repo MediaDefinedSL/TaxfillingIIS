@@ -2702,3 +2702,8 @@ section#Self-Online-Flow {
 .hero img {
     filter: brightness(80%);
 }
+
+.actionButtons button {
+    min-width: 100px; /* uniform button size */
+    margin-left: 4px; /* space between buttons */
+}
