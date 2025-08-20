@@ -22,10 +22,7 @@ $(function () {
         });
     });
 
-    $('#btndashboardSection').on('click', function () {
-
-       
-
+    $('#btndashboardSection').on('click', function () {       
         $.ajax({
             url: '/SelfOnlineFlow/LoadDashboardSection',
             type: 'GET',
@@ -38,8 +35,7 @@ $(function () {
         });
     });
 
-    $('#btnLoadSection').on('click', function () {
-       
+    $('#btnLoadSection').on('click', function () {        
         $('.sub-link').removeClass('active');
         $('#linkInThisSection').addClass('active');
 
@@ -56,6 +52,7 @@ $(function () {
     });
 
     $('#linkInThisSection').on('click', function () {
+       
         $.ajax({
             url: '/SelfOnlineFlow/LoadInThisSection', 
             type: 'GET',
@@ -69,7 +66,7 @@ $(function () {
     });
 
     $('#linkTaxPayer').on('click', function () {
- 
+       
         $.ajax({
             url: '/SelfOnlineFlow/LoadTaxPayer', 
             type: 'GET',
@@ -83,6 +80,7 @@ $(function () {
     });
 
     $('#linkMaritalStatus').on('click', function () {
+       
         $.ajax({
             url: '/SelfOnlineFlow/LoadMaritalStatus', 
             type: 'GET',
@@ -96,6 +94,7 @@ $(function () {
     });
 
     $('#linkLastYear').on('click', function () {
+       
         $.ajax({
             url: '/SelfOnlineFlow/LoadTaxReturnLastyear', 
             type: 'GET',
@@ -109,6 +108,7 @@ $(function () {
     });
 
     $('#linkIdentification').on('click', function () {
+       
         $.ajax({
             url: '/SelfOnlineFlow/LoadIdentification',
             type: 'GET',
@@ -122,6 +122,7 @@ $(function () {
     });
 
     $('#linkContactInformation').on('click', function () {
+      
         $.ajax({
             url: '/SelfOnlineFlow/LoadContactInformation',
             type: 'GET',
@@ -135,6 +136,7 @@ $(function () {
     });
 
     $('#linkSummary').on('click', function () {
+        
         $.ajax({
             url: '/SelfOnlineFlow/LoadSummary',
             type: 'GET',
@@ -148,6 +150,7 @@ $(function () {
     });
 
     $('#linkPersonalData').on('click', function () {
+       
         $.ajax({
             url: '/SelfOnlineFlow/PersonalData',
             type: 'GET',

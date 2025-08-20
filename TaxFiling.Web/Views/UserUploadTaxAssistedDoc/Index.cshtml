@@ -58,20 +58,32 @@
                     </a>
 
                     <!-- <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3">
-                         <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
-                         Personal Information
-                      </button>-->
-                    <div class="dropdown-container" style="display: none;">
-                        <a class="sub-link" id="linkTaxPayer">TaxPayer(s)</a>
-                        <a class="sub-link" id="linkMaritalStatus">Marital Status</a>
-                        <a class="sub-link" id="linkLastYear">Last Year</a>
-                        <a class="sub-link" id="linkIdentification">Identification</a>
-                        <a class="sub-link" id="linkContactInformation">Contact Information</a>
-                        <a class="sub-link" id="linkSummary">Summary</a>
+                    <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
+                    Personal Information
+                    </button>-->
+                    <div class="dropdown-container ps-4" style="display: none;">
+                        <a class="sub-link sidebar-link" id="linkTaxPayer">
+                            <i class="bi bi-cash-coin me-2"></i>TaxPayer(s)
+                        </a>
+                        <a class="sub-link" id="linkMaritalStatus">
+                            <i class="bi bi-activity me-2"></i>Marital Status
+                        </a>
+                        <a class="sub-link" id="linkLastYear">
+                            <i class="fas fa-calendar me-2"></i>Last Year
+                        </a>
+                        <a class="sub-link" id="linkIdentification">
+                            <i class="bi bi-person-vcard-fill me-2"></i>Identification
+                        </a>
+                        <a class="sub-link" id="linkContactInformation">
+                            <i class="bi bi-telephone-outbound me-2"></i>Contact Information
+                        </a>
+                        <a class="sub-link" id="linkSummary">
+                            <i class="bi bi-bar-chart-fill me-2"></i>Summary
+                        </a>
                     </div>
 
                     <a href="#documents-submenu" class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center"
-                       data-bs-toggle="collapse" aria-expanded="false" data-target="documents-section">
+                    data-bs-toggle="collapse" aria-expanded="false" data-target="documents-section">
                         <span>
                             <i class="fas fa-chart-bar me-3"></i>
                             <span >Documents</span>
@@ -117,141 +129,221 @@
 
 
             <main class="main-content">
-                <div class="container-fluid">                   
+                <div class="container-fluid">
                     <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
-                        <h4 class="mb-3"><i class="fas fa-table text-primary me-2"></i> Individual Income Tax Filing Summary</h4>
+                        <div class="container mt-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="mb-0">Individual Income Tax Filing Summary</h4>
+                                <div>
+                                    <button class="btn btn-primary me-2">Continue filing</button>
+                                    <button class="btn btn-danger" id="btnRemoveDraft">Remove draft</button>
+                                </div>
+                            </div>                            
+                            <div class="user-details-section mb-4">
+                                <table class="table table-borderless site-color">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"><strong>Taxpayer Identification Number (TIN)</strong></th>
+                                            <th scope="col">@tinNo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row"><strong>Name of taxpayer</strong></th>
+                                            <td>@userName</td>
+                                        </tr>
 
-                        <div class="mb-3 ">
-                            <table class="table table-borderless site-color">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"><strong>Taxpayer Identification Number (TIN)  </strong></th>
-                                        <th scope="col">@tinNo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"><strong>Name of taxpayer</strong></th>
-                                        <td>@userName</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><strong>Year of assessment </strong></th>
-                                        <td> 2024/2025</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        @{
-                            int totalRequiredDocs = 10; // Expected doc types
-                            int uploadedDocs = 6;       // Actual uploaded docs
-                            int progressPercent = totalRequiredDocs > 0 ? (int)(((double)uploadedDocs / totalRequiredDocs) * 100) : 0;
-
-                            string progressLabel = $"{uploadedDocs} / {totalRequiredDocs} Uploaded";
-                            string barColor = progressPercent == 100 ? "bg-success"
-                            : progressPercent >= 75 ? "bg-primary"
-                            : progressPercent >= 40 ? "bg-warning"
-                            : "bg-danger";
-                        }
-                        <div class="p-3 mb-4 bg-white rounded shadow-sm border position-relative" style="display:none">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-upload text-primary fs-4 me-2"></i>
-                                    <div >
-                                        <h6 class="mb-0 fw-bold">Document Upload Progress</h6>
-                                        <small class="text-muted">Track your tax document submission</small>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>Select a year to start or continue your return. Past years are read-only.</p>
+                            <!-- Current Year Info -->
+                            <!-- Four separate info boxes -->
+                            <!-- Four equal-sized info boxes -->
+                            <div class="row mb-4 align-items-stretch">
+                                <div class="col-md-3">
+                                    <div class="card text-center shadow-sm h-100">
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <h6 class="card-title">Current YoA</h6>
+                                            <p class="fs-5 fw-bold">2024/2025</p>
+                                        </div>
                                     </div>
                                 </div>
-                                @if (progressPercent == 100)
-                                {
-                                    <span class="badge bg-success rounded-pill px-3 py-2">
-                                        <i class="fas fa-check-circle me-1"></i> Complete
-                                    </span>
-                                }
-                            </div>
+                                <div class="col-md-3">
+                                    <div class="card text-center shadow-sm h-100">
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <h6 class="card-title">Due date</h6>
+                                            <p class="fs-5 fw-bold">11/29/2025</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card text-center shadow-sm h-100">
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <h6 class="card-title">Status</h6>
+                                            <span id="statusBadge" class="badge px-2 py-1"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    const docStatus = @docStatus;
+                                    const badge = document.getElementById("statusBadge");
 
-                            <div class="progress" style="height: 1.5rem;">
-                                <div class="progress-bar @barColor fw-semibold text-dark" role="progressbar"
-                                     style="width: @progressPercent%;"
-                                     aria-valuenow="@uploadedDocs" aria-valuemin="0" aria-valuemax="@totalRequiredDocs">
-                                    @progressLabel
+                                    if (badge && docStatus) {
+                                    switch (docStatus) {
+                                    case 1:
+                                    badge.className = "badge bg-warning text-dark px-2 py-1";
+                                    badge.textContent = "Draft";
+                                    break;
+                                    case 2:
+                                    badge.className = "badge bg-success text-light px-2 py-1";
+                                    badge.textContent = "Submitted";
+                                    break;
+                                    case 0:
+                                    badge.className = "badge bg-info text-dark px-2 py-1";
+                                    badge.textContent = "New";
+                                    break;
+                                    default:
+                                    badge.className = "badge bg-secondary text-light px-2 py-1";
+                                    badge.textContent = docStatus;
+                                    }
+                                    }
+                                </script>
+                                <div class="col-md-3">
+                                    <div class="card text-center shadow-sm h-100">
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <h6 class="card-title">Uploads</h6>
+                                            <a href="#" id="fileCountLink" class="fs-6 fw-bold text-decoration-none"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            @{
+                                int startYear = 2019;
+                                int endYear = DateTime.Now.Month >= 4 ? DateTime.Now.Year - 1 : DateTime.Now.Year - 2;
+                            }
+
+                            <div class="row">
+                                <!-- Left side: Table -->
+                                <div class="col-md-8">                                   
+
+                                    <!-- Yearly Summary Table -->
+                                    <div class="card shadow-sm rounded-3 mb-4">
+                                        <div class="card-body p-0">
+                                            <table class="table table-borderless align-middle mb-0">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Year of assessment</th>
+                                                        <th>Due date</th>
+                                                        <th>Progress</th>
+                                                        <th>Status</th>
+                                                        <th class="text-end">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for (int year = endYear; year >= startYear; year--)
+                                                    {
+                                                        var dueDate = new DateTime(year + 1, 11, 30).ToString("yyyy-MM-dd");
+                                                        var isCurrentAssessmentYear = year == endYear;
+
+                                                        string status = "SUBMITTED"; // default for past years
+                                                        if (isCurrentAssessmentYear)
+                                                        {
+                                                            status = docStatus switch
+                                                            {
+                                                                0 => "NEW",
+                                                                1 => "DRAFT",
+                                                                2 => "SUBMITTED",
+                                                                3 => "REUPLOAD",
+                                                                4 => "RESUBMITTED",
+                                                                _ => "UNKNOWN"
+                                                            };
+                                                        }
+
+                                                        var badgeClass = status switch
+                                                        {
+                                                            "NEW" => "bg-info text-dark",
+                                                            "DRAFT" => "bg-warning text-dark",
+                                                            "SUBMITTED" => "bg-success",
+                                                            "REUPLOAD" => "bg-danger-subtle text-danger",
+                                                            "RESUBMITTED" => "bg-info-subtle text-info",
+                                                            _ => "bg-dark"
+                                                        };
+                                                        // Unique ID for row and badge
+                                                        var rowId = $"assessment-row-{year}";
+                                                        var badgeId = $"status-badge-{year}";
+                                                        <tr id="@rowId">
+                                                            <td width="64" align="center">
+                                                                <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "") />
+                                                            </td>
+                                                            <td>@year/@(year + 1)</td>
+                                                            <td>@dueDate</td>
+                                                            <td>
+                                                                <div class="progress" style="height: 6px;">
+                                                                    <div class="progress-bar bg-primary" style="width:40%"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <span id="@badgeId" class="badge @badgeClass">@status</span>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <button class="btn btn-sm btn-primary me-1">Continue</button>
+                                                                <button class="btn btn-sm btn-danger">Remove</button>
+                                                            </td>
+                                                        </tr>
+
+
+                                                    }
+
+
+
+                                                   
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right side: Progress Box -->
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            2024/2025 – Draft
+                                        </div>
+                                        <div class="card-body">
+                                            <p><strong>Progress</strong></p>
+                                            <div class="progress mb-3" style="height: 8px;">
+                                                <div class="progress-bar bg-primary" style="width: 60%;"></div>
+                                            </div>
+                                            <ul class="list-group mb-3">
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    Personal information completed <span class="text-success">&#10003;</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    Employment income added <span class="text-success">&#10003;</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    Interest income uploaded <span class="text-danger">Missing</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    Attachments (slips/certificates) <span class="text-warning">Pending</span>
+                                                </li>
+                                            </ul>
+
+                                            <!-- Buttons inline -->
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-primary flex-fill">Continue filing</button>
+                                                <button class="btn btn-secondary flex-fill">Upload documents</button>
+                                                <button class="btn btn-danger flex-fill">Remove draft</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <p>
-                            If you wish to submit documents for file a return, please check an assessment year and click "Start" button. <br />
-                            To delete the draft, check and click the "Remove" button.
-                        </p>
-                        @{
-                            int startYear = 2019;
-                            int endYear = DateTime.Now.Month >= 4 ? DateTime.Now.Year - 1 : DateTime.Now.Year - 2;
-                        }
 
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped mt-3">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th width="64"></th>
-                                        <th>Year of assessment</th>
-                                        <th>Due date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int year = endYear; year >= startYear; year--)
-                                    {
-                                        var dueDate = new DateTime(year + 1, 11, 30).ToString("yyyy-MM-dd");
-                                        var isCurrentAssessmentYear = year == endYear;
-
-                                        string status = "SUBMITTED"; // default for past years
-                                        if (isCurrentAssessmentYear)
-                                        {
-                                            status = docStatus switch
-                                            {
-                                                0 => "NEW",
-                                                1 => "DRAFT",
-                                                2 => "SUBMITTED",
-                                                3 => "REUPLOAD",
-                                                4 => "RESUBMITTED",
-                                                _ => "UNKNOWN"
-                                            };
-                                        }
-
-                                        var badgeClass = status switch
-                                        {
-                                            "NEW" => "bg-info text-dark",
-                                            "DRAFT" => "bg-warning text-dark",
-                                            "SUBMITTED" => "bg-success",
-                                            "REUPLOAD" => "bg-danger-subtle text-danger",
-                                            "RESUBMITTED" => "bg-info-subtle text-info",
-                                            _ => "bg-dark"
-                                        };
-                                        // Unique ID for row and badge
-                                        var rowId = $"assessment-row-{year}";
-                                        var badgeId = $"status-badge-{year}";
-                                        <tr id="@rowId">
-                                            <td width="64" align="center">
-                                                <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "") />
-                                            </td>
-                                            <td>@year/@(year + 1)</td>
-                                            <td>@dueDate</td>
-                                            <td>
-                                                <span id="@badgeId" class="badge @badgeClass">@status</span>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Buttons -->
-                        <div class="mt-3 d-flex justify-content-end gap-2">
-                            <button class="btn btn-primary" id="start-btn">
-                                <i class="fas fa-arrow-right me-1"></i> Start
-                            </button>
-                            <button class="btn btn-danger" id="btnRemoveDraft">
-                                <i class="fas fa-trash-alt me-1"></i> Remove
-                            </button>
-                        </div>
                     </div>
 
                 </div>
@@ -1378,6 +1470,7 @@
                  function incrementUploadCount() {
                     globalUploadCount++;
                     $('#globalUploadCount').text(globalUploadCount);
+                    
                     if(globalUploadCount == 1)
                     {
                            const payload = {
@@ -1427,6 +1520,7 @@
                         globalUploadCount = allDocs.length ;
                     }                    
                     $('#globalUploadCount').text(globalUploadCount);
+                        document.getElementById("fileCountLink").textContent = globalUploadCount + " files";
                 }
 
                 $("#btnRemoveDraft").click(function () {

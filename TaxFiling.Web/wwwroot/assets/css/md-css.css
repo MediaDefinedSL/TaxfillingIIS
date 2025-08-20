@@ -1,7 +1,4 @@
-@charset "utf-8";
-/* CSS Document */
-
-
+@charset "utf-8"; /* CSS Document */
 .header .logo img {
     max-height: 56px;
 }
@@ -37,8 +34,7 @@ header#header {
     font-weight: 600;
 }
 
-.rounded-md,
-.rounded-md-image {
+.rounded-md, .rounded-md-image {
     border-radius: 20px !important;
 }
 
@@ -61,7 +57,6 @@ li.list-group-item.price-list {
 li.list-group-item.price-list i {
     vertical-align: top;
 }
-
 
 li.list-group-item.price-list i {
     vertical-align: top;
@@ -104,12 +99,10 @@ img.img-fluid.image-round {
     padding: 0 0 0 45px;
 }
 
-
 h5.comment-name {
     font-weight: 700;
     margin-top: 20px;
 }
-
 
 .rating-stars .bi-star {
     color: #FFC107 !important;
@@ -119,7 +112,6 @@ h5.comment-name {
 .rating-stars {
     margin-bottom: 24px !important;
 }
-
 
 .body-header:after {
     content: "";
@@ -133,7 +125,6 @@ h5.comment-name {
     bottom: 0;
     margin: auto;
 }
-
 
 h2.mb-lg-0.font-weight-bold.text-center.body-header.mb-4 {
     position: relative;
@@ -161,7 +152,6 @@ h2.mb-lg-0.font-weight-bold.text-center.body-header.mb-4 {
         border-radius: 5px;
     }
 
-
 .d-block.test {
     display: block !important;
     z-index: 99999 !important;
@@ -169,7 +159,6 @@ h2.mb-lg-0.font-weight-bold.text-center.body-header.mb-4 {
     opacity: 1 !important;
     background-color: #000000d1;
 }
-
 
     .d-block.test .modal-dialog {
         margin-top: 10%;
@@ -246,8 +235,6 @@ button.btn.btn-primary.Continue {
     /* float: right; */
 }
 
-
-
 .container.shadow.p-3.mb-5.bg-white.rounded.Packages-blog {
     padding: 30px !important;
 }
@@ -315,11 +302,9 @@ button.btn.btn-primary.Continue {
     margin-top: 5%;
 }
 
-.container.col-sm-3.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col input#Username,
-.container.col-sm-3.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col input#Password {
+.container.col-sm-3.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col input#Username, .container.col-sm-3.shadow.p-5.mb-5.bg-white.rounded.Sign-in-col input#Password {
     background-color: #ffffff00 !important;
 }
-
 
 .hero-video:after {
     content: "";
@@ -339,10 +324,9 @@ button.btn.btn-primary.Continue {
     z-index: 99999;
 }
 
-
 button.btn.btn-secondary.dropdown-toggle {
     font-size: 0px;
-    background-image: url(/assets/img/LINKEDIN-Profile-Picture-AI.jpg) !important;
+    /* background-image: url(/assets/img/LINKEDIN-Profile-Picture-AI.jpg) !important; */
     width: 48px;
     height: 48px;
     background-size: contain;
@@ -352,8 +336,6 @@ button.btn.btn-secondary.dropdown-toggle {
     border: solid 4px #2196f3;
     margin-left: 10px;
 }
-
-
 
 section#register .form-outline.mb-4.col-sm-4 {
     display: inline-block;
@@ -450,8 +432,6 @@ input {
     margin-top: 5%;
 }
 
-
-
 .header .header-social-links a {
     padding-left: 15px;
     color: #212529 !important;
@@ -461,12 +441,9 @@ input {
     margin-top: 13px !important;
 }
 
-
-
 #hero-carousel .btn.btn-primary.btn-lg {
     margin-right: 10px;
 }
-
 
 .page-title.accent-background.reg-col {
     z-index: 999;
@@ -476,11 +453,9 @@ input {
     display: inline-block;
 }
 
-
 .btn-primary {
     background-color: #0d6efd !important;
 }
-
 
 @media (min-width: 768px) {
     #register .col-md-4 {
@@ -492,8 +467,6 @@ input {
         padding-left: 35px;
     }
 
-
-
     #register .col-sm-4 {
         flex: 0 0 auto;
         width: 46.333%;
@@ -503,7 +476,6 @@ input {
 #register .form-outline.mb-4.col-md-4 {
     vertical-align: top;
 }
-
 
 .d-sm-block img.img-fluid {
     border-radius: 100%;
@@ -539,6 +511,8 @@ section#about {
     background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
+    padding-top: 134px;
+    /* z-index: 9999; */
 }
 
 section#clients {
@@ -547,9 +521,9 @@ section#clients {
     background-position: center;
 }
 
-.btn.btn-primary.disabled,
-.btn.btn-primary:disabled {
-    background-color: #b2b2b2 !important; /* ash color */
+.btn.btn-primary.disabled, .btn.btn-primary:disabled {
+    background-color: #b2b2b2 !important;
+    /* ash color */
     border-color: #b2b2b2 !important;
     color: white !important;
 }
@@ -580,6 +554,7 @@ section#clients {
 .image-box .imgbgchk:checked + label > .tick_container {
     opacity: 1;
 }
+
 /*         aNIMATION */
 .image-box .imgbgchk:checked + label > img {
     transform: scale(1.25);
@@ -681,8 +656,6 @@ section#clients {
     text-align: center !important;
 }
 
-
-
 #Self-Online-Flow .sub-link.active {
     background-color: #30313d !important;
 }
@@ -713,7 +686,6 @@ section#clients {
     color: #2196f3;
     font-style: italic;
 }
-
 
 .about .post-img.position-relative.overflow-hidden.rounded-md-image {
     /* height: 400px; */
@@ -747,7 +719,6 @@ section#clients {
     vertical-align: top;
 }
 
-
 .profile .rounded-circle {
     border: solid 4px #0d6efd;
     width: 71%;
@@ -770,8 +741,8 @@ section#clients {
     background-repeat: no-repeat;
     background-position: center, bottom;
 }
-/*END Profile page changes*/
 
+/*END Profile page changes*/
 #Self-Online-Flow .dropdown-container a {
     cursor: pointer !important;
 }
@@ -843,12 +814,7 @@ section#clients {
 }
 
 /*END Upload  page css - mayuri*/
-
-
-
-
 /*css changes*/
-
 .m-b-0 {
     margin-bottom: 0px;
 }
@@ -901,8 +867,7 @@ img.user-avatar.user-title {
     font-weight: 800;
 }
 
-.page-title i.bi.bi-envelope,
-.page-title i.bi.bi-phone {
+.page-title i.bi.bi-envelope, .page-title i.bi.bi-phone {
     font-size: 22px;
     color: #fff !important;
 }
@@ -919,23 +884,19 @@ img.user-avatar.user-title {
 }
 
 /*Document part changes*/
-
 .site-color {
     width: auto;
     background-color: #f8f9fa !important;
+    border: solid 10px #f8f9fa;
 }
 
-    .site-color th,
-    .site-color td,
-    .site-color tr {
+    .site-color th, .site-color td, .site-color tr {
         color: #414141 !important;
         padding: 0px;
         padding-right: 10px;
         line-height: 30px;
         background-color: #f8f9fa !important;
     }
-
-
 
 div#dashboard-section {
     border: solid 3px #2196f3;
@@ -947,40 +908,24 @@ table.table.table-bordered.table-striped th {
     background-color: #4aadfd;
 }
 
-
 input.form-check-input.checkbox-lg {
     width: 22px;
     height: 22px;
 }
 
-
-div#documents-section,
-div#employment-section,
-#bank-section,
-#assets-section,
-#other-section,
-#declaration-section,
-#File-my-taxes.selfOnline-dashboard.userDocList .container {
+div#documents-section, div#employment-section, #bank-section, #assets-section, #other-section, #declaration-section, #File-my-taxes.selfOnline-dashboard.userDocList .container {
     border: solid 3px #2196f3;
     -webkit-box-shadow: 0px 0px 6px 0px rgba(156, 156, 156, 0.75) !important;
     -moz-box-shadow: 0px 0px 6px 0px rgba(156,156,156,0.75);
 }
 
-    div#documents-section h4,
-    div#employment-section h4,
-    #bank-section h4,
-    #assets-section h4,
-    #other-section h4,
-    #declaration-section h4 {
+    div#documents-section h4, div#employment-section h4, #bank-section h4, #assets-section h4, #other-section h4, #declaration-section h4 {
         margin-bottom: 26px;
     }
-
-
 
 .document-guidelines {
     font-size: 14px;
 }
-
 
 .mb-3.tab-btn-list button {
     /* border: none; */
@@ -1016,9 +961,7 @@ div#employment-section,
     }
 
     /*END Document part changes*/
-
     /*Dashboard part changes*/
-
     .mb-3.tab-btn-list.Dash {
         margin-top: 0px;
     }
@@ -1048,8 +991,6 @@ div#employment-section,
     margin-top: 26px;
 }
 
-
-
 table.table.table-bordered.table-striped th {
     color: #fff;
     font-weight: 500;
@@ -1069,8 +1010,7 @@ table.table.table-bordered.table-striped th {
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-section#user-uploaddocuments,
-#File-my-taxes {
+section#user-uploaddocuments, #File-my-taxes {
     background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
@@ -1087,10 +1027,9 @@ section#user-uploaddocuments,
 .mb-3.tab-btn-list.Dash button {
     transition: 0.2s;
 }
+
 /*END Dashboard part changes*/
-
 /*dashboard changes*/
-
 .dash-icon-uplode {
     display: block;
     background-image: url(http://images.netexam.com/images/10229/uplode-tax-file.gif) !important;
@@ -1102,8 +1041,6 @@ section#user-uploaddocuments,
     margin-left: auto;
     margin-right: auto;
 }
-
-
 
 .view-your-task {
     display: block;
@@ -1117,8 +1054,6 @@ section#user-uploaddocuments,
     margin-right: auto;
 }
 
-
-
 .view-user-file-uplode {
     display: block;
     background-image: url(https://images.netexam.com/images/10229/view-user-file-uplode.gif) !important;
@@ -1130,7 +1065,6 @@ section#user-uploaddocuments,
     margin-left: auto;
     margin-right: auto;
 }
-
 
 .notification-reminders {
     display: block;
@@ -1158,9 +1092,7 @@ div#dashboard-section .center {
 }
 
 /*END dashboard changes*/
-
 /*img table*/
-
 .img-box-layout {
     width: 100%;
     text-align: center;
@@ -1182,7 +1114,6 @@ div#dashboard-section .center {
     }
 
 /*UserUploadDoumentFlow changes*/
-
 .mage-box-row .image-box.justify-content-between.parent .col {
     border: solid 3px #2196f3;
     border-radius: 6px;
@@ -1206,6 +1137,7 @@ div#in-this-section-container .main-content {
     background-image: url(/assets/img/curves-1.png) !important;
     background-repeat: no-repeat !important;
     background-position: center;
+    /* margin-left: 0px; */
 }
 
 .mage-box-row .aos-animate h6 {
@@ -1228,12 +1160,11 @@ div#in-this-section-container .main-content {
         margin-bottom: 10px !important;
     }
 
-
 .information-box .col-md-4 label {
     margin-bottom: 6px;
 }
-/*END UserUploadDoumentFlow changes*/
 
+/*END UserUploadDoumentFlow changes*/
 #Self-Online-Flow .main-content .mb-3.tab-btn-list button {
     border-right: solid 3px #f8f9fa !important;
     border-top-left-radius: 4px;
@@ -1745,7 +1676,8 @@ nav.sidebar.collapsed div#documents-submenu {
 }
 
     .col-lg-6.about-img.aos-init.aos-animate.se-two {
-        background-image: url(/assets/img/Banner-images-one.png) !important;
+        background-image: url(/assets/img/bannerImage.png) !important;
+        background-position-x: center;
     }
 
     .col-lg-6.about-img.aos-init.aos-animate.se-three {
@@ -1902,7 +1834,7 @@ section#services {
 
 .hero .container {
     border-top: none;
-    border: solid 2px #cecece99;
+    border: solid 1px #cecece99;
     border-radius: 20px;
     width: 57%;
     padding-left: 2%;
@@ -1911,7 +1843,7 @@ section#services {
     top: -17%;
     font-weight: 300;
     padding-right: 2%;
-    background: color-mix(in srgb, var(--surface-color), transparent 18%);
+    background: color-mix(in srgb, #97979769, transparent 18%);
 }
 
 .hero h2 {
@@ -1924,7 +1856,7 @@ section#services {
 
 #hero-carousel .btn.btn-primary.btn-lg,
 #hero-carousel .btn-get-started {
-    background-color: #cecece4f !important;
+    background-color: #cececea3 !important;
     border: solid 1px #ccc;
     font-weight: 300;
     font-size: 16px;
@@ -2187,7 +2119,7 @@ section#services {
 }
 
 #contact .tab-panel-contact .tab-pane .mt-4 {
-    border-radius: 6px;
+    border-radius: 0px;
     padding-bottom: 0px;
 }
 
@@ -2195,7 +2127,7 @@ section#services {
     #contact .tab-panel-contact .tab-pane .mt-4 .d-flex {
         box-shadow: 0px 2px 15px rgb(0 0 0 / 18%) !important;
         padding: 6px !important;
-        border-radius: 8px !important;
+        border-radius: 0px !important;
         padding-left: 10px !important;
     }
 
@@ -2218,6 +2150,7 @@ section#contact {
 #Self-Online-Flow .sidebar {
     height: -webkit-fill-available;
 }
+
 h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     display: inline-block;
     float: right;
@@ -2229,7 +2162,6 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     border-radius: 4px;
     padding-top: 2px;
     margin-top: -4px;
-
 }
 
 #global-upload-tracker {
@@ -2250,7 +2182,6 @@ h5.toggle-header.text-warning span#spnEmploymentIncomeTotal {
     #global-upload-tracker .upload-label {
         font-weight: 500;
         margin-right: 6px;
-
     }
 
 
@@ -2376,7 +2307,6 @@ i.bi.bi-person-fill-down {
 }
 
 .load-mask {
-    
     position: fixed;
     top: 0;
     left: 0;
@@ -2417,3 +2347,120 @@ i.bi.bi-person-fill-down {
     }
 }
 
+.hero .container p {
+    font-weight: 400;
+}
+
+
+div#dashboard-section {
+    background-image: url(http://images.netexam.com/images/10229/animation_500_kre26aub.gif) !important;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-position-y: -60px;
+    background-size: 326px;
+    background-color: #fff !important;
+}
+
+input {
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    border-radius: 8px !important;
+}
+
+div#Collapse055 .mt-4 {
+    /* margin-top: 0px !important; */
+}
+
+#contact .tab-panel-contact .tab-pane .mt-4.child {
+    margin-top: 0px !important;
+}
+
+#contact .card.card-body.border {
+    padding-left: 0px !important;
+    padding-right: 0px;
+    border: none !important;
+}
+
+#contact div#q55 .fas.fa-chevron-down {
+    display: none !important;
+}
+
+#contact div#q55 span {
+    color: #0d6efd !important;
+}
+
+#contact div#q55.bg-primary {
+    border: none !important;
+}
+
+
+.page-title.accent-background {
+    /* padding: 0px; */
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    background-color: #2196f3ed;
+}
+
+
+.package a.btn.btn-primary {
+    vertical-align: bottom;
+    bottom: 28px;
+    position: absolute;
+    width: 86%;
+}
+
+
+
+.package hr {
+    vertical-align: bottom;
+    bottom: 84px;
+    position: absolute;
+    width: 84%;
+}
+
+.package .post-img img {
+    width: 100% !important;
+}
+
+.package article.rounded-md {
+    padding-bottom: 96px;
+}
+
+#global-upload-tracker {
+    display: none;
+}
+
+section#Self-Online-Flow {
+    margin-top: 86px;
+}
+
+
+@-moz-document url-prefix() {
+    .selfOnline-dashboard .container .col-lg-3.aos-init.aos-animates.aos-animate {
+        float: left !important;
+        position: relative;
+        flex: min-content;
+    }
+
+    #Self-Online-Flow nav.sidebar.d-flex.flex-column.flex-shrink-0 {
+        height: -moz-available !important;
+        height: 100% !important;
+    }
+}
+
+
+.profile .alert.alert-secondary {
+    font-size: 12px;
+    padding: 10px;
+}
+
+
+.cal .container {
+    background-image: url(http://images.netexam.com/images/10229/tab-frame-2025.png) !important;
+    background-size: 100% 100% !important;
+    padding: 84px;
+    padding-top: 90px;
+    padding-bottom: 116px !important;
+}
