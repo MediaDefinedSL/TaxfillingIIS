@@ -157,14 +157,17 @@ $(function () {
         if (!typeTerminal) {
             $("#dpdTypeTerminal").after('<div class="text-danger validation-error">Please select Type of Terminal Benefit.</div>');
             isValid = false;
+            $btn.prop("disabled", false);
         }
         if (!terminalECName.trim()) {
             $("#txtTerminalECName").after('<div class="text-danger validation-error">Employer/Company Name is required.</div>');
             isValid = false;
+            $btn.prop("disabled", false);
         }
         if (!terminalBenefits.trim()) {
             $("#txtTerminalBenefits").after('<div class="text-danger validation-error">Terminal Benefits (Rs.) is required.</div>');
             isValid = false;
+            $btn.prop("disabled", false);
         }
 
         if (!isValid) {
@@ -190,7 +193,7 @@ $(function () {
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
-                    $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html()); // Direct replace
+                    $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html()); 
 
                     var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
                     $("#spnEmploymentIncomeTotal").text(newTotal);
@@ -230,14 +233,17 @@ $(function () {
         if (!exemptType) {
             $("#dpdExemptType").after('<div class="text-danger validation-error">Please select Type of Exempt or Excluded Income.</div>');
             isValid = false;
+            $btn.prop("disabled", false);
         }
         if (!exemptTinEmployerName.trim()) {
             $("#txtExemptTinEmployerName").after('<div class="text-danger validation-error">Employer/Company Name is required.</div>');
             isValid = false;
+            $btn.prop("disabled", false);
         }
         if (!exemptAmount.trim()) {
             $("#txtExemptAmount").after('<div class="text-danger validation-error">Amount is required.</div>');
             isValid = false;
+            $btn.prop("disabled", false);
         }
 
         if (!isValid) {
@@ -245,7 +251,7 @@ $(function () {
         }
 
         var exemptIncome = {
-            SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
+            //SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
             CategoryName: "ExemptAmounts",
             TypeOfName: exemptType,
             EmployerORCompanyName: exemptTinEmployerName,
@@ -292,6 +298,44 @@ $(function () {
             $("#divAPITPrimaryEmployment").hide();
             $("#divAPITSecondaryEmployment").show();
         }
+    });
+
+    $('#linkTerminalBenefitsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadETerminalBenefits',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+    $('#linkEmploymentDetailsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadEmploymentDetails',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+    $('#linkExemptAmountsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadExemptAmounts',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
     });
 
     $('#etf').on('show.bs.collapse', function () {

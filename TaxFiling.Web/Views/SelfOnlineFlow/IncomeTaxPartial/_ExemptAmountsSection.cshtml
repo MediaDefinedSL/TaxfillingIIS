@@ -1,0 +1,117 @@
+﻿ @model List<TaxFiling.Web.Models.SelfOnlineEmploymentIncomeDetails>
+
+<main class="main-content">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+
+            <form method="post">
+
+                <div class=" mt-4 ">
+
+                    <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                        <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Exempt Amounts</h6>
+                        <hr>
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <label class="form-label">Type of Exempt or Excluded Income</label>
+                                <select class="form-select" id="dpdExemptType" name="dpdExemptType">
+                                    <option value="Primary">Primary</option>
+                                    <option value="Secondary">Secondary</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">TIN / Name of Employer</label>
+                                <input type="text" class="form-control" id="txtExemptTinEmployerName" name="txtExemptTinEmployerName">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">TIN of Employer</label>
+                                <input type="text" class="form-control" maxlength="9" id="txtExemptTin" name="txtExemptTin">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Amount (Rs.)</label>
+                                <input type="number" class="form-control" id="txtExemptAmount" name="txtExemptAmount">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class=" align-items-right" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary mt-3" id="btnExemptSubmit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <hr class="my-4">
+                        <div class="table-responsive" id="exemptDetailsGrid">
+                            <table class="table table-bordered table-striped mt-2">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Type Employment</th>
+                                        <th>Name</th>
+                                        <th>TIN Employer</th>
+                                        <th>Amount </th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (Model != null &&
+                                    Model.Any(d => d.CategoryName == "ExemptAmounts"))
+                                    {
+                                        var indexT = 0;
+                                        foreach (var eploymentIncome in Model
+                                        .Where(d => d.CategoryName == "ExemptAmounts"))
+                                        {
+                                            <tr>
+                                                <td>@(++indexT)</td>
+                                                <td>@eploymentIncome.TypeOfName</td>
+                                                <td>@eploymentIncome.EmployerORCompanyName</td>
+                                                <td>@eploymentIncome.TINOfEmployer</td>
+                                                <td>@eploymentIncome.Amount</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                                    <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" class="text-center">No Exempt Amounts found.</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br><br>
+        <div class="d-lg-flex justify-content-between">
+            <div class="col-lg-6 col-md-6 btn-prv">
+                <button class="btn btn-primary btn-lg" id="linkTerminalBenefitsContinue">
+                    Back
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-6 right next-btn" id="linkContinue">
+                <button class="btn btn-primary btn-lg">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="~/scripts/selfonline.employmentincome.js" asp-append-version="true"></script>
