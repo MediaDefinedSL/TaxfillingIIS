@@ -134,8 +134,8 @@
                         <div class="container mt-4">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="mb-0">Individual Income Tax Filing Summary</h4>
-                                <div>
-                                    <button class="btn btn-primary me-2">Continue filing</button>
+                                <div style="display:none;">
+                                    <button class="btn btn-primary me-2" >Continue filing</button>
                                     <button class="btn btn-danger" id="btnRemoveDraft">Remove draft</button>
                                 </div>
                             </div>                            
@@ -235,11 +235,11 @@
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th></th>
-                                                        <th>Year of assessment</th>
+                                                        <th >Year of assessment</th>
                                                         <th>Due date</th>
                                                         <th>Progress</th>
-                                                        <th>Status</th>
-                                                        <th class="text-end">Actions</th>
+                                                        <th style="text-align: center;">Status</th>
+                                                        <!--<th class="text-end">Actions</th>-->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -247,6 +247,8 @@
                                                     {
                                                         var dueDate = new DateTime(year + 1, 11, 30).ToString("yyyy-MM-dd");
                                                         var isCurrentAssessmentYear = year == endYear;
+
+                                                        int numericStatus = isCurrentAssessmentYear ? docStatus : 2; // default SUBMITTED for past years
 
                                                         string status = "SUBMITTED"; // default for past years
                                                         if (isCurrentAssessmentYear)
@@ -274,24 +276,23 @@
                                                         // Unique ID for row and badge
                                                         var rowId = $"assessment-row-{year}";
                                                         var badgeId = $"status-badge-{year}";
-                                                        <tr id="@rowId">
-                                                            <td width="64" align="center">
+                                                        <tr id="@rowId" data-status="@numericStatus">
+                                                            <td align="center">
                                                                 <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "") />
                                                             </td>
-                                                            <td>@year/@(year + 1)</td>
-                                                            <td>@dueDate</td>
-                                                            <td>
+                                                            <td >@year/@(year + 1)</td>
+                                                            <td >@dueDate</td>
+                                                            <td align="center">
                                                                 <div class="progress" style="height: 6px;">
-                                                                    <div class="progress-bar bg-primary" style="width:40%"></div>
+                                                                    <div class="progress-bar bg-primary" style="width:90%"></div>
                                                                 </div>
                                                             </td>
-                                                            <td>
+                                                            <td align="center">
                                                                 <span id="@badgeId" class="badge @badgeClass">@status</span>
                                                             </td>
-                                                            <td class="text-end">
-                                                                <button class="btn btn-sm btn-primary me-1">Continue</button>
-                                                                <button class="btn btn-sm btn-danger">Remove</button>
-                                                            </td>
+                                                            <!--<td class="text-end actionButtons"></td>-->
+
+                                                            
                                                         </tr>
 
 
@@ -307,36 +308,99 @@
                                 </div>
 
                                 <!-- Right side: Progress Box -->
+                                @{
+                                    int currentYear = endYear;
+                                    string statusText = docStatus switch
+                                    {
+                                        0 => "New",
+                                        1 => "Draft",
+                                        2 => "Submitted",
+                                        3 => "Reupload",
+                                        4 => "Resubmitted",
+                                        _ => "Unknown"
+                                    };
+
+                                    string statusClass = docStatus switch
+                                    {
+                                        0 => "bg-info text-dark",
+                                        1 => "bg-warning text-dark",
+                                        2 => "bg-success text-white",
+                                        3 => "bg-danger text-white",
+                                        4 => "bg-info text-dark",
+                                        _ => "bg-dark text-white"
+                                    };
+
+                                    int progressValue = docStatus switch
+                                    {
+                                        0 => 20,
+                                        1 => 40,
+                                        2 => 100,
+                                        3 => 60,
+                                        4 => 80,
+                                        _ => 0
+                                    };
+                                }
+
                                 <div class="col-md-4">
                                     <div class="card">
-                                        <div class="card-header">
-                                            2024/2025 – Draft
+                                        <!-- Header with status -->
+                                        <div class="card-header @statusClass">
+                                            @currentYear/@(currentYear + 1) – @statusText
                                         </div>
+
                                         <div class="card-body">
                                             <p><strong>Progress</strong></p>
                                             <div class="progress mb-3" style="height: 8px;">
-                                                <div class="progress-bar bg-primary" style="width: 60%;"></div>
+                                                <div id="progressBar" class="progress-bar bg-primary" style="width: 0%;"></div>
                                             </div>
+
                                             <ul class="list-group mb-3">
                                                 <li class="list-group-item d-flex justify-content-between">
-                                                    Personal information completed <span class="text-success">&#10003;</span>
+                                                    Personal information completed
+                                                    <span id="personalInfoStatus" class="text-secondary"><span class="text-success">✓</span></span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between">
-                                                    Employment income added <span class="text-success">&#10003;</span>
+                                                    Employment income added
+                                                    <span id="employmentIncomeStatus" class="text-secondary">Checking...</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between">
-                                                    Interest income uploaded <span class="text-danger">Missing</span>
+                                                    Bank Confirmation uploaded
+                                                    <span id="bankConfirmationStatus" class="text-secondary">Checking...</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between">
-                                                    Attachments (slips/certificates) <span class="text-warning">Pending</span>
+                                                    Assets & Liabilities added
+                                                    <span id="assetsStatus" class="text-secondary">Checking...</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between">
+                                                    Other docs uploaded
+                                                    <span id="otherDocsStatus" class="text-secondary">Checking...</span>
                                                 </li>
                                             </ul>
 
-                                            <!-- Buttons inline -->
+                                                
+                                            
+
+                                            <!-- Buttons -->
                                             <div class="d-flex gap-2">
-                                                <button class="btn btn-primary flex-fill">Continue filing</button>
-                                                <button class="btn btn-secondary flex-fill">Upload documents</button>
-                                                <button class="btn btn-danger flex-fill">Remove draft</button>
+                                                @if (docStatus == 1)
+                                                {
+                                                    <!-- Draft -->
+                                                    <button class="btn btn-primary flex-fill" id="btnContinue">Continue filing</button>
+                                                    <button class="btn btn-secondary flex-fill" id="btnUploadDocs">Upload documents</button>
+                                                    <button class="btn btn-danger flex-fill" id="btnRemoveDft">Remove draft</button>
+                                                }
+                                                else if (docStatus == 2)
+                                                {
+                                                    <!-- Submitted -->
+                                                    <button class="btn btn-info flex-fill">
+                                                        <i class="fas fa-eye me-1"></i> View Docs
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <!-- Other statuses -->
+                                                    <button class="btn btn-secondary flex-fill">View Details</button>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -1421,6 +1485,54 @@
                    const collapse = document.getElementById('uploadedFilesCollapse');
                    const icon = document.getElementById('toggleIcon');
 
+                   document.querySelectorAll("tr[data-status]").forEach(row => {
+                    let status = parseInt(row.dataset.status);
+                    let actionTd = row.querySelector(".actionButtons");
+
+                    if (status === 1) { // Draft
+                        //actionTd.innerHTML = `
+                            //   <button class="btn btn-sm btn-primary me-1" id="start-btn">Continue</button>
+                           // <button class="btn btn-sm btn-danger" id="btnRemoveDraft">Remove</button>
+                       // `;
+                    }
+                    else if (status === 2) { // Submitted
+                       // actionTd.innerHTML = `
+                               //  <button class="btn btn-sm btn-info" style="min-width:120px;">
+                   // <i class="fas fa-eye me-1"></i> View Docs
+                //</button>
+                   //     `;
+                    }
+                    else if (status === 3) { // Reupload
+                       // actionTd.innerHTML = `
+                       //     <button class="btn btn-sm btn-warning">Reupload</button>
+                       // `;
+                    }
+                    else if (status === 4) { // Resubmitted
+                       // actionTd.innerHTML = `
+                        //    <button class="btn btn-sm btn-secondary">Resubmitted</button>
+                        //`;
+                    }
+
+                    // Set progress based on status
+                        let progressBar = row.querySelector(".progress-bar");
+                        if (status === 0) { // NEW
+                            progressBar.style.width = "20%";
+                        }
+                        else if (status === 1) { // DRAFT
+                            progressBar.style.width = "90%";
+                        }
+                        else if (status === 2) { // SUBMITTED
+                            progressBar.style.width = "100%";
+                        }
+                        else if (status === 3) { // REUPLOAD
+                            progressBar.style.width = "60%";
+                        }
+                        else if (status === 4) { // RESUBMITTED
+                            progressBar.style.width = "80%";
+                        }
+                   });
+            
+
                  function showLoadMask() {
                       //     document.getElementById('loadMask').style.display = 'block';
                     document.getElementById("loadMask").style.display = "flex";
@@ -1523,7 +1635,7 @@
                         document.getElementById("fileCountLink").textContent = globalUploadCount + " files";
                 }
 
-                $("#btnRemoveDraft").click(function () {
+                   $("#btnRemoveDraft, #btnRemoveDft").click(function () {
                     // Show confirmation modal
                      $("#deleteConfirmationModal").modal("show");
                 });
@@ -2305,6 +2417,7 @@
                        }
 
                      async function loadUploadedDocs(userId, selectedCategory = null) {
+                         //alert("2");
                          if(selectedCategory == 'Bank Confirmation'){
                              document.getElementById("uploadedBankDocs").style.display = "block";
                          }
@@ -2327,11 +2440,73 @@
                             allDocs = await res.json();
                            updateGlobalUploadCount();
                             renderDocsTable(selectedCategory);
+                               updateChecklistStatuses(allDocs,docStatus);
                         } catch (err) {
                             console.error("Error loading documents:", err);
                             alert("An error occurred while loading documents");
                         }
+
                     }
+
+                       function updateChecklistStatuses(docs, docStatus = null) {
+                            let totalItems = 5;
+                            let completed = 0;
+                    // employment income
+                    const hasEmploymentIncome = docs.some(d => d.categoryName === "T10");
+                    setStatus("employmentIncomeStatus", hasEmploymentIncome);
+                       if (hasEmploymentIncome) completed++;
+
+                    // bank confirmation
+                    const hasBankConfirmation = docs.some(d => d.categoryName === "Bank Confirmation");
+                    setStatus("bankConfirmationStatus", hasBankConfirmation);
+                     if (hasBankConfirmation) completed++;
+
+                    // assets
+                       const hasAssets = docs.some(d => d.categoryName === "Assets Liabilities");
+                    setStatus("assetsStatus", hasAssets);
+                    if (hasAssets) completed++;
+
+                    // other docs
+                    const hasOther = docs.some(d => d.categoryName === "Other Documents");
+                    setStatus("otherDocsStatus", hasOther);
+                          if (hasOther) completed++;
+
+                    // personal info (dummy logic, adapt as needed)
+                    const hasPersonalInfo = docs.some(d => d.categoryName === "Personal Information");
+                       completed++;
+                    //setStatus("personalInfoStatus", hasPersonalInfo);
+
+                   let progress = 0;
+                if (completed === totalItems) {
+                    progress = 90; // all uploaded but not submitted
+                } else if (completed === 1) {
+                    progress = 18; // one completed
+                } else {
+                    progress = Math.round((completed / totalItems) * 90);
+                }
+                  if (docStatus === "Submitted") {
+                    progress = 100;
+                }
+                 const bar = document.getElementById("progressBar");
+                if (bar) {
+                    bar.style.width = progress + "%";
+                    bar.textContent = progress + "%";
+                }
+
+                }
+
+                 function setStatus(elementId, isUploaded) {
+                    const el = document.getElementById(elementId);
+                    if (!el) return;
+
+                    if (isUploaded) {
+                        el.textContent = "✓";
+                        el.className = "text-success";
+                    } else {
+                        el.textContent = "Missing";
+                        el.className = "text-danger";
+                    }
+                }
 
                      function renderDocsTable(categoryFilter = null) {
                         let tableBody;
@@ -2871,13 +3046,17 @@
                     }
 
                     const startBtn = document.getElementById("start-btn");
-                    if (startBtn) {
-                        startBtn.addEventListener("click", function () {
-                        document.getElementById("btnLoadSection").click();
-
-                            //showPanel("documents-section");
+                    const btnContinue = document.getElementById("btnContinue");
+                    [startBtn, btnContinue].forEach(btn => {
+                    if (btn) {
+                        btn.addEventListener("click", function () {
+                            document.getElementById("btnLoadSection").click();
+                            // showPanel("documents-section");
                         });
                     }
+                });
+
+
 
                     const  nextBtn= document.getElementById("btnNext");
                     if (nextBtn) {
@@ -2935,7 +3114,16 @@
                     }
 
                     const  previousBtn= document.getElementById("btnPrevious");
-                    if (previousBtn) {
+                          const  btnUploadDocs= document.getElementById("btnUploadDocs");
+
+                         [previousBtn, btnUploadDocs].forEach(btn => {
+                    if (btn) {
+                        btn.addEventListener("click", function () {
+                               showPanel("documents-section");
+                        });
+                    }
+                });
+                       if (previousBtn || btnUploadDocs) {
                         previousBtn.addEventListener("click", function () {
                            showPanel("documents-section");
                         });
