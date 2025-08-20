@@ -1845,7 +1845,7 @@ section#services {
     top: -17%;
     font-weight: 300;
     padding-right: 2%;
-    background: color-mix(in srgb, #97979769, transparent 18%);
+    background: color-mix(in srgb, #cecece87, #9191915e 18%);
 }
 
 .hero h2 {
@@ -2465,4 +2465,240 @@ section#Self-Online-Flow {
     padding: 84px;
     padding-top: 90px;
     padding-bottom: 116px !important;
+    height: 2200px;
+    margin-bottom: 4%;
+}
+
+
+/*Can css changes*/
+:root {
+    --ink: #0a1f44;
+    --muted: #5c6b8a;
+    --bg: #ffffff;
+    --line: #cfd9ee;
+    --head: #1c3f94;
+    --band: #e9f2ff;
+    --band-strong: #cfe3ff;
+    --accent: #2563eb;
+    --success: #0c7a43;
+    --danger: #b42318;
+}
+
+* {
+    box-sizing: border-box
+}
+
+.cal main {
+    max-width: 1060px;
+    margin: 28px auto 80px;
+    padding: 0 18px
+}
+
+.cal h1 {
+    font-size: 18px;
+    letter-spacing: .4px;
+    text-align: left;
+    color: #ffffff;
+    margin: 0 0 2px;
+    padding: 10px;
+    background-color: #49abfa;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-weight: 600;
+}
+
+    .cal h1 + p.topnote {
+        margin: 0 auto 16px;
+        text-align: center;
+        color: #6b7aa6;
+        font-size: 12px
+    }
+
+.cal .sheet {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 10px 14px;
+    box-shadow: 0 8px 22px rgba(28,63,148,.06);
+    padding: 0px;
+}
+
+.cal .section-title {
+    margin: 1px 0 8px;
+    color: #11224d;
+    font-weight: 600;
+    background-color: #49abfa !important;
+    padding-bottom: 0px;
+    margin-bottom: 60px;
+    padding: 10px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.cal table.grid {
+    width: 100%;
+    border-collapse: collapse
+}
+
+.cal .grid th, .grid td {
+    border-bottom: 1px solid var(--line);
+    padding: 8px 10px;
+    vertical-align: middle
+}
+
+.cal .grid th {
+    font-weight: 700;
+    color: #004ab8;
+    background: #f7f9ff
+}
+
+.cal .grid td.lbl {
+    width: 64%
+}
+
+.cal .grid td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums
+}
+
+.cal .band {
+    background: var(--band-strong);
+    font-weight: 800
+}
+
+.cal .band-soft {
+    background: var(--band)
+}
+
+.muted {
+    color: var(--muted)
+}
+
+.cal input, select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    font: inherit;
+    color: #000
+}
+
+    .cal input:focus, select:focus {
+        outline: 2px solid var(--accent);
+        border-color: var(--accent)
+    }
+
+.cal .controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 8px 0
+}
+
+.cal button.btn {
+    background: linear-gradient(180deg,#2e6ff2,#1d52c8);
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 800;
+    cursor: pointer
+}
+
+.cal .pill {
+    display: inline-block;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 12px;
+    background: #f7fbff
+}
+
+.cal .kpi {
+    font-weight: 900;
+    color: #14306b
+}
+
+.cal small.note {
+    display: block;
+    margin-top: 6px;
+    color: #6b7aa6
+}
+
+.cal .totals {
+    font-weight: 900;
+    color: #122650
+}
+
+.pos {
+    color: var(--success);
+    font-weight: 800
+}
+
+.cal .neg {
+    color: var(--danger);
+    font-weight: 800
+}
+
+.cal .mono {
+    font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace
+}
+
+@media (max-width:820px) {
+    .cal .grid td.lbl {
+        width: auto
+    }
+}
+
+.cal .tab-panel-contact {
+    padding: 0px;
+    padding-top: 30px !important;
+}
+
+
+
+    .cal .tab-panel-contact li {
+        margin-right: 4px !important;
+        /* background-color: #4aadfd; */
+        /* border-radius: 4px; */
+    }
+
+.cal .nav-link.active {
+    background-color: #2196f3 !important;
+    color: #fff;
+    background: linear-gradient(to right, #0377eb, #0377eb);
+    background: linear-gradient(to right, #0377eb, #0377eb);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+    /* transform: scale(1.05); */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px !important;
+    padding: 10px;
+    height: auto !important;
+    height: 44px !important;
+}
+
+.cal .nav-link {
+    font-size: 16px;
+    background-color: #4aadfd;
+    padding: 10px;
+    color: #fff !important;
+    height: 43px !important;
+}
+
+.cal ul#myTab {
+    height: 46px;
+    border-bottom: solid 2px #2196f3;
+}
+
+
+.cal li.nav-item {
+    margin-right: 4px;
+}
+
+/*END Can css changes*/
+
+
+.hero img {
+    filter: brightness(80%);
 }
