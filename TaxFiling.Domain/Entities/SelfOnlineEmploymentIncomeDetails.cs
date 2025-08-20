@@ -2,20 +2,23 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaxFiling.Domain.Entities;
-[Table("SelfOnlineEmploymentIncomeDetails")]
+[Table("SelfOnlineEmploymentIncome")]
 public class SelfOnlineEmploymentIncomeDetails : Entity
 {
     [Column("SelfOnlineEmploymentDetailsId")]
     [Key]
     public int SelfOnlineEmploymentDetailsId { get; set; }
-    [Column("SelfOnlineEmploymentIncomeId")]
-    public int SelfOnlineEmploymentIncomeId { get; set; }
+    
     [Column("UserId")]
     public string UserId { get; set; }
     [Column("Year")]
     public int Year { get; set; }
     [Column("CategoryName")]
     public string CategoryName { get; set; }
+    [Column("Residency")]
+    public int? Residency { get; set; }
+    [Column("SeniorCitizen")]
+    public bool SeniorCitizen { get; set; }
     [Column("TypeOfName")]
     public string TypeOfName { get; set; }
     [Column("EmployerORCompanyName")]

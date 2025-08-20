@@ -1,6 +1,9 @@
 ﻿
 $(function () {
 
+    $("#divAPITPrimaryEmployment").show();
+    $("#divAPITSecondaryEmployment").hide();
+
     $(document).on("click", "#btnEmploymentIncome", function () {
        // e.preventDefault();
 
@@ -50,6 +53,10 @@ $(function () {
         let APITPrimaryEmployment = $("#txtAPITPrimaryEmployment").val();
         let TINEmployer = $("#txtTINEmployer").val();
         let APITSecondaryEmployment = $("#txtAPITSecondaryEmployment").val();
+        let residency = $("input[name='Residency']:checked").val();
+        let seniorCitizen = $("#seniorCitizen").val();
+
+       
 
         
         let isValid = true;
@@ -57,18 +64,28 @@ $(function () {
         // Remove old validation messages
         $(".validation-error").remove();
 
+        //if (!residency) {
+        //    $(".clsresidency").after('<div class="text-danger validation-error">Please select Type of Employment.</div>');
+        //    $btn.prop("disabled", false);
+        //    isValid = false;
+        //}
+
         if (!typeEmployment) {
             $("#drpTypeEmployment").after('<div class="text-danger validation-error">Please select Type of Employment.</div>');
+            $btn.prop("disabled", false);
             isValid = false;
         }
         if (!empDetailsECName.trim()) {
             $("#txtEmpDetailsECName").after('<div class="text-danger validation-error">Name is required.</div>');
+            $btn.prop("disabled", false);
             isValid = false;
         }
         if (!remuneration.trim()) {
             $("#txtRemuneration").after('<div class="text-danger validation-error">Remuneration is required.</div>');
+            $btn.prop("disabled", false);
             isValid = false;
         }
+
 
         if (!isValid) {
             return;
@@ -76,7 +93,8 @@ $(function () {
 
 
         var employIncome = {
-            SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
+            Residency: residency,
+            SeniorCitizen: seniorCitizen,
             CategoryName: "EmploymentDetails",
             TypeOfName: typeEmployment,
             EmployerORCompanyName: empDetailsECName,
@@ -99,7 +117,7 @@ $(function () {
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
                     $('#employmentDetailsGrid').html($(html).find('#employmentDetailsGrid').html()); // Direct replace
                     var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                    $("#spnEmploymentIncomeTotal").text(newTotal);
+                 //   $("#spnEmploymentIncomeTotal").text(newTotal);
                    // var newTaxTotal = $(html).find("#taxTotal").text();
                     $("#taxTotal").text(newTotal);
                 });
@@ -154,7 +172,7 @@ $(function () {
         }
 
         var terminalIncome = {
-            SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
+          //  SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
             CategoryName: "TerminalBenefits",
             TypeOfName: typeTerminal,
             EmployerORCompanyName: terminalECName,
@@ -262,6 +280,18 @@ $(function () {
                 alert("Error saving .");
             }
         });
+    });
+
+    $("#drpTypeEmployment").change(function () {
+        var selectedValue = $(this).val();
+
+        if (selectedValue === "Primary") {
+            $("#divAPITPrimaryEmployment").show();
+            $("#divAPITSecondaryEmployment").hide();
+        } else if (selectedValue === "Secondary") {
+            $("#divAPITPrimaryEmployment").hide();
+            $("#divAPITSecondaryEmployment").show();
+        }
     });
 
     $('#etf').on('show.bs.collapse', function () {

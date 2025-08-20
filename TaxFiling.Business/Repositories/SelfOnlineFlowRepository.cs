@@ -320,7 +320,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
-    public async Task<bool> UpdatelContactInformation(string userId, int year, string careof, string apt, string streetnumber, string street, string city)
+    public async Task<bool> UpdatelContactInformation(string userId, int year, string? careof, string? apt, string streetnumber, string street, string city)
     {
         bool isSuccess = false;
 
@@ -410,7 +410,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                         .Where(b => b.UserId == userId && b.Year == year)
                                         .Select(b => new SelfOnlineEmploymentIncomeDto
                                         {
-                                            SelfOnlineEmploymentIncomeId = b.SelfOnlineEmploymentIncomeId,
+                                          
                                             UserId = userId,
                                             Year = year,
                                             SeniorCitizen=b.SeniorCitizen,
@@ -439,10 +439,12 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             {
                 var _employmentDetailsIncome = new SelfOnlineEmploymentIncomeDetails
                 {
-                    SelfOnlineEmploymentIncomeId = selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId,
+                   
                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
                     Year=selfOnlineEmploymentIncomeDetails.Year,
                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
+                    Residency=selfOnlineEmploymentIncomeDetails.Residency,
+                    SeniorCitizen=selfOnlineEmploymentIncomeDetails.SeniorCitizen,
                     TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName,
                     EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
                     TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer,
@@ -469,7 +471,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             {
                 var _terminalBenefits = new SelfOnlineEmploymentIncomeDetails
                 {
-                    SelfOnlineEmploymentIncomeId = selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId,
+                   
                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
                     Year = selfOnlineEmploymentIncomeDetails.Year,
                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
@@ -491,7 +493,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             {
                 var _exemptAmounts = new SelfOnlineEmploymentIncomeDetails
                 {
-                    SelfOnlineEmploymentIncomeId = selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId,
+                    
                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
                     Year = selfOnlineEmploymentIncomeDetails.Year,
                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
@@ -510,18 +512,18 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 addToTotal = (selfOnlineEmploymentIncomeDetails.Amount ?? 0);
             }
 
-            var mainIncome = await _context.SelfOnlineEmploymentIncomes
-           .FirstOrDefaultAsync(x => x.SelfOnlineEmploymentIncomeId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId);
+           // var mainIncome = await _context.SelfOnlineEmploymentIncomes
+           //.FirstOrDefaultAsync(x => x.SelfOnlineEmploymentIncomeId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId);
 
             var mainTaxIncome = await _context.Users
            .FirstOrDefaultAsync(x => x.UserId.ToString() == selfOnlineEmploymentIncomeDetails.UserId  );
 
-            if (mainIncome != null)
-            {
-                mainIncome.Total = (mainIncome.Total ?? 0) + addToTotal;
-                _context.SelfOnlineEmploymentIncomes.Update(mainIncome);
-                await _context.SaveChangesAsync();
-            }
+            //if (mainIncome != null)
+            //{
+            //    mainIncome.Total = (mainIncome.Total ?? 0) + addToTotal;
+            //    _context.SelfOnlineEmploymentIncomes.Update(mainIncome);
+            //    await _context.SaveChangesAsync();
+            //}
             if (mainTaxIncome != null)
             {
                 mainTaxIncome.TaxTotal = (mainTaxIncome.TaxTotal ?? 0) + addToTotal;
@@ -554,11 +556,13 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 .Select(t => new SelfOnlineEmploymentIncomeDetailsDto
                 {
                     SelfOnlineEmploymentDetailsId = t.SelfOnlineEmploymentDetailsId,
-                    SelfOnlineEmploymentIncomeId = t.SelfOnlineEmploymentIncomeId,
+                   // SelfOnlineEmploymentIncomeId = t.SelfOnlineEmploymentIncomeId,
+                   Residency = t.Residency,
+                   SeniorCitizen = t.SeniorCitizen,
                     CategoryName = t.CategoryName,
                     TypeOfName = t.TypeOfName,
                     EmployerORCompanyName = t.EmployerORCompanyName,
-                    TINOfEmployer = t.EmployerORCompanyName,
+                    TINOfEmployer = t.TINOfEmployer,
                     Remuneration = t.Remuneration,
                     APITPrimaryEmployment = t.APITPrimaryEmployment,
                     APITSecondaryEmployment = t.APITSecondaryEmployment,
@@ -585,7 +589,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
             var employmentIncome = await _context.SelfOnlineEmploymentIncomes
-                              .Where(p => p.UserId == userId && p.Year == year && p.SelfOnlineEmploymentIncomeId == employmentIncomeId)
+                              .Where(p => p.UserId == userId && p.Year == year )
                               .FirstOrDefaultAsync();
             if (employmentIncome != null)
             {
@@ -597,7 +601,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                     var recordsToDelete = await _context.SelfOnlineEmploymentIncomeDetails
                         .Where(b => b.UserId == userId
                                  && b.Year == year
-                                 && b.SelfOnlineEmploymentIncomeId == employmentIncomeId
+                                // && b.SelfOnlineEmploymentIncomeId == employmentIncomeId
                                  && b.CategoryName == "TerminalBenefits")
                         .ToListAsync();
 
@@ -649,7 +653,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
             var _employmentIncomuser = await _context.SelfOnlineEmploymentIncomes
-                              .Where(p => p.UserId == userId && p.Year == year && p.SelfOnlineEmploymentIncomeId == employmentIncomeId)
+                              .Where(p => p.UserId == userId && p.Year == year )
                               .FirstOrDefaultAsync();
             if (_employmentIncomuser != null)
             {
@@ -661,7 +665,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 var recordsToDelete = await _context.SelfOnlineEmploymentIncomeDetails
                     .Where(b => b.UserId == userId
                              && b.Year == year
-                             && b.SelfOnlineEmploymentIncomeId == employmentIncomeId
+                             
                              && b.CategoryName == "ExemptAmounts")
                     .ToListAsync();
 
