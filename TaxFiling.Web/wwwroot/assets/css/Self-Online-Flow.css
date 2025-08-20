@@ -159,7 +159,7 @@ section#Self-Online-Flow {
     transition: all 0.2s ease;
     border-radius: 8px;
     margin: 4px 16px;
-    color: #fff;
+    color: #a0a3bd;
 }
 
 #Self-Online-Flow .dropdown-container {
@@ -368,4 +368,20 @@ section#Self-Online-Flow {
 
 #Self-Online-Flow .collapsed button.dropdown-btn.sidebar-link.text-decoration-none i {
     font-size: 22px;
+}
+
+
+#Self-Online-Flow nav.sidebar.d-flex.flex-column.flex-shrink-0 .p-4 {
+    background-color: #000 !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 10px;
+}
+
+#Self-Online-Flow .collapsed .sidebar-link .fas.fa-chart-bar.me-3 + span {
+    visibility: hidden;
+}
+
+#Self-Online-Flow .main-content .main-content {
+    margin-left: 0px;
 }
