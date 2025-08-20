@@ -139,6 +139,7 @@ $(function () {
 
     $(document).on("click", "#btnTerminalSubmit", function () {
         // e.preventDefault();
+        var id = $("#hiddenTerminalId").val();
 
         var $btn = $(this);
         $btn.prop("disabled", true);
@@ -175,42 +176,72 @@ $(function () {
         }
 
         var terminalIncome = {
-          //  SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
+            SelfOnlineEmploymentDetailsId: id,
             CategoryName: "TerminalBenefits",
             TypeOfName: typeTerminal,
             EmployerORCompanyName: terminalECName,
             TINOfEmployer: TINTerminal,
             TerminalBenefits: terminalBenefits
         }
+        if (id) {
+            $.ajax({
+                url: '/SelfOnlineFlow/UpdateEmploymentIncomeDetails',
+                type: 'POST',
+                data: terminalIncome,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+                    notifySuccess("", "Update successfully");
 
+                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                        $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
 
-        $.ajax({
-            url: '/SelfOnlineFlow/AddEmploymentIncomeDetails',
-            type: 'POST',
-            data: terminalIncome,
-            success: function (response) {
-                $btn.prop("disabled", false);
-                notifySuccess("", "Saved successfully");
+                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                        $("#spnEmploymentIncomeTotal").text(newTotal);
+                        $("#taxTotal").text(newTotal);
+                    });
 
-                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
-                    $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html()); 
+                    $("#dpdTypeTerminal").val("Primary");
+                    $("#txtTerminalECName").val("");
+                    $("#txtTerminalTINNo").val("");
+                    $("#txtTerminalBenefits").val("");
 
-                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                    $("#spnEmploymentIncomeTotal").text(newTotal);
-                    $("#taxTotal").text(newTotal);
-                });
+                },
+                error: function () {
+                    $btn.setButtonDisabled(false);
+                    alert("Error saving .");
+                }
+            });
+        }
+        else {
 
-                $("#dpdTypeTerminal").val("Primary");
-                $("#txtTerminalECName").val("");
-                $("#txtTerminalTINNo").val("");
-                $("#txtTerminalBenefits").val("");
+            $.ajax({
+                url: '/SelfOnlineFlow/AddEmploymentIncomeDetails',
+                type: 'POST',
+                data: terminalIncome,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+                    notifySuccess("", "Saved successfully");
 
-            },
-            error: function () {
-                $btn.setButtonDisabled(false);
-                alert("Error saving .");
-            }
-        });
+                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                        $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
+
+                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                        $("#spnEmploymentIncomeTotal").text(newTotal);
+                        $("#taxTotal").text(newTotal);
+                    });
+
+                    $("#dpdTypeTerminal").val("Primary");
+                    $("#txtTerminalECName").val("");
+                    $("#txtTerminalTINNo").val("");
+                    $("#txtTerminalBenefits").val("");
+
+                },
+                error: function () {
+                    $btn.setButtonDisabled(false);
+                    alert("Error saving .");
+                }
+            });
+        }
     });
 
     $(document).on("click", "#btnExemptSubmit", function () {
@@ -336,6 +367,25 @@ $(function () {
                 alert("Error loading section content.");
             }
         });
+    });
+
+    $('.terminalbenefits-editbtn').on('click', function () {
+
+        var id = $(this).data("id");
+        var type = $(this).data("type");
+        var name = $(this).data("name");
+        var tin = $(this).data("tin");
+        var benefit = $(this).data("benefit");
+
+        // Fill form fields with selected row data
+        $("#dpdTypeTerminal").val(type);
+        $("#txtTerminalECName").val(name);
+        $("#txtTerminalTINNo").val(tin);
+        $("#txtTerminalBenefits").val(benefit);
+
+        // Store id in hidden field for update
+        $("#hiddenTerminalId").val(id);
+        $("#btnTerminalSubmit").text("Update");
     });
 
     $('#etf').on('show.bs.collapse', function () {

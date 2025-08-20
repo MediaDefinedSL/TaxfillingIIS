@@ -14,6 +14,7 @@
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Terminal Benefits (Gratuity, ETF, EPF, Compensation)</h6>
                         <hr>
+                        <input type="hidden" id="hiddenTerminalId" name="hiddenTerminalId" />
                         <div class="row g-3">
                           
                             <div class="col-md-6">
@@ -79,7 +80,15 @@
                                   <td>@eploymentIncome.TINOfEmployer</td>
                                   <td>@eploymentIncome.TerminalBenefits</td>
                                   <td>
-                                      <button class="btn btn-primary btn-sm">Edit</button>
+
+                                                    <button class="btn btn-primary btn-sm terminalbenefits-editbtn" type="button"
+                                                            data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
+                                                            data-type="@eploymentIncome.TypeOfName"
+                                                            data-name="@eploymentIncome.EmployerORCompanyName"
+                                                            data-tin="@eploymentIncome.TINOfEmployer"
+                                                            data-benefit="@eploymentIncome.TerminalBenefits">
+                                                        Edit
+                                                    </button>
                                       <button class="btn btn-danger btn-sm delete-btn">Delete</button>
                                   </td>
                               </tr>
