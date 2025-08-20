@@ -285,5 +285,20 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpPost("update_employmentincomedetails")]
+    public async Task<IActionResult> UpdateSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.UpdateSelfOnlineEmploymentIncomeDetails(selfOnlineEmploymentIncomeDetails);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 
 }

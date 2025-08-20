@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Reflection.Metadata;
 using System.Threading;
 using TaxFiling.Business.Interfaces;
 using TaxFiling.Data;
@@ -707,6 +708,71 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         catch (Exception e)
         {
             _logger.LogError(e, "Error update MaritalStatus");
+        }
+        return isSuccess;
+    }
+
+    public async Task<bool> UpdateSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails)
+    {
+        bool isSuccess = false;
+
+        try
+        {
+            var _employmentIncomuser = await _context.SelfOnlineEmploymentIncomeDetails
+                             .Where(p => p.SelfOnlineEmploymentDetailsId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentDetailsId && p.UserId == selfOnlineEmploymentIncomeDetails.UserId && p.Year == selfOnlineEmploymentIncomeDetails.Year)
+                             .FirstOrDefaultAsync();
+
+            if (_employmentIncomuser != null)
+            {
+                if (selfOnlineEmploymentIncomeDetails.CategoryName == "EmploymentDetails")
+                {
+                    _employmentIncomuser.Residency = selfOnlineEmploymentIncomeDetails.Residency;
+                    _employmentIncomuser.SeniorCitizen = selfOnlineEmploymentIncomeDetails.SeniorCitizen;
+                    _employmentIncomuser.TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName;
+                    _employmentIncomuser.EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName;
+                    _employmentIncomuser.TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer;
+                    _employmentIncomuser.Remuneration = selfOnlineEmploymentIncomeDetails.Remuneration;
+                    _employmentIncomuser.APITPrimaryEmployment = selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment;
+                    _employmentIncomuser.APITSecondaryEmployment = selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment;
+                    _employmentIncomuser.UpdatedBy = selfOnlineEmploymentIncomeDetails.UserId;
+                    _employmentIncomuser.UpdatedOn = DateTime.Now;
+
+                }
+                else if (selfOnlineEmploymentIncomeDetails.CategoryName == "TerminalBenefits")
+                {
+                    _employmentIncomuser.TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName;
+                    _employmentIncomuser.EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName;
+                    _employmentIncomuser.TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer;
+                    _employmentIncomuser.TerminalBenefits = selfOnlineEmploymentIncomeDetails.TerminalBenefits;
+                    _employmentIncomuser.UpdatedBy = selfOnlineEmploymentIncomeDetails.UserId;
+                    _employmentIncomuser.UpdatedOn = DateTime.Now;
+                }
+                else if (selfOnlineEmploymentIncomeDetails.CategoryName == "ExemptAmounts")
+                {
+                    _employmentIncomuser.TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName;
+                    _employmentIncomuser.EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName;
+                    _employmentIncomuser.TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer;
+                    _employmentIncomuser.Amount = selfOnlineEmploymentIncomeDetails.Amount;
+                    _employmentIncomuser.UpdatedBy = selfOnlineEmploymentIncomeDetails.UserId;
+                    _employmentIncomuser.UpdatedOn = DateTime.Now;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+               
+                return false;
+            }
+        
+
+            isSuccess = true;
+
+        }
+
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error update LastYear");
         }
         return isSuccess;
     }
