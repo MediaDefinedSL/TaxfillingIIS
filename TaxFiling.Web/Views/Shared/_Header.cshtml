@@ -10,7 +10,7 @@
     // var profileImageUrl = "/UserImages/a2b6c0ba-878d-49ee-91d2-a6250ff9632c/17146853.png";
     string baseApiUrl = Configuration.GetValue<string>("BaseAPIUrl") ?? "";
 
-   
+
     try
     {
         var userName = User.FindFirst(ClaimTypes.Name)?.Value;
@@ -18,6 +18,10 @@
         isActivePayment = User.Claims.FirstOrDefault(mbox => mbox.Type == "IsActivePayment")?.Value;
         profileImageUrl = User.Claims.FirstOrDefault(mbox => mbox.Type == "ProfileImagePath")?.Value;
         roleId = User.Claims.FirstOrDefault(mbox => mbox.Type == "RoleId")?.Value; 
+        if (profileImageUrl == "")
+        {
+            profileImageUrl = "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg";
+        }
     }
     catch(Exception ex) {
         var aa = ex.Message;
@@ -47,10 +51,9 @@
                     <ul>
                         <li><a asp-controller="Home" asp-action="TaxCalculator">Tax Calculator</a></li>
                    @*      <li><a >Support</a></li>
-                       <li><a asp-controller="Home" asp-action="SelfOnlineDashboard">Important Tax Dates</a></li>*@
-                        <li><a asp-controller="Home" asp-action="Blog">Important Tax Dates</a></li>
-
-
+                        <li><a asp-controller="Home" asp-action="Blog">Blog</a></li> *@
+                        <li><a asp-controller="Home" asp-action="SelfOnlineDashboard">Important Tax Dates</a></li>
+                     
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -75,7 +78,7 @@
                     </button>
                 <input type="checkbox" data-toggle="switchbutton" checked data-onlabel="English" data-offlabel="සිංහල" data-onstyle="primary" data-offstyle="primary">
             <div class="dropdown ml-10" id="drplogout" style="display:@(string.IsNullOrEmpty(userId) ? "none" : "block");" >
-                <button class="btn btn-secondary dropdown-toggle profile-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-image: url('https://localhost:7108/UserImages/a2b6c0ba-878d-49ee-91d2-a6250ff9632c/17146853.png');">
+                <button class="btn btn-secondary dropdown-toggle profile-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-image: url(@profileImageUrl);">
                         Profile
                     </button>
                     <ul class="dropdown-menu">

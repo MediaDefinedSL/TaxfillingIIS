@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using System.Reflection;
 using System.Text.Json;
 using TaxFiling.Web.Models;
 using TaxFiling.Web.Models.Common;
@@ -588,12 +587,14 @@ public class SelfOnlineFlowController : Controller
         var queryUserParams = new Dictionary<string, string?> {
                 { "userId", userId.ToString()},
                 { "year", year.ToString()},
-                { "careof", user.CareOf},
-                { "apt", user.Apt},
+                { "careof", string.IsNullOrWhiteSpace(user.CareOf) ? "" : user.CareOf},
+                { "apt", string.IsNullOrWhiteSpace(user.Apt) ? "" : user.Apt},
                 { "streetnumber", user.StreetNumber},
                 { "street", user.Street},
                 { "city", user.City}
             };
+
+
 
         string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", queryUserParams);
         var response = await _httpClient.PutAsync(urluser, null);
@@ -790,4 +791,51 @@ public class SelfOnlineFlowController : Controller
     }
 
 
+
+    public async Task<IActionResult> LoadEmploymentDetails(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_EmploymentDetailsSection", employmentIncomeList);
+    }
+    public async Task<IActionResult> LoadETerminalBenefits(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_TerminalBenefitsSection", employmentIncomeList);
+    }
 }
