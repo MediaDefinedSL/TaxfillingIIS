@@ -3,8 +3,6 @@
     max-height: 56px;
 }
 
-
-
 header#header {
     background: none !important;
     background-color: #ffffffe3 !important;
@@ -142,7 +140,7 @@ h2.mb-lg-0.font-weight-bold.text-center.body-header.mb-4 {
 .customers-saying {
     background-image: url(../img/comment-tax.jpg);
     background-size: cover;
-    padding-top: 74px !important;
+    padding-top: 62px !important;
 }
 
     .customers-saying .service-item {
@@ -330,7 +328,6 @@ button.btn.btn-primary.Continue {
 button.btn.btn-secondary.dropdown-toggle {
     font-size: 0px;
     /* background-image: url(/assets/img/LINKEDIN-Profile-Picture-AI.jpg) !important; */
-
     width: 48px;
     height: 48px;
     background-size: contain;
@@ -1718,6 +1715,7 @@ nav.sidebar.collapsed div#documents-submenu {
 .row.position-relative.abiu-s-one {
     border: none !important;
     background-color: #fff !important;
+    /* margin-top: 59px !important; */
 }
 
     .row.position-relative.abiu-s-one .col-lg-6.aos-init.aos-animate {
@@ -2470,10 +2468,10 @@ section#Self-Online-Flow {
 
 
 .cal .container {
-    background-image: url(http://images.netexam.com/images/10229/tab-frame-2025.png) !important;
+    background-image: url(http://images.netexam.com/images/10229/tab-frame-small-one.png) !important;
     background-size: 100% 100% !important;
-    padding: 84px;
-    padding-top: 90px;
+    padding: 74px;
+    padding-top: 68px;
     padding-bottom: 116px !important;
     height: 2200px;
     margin-bottom: 4%;
@@ -2733,7 +2731,7 @@ section#File-my-taxes {
 }
 
 section#about.about.section {
-    margin-top: 80px;
+    /* margin-top: 80px; */
 }
 
 
@@ -2752,6 +2750,7 @@ div#documents-section {
     background-size: 376px;
     background-repeat: no-repeat;
     background-position: right 36px;
+    background-color: #ffffff !important;
 }
 
 .uplode-parts {
@@ -2815,7 +2814,7 @@ div#declaration-section .form-control {
 
 /*comment ereya*/
 
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url('https: //fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
 .customers-saying #testimonial-area {
     .section-heading h2
@@ -2932,6 +2931,9 @@ div#declaration-section .form-control {
     height: 160px;
     margin: 0 auto 24px;
     position: relative;
+    /* box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1); */
+
+
     &:before
 
 {
@@ -2946,6 +2948,7 @@ div#declaration-section .form-control {
     left: 0px;
     position: absolute;
     z-index: -1;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
 }
 
 }
@@ -2953,14 +2956,17 @@ div#declaration-section .form-control {
 .client-img img {
     width: 150px;
     border-radius: 50%;
-    border: 8px solid #d1e9ff;
+    border: 8px solid #339dfd;
     cursor: pointer;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
 }
 
 &.active .client-img img {
     max-width: 160px;
     margin: 0 auto 24px;
     border: 0;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+    /* margin: 10px; */
 }
 
 }
@@ -3261,3 +3267,51 @@ p {
     #contact .row.contact-detalis .info-item + .info-item + .info-item {
         opacity: 1;
     }
+
+
+.customers-saying .client-info {
+    display: none;
+}
+
+.row.position-relative.abiu-s-one:first-child {
+    margin-top: 94px;
+}
+
+#Self-Online-Flow nav.sidebar.d-flex.flex-column.flex-shrink-0 .p-4 {
+    display: none;
+}
+
+
+span.select2.select2-container {
+    /* width: 48% !important; */
+    /* display: block; */
+    /* padding-right: 50%; */
+}
+
+span.select2-selection.select2-selection--single {
+    /* width: 54% !important; */
+    padding: .375rem 2.25rem .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    height: 38px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    border-radius: 8px !important;
+}
+
+.progress.mb-3 {
+    height: 20px !important;
+}
+
+#manualLocalTab .form-control {
+    width: 100% !important;
+}
+
+#manualLocalTab select.form-select {
+    width: 100% !important;
+}
+
