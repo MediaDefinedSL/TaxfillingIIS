@@ -42,7 +42,7 @@ $(function () {
 
     $(document).on("click", "#btnEmploymentDetails", function () {
         // e.preventDefault();
-
+        var id = $("#hiddenEmploymentDetailsId").val();
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -56,20 +56,15 @@ $(function () {
         let residency = $("input[name='Residency']:checked").val();
         let seniorCitizen = $("#seniorCitizen").val();
 
-       
 
-        
+
+
         let isValid = true;
 
         // Remove old validation messages
         $(".validation-error").remove();
 
-        //if (!residency) {
-        //    $(".clsresidency").after('<div class="text-danger validation-error">Please select Type of Employment.</div>');
-        //    $btn.prop("disabled", false);
-        //    isValid = false;
-        //}
-
+        
         if (!typeEmployment) {
             $("#drpTypeEmployment").after('<div class="text-danger validation-error">Please select Type of Employment.</div>');
             $btn.prop("disabled", false);
@@ -93,6 +88,7 @@ $(function () {
 
 
         var employIncome = {
+            SelfOnlineEmploymentDetailsId: id,
             Residency: residency,
             SeniorCitizen: seniorCitizen,
             CategoryName: "EmploymentDetails",
@@ -103,22 +99,50 @@ $(function () {
             APITPrimaryEmployment: APITPrimaryEmployment,
             APITSecondaryEmployment: APITSecondaryEmployment
         }
+        if (id) {
+            $.ajax({
+                url: '/SelfOnlineFlow/UpdateEmploymentIncomeDetails',
+                type: 'POST',
+                data: employIncome,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+                    notifySuccess("", "Update successfully");
 
+                    $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    //   $("#spnEmploymentIncomeTotal").text(newTotal);
+                    // var newTaxTotal = $(html).find("#taxTotal").text();
+                    $("#taxTotal").text(newTotal);
 
+                    $("#drpTypeEmployment").val("Primary");
+                    $("#txtRemuneration").val("");
+                    $("#txtEmpDetailsECName").val("");
+                    $("#txtAPITPrimaryEmployment").val("");
+                    $("#txtTINEmployer").val("");
+                    $("#txtAPITSecondaryEmployment").val("");
+
+                },
+                error: function () {
+                    $btn.setButtonDisabled(false);
+                    alert("Error saving .");
+                }
+            });
+        }
+        else { 
         $.ajax({
             url: '/SelfOnlineFlow/AddEmploymentIncomeDetails',
             type: 'POST',
             data: employIncome,
             success: function (response) {
-                $btn.prop("disabled", false); 
+                $btn.prop("disabled", false);
 
                 notifySuccess("", "Saved successfully");
 
                 $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
                     $('#employmentDetailsGrid').html($(html).find('#employmentDetailsGrid').html()); // Direct replace
                     var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                 //   $("#spnEmploymentIncomeTotal").text(newTotal);
-                   // var newTaxTotal = $(html).find("#taxTotal").text();
+                    //   $("#spnEmploymentIncomeTotal").text(newTotal);
+                    // var newTaxTotal = $(html).find("#taxTotal").text();
                     $("#taxTotal").text(newTotal);
                 });
 
@@ -128,13 +152,14 @@ $(function () {
                 $("#txtAPITPrimaryEmployment").val("");
                 $("#txtTINEmployer").val("");
                 $("#txtAPITSecondaryEmployment").val("");
-                
+
             },
             error: function () {
-                $btn.prop("disabled", false); 
+                $btn.prop("disabled", false);
                 alert("Error saving .");
             }
         });
+    }
     });
 
     $(document).on("click", "#btnTerminalSubmit", function () {
@@ -387,6 +412,38 @@ $(function () {
         $("#hiddenTerminalId").val(id);
         $("#btnTerminalSubmit").text("Update");
     });
+    $('.employmentDetails-editbtn').on('click', function () {
+
+        var id = $(this).data("id");
+        var residency = $(this).data("residency");
+        var seniorcitizen = $(this).data("seniorcitizen");
+        var type = $(this).data("type");
+        var name = $(this).data("name");
+        var tin = $(this).data("tin");
+        var remuneration = $(this).data("remuneration");
+        var primary = $(this).data("primary");
+        var secondary = $(this).data("secondary");
+
+        
+        $(".rdbresidency[value='" + residency + "']").prop("checked", true);
+
+        if (seniorcitizen) {
+            $("#rdbSeniorCitizen").prop("checked", true);
+        } else {
+            $("#rdbSeniorCitizen").prop("checked", false);
+        }
+        $("#drpTypeEmployment").val(type);
+        $("#txtEmpDetailsECName").val(name);
+        $("#txtTINEmployer").val(tin);
+        $("#txtRemuneration").val(remuneration);
+        $("#txtAPITPrimaryEmployment").val(primary);
+        $("#txtAPITSecondaryEmployment").val(secondary);
+
+        // Store id in hidden field for update
+        $("#hiddenEmploymentDetailsId").val(id);
+        $("#btnEmploymentDetails").text("Update");
+    });
+
 
     let deleteEmploymentDetailsId = null;
 
@@ -394,7 +451,7 @@ $(function () {
 
         deleteEmploymentDetailsId = $(this).data("id");
 
-        $("#hiddenTerminalId").val(deleteEmploymentDetailsId);
+       // $("#hiddenTerminalId").val(deleteEmploymentDetailsId);
         $('#selfonline_confirmDeleteModal').modal('show');
       
     });
