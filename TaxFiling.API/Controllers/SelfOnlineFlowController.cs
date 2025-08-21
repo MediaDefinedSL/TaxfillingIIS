@@ -300,5 +300,20 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpPost("delete_employmentincomedetail")]
+    public async Task<IActionResult> DeleteEmploymentIncomeDetail(string userId, int year, int employmentDetailsId)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.DeleteEmploymentIncomeDetail(userId, year, employmentDetailsId);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 
 }

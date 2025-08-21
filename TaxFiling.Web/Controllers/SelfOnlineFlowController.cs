@@ -886,4 +886,33 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "TaxReturn Last Year selected successfully" });
     }
 
+    [HttpPost]
+    public async Task<IActionResult> DeleteEmploymentIncomeDetail(int employmentDetailsId, CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "employmentDetailsId", employmentDetailsId.ToString()}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/delete_employmentincomedetail", queryUserParams);
+        var response = await _httpClient.PostAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Employment Details  Delete successfully" });
+    }
+
+   
+
 }
