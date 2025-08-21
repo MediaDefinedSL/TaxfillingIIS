@@ -3,11 +3,11 @@
 
 <main class="main-content">
 
-        <div class=" mt-4">
-<div class="card card-body">
-     
+    <div class=" mt-4">
+        <div class="card card-body">
 
-    <form method="post">
+
+            <form method="post">
 
                 <div class=" mt-4 ">
 
@@ -16,7 +16,7 @@
                         <hr>
                         <input type="hidden" id="hiddenTerminalId" name="hiddenTerminalId" />
                         <div class="row g-3">
-                          
+
                             <div class="col-md-6">
                                 <label class="form-label">Type of Terminal Benefit</label>
                                 <select class="form-select" id="dpdTypeTerminal" name="dpdTypeTerminal">
@@ -67,19 +67,19 @@
                                 <tbody>
 
                                     @if (Model != null &&
-                      Model.Any(d => d.CategoryName == "TerminalBenefits"))
-                      {
-                          var indexT = 0;
-                          foreach (var eploymentIncome in Model
-                          .Where(d => d.CategoryName == "TerminalBenefits"))
-                          {
-                              <tr>
-                                  <td>@(++indexT)</td>
-                                  <td>@eploymentIncome.TypeOfName</td>
-                                  <td>@eploymentIncome.EmployerORCompanyName</td>
-                                  <td>@eploymentIncome.TINOfEmployer</td>
-                                  <td>@eploymentIncome.TerminalBenefits</td>
-                                  <td>
+                                    Model.Any(d => d.CategoryName == "TerminalBenefits"))
+                                    {
+                                        var indexT = 0;
+                                        foreach (var eploymentIncome in Model
+                                        .Where(d => d.CategoryName == "TerminalBenefits"))
+                                        {
+                                            <tr>
+                                                <td>@(++indexT)</td>
+                                                <td>@eploymentIncome.TypeOfName</td>
+                                                <td>@eploymentIncome.EmployerORCompanyName</td>
+                                                <td>@eploymentIncome.TINOfEmployer</td>
+                                                <td>@eploymentIncome.TerminalBenefits</td>
+                                                <td>
 
                                                     <button class="btn btn-primary btn-sm terminalbenefits-editbtn" type="button"
                                                             data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
@@ -89,25 +89,23 @@
                                                             data-benefit="@eploymentIncome.TerminalBenefits">
                                                         Edit
                                                     </button>
-                                      <button class="btn btn-danger btn-sm delete-btn">Delete</button>
-                                  </td>
-                              </tr>
-                          }
-                      }
-                      else
-                      {
-                          <tr>
-                              <td colspan="8" class="text-center">No Terminal Benefits found.</td>
-                          </tr>
-                      } 
+                                                 @*    <button class="btn btn-danger btn-sm delete-btn">Delete</button> *@
+                                                    <button class="btn btn-danger btn-sm terminalbenefits-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId">Delete</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8" class="text-center">No Terminal Benefits found.</td>
+                                        </tr>
+                                    }
 
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
-
-
                 </div>
 
             </form>

@@ -777,6 +777,37 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
+    public async Task<bool> DeleteEmploymentIncomeDetail(string userId, int year, int employmentDetailsId)
+    {
+        bool isSuccess = false;
+
+
+        try
+        {
+            var _employmentIncomDetails = await _context.SelfOnlineEmploymentIncomeDetails
+                              .Where(p => p.UserId == userId && p.Year == year && p.SelfOnlineEmploymentDetailsId == employmentDetailsId)
+                              .FirstOrDefaultAsync();
+            if (_employmentIncomDetails != null)
+            {
+              
+                    _context.SelfOnlineEmploymentIncomeDetails.Remove(_employmentIncomDetails);
+              
+            }
+
+            await _context.SaveChangesAsync();
+
+            isSuccess = true;
+
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error update MaritalStatus");
+        }
+        return isSuccess;
+    }
+
+
 }
 
 

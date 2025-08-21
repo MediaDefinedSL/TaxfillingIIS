@@ -196,7 +196,7 @@ $(function () {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
 
                         var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                        $("#spnEmploymentIncomeTotal").text(newTotal);
+                       // $("#spnEmploymentIncomeTotal").text(newTotal);
                         $("#taxTotal").text(newTotal);
                     });
 
@@ -387,6 +387,48 @@ $(function () {
         $("#hiddenTerminalId").val(id);
         $("#btnTerminalSubmit").text("Update");
     });
+
+    let deleteEmploymentDetailsId = null;
+
+    $('.terminalbenefits-deletebtn').on('click', function () {
+
+        deleteEmploymentDetailsId = $(this).data("id");
+
+        $("#hiddenTerminalId").val(deleteEmploymentDetailsId);
+        $('#selfonline_confirmDeleteModal').modal('show');
+      
+    });
+
+    
+    $('#selfonline_confirmDeleteBtn').on('click', function () {
+        if (!deleteEmploymentDetailsId) return;
+
+        var deleteId = {
+            employmentDetailsId: deleteEmploymentDetailsId,
+        };
+
+
+        $.ajax({
+            url: '/SelfOnlineFlow/DeleteEmploymentIncomeDetail',
+            type: 'POST',
+            data: deleteId,
+            success: function (response) {
+                $('#selfonline_confirmDeleteModal').modal('hide');
+               
+                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
+
+                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                    // $("#spnEmploymentIncomeTotal").text(newTotal);
+                    $("#taxTotal").text(newTotal);
+                });
+            },
+            error: function () {
+                alert("Error deleting.");
+            }
+        });
+    });
+
 
     $('#etf').on('show.bs.collapse', function () {
     
