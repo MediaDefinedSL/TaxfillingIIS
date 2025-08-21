@@ -2824,6 +2824,11 @@ div#declaration-section .form-control {
     line-height: 58px;
 }
 
+;
+padding-bottom: 90px;
+padding-bottom: 90p;
+padding-bottom: 90;
+padding-bottom: 9;
 }
 
 .customers-saying .testi-wrap {
@@ -2876,7 +2881,7 @@ div#declaration-section .form-control {
 }
 
 &.position-3 {
-    left: -60px;
+    left: -48px;
     top: 240px;
     -webkit-transform: scale(0.4) !important;
     transform: scale(0.4) !important;
@@ -3315,3 +3320,7 @@ span.select2-selection.select2-selection--single {
     width: 100% !important;
 }
 
+.customers-saying #testimonial-area {
+    padding-bottom: 184px;
+    padding-top: 28px;
+}
