@@ -2707,3 +2707,96 @@ section#Self-Online-Flow {
     min-width: 100px; /* uniform button size */
     margin-left: 4px; /* space between buttons */
 }
+.cal {
+    padding-top: 112px;
+}
+
+
+section#File-my-taxes {
+    margin-top: 90px;
+}
+
+.profile {
+    padding-top: 120px !important;
+}
+
+section#about.about.section {
+    margin-top: 80px;
+}
+
+
+.hero .container {
+    background: color-mix(in srgb, #86868652, #9191915e 18%);
+}
+
+.uplode-parts {
+    padding-right: 50%;
+}
+
+
+div#documents-section {
+    /* padding-right: 37% !important; */
+    background-image: url(http://images.netexam.com/images/10229/file-uplode.gif) !important;
+    background-size: 376px;
+    background-repeat: no-repeat;
+    background-position: right 36px;
+}
+
+.uplode-parts {
+    padding-right: 50%;
+}
+
+
+/*input -changes*/
+
+
+
+div#global-upload-tracker .form-select,
+div#global-upload-tracker .form-control {
+    width: 54%;
+}
+
+
+
+div#documents-section .form-select,
+div#documents-section .form-control {
+    width: 54%;
+}
+
+
+div#employment-section .form-select,
+div#employment-section .form-control {
+    width: 54%;
+}
+
+
+div#bank-section .form-select,
+div#bank-section .form-control {
+    width: 54%;
+}
+
+
+div#assets-section .form-select,
+div#assets-section .form-control {
+    width: 54%;
+}
+
+
+div#other-section .form-select,
+div#other-section .form-control {
+    width: 54%;
+}
+
+
+div#declaration-section .form-select,
+div#declaration-section .form-control {
+    width: 54%;
+}
+
+
+#hero-carousel .btn.btn-primary.btn-lg, #hero-carousel .btn-get-started {
+    background-color: #787878a3 !important;
+    border: solid 1px #ccc;
+    font-weight: 300;
+    font-size: 16px;
+}
