@@ -2621,6 +2621,7 @@
                         const formData = new FormData();
                         formData.append("filename", fileName); // Match the API's expected field
                         formData.append("decryptionKey", decryptionKey);
+                        formData.append("userId",userId);
 
                         const viewRes = await fetch("https://file.taxfiling.lk/view", {
                             method: "POST",
@@ -2723,7 +2724,7 @@
                       async function deleteFilefromServer(uploadId) {
 
                           try {
-                                const response = await fetch(`https://file.taxfiling.lk/file/${uploadId}`, {
+                                const response = await fetch(`https://file.taxfiling.lk/file/${uploadId}/${userId}`, {
                                   method: "DELETE"
                               });
 
