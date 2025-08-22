@@ -156,7 +156,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <p>Select a year to start or continue your return. Past years are read-only.</p>
+                            
                             <!-- Current Year Info -->
                             <!-- Four separate info boxes -->
                             <!-- Four equal-sized info boxes -->
@@ -219,6 +219,7 @@
                                 </div>
 
                             </div>
+                            <p>Select a year to start or continue your return. Past years are read-only.</p>
                             @{
                                 int startYear = 2019;
                                 int endYear = DateTime.Now.Month >= 4 ? DateTime.Now.Year - 1 : DateTime.Now.Year - 2;
@@ -344,7 +345,7 @@
                                 <div class="col-md-4">
                                     <div class="card h-100">
                                         <!-- Header with status -->
-                                        <div class="card-header @statusClass">
+                                        <div id="progressHeader" class="card-header @statusClass">
                                             @currentYear/@(currentYear + 1) – @statusText
                                         </div>
 
@@ -382,7 +383,7 @@
 
                                             <!-- Buttons -->
                                             <div class="d-flex gap-2">
-                                                @if (docStatus == 1 || docStatus == 0)
+                                                @if (docStatus == 1)
                                                 {
                                                     <!-- Draft -->
                                                     <button class="btn btn-primary flex-fill" id="btnContinue">Continue filing</button>
@@ -395,7 +396,14 @@
                                                     <button class="btn btn-info flex-fill">
                                                         <i class="fas fa-eye me-1"></i> View Docs
                                                     </button>
-                                                }                                                
+                                                }   
+                                                else if (docStatus == 0)
+                                                {
+                                                    <!-- New -->
+                                                     <button class="btn btn-primary flex-fill" id="btnContinue">Continue filing</button>
+                                                    <button class="btn btn-secondary flex-fill" id="btnUploadDocs">Upload documents</button>
+                                                    <button class="btn btn-danger flex-fill" id="btnRemoveDft" style="display:none">Remove draft</button>
+                                                }   
                                                 else
                                                 {
                                                     <!-- Other statuses -->
@@ -1485,52 +1493,7 @@
                    const collapse = document.getElementById('uploadedFilesCollapse');
                    const icon = document.getElementById('toggleIcon');
 
-                   document.querySelectorAll("tr[data-status]").forEach(row => {
-                    let status = parseInt(row.dataset.status);
-                    let actionTd = row.querySelector(".actionButtons");
-
-                    if (status === 1) { // Draft
-                        //actionTd.innerHTML = `
-                            //   <button class="btn btn-sm btn-primary me-1" id="start-btn">Continue</button>
-                           // <button class="btn btn-sm btn-danger" id="btnRemoveDraft">Remove</button>
-                       // `;
-                    }
-                    else if (status === 2) { // Submitted
-                       // actionTd.innerHTML = `
-                               //  <button class="btn btn-sm btn-info" style="min-width:120px;">
-                   // <i class="fas fa-eye me-1"></i> View Docs
-                //</button>
-                   //     `;
-                    }
-                    else if (status === 3) { // Reupload
-                       // actionTd.innerHTML = `
-                       //     <button class="btn btn-sm btn-warning">Reupload</button>
-                       // `;
-                    }
-                    else if (status === 4) { // Resubmitted
-                       // actionTd.innerHTML = `
-                        //    <button class="btn btn-sm btn-secondary">Resubmitted</button>
-                        //`;
-                    }
-
-                    // Set progress based on status
-                        let progressBar = row.querySelector(".progress-bar");
-                        if (status === 0) { // NEW
-                            progressBar.style.width = "20%";
-                        }
-                        else if (status === 1) { // DRAFT
-                            progressBar.style.width = "90%";
-                        }
-                        else if (status === 2) { // SUBMITTED
-                            progressBar.style.width = "100%";
-                        }
-                        else if (status === 3) { // REUPLOAD
-                            progressBar.style.width = "60%";
-                        }
-                        else if (status === 4) { // RESUBMITTED
-                            progressBar.style.width = "80%";
-                        }
-                   });
+                   
             
 
                  function showLoadMask() {
@@ -1602,15 +1565,30 @@
                                             // Update status to NEW
                                          const row = document.querySelector('#assessment-row-2024');
                                          // Find the badge by ID
-                                        const badge = document.querySelector('#status-badge-2024');
-                                        const removeBtn = document.getElementById("btnRemoveDraft");
+                                        const badgeRow = document.querySelector('#status-badge-2024');
+                                           const badge = document.querySelector('#statusBadge');
+                                           //const removeBtn = document.getElementById("btnRemoveDraft");
+                                              const removeBtn = document.getElementById("btnRemoveDft");
                                         // Update text and classes
                                         if (badge) {
                                           badge.textContent = 'DRAFT';
                                           badge.classList.remove('bg-info');   // remove old status color
-                                             badge.classList.add('bg-warning');   // example new color
-                                              removeBtn.disabled = false;
+                                          badge.classList.add('bg-warning');   // example new color
+                                          
+
+                                        }
+                                            if (badgeRow) {
+                                             badgeRow.textContent = 'DRAFT';
+                                             badgeRow.classList.remove('bg-info');   // remove old status color
+                                                badgeRow.classList.add('bg-warning');   // example new color
+                                             
                                            }
+
+                                           if (removeBtn) {
+                                                 removeBtn.style.display = "block";
+                                           }
+                                           updateProgressHeader(2024, "DRAFT", "bg-warning");
+
                                       
 
                                     }
@@ -1630,9 +1608,10 @@
                     if(globalUploadCount == 0)
                     {
                         globalUploadCount = allDocs.length ;
-                    }                    
+                    }     
+                    
                     $('#globalUploadCount').text(globalUploadCount);
-                        document.getElementById("fileCountLink").textContent = globalUploadCount + " files";
+                    document.getElementById("fileCountLink").textContent = globalUploadCount + " files";
                 }
 
                    $("#btnRemoveDraft, #btnRemoveDft").click(function () {
@@ -1643,6 +1622,7 @@
 
                    $("#confirmDeleteDocsBtn").click(async function () {
                           $("#deleteConfirmationModal").modal("hide");
+                          showLoadMask();
 
                     $("tr[id^='assessment-row-']").each(async function () {
                         const row = $(this);
@@ -1678,17 +1658,34 @@
                                      .then(res => res.json())
                                      .then(data => {
                                            if(data.success){
+                                               globalUploadCount = 0;
                                                      // Update status to NEW
+                                                     loadUploadedDocs(userId,null);
                                                 statusBadge.text("NEW")
                                                 .removeClass("bg-warning")
                                                 .addClass("bg-info text-dark");
+                                                 $("#statusBadge")
+                                                    .text("NEW")
+                                                    .removeClass("bg-warning")
+                                                    .addClass("bg-info text-dark");
                                                    $('#globalUploadCount').text("0");
                                                       updateRemoveBtn();
+                                                      updateChecklistStatuses([],0);
+                                                         const btnRemoveDft = document.getElementById("btnRemoveDft");
+                                                      btnRemoveDft.style.display="none";
+                                                         document.getElementById("fileCountLink").textContent = "0 files";
+                                                        
+                                                               updateProgressHeader(2024, "NEW", "bg-info text-dark");
+                                                              
+                                                      hideLoadMask();
+
+                                                     
                                            }
                                            else
                                                  alert(data.message);
                                      })
                                       .catch(err => alert('Error updating status.'));
+                                      
 
 
                                
@@ -2159,7 +2156,9 @@
                          alert("Upload failed: " + error);
                        },
                        complete: function () {
+                              
                            hideLoadMask();
+                              
                          btn.prop("disabled", false).html('<i class="bi bi-cloud-upload-fill me-1"></i> Upload');
                        },
                      });
@@ -2326,8 +2325,10 @@
                                        `;
 
                                        tbody.append(row);
+                                             
 
                                           const docStatus = document.getElementById("docUploadStatus")?.value;
+                                             updateChecklistStatuses(data,docStatus);
 
                                         if (docStatus === "2") {
                                             // Disable all delete buttons after they're dynamically added
@@ -2379,8 +2380,10 @@
                                              `;
 
                                              tbody.append(row);
+                                             
 
                                                  const docStatus = document.getElementById("docUploadStatus")?.value;
+                                                    updateChecklistStatuses(data,docStatus);
 
                                                 if (docStatus === "2") {
                                                     // Disable all delete buttons after they're dynamically added
@@ -2448,6 +2451,14 @@
 
                     }
 
+                    function updateProgressHeader(year, newStatusText, newStatusClass) {
+                        const header = document.getElementById("progressHeader");
+                        // update text
+                        header.textContent = `${year}/${year + 1} – ${newStatusText}`;
+                        // reset classes (keep "card-header")
+                        header.className = "card-header " + newStatusClass;
+                }
+
                        function updateChecklistStatuses(docs, docStatus = null) {
                             let totalItems = 5;
                             let completed = 0;
@@ -2462,7 +2473,10 @@
                      if (hasBankConfirmation) completed++;
 
                     // assets
-                       const hasAssets = docs.some(d => d.categoryName === "Assets Liabilities");
+                    const hasAssets = docs.some(d =>
+                        d.categoryName === "Assets Liabilities" ||
+                           d.categoryName === "Assests Upload Excel"
+                     );
                     setStatus("assetsStatus", hasAssets);
                     if (hasAssets) completed++;
 
@@ -2492,8 +2506,21 @@
                     bar.style.width = progress + "%";
                     bar.textContent = progress + "%";
                 }
+                   updateCurrentAssessementProgressbar("2024",progress);
 
                 }
+
+                function updateCurrentAssessementProgressbar(year,progress)
+                {
+                    const progressBar = document.querySelector(`#assessment-row-${year} .progress-bar`);
+                    if (progressBar) {
+                           progressBar.style.width = progress + "%";
+                        //progressBar.textContent = percent + "%"; // optional
+                    }
+
+                }
+
+                
 
                  function setStatus(elementId, isUploaded) {
                     const el = document.getElementById(elementId);
@@ -3206,9 +3233,10 @@
                         try {
                             // 1. Upload to external API
                             const formData = new FormData();
-                            formData.append("file", selectedFile); // key should match external API
+                            formData.append("file", selectedFile);
+                            formData.append("userId", userId);
 
-                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
@@ -3297,7 +3325,7 @@
 
                             documentsTable.appendChild(row);
 
-                            //loadUploadedDocs(userId,selectedCategoryName);
+                            loadUploadedDocs(userId,selectedCategoryName);
                             // Reset UI
                             selectedFile = null;
                              const fileInput = document.getElementById("fileInput");
@@ -3311,6 +3339,7 @@
                            (el = document.getElementById("T10EmployerName")) && (el.value = "");
                               (el = document.getElementById("TerminalEmployerName")) && (el.value = "");
                            (el = document.getElementById("AnyOtherType")) && (el.selectedIndex = 0);
+                           updateChecklistStatuses(allDocs,docStatus);
                             //document.getElementById("file-name").textContent = "";
                             //document.getElementById("submitBtn").style.display = "none";
 
@@ -3330,7 +3359,8 @@
                         try {
                             // 1. Upload to external API
                             const formData = new FormData();
-                            formData.append("file", selectedFile); // key should match external API
+                            formData.append("file", selectedFile);
+                               formData.append("userId", userId);
 
                             const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
@@ -3419,13 +3449,14 @@
 
                             documentsTable.appendChild(row);
 
-                            //loadUploadedDocs(userId,selectedCategoryName);
+                            loadUploadedDocs(userId,selectedCategoryName);
                             // Reset UI
                             selectedFile = null;
                             document.getElementById("BankConfirmationType").selectedIndex = 0;
                             //document.getElementById("BankName").value = "";
                               $('#BankName').val(null).trigger('change');
                             document.getElementById("fileInputBank").value = "";
+                               updateChecklistStatuses(allDocs,docStatus);
                             //document.getElementById("file-name").textContent = "";
                             //document.getElementById("submitBtn").style.display = "none";
 
@@ -3455,7 +3486,8 @@
 
                                // 1. Upload to external API
                                const formData = new FormData();
-                               formData.append("file", selectedFile); // key should match external API
+                               formData.append("file", selectedFile);
+                                  formData.append("userId", userId);
 
                                const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                    method: "POST",
@@ -3527,6 +3559,7 @@
                                // selectedFile = null;
                            document.getElementById("assetsExcelFile").value = ""; // clear file input
                            document.getElementById("uploadedFileName").textContent = ""; // clear filename
+                              
                                            //document.getElementById("file-name").textContent = "";
                                //document.getElementById("submitBtn").style.display = "none";
 
@@ -3550,7 +3583,8 @@
 
                             // 1. Upload to external API
                             const formData = new FormData();
-                            formData.append("file", selectedFile); // key should match external API
+                            formData.append("file", selectedFile);
+                               formData.append("userId", userId);
 
                             const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
@@ -3641,11 +3675,12 @@
 
                             documentsTable.appendChild(row);
 
-                           // loadUploadedDocs(userId,selectedCategoryName);
+                            loadUploadedDocs(userId,selectedCategoryName);
                             // Reset UI
                             selectedFile = null;
                             document.getElementById("otherDocName").value = "";
                             document.getElementById("fileInputOther").value = "";
+                               updateChecklistStatuses(allDocs,docStatus);
                             //document.getElementById("file-name").textContent = "";
                             //document.getElementById("submitBtn").style.display = "none";
 
