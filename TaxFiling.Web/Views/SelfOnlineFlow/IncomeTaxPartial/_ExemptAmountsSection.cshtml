@@ -11,6 +11,7 @@
 
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Exempt Amounts</h6>
+                        <input type="hidden" id="hiddenExemptId" name="hiddenExemptId" />
                         <hr>
                         <div class="row g-3">
 
@@ -41,6 +42,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class=" align-items-right" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary mt-3" id="btnExemptClear">Clear</button>
                                     <button type="button" class="btn btn-primary mt-3" id="btnExemptSubmit">Submit</button>
                                 </div>
                             </div>
@@ -76,8 +78,15 @@
                                                 <td>@eploymentIncome.TINOfEmployer</td>
                                                 <td>@eploymentIncome.Amount</td>
                                                 <td>
-                                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                                    <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                                    <button class="btn btn-primary btn-sm exemptamounts-editbtn" type="button"
+                                                            data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
+                                                            data-type="@eploymentIncome.TypeOfName"
+                                                            data-name="@eploymentIncome.EmployerORCompanyName"
+                                                            data-tin="@eploymentIncome.TINOfEmployer"
+                                                            data-amount="@eploymentIncome.Amount">
+                                                        Edit
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="TerminalBenefits" >Delete</button>
                                                 </td>
                                             </tr>
                                         }

@@ -162,6 +162,19 @@ $(function () {
     }
     });
 
+    $(document).on("click", "#btnEmploymentDetailsClear", function () {
+
+        $("#drpTypeEmployment").val("Primary");
+        $("#txtRemuneration").val("");
+        $("#txtEmpDetailsECName").val("");
+        $("#txtAPITPrimaryEmployment").val("");
+        $("#txtTINEmployer").val("");
+        $("#txtAPITSecondaryEmployment").val("");
+        $("#hiddenEmploymentDetailsId").val(0);
+        $("#btnEmploymentDetails").text("Submit");
+
+    });
+
     $(document).on("click", "#btnTerminalSubmit", function () {
         // e.preventDefault();
         var id = $("#hiddenTerminalId").val();
@@ -268,10 +281,20 @@ $(function () {
             });
         }
     });
+    $(document).on("click", "#btnTerminalClear", function () {
+
+        $("#dpdTypeTerminal").val("Primary");
+        $("#txtTerminalECName").val("");
+        $("#txtTerminalTINNo").val("");
+        $("#txtTerminalBenefits").val("");
+        $("#hiddenTerminalId").val(0);
+        $("#btnTerminalSubmit").text("Submit");
+
+    });
 
     $(document).on("click", "#btnExemptSubmit", function () {
         // e.preventDefault();
-
+        var id = $("#hiddenExemptId").val();
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -307,41 +330,82 @@ $(function () {
         }
 
         var exemptIncome = {
-            //SelfOnlineEmploymentIncomeId: selfOnlineEmploymentIncomeId,
+            SelfOnlineEmploymentDetailsId: id,
             CategoryName: "ExemptAmounts",
             TypeOfName: exemptType,
             EmployerORCompanyName: exemptTinEmployerName,
             TINOfEmployer: TINExempt,
             Amount: exemptAmount
         }
+        if (id) {
+            $.ajax({
+                url: '/SelfOnlineFlow/UpdateEmploymentIncomeDetails',
+                type: 'POST',
+                data: terminalIncome,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+                    notifySuccess("", "Update successfully");
 
+                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                        $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
+                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                       // $("#spnEmploymentIncomeTotal").text(newTotal);
+                        $("#taxTotal").text(newTotal);
+                    });
 
-        $.ajax({
-            url: '/SelfOnlineFlow/AddEmploymentIncomeDetails',
-            type: 'POST',
-            data: exemptIncome,
-            success: function (response) {
-                $btn.prop("disabled", false);
-                notifySuccess("", "Saved successfully");
+                    $("#dpdExemptType").val("");
+                    $("#txtExemptTinEmployerName").val("");
+                    $("#txtExemptTin").val("");
+                    $("#txtExemptAmount").val("");
 
-                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
-                    $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html()); 
-                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                    $("#spnEmploymentIncomeTotal").text(newTotal);
-                    $("#taxTotal").text(newTotal);
-                });
+                },
+                error: function () {
+                    $btn.setButtonDisabled(false);
+                    alert("Error saving .");
+                }
+            });
+        }
+        else {
 
-                $("#dpdExemptType").val("");
-                $("#txtExemptTinEmployerName").val("");
-                $("#txtExemptTin").val("");
-                $("#txtExemptAmount").val("");
+            $.ajax({
+                url: '/SelfOnlineFlow/AddEmploymentIncomeDetails',
+                type: 'POST',
+                data: exemptIncome,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+                    notifySuccess("", "Saved successfully");
 
-            },
-            error: function () {
-                $btn.setButtonDisabled(false);
-                alert("Error saving .");
-            }
-        });
+                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                        $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
+                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                        $("#spnEmploymentIncomeTotal").text(newTotal);
+                        $("#taxTotal").text(newTotal);
+                    });
+
+                    $("#dpdExemptType").val("");
+                    $("#txtExemptTinEmployerName").val("");
+                    $("#txtExemptTin").val("");
+                    $("#txtExemptAmount").val("");
+
+                },
+                error: function () {
+                    $btn.setButtonDisabled(false);
+                    alert("Error saving .");
+                }
+            });
+        }
+    });
+
+    $(document).on("click", "#btnExemptClear", function () {
+
+       
+        $("#dpdExemptType").val("Primary");
+        $("#txtExemptTinEmployerName").val("");
+        $("#txtExemptTin").val("");
+        $("#txtExemptAmount").val("");
+        $("#hiddenExemptId").val(0);
+        $("#btnExemptSubmit").text("Submit");
+
     });
 
     $("#drpTypeEmployment").change(function () {
@@ -394,25 +458,10 @@ $(function () {
         });
     });
 
-    $('.terminalbenefits-editbtn').on('click', function () {
-
-        var id = $(this).data("id");
-        var type = $(this).data("type");
-        var name = $(this).data("name");
-        var tin = $(this).data("tin");
-        var benefit = $(this).data("benefit");
-
-        // Fill form fields with selected row data
-        $("#dpdTypeTerminal").val(type);
-        $("#txtTerminalECName").val(name);
-        $("#txtTerminalTINNo").val(tin);
-        $("#txtTerminalBenefits").val(benefit);
-
-        // Store id in hidden field for update
-        $("#hiddenTerminalId").val(id);
-        $("#btnTerminalSubmit").text("Update");
-    });
+  
     $('.employmentDetails-editbtn').on('click', function () {
+
+        $(".validation-error").remove();
 
         var id = $(this).data("id");
         var residency = $(this).data("residency");
@@ -443,13 +492,52 @@ $(function () {
         $("#hiddenEmploymentDetailsId").val(id);
         $("#btnEmploymentDetails").text("Update");
     });
+    $('.terminalbenefits-editbtn').on('click', function () {
+
+        var id = $(this).data("id");
+        var type = $(this).data("type");
+        var name = $(this).data("name");
+        var tin = $(this).data("tin");
+        var benefit = $(this).data("benefit");
+
+        // Fill form fields with selected row data
+        $("#dpdTypeTerminal").val(type);
+        $("#txtTerminalECName").val(name);
+        $("#txtTerminalTINNo").val(tin);
+        $("#txtTerminalBenefits").val(benefit);
+
+        // Store id in hidden field for update
+        $("#hiddenTerminalId").val(id);
+        $("#btnTerminalSubmit").text("Update");
+    });
+
+    $('.exemptamounts-editbtn').on('click', function () {
+
+        var id = $(this).data("id");
+        var type = $(this).data("type");
+        var name = $(this).data("name");
+        var tin = $(this).data("tin");
+        var amount = $(this).data("amount");
+
+        // Fill form fields with selected row data
+        $("#dpdTypeTerminal").val(type);
+        $("#txtTerminalECName").val(name);
+        $("#txtTerminalTINNo").val(tin);
+        $("#txtExemptAmount").val(amount);
+
+        // Store id in hidden field for update
+        $("#hiddenExemptId").val(id);
+        $("#btnExemptSubmit").text("Update");
+    });
 
 
     let deleteEmploymentDetailsId = null;
+    let deleteEmploymentDetailsName = null;
 
-    $('.terminalbenefits-deletebtn').on('click', function () {
+    $('.employmentdetails-deletebtn').on('click', function () {
 
         deleteEmploymentDetailsId = $(this).data("id");
+        deleteEmploymentDetailsName = $(this).data("name");
 
        // $("#hiddenTerminalId").val(deleteEmploymentDetailsId);
         $('#selfonline_confirmDeleteModal').modal('show');
@@ -462,6 +550,7 @@ $(function () {
 
         var deleteId = {
             employmentDetailsId: deleteEmploymentDetailsId,
+            employmentDetailsName: deleteEmploymentDetailsName
         };
 
 
