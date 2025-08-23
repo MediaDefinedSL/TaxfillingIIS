@@ -1,0 +1,91 @@
+﻿
+<main class="main-content">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+
+
+            <form method="post">
+
+                <div class=" mt-4 ">
+                    <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                        <h6 class="mb-4 text-primary"> <i class="bi bi-cash-coin me-2"></i> Beneficiary's investment income from trust (Both local &amp; foreign)</h6>
+                        <hr>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Activity Code (Trust)</label>
+                                <input type="text" class="form-control" id="txtBActivityCode" name="txtBActivityCode">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Trust Name</label>
+                                <input type="text" class="form-control" id="txtBTrustName" name="txtBTrustName">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">TIN of Trust</label>
+                                <input type="text" class="form-control" id="txtBTINTrust" name="txtBTINTrust">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Gains and Profits (Rs.) – Trust</label>
+                                <input type="text" class="form-control" id="txtBGainsProfits" name="txtBGainsProfits">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Total Investment Income from Trust</label>
+                                <input type="text" class="form-control" id="txtBTotalInvestment" name="txtBTotalInvestment">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Total Investment Income</label>
+                                <input type="text" class="form-control" id="txtBTotalInvestment" name="txtBTotalInvestment">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class=" align-items-right" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary mt-3" id="btnBeneficiaryClear">Clear</button>
+                                    <button type="button" class="btn btn-primary mt-3" id="btnBeneficiaryClear">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="table-responsive" id="terminalDetailsGrid">
+                            <table class="table table-bordered table-striped mt-2">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Type Employment</th>
+                                        <th>Name</th>
+                                        <th>TIN Employer</th>
+                                        <th>Terminal Benefits</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <br><br>
+            <div class="d-lg-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv">
+                    <button class="btn btn-primary btn-lg" id="linkEmploymentDetailsContinue">
+                        Back
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>

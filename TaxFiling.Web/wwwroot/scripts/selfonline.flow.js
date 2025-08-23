@@ -253,7 +253,8 @@ $(function () {
             }
         });
     });
-    $('#linkExemptAmounts').on('click', function () {
+    $('#linkInvestmentExemptAmounts').on('click', function () {
+    
         $.ajax({
             url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
             type: 'GET',
