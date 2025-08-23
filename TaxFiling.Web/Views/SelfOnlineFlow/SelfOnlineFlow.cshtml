@@ -37,12 +37,15 @@
 
                 <div class="p-4">
                     @* <h4 class="logo-text fw-bold mb-0">@ViewBag.packageName</h4> *@
-                    <h4 class="logo-text fw-bold mb-0">LKR  <span id="taxTotal"> @ViewBag.TaxTotal</span> </h4>
+                  @*   <h4 class="logo-text fw-bold mb-0">LKR  <span id="taxTotal"> @ViewBag.TaxTotal</span> </h4> *@
                    @*  <p class="small fw-bold mb-0">TAX REFUND</p> *@
                 </div>
 
                 <div class="nav flex-column">
-                  
+                    <button id="btndashboardSection" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
+                      
+                        <h4 class="logo-text fw-bold mb-0">LKR  <span id="taxTotal"> @ViewBag.TaxTotal</span> </h4>
+                    </button>
                     <button id="btndashboardSection" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
                         <i class="fas fa-home me-3"></i> 
                         Dashboard
@@ -90,13 +93,31 @@
                                 </a>
                             </div>
 
-                            <!-- Other main income types -->
+                            <!-- Business Income -->
                             <a class="sub-link" id="linkBusinessIncome">
                                 <i class="bi bi-building"></i> &nbsp; Business Income
                             </a>
-                            <a class="sub-link" id="linkInvestmentIncome">
+                            <!-- Investment Income -->
+                            <a class="sub-link dropdown-btn" id="linkInvestmentIncome">
                                 <i class="bi bi-bar-chart-line"></i> &nbsp; Investment Income
                             </a>
+                            <div class="dropdown-container" style="display: none; margin-left: 20px;">
+                                <a class="sub-link" id="linkDetailsinvestment">
+                                    <i class="bi bi-journal-text"></i> &nbsp; Details Investment
+                                </a>
+                                <a class="sub-link" id="linkPartnerInvestment">
+                                    <i class="bi bi-people"></i> &nbsp; Partner Investment
+                                </a>
+                                <a class="sub-link" id="linkBeneficiaryInvestment">
+                                    <i class="bi bi-person-badge"></i> &nbsp; Beneficiary Investment
+                                </a>
+                                <a class="sub-link" id="linkExemptAmounts">
+                                    <i class="bi bi-shield-check"></i> &nbsp; Exempt Amounts
+                                </a>
+                            </div>
+
+
+
                             <a class="sub-link" id="linkOtherIncome">
                                 <i class="bi bi-three-dots"></i> &nbsp; Other Income
                             </a>
