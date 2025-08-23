@@ -925,5 +925,32 @@ public class SelfOnlineFlowController : Controller
 
         return PartialView("IncomeTaxPartial/_Investment_DetailsinvestmentSection");
     }
+    public async Task<IActionResult> LoadInvestment_PartnerInvestment(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+
+
+        return PartialView("IncomeTaxPartial/_Investment_PartnerInvestmentSection");
+    }
+    public async Task<IActionResult> LoadInvestment_BeneficiaryInvestment(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+
+
+        return PartialView("IncomeTaxPartial/_Investment_BeneficiaryInvestmentSection");
+    }
+    public async Task<IActionResult> LoadInvestment_ExemptAmounts(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+
+
+        return PartialView("IncomeTaxPartial/_Investment_ExemptAmountsSection");
+    }
 
 }
