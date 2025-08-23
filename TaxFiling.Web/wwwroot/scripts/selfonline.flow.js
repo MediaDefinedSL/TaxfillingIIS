@@ -214,6 +214,57 @@ $(function () {
             }
         });
     });
+
+    // Investment Income
+
+    $('#linkDetailsinvestment').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+    $('#linkPartnerInvestment').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_PartnerInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+    $('#linkBeneficiaryInvestment').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+    $('#linkExemptAmounts').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
    
 });
 

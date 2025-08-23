@@ -914,6 +914,16 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Employment Details  Delete successfully" });
     }
 
-   
+    // -----------------Investment Income
+
+    public async Task<IActionResult> LoadInvestment_Detailsinvestment(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+     
+
+        return PartialView("IncomeTaxPartial/_Investment_DetailsinvestmentSection");
+    }
 
 }
