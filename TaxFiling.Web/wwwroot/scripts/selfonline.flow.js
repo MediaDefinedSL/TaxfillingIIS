@@ -163,18 +163,18 @@ $(function () {
         });
     });
 
-    //$('#linkIncomeLiableTax').on('click', function () {
-    //    $.ajax({
-    //        url: '/SelfOnlineFlow/LoadIncomeLiableTax',
-    //        type: 'GET',
-    //        success: function (data) {
-    //            $('#in-this-section-container').html(data);
-    //        },
-    //        error: function () {
-    //            alert("Error loading section content.");
-    //        }
-    //    });
-    //});
+    $('#linkIncomeLiableTax').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadIncomeLiableTax',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
 
     $('#linkEmploymentDetails').on('click', function () {
         $.ajax({
