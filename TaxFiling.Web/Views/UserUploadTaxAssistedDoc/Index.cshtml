@@ -2505,7 +2505,7 @@
                 } else {
                     progress = Math.round((completed / totalItems) * 90);
                 }
-                  if (docStatus === "Submitted") {
+                  if (docStatus === 2) {
                     progress = 100;
                 }
                  const bar = document.getElementById("progressBar");
@@ -2524,7 +2524,7 @@
                            progressBar.style.width = progress + "%";
                         //progressBar.textContent = percent + "%"; // optional
                     }
-                       if(progress = 100)
+                       if(progress == 100)
                             document.getElementById("btnViewSubmittedDocs").style.display = "block";
 
                 }
@@ -2844,8 +2844,8 @@
                                                     const btnViewSubmittedDocs = document.getElementById("btnViewSubmittedDocs");
                                                        const bar = document.getElementById("progressBar");
                                                         if (bar) {
-                                                            bar.style.width = progress + "%";
-                                                            bar.textContent = progress + "%";
+                                                            bar.style.width =  "100%";
+                                                            bar.textContent = "100%";
                                                         }
                                                     if(btnContinue)
                                                         btnContinue.style.display = "none";
@@ -2856,8 +2856,12 @@
                                                     if(btnViewSubmittedDocs)
                                                               btnViewSubmittedDocs.style.display = "block";
 
-                                                    updateChecklistStatuses(allDocs,docStatus);
-                                                    updateCurrentAssessementProgressbar(2024,100)
+                                                    updateChecklistStatuses(allDocs,2);
+                                                    updateCurrentAssessementProgressbar(2024,100);
+                                                       $("#statusBadge")
+                                                       .text("SUBMITTED")
+                                                       .removeClass("bg-warning")
+                                                          .addClass("badge bg-success");
 
 
                                                this.disabled = true;
@@ -3243,9 +3247,10 @@
                     }
 
                     const  previousBtn= document.getElementById("btnPrevious");
-                          const  btnUploadDocs= document.getElementById("btnUploadDocs");
+                    const  btnUploadDocs= document.getElementById("btnUploadDocs");
+                    const btnViewSubmittedDocs = document.getElementById("btnViewSubmittedDocs");
 
-                         [previousBtn, btnUploadDocs].forEach(btn => {
+                            [previousBtn, btnUploadDocs, btnViewSubmittedDocs].forEach(btn => {
                     if (btn) {
                         btn.addEventListener("click", function () {
                                showPanel("documents-section");
