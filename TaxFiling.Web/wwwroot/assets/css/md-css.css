@@ -3617,7 +3617,8 @@ padding-bottom: 9;
     width: 100% !important;
 }
 
-#manualForeignTab select.form-select {
+#manualForeignTab select.form-select, div#assets-section .form-select,
+div#assets-section .form-control {
     width: 100% !important;
 }
 
