@@ -8,7 +8,7 @@
             <form method="post">
 
                 <div class=" mt-4 ">
-
+                    <input type="hidden" id="hiddenEmploymentDetailsId" name="hiddenEmploymentDetailsId" />
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Employment Details</h6>
                         <hr>
@@ -16,17 +16,17 @@
                             <div class="col-md-6">
                                 <label class="col-sm-3 col-form-label font-weight-bold">Residency</label>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="resident" name="Residency" value="1" />
+                                    <input type="radio" class="form-check-input rdbresidency" id="resident" name="Residency" value="1" />
                                     <label class="form-check-label" for="resident">Resident</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="nonresident" name="Residency" value="0" />
+                                    <input type="radio" class="form-check-input rdbresidency" id="nonresident" name="Residency" value="0" />
                                     <label class="form-check-label" for="nonresident">Non-resident</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="col-sm-3 col-form-label font-weight-bold">Senior Citizen</label>
-                                <input type="radio" name="Residency" />
+                                <input type="radio" name="rdbSeniorCitizen" id="rdbSeniorCitizen" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Type of Employment</label>
@@ -64,16 +64,15 @@
                             </div>
                             <div class="col-md-6">
                                 <div class=" align-items-right" style="text-align: right;">
-
-
+                                    <button type="button" class="btn btn-primary mt-3" id="btnEmploymentDetailsClear">Clear</button>
                                     <button type="button" class="btn btn-primary mt-3" id="btnEmploymentDetails">Submit</button>
-
+                                   
                                 </div>
                             </div>
 
                         </div>
                         <hr class="my-4">
-                        <div class="table-responsive" id="employmentDetailsGrid">
+                        <div class="table-responsive" id="employmentDetails1Grid">
                             <table class="table table-bordered table-striped mt-2">
                                 <thead class="table-light">
                                     <tr>
@@ -117,8 +116,19 @@
                                                 <td>@eploymentIncome.APITPrimaryEmployment</td>
                                                 <td>@eploymentIncome.APITSecondaryEmployment</td>
                                                 <td>
-                                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                                    <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                                    <button class="btn btn-primary btn-sm employmentDetails-editbtn" type="button" 
+                                                            data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
+                                                            data-residency="@eploymentIncome.Residency"
+                                                            data-seniorcitizen="@eploymentIncome.SeniorCitizen"
+                                                            data-type="@eploymentIncome.TypeOfName"
+                                                            data-name="@eploymentIncome.EmployerORCompanyName"
+                                                            data-tin="@eploymentIncome.TINOfEmployer"
+                                                            data-remuneration="@eploymentIncome.Remuneration"
+                                                            data-primary="@eploymentIncome.APITPrimaryEmployment"
+                                                            data-secondary="@eploymentIncome.APITSecondaryEmployment">
+                                                        Edit
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="EmploymentDetails">Delete</button>
                                                 </td>
                                             </tr>
                                         }
@@ -141,7 +151,7 @@
             <div class="d-lg-flex justify-content-between">
                 <div class="col-lg-6 col-md-6 btn-prv">
                 </div>
-                <div class="col-lg-6 col-md-6 right next-btn" id="linkEmploymentDetailsContinue">
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkTerminalBenefitsContinue">
                     <button class="btn btn-primary btn-lg">
                         Continue
                     </button>

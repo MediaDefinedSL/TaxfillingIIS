@@ -1,58 +1,55 @@
-﻿@model List<TaxFiling.Web.Models.SelfOnlineEmploymentIncomeDetails>
-
+﻿ @model List<TaxFiling.Web.Models.SelfOnlineEmploymentIncomeDetails>
 
 <main class="main-content">
 
     <div class=" mt-4">
         <div class="card card-body">
 
-
             <form method="post">
 
                 <div class=" mt-4 ">
 
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
-                        <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Terminal Benefits (Gratuity, ETF, EPF, Compensation)</h6>
+                        <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Exempt Amounts</h6>
+                        <input type="hidden" id="hiddenExemptId" name="hiddenExemptId" />
                         <hr>
-                        <input type="hidden" id="hiddenTerminalId" name="hiddenTerminalId" />
                         <div class="row g-3">
 
                             <div class="col-md-6">
-                                <label class="form-label">Type of Terminal Benefit</label>
-                                <select class="form-select" id="dpdTypeTerminal" name="dpdTypeTerminal">
+                                <label class="form-label">Type of Exempt or Excluded Income</label>
+                                <select class="form-select" id="dpdExemptType" name="dpdExemptType">
                                     <option value="Primary">Primary</option>
                                     <option value="Secondary">Secondary</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Employer/Company Name</label>
-                                <input type="text" class="form-control" id="txtTerminalECName" name="txtTerminalECName">
+                                <label class="form-label">TIN / Name of Employer</label>
+                                <input type="text" class="form-control" id="txtExemptTinEmployerName" name="txtExemptTinEmployerName">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">TIN of Employer</label>
-                                <input type="text" class="form-control" maxlength="9" id="txtTerminalTINNo" name="txtTerminalTINNo">
+                                <input type="text" class="form-control" maxlength="9" id="txtExemptTin" name="txtExemptTin">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Terminal Benefits (Rs.)</label>
-                                <input type="number" class="form-control" id="txtTerminalBenefits" name="txtTerminalBenefits">
+                                <label class="form-label">Amount (Rs.)</label>
+                                <input type="number" class="form-control" id="txtExemptAmount" name="txtExemptAmount">
                             </div>
-
                         </div>
                         <br />
                         <div class="row">
+
                             <div class="col-md-6">
                             </div>
                             <div class="col-md-6">
                                 <div class=" align-items-right" style="text-align: right;">
-                                    <button type="button" class="btn btn-primary mt-3" id="btnTerminalClear">Clear</button>
-                                    <button type="button" class="btn btn-primary mt-3" id="btnTerminalSubmit">Submit</button>
+                                    <button type="button" class="btn btn-primary mt-3" id="btnExemptClear">Clear</button>
+                                    <button type="button" class="btn btn-primary mt-3" id="btnExemptSubmit">Submit</button>
                                 </div>
                             </div>
                         </div>
-
+                       
                         <hr class="my-4">
-
-                        <div class="table-responsive" id="terminalDetailsGrid">
+                        <div class="table-responsive" id="exemptDetailsGrid">
                             <table class="table table-bordered table-striped mt-2">
                                 <thead class="table-light">
                                     <tr>
@@ -60,7 +57,7 @@
                                         <th>Type Employment</th>
                                         <th>Name</th>
                                         <th>TIN Employer</th>
-                                        <th>Terminal Benefits</th>
+                                        <th>Amount </th>
                                         <th>Action</th>
 
                                     </tr>
@@ -68,29 +65,28 @@
                                 <tbody>
 
                                     @if (Model != null &&
-                                    Model.Any(d => d.CategoryName == "TerminalBenefits"))
+                                    Model.Any(d => d.CategoryName == "ExemptAmounts"))
                                     {
                                         var indexT = 0;
                                         foreach (var eploymentIncome in Model
-                                        .Where(d => d.CategoryName == "TerminalBenefits"))
+                                        .Where(d => d.CategoryName == "ExemptAmounts"))
                                         {
                                             <tr>
                                                 <td>@(++indexT)</td>
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>
-                                                <td>@eploymentIncome.TerminalBenefits</td>
+                                                <td>@eploymentIncome.Amount</td>
                                                 <td>
-
-                                                    <button class="btn btn-primary btn-sm terminalbenefits-editbtn" type="button"
+                                                    <button class="btn btn-primary btn-sm exemptamounts-editbtn" type="button"
                                                             data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
                                                             data-type="@eploymentIncome.TypeOfName"
                                                             data-name="@eploymentIncome.EmployerORCompanyName"
                                                             data-tin="@eploymentIncome.TINOfEmployer"
-                                                            data-benefit="@eploymentIncome.TerminalBenefits">
+                                                            data-amount="@eploymentIncome.Amount">
                                                         Edit
                                                     </button>
-                                                    <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="TerminalBenefits">Delete</button>
+                                                    <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="TerminalBenefits" >Delete</button>
                                                 </td>
                                             </tr>
                                         }
@@ -98,26 +94,26 @@
                                     else
                                     {
                                         <tr>
-                                            <td colspan="8" class="text-center">No Terminal Benefits found.</td>
+                                            <td colspan="6" class="text-center">No Exempt Amounts found.</td>
                                         </tr>
                                     }
 
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
                 </div>
-
             </form>
         </div>
         <br><br>
         <div class="d-lg-flex justify-content-between">
             <div class="col-lg-6 col-md-6 btn-prv">
-                <button class="btn btn-primary btn-lg" id="linkEmploymentDetailsContinue">
+                <button class="btn btn-primary btn-lg" id="linkTerminalBenefitsContinue">
                     Back
                 </button>
             </div>
-            <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue">
+            <div class="col-lg-6 col-md-6 right next-btn" id="linkContinue">
                 <button class="btn btn-primary btn-lg">
                     Continue
                 </button>

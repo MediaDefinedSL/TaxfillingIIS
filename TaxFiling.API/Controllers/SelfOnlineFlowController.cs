@@ -285,5 +285,35 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpPost("update_employmentincomedetails")]
+    public async Task<IActionResult> UpdateSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.UpdateSelfOnlineEmploymentIncomeDetails(selfOnlineEmploymentIncomeDetails);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("delete_employmentincomedetail")]
+    public async Task<IActionResult> DeleteEmploymentIncomeDetail(string userId, int year, int employmentDetailsId, string employmentDetailsName)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.DeleteEmploymentIncomeDetail(userId, year, employmentDetailsId , employmentDetailsName);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 
 }

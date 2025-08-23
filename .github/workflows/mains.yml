@@ -32,9 +32,12 @@ jobs:
       - name: 🚀 Publish API
         run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./publish/API
 
-      - name: 🚀 Publish Web
-        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web
-
+      - name: 🚀 Publish Web (without web.config)
+        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web /p:UseAppHost=false /p:PublishWebConfig=false
+     
+      - name: 📄 Copy custom web.config
+        run: Copy-Item ./TaxFiling.Web/web.config ./publish/Web/web.config -Force
+        
       - name: 🗜️ Compress Published Folders
         run: |
           Compress-Archive -Path ./publish/API/* -DestinationPath api.zip
