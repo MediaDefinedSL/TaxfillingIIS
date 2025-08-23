@@ -24,5 +24,5 @@ public interface ISelfOnlineFlowRepository
 
     Task<bool> UpdateEmploymentIncomeExemptAmounts(string userId, int year, int employmentIncomeId, bool exemptAmounts);
     Task<bool> UpdateSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails);
-    Task<bool> DeleteEmploymentIncomeDetail(string userId, int year, int employmentDetailsId);
+    Task<bool> DeleteEmploymentIncomeDetail(string userId, int year, int employmentDetailsId, string employmentDetailsName);
 }

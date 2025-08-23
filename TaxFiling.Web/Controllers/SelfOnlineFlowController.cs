@@ -887,7 +887,7 @@ public class SelfOnlineFlowController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteEmploymentIncomeDetail(int employmentDetailsId, CancellationToken ctx)
+    public async Task<IActionResult> DeleteEmploymentIncomeDetail(int employmentDetailsId,string employmentDetailsName, CancellationToken ctx)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
@@ -898,7 +898,8 @@ public class SelfOnlineFlowController : Controller
         var queryUserParams = new Dictionary<string, string?> {
                 { "userId", userId.ToString()},
                 { "year", year.ToString()},
-                { "employmentDetailsId", employmentDetailsId.ToString()}
+                { "employmentDetailsId", employmentDetailsId.ToString()},
+                 { "employmentDetailsName", employmentDetailsName}
             };
 
         string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/delete_employmentincomedetail", queryUserParams);
