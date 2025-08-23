@@ -3403,3 +3403,12 @@ span.select2-selection.select2-selection--single {
 .client-img {
     transition: 0.3s;
 }
+
+
+#manualForeignTab .form-control {
+    width: 100% !important;
+}
+
+#manualForeignTab select.form-select {
+    width: 100% !important;
+}

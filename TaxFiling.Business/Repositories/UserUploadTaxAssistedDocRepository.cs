@@ -535,12 +535,12 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
                     var stream = file.OpenReadStream();
                     var fileContent = new StreamContent(stream);
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                    content.Add(fileContent, "file", file.FileName); // Adjust 'files' key if needed by external API
+                    content.Add(fileContent, "file", file.FileName);  // Adjust 'files' key if needed by external API
+                    content.Add(new StringContent(asset.UserId.ToString()), "userId");
 
-
-                        var response = await httpClient.PostAsync("https://file.taxfiling.lk/upload", content);
+                    var response = await httpClient.PostAsync("https://file.taxfiling.lk/upload", content);
 		
-                        response.EnsureSuccessStatusCode();
+                    response.EnsureSuccessStatusCode();
 
                     var apiResponse = await response.Content.ReadAsStringAsync();
 
