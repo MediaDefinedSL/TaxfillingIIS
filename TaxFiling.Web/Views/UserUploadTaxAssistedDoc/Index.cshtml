@@ -19,6 +19,7 @@
         <div class="container d-lg-flex justify-content-between align-items-center">
             <div class="col-lg-4 col-md-6">
                 <h2 class="mb-2 mb-lg-0 font-weight-bold">Tax Assisted Filing</h2></br>
+                
                 <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
             </div>
             <div class="col-lg-2 col-md-4">
@@ -138,21 +139,20 @@
                                     <button class="btn btn-primary me-2" >Continue filing</button>
                                     <button class="btn btn-danger" id="btnRemoveDraft">Remove draft</button>
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="user-details-section mb-4">
-                                <table class="table table-borderless site-color">
+                                <table class="table table-borderless site-color mx-auto" style="width: auto;">
                                     <thead>
                                         <tr>
                                             <th scope="col"><strong>Taxpayer Identification Number (TIN)</strong></th>
-                                            <th scope="col">@tinNo</th>
+                                            <td class="text-center">@tinNo</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <th scope="row"><strong>Name of taxpayer</strong></th>
-                                            <td>@userName</td>
+                                            <td class="text-center">@userName</td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -285,7 +285,7 @@
                                                             <td >@dueDate</td>
                                                             <td align="center">
                                                                 <div class="progress" style="height: 6px;">
-                                                                    <div class="progress-bar bg-primary" style="width:90%"></div>
+                                                                    <div class="progress-bar bg-primary" @(numericStatus ==2 ? "style=width:100%" : "")></div>
                                                                 </div>
                                                             </td>
                                                             <td align="center">
@@ -389,11 +389,12 @@
                                                     <button class="btn btn-primary flex-fill" id="btnContinue">Continue filing</button>
                                                     <button class="btn btn-secondary flex-fill" id="btnUploadDocs">Upload documents</button>
                                                     <button class="btn btn-danger flex-fill" id="btnRemoveDft">Remove draft</button>
+                                                    <button class="btn btn-info flex-fill" id="btnViewSubmittedDocs" style="display:none">View Docs</button>
                                                 }
                                                 else if (docStatus == 2)
                                                 {
                                                     <!-- Submitted -->
-                                                    <button class="btn btn-info flex-fill">
+                                                    <button class="btn btn-info flex-fill" id="btnViewSubmittedDocs" style="display:none">
                                                         <i class="fas fa-eye me-1"></i> View Docs
                                                     </button>
                                                 }   
@@ -403,6 +404,7 @@
                                                      <button class="btn btn-primary flex-fill" id="btnContinue">Continue filing</button>
                                                     <button class="btn btn-secondary flex-fill" id="btnUploadDocs">Upload documents</button>
                                                     <button class="btn btn-danger flex-fill" id="btnRemoveDft" style="display:none">Remove draft</button>
+                                                    <button class="btn btn-info flex-fill" id="btnViewSubmittedDocs" style="display:none">View Docs</button>
                                                 }   
                                                 else
                                                 {
@@ -2136,8 +2138,9 @@
 
                      // AJAX upload call (adjust URL to your API endpoint)
                         $.ajax({
-                                   url:`${baseApiUrl}api/UserUploadTaxAssistedDoc/SubmitAssets`,
-                       type: "POST",
+                                  url:`${baseApiUrl}api/UserUploadTaxAssistedDoc/SubmitAssets`,
+                                          //url:`https://localhost:7119/api/UserUploadTaxAssistedDoc/SubmitAssets`,
+                          type: "POST",
                        data: formData,
                        processData: false,
                        contentType: false,
@@ -2491,7 +2494,11 @@
                     //setStatus("personalInfoStatus", hasPersonalInfo);
 
                    let progress = 0;
-                if (completed === totalItems) {
+                      //const docStatus = document.getElementById("docUploadStatus")?.value;
+                if(completed === totalItems && docStatus === 2){
+                    progress = 100;
+                }
+                else if (completed === totalItems) {
                     progress = 90; // all uploaded but not submitted
                 } else if (completed === 1) {
                     progress = 18; // one completed
@@ -2947,6 +2954,7 @@
                     } else {
                         removeBtn.disabled = true; // nothing selected
                     }
+
                 }
 
                      //page load
@@ -2962,7 +2970,74 @@
                             checkboxes.forEach(other => {
                                 if (other !== this) other.checked = false;
                             });
-                        }
+                            setStatus("employmentIncomeStatus", true);
+                            setStatus("bankConfirmationStatus", true);
+                            setStatus("assetsStatus", true);
+                            setStatus("otherDocsStatus", true);
+                            const row = this.closest("tr");
+                            const yearText = parseInt(row.cells[1].textContent.trim().split("/")[0], 10); // 2024
+                            const currentYear = new Date().getFullYear();
+                            const statusText = row.cells[4].textContent.trim();
+                            const statusBadge = row.querySelector("span.badge");
+                            const newStatusClass = statusBadge.className.replace("badge", "").trim();
+                               const progressBar = row.querySelector(".progress-bar");
+                                        const widthValue = progressBar.style.width; // "54%"
+                const progress = parseInt(widthValue, 10);
+                            
+                               if(yearText + 1 != currentYear)
+                               {
+                                       updateProgressHeader(yearText, "SUBMITTED", "bg-success text-white");
+                                       const btnContinue = document.getElementById("btnContinue");
+                                       const btnUploadDocs = document.getElementById("btnUploadDocs");
+                                       const btnRemoveDft = document.getElementById("btnRemoveDft");
+                                       const btnViewSubmittedDocs = document.getElementById("btnViewSubmittedDocs");
+                                          const bar = document.getElementById("progressBar");
+                                           if (bar) {
+                                               bar.style.width = progress + "%";
+                                               bar.textContent = progress + "%";
+                                           }
+                                       if(btnContinue)
+                                           btnContinue.style.display = "none";
+                                       if(btnUploadDocs)
+                                              btnUploadDocs.style.display = "none";
+                                       if(btnRemoveDft)
+                                                 btnRemoveDft.style.display = "none";
+                                       if(btnViewSubmittedDocs)
+                                                 btnViewSubmittedDocs.style.display = "block";
+
+                               }
+                               else
+                               {
+                                               updateProgressHeader(yearText, statusText, newStatusClass);
+                                            updateChecklistStatuses(allDocs,docStatus);
+                                                  const bar = document.getElementById("progressBar");
+                                              if (bar) {
+                                                  bar.style.width = progress + "%";
+                                                  bar.textContent = progress + "%";
+                                              }
+                                               if(docStatus == 1 || docStatus == 0)
+                                            {
+                                                   btnContinue.style.display = "block";
+                                                   btnRemoveDft.style.display = "block";
+                                                      btnUploadDocs.style.display = "block";
+                                                         btnViewSubmittedDocs.style.display = "none";
+
+                                            }
+                                               else if(docStatus == 2)
+                                               {
+                                                          btnViewSubmittedDocs.style.display = "block";
+                                                             btnContinue.style.display = "none";
+                                                         btnRemoveDft.style.display = "none";
+                                                            btnUploadDocs.style.display = "none";
+
+                                               }
+                                                  
+                               }
+                           
+
+
+
+                           }
 
                         updateRemoveBtn();
                     });

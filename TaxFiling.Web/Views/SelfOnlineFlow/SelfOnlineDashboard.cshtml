@@ -13,17 +13,39 @@
     <!-- Page Title -->
     <div class="page-title accent-background" ">
         <div class="container d-lg-flex justify-content-between align-items-center">
-            <div class="col-lg-4 col-md-6">
+            <!--<div class="col-lg-4 col-md-6">-->
+            <div>
     @if (packageId == "4")
     {
                     <h2 class="mb-2 mb-lg-0 font-weight-bold">Assisted Filing</h2>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between">
+                                <h5 class="mb-0">
+                                    Manage your tax filing with ease, assisted by our experts
+                                </h5>
+                                <h5 class="mb-0 text-end" style="padding-left:100px">
+                                    Welcome <span>@userName</span>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
     }
     @if (packageId != "4")
     {
                     <h2 class="mb-2 mb-lg-0 font-weight-bold">Self Filing</h2>
+                    
     }
-                </br> <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+        </div>
+        @if (packageId != "4")
+    {
+            <div>
+                <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
             </div>
+    }
+           
+            <!--</br> <h1 class="mb-2 mb-lg-0">Welcome <span></span></h1>-->
+                <!--</div>-->
             <div class="col-lg-2 col-md-4">
                 <nav class="breadcrumbs">
                     <ol>
@@ -59,14 +81,57 @@
                                     </div>
 
                                     <div class="post-content d-flex flex-column">
-                                        <a asp-controller="UserUploadTaxAssistedDoc" asp-action="Index"> <h3 class="post-title">Submit Docs Upload</h3></a>
+                                        <a asp-controller="UserUploadTaxAssistedDoc" asp-action="Index"> <h3 class="post-title">Upload Now</h3></a>
                                         <p class="mt-2 text-muted">
-                                            The submitting and uploading required documents
+                                            Upload and manage your required tax documents.
                                         </p>
                                     </div>
 
                                 </article>
                             </div>
+                            <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
+                                <article class="position-relative h-100 rounded-md">
+
+                                    <div class="post-img position-relative overflow-hidden rounded-md-image">
+                                        <img src="/assets/img/SelfOnlineDashboard/Return_Filling_Status.png" class="img-fluid rounded-md-image" alt="">
+                                    </div>
+
+                                    <div class="post-content d-flex flex-column">
+
+                                        <h3 class="post-title">
+                                            Check Status
+                                        </h3>
+                                        <p class="mt-2 text-muted">
+                                            Track the progress of your tax return submissions.
+                                        </p>
+
+
+                                    </div>
+
+                                </article>
+                            </div>
+                            <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
+                                <article class="position-relative h-100 rounded-md">
+
+                                    <div class="post-img position-relative overflow-hidden rounded-md-image">
+                                        <img src="/assets/img/SelfOnlineDashboard/Account_Summary.png" class="img-fluid rounded-md-image" alt="">
+
+                                    </div>
+
+                                    <div class="post-content d-flex flex-column">
+
+                                        <h3 class="post-title">My Package</h3>
+
+                                        <p class="mt-2 text-muted">
+                                            View details of your current filing package and upgrade if needed.
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+
+        <!-- File my taxes item -->
+
+        <!-- End File my taxes item -->
 
                             <!-- File my taxes item -->
     }
@@ -91,50 +156,56 @@
                                     </div>
                                 </article>
                             </div>
+                            <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
+                                <article class="position-relative h-100 rounded-md">
+
+                                    <div class="post-img position-relative overflow-hidden rounded-md-image">
+                                        <img src="/assets/img/SelfOnlineDashboard/Return_Filling_Status.png" class="img-fluid rounded-md-image" alt="">
+                                    </div>
+
+                                    <div class="post-content d-flex flex-column">
+
+                                        <h3 class="post-title">
+                                            Return Filling Status
+                                        </h3>
+                                        <p class="mt-2 text-muted">
+                                            The Return Filing Status dashboard for self-online submissions.
+                                        </p>
+
+
+                                    </div>
+
+                                </article>
+                            </div>
+                            <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
+                                <article class="position-relative h-100 rounded-md">
+
+                                    <div class="post-img position-relative overflow-hidden rounded-md-image">
+                                        <img src="/assets/img/SelfOnlineDashboard/Account_Summary.png" class="img-fluid rounded-md-image" alt="">
+
+                                    </div>
+
+                                    <div class="post-content d-flex flex-column">
+
+                                        <h3 class="post-title">Account Summary</h3>
+
+                                        <p class="mt-2 text-muted">
+                                            The Account Summary provides an overview of your financial data.
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+
+        <!-- File my taxes item -->
+
+        <!-- End File my taxes item -->
 
                             <!-- File my taxes item -->
     }
 
-                        <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
-                            <article class="position-relative h-100 rounded-md">
+                       
 
-                                <div class="post-img position-relative overflow-hidden rounded-md-image">
-                                    <img src="/assets/img/SelfOnlineDashboard/Return_Filling_Status.png" class="img-fluid rounded-md-image" alt="">
-                                </div>
-
-                                <div class="post-content d-flex flex-column">
-
-                                    <h3 class="post-title">
-                                        Return Filling Status
-                                    </h3>
-                                    <p class="mt-2 text-muted">
-                                        The Return Filing Status dashboard for self-online submissions.
-                                    </p>
-
-
-                                </div>
-
-                            </article>
-                        </div><!-- End File my taxes item -->
-
-                        <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
-                            <article class="position-relative h-100 rounded-md">
-
-                                <div class="post-img position-relative overflow-hidden rounded-md-image">
-                                    <img src="/assets/img/SelfOnlineDashboard/Account_Summary.png" class="img-fluid rounded-md-image" alt="">
-
-                                </div>
-
-                                <div class="post-content d-flex flex-column">
-
-                                    <h3 class="post-title">Account Summary</h3>
-
-                                    <p class="mt-2 text-muted">
-                                        The Account Summary provides an overview of your financial data.
-                                    </p>
-                                </div>
-                            </article>
-                        </div><!-- File my taxes item -->
+                       
 
                         <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
                             <article class="position-relative h-100 rounded-md">
@@ -147,12 +218,12 @@
                                 <div class="post-content d-flex flex-column">
                                     <a asp-controller="User" asp-action="UserProfile" asp-route-userId=@userId>
                                         <h3 class="post-title">
-                                            My Profile
+                                            Edit Profile
                                         </h3>
                                     </a>
 
                                     <p class="mt-2 text-muted">
-                                        The My Profile information.
+                                        Manage your personal and account information.
                                     </p>
                                 </div>
                             </article>

@@ -3611,6 +3611,16 @@ padding-bottom: 9;
     color: #505b6d;
 }
 
+
+
+#manualForeignTab .form-control {
+    width: 100% !important;
+}
+
+#manualForeignTab select.form-select {
+    width: 100% !important;
+}
+
 span i {
     font-size: 60px;
     color: #0084ff;
@@ -3618,7 +3628,6 @@ span i {
     display: inline-block;
 }
 
-}
 
 .client-info {
     h3
@@ -3634,7 +3643,7 @@ p {
     text-transform: uppercase;
 }
 
-}
+
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     #testimonial-area .section-heading h2 {
@@ -3920,6 +3929,7 @@ section#team section#testimonial-area {
     margin: 0px;
     margin-right: 16px;
 }
+
 
 
 
