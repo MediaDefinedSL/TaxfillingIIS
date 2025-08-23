@@ -3409,6 +3409,7 @@ span.select2-selection.select2-selection--single {
     width: 100% !important;
 }
 
-#manualForeignTab select.form-select {
+#manualForeignTab select.form-select, div#assets-section .form-select,
+div#assets-section .form-control {
     width: 100% !important;
 }
