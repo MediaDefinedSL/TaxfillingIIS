@@ -3335,7 +3335,18 @@
 
                      submitBtn.addEventListener("click", async function () {
 
-                        if (!selectedFile || !selectedCategoryName) return;
+                        if (!selectedFile || !selectedCategoryName) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Upload file',
+                            text: 'Please upload a file before submitting.',
+                                        customClass: {
+                            popup: 'small-swal-popup'
+                        }
+                        });
+
+                        return;
+                        }
                            showLoadMask(); 
 
                         try {
@@ -3462,7 +3473,18 @@
 
                     submitBankBtn.addEventListener("click", async function () {
 
-                        if (!selectedFile || !selectedCategoryName) return;
+                        if (!selectedFile || !selectedCategoryName){
+                               Swal.fire({
+                               icon: 'warning',
+                               title: 'Upload file',
+                               text: 'Please upload a file before submitting.',
+                                           customClass: {
+                               popup: 'small-swal-popup'
+                           }
+                           });
+                            
+                            return;
+                        }
                         showLoadMask();
                         try {
                             // 1. Upload to external API
@@ -3683,7 +3705,18 @@
 
                     submitOtherBtn.addEventListener("click", async function () {
 
-                        if (!selectedFile || !selectedCategoryName) return;
+                        if (!selectedFile || !selectedCategoryName) {
+                               Swal.fire({
+                               icon: 'warning',
+                               title: 'Upload file',
+                               text: 'Please upload a file before submitting.',
+                                           customClass: {
+                               popup: 'small-swal-popup'
+                           }
+                           });
+                            
+                            return;
+                        }
 
                         showLoadMask();
 
