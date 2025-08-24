@@ -4173,3 +4173,20 @@ div#uploadedBankDocs .table th:last-child {
     display: block !important;
     row-gap: 4px !important;
 }
+
+.small-swal-popup {
+    padding: 1rem !important; /* less padding */
+    font-size: 14px !important; /* smaller font */
+    width: 300px !important; /* reduce width */
+}
+
+    .small-swal-popup .swal2-title {
+        font-size: 16px !important; /* smaller title */
+        margin-bottom: 0.5rem !important;
+    }
+
+    .small-swal-popup .swal2-html-container {
+        font-size: 13px !important; /* smaller text */
+        margin: 0 !important;
+    }
+
