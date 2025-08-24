@@ -2471,7 +2471,7 @@ section#Self-Online-Flow {
 
 
 .cal .container {
-    background-image: url(http://images.netexam.com/images/10229/tab-frame-small-one-edit.png) !important;
+    background-image: url(/assets/img/tab-frame-small-one-edit-icon.png) !important;
     background-size: 100% 100% !important;
     padding: 63px;
     padding-top: 14px;
@@ -3931,6 +3931,246 @@ section#team section#testimonial-area {
     margin-right: 16px;
 }
 
+label {
+    display: block; /* ensure label is block level */
+    margin-bottom: 0.5rem !important; /* adjust space as needed */
+}
+
+.our-team .client-info {
+    display: none;
+}
+
+.cal h4 {
+    text-align: center;
+}
+
+
+
+/*cal-foreing*/
+.cal-foreing .card {
+    background: var(--card);
+    border: 1px solid var(--stroke);
+    border-radius: 16px;
+    padding: 0px; /* box-shadow:0 10px 24px rgba(37,99,235,.06); */
+}
+
+.cal-foreing h1 {
+    font-size: 22px;
+    margin: 0 0 6px 0
+}
+
+.cal-foreing h2 {
+    font-size: 18px;
+    margin: 14px 0 8px 0;
+    padding: 0px 10px 0px 10px;
+}
+
+.cal-foreing h3 {
+    font-size: 16px;
+    margin: 10px 0 6px 0;
+    padding: 0px 10px 0px 10px;
+}
+
+.cal-foreing .note {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 4px 0;
+    padding: 0px 10px 0px 10px;
+}
+
+.cal-foreing .line {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+    padding: 0px 10px 0px 10px;
+}
+
+    .cal-foreing .line label {
+        font-weight: 600;
+        color: var(--muted)
+    }
+
+.cal-foreing input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--stroke);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    border-radius: 8px !important;
+}
+
+    .cal-foreing input:focus, select:focus {
+        outline: 2px solid var(--brand);
+        border-color: var(--brand)
+    }
+
+.cal-foreing .btn {
+    margin-top: 12px;
+    background: linear-gradient(180deg,var(--brand),var(--brand-600));
+    border: none;
+    color: #fff;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-weight: 700;
+    cursor: pointer
+}
+
+.cal-foreing .pill {
+    background: #f0f6ff;
+    border: 1px solid var(--stroke);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin: 0px 10px 0px 10px;
+}
+
+    .cal-foreing .pill .big {
+        font-weight: 800;
+        font-size: 22px;
+        color: var(--brand-600)
+    }
+
+.cal-foreing table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px
+}
+
+.cal-foreing th, td {
+    padding: 10px;
+    border-bottom: 1px solid var(--stroke)
+}
+
+.cal-foreing th {
+    text-align: left;
+    color: var(--muted)
+}
+
+.cal-foreing td.num {
+    text-align: right
+}
+
+.cal-foreing ul {
+    margin: 6px 0 0 20px
+}
+
+.cal-foreing .src {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 10px;
+}
+
+.inline-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center
+}
+
+.cal-foreing .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px
+}
+
+.cal-foreing .muted-strong {
+    color: var(--brand-600);
+    font-weight: 800
+}
+
+.cal-foreing .badge {
+    display: inline-block;
+    margin-top: 6px;
+    background: #e9f0ff;
+    border: 1px solid var(--stroke);
+    color: var(--brand-600);
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    width: auto !important;
+    width: 100px !important;
+    margin-left: 10px;
+}
+
+@media (max-width:640px) {
+    .cal-foreing .line {
+        grid-template-columns: 1fr
+    }
+
+        .cal-foreing .line label {
+            margin-bottom: 4px
+        }
+}
+
+
+
+.cal-foreing main {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+}
+
+.cal-foreing .grid th, .cal-foreing .grid td {
+    padding: 10px !important;
+}
+
+/*END cal-foreing*/
+
+
+#contact .card.card-body.border p {
+    padding-left: 10px;
+}
+
+#contact .card.card-body.border h4 {
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+#contact .collapse ul {
+    margin-bottom: 0px;
+}
+
+#dashboard-section span#statusBadge {
+    margin-bottom: 1.5rem;
+}
+
+#dashboard-section p.fs-5.fw-bold {
+    font-size: 1rem !important;
+}
+
+#dashboard-section a#fileCountLink {
+    margin-bottom: 1.5rem;
+    display: block;
+    font-size: 1.5rem;
+}
+
+#employment-section input#T10EmployerName {
+    margin-top: 10px;
+}
+
+#employment-section input#fileInput {
+    margin-top: 10px;
+}
+
+div#uploadedBankDocs .table th:last-child {
+    width: 140px;
+}
+
+#manualLocalTab select.form-select {
+    display: block !important;
+    margin-bottom: 10px;
+}
+
+#manualLocalTab .mb-2.d-flex.gap-2 {
+    display: block !important;
+    row-gap: 4px !important;
+}
 
 
 
