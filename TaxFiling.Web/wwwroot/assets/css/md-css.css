@@ -2078,7 +2078,7 @@ section#services {
 }
 
 #contact .collapse {
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     margin-top: -3px !important;
 }
 
@@ -2471,13 +2471,14 @@ section#Self-Online-Flow {
 
 
 .cal .container {
-    background-image: url(/assets/img/tab-frame-small-one-edit-icon.png) !important;
+    background-image: url(http://images.netexam.com/images/10229/tab-frame-small-one-edit.png) !important;
     background-size: 100% 100% !important;
     padding: 63px;
     padding-top: 14px;
     padding-bottom: 116px !important;
-    height: 2200px;
+    height: auto !important;
     margin-bottom: 4%;
+    min-height: 2200px !important;
 }
 
 
@@ -2508,7 +2509,7 @@ section#Self-Online-Flow {
 .cal h1 {
     font-size: 18px;
     letter-spacing: .4px;
-    text-align: left;
+    text-align: center;
     color: #ffffff;
     margin: 0 0 2px;
     padding: 10px;
@@ -2540,7 +2541,7 @@ section#Self-Online-Flow {
     font-weight: 600;
     background-color: #49abfa !important;
     padding-bottom: 0px;
-    margin-bottom: 60px;
+    margin-bottom: 26px;
     padding: 10px;
     font-size: 18px;
     color: #fff;
@@ -2582,7 +2583,8 @@ section#Self-Online-Flow {
 }
 
 .muted {
-    color: var(--muted)
+    color: var(--muted);
+    text-transform: capitalize;
 }
 
 .cal input, select {
@@ -2700,6 +2702,7 @@ section#Self-Online-Flow {
 .cal ul#myTab {
     height: 46px;
     border-bottom: solid 2px #2196f3;
+    margin-top: 19px;
 }
 
 
@@ -3404,14 +3407,12 @@ span.select2-selection.select2-selection--single {
 }
 
 .client-img {
-transition: 0.3s;
+    transition: 0.3s;
 }
 
 
 
 /*team ereya*/
-
-@import url('https: //fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
 .our-team #testimonial-area {
     .section-heading h2
@@ -3430,7 +3431,7 @@ padding-bottom: 9;
 
 .our-team .testi-wrap {
     position: relative;
-    height: 490px;
+    height: 596px;
     margin-top: -80px;
     padding-bottom: 0px !important;
 }
@@ -3474,12 +3475,12 @@ padding-bottom: 9;
 
 &.position-2 {
     left: -40px;
-    top: 105px;
+    top: -5px;
 }
 
 &.position-3 {
-    left: -48px;
-    top: 240px;
+    left: -4px;
+    top: 136px;
     -webkit-transform: scale(0.4) !important;
     transform: scale(0.4) !important;
 }
@@ -3534,34 +3535,34 @@ padding-bottom: 9;
     margin: 0 auto 24px;
     position: relative;
     /* box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1); */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     &:before
@@ -3629,6 +3630,7 @@ span i {
     display: inline-block;
 }
 
+}
 
 .client-info {
     h3
@@ -3644,7 +3646,7 @@ p {
     text-transform: uppercase;
 }
 
-
+}
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     #testimonial-area .section-heading h2 {
@@ -3889,21 +3891,22 @@ p {
 }
 
 
+
 .our-team {
     padding-top: 0px;
 }
 
-.our-team .container {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
-}
+    .our-team .container {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
 
-.our-team span i{
-    display:none;
-}
+    .our-team span i {
+        display: none;
+    }
 
 
-section#team  section#testimonial-area {
+section#team section#testimonial-area {
     padding-bottom: 0px !important;
 }
 
@@ -3911,15 +3914,16 @@ section#team {
     padding-bottom: 0px;
 }
 
-section#team section#testimonial-area {
-    padding-bottom: 0px !important;
-}
+    section#team section#testimonial-area {
+        padding-bottom: 0px !important;
+        padding-top: 46px;
+    }
 
 
 #team .container.section-title.aos-init.aos-animate {
     padding-bottom: 8px;
 }
-/*team ereya*/
+/*END team ereya*/
 
 
 .hero .container p {
@@ -3931,10 +3935,8 @@ section#team section#testimonial-area {
     margin-right: 16px;
 }
 
-label {
-    display: block; /* ensure label is block level */
-    margin-bottom: 0.5rem !important; /* adjust space as needed */
-}
+
+
 
 .our-team .client-info {
     display: none;
@@ -4171,24 +4173,3 @@ div#uploadedBankDocs .table th:last-child {
     display: block !important;
     row-gap: 4px !important;
 }
-
-#manualForeignTab .form-control {
-    width: 100% !important;
-}
-
-#manualForeignTab select.form-select {
-    width: 100% !important;
-}
-
-#manualForeignTab select.form-select {
-    display: block !important;
-    margin-bottom: 10px;
-}
-
-#manualForeignTab .mb-2.d-flex.gap-2 {
-    display: block !important;
-    row-gap: 4px !important;
-}
-
-
-
