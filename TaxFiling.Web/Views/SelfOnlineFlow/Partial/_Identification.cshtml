@@ -9,27 +9,63 @@
         </div>
 
         <form asp-action="SubmitIdentification" method="post">
+
+            <!-- Title -->
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <span class="text-danger"> *</span>
-                    <label for="FirstName">First name</label>
+                    <span class="text-danger">*</span>
+                    <label for="Title">Title</label>
+                    @Html.DropDownListFor(m => m.Title,
+                             new SelectList(new[]
+                             {
+                    new { Value = "Mr.", Text = "Mr." },
+                    new { Value = "Mrs.", Text = "Mrs." },
+                    new { Value = "Miss.", Text = "Miss." },
+                    new { Value = "Ms.", Text = "Ms." },
+                    new { Value = "Dr.", Text = "Dr." }
+                    }, "Value", "Text"),
+                             "-- Select Title --",
+                             new { @class = "form-control" })
+                </div>
+            </div>
+
+            <!-- Names -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <span class="text-danger">*</span>
+                    <label for="FirstName">First Name</label>
                     @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
-                    <label for="MiddleName">Middle name</label>
+                    <label for="MiddleName">Middle Name</label>
                     @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
                 </div>
                 <div class="col-md-4">
-                    <span class="text-danger"> *</span>
-                    <label for="LastName">Last name</label>
+                    <span class="text-danger">*</span>
+                    <label for="LastName">Last Name</label>
                     @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
                 </div>
             </div>
 
+            <!-- Gender + DOB -->
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <span class="text-danger"> *</span>
-                    <label for="DateOfBirth">Date of birth</label>
+                    <span class="text-danger">*</span>
+                    <label for="Gender">Gender</label>
+                    @Html.DropDownListFor(m => m.Gender,
+                             new SelectList(new[]
+                             {
+                    new { Value = "Male", Text = "Male" },
+                    new { Value = "Female", Text = "Female" },
+                    new { Value = "Other", Text = "Other" }
+                    }, "Value", "Text"),
+                             "-- Select Gender --",
+                             new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-4">
+                    <span class="text-danger">*</span>
+                    <label for="DateOfBirth">Date of Birth</label>
                     @if (Model.DateOfBirth != null && Model.DateOfBirth?.Year > 1901)
                     {
                         var birthday = Model.DateOfBirth ?? new DateTime(1901, 1, 1);
@@ -51,46 +87,49 @@
                             })
                     }
                 </div>
-                <div class="col-md-4">
-                    <label for="TaxIdentificationNumber">Tax Identification Number</label>
-                    @Html.TextBoxFor(m => m.TaxNumber, new { @class = "form-control", disabled = "disabled" })
-                </div>
-                <div class="col-md-4">
-                    <label for="NIC">NIC</label>
-                    @Html.TextBoxFor(m => m.NIC_NO, new { @class = "form-control", disabled = "disabled" })
-                </div>
             </div>
 
-        
+            <!-- IDs -->
             <div class="row mb-4">
-               
                 <div class="col-md-4">
-                    <label for="Gender">Gender</label>
-                    @Html.DropDownListFor(m => m.Gender,
-                             new SelectList(new[]
-                             {
-                    new { Value = "Male", Text = "Male" },
-                    new { Value = "Female", Text = "Female" },
-                    new { Value = "Other", Text = "Other" }
-                    }, "Value", "Text"),
-                             "-- Select Gender --",
-                             new { @class = "form-control" })
+                    <label for="NIC">National Identity Card (NIC) Number</label>
+                    @Html.TextBoxFor(m => m.NIC_NO, new { @class = "form-control" })
                 </div>
-                <div class="col-md-6">
-                    <label for="Address">Address</label>
-                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                <div class="col-md-4">
+                    <label for="PassportNo">Passport No</label>
+                    @Html.TextBoxFor(m => m.PassportNo, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    <label for="TaxNumber">Tax Identification Number (TIN)</label>
+                    @Html.TextBoxFor(m => m.TaxNumber, new { @class = "form-control" })
                 </div>
             </div>
+
+            <!-- Nationality / Occupation / Employer -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label for="Nationality">Nationality / Citizenship</label>
+                    @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    <label for="Occupation">Occupation</label>
+                    @Html.TextBoxFor(m => m.Occupation, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    <label for="EmployerName">Employer Name</label>
+                    @Html.TextBoxFor(m => m.EmployerName, new { @class = "form-control" })
+                </div>
+            </div>
+
           
+
         </form>
-
-
 
         <br><br>
         <div class="d-lg-flex justify-content-between">
             <div class="col-lg-6 col-md-6 btn-prv">
                 <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
-                   Back
+                    Back
                 </button>
             </div>
             <div class="col-lg-6 col-md-6 right next-btn" id="linkTaxPayerContinue">

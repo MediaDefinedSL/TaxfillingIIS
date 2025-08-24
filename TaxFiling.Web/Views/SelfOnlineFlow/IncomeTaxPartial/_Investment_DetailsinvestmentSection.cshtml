@@ -245,19 +245,17 @@
                                 <h3 class="mb-3"> <i class="bi bi-pie-chart-fill"></i> &nbsp; Divident</h3>
                                 <hr>
                                 <div class="row g-3">
+
                                     <div class="col-md-6">
-                                        <label class="form-label">Activity Code (Investment Income – Individual)</label>
-                                        <input type="text" class="form-control" id="txtDActivityCode" name="txtDActivityCode">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Type of Employment</label>
-                                        <select class="form-select" id="dpdDTypeEmployment" name="dpdDTypeEmployment">
+                                        <label class="form-label">Type of Investment Income</label>
+                                        <select class="form-select" id="dpdDInvestmentIncome" name="dpdDInvestmentIncome">
                                             <option value="">-- Select --</option>
                                             <option value="Interest">Interest</option>
                                             <option value="Dividends">Dividends</option>
                                             <option value="Rent">Rent</option>
                                         </select>
                                     </div>
+                                    
                                     <div class="col-md-6">
                                         <label class="form-label">Remuneration (Rs.)</label>
                                         <input type="text" class="form-control" id="txtDRemuneration" name="txtDRemuneration">
@@ -293,10 +291,6 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Cost of Acquisition/Market value if not acquired (Rs.)</label>
                                         <input type="text" class="form-control" id="txtDCostAcquisitionMarket" name="txtDCostAcquisitionMarket">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Total investment income other than partnership or trust</label>
-                                        <input type="text" class="form-control" id="txtDInvestmentIncome" name="txtDInvestmentIncome">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Net Dividend Income (Rs.)</label>
@@ -351,18 +345,15 @@
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Activity Code (Investment Income – Individual)</label>
-                                        <input type="text" class="form-control" id="txtRActivityCode" name="txtRActivityCode">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Type of Employment</label>
-                                        <select class="form-select" id="dpdRTypeEmployment" name="dpdRTypeEmployment">
-                                            <option value="">-- Select --</option>
-                                            <option value="Interest">Interest</option>
-                                            <option value="Dividends">Dividends</option>
-                                            <option value="Rent">Rent</option>
+                                        <label class="form-label">Name of company/institution</label>
+                                        <select class="form-select" id="dpRCompanyInstitution" name="dpdRCompanyInstitution">
+                                            <option value="">-- Select Company/Institution --</option>
+                                            <option value="Bank1">Company 1</option>
+                                            <option value="Bank2">Company 2</option>
+                                            <option value="Bank3">Institution 3</option>
                                         </select>
                                     </div>
+                                  
                                     <div class="col-md-6">
                                         <label class="form-label">Remuneration (Rs.)</label>
                                         <input type="text" class="form-control" id="txtRRemuneration" name="txtRRemuneration">
