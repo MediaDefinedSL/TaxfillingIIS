@@ -34,5 +34,6 @@ public class Context : DbContext
 
     public DbSet<UserTaxAssistedOtherAssetsDetails> UserTaxAssistedOtherAssetsDetails { get; set; }
     public DbSet<SelfFilingTotalCalculation> SelfFilingTotalCalculation { get; set; }
+    public DbSet<SelfOnlineInvestmentIncome> SelfOnlineInvestmentIncome { get; set; }
 
 }
