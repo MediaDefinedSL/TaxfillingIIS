@@ -4172,5 +4172,23 @@ div#uploadedBankDocs .table th:last-child {
     row-gap: 4px !important;
 }
 
+#manualForeignTab .form-control {
+    width: 100% !important;
+}
+
+#manualForeignTab select.form-select {
+    width: 100% !important;
+}
+
+#manualForeignTab select.form-select {
+    display: block !important;
+    margin-bottom: 10px;
+}
+
+#manualForeignTab .mb-2.d-flex.gap-2 {
+    display: block !important;
+    row-gap: 4px !important;
+}
+
 
 
