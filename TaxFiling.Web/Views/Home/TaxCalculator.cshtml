@@ -1,379 +1,705 @@
 ﻿<main class="cal">
-	 
-	  <div class="container">
- <br>
-	  <br>
-		<ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link " id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Local Salary</button>
-                    </li>
-                    
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Foreign Income</button>
-                    </li><li class="nav-item" role="presentation">
-                <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Income Tax Liability </button>
-                    </li>
 
-                </ul>  
-		  <div class="tab-content mt-3" id="myTabContent">
-                    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="container">
+        <br>
+        <br>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false" tabindex="-1">Domestic Employment (APIT / PAYE)</button>
+            </li>
 
-                        
-                    </div>
-                    <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        
-                    </div>
-                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <div class="sheet">
-    <h1>INCOME TAX LIABILITY </h1>
-    <h2>YEAR OF ASSESSMENT 2025/2026</h2>    
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Foreign Income</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="profile" aria-selected="true">Total Individual Income Tax</button>
+            </li>
 
-    <!-- ================= 1) INCOME SOURCES ================= -->
-       <table class="grid" id="tblIncome">
-      <thead><tr><th>Source</th><th class="num">Amount (LKR)</th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="lbl">Employment Income – <span class="muted">Local (APIT deducted)</span></td>
-          <td class="num"><input id="emp_apit_annual" type="text" inputmode="decimal" value="0"></td>
-        </tr>
-
-        <!-- Foreign employment: Annual amount + currency + FX (one line) -->
-        <tr class="band-soft">
-          <td class="lbl">
-            Employment Income – <span class="muted">Foreign</span>
-            <div class="controls" style="margin:6px 0 2px">
-              <span class="pill">Annual</span>
-              <input id="foreign_amount_annual" type="text" inputmode="decimal" value="0" style="max-width:200px">
-              <select id="foreign_currency" style="max-width:110px">
-                <option>USD</option><option>EUR</option><option>GBP</option>
-                <option>AUD</option><option>CAD</option><option selected>LKR</option>
-              </select>
-              <span class="pill">FX→LKR</span>
-              <input id="fx_rate" type="text" inputmode="decimal" value="300" style="max-width:120px">
+        </ul>
+        <div class="tab-content mt-3" id="myTabContent">
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
             </div>
-            <small class="note">If your figure is already in LKR, set FX to <b>1</b>.</small>
-          </td>
-          <td class="num"><span id="foreign_lkr_annual" class="mono">0</span></td>
-        </tr>
+            <div class="tab-pane fade active show  cal-foreing" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <main>
+                    <header class="card">
+                        <h1>Calculate Your Income Tax Liability – Year of Assessment 2025/2026</h1>
+                        <span class="badge">Draft 1</span>
+                        <p class="note">Dividends are taxed finally at <b>15%</b> and excluded from slab taxable income. Rent receives <b>25% relief + rates</b> (deductions section). Foreign employment income is auto-converted to LKR.</p>
+                    </header>
 
-        <tr>
-          <td class="lbl">Business / Professional Income – <span class="muted">Annual profit</span></td>
-          <td class="num"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0"></td>
-        </tr>
+                    <!-- ===================== 1) INCOME SOURCES ===================== -->
+                    <section class="card" id="inputs">
+                        <h2>1. Income Sources</h2>
 
-        <tr>
-          <td class="lbl">Investment Income – Interest</td>
-          <td class="num"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0"></td>
-        </tr>
+                        <!-- 1.1 Employment Income -->
+                        <h3>1.1 Employment Income</h3>
+                        <div class="line">
+                            <label for="emp_apit_annual">Local Employment Income (APIT Deducted) – Annual</label>
+                            <input id="emp_apit_annual" type="number" inputmode="decimal" step="any" value="0">
+                        </div>
 
-        <tr>
-          <td class="lbl">Investment Income – Rent (gross)</td>
-          <td class="num"><input id="rent_gross_annual" type="text" inputmode="decimal" value="0"></td>
-        </tr>
+                        <div class="line"><label for="foreign_amount_monthly">Foreign Employment Income – Monthly Amount</label><input id="foreign_amount_monthly" type="number" inputmode="decimal" step="any" value="0"></div>
+                        <div class="line">
+                            <label for="foreign_currency">Currency</label>
+                            <div class="inline-actions">
+                                <select id="foreign_currency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>LKR</option></select>
+                                <button id="btn_refresh_rate" class="btn" type="button">Refresh FX</button>
+                            </div>
+                        </div>
+                        <div class="line"><label for="cbsL_rate">FX Rate to LKR (auto/manual)</label><input id="cbsL_rate" type="number" inputmode="decimal" step="any" value="300"></div>
+                        <div class="line"><label for="foreign_lkr_monthly_auto">Converted LKR / month (auto)</label><input id="foreign_lkr_monthly_auto" type="text" disabled=""></div>
+                        <p class="src" id="fx_source">Rate source: open.er-api.com</p>
 
-        <tr>
-          <td class="lbl">Investment Income – Dividend <span class="muted">(Final Tax 15%)</span></td>
-          <td class="num"><input id="dividend_gross_annual" type="text" inputmode="decimal" value="0"></td>
-        </tr>
+                        <!-- 1.2 Business Income -->
+                        <h3>1.2 Business Income</h3>
+                        <div class="line"><label for="biz_profit_annual">Business/Professional Profit – Annual</label><input id="biz_profit_annual" type="number" inputmode="decimal" step="any" value="0"></div>
 
-        <tr>
-          <td class="lbl">Other Investment Income</td>
-          <td class="num"><input id="invest_other_annual" type="text" inputmode="decimal" value="0"></td>
-        </tr>
+                        <!-- 1.3 Investment Income -->
+                        <h3>1.3 Investment Income</h3>
+                        <div class="line"><label for="interest_gross_annual">Interest Income – Annual (gross)</label><input id="interest_gross_annual" type="number" inputmode="decimal" step="any" value="0"></div>
+                        <div class="line"><label for="rent_gross_annual">Rent Income – Annual (gross)</label><input id="rent_gross_annual" type="number" inputmode="decimal" step="any" value="0"></div>
+                        <div class="line"><label for="rent_rates_paid">Rates / Local Taxes Paid (for rent)</label><input id="rent_rates_paid" type="number" inputmode="decimal" step="any" value="0"></div>
+                        <div class="line"><label for="dividend_gross_annual">Dividend Income – Annual (gross)</label><input id="dividend_gross_annual" type="number" inputmode="decimal" step="any" value="0"></div>
+                        <div class="line"><label for="invest_other_annual">Other Investment Income (e.g., TB/TB/MM) – Annual</label><input id="invest_other_annual" type="number" inputmode="decimal" step="any" value="0"></div>
 
-        <tr>
-          <td class="lbl">Other Income</td>
-          <td class="num"><input id="other_income_annual" type="text" inputmode="decimal" value="0"></td>
-        </tr>
+                        <!-- 1.4 Other Sources of Income -->
+                        <h3>1.4 Other Sources of Income</h3>
+                        <div class="line"><label for="other_income_annual">Other Income – Annual</label><input id="other_income_annual" type="number" inputmode="decimal" step="any" value="0"></div>
 
-        <tr class="band">
-          <td class="lbl"><b>Assessable Income</b> <span class="muted">(excludes dividends)</span></td>
-          <td class="num kpi" id="kpi_assessable">0</td>
-        </tr>
-      </tbody>
-    </table>
+                        <div class="pill" style="margin-top:10px">
+                            <div class="note">→ Total Assessable Income (slab base, excludes dividends)</div>
+                            <div class="big" id="kpi_assessable">0.00</div>
+                        </div>
 
-    <!-- ================= 2) DEDUCTIONS ================= -->
-    <h3 class="section-title">Deduction From Assessable Income</h3>
-    <table class="grid" id="tblDeduct">
-      <thead><tr><th>Relief / Deduction</th><th class="num">Amount (LKR)</th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="lbl">Personal Relief</td>
-          <td class="num"><input id="relief_personal" type="text" inputmode="decimal" value="1800000"></td>
-        </tr>
-        <tr>
-          <td class="lbl">Relief for Rent Income <span class="muted">(auto 25% of gross)</span></td>
-          <td class="num"><span id="relief_rent_auto" class="mono">0</span></td>
-        </tr>
-        <tr>
-          <td class="lbl">Solar Relief <span class="muted">(cap 600,000)</span></td>
-          <td class="num"><input id="relief_solar" type="text" inputmode="decimal" value="0"></td>
-        </tr>
-        <tr>
-          <td class="lbl">Qualifying Payments & Other Deductions</td>
-          <td class="num"><input id="relief_qualifying" type="text" inputmode="decimal" value="0"></td>
-        </tr>
+                        <!-- Controls -->
+                        <div class="line" style="margin-top:8px">
+                            <label for="show_cents">Show cents</label>
+                            <select id="show_cents"><option value="0">No</option><option value="2">Yes</option></select>
+                        </div>
+                        <div class="line">
+                            <label>&nbsp;</label>
+                            <div class="inline-actions">
+                                <button id="btn_calc" class="btn" type="button">Calculate</button>
+                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                            </div>
+                        </div>
+                    </section>
 
-        <tr class="band-soft">
-          <td class="lbl"><b>Total Relief</b></td>
-          <td class="num kpi" id="kpi_deductions">0</td>
-        </tr>
-        <tr class="band">
-          <td class="lbl"><b>Taxable Income</b></td>
-          <td class="num kpi" id="kpi_taxable">0</td>
-        </tr>
-      </tbody>
-    </table>
+                    <!-- ===================== 2) DEDUCTIONS ===================== -->
+                    <section class="card">
+                        <h2>2. Deductions</h2>
 
-    <!-- ================= 3) TAX CALCULATION ================= -->
-    <h3 class="section-title">Tax Calculation</h3>
-    <table class="grid" id="tblSlabs">
-      <thead><tr><th>Slab</th><th class="num">Taxable Portion (LKR)</th><th class="num">Rate</th><th class="num">Tax (LKR)</th></tr></thead>
-      <tbody id="slab_body"></tbody>
-      <tfoot>
-        <tr class="band-soft">
-          <td class="lbl"><b>Total Tax Liability</b></td>
-          <td></td><td></td>
-          <td class="num kpi" id="kpi_tax_liability">0</td>
-        </tr>
-      </tfoot>
-    </table>
+                        <div class="line"><label for="relief_personal">Personal Relief (Annual)</label><input id="relief_personal" type="number" inputmode="decimal" step="any" value="1800000"></div>
+                        <div class="line"><label for="relief_solar">Solar Relief (max 600,000)</label><input id="relief_solar" type="number" inputmode="decimal" step="any" value="0"></div>
+                        <div class="line"><label>Rent Relief (auto: 25% + rates)</label><input id="relief_rent_auto" type="text" disabled=""></div>
+                        <div class="line"><label for="relief_qualifying">Qualifying Payments &amp; Deductions (incl. approved donations)</label><input id="relief_qualifying" type="number" inputmode="decimal" step="any" value="0"></div>
 
-    <!-- ================= 4) CREDITS & RESULT ================= -->
-    <h3 class="section-title">Tax Credits (deductions from Total Tax Liability)</h3>
-    <table class="grid" id="tblLiab">
-      <tbody>
-        <tr>
-          <td class="lbl">Less: APIT deducted by employer <span class="muted">(auto from Local Employment Income)</span></td>
-          <td class="num"><span id="credit_apit_auto" class="mono">0</span></td>
-        </tr>
-        <tr>
-          <td class="lbl">Less: WHT on Interest <span class="muted">(auto 10% of interest income)</span></td>
-          <td class="num"><span id="credit_wht_interest_auto" class="mono">0</span></td>
-        </tr>
-        <tr class="band">
-          <td class="lbl totals">Final Income Tax Payable / (Refundable)</td>
-          <td class="num totals" id="sum_net">0</td>
-        </tr>
-      </tbody>
-    </table>
+                        <div class="grid-2" style="margin-top:8px">
+                            <div class="pill">
+                                <div class="note">Total Deductions (allowed)</div>
+                                <div class="big" id="kpi_deductions">0.00</div>
+                            </div>
+                            <div class="pill">
+                                <div class="note">→ Taxable Income (Assessable – Deductions)</div>
+                                <div class="big" id="kpi_taxable">0.00</div>
+                            </div>
+                        </div>
+                        <ul id="deduction_notes" class="note"><li>Personal Relief allowed: Rs. 0.00 (input 1,800,000.00)</li><li>Solar Relief: Rs. 0.00</li><li>Rent Relief (25% + rates): Rs. 0.00</li><li>Qualifying Payments &amp; Deductions: Rs. 0.00</li></ul>
+                    </section>
 
-    <!-- Dividend info (final tax shown separately; not part of liability/credits) -->
-    <table class="grid" style="margin-top:8px">
-      <tbody>
-        <tr>
-          <td class="lbl">Dividend Final Tax (15%)</td>
-          <td class="num" id="sum_div15">0</td>
-        </tr>
-      </tbody>
-    </table>
+                    <!-- ===================== 3) TAX CALCULATION ===================== -->
+                    <section class="card" id="results">
+                        <h2>3. Tax Calculation</h2>
+                        <div class="pill"><div class="note">Annual Gross Tax (Slab only)</div><div class="big" id="kpi_grosstax_slab">0.00</div></div>
 
-    <!-- Effective Tax Rate -->
-    <table class="grid" style="margin-top:8px">
-      <tbody>
-        <tr>
-          <td class="lbl">Effective Tax Rate</td>
-          <td class="num" id="sum_eff">0%</td>
-        </tr>
-      </tbody>
-    </table>
+                        <table>
+                            <thead><tr><th>Slab</th><th class="num">Amount</th><th class="num">Rate</th><th class="num">Tax</th></tr></thead>
+                            <tbody id="slab_body"><tr><td>First 1,000,000</td><td class="num">0.00</td><td class="num">6%</td><td class="num">0.00</td></tr><tr><td>Next 500,000</td><td class="num">0.00</td><td class="num">18%</td><td class="num">0.00</td></tr><tr><td>Next 500,000</td><td class="num">0.00</td><td class="num">24%</td><td class="num">0.00</td></tr><tr><td>Next 500,000</td><td class="num">0.00</td><td class="num">30%</td><td class="num">0.00</td></tr><tr><td>Balance</td><td class="num">0.00</td><td class="num">36%</td><td class="num">0.00</td></tr></tbody>
+                        </table>
 
-    <!-- ===== Controls at the very bottom ===== -->
-    <div class="controls" style="justify-content:center; margin-top:20px">
-      <button class="btn" id="btn_calc" type="button">Calculate</button>
-      <button class="btn" id="btn_reset" type="button">Reset</button>
-    </div>
-  </div>
+                        <ul id="auto_list" class="note"><li>No automatic adjustments.</li></ul>
+                    </section>
+
+                    <!-- ===================== 4) TAX LIABILITY ===================== -->
+                    <section class="card">
+                        <h2>4. Tax Liability</h2>
+
+                        <table>
+                            <tbody>
+                                <tr id="row_div15" style="display: none;"><th>Dividend Final Tax (15%)</th><td class="num" id="sum_div15">0.00</td></tr>
+                                <tr><th class="muted-strong">Gross Tax Liability</th><td class="num muted-strong" id="sum_grosstax">0.00</td></tr>
+                                <tr><th>Less: Credits (APIT + WHT + Foreign tax credit)</th><td class="num" id="sum_credits">− 0.00</td></tr>
+                                <tr><th style="color:var(--brand-600)">→ Final Income Tax Payable / (Refundable)</th><td class="num" id="sum_net" style="font-weight:800">0.00</td></tr>
+                                <tr><th>Effective Tax Rate</th><td class="num" id="sum_eff">0%</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="margin-top:12px">Credits</h3>
+                        <div class="line"><label for="credit_apit">APIT deducted by employer</label><input id="credit_apit" type="number" inputmode="decimal" step="any" value="0"></div>
+
+                        <!-- AUTO WHT on Interest (read-only display) -->
+                        <div class="line">
+                            <label>WHT on Interest (auto 10% of Interest Income)</label>
+                            <input id="credit_wht_interest_auto" type="text" disabled="">
+                        </div>
+
+                        <div class="line"><label for="credit_wht_other">Other WHT credits</label><input id="credit_wht_other" type="number" inputmode="decimal" step="any" value="0"></div>
+                        <div class="line"><label for="credit_foreign">Foreign tax credit</label><input id="credit_foreign" type="number" inputmode="decimal" step="any" value="0"></div>
+
+                        <p class="note">Dividends at 15% are final (excluded from slab taxable income). Rent relief: 25% of gross rent + rates/local taxes paid.</p>
+                    </section>
+                </main>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="sheet">
+                    <h1>INCOME TAX LIABILITY </h1>
+                    <br>
+                    <h4>(Starting 01.04.2025 to 31.03.2025)</h4>
+
+
+                    <!-- ================= 1) INCOME SOURCES ================= -->
+                    <table class="grid" id="tblIncome">
+                        <thead><tr><th>Source</th><th class="num">Amount (LKR)</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td class="lbl">Employment Income – <span class="muted">Local (APIT deducted)</span></td>
+                                <td class="num"><input id="emp_apit_annual" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <!-- Foreign employment: Annual amount + currency + FX (one line) -->
+                            <tr class="band-soft">
+                                <td class="lbl">
+                                    Employment Income – <span class="muted">Foreign</span>
+                                    <div class="controls" style="margin:6px 0 2px">
+                                        <span class="pill">Annual</span>
+                                        <input id="foreign_amount_annual" type="text" inputmode="decimal" value="0" style="max-width:200px">
+                                        <select id="foreign_currency" style="max-width:110px">
+                                            <option>USD</option>
+                                            <option>EUR</option>
+                                            <option>GBP</option>
+                                            <option>AUD</option>
+                                            <option>CAD</option>
+                                            <option selected="">LKR</option>
+                                        </select>
+                                        <span class="pill">FX→LKR</span>
+                                        <input id="fx_rate" type="text" inputmode="decimal" value="300" style="max-width:120px">
+                                    </div>
+                                    <small class="note">If your figure is already in LKR, set FX to <b>1</b>.</small>
+                                </td>
+                                <td class="num"><span id="foreign_lkr_annual" class="mono">0.00</span></td>
+                            </tr>
+
+                            <tr>
+                                <td class="lbl">Business / Professional Income – <span class="muted">Annual profit</span></td>
+                                <td class="num"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="lbl">Investment Income – Interest</td>
+                                <td class="num"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="lbl">Investment Income – Rent (gross)</td>
+                                <td class="num"><input id="rent_gross_annual" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="lbl">Investment Income – Dividend <span class="muted">(Final Tax 15%)</span></td>
+                                <td class="num"><input id="dividend_gross_annual" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="lbl">Other Investment Income<span class="muted"> (WHT not dedcted)</span></td>
+                                <td class="num"><input id="invest_other_annual" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="lbl">Other Income</td>
+                                <td class="num"><input id="other_income_annual" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <tr class="band">
+                                <td class="lbl"><b>Assessable Income</b> <span class="muted">(excludes dividends)</span></td>
+                                <td class="num kpi" id="kpi_assessable">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ================= 2) DEDUCTIONS ================= -->
+                    <h3 class="section-title">Deduction From Assessable Income</h3>
+                    <table class="grid" id="tblDeduct">
+                        <thead><tr><th>Relief / Deduction</th><th class="num">Amount (LKR)</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td class="lbl">Personal Relief</td>
+                                <td class="num"><input id="relief_personal" type="text" inputmode="decimal" value="1800000"></td>
+                            </tr>
+                            <tr>
+                                <td class="lbl">Relief for Rent Income <span class="muted">(auto 25% of gross)</span></td>
+                                <td class="num"><span id="relief_rent_auto" class="mono">0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td class="lbl">Solar Relief <span class="muted">(cap 600,000)</span></td>
+                                <td class="num"><input id="relief_solar" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td class="lbl">Qualifying Payments &amp; Other Deductions</td>
+                                <td class="num"><input id="relief_qualifying" type="text" inputmode="decimal" value="0"></td>
+                            </tr>
+
+                            <tr class="band-soft">
+                                <td class="lbl"><b>Total Relief</b></td>
+                                <td class="num kpi" id="kpi_deductions">1,800,000.00</td>
+                            </tr>
+                            <tr class="band">
+                                <td class="lbl"><b>Taxable Income</b></td>
+                                <td class="num kpi" id="kpi_taxable">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ================= 3) TAX CALCULATION ================= -->
+                    <h3 class="section-title">Tax Calculation</h3>
+                    <table class="grid" id="tblSlabs">
+                        <thead><tr><th>Slab</th><th class="num">Taxable Portion (LKR)</th><th class="num">Rate</th><th class="num">Tax (LKR)</th></tr></thead>
+                        <tbody id="slab_body"></tbody>
+                        <tfoot>
+                            <tr class="band-soft">
+                                <td class="lbl"><b>Total Tax Liability</b></td>
+                                <td></td>
+                                <td></td>
+                                <td class="num kpi" id="kpi_tax_liability">0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- ================= 4) CREDITS & RESULT ================= -->
+                    <h3 class="section-title">Tax Credits (deductions from Total Tax Liability)</h3>
+                    <table class="grid" id="tblLiab">
+                        <tbody>
+                            <tr>
+                                <td class="lbl">Less: APIT deducted by employer <span class="muted">(auto from Local Employment Income)</span></td>
+                                <td class="num"><span id="credit_apit_auto" class="mono">0.00</span></td>
+                            </tr>
+                            <tr>
+                                <td class="lbl">Less: WHT on Interest <span class="muted">(auto 10% of interest income)</span></td>
+                                <td class="num"><span id="credit_wht_interest_auto" class="mono">0.00</span></td>
+                            </tr>
+                            <tr class="band">
+                                <td class="lbl totals">Final Income Tax Payable / (Refundable)</td>
+                                <td class="num totals pos" id="sum_net">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Dividend info (final tax shown separately; not part of liability/credits) -->
+                    <table class="grid" style="margin-top:8px">
+                        <tbody>
+                            <tr>
+                                <td class="lbl">Dividend Final Tax (15%)</td>
+                                <td class="num" id="sum_div15">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Effective Tax Rate -->
+                    <table class="grid" style="margin-top:8px">
+                        <tbody>
+                            <tr>
+                                <td class="lbl">Effective Tax Rate</td>
+                                <td class="num" id="sum_eff">0.00%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ===== Controls at the very bottom ===== -->
+                    <div class="controls" style="justify-content:center; margin-top:20px">
+                        <button class="btn" id="btn_calc" type="button">Calculate</button>
+                        <button class="btn" id="btn_reset" type="button">Reset</button>
                     </div>
                 </div>
-  
-</div>
+
+            </div>
+        </div>
+
+    </div>
 </main>
 
 <script>
-  // ===== helpers =====
-  const q = id => document.getElementById(id);
-  const fmt = (n) => (n??0).toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2});
-  const money = fmt;
-  const fromMoney = (s) => { const v = (typeof s==='number')? s : Number(String(s).replace(/[^0-9.-]/g,'')); return isNaN(v)?0:v; };
-  const getN = id => fromMoney(q(id)?.value||0);
+    // ===== helpers =====
+    const q = id => document.getElementById(id);
+    const fmt = (n) => (n??0).toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2});
+    const money = fmt;
+    const fromMoney = (s) => { const v = (typeof s==='number')? s : Number(String(s).replace(/[^0-9.-]/g,'')); return isNaN(v)?0:v; };
+    const getN = id => fromMoney(q(id)?.value||0);
 
 
-  const SLABS_AFTER6_LOCAL = [
-    {cap: 500_000, rate: 0.18, label:'Next 500,000'},
-    {cap: 500_000, rate: 0.24, label:'Next 500,000'},
-    {cap: 500_000, rate: 0.30, label:'Next 500,000'},
-    {cap: Infinity, rate: 0.36, label:'Balance'}
-  ];
+    const SLABS_AFTER6_LOCAL = [
+      {cap: 500_000, rate: 0.18, label:'Next 500,000'},
+      {cap: 500_000, rate: 0.24, label:'Next 500,000'},
+      {cap: 500_000, rate: 0.30, label:'Next 500,000'},
+      {cap: Infinity, rate: 0.36, label:'Balance'}
+    ];
 
-  function slabOtherAfter6(amount){
-    let rem = Math.max(0, amount), tax=0, rows=[];
-    for(const s of SLABS_AFTER6_LOCAL){
-      const portion = Math.min(rem, s.cap);
-      if(portion<=0) break;
-      const rowTax = portion*s.rate;
-      rows.push({label:s.label, portion, rate:s.rate, tax:rowTax});
-      tax += rowTax; rem -= portion;
-    }
-    return {tax, rows};
-  }
-
-  function calc(){
-    // Inputs
-    const empLocal = getN('emp_apit_annual');
-
-    // Foreign annual (one line) with currency & FX
-    const foreignAnnualInput = fromMoney(q('foreign_amount_annual').value)||0;
-    const fxEntered = fromMoney(q('fx_rate').value);
-    const fx = (fxEntered && fxEntered>0) ? fxEntered : 1;
-    const foreignAnnual = foreignAnnualInput * fx;
-    q('foreign_lkr_annual').textContent = fmt(foreignAnnual);
-
-    const biz = getN('biz_profit_annual');
-    const interest = getN('interest_gross_annual');
-    const rent = getN('rent_gross_annual');
-    const divi = getN('dividend_gross_annual');
-    const investOther = getN('invest_other_annual');
-    const otherInc = getN('other_income_annual');
-
-    // Assessable (dividends excluded from slabs)
-    const assessable = empLocal + foreignAnnual + biz + interest + rent + investOther + otherInc;
-    q('kpi_assessable').textContent = fmt(assessable);
-
-    // Deductions
-    const personal = getN('relief_personal');
-    const rentRelief = (rent*0.25);
-    q('relief_rent_auto').textContent = fmt(rentRelief);
-
-    const solarInput = getN('relief_solar');
-    const solar = Math.min(solarInput, 600_000);
-    if (solarInput !== solar) q('relief_solar').value = money(solar); // clamp to cap
-
-    const qualifying = getN('relief_qualifying');
-
-    const totalDeductions = Math.max(personal + rentRelief + solar + qualifying, 0);
-    q('kpi_deductions').textContent = fmt(totalDeductions);
-
-    const taxable = Math.max(assessable - totalDeductions, 0);
-    q('kpi_taxable').textContent = fmt(taxable);
-
-    // Split taxable between foreign and other for RULES
-    // Apply all deductions to LOCAL first (max benefit), then any leftover to FOREIGN
-    const assessLocal = empLocal + biz + interest + rent + investOther + otherInc;
-    const assessForeign = foreignAnnual;
-
-    const dedToLocal = Math.min(totalDeductions, assessLocal);
-    const localAfterDed = Math.max(assessLocal - dedToLocal, 0);
-    const dedLeft = Math.max(totalDeductions - dedToLocal, 0);
-    const foreignAfterDed = Math.max(assessForeign - dedLeft, 0);
-
-    const taxableTotal = localAfterDed + foreignAfterDed; // should equal 'taxable'
-    q('kpi_taxable').textContent = fmt(taxableTotal);
-
-    // ---- Unified slabs: 6% first 1M (allocated to LOCAL first), then 15% (foreign-only), then 18%/24%/30%/36% for remaining LOCAL
-    const first6Cap = Math.min(taxableTotal, 1_000_000);
-    const p6_local = Math.min(localAfterDed, first6Cap);
-    const p6_foreign = Math.max(first6Cap - p6_local, 0);
-    const tax6 = first6Cap * 0.06;
-
-    const remainingLocal = Math.max(localAfterDed - p6_local, 0);
-    const remainingForeign = Math.max(foreignAfterDed - p6_foreign, 0);
-
-    // 15% special applies only to remaining FOREIGN portion
-    const p15 = remainingForeign;
-    const tax15 = p15 * 0.15;
-
-    // Local portion continues at 18%+ slabs
-    const resLocal = slabOtherAfter6(remainingLocal);
-
-    const taxLiability = tax6 + tax15 + resLocal.tax;
-    q('kpi_tax_liability').textContent = fmt(taxLiability);
-
-    // Build rows for display: 6% then 15% (if any) then 18%+
-    const tbody = q('slab_body'); tbody.innerHTML='';
-
-    if (first6Cap > 0){
-      const tr6 = document.createElement('tr');
-      tr6.innerHTML = `<td class="lbl">First 1,000,000</td>
-                       <td class="num">${fmt(first6Cap)}</td>
-                       <td class="num">6%</td>
-                       <td class="num">${fmt(tax6)}</td>`;
-      tbody.appendChild(tr6);
+    function slabOtherAfter6(amount){
+      let rem = Math.max(0, amount), tax=0, rows=[];
+      for(const s of SLABS_AFTER6_LOCAL){
+        const portion = Math.min(rem, s.cap);
+        if(portion<=0) break;
+        const rowTax = portion*s.rate;
+        rows.push({label:s.label, portion, rate:s.rate, tax:rowTax});
+        tax += rowTax; rem -= portion;
+      }
+      return {tax, rows};
     }
 
-    if (p15 > 0){
-      const tr15 = document.createElement('tr');
-      tr15.innerHTML = `<td class="lbl">15% (Foreign only)</td>
-                        <td class="num">${fmt(p15)}</td>
-                        <td class="num">15%</td>
-                        <td class="num">${fmt(tax15)}</td>`;
-      tbody.appendChild(tr15);
+    function calc(){
+      // Inputs
+      const empLocal = getN('emp_apit_annual');
+
+      // Foreign annual (one line) with currency & FX
+      const foreignAnnualInput = fromMoney(q('foreign_amount_annual').value)||0;
+      const fxEntered = fromMoney(q('fx_rate').value);
+      const fx = (fxEntered && fxEntered>0) ? fxEntered : 1;
+      const foreignAnnual = foreignAnnualInput * fx;
+      q('foreign_lkr_annual').textContent = fmt(foreignAnnual);
+
+      const biz = getN('biz_profit_annual');
+      const interest = getN('interest_gross_annual');
+      const rent = getN('rent_gross_annual');
+      const divi = getN('dividend_gross_annual');
+      const investOther = getN('invest_other_annual');
+      const otherInc = getN('other_income_annual');
+
+      // Assessable (dividends excluded from slabs)
+      const assessable = empLocal + foreignAnnual + biz + interest + rent + investOther + otherInc;
+      q('kpi_assessable').textContent = fmt(assessable);
+
+      // Deductions
+      const personal = getN('relief_personal');
+      const rentRelief = (rent*0.25);
+      q('relief_rent_auto').textContent = fmt(rentRelief);
+
+      const solarInput = getN('relief_solar');
+      const solar = Math.min(solarInput, 600_000);
+      if (solarInput !== solar) q('relief_solar').value = money(solar); // clamp to cap
+
+      const qualifying = getN('relief_qualifying');
+
+      const totalDeductions = Math.max(personal + rentRelief + solar + qualifying, 0);
+      q('kpi_deductions').textContent = fmt(totalDeductions);
+
+      const taxable = Math.max(assessable - totalDeductions, 0);
+      q('kpi_taxable').textContent = fmt(taxable);
+
+      // Split taxable between foreign and other for RULES
+      // Apply all deductions to LOCAL first (max benefit), then any leftover to FOREIGN
+      const assessLocal = empLocal + biz + interest + rent + investOther + otherInc;
+      const assessForeign = foreignAnnual;
+
+      const dedToLocal = Math.min(totalDeductions, assessLocal);
+      const localAfterDed = Math.max(assessLocal - dedToLocal, 0);
+      const dedLeft = Math.max(totalDeductions - dedToLocal, 0);
+      const foreignAfterDed = Math.max(assessForeign - dedLeft, 0);
+
+      const taxableTotal = localAfterDed + foreignAfterDed; // should equal 'taxable'
+      q('kpi_taxable').textContent = fmt(taxableTotal);
+
+      // ---- Unified slabs: 6% first 1M (allocated to LOCAL first), then 15% (foreign-only), then 18%/24%/30%/36% for remaining LOCAL
+      const first6Cap = Math.min(taxableTotal, 1_000_000);
+      const p6_local = Math.min(localAfterDed, first6Cap);
+      const p6_foreign = Math.max(first6Cap - p6_local, 0);
+      const tax6 = first6Cap * 0.06;
+
+      const remainingLocal = Math.max(localAfterDed - p6_local, 0);
+      const remainingForeign = Math.max(foreignAfterDed - p6_foreign, 0);
+
+      // 15% special applies only to remaining FOREIGN portion
+      const p15 = remainingForeign;
+      const tax15 = p15 * 0.15;
+
+      // Local portion continues at 18%+ slabs
+      const resLocal = slabOtherAfter6(remainingLocal);
+
+      const taxLiability = tax6 + tax15 + resLocal.tax;
+      q('kpi_tax_liability').textContent = fmt(taxLiability);
+
+      // Build rows for display: 6% then 15% (if any) then 18%+
+      const tbody = q('slab_body'); tbody.innerHTML='';
+
+      if (first6Cap > 0){
+        const tr6 = document.createElement('tr');
+        tr6.innerHTML = `<td class="lbl">First 1,000,000</td>
+                         <td class="num">${fmt(first6Cap)}</td>
+                         <td class="num">6%</td>
+                         <td class="num">${fmt(tax6)}</td>`;
+        tbody.appendChild(tr6);
+      }
+
+      if (p15 > 0){
+        const tr15 = document.createElement('tr');
+        tr15.innerHTML = `<td class="lbl">15% (Foreign only)</td>
+                          <td class="num">${fmt(p15)}</td>
+                          <td class="num">15%</td>
+                          <td class="num">${fmt(tax15)}</td>`;
+        tbody.appendChild(tr15);
+      }
+
+      resLocal.rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="lbl">${r.label}</td>
+                        <td class="num">${fmt(r.portion)}</td>
+                        <td class="num">${(r.rate*100).toFixed(0)}%</td>
+                        <td class="num">${fmt(r.tax)}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      // Dividend final tax (15%) — shown separately (not part of liability/credits)
+      const divTax = divi * 0.15;
+      q('sum_div15').textContent = fmt(divTax);
+
+      // ===== APIT (auto) =====
+      // APIT = tax on Local Employment Income after personal relief ONLY (normal slabs)
+      const apitTaxable = Math.max(empLocal - personal, 0);
+      const apitLocal6 = Math.min(apitTaxable, 1_000_000) * 0.06;
+      const apitLocalRest = Math.max(apitTaxable - 1_000_000, 0);
+      const apitRes = slabOtherAfter6(apitLocalRest);
+      const apit = apitLocal6 + apitRes.tax;
+      q('credit_apit_auto').textContent = fmt(apit);
+
+      // WHT on interest (auto 10%)
+      const whtInterest = interest * 0.10;
+      q('credit_wht_interest_auto').textContent = fmt(whtInterest);
+
+
+
+      // Credits and final
+      const credits = apit + whtInterest;
+
+
+
+      const net = taxLiability - credits; // payable (+) or refundable (-)
+      q('sum_net').textContent = (net>=0?fmt(net):`(${fmt(Math.abs(net))})`);
+      q('sum_net').className = 'num totals ' + (net>=0 ? 'pos' : 'neg');
+
+      const eff = assessable>0 ? (taxLiability/assessable*100) : 0;
+      q('sum_eff').textContent = `${eff.toFixed(2)}%`;
     }
 
-    resLocal.rows.forEach(r=>{
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td class="lbl">${r.label}</td>
-                      <td class="num">${fmt(r.portion)}</td>
-                      <td class="num">${(r.rate*100).toFixed(0)}%</td>
-                      <td class="num">${fmt(r.tax)}</td>`;
-      tbody.appendChild(tr);
+    function resetAll(){
+      [ 'emp_apit_annual','foreign_amount_annual','biz_profit_annual','interest_gross_annual','rent_gross_annual','dividend_gross_annual','invest_other_annual','other_income_annual','relief_solar','relief_qualifying' ].forEach(id=> q(id).value = money(0));
+      q('relief_personal').value = money(1800000);
+      q('foreign_currency').value = 'LKR';
+      q('fx_rate').value = money(300);
+      calc();
+    }
+
+    // Live updates on input/change
+    document.querySelectorAll('input,select').forEach(el=>{
+      el.addEventListener('input', calc);
+      el.addEventListener('change', calc);
+      if (el.tagName === 'INPUT') el.addEventListener('keyup', calc);
     });
+    // Format money on blur for all text inputs
+    function formatMoneyInputs(){ document.querySelectorAll('input[type="text"]').forEach(el=>{ el.value = money(fromMoney(el.value)); }); }
+    document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); }); });
+    document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); calc(); }); });
+    q('btn_calc').addEventListener('click', ()=>{ formatMoneyInputs(); calc(); });
+    q('btn_reset').addEventListener('click', ()=>{ resetAll(); formatMoneyInputs(); calc(); });
 
-    // Dividend final tax (15%) — shown separately (not part of liability/credits)
-    const divTax = divi * 0.15;
-    q('sum_div15').textContent = fmt(divTax);
-
-    // ===== APIT (auto) =====
-    // APIT = tax on Local Employment Income after personal relief ONLY (normal slabs)
-    const apitTaxable = Math.max(empLocal - personal, 0);
-    const apitLocal6 = Math.min(apitTaxable, 1_000_000) * 0.06;
-    const apitLocalRest = Math.max(apitTaxable - 1_000_000, 0);
-    const apitRes = slabOtherAfter6(apitLocalRest);
-    const apit = apitLocal6 + apitRes.tax;
-    q('credit_apit_auto').textContent = fmt(apit);
-
-    // WHT on interest (auto 10%)
-    const whtInterest = interest * 0.10;
-    q('credit_wht_interest_auto').textContent = fmt(whtInterest);
-
-    
-
-    // Credits and final
-    const credits = apit + whtInterest;
-    
-
-    
-    const net = taxLiability - credits; // payable (+) or refundable (-)
-    q('sum_net').textContent = (net>=0?fmt(net):`(${fmt(Math.abs(net))})`);
-    q('sum_net').className = 'num totals ' + (net>=0 ? 'pos' : 'neg');
-
-    const eff = assessable>0 ? (taxLiability/assessable*100) : 0;
-    q('sum_eff').textContent = `${eff.toFixed(2)}%`;
-  }
-
-  function resetAll(){
-    [ 'emp_apit_annual','foreign_amount_annual','biz_profit_annual','interest_gross_annual','rent_gross_annual','dividend_gross_annual','invest_other_annual','other_income_annual','relief_solar','relief_qualifying' ].forEach(id=> q(id).value = money(0));
-    q('relief_personal').value = money(1800000);
-    q('foreign_currency').value = 'LKR';
-    q('fx_rate').value = money(300);
+    // Init
+    formatMoneyInputs();
     calc();
-  }
+</script>
 
-  // Live updates on input/change
-  document.querySelectorAll('input,select').forEach(el=>{
-    el.addEventListener('input', calc);
-    el.addEventListener('change', calc);
-    if (el.tagName === 'INPUT') el.addEventListener('keyup', calc);
-  });
-  // Format money on blur for all text inputs
-  function formatMoneyInputs(){ document.querySelectorAll('input[type="text"]').forEach(el=>{ el.value = money(fromMoney(el.value)); }); }
-  document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); }); });
-  document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); calc(); }); });
-  q('btn_calc').addEventListener('click', ()=>{ formatMoneyInputs(); calc(); });
-  q('btn_reset').addEventListener('click', ()=>{ resetAll(); formatMoneyInputs(); calc(); });
+<script>
+    // ---------- helpers ----------
+    const DEC = () => (+document.getElementById('show_cents').value || 0);
+    const fmt = (n, dec=DEC()) => (n??0).toLocaleString(undefined,{maximumFractionDigits:dec,minimumFractionDigits:dec});
+    const getN = (id) => Number(document.getElementById(id)?.value || 0);
 
-  // Init
-  formatMoneyInputs();
-  calc();
+    const ANNUAL_SLABS = [
+      { upto: 1_000_000, rate:0.06, label:'First 1,000,000' },
+      { upto:   500_000, rate:0.18, label:'Next 500,000' },
+      { upto:   500_000, rate:0.24, label:'Next 500,000' },
+      { upto:   500_000, rate:0.30, label:'Next 500,000' },
+      { upto: Infinity,  rate:0.36, label:'Balance' }
+    ];
+
+    function taxRows(taxable, slabs){
+      let rem=Math.max(0,taxable), total=0, rows=[];
+      for(const s of slabs){
+        const span = Math.max(0, Math.min(rem, s.upto));
+        const tax  = span * s.rate;
+        rows.push({label:s.label||'Tier', amount:span, rate:s.rate, tax});
+        total += tax; rem -= span;
+      }
+      return {total, rows};
+    }
+
+    // ---------- FX (multi-source with fallback) ----------
+    async function fetchFxToLKR(base){
+      if(base==='LKR') return {rate:1, source:'Fixed 1.0000 (LKR)'};
+
+      const tryFetch = async (url, pick) => {
+        const res = await fetch(url, {cache:'no-store'});
+        if(!res.ok) throw new Error('bad status');
+        const data = await res.json();
+        const r = pick(data);
+        if(!r || isNaN(+r)) throw new Error('no rate');
+        return +r;
+      };
+
+      try { const r = await tryFetch(`https://api.exchangerate.host/latest?base=${encodeURIComponent(base)}&symbols=LKR`, d=> d.rates && d.rates.LKR); return {rate:r, source:'exchangerate.host'}; } catch(e){}
+      try { const r = await tryFetch(`https://open.er-api.com/v6/latest/${encodeURIComponent(base)}`, d=> d.rates && d.rates.LKR); return {rate:r, source:'open.er-api.com'}; } catch(e){}
+      try { const r = await tryFetch(`https://api.frankfurter.app/latest?from=${encodeURIComponent(base)}&to=LKR`, d=> d.rates && d.rates.LKR); return {rate:r, source:'frankfurter.app'}; } catch(e){}
+
+      return {rate: Number(document.getElementById('cbsL_rate').value || 300), source:'manual / fallback'};
+    }
+
+    async function updateFX(){
+      const cur  = document.getElementById('foreign_currency').value;
+      const amt  = getN('foreign_amount_monthly');
+      const {rate, source} = await fetchFxToLKR(cur);
+
+      const fxEl = document.getElementById('cbsL_rate');
+      fxEl.step = 'any';
+      fxEl.value = (Math.round((rate + Number.EPSILON)*10000)/10000).toString();
+      document.getElementById('fx_source').textContent = `Rate source: ${source}`;
+
+      const lkr = cur === 'LKR' ? amt : amt * rate;
+      document.getElementById('foreign_lkr_monthly_auto').value = fmt(lkr, DEC());
+      calc();
+    }
+
+    // ---------- calculator ----------
+    function calc(){
+      const cents = DEC();
+
+      // Income inputs
+      const empAPIT   = getN('emp_apit_annual');
+      const foreign_m = Number((document.getElementById('foreign_lkr_monthly_auto').value || '0').replace(/,/g,'')) || 0;
+      const foreign_a = foreign_m * 12;
+
+      const interest  = getN('interest_gross_annual');
+      const dividend  = getN('dividend_gross_annual'); // final tax 15%
+      const rent_g    = getN('rent_gross_annual');
+      const ratesPaid = getN('rent_rates_paid');
+      const inv_other = getN('invest_other_annual');
+      const biz       = getN('biz_profit_annual');
+      const other     = getN('other_income_annual');
+
+      // Credits (APIT, auto WHT on interest, other WHT, foreign)
+      const cAPIT     = getN('credit_apit');
+      const cWHTi     = interest * 0.10; // AUTO 10%
+      const cWHToth   = getN('credit_wht_other');
+      const cForeign  = getN('credit_foreign');
+      document.getElementById('credit_wht_interest_auto').value = fmt(cWHTi, cents);
+
+      // Assessable (slab base) – excludes dividend; rent gross (relief shown below)
+      const assessable = empAPIT + foreign_a + interest + rent_g + inv_other + biz + other;
+
+      // Deductions (some auto)
+      const rPersonalIn = getN('relief_personal');
+      const rSolarIn    = Math.min(getN('relief_solar'), 600_000);
+      const rRentAuto   = Math.max(0, rent_g * 0.25 + ratesPaid); // 25% + rates
+      const rQualifying = getN('relief_qualifying');
+
+      // Cap personal relief so result does not go negative
+      const prelimDed  = rRentAuto + rSolarIn + rQualifying;
+      const rPersonal  = Math.min(rPersonalIn, Math.max(0, assessable - prelimDed));
+
+      const totalDed   = rPersonal + rSolarIn + rRentAuto + rQualifying;
+      const taxable    = Math.max(0, assessable - totalDed);
+
+      // Slab tax
+      const { total: slabTax, rows } = taxRows(taxable, ANNUAL_SLABS);
+
+      // Dividend final
+      const divFinal  = dividend * 0.15;
+
+      // Totals
+      const grossTax = slabTax + (dividend > 0 ? divFinal : 0);
+      const credits  = cAPIT + cWHTi + cWHToth + cForeign;
+      const netTax   = grossTax - credits; // can be negative (refund)
+
+      // KPIs
+      document.getElementById('kpi_assessable').textContent    = fmt(assessable, cents);
+      document.getElementById('relief_rent_auto').value        = fmt(rRentAuto, cents);
+      document.getElementById('kpi_deductions').textContent    = fmt(totalDed, cents);
+      document.getElementById('kpi_taxable').textContent       = fmt(taxable, cents);
+      document.getElementById('kpi_grosstax_slab').textContent = fmt(slabTax, cents);
+
+      // Slab table
+      document.getElementById('slab_body').innerHTML = rows
+        .map(r=>`<tr><td>${r.label}</td><td class="num">${fmt(r.amount,cents)}</td><td class="num">${(r.rate*100).toFixed(0)}%</td><td class="num">${fmt(r.tax,cents)}</td></tr>`)
+        .join('');
+
+      // Auto notes
+      const notes=[];
+      if(rent_g>0) notes.push(`✓ Rent relief applied: 25% of rent (Rs. ${fmt(rent_g*0.25,cents)}) + rates Rs. ${fmt(ratesPaid,cents)}`);
+      if(interest>0) notes.push(`✓ Interest WHT credit (auto 10%): Rs. ${fmt(cWHTi,cents)}`);
+      document.getElementById('auto_list').innerHTML = notes.map(n=>`<li>${n}</li>`).join('') || '<li>No automatic adjustments.</li>';
+
+      // Deduction detail
+      const dnotes = [
+        `Personal Relief allowed: Rs. ${fmt(rPersonal,cents)} (input ${fmt(rPersonalIn,cents)})`,
+        `Solar Relief: Rs. ${fmt(rSolarIn,cents)}`,
+        `Rent Relief (25% + rates): Rs. ${fmt(rRentAuto,cents)}`,
+        `Qualifying Payments & Deductions: Rs. ${fmt(rQualifying,cents)}`
+      ];
+      document.getElementById('deduction_notes').innerHTML = dnotes.map(n=>`<li>${n}</li>`).join('');
+
+      // Liability section
+      const hasDiv = dividend > 0;
+      document.getElementById('row_div15').style.display = hasDiv ? '' : 'none';
+      document.getElementById('sum_div15').textContent    = fmt(divFinal,cents);
+      document.getElementById('sum_grosstax').textContent  = fmt(grossTax,cents);
+      document.getElementById('sum_credits').textContent   = '− ' + fmt(credits,cents);
+      document.getElementById('sum_net').textContent       = fmt(netTax,cents);
+
+      const grossAll = empAPIT + foreign_a + interest + dividend + rent_g + inv_other + biz + other;
+      document.getElementById('sum_eff').textContent = grossAll>0 ? (netTax/grossAll*100).toFixed(2)+'%' : '0%';
+    }
+
+    // ---------- bindings ----------
+    async function onAnyChange(e){
+      if(e.target.id==='foreign_currency' || e.target.id==='foreign_amount_monthly') {
+        await updateFX(); // updates converted LKR + calc()
+        return;
+      }
+      if(e.target.id==='cbsL_rate'){ // manual override
+        const amt  = getN('foreign_amount_monthly');
+        const rate = Number(document.getElementById('cbsL_rate').value || 0);
+        document.getElementById('foreign_lkr_monthly_auto').value = fmt(amt * rate, DEC());
+        document.getElementById('fx_source').textContent = 'Rate source: manual override';
+      }
+      if(e.target.id==='show_cents'){ /* display only */ }
+      calc();
+    }
+
+    function resetAll(){
+      const ids = [
+        'emp_apit_annual','foreign_amount_monthly','interest_gross_annual','dividend_gross_annual','rent_gross_annual',
+        'rent_rates_paid','invest_other_annual','biz_profit_annual','other_income_annual','relief_personal','relief_solar',
+        'relief_qualifying','credit_apit','credit_wht_other','credit_foreign'
+      ];
+      ids.forEach(id=>{ const el=document.getElementById(id); if(el) el.value='0'; });
+      document.getElementById('foreign_lkr_monthly_auto').value='';
+      document.getElementById('foreign_currency').selectedIndex=0;
+      document.getElementById('cbsL_rate').value='300';
+      document.getElementById('show_cents').value='2';
+      updateFX().then(calc);
+    }
+
+    document.addEventListener('input', onAnyChange);
+    document.addEventListener('change', onAnyChange);
+    document.getElementById('btn_refresh_rate').addEventListener('click', ()=> updateFX().then(calc));
+    document.getElementById('btn_reset').addEventListener('click', resetAll);
+    document.getElementById('btn_calc').addEventListener('click', calc);
+
+    // init
+    document.getElementById('show_cents').value = '2'; // show cents by default
+    updateFX().then(calc);
 </script>
