@@ -4225,3 +4225,7 @@ span.colef {
     display: block !important;
 }
 
+#team img.img-fluid {
+    border-bottom: solid 2px #0d6efd;
+}
+
