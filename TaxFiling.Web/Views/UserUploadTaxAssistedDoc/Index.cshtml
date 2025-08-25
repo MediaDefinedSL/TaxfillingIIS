@@ -652,10 +652,36 @@
                         <div class="mb-3">
                             <label class="form-label">Bank Name</label>
                            <!-- <input type="text" class="form-control" name="BankName" id="BankName" />-->
-                            <select id="BankName" name="BankName" class="form-select" style="width:100%">
-                                <option value="">-- Select Bank Branch --</option>
-                            </select>
+                           @*  <select id="BankName" name="BankName" class="form-select" style="width:100%">
+                                <option value="">-- Select Bank --</option>
+                            </select> *@                           
+                            
+                            <input type="text" id="bankInput" class="form-control" placeholder="Type Bank Name" autocomplete="off" />
+                            <div id="bankDropdown" class="dropdown"></div>
+                           
+
                         </div>
+                        <!-- Branch -->
+                        <div class="mb-3">
+                            <label>Branch</label>
+                            <input type="text" id="branchInput" class="form-control" placeholder="Choose bank first" autocomplete="off" disabled />
+                            <div id="branchDropdown" class="dropdown"></div>
+                        </div>
+
+                        <!-- Hidden inputs -->
+                        <input type="hidden" id="bank_id" name="bank_id" />                        
+                        <input type="hidden" id="bank_long" name="bank_long" />
+                        <input type="hidden" id="branch_code" name="branch_code" />
+                        <input type="hidden" id="branch_name" name="branch_name" />
+
+
+                        @* <div class="mb-3">
+                            <label class="form-label">Branch Name</label>
+                            <!-- <input type="text" class="form-control" name="BankName" id="BankName" />-->
+                            <select id="BranchName" name="BranchName" class="form-select" style="width:100%">
+                                <option value="">-- Select Branch --</option>
+                            </select>
+                        </div> *@
                         <form method="post" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label>Upload File</label>
@@ -3078,47 +3104,285 @@
                 // Initial state: disable remove button until a valid row is selected
                updateRemoveBtn();
 
-                let allBranches = [];
+                //let allBranches = [];
 
-                // Load all branches once
-                $.getJSON("https://mail.taxfiling.lk/bank-branches", function(data) {
-                    allBranches = data.map(branch => ({
-                        id: branch.BranchCode,
-                       // text: branch.BranchName + " (" + branch.bankName + ")" // show both branch and bank
-                         text: branch.BranchName
-                    }));
+                // // Load all branches once
+                // $.getJSON("https://mail.taxfiling.lk/bank-branches", function(data) {
+                //     allBranches = data.map(branch => ({
+                //         id: branch.BranchCode,
+                //        // text: branch.BranchName + " (" + branch.bankName + ")" // show both branch and bank
+                //          text: branch.BranchName
+                //     }));
 
-                    $('#BankName').select2({
-                        placeholder: "Select bank",
-                        minimumInputLength: 0, // allow opening full list without typing
-                        data: allBranches,
-                        matcher: function(params, data) {
-                            // If no search term, show all
-                            if ($.trim(params.term) === '') {
-                                return data;
-                            }
+                //     $('#BankName').select2({
+                //         placeholder: "Select bank",
+                //         minimumInputLength: 0, // allow opening full list without typing
+                //         data: allBranches,
+                //         matcher: function(params, data) {
+                //             // If no search term, show all
+                //             if ($.trim(params.term) === '') {
+                //                 return data;
+                //             }
 
-                            // Match text anywhere (contains match, not just startsWith)
-                            if (data.text.toLowerCase().startsWith(params.term.toLowerCase())) {
-                                return data;
-                            }
+                //             // Match text anywhere (contains match, not just startsWith)
+                //             if (data.text.toLowerCase().startsWith(params.term.toLowerCase())) {
+                //                 return data;
+                //             }
 
-                            return null;
-                        },
-                        dropdownAutoWidth: true,
-                        width: 'resolve',
-                        allowClear: true
+                //             return null;
+                //         },
+                //         dropdownAutoWidth: true,
+                //         width: 'resolve',
+                //         allowClear: true
+                //     });
+                // });
+
+                //  $('#BankName').on('select2:open', function() {
+                //     let searchBox = document.querySelector('.select2-container--open .select2-search__field');
+                //     if (searchBox) {
+                //         searchBox.setAttribute('placeholder', 'Filter your choice');
+                //     }
+                // });
+
+                //                                                                    $('#BankName').select2({
+                //     placeholder: "Type full name or short name (HNB, BOC)",
+                //     ajax: {
+                //         url: "https://mail.taxfiling.lk/getallbank",
+                //         dataType: 'json',
+                //         delay: 250,
+                //         processResults: function (data) {
+                //             return {
+                //                 results: data.map(function(bank) {
+                //                     return { id: bank.bankCode, text: bank.bankName  };
+                //                 })
+                //             };
+                //         }
+                //     },
+                   
+                // minimumInputLength: 1,          // ✅ search using main box
+                // minimumResultsForSearch: Infinity // ✅ removes inner search box
+                // });
+
+                // // 2. When bank is selected → load branches
+                //    $("#BankName").on("change", function () {
+                //     let bankCode = $(this).val();
+                //     if (!bankCode) {
+                //         $("#BranchName").prop("disabled", true).empty();
+                //         return;
+                //     }
+
+                //     $.getJSON("https://mail.taxfiling.lk/getbranches/" + bankCode, function (branches) {
+                //         let branchList = branches.map(br => ({
+                //             id: br.BranchCode,
+                //             text: br.BranchName
+                //         }));
+
+                //            $("#BranchName").prop("disabled", false).empty().select2({
+                //             placeholder: "Select a Branch",
+                //             data: branchList,
+                //             allowClear: true,
+                //             width: 'resolve'
+                //         });
+                //     });
+                // });
+
+                  let allBanks = [];
+                  let selectedBank = null;
+                  let highlightedIndex = -1;
+                     let highlightedBranchIndex = -1;
+
+                    $.getJSON("https://mail.taxfiling.lk/getallbank", function (data) {
+                        allBanks = data;  
                     });
+
+                   $("#bankInput").on("input focus", function () {
+                    const q = $(this).val().toLowerCase();
+                    let results = allBanks;
+
+                    if (q) {
+                        results = results.filter(b =>
+                                  (b.bankName && b.bankName.toLowerCase().startsWith(q))
+                           );
+                    }
+
+                    let html = "";
+                    if (results.length === 0) html = "<div>No banks match.</div>";
+                    results.forEach(b => {
+                           html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">
+                                          ${b.bankName} 
+                                 </div>`;
+                    });
+
+                    $("#bankDropdown").html(html).show();
                 });
 
-                 $('#BankName').on('select2:open', function() {
-                    let searchBox = document.querySelector('.select2-container--open .select2-search__field');
-                    if (searchBox) {
-                        searchBox.setAttribute('placeholder', 'Filter your choice');
-                    }
+                       
+                $("#bankDropdown").on("mousedown", "div", function () {
+                    const bankId = $(this).data("id");
+                   
+                    const bankLong = $(this).data("long");
+
+                    $("#bankInput").val(bankLong);
+                    $("#bank_id").val(bankId);                   
+
+                    selectedBank = bankId;
+                    $("#bankDropdown").hide();
+                    
+                    $("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
+                    $("#branch_code, #branch_name").val("");
+
+                    $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                    if (!branches.length) return $("#branchDropdown").hide();
+
+                    const html = branches.map(br =>
+                        `<div data-code="${br.BranchCode}" data-name="${br.BranchName}">${br.BranchName}</div>`
+                    ).join("");
+
+                    $("#branchDropdown").html(html).show();
+                    $("#branchDropdown div").removeClass("highlight").first().addClass("highlight");
+                    highlightedBranchIndex = 0; // first item highlighted
+                });
+                    
+                });
+
+                //  $("#branchInput").on("input focus", function() {
+                //     if (!selectedBank) return;
+
+                //     const q = $(this).val().toLowerCase();
+
+                //        $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                //         const results = q
+                //             ? branches.filter(br =>
+                //                    br.BranchName.toLowerCase().startsWith(q) )
+                //             : branches;
+
+                //         if (!results.length) return $("#branchDropdown").hide();
+
+                //         const html = results.map(br =>
+                //                   `<div data-code="${br.BranchCode}" data-name="${br.BranchName}">
+                //                    ${br.BranchName} </span>
+                //             </div>`
+                //         ).join("");
+
+                //         $("#branchDropdown").html(html).show();
+                //     });
+                // });
+
+                
+                $("#branchDropdown").on("mousedown", "div", function() {
+                    const brCode = $(this).data("code");
+                    const brName = $(this).data("name");
+
+                    $("#branchInput").val(brName);
+                    $("#branch_code").val(brCode);
+                    $("#branch_name").val(brName);
+
+                    $("#branchDropdown").hide();
                 });
 
                 
+                $(document).on("click", (e) => {
+                    if (!$(e.target).closest("#bankInput, #bankDropdown").length) {
+                        $("#bankDropdown").hide();
+                    }
+                    if (!$(e.target).closest("#branchInput, #branchDropdown").length) {
+                        $("#branchDropdown").hide();
+                    }
+                });
+
+                 $("#bankInput").on("keydown", function(e) {
+                    const items = $("#bankDropdown div");
+                    if (!items.length) return;
+
+                    if (e.key === "ArrowDown") {
+                        e.preventDefault();
+                        highlightedIndex = (highlightedIndex + 1) % items.length;
+                        items.removeClass("highlight").eq(highlightedIndex).addClass("highlight");
+                    }
+                    else if (e.key === "ArrowUp") {
+                        e.preventDefault();
+                        highlightedIndex = (highlightedIndex - 1 + items.length) % items.length;
+                        items.removeClass("highlight").eq(highlightedIndex).addClass("highlight");
+                    }
+                    else if (e.key === "Enter") {
+                        e.preventDefault();
+                        if (highlightedIndex >= 0) {
+                            const selected = items.eq(highlightedIndex);
+                            const bankId = selected.data("id");
+                            const bankName = selected.data("long");
+
+                            $("#bankInput").val(bankName);
+                            $("#bank_id").val(bankId);
+                            selectedBank = bankId;
+
+                            // reset branch
+                            $("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
+                            $("#branch_code, #branch_name").val("");
+
+                            $("#bankDropdown").hide();
+                               $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                               if (!branches.length) return $("#branchDropdown").hide();
+
+                               const html = branches.map(br =>
+                                   `<div data-code="${br.BranchCode}" data-name="${br.BranchName}">${br.BranchName}</div>`
+                               ).join("");
+
+                               $("#branchDropdown").html(html).show();
+                               //highlightedBranchIndex = -1; // reset highlight
+
+                               $("#branchDropdown div").removeClass("highlight").first().addClass("highlight");
+                                highlightedBranchIndex = 0; // first item highlighted
+                            });
+                        }
+                    }
+                });
+
+
+                 $("#bankDropdown").on("mouseenter", "div", function() {
+                    $("#bankDropdown div").removeClass("highlight");
+                    $(this).addClass("highlight");
+                    highlightedIndex = $(this).index();
+                });
+
+                  $("#branchInput").on("keydown", function(e) {
+                    const items = $("#branchDropdown div");
+                    if (!items.length) return;
+
+                    if (e.key === "ArrowDown") {
+                        e.preventDefault();
+                        highlightedBranchIndex = (highlightedBranchIndex + 1) % items.length;
+                        items.removeClass("highlight").eq(highlightedBranchIndex).addClass("highlight");
+                    }
+                    else if (e.key === "ArrowUp") {
+                        e.preventDefault();
+                        highlightedBranchIndex = (highlightedBranchIndex - 1 + items.length) % items.length;
+                        items.removeClass("highlight").eq(highlightedBranchIndex).addClass("highlight");
+                    }
+                    else if (e.key === "Enter") {
+                        e.preventDefault();
+                        if (highlightedBranchIndex >= 0) {
+                            const selected = items.eq(highlightedBranchIndex);
+                            const brCode = selected.data("code");
+                            const brName = selected.data("name");
+
+                            $("#branchInput").val(brName);
+                            $("#branch_code").val(brCode);
+                            $("#branch_name").val(brName);
+
+                            $("#branchDropdown").hide();
+                            highlightedBranchIndex = -1;
+                        }
+                    }
+                });
+
+                 $("#branchDropdown").on("mouseenter", "div", function() {
+                    $("#branchDropdown div").removeClass("highlight");
+                    $(this).addClass("highlight");
+                    highlightedBranchIndex = $(this).index();
+                });
+
+
+
 
 
 
@@ -3527,7 +3791,8 @@
                                     terminalEmployerName: document.getElementById("TerminalEmployerName")?.value || null,
                                     anyOtherType: document.getElementById("AnyOtherType")?.value || null,
                                     bankConfirmationType: document.getElementById("BankConfirmationType")?.value || null,
-                                        bankName: $('#BankName').select2('data')[0].text,//document.getElementById("BankName")?.value || null,
+                                       // bankName: $('#BankName').select2('data')[0].text,//document.getElementById("BankName")?.value || null,
+                                       bankName : $("#bankInput").val() + "-" + $("#branchInput").val(),
                                     otherDocumentName: document.getElementById("otherDocName")?.value || null
                                 })
                             });
@@ -3558,7 +3823,7 @@
 
                                   employmentValue = employmentValue ?? "";
                                   bankConfirmationType = document.getElementById("BankConfirmationType")?.value || "";
-                                    bankName= $('#BankName').select2('data')[0].text;//document.getElementById("BankName")?.value || "";
+                                       bankName= $("#bankInput").val() + "-" + $("#branchInput").val();//document.getElementById("BankName")?.value || "";
 
                                   const tableBody = document.querySelector("#documentsTableBankBody");
                                   const currentCount = tableBody.querySelectorAll("tr").length;
@@ -3585,9 +3850,18 @@
                             selectedFile = null;
                             document.getElementById("BankConfirmationType").selectedIndex = 0;
                             //document.getElementById("BankName").value = "";
-                              $('#BankName').val(null).trigger('change');
+                            //$('#BankName').val(null).trigger('change');
+                            $("#bankInput").val("");
+                            $("#bank_id").val("");
+                            $("#branchInput").val("").prop("disabled", true).attr("placeholder", "Select a bank first");
+                            $("#branch_code, #branch_name").val("");
+                            $("#branchDropdown").hide();
+                            $("#bankDropdown").hide();
+
+                            selectedBank = null;
+                            highlightedBranchIndex = -1;
                             document.getElementById("fileInputBank").value = "";
-                               updateChecklistStatuses(allDocs,docStatus);
+                            updateChecklistStatuses(allDocs,docStatus);
                             //document.getElementById("file-name").textContent = "";
                             //document.getElementById("submitBtn").style.display = "none";
 

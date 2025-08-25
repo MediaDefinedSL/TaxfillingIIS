@@ -160,4 +160,15 @@ public class HomeController : Controller
     {
         return PartialView("_MaritalStatusSection");
     }
+
+    public IActionResult RefundPolicy()
+    {
+        return View();
+    }
+
+    // GET: /Home/Privacy
+    public IActionResult Privacy()
+    {
+        return View();
+    }
 }

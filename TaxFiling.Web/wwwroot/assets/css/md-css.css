@@ -4215,3 +4215,128 @@ span.colef {
 #team img.img-fluid {
     border-bottom: solid 2px #0d6efd;
 }
+
+#bank-section .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d6e3fb;
+    border-radius: 8px;
+}
+
+#bank-section .dropdown {
+    position: absolute;
+    z-index: 10;
+    background: #fff;
+    border: 1px solid #d6e3fb;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 4px;
+    width: 100%;
+    display: none;
+}
+
+    #bank-section .dropdown div {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+        #bank-section .dropdown div:hover {
+            background: #007BFF;
+        }
+
+#bankDropdown div.highlight {
+    background-color: #007BFF;
+    color: white;
+}
+
+#branchDropdown div.highlight {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+
+a.phone-call {
+    margin-right: 3%;
+}
+
+
+#Self-Online-Flow .sidebar-main h2:after {
+    content: "";
+    display: block;
+    width: 34%;
+    height: 4px;
+    background-color: #0d6efd !important;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    border-radius: 100%;
+}
+
+
+.member-img {
+    /* background-color: #ccc; */
+    /* background: #b8ebff; */
+    /* background: radial-gradient(circle,rgba(184, 235, 255, 1) 0%, rgba(199, 212, 235, 1) 100%); */
+    background: #b8ebff;
+    background: radial-gradient(circle,rgba(184, 235, 255, 1) 0%, rgba(141, 177, 240, 1) 100%);
+}
+
+
+ul.police {
+    display: inline-block;
+    width: 300px !important;
+    column-gap: 10px;
+    margin-bottom: 10px !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    margin-bottom: 28px !important;
+}
+
+    ul.police li {
+        display: inline-block !important;
+        margin-left: 16px;
+        margin-right: 20px;
+    }
+
+        ul.police li a {
+            font-size: 14px;
+        }
+
+.footer .copyright p {
+    font-size: 12px;
+}
+
+#refound .card-body {
+    padding: 0px !important;
+}
+
+#refound .alert.alert-info.mt-4 {
+    margin-top: 0px !important;
+}
+
+#refound h5.section-title {
+    text-align: left;
+    padding-bottom: 0px;
+}
+
+#refound .card.policy-card {
+    border: none;
+}
+
+
+#refound ul.list-check {
+    list-style: disc !important;
+    padding-left: 28px !important;
+    text-decoration: blink;
+}
+
+#refound .about ul li {
+    list-style: disc !important;
+    text-decoration: blink !important;
+    display: inline-block !important;
+}
+
+#refound strong {
+    margin-left: 4px;
+}
