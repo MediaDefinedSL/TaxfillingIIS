@@ -6,6 +6,7 @@
 header#header {
     background: none !important;
     background-color: #ffffffe3 !important;
+    padding-bottom: 11px;
 }
 
 .footer .footer-about .logo img {
@@ -3911,7 +3912,7 @@ section#team section#testimonial-area {
 }
 
 section#team {
-    padding-bottom: 0px;
+    /* padding-bottom: 0px; */
 }
 
     section#team section#testimonial-area {
@@ -4174,21 +4175,7 @@ div#uploadedBankDocs .table th:last-child {
     row-gap: 4px !important;
 }
 
-.small-swal-popup {
-    padding: 1rem !important; /* less padding */
-    font-size: 14px !important; /* smaller font */
-    width: 300px !important; /* reduce width */
-}
 
-    .small-swal-popup .swal2-title {
-        font-size: 16px !important; /* smaller title */
-        margin-bottom: 0.5rem !important;
-    }
-
-    .small-swal-popup .swal2-html-container {
-        font-size: 13px !important; /* smaller text */
-        margin: 0 !important;
-    }
 
 span.colef {
     font-weight: 600 !important;
@@ -4228,4 +4215,3 @@ span.colef {
 #team img.img-fluid {
     border-bottom: solid 2px #0d6efd;
 }
-
