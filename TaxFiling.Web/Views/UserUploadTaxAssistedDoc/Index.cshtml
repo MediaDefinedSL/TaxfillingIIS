@@ -3250,11 +3250,16 @@
                     $("#bank_id").val(bankId);                   
 
                     selectedBank = bankId;
-                    $("#bankDropdown").hide();
                     
-                    $("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
-                    $("#branch_code, #branch_name").val("");
+                                  $("#branchInput")
+                .prop("disabled", false)       // enable input
+                .val("")                        // clear previous value
+                .attr("placeholder", "Type branch name or code")
+                .focus();
 
+                                //$("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
+                    $("#branch_code, #branch_name").val("");
+                       $("#bankDropdown").hide();
                     $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
                     if (!branches.length) return $("#branchDropdown").hide();
 
@@ -3339,11 +3344,18 @@
                             $("#bank_id").val(bankId);
                             selectedBank = bankId;
 
+                               $("#branchInput")
+                   .prop("disabled", false)       // enable input
+                   .val("")                        // clear previous value
+                   .attr("placeholder", "Type branch name or code")
+                   .focus();
+
                             // reset branch
-                            $("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
+                            //$("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
                             $("#branch_code, #branch_name").val("");
 
                             $("#bankDropdown").hide();
+                               
                                $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
                                if (!branches.length) return $("#branchDropdown").hide();
 
@@ -3369,6 +3381,7 @@
                 });
 
                   $("#branchInput").on("keydown", function(e) {
+                    
                     const items = $("#branchDropdown div");
                     if (!items.length) return;
 
