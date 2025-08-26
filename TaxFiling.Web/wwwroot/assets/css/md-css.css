@@ -4131,12 +4131,13 @@ section#team {
 }
 
 #contact .card.card-body.border h4 {
-    padding-left: 10px;
+    padding-left: 27px;
     font-size: 18px;
 }
 
 #contact .collapse ul {
     margin-bottom: 0px;
+    padding-left: 74px;
 }
 
 #dashboard-section span#statusBadge {
@@ -4337,7 +4338,55 @@ ul.police {
     display: inline-block !important;
 }
 
-
 #refound strong {
     margin-left: 4px;
+}
+
+.container.copyright.text-center {
+    border-top: none !important;
+    padding-top: 0;
+}
+
+ul.police {
+    cursor: pointer !important;
+}
+
+ svg.svg-chart {
+      width: 100%;
+      height: auto;
+      /* stroke: #0786ebbf; */
+    }
+    .svg-chart rect {
+      fill: #00967df5;
+      stroke: #008d0d;
+      stroke-width: 3px;
+      rx: 30;
+      ry: 30;
+      z-index: 999999999 !important;
+      position: absolute !important;
+      height: 60px !important;
+    }
+    .svg-chart text {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      fill: #ffffff;
+      font-weight: 700;
+    }
+    .svg-chart .connector {
+      stroke: #4cc3a6;
+      stroke-width: 9px;
+      fill: none;
+      stroke-dasharray: 19 7;
+      animation: dash 5s linear infinite;
+    }
+    @keyframes dash {
+      to { stroke-dashoffset: -100; }
+    }
+
+section.svg-chart {
+    padding-bottom: 0px;
+    padding-top: 1px;
+    background-color: #162a41;
+    background-image: url(/assets/img/curves-1.png) !important;
+
 }
