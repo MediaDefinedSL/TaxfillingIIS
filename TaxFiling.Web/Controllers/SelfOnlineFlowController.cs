@@ -311,7 +311,12 @@ public class SelfOnlineFlowController : Controller
             TaxNumber = personalInformation.TaxNumber,
             NIC_NO = personalInformation.NIC_NO,
             Gender = personalInformation.Gender,
-            Address = personalInformation.Address
+            Address = personalInformation.Address,
+            Title = personalInformation.Title,
+            PassportNo = personalInformation.PassportNo,
+            Nationality = personalInformation.Nationality,
+            Occupation = personalInformation.Occupation,
+            EmployerName = personalInformation.EmployerName
         };
 
         if(personalInformation.FirstName == null)

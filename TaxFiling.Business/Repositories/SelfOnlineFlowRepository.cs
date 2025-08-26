@@ -157,7 +157,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             SpouseNIC = b.SpouseNIC,
                                             SpouseName = b.SpouseName,
                                             SpouseTINNo = b.SpouseTINNo,
-                                            Relationship = b.Relationship
+                                            Relationship = b.Relationship,
+                                            Title = b.Title,
+                                            PassportNo = b.PassportNo,
+                                            Nationality = b.Nationality,
+                                            Occupation = b.Occupation,
 
                                         })
                                         .AsNoTracking()
@@ -294,6 +298,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 _selfOnlineuser.NIC_NO = identifications.NIC_NO;
                 _selfOnlineuser.Address = identifications.Address;
                 _selfOnlineuser.Gender = identifications.Gender;
+                _selfOnlineuser.Title = identifications.Title;
+                _selfOnlineuser.PassportNo = identifications.PassportNo;
+                _selfOnlineuser.Nationality = identifications.Nationality;
+                _selfOnlineuser.Occupation = identifications.Occupation;
+                _selfOnlineuser.EmployerName = identifications.EmployerName;
 
                 await _context.SaveChangesAsync();
             }

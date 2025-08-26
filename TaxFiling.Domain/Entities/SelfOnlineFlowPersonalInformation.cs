@@ -30,6 +30,16 @@ public class SelfOnlineFlowPersonalInformation
     public string TaxNumber { get; set; }
     [Column("NIC_NO")]
     public string NIC_NO { get; set; }
+    [Column("Title")]
+    public string? Title { get; set; }
+    [Column("PassportNo")]
+    public string? PassportNo { get; set; }
+    [Column("Nationality")]
+    public string? Nationality { get; set; }
+    [Column("Occupation")]
+    public string? Occupation { get; set; }
+    [Column("EmployerName")]
+    public string? EmployerName { get; set; }
     [Column("Address")]
     public string Address { get; set; }
     [Column("Gender")]
