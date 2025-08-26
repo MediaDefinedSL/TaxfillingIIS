@@ -79,19 +79,19 @@
     {
                             <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
                                 <article class="position-relative h-100 rounded-md">
-
+                                <a asp-controller="UserUploadTaxAssistedDoc" asp-action="Index">
                                     <div class="post-img position-relative overflow-hidden rounded-md-image">
                                         <img src="/assets/img/SelfOnlineDashboard/submit-documents-upload-update.png" class="img-fluid rounded-md-image" alt="">
 
                                     </div>
 
                                     <div class="post-content d-flex flex-column">
-                                        <a asp-controller="UserUploadTaxAssistedDoc" asp-action="Index"> <h3 class="post-title">Upload Now</h3></a>
+                                         <h3 class="post-title">Upload Now</h3>
                                         <p class="mt-2 text-muted">
                                             Upload and manage your required tax documents.
                                         </p>
                                     </div>
-
+                                </a>
                                 </article>
                             </div>
                             <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
@@ -145,20 +145,21 @@
     {
                             <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
                                 <article class="position-relative h-100 rounded-md">
-
+                                <a href="@Url.Action("SelfOnlineFlow", "SelfOnlineFlow")">
                                     <div class="post-img position-relative overflow-hidden rounded-md-image">
                                         <img src="/assets/img/SelfOnlineDashboard/Submit_return.png" class="img-fluid rounded-md-image" alt="">
 
                                     </div>
 
                                     <div class="post-content d-flex flex-column" asp-controller="Home" asp-action="SelfOnlineFlow">
-                                        <a href="@Url.Action("SelfOnlineFlow", "SelfOnlineFlow")"> <h3 class="post-title">Submit Return</h3></a>
+                                         <h3 class="post-title">Submit Return</h3>
 
 
                                         <p class="mt-2 text-muted">
                                             The Income Tax Self Online.
                                         </p>
                                     </div>
+                                </a>
                                 </article>
                             </div>
                             <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
@@ -214,23 +215,24 @@
 
                         <div class="col-lg-3 aos-init aos-animates" data-aos="fade-up" data-aos-delay="100">
                             <article class="position-relative h-100 rounded-md">
-
+                            <a asp-controller="User" asp-action="UserProfile" asp-route-userId=@userId>
                                 <div class="post-img position-relative overflow-hidden rounded-md-image">
                                     <img src="/assets/img/SelfOnlineDashboard/myProfile.png" class="img-fluid rounded-md-image" alt="">
 
                                 </div>
 
                                 <div class="post-content d-flex flex-column">
-                                    <a asp-controller="User" asp-action="UserProfile" asp-route-userId=@userId>
+                                    
                                         <h3 class="post-title">
                                             Edit Profile
                                         </h3>
-                                    </a>
+                                    
 
                                     <p class="mt-2 text-muted">
                                         Manage your personal and account information.
                                     </p>
                                 </div>
+                            </a>
                             </article>
                         </div><!-- End File my taxes item -->
 
