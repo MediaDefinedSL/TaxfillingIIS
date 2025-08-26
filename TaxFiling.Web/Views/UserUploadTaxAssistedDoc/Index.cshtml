@@ -3096,10 +3096,18 @@
                                                   bar.style.width = progress + "%";
                                                   bar.textContent = progress + "%";
                                               }
-                                               if(docStatus == 1 || docStatus == 0)
+                                               if(docStatus == 1)
                                             {
                                                    btnContinue.style.display = "block";
                                                    btnRemoveDft.style.display = "block";
+                                                      btnUploadDocs.style.display = "block";
+                                                         btnViewSubmittedDocs.style.display = "none";
+
+                                            }
+                                            else if(docStatus == 0)
+                                            {
+                                                   btnContinue.style.display = "block";
+                                                   btnRemoveDft.style.display = "none";
                                                       btnUploadDocs.style.display = "block";
                                                          btnViewSubmittedDocs.style.display = "none";
 
