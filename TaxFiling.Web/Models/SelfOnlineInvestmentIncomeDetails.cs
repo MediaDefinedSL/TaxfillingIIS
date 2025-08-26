@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace TaxFiling.Web.Models;
 
-namespace TaxFiling.Domain.Dtos;
-
-public class SelfOnlineInvestmentIncomeDto
+public class SelfOnlineInvestmentIncomeDetails
 {
-
     public int SelfOnlineInvestmentId { get; set; }
     public string UserId { get; set; }
     public int Year { get; set; }

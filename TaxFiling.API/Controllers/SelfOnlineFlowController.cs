@@ -314,6 +314,21 @@ public class SelfOnlineFlowController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    //------------InvestmentIncome
+    [HttpPost("save_investmentincomedetails")]
+    public async Task<IActionResult> SaveSelfOnlineInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDto selfOnlineInvestmentIncome)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfOnlineInvestmentIncomeDetails(selfOnlineInvestmentIncome);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
 
 }
