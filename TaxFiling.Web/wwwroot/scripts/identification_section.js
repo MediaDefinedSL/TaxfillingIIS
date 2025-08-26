@@ -10,6 +10,12 @@
         let NIC_NO = $("#NIC_NO").val();
         let gender = $("#Gender").val();
         let address = $("#Address").val();
+        let title = $("#drpTitle").val();
+        let passportNo = $("#PassportNo").val();
+        let nationality = $("#Nationality").val();
+        let ocupation = $("#Occupation").val();
+        let employerName = $("#EmployerName").val();
+        
 
 
         var user = {
@@ -21,6 +27,12 @@
             NIC_NO: $("#NIC_NO").val(),
             Gender: $("#Gender").val(),
             Address: $("#Address").val(),
+            Title: title,
+            PassportNo: passportNo,
+            Nationality: nationality,
+            Occupation: ocupation,
+            EmployerName: employerName
+
         };
 
         console.log(user);
