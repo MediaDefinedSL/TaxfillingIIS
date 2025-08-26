@@ -71,17 +71,18 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Bank Name</label>
-                                        <select class="form-select" id="dpdBankName" name="dpdBankName">
+                                       @*  <select class="form-select" id="dpdBankName" name="dpdBankName">
                                             <option value="">-- Select Bank Name--</option>
                                             
-                                        </select>
+                                        </select> *@
+                                        <input type="text" id="bankInput" class="form-control" placeholder="Type Bank Name" autocomplete="off" />
+                                        <div id="bankDropdown" class="dropdown"></div>
                                     </div>
                                     <div class="col-md-6">
+                                     
                                         <label class="form-label">Bank Branch</label>
-                                        <select class="form-select" id="dpdBankBranch" name="dpdBankBranch">
-                                            <option value="">-- Select Bank Branch--</option>
-
-                                        </select>
+                                        <input type="text" id="branchInput" class="form-control" placeholder="Choose bank first" autocomplete="off" disabled />
+                                        <div id="branchDropdown" class="dropdown"></div>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Account No.</label>
