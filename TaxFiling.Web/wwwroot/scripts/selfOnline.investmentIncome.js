@@ -61,6 +61,18 @@
             highlightedBranchIndex = 0; // first item highlighted
         });
     });
+
+    $("#branchDropdown").on("mousedown", "div", function () {
+        const brCode = $(this).data("code");
+        const brName = $(this).data("name");
+
+        $("#branchInput").val(brName);
+        $("#branch_code").val(brCode);
+        $("#branch_name").val(brName);
+
+        $("#branchDropdown").hide();
+    });
+
     $(document).on("click", (e) => {
         if (!$(e.target).closest("#bankInput, #bankDropdown").length) {
             $("#bankDropdown").hide();
@@ -199,7 +211,7 @@
 
  
     $(document).on("click", "#btnDetailsInvestmentSavings", function () {
-        alert(123);
+       
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -208,8 +220,8 @@
         let remuneration = $("#txtRemuneration").val();
         let gainsProfits = $("#txtGainsProfits").val();
         let txtinvestmentIncome = $("#txtInvestmentIncome").val();
-        let bankName = $("#dpdBankName").val();
-        let bankBranch = $("#dpdBankBranch").val();
+        let bankName = $("#bankInput").val();
+        let bankBranch = $("#branchInput").val();
         let accountNo = $("#txtAccountNo").val();
         let amountInvested = $("#txtAmountInvested").val();
         let interest = $("#txtInterest").val();
@@ -227,11 +239,11 @@
             $btn.prop("disabled", false);
             isValid = false;
         }
-        //if (!bankInstitution) {
-        //    $("#dpdBankInstitution").after('<div class="text-danger validation-error">Please select Name of bank/financial institution</div>');
-        //    $btn.prop("disabled", false);
-        //    isValid = false;
-        //}
+        if (!bankName) {
+            $("#bankInput").after('<div class="text-danger validation-error">Please select Name of Bank Name</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
         if (!accountNo.trim()) {
             $("#txtAccountNo").after('<div class="text-danger validation-error">Account No is required.</div>');
             $btn.prop("disabled", false);
@@ -257,7 +269,7 @@
 
         var employInvestment = {
             SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
-            Category: "DetailsInvestment",
+            Category: "Savings",
             TotalInvestmentIncome: investmentIncome ,
             Remuneration: remuneration,
             GainsProfits: gainsProfits,
