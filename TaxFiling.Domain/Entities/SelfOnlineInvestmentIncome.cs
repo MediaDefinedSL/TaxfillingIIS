@@ -31,12 +31,13 @@ public class SelfOnlineInvestmentIncome : Entity
     [Column("TotalInvestmentIncome")]
     public decimal? TotalInvestmentIncome { get; set; }
 
-    [Column("BankOrCompany")]
-    [StringLength(100)]
-    public string BankOrCompany { get; set; }
+    [Column("BankName")]
+    public string BankName { get; set; }
+    [Column("BankBranch")]
+    public string BankBranch { get; set; }
 
     [Column("AccountNo")]
-    [StringLength(50)]
+
     public string AccountNo { get; set; }
 
     [Column("AmountInvested")]

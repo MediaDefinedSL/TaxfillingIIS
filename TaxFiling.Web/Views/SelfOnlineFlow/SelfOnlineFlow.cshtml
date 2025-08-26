@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="nav flex-column">
-                    <button id="btndashboardSection" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
+                    <button id="" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
                       
                         <h4 class="logo-text fw-bold mb-0">LKR  <span id="taxTotal"> @ViewBag.TaxTotal</span> </h4>
                     </button>
@@ -189,7 +189,7 @@
     $(function () {
 
          $.ajax({
-            url: '/SelfOnlineFlow/LoadInThisSection',
+            url: '/SelfOnlineFlow/LoadDashboardSection',
             type: 'GET',
             success: function (data) {
                 $('#in-this-section-container').html(data);
