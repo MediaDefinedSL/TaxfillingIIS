@@ -4291,7 +4291,7 @@ ul.police {
     column-gap: 10px;
     margin-bottom: 10px !important;
     border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    margin-bottom: 28px !important;
+    margin-bottom: 14px !important;
 }
 
     ul.police li {
@@ -4389,4 +4389,54 @@ section.svg-chart {
     background-color: #162a41;
     background-image: url(/assets/img/curves-1.png) !important;
 
+}
+
+
+p.mail-need {
+    display: block;
+    margin-bottom: 21px !important;
+    font-size: 14px !important;
+}
+
+.insvesment .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d6e3fb;
+    border-radius: 8px;
+}
+
+.insvesment .dropdown {
+    position: absolute;
+    z-index: 10;
+    background: #fff;
+    border: 1px solid #d6e3fb;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 4px;
+    width: 100%;
+    display: none;
+}
+
+  .insvesment .dropdown div {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+       .insvesment .dropdown div:hover {
+            background: #007BFF;
+        }
+
+.insvesment  div.highlight {
+    background-color: #007BFF;
+    color: white;
+}
+
+.insvesment div.highlight {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+div#bankDropdown {
+    width: 43% !important;
 }

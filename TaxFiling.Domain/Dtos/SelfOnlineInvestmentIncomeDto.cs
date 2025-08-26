@@ -33,4 +33,17 @@ public class SelfOnlineInvestmentIncomeDto
     public DateTime? RentAcquisitionDate { get; set; }
     public decimal? CostGiftInherited { get; set; }
     public decimal? MarketValue { get; set; }
+
+
+    public string PBTotalInvestmentIncome { get; set; }
+    public string ActivityCode { get; set; }
+    public string PartnershipName { get; set; }
+    public string TrustTIN { get; set; }
+    public string PBGainsProfits { get; set; }
+    public string TotalInvestmentIncomePartnership { get; set; }
+    public string TotalInvestmentIncomeTrust { get; set; }
+
+    public string IsExemptAmountA { get; set; }
+    public string IsExcludedAmountB { get; set; }
+    public string ExemptExcludedIncome { get; set; }
 }

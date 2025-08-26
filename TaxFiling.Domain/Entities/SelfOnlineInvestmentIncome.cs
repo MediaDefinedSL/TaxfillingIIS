@@ -79,6 +79,27 @@ public class SelfOnlineInvestmentIncome : Entity
 
     [Column("MarketValue")]
     public decimal? MarketValue { get; set; }
+    [Column("PBTotalInvestmentIncome")]
+    public string PBTotalInvestmentIncome { get; set; }
+    [Column("ActivityCode")]
+    public string ActivityCode { get; set; }
+    [Column("PartnershipName")]
+    public string PartnershipName { get; set; }
+    [Column("TrustTIN")]
+    public string TrustTIN { get; set; }
+    [Column("PBGainsProfits")]
+    public string PBGainsProfits { get; set; }
+    [Column("TotalInvestmentIncomePartnership")]
+    public string TotalInvestmentIncomePartnership { get; set; }
+    [Column("TotalInvestmentIncomeTrust")]
+    public string TotalInvestmentIncomeTrust { get; set; }
+    [Column("IsExemptAmountA")]
 
-   
+    public string IsExemptAmountA { get; set; }
+    [Column("IsExcludedAmountB")]
+    public string IsExcludedAmountB { get; set; }
+    [Column("ExemptExcludedIncome")]
+    public string ExemptExcludedIncome { get; set; }
+
+
 }
