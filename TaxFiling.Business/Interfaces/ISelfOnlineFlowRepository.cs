@@ -7,12 +7,12 @@ namespace TaxFiling.Business.Interfaces;
 public interface ISelfOnlineFlowRepository
 {
     Task<List<TaxPayerDetailsDto>> GetTaxPayers(string userId, int year, CancellationToken ctx);
-    Task<List<MaritalStatusDto>> GetMaritalStatus(CancellationToken cancellationToken);
+    Task<List<MaritalStatusDetailsDto>> GetMaritalStatus(string userId, int year, CancellationToken ctx);
     Task<List<TaxReturnLastyearDto>> GetTaxReturnLastyears(CancellationToken cancellationToken);
     Task<bool> SaveUserIdYear(string userId, int year);
     Task<SelfOnlineFlowPersonalInformationDto> GetSelfOnlineFlowPersonalInformationDetails(string userId, int year, CancellationToken ctx);
     Task<bool> UpdateTaxPayer(TaxPayerDetailsDto taxPayerdetails);
-    Task<bool> UpdateMaritalStatus(string userId, int year, int maritalStatusId);
+    Task<bool> UpdateMaritalStatus(MaritalStatusDetailsDto maritalStatusDetails);
     Task<bool> UpdatelLastYear(string userId, int year, int lastyearId);
     Task<bool> UpdatelIdentification(IdentificationsDto identifications);
     Task<bool> UpdatelContactInformation(ContactInfromationDto contactInfromation);

@@ -57,27 +57,41 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         }
     }
 
-    public async Task<List<MaritalStatusDto>> GetMaritalStatus(CancellationToken cancellationToken)
+    public async Task<List<MaritalStatusDetailsDto>> GetMaritalStatus(string userId, int year, CancellationToken ctx)
     {
-        List<MaritalStatusDto> maritalStatus = [];
+       
         try
         {
+            var maritalStatus = await (
+            from m in _context.MaritalStatuses
+            join s in _context.SelfOnlineFlowPersonalInformation
+                on new { MaritalStatusId = m.Id, UserId = userId, Year = year }
+                equals new { MaritalStatusId = s.MaritalStatusId ?? 0, s.UserId, s.Year }
+                into ps
+            from s in ps.DefaultIfEmpty()
+            select new MaritalStatusDetailsDto
+            {
+                UserId = s != null ? s.UserId : userId,
+                Year = s != null ? s.Year : year,
+                Id = m.Id,
+                Name = m.Name,
+                ImageUrl = m.ImageUrl,
+                SpouseFullName = s != null ? s.SpouseName : null,
+                SpouseTINNo = s != null ? s.SpouseTINNo : null,
+                SpouseNIC = s != null ? s.SpouseNIC : null,
+               
+            }
+            ).ToListAsync(ctx);
 
-            maritalStatus = await _context.MaritalStatuses
-                .Select(t => new MaritalStatusDto
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    ImageUrl = t.ImageUrl
+            return maritalStatus;
 
-                }).ToListAsync(cancellationToken);
         }
         catch (Exception e)
         {
             _logger.LogError(e, "");
+            return new List<MaritalStatusDetailsDto>();
         }
 
-        return maritalStatus;
     }
 
     public async Task<List<TaxReturnLastyearDto>> GetTaxReturnLastyears(CancellationToken cancellationToken)
@@ -235,7 +249,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
-    public async Task<bool> UpdateMaritalStatus(string userId, int year, int maritalStatusId)
+    public async Task<bool> UpdateMaritalStatus(MaritalStatusDetailsDto maritalStatusDetails)
     {
         bool isSuccess = false;
 
@@ -243,10 +257,20 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
             var _user = await _context.SelfOnlineFlowPersonalInformation
-                                .Where(p => p.UserId == userId && p.Year == year)
+                                .Where(p => p.UserId == maritalStatusDetails.UserId && p.Year == maritalStatusDetails.Year)
                                 .FirstOrDefaultAsync();
 
-            _user.MaritalStatusId = maritalStatusId;
+            if (maritalStatusDetails.Id != 2)
+            {
+                maritalStatusDetails.SpouseFullName = null;
+                maritalStatusDetails.SpouseTINNo = null;
+                maritalStatusDetails.SpouseNIC = null;
+            }
+
+            _user.MaritalStatusId = maritalStatusDetails.Id;
+            _user.SpouseName = maritalStatusDetails.SpouseFullName;
+            _user.SpouseTINNo = maritalStatusDetails.SpouseTINNo;
+            _user.SpouseNIC = maritalStatusDetails.SpouseNIC;
 
             await _context.SaveChangesAsync();
 
