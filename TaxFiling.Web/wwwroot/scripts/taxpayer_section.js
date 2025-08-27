@@ -42,6 +42,48 @@
         });
     });
 
+    function setStepsIndicatorProgress(element) {
+
+        const el = document.getElementById(element);
+        if (!el) return;
+        const steps = document.querySelectorAll('.taxAssistedSteps span');
+        if (!steps.length) return;
+
+        switch (element) {
+
+            case "employmentIncomeStatus":
+                if (el.className == "text-success") {
+                    steps[1].classList.add('completed');
+                    console.log(steps[1]);
+                }
+                break;
+            case "bankConfirmationStatus":
+                if (el.className == "text-success") {
+                    steps[2].classList.add('completed');
+                }
+                break;
+            case "assetsStatus":
+                if (el.className == "text-success") {
+                    steps[3].classList.add('completed');
+                }
+                break;
+            case "otherDocsStatus":
+                if (el.className == "text-success") {
+                    steps[4].classList.add('completed');
+                }
+                break;
+            case "Declare":
+                if (el.className == "text-success") {
+                    steps[5].classList.add('completed');
+                }
+                break;
+            case "submission":
+                steps[6].classList.add('completed');
+                break;
+        }
+
+    }
+
 
     $('#linkTaxPayerNext').on('click', function () {
 
@@ -57,6 +99,12 @@
                 type: 'GET',
                 success: function (data) {
                     $('#in-this-section-container').html(data);
+                    setStepsIndicatorProgress("employmentIncomeStatus");
+                    setStepsIndicatorProgress("bankConfirmationStatus");
+                    setStepsIndicatorProgress("assetsStatus");
+                    setStepsIndicatorProgress("otherDocsStatus");
+                    setStepsIndicatorProgress("Declare");
+                    setStepsIndicatorProgress("submission");
                 },
                 error: function () {
                     alert("Error loading section content.");
