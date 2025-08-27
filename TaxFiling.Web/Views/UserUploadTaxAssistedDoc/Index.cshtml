@@ -2512,7 +2512,9 @@
                     // bank confirmation
                     const hasBankConfirmation = docs.some(d => d.categoryName === "Bank Confirmation");
                     setStatus("bankConfirmationStatus", hasBankConfirmation);
-                     if (hasBankConfirmation) completed++;
+                     if (hasBankConfirmation) {
+                         completed++;
+                     }
 
                     // assets
                     const hasAssets = docs.some(d =>
@@ -2583,7 +2585,10 @@
                         el.textContent = "Missing";
                         el.className = "text-danger";
                     }
+                    //setStepsIndicatorProgress(elementId);
                 }
+
+                   
 
                      function renderDocsTable(categoryFilter = null) {
                         let tableBody;
@@ -3038,8 +3043,12 @@
 
                 }
 
+                 
+
                      //page load
                 document.addEventListener("DOMContentLoaded", function () {
+
+                
 
                    const checkboxes = document.querySelectorAll(".checkbox-lg");
                    const removeBtn = document.getElementById("btnRemoveDraft");
@@ -3690,8 +3699,9 @@
                             const formData = new FormData();
                             formData.append("file", selectedFile);
                             formData.append("userId", userId);
+                            formData.append("year", new Date().getFullYear().toString());
 
-                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                                     const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
@@ -3826,7 +3836,8 @@
                             // 1. Upload to external API
                             const formData = new FormData();
                             formData.append("file", selectedFile);
-                               formData.append("userId", userId);
+                            formData.append("userId", userId);
+                            formData.append("year", new Date().getFullYear().toString());
 
                             const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
@@ -3963,7 +3974,8 @@
                                // 1. Upload to external API
                                const formData = new FormData();
                                formData.append("file", selectedFile);
-                                  formData.append("userId", userId);
+                               formData.append("userId", userId);
+                               formData.append("year", new Date().getFullYear().toString());
 
                                const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                    method: "POST",
@@ -4071,7 +4083,8 @@
                             // 1. Upload to external API
                             const formData = new FormData();
                             formData.append("file", selectedFile);
-                               formData.append("userId", userId);
+                            formData.append("userId", userId);
+                            formData.append("year", new Date().getFullYear().toString());
 
                             const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
