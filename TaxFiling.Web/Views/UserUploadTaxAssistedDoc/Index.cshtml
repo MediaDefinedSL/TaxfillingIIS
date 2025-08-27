@@ -2891,6 +2891,8 @@
                                          if(data.success){
                                                  document.getElementById("docUploadStatus").value = status;
                                                    acceptCheckbox.disabled = true;
+                                                   
+
                                                  if (badge) {
                                                    badge.innerText = "SUBMITTED";
                                                    badge.className = "badge bg-success";
@@ -2940,6 +2942,11 @@
                                               //alert("Your Documents submitted successfully");
                                                 showMessage("Your Documents submitted successfully and Tax admins are contact you ASAP!", "success");
                                                printBtn.disabled = false;
+                                               const steps = document.querySelectorAll('.taxAssistedSteps span');
+                                               if (!steps.length) return;
+                                                  steps[5].classList.add('completed');
+                                                  steps[6].classList.add('completed');
+
 
 
                                          }
