@@ -68,10 +68,10 @@ public class PaymentController : Controller
     {
         var client = _httpClientFactory.CreateClient();
 
-        string appId = "L2PV11908FB6E4139D0E3";
+        string appId = "3EMG1190963FE17A92690";
         string currency = "LKR";
         string amount = Price.ToString();
-        string hashSalt = "AOOP11908FB6E4139D12F"; // provided by OnePay
+        string hashSalt = "DLCY1190963FE17A926B9"; // provided by OnePay
 
         string input = appId + currency + amount + hashSalt;
 
@@ -80,7 +80,7 @@ public class PaymentController : Controller
         var paymentRequest = new
         {
             currency = "LKR",
-            app_id = "L2PV11908FB6E4139D0E3",
+            app_id = "3EMG1190963FE17A92690",
             hash = hash,
             amount = Price.ToString(),
             reference = "REF1750077420233",
@@ -95,7 +95,7 @@ public class PaymentController : Controller
         var json = JsonSerializer.Serialize(paymentRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        client.DefaultRequestHeaders.Add("Authorization", "48be272c6152110cfa5be401c59e15d6aead47d3830c388e3ff082b6c1ef5eeef58f8fa57daf9fda.JK9J11908FB75441D06A3");
+        client.DefaultRequestHeaders.Add("Authorization", "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE");
 
         var response = await client.PostAsync("https://api.onepay.lk/v3/checkout/link/", content);
         var responseBody = await response.Content.ReadAsStringAsync();
