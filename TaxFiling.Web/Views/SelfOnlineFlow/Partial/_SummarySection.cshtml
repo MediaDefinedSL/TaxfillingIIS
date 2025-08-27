@@ -1,13 +1,9 @@
 ﻿@model TaxFiling.Web.Models.SelfOnlineFlowPersonalInformation
+@{
+    int year = DateTime.Now.Year;
+}
 
-<main class="main-content">
-    <div class="container-fluid">
 
-        <div class="text-center">
-            <h2>Summary</h2><br>
-        </div>
-
-        <div id="in-this-section-container" style="">
             <main class="main-content">
                 <div class="container-fluid">
 
@@ -36,14 +32,14 @@
                     </h4>
 
                     <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
-                        <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Preparing For</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Other Person Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Relationship</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Other Person TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Marital Status (as at 31 Mar)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Last Year Filing Method</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
+            <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@year</div></div>
+            <div class="row"><div class="col-md-4">Preparing For</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.TaxPayerName</div></div>
+            <div class="row"><div class="col-md-4">Other Person Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneName</div></div>
+            <div class="row"><div class="col-md-4">Relationship</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Relationship</div></div>
+            <div class="row"><div class="col-md-4">Other Person TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneTINNo</div></div>
+            <div class="row"><div class="col-md-4">Marital Status (as at 31 Mar)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.MaritalStatusName</div></div>
+            <div class="row"><div class="col-md-4">Last Year Filing Method</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.LastyearsName</div></div>
+            <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@year</div></div>
 
 
 
@@ -60,14 +56,14 @@
 
 
                     <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
-                        <div class="row"><div class="col-md-4">Title</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">First Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Middle Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Last Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Gender</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Date of Birth</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">NIC / Passport</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
+            <div class="row"><div class="col-md-4">Title</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Title</div></div>
+            <div class="row"><div class="col-md-4">First Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.FirstName</div></div>
+            <div class="row"><div class="col-md-4">Middle Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.MiddleName</div></div>
+            <div class="row"><div class="col-md-4">Last Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.LastName</div></div>
+            <div class="row"><div class="col-md-4">Gender</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Gender</div></div>
+            <div class="row"><div class="col-md-4">Date of Birth</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("MM/dd/yyyy") : "") </div></div>
+            <div class="row"><div class="col-md-4">NIC / Passport</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.NIC_NO / @Model.PassportNo</div></div>
+            <div class="row"><div class="col-md-4">TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.TaxNumber</div></div>
 
 
 
@@ -77,51 +73,23 @@
                     </div><br>
                     <h4>Your Contact Information</h4>
                     <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
-                        <div class="row"><div class="col-md-4">Care of</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Apartment / Unit</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Street Number</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Street</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">City</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">District / Province</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Postal Code</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Country</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Email (Primary)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Secondary Email</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Mobile Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Home Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-
-                        <div class="row"><div class="col-md-4">Work Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div><div class="row"><div class="col-md-6">Preferred Communication</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-
-
-
-
-
+            <div class="row"><div class="col-md-4">Care of</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.CareOf</div></div>
+            <div class="row"><div class="col-md-4">Apartment / Unit</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Apt</div></div>
+            <div class="row"><div class="col-md-4">Street Number</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2@Model.StreetNumber</div></div>
+            <div class="row"><div class="col-md-4">Street</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Street</div></div>
+            <div class="row"><div class="col-md-4">City</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.City</div></div>
+            <div class="row"><div class="col-md-4">District / Province</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.District</div></div>
+            <div class="row"><div class="col-md-4">Postal Code</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PostalCode</div></div>
+            <div class="row"><div class="col-md-4">Country</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Country</div></div>
+            <div class="row"><div class="col-md-4">Email (Primary)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.EmailPrimary</div></div>
+            <div class="row"><div class="col-md-4">Secondary Email</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.EmailSecondary</div></div>
+            <div class="row"><div class="col-md-4">Mobile Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.MobilePhone</div></div>
+            <div class="row"><div class="col-md-4">Home Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.HomePhone</div></div>
+            <div class="row"><div class="col-md-4">Work Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa"></div></div>
+            <div class="row"><div class="col-md-4">Preferred Communication</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PreferredCommunicationMethod</div></div>
 
                     </div>
-                    <br>
-                    <h4>Your Contact Information</h4>
-                    <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
-                        <div class="row"><div class="col-md-4">Care of</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Apartment / Unit</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Street Number</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Street</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">City</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">District / Province</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Postal Code</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Country</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Email (Primary)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Secondary Email</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Mobile Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-                        <div class="row"><div class="col-md-4">Home Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-
-                        <div class="row"><div class="col-md-4">Work Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div><div class="row"><div class="col-md-6">Preferred Communication</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
-
-
-
-
-
-
-                    </div>
+           
                     <div class="d-lg-flex justify-content-between">
                         <div class="col-lg-6 col-md-6 btn-prv">
                             <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
@@ -137,11 +105,6 @@
 
                 </div>
             </main>
-            <script src="/scripts/summary_section.js?v=3bq07IAsX7LvDXmHujUla0qgS5spEYY6QRyMid6slr4"></script>
-
-        </div>
-
-    </div>
-</main>
+           
 <script src="~/scripts/summary_section.js" asp-append-version="true"></script>
 
