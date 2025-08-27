@@ -3139,26 +3139,45 @@
                                               }
                                                   if(parseInt(document.getElementById("docUploadStatus").value, 10) == 1)
                                             {
-                                                   btnContinue.style.display = "block";
-                                                   btnRemoveDft.style.display = "block";
-                                                      btnUploadDocs.style.display = "block";
-                                                         btnViewSubmittedDocs.style.display = "none";
+                                                   if(btnContinue)
+                                                           btnContinue.style.display = "block";
+                                                    if(btnUploadDocs)
+                                                            btnUploadDocs.style.display = "block";
+                                                    if(btnRemoveDft)
+                                                           btnRemoveDft.style.display = "block";
+                                                    if(btnViewSubmittedDocs)
+                                                       btnViewSubmittedDocs.style.display = "none";
+                                                   
 
                                             }
                                                else if(parseInt(document.getElementById("docUploadStatus").value, 10) == 0)
                                             {
-                                                   btnContinue.style.display = "block";
-                                                   btnRemoveDft.style.display = "none";
-                                                      btnUploadDocs.style.display = "block";
-                                                         btnViewSubmittedDocs.style.display = "none";
+                                                   if(btnContinue)
+                                                              btnContinue.style.display = "block";
+                                                         if(btnUploadDocs)
+                                                               btnUploadDocs.style.display = "block";
+               
+                                                       if(btnRemoveDft)
+                                                              btnRemoveDft.style.display = "none";
+                                                       if(btnViewSubmittedDocs)
+                                                          btnViewSubmittedDocs.style.display = "none";
+                                                  
 
                                             }
                                                   else if(parseInt(document.getElementById("docUploadStatus").value, 10) == 2)
                                                {
-                                                          btnViewSubmittedDocs.style.display = "block";
-                                                             btnContinue.style.display = "none";
-                                                         btnRemoveDft.style.display = "none";
-                                                            btnUploadDocs.style.display = "none";
+
+                                                   if(btnContinue)
+                                                              btnContinue.style.display = "none";
+                                                         if(btnUploadDocs)
+                                                               btnUploadDocs.style.display = "none";
+               
+                                                       if(btnRemoveDft)
+                                                              btnRemoveDft.style.display = "none";
+                                                       if(btnViewSubmittedDocs)
+                                                             btnViewSubmittedDocs.style.display = "block";
+
+                                                       
 
                                                }
                                                   
