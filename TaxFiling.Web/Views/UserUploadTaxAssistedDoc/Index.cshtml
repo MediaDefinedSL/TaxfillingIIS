@@ -2707,7 +2707,8 @@
                             },
                             body: JSON.stringify({
                                 filename: fileName,
-                                decryptionKey: decryptionKey
+                                decryptionKey: decryptionKey,
+                                year : new Date().getFullYear().toString()
                             })
 
                         });
