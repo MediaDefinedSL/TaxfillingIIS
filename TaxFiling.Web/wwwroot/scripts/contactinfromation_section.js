@@ -7,6 +7,15 @@
 
         let street = $("#Street").val();
         let city = $("#City").val();
+        let district = $("#District").val();
+        let postalCode = $("#PostalCode").val();
+        let country = $("#Country").val();
+        let emailPrimary = $("#EmailPrimary").val();
+        let emailSecondary = $("#EmailSecondary").val();
+        let mobilePhone = $("#MobilePhone").val();
+        let homePhone = $("#HomePhone").val();
+        let whatsApp = $("#WhatsApp").val();
+        let preferredCommunicationMethod = $("#PreferredCommunicationMethod").val();  
 
 
         if (streetNumber.length == 0) {
@@ -30,7 +39,16 @@
             Apt: $("#Apt").val(),
             StreetNumber: $("#StreetNumber").val(),
             Street: $("#Street").val(),
-            City: $("#City").val()
+            City: $("#City").val(),
+            District: district,
+            PostalCode: postalCode,
+            Country: country,
+            EmailPrimary: emailPrimary,
+            EmailSecondary: emailSecondary,
+            MobilePhone: mobilePhone,
+            HomePhone: homePhone,
+            WhatsApp: whatsApp,
+            PreferredCommunicationMethod: preferredCommunicationMethod
         };
 
 

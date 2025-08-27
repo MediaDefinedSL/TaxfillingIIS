@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Diagnostics.Metrics;
 using System.Text.Json;
 using TaxFiling.Web.Models;
 using TaxFiling.Web.Models.Common;
@@ -383,7 +384,16 @@ public class SelfOnlineFlowController : Controller
             Apt = personalInformation.Apt,
             StreetNumber = personalInformation.StreetNumber,
             Street = personalInformation.Street,
-            City = personalInformation.City
+            City = personalInformation.City,
+            District = personalInformation.District,
+            PostalCode = personalInformation.PostalCode,
+            Country = personalInformation.Country,
+            EmailPrimary = personalInformation.EmailPrimary,
+            EmailSecondary = personalInformation.EmailSecondary,
+            MobilePhone = personalInformation.MobilePhone,
+            HomePhone = personalInformation.HomePhone ,
+            WhatsApp = personalInformation.WhatsApp,
+            PreferredCommunicationMethod = personalInformation.PreferredCommunicationMethod
         };
 
         return PartialView("Partial/_ContactInformation" , contactInfromation);
@@ -589,21 +599,13 @@ public class SelfOnlineFlowController : Controller
 
         var responseResult = new ResponseResult<object>();
 
-        var queryUserParams = new Dictionary<string, string?> {
-                { "userId", userId.ToString()},
-                { "year", year.ToString()},
-                { "careof", string.IsNullOrWhiteSpace(user.CareOf) ? "" : user.CareOf},
-                { "apt", string.IsNullOrWhiteSpace(user.Apt) ? "" : user.Apt},
-                { "streetnumber", user.StreetNumber},
-                { "street", user.Street},
-                { "city", user.City}
-            };
+        user.Year = year;
+        user.UserId = userId;
 
 
-
-        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", queryUserParams);
-        var response = await _httpClient.PutAsync(urluser, null);
-
+      //  string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
+        var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
+       
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
