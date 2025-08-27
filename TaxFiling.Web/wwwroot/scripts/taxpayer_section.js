@@ -45,18 +45,40 @@
 
     $('#linkTaxPayerNext').on('click', function () {
 
-        $.ajax({
-            url: '/SelfOnlineFlow/LoadInThisSection',
-            type: 'GET',
-            success: function (data) {
-                $('#in-this-section-container').html(data);
-                $('.sub-link').removeClass('active');
-                $('#linkInThisSection').addClass('active');
-            },
-            error: function () {
-                alert("Error loading section content.");
-            }
-        });
+        if (document.getElementById("docUploadStatus")) {
+
+            $('#in-this-section-container').show();
+            hideAllSections();
+            $('.sub-link').removeClass('active');
+            $('#linkInThisSection').addClass('active');
+
+            $.ajax({
+                url: '/SelfOnlineFlow/LoadTaxAssistedInThisSection',
+                type: 'GET',
+                success: function (data) {
+                    $('#in-this-section-container').html(data);
+                },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        }
+        else {
+
+            $.ajax({
+                url: '/SelfOnlineFlow/LoadInThisSection',
+                type: 'GET',
+                success: function (data) {
+                    $('#in-this-section-container').html(data);
+                    $('.sub-link').removeClass('active');
+                    $('#linkInThisSection').addClass('active');
+                },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        }
+        
 
     });
 
