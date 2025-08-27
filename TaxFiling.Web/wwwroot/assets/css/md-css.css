@@ -411,6 +411,7 @@ input {
 .social-links.d-flex {
     float: right;
     margin-top: 39px !important;
+    margin-bottom: 18px;
 }
 
 .footer .footer-top {
@@ -4298,7 +4299,7 @@ ul.police {
 
     ul.police li {
         display: inline-block !important;
-        margin-left: 16px;
+        margin-left: 1px;
         margin-right: 20px;
     }
 
@@ -4347,10 +4348,16 @@ ul.police {
 .container.copyright.text-center {
     border-top: none !important;
     padding-top: 0;
+    padding-bottom: 9px;
 }
 
 ul.police {
     cursor: pointer !important;
+    float: right;
+    text-align: right !important;
+    border: none;
+    font-size: revert-layer;
+    margin-top: -50px !important;
 }
 
  svg.svg-chart {
@@ -4560,3 +4567,42 @@ div#in-this-section-container i {
     border-color: #0d6efd !important;
     border: 4px solid;
 }
+
+.col-lg-4.col-md-6.footer-links.one {
+    border: none !important;
+    margin-top: 51px;
+}
+
+.footer .footer-links ul a {
+    font-size: 12px;
+}
+
+.footer .footer-links ul li:last-child {
+    margin-right: 0px;
+}
+
+.col-lg-4.col-md-12.footer-newsletter {
+    padding-right: 0px;
+}
+
+.footer .footer-links {
+    border-top: solid 1px #2f2f2f;
+    margin-top: 0px;
+    padding-top: 22px;
+    margin-bottom: 3px !important;
+}
+
+
+.team .team-member .social a i {
+    opacity: 0.1;
+}
+
+#team .col-lg-3.col-md-6.d-flex.align-items-stretch:first-child .bi.bi-linkedin {
+    opacity: 1;
+}
+
+
+#team .col-lg-3.col-md-6.d-flex.align-items-stretch:nth-child(3) .bi.bi-linkedin {
+    opacity: 1;
+}
+
