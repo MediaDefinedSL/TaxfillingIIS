@@ -204,22 +204,24 @@ public class SelfOnlineFlowController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
         SelfOnlineFlowPersonalInformation personalInformation = new();
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
 
-        List<MaritalStatus> maritalStatuses = [];
-        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", ctx);
+        List<MaritalStatusViewModel> maritalStatuses = [];
+       
+        string maritalSListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", queryUserParams);
+        var response1 = await _httpClient.GetAsync(maritalSListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
             var responseContent = await response1.Content.ReadAsStringAsync(ctx);
             if (responseContent is not null)
             {
-                maritalStatuses = JsonSerializer.Deserialize<List<MaritalStatus>>(responseContent, _jsonSerializerOptions)!;
+                maritalStatuses = JsonSerializer.Deserialize<List<MaritalStatusViewModel>>(responseContent, _jsonSerializerOptions)!;
             }
         }
 
-        var queryUserParams = new Dictionary<string, string?> {
-                { "userId", userId.ToString()},
-                { "year", year.ToString()}
-            };
 
         string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
         var responseuser = await _httpClient.GetAsync(urluser, ctx);
@@ -515,24 +517,18 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Taxpayer selected successfully" });
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateMaritalStatus(int maritalStatusId, CancellationToken ctx)
+    [HttpPost]
+    public async Task<IActionResult> UpdateMaritalStatus([FromForm] MaritalStatusViewModel maritaldetails, CancellationToken ctx)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
+        maritaldetails.Year = year;
+        maritaldetails.UserId = userId;
 
         var responseResult = new ResponseResult<object>();
 
-        var queryUserParams = new Dictionary<string, string?> {
-                { "userId", userId.ToString()},
-                { "year", year.ToString()},
-                { "maritalStatusId", maritalStatusId.ToString()}
-            };
-
-        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_maritalstatus", queryUserParams);
-        var response = await _httpClient.PutAsync(urluser, null);
-
+        var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_maritalstatus", maritaldetails);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();

@@ -52,11 +52,11 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpGet("maritalStatus_list")]
-    public async Task<IActionResult> GetMaritalStatus(CancellationToken ctx)
+    public async Task<IActionResult> GetMaritalStatus(string userId, int year, CancellationToken ctx)
     {
         try
         {
-            var taxPayers = await _selfOnlineFlowRepository.GetMaritalStatus(ctx);
+            var taxPayers = await _selfOnlineFlowRepository.GetMaritalStatus(userId, year, ctx);
            
 
             return Ok(taxPayers);
@@ -131,11 +131,11 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpPut("update_maritalstatus")]
-    public async Task<IActionResult> UpdateMaritalStatus(string userId, int year, int maritalStatusId)
+    public async Task<IActionResult> UpdateMaritalStatus(MaritalStatusDetailsDto maritalStatus)
     {
         try
         {
-            var isSuccess = await _selfOnlineFlowRepository.UpdateMaritalStatus(userId, year, maritalStatusId);
+            var isSuccess = await _selfOnlineFlowRepository.UpdateMaritalStatus(maritalStatus);
 
             return Ok(isSuccess);
         }

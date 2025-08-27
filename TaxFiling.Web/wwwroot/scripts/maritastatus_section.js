@@ -1,15 +1,30 @@
 ﻿$(function () {
 
-    $('#linkTaxPayerContinue').on('click', function () {
+    $('#linkMaritalNext').on('click', function () {
 
         var selectedId = $("input[name='imgbackground']:checked").val();
+        var selectedName = $("input[name='imgbackground']:checked").data("name");
+
+        if (!selectedId) {
+            alert("Please select a taxpayer.");
+            return;
+        }
+
+        var payload = {
+            Id: selectedId,
+            Name: selectedName,
+            SpouseFullName: $("#SpouseFullName").val(),
+            SpouseTINNo: $("#SpouseTINNo").val(),
+            SpouseNIC: $("#SpouseNIC").val()
+            
+        };
 
         if (selectedId) {
             console.log("Selected MaritalStatus ID: " + selectedId);
             $.ajax({
                 url: '/SelfOnlineFlow/UpdateMaritalStatus',
-                type: 'PUT',
-                data: { maritalStatusId: selectedId },
+                type: 'POST',
+                data: payload,
                 success: function (response) {
                     $.ajax({
                         url: '/SelfOnlineFlow/LoadTaxReturnLastyear',
@@ -34,7 +49,7 @@
         }
     });
 
-    $('#linkTaxPayerNext').on('click', function () {
+    $('#linkMaritalContinue').on('click', function () {
       
         $.ajax({
             url: '/SelfOnlineFlow/LoadTaxPayer',
@@ -50,4 +65,28 @@
         });
 
     });
+    const radios = document.querySelectorAll(".imgbgchk");
+     const spouseSection = document.getElementById("spouseDetails");
+   
+
+    function toggleSections(selectedName) {
+        spouseSection.style.display = "none";
+       
+        if (selectedName === "married") {
+            spouseSection.style.display = "block";
+        }
+    }
+
+    radios.forEach(radio => {
+        radio.addEventListener("change", function () {
+            toggleSections(this.dataset.name.trim().toLowerCase());
+        });
+    });
+
+    // Show correct section if pre-selected
+    const selected = document.querySelector(".imgbgchk:checked");
+    if (selected) {
+        toggleSections(selected.dataset.name.trim().toLowerCase());
+    }
+
 });

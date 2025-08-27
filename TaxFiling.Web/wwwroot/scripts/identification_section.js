@@ -35,23 +35,22 @@
 
         };
 
-        console.log(user);
-
         if (firstName.length == 0) {
-            notifyError(false, "First Name is required");
-          
+            $("#FirstName").after('<div class="text-danger validation-error">First Name is required.</div>');
+            isValid = false;
         }
         else if (lastName.length == 0) {
-            notifyError(false, "Last Name is required");
+            $("#LastName").after('<div class="text-danger validation-error">Last Name is required.</div>');
+            isValid = false;
            
         }
-        else if (DateOfBirth.length == 0) {
-            notifyError(false, "Date Birthday is required");
-           
+        else if (dateOfBirth.length == 0) {
+            $("#DateOfBirth").after('<div class="text-danger validation-error">Date Birthday is required.</div>');
+            isValid = false;
         }
-        else if (DateOfBirth.length == 0) {
-            notifyError(false, "Gender is required");
-
+        else if (gender.length == 0) {
+            $("#Gender").after('<div class="text-danger validation-error">Gender is required.</div>');
+            isValid = false;
         }
 
         else { 
