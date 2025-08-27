@@ -4606,3 +4606,29 @@ div#in-this-section-container i {
     opacity: 1;
 }
 
+#documents-section .uplode-parts ul {
+    padding: 0px;
+    list-style-type: none;
+    padding-left: 10px;
+    font-size: 11px;
+    line-height: 15px;
+}
+
+
+
+#documents-section  .col-md-6.guid-line {
+    /* padding-left: 0px; */
+    color: #008209;
+}
+
+.col-md-6.guid-line {}
+
+
+
+#documents-section  i.bi.bi-check {
+    color: #289700 !important;
+    font-size: 20px;
+}
+
+
+
