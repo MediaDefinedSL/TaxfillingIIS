@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using System.Diagnostics.Metrics;
 using TaxFiling.Business.Interfaces;
 using TaxFiling.Data;
 using TaxFiling.Domain.Dtos;
@@ -162,6 +163,15 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             PassportNo = b.PassportNo,
                                             Nationality = b.Nationality,
                                             Occupation = b.Occupation,
+                                            EmployerName = b.EmployerName,
+                                            District = b.District,
+                                            PostalCode= b.PostalCode,
+                                            Country = b.Country,
+                                            EmailPrimary = b.EmailPrimary,
+                                            EmailSecondary = b.EmailSecondary,
+                                            MobilePhone= b.MobilePhone,
+                                            HomePhone = b.HomePhone,
+                                            WhatsApp = b.WhatsApp
 
                                         })
                                         .AsNoTracking()
@@ -329,30 +339,39 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
-    public async Task<bool> UpdatelContactInformation(string userId, int year, string? careof, string? apt, string streetnumber, string street, string city)
+    public async Task<bool> UpdatelContactInformation(ContactInfromationDto contactInfromation)
     {
         bool isSuccess = false;
 
         try
         {
             var _selfOnlineuser = await _context.SelfOnlineFlowPersonalInformation
-                               .Where(p => p.UserId == userId && p.Year == year)
+                               .Where(p => p.UserId == contactInfromation.UserId && p.Year == contactInfromation.Year)
                                .FirstOrDefaultAsync();
 
             if (_selfOnlineuser != null)
             {
-                _selfOnlineuser.CareOf = careof;
-                _selfOnlineuser.Apt = apt;
-                _selfOnlineuser.StreetNumber = streetnumber;
-                _selfOnlineuser.Street = street;
-                _selfOnlineuser.City = city;
+                _selfOnlineuser.CareOf = contactInfromation.CareOf;
+                _selfOnlineuser.Apt = contactInfromation.Apt;
+                _selfOnlineuser.StreetNumber = contactInfromation.StreetNumber;
+                _selfOnlineuser.Street = contactInfromation.Street;
+                _selfOnlineuser.City = contactInfromation.City;
+                _selfOnlineuser.District = contactInfromation.District;
+                _selfOnlineuser.PostalCode = contactInfromation.PostalCode;
+                _selfOnlineuser.Country = contactInfromation.Country;
+                _selfOnlineuser.EmailPrimary = contactInfromation.EmailPrimary;
+                _selfOnlineuser.EmailSecondary = contactInfromation.EmailSecondary;
+                _selfOnlineuser.MobilePhone = contactInfromation.MobilePhone;
+                _selfOnlineuser.HomePhone = contactInfromation.HomePhone;
+                _selfOnlineuser.WhatsApp = contactInfromation.WhatsApp;
+                _selfOnlineuser.PreferredCommunicationMethod = contactInfromation.PreferredCommunicationMethod;
 
                 await _context.SaveChangesAsync();
             }
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error update LastYear");
+            _logger.LogError(e, "Error update Contact Information");
         }
         return isSuccess;
     }

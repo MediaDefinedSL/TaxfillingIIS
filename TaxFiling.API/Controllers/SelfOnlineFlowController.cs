@@ -173,11 +173,11 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpPut("update_contactinformation")]
-    public async Task<IActionResult> UpdatelContactInformation(string userId, int year, string? careof,string? apt , string streetnumber , string street , string city)
+    public async Task<IActionResult> UpdatelContactInformation(ContactInfromationDto contactInfromation)
     {
         try
         {
-            var isSuccess = await _selfOnlineFlowRepository.UpdatelContactInformation(userId, year, careof , apt, streetnumber, street, city);
+            var isSuccess = await _selfOnlineFlowRepository.UpdatelContactInformation(contactInfromation);
 
             return Ok(isSuccess);
         }
