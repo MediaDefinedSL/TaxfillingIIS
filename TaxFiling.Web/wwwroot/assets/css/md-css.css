@@ -415,6 +415,7 @@ input {
 
 .footer .footer-top {
     padding-top: 20px;
+    border: none;
 }
 
 .footer .copyright {
@@ -2748,21 +2749,21 @@ section#about.about.section {
 }
 
 .uplode-parts {
-    padding-right: 50%;
+    /* padding-right: 50%; */
 }
 
 
 div#documents-section {
     /* padding-right: 37% !important; */
     background-image: url(http://images.netexam.com/images/10229/file-uplode.gif) !important;
-    background-size: 376px;
+    background-size: 222px;
     background-repeat: no-repeat;
-    background-position: right 36px;
+    background-position: right 6px;
     background-color: #ffffff !important;
 }
 
 .uplode-parts {
-    padding-right: 50%;
+    /* padding-right: 59%; */
 }
 
 
@@ -4215,6 +4216,7 @@ span.colef {
 
 #team img.img-fluid {
     border-bottom: solid 2px #0d6efd;
+    width: 100%;
 }
 
 #bank-section .form-control {
@@ -4475,4 +4477,86 @@ section.svg-chart {
 
 div#ctx_yoa {
     height: 49px;
+}
+#contact .container.tab-panel-contact .nav-link {
+    background: no-repeat;
+    color: #000 !important;
+}
+
+#contact .container.tab-panel-contact .nav-link a {
+    color: #000 !important;
+}
+
+#contact .container.tab-panel-contact .nav-link.active {
+    background: none !important;
+    box-shadow: none !important;
+    border: solid 1px #ccc !important;
+    border-bottom: none;
+    border-color: #319df4 !important;
+    border-bottom: none !important;
+    color: #319df4 !important;
+}
+
+#contact .container.tab-panel-contact .nav-link {
+    box-shadow: none !important;
+    border: solid 1px #ccc !important;
+    border-bottom: none;
+    border-color: #319df4 !important;
+    height: 44px !important;
+    border-bottom: none !important;
+    color: #414141 !important;
+}
+
+#contact ul#myTab {
+    border-bottom: solid 1px #2196f3;
+}
+
+#contact .container.tab-panel-contact .nav-link:hover {
+        color: #319df4 !important;
+}
+
+div#in-this-section-container .main-content {
+    height: auto !important;
+    min-height: 250vh!important;
+}
+
+div#in-this-section-container i {
+    color: #319df4 !important;
+}
+
+
+#Self-Online-Flow .sidebar-main h2 {
+    text-align: center !important;
+}
+
+.col-md-6.guid-line {
+    font-size: 11px;
+}
+
+.col-md-6.guid-line div {
+    margin-bottom: 7px;
+}
+
+
+.uplode-parts .row {
+    margin-left: 0px !important;
+}
+
+
+.user-details-section.mb-4 table {
+    text-align: left;
+    float: left;
+    display: block !important;
+    width: 100% !important!;
+    background: none !important;
+    border: none;
+    margin: 21px !important;
+    margin-left: 0px !important;
+}
+
+
+
+#Self-Online-Flow #payment-method-Form .form-header .complated.stepIndicator::before {
+    border-color: #0d6efd !important;
+    border: 4px solid;
 }
