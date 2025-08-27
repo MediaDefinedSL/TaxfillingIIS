@@ -3137,7 +3137,7 @@
                                                   bar.style.width = progress + "%";
                                                   bar.textContent = progress + "%";
                                               }
-                                               if(docStatus == 1)
+                                                  if(parseInt(document.getElementById("docUploadStatus").value, 10) == 1)
                                             {
                                                    btnContinue.style.display = "block";
                                                    btnRemoveDft.style.display = "block";
@@ -3145,7 +3145,7 @@
                                                          btnViewSubmittedDocs.style.display = "none";
 
                                             }
-                                            else if(docStatus == 0)
+                                               else if(parseInt(document.getElementById("docUploadStatus").value, 10) == 0)
                                             {
                                                    btnContinue.style.display = "block";
                                                    btnRemoveDft.style.display = "none";
@@ -3153,7 +3153,7 @@
                                                          btnViewSubmittedDocs.style.display = "none";
 
                                             }
-                                               else if(docStatus == 2)
+                                                  else if(parseInt(document.getElementById("docUploadStatus").value, 10) == 2)
                                                {
                                                           btnViewSubmittedDocs.style.display = "block";
                                                              btnContinue.style.display = "none";
