@@ -472,14 +472,14 @@
 
                                 <div>Required Documents for Upload (as applicable)</div>
                                 <ul>
-                                    <li>APIT / PAYE – T10 Certificate (Employment income)</li>
-                                    <li>Bank Confirmation Letters – Savings, Current, Fixed Deposits, Credit Cards, Lease, Loan, WHT certificates </li>
-                                    <li>Rent Income Evidence – Rent agreements, receipts, or statements</li>
-                                    <li>Investment / Dividend Statements – Including unit trusts, share dividends, treasury bills, etc.</li>
-                                    <li>Foreign Income Proof – Payslips, remittance advice, bank credit notices </li>
-                                    <li>Solar Panel Purchase &amp; Donation Receipts – If claiming relevant reliefs</li>
-                                    <li>Tax Payment Evidence – Payment receipts and IRD acknowledgements</li>
-                                    <li>Any Other Supporting Documents relevant for tax filing (e.g., previous year’s tax return,) </li>
+                                    <li><i class="bi bi-check"></i>APIT / PAYE – T10 Certificate (Employment income)</li>
+                                    <li><i class="bi bi-check"></i>Bank Confirmation Letters – Savings, Current, Fixed Deposits, Credit Cards, Lease, Loan, WHT certificates </li>
+                                    <li><i class="bi bi-check"></i>Rent Income Evidence – Rent agreements, receipts, or statements</li>
+                                    <li><i class="bi bi-check"></i>Investment / Dividend Statements – Including unit trusts, share dividends, treasury bills, etc.</li>
+                                    <li><i class="bi bi-check"></i>Foreign Income Proof – Payslips, remittance advice, bank credit notices </li>
+                                    <li><i class="bi bi-check"></i>Solar Panel Purchase &amp; Donation Receipts – If claiming relevant reliefs</li>
+                                    <li><i class="bi bi-check"></i>Tax Payment Evidence – Payment receipts and IRD acknowledgements</li>
+                                    <li><i class="bi bi-check"></i>Any Other Supporting Documents relevant for tax filing (e.g., previous year’s tax return,) </li>
                                 </ul>
                             </div>
                         </div>
@@ -2697,8 +2697,7 @@
 
                         const formData = new FormData();
                         formData.append("filename", fileName); // Match the API's expected field
-                        formData.append("decryptionKey", decryptionKey);
-                        formData.append("userId",userId);
+                        formData.append("decryptionKey", decryptionKey);                        
                         formData.append("year", new Date().getFullYear().toString());
 
                         const viewRes = await fetch("https://file.taxfiling.lk/view", {
