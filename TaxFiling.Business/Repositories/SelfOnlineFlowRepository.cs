@@ -185,7 +185,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             EmailSecondary = b.EmailSecondary,
                                             MobilePhone= b.MobilePhone,
                                             HomePhone = b.HomePhone,
-                                            WhatsApp = b.WhatsApp
+                                            WhatsApp = b.WhatsApp,
+                                            PreferredCommunicationMethod = b.PreferredCommunicationMethod
 
                                         })
                                         .AsNoTracking()
