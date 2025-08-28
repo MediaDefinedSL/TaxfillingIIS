@@ -19,6 +19,23 @@
     }
 }
 
+@{
+    var queryParams = Context.Request.Query;
+}
+
+@section Scripts {
+    <script>
+        var queryParams = {
+        @foreach (var param in queryParams)
+        {
+            <text>"@param.Key": "@param.Value",</text>
+        }
+        };
+
+        alert("Query Params: " + JSON.stringify(queryParams));
+    </script>
+}
+
 <!DOCTYPE html>
 <html lang="en">
 
