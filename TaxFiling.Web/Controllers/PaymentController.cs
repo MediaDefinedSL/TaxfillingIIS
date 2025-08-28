@@ -15,6 +15,7 @@ using System.Text;
 using System.Web.Helpers;
 using System.Security.Cryptography;
 
+
 namespace TaxFiling.Web.Controllers;
 
 public class PaymentController : Controller
@@ -37,10 +38,10 @@ public class PaymentController : Controller
     }
     public async Task<IActionResult> PackagePayment(int packageId, CancellationToken ctx)
     {
-       
+
 
         PackagesViewModel package = new();
-      
+
 
         if (packageId != null)
         {
@@ -64,14 +65,34 @@ public class PaymentController : Controller
     }
 
     [HttpPost("StartPayment")]
-    public async Task<IActionResult> StartPayment(int packageId,decimal Price)
+    public async Task<IActionResult> StartPayment(int packageId, decimal Price)
     {
+        UserViewModel user = new();
+        //get user details
+        var userId = User.FindFirst("UserID")?.Value;
+        var userApiUrl = $"https://localhost:7119/api/Users/getuser?id={userId}";
+
+        var userResponse = await _httpClient.GetAsync(userApiUrl);
+        if (!userResponse.IsSuccessStatusCode)
+        {
+            return BadRequest("Failed to fetch user details.");
+        }
+
+        var userJson = await userResponse.Content.ReadAsStringAsync();
+        if (!string.IsNullOrWhiteSpace(userJson))
+        {
+            user = JsonSerializer.Deserialize<UserViewModel>(userJson, _jsonSerializerOptions) ?? new();
+        }
+
+
         var client = _httpClientFactory.CreateClient();
 
         string appId = "3EMG1190963FE17A92690";
         string currency = "LKR";
         string amount = Price.ToString();
         string hashSalt = "DLCY1190963FE17A926B9"; // provided by OnePay
+        string authorization = "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE";
+
 
         string input = appId + currency + amount + hashSalt;
 
@@ -79,23 +100,25 @@ public class PaymentController : Controller
 
         var paymentRequest = new
         {
-            currency = "LKR",
-            app_id = "3EMG1190963FE17A92690",
+
+            currency = currency,
+            app_id = appId,
             hash = hash,
             amount = Price.ToString(),
             reference = "REF1750077420233",
-            customer_first_name = "testTax",
-            customer_last_name = "test",
-            customer_phone_number = "0123456789",
-            customer_email = "mayusuneth@gmail.com",
-            transaction_redirect_url = "https://localhost:7108/Payment/PackageSuccessPage?packageId=" + packageId,
-            additionalData = "SubscriptionPlan_1"
+            customer_first_name = user.FirstName,
+            customer_last_name = user.LastName,
+            customer_phone_number = user.Phone,
+            customer_email = user.Email,
+            transaction_redirect_url = Url.Action("PackageSuccessPage", "Payment", new { packageId }, Request.Scheme),//"https://localhost:7108/Payment/PackageSuccessPage?packageId=" + packageId,
+            additionalData = "additional"
         };
 
         var json = JsonSerializer.Serialize(paymentRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        client.DefaultRequestHeaders.Add("Authorization", "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE");
+
+        client.DefaultRequestHeaders.Add("Authorization", authorization);
 
         var response = await client.PostAsync("https://api.onepay.lk/v3/checkout/link/", content);
         var responseBody = await response.Content.ReadAsStringAsync();
@@ -137,33 +160,37 @@ public class PaymentController : Controller
         }
     }
 
-    public async Task<IActionResult> PackageSuccessPage(int packageId, CancellationToken ctx)
+    public IActionResult PackageSuccessPage(int packageId, string status, string reference)
     {
 
+        ViewBag.PackageId = packageId;
+        ViewBag.Status = status;
+        ViewBag.Reference = reference;
 
-        PackagesViewModel package = new();
+        return View();
+        //PackagesViewModel package = new();
 
 
-        if (packageId != null)
-        {
-            var queryParams = new Dictionary<string, string?> {
-                { "id", packageId.ToString()}
-            };
+        //if (packageId != null)
+        //{
+        //    var queryParams = new Dictionary<string, string?> {
+        //        { "id", packageId.ToString()}
+        //    };
 
-            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/packeges/get", queryParams);
-            var response = await _httpClient.GetAsync(url, ctx);
-            if (response != null && response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync(ctx);
-                if (!string.IsNullOrWhiteSpace(responseContent))
-                {
-                    package = JsonSerializer.Deserialize<PackagesViewModel>(responseContent, _jsonSerializerOptions) ?? new();
-                }
-            }
-        }
+        //    string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/packeges/get", queryParams);
+        //    var response = await _httpClient.GetAsync(url, ctx);
+        //    if (response != null && response.IsSuccessStatusCode)
+        //    {
+        //        var responseContent = await response.Content.ReadAsStringAsync(ctx);
+        //        if (!string.IsNullOrWhiteSpace(responseContent))
+        //        {
+        //            package = JsonSerializer.Deserialize<PackagesViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+        //        }
+        //    }
+        //}
 
-        return View(package);
+        //return View(package);
     }
 
-    
+
 }
