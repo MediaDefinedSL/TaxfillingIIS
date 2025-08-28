@@ -70,7 +70,7 @@ public class PaymentController : Controller
         UserViewModel user = new();
         //get user details
         var userId = User.FindFirst("UserID")?.Value;
-        var userApiUrl = $"https://localhost:7119/api/Users/getuser?id={userId}";
+        var userApiUrl = $"{_baseApiUrl}api/users/getuser?id={userId}";
 
         var userResponse = await _httpClient.GetAsync(userApiUrl);
         if (!userResponse.IsSuccessStatusCode)
@@ -110,7 +110,7 @@ public class PaymentController : Controller
             customer_last_name = user.LastName,
             customer_phone_number = user.Phone,
             customer_email = user.Email,
-            transaction_redirect_url = Url.Action("PackageSuccessPage", "Payment", new { packageId }, Request.Scheme),//"https://localhost:7108/Payment/PackageSuccessPage?packageId=" + packageId,
+            transaction_redirect_url = Url.Action("PackageSuccessPage", "Payment", new { PackageId = packageId, reference = "REF1750077420233" }, Request.Scheme),//"https://localhost:7108/Payment/PackageSuccessPage?packageId=" + packageId,
             additionalData = "additional"
         };
 
@@ -160,11 +160,10 @@ public class PaymentController : Controller
         }
     }
 
-    public IActionResult PackageSuccessPage(int packageId, string status, string reference)
+    public IActionResult PackageSuccessPage(int PackageId, string reference)
     {
 
-        ViewBag.PackageId = packageId;
-        ViewBag.Status = status;
+        ViewBag.PackageId = PackageId;        
         ViewBag.Reference = reference;
 
         return View();
