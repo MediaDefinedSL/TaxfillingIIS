@@ -30,6 +30,16 @@ public class SelfOnlineFlowPersonalInformation
     public string TaxNumber { get; set; }
     [Column("NIC_NO")]
     public string NIC_NO { get; set; }
+    [Column("Title")]
+    public string? Title { get; set; }
+    [Column("PassportNo")]
+    public string? PassportNo { get; set; }
+    [Column("Nationality")]
+    public string? Nationality { get; set; }
+    [Column("Occupation")]
+    public string? Occupation { get; set; }
+    [Column("EmployerName")]
+    public string? EmployerName { get; set; }
     [Column("Address")]
     public string Address { get; set; }
     [Column("Gender")]
@@ -44,6 +54,24 @@ public class SelfOnlineFlowPersonalInformation
     public string? Street { get; set; }
     [Column("city")]
     public string? City { get; set; }
+    [Column("District")]
+    public string? District { get; set; }
+    [Column("PostalCode")]
+    public string? PostalCode { get; set; }
+    [Column("Country")]
+    public string? Country { get; set; }
+    [Column("EmailPrimary")]
+    public string? EmailPrimary { get; set; }
+    [Column("EmailSecondary")]
+    public string? EmailSecondary { get; set; }
+    [Column("MobilePhone")]
+    public string? MobilePhone { get; set; }
+    [Column("HomePhone")]
+    public string? HomePhone { get; set; }
+    [Column("WhatsApp")]
+    public string? WhatsApp { get; set; }
+    [Column("PreferredCommunicationMethod")]
+    public string? PreferredCommunicationMethod { get; set; }
     [Column("tel_no_main")]
     public string? TelNoMain { get; set; }
     [Column("tel_no_work")]

@@ -2,9 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using Serilog.Core;
-using System.Reflection.Metadata;
-using System.Threading;
+using System.Diagnostics.Metrics;
 using TaxFiling.Business.Interfaces;
 using TaxFiling.Data;
 using TaxFiling.Domain.Dtos;
@@ -33,21 +31,21 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                  on new { TaxpayerId = t.Id, UserId = userId, Year = year }
                  equals new { TaxpayerId = s.TaxpayerId ?? 0, s.UserId, s.Year }
                  into ps
-                 from s in ps.DefaultIfEmpty()
-                 select new TaxPayerDetailsDto
-                 {
-                     UserId = s != null ? s.UserId : userId,
-                     Year = s != null ? s.Year : year,
-                     TaxpayerId = t.Id,
-                     Name = t.Name,
-                     ImageUrl = t.ImageUrl,
-                     SpouseName = s != null ? s.SpouseName : null,
-                     SpouseTINNo = s != null ? s.SpouseTINNo : null,
-                     SpouseNIC = s != null ? s.SpouseNIC : null,
-                     SomeoneName = s != null ? s.SomeoneName : null,
-                     Relationship = s != null ? s.Relationship : null,
-                     SomeoneTINNo = s != null ? s.SomeoneTINNo : null
-                 }
+             from s in ps.DefaultIfEmpty()
+             select new TaxPayerDetailsDto
+             {
+                 UserId = s != null ? s.UserId : userId,
+                 Year = s != null ? s.Year : year,
+                 TaxpayerId = t.Id,
+                 Name = t.Name,
+                 ImageUrl = t.ImageUrl,
+                 SpouseName = s != null ? s.SpouseName : null,
+                 SpouseTINNo = s != null ? s.SpouseTINNo : null,
+                 SpouseNIC = s != null ? s.SpouseNIC : null,
+                 SomeoneName = s != null ? s.SomeoneName : null,
+                 Relationship = s != null ? s.Relationship : null,
+                 SomeoneTINNo = s != null ? s.SomeoneTINNo : null
+             }
              ).ToListAsync(ctx);
 
             return taxPayers;
@@ -59,27 +57,41 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         }
     }
 
-    public async Task<List<MaritalStatusDto>> GetMaritalStatus(CancellationToken cancellationToken)
+    public async Task<List<MaritalStatusDetailsDto>> GetMaritalStatus(string userId, int year, CancellationToken ctx)
     {
-        List<MaritalStatusDto> maritalStatus = [];
+       
         try
         {
+            var maritalStatus = await (
+            from m in _context.MaritalStatuses
+            join s in _context.SelfOnlineFlowPersonalInformation
+                on new { MaritalStatusId = m.Id, UserId = userId, Year = year }
+                equals new { MaritalStatusId = s.MaritalStatusId ?? 0, s.UserId, s.Year }
+                into ps
+            from s in ps.DefaultIfEmpty()
+            select new MaritalStatusDetailsDto
+            {
+                UserId = s != null ? s.UserId : userId,
+                Year = s != null ? s.Year : year,
+                Id = m.Id,
+                Name = m.Name,
+                ImageUrl = m.ImageUrl,
+                SpouseFullName = s != null ? s.SpouseName : null,
+                SpouseTINNo = s != null ? s.SpouseTINNo : null,
+                SpouseNIC = s != null ? s.SpouseNIC : null,
+               
+            }
+            ).ToListAsync(ctx);
 
-            maritalStatus = await _context.MaritalStatuses
-                .Select(t => new MaritalStatusDto
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    ImageUrl = t.ImageUrl
+            return maritalStatus;
 
-                }).ToListAsync(cancellationToken);
         }
         catch (Exception e)
         {
             _logger.LogError(e, "");
+            return new List<MaritalStatusDetailsDto>();
         }
 
-        return maritalStatus;
     }
 
     public async Task<List<TaxReturnLastyearDto>> GetTaxReturnLastyears(CancellationToken cancellationToken)
@@ -147,7 +159,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             LastName = b.LastName,
                                             DateOfBirth = b.DateOfBirth,
                                             TaxNumber = b.TaxNumber,
-                                            NIC_NO=b.NIC_NO,
+                                            NIC_NO = b.NIC_NO,
                                             Address = b.Address,
                                             Gender = b.Gender,
                                             CareOf = b.CareOf,
@@ -160,7 +172,21 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             SpouseNIC = b.SpouseNIC,
                                             SpouseName = b.SpouseName,
                                             SpouseTINNo = b.SpouseTINNo,
-                                            Relationship = b.Relationship
+                                            Relationship = b.Relationship,
+                                            Title = b.Title,
+                                            PassportNo = b.PassportNo,
+                                            Nationality = b.Nationality,
+                                            Occupation = b.Occupation,
+                                            EmployerName = b.EmployerName,
+                                            District = b.District,
+                                            PostalCode= b.PostalCode,
+                                            Country = b.Country,
+                                            EmailPrimary = b.EmailPrimary,
+                                            EmailSecondary = b.EmailSecondary,
+                                            MobilePhone= b.MobilePhone,
+                                            HomePhone = b.HomePhone,
+                                            WhatsApp = b.WhatsApp,
+                                            PreferredCommunicationMethod = b.PreferredCommunicationMethod
 
                                         })
                                         .AsNoTracking()
@@ -181,7 +207,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                 .FirstOrDefaultAsync();
 
 
-            if(taxPayerdetails.TaxpayerId == 2)
+            if (taxPayerdetails.TaxpayerId == 2)
             {
                 taxPayerdetails.SomeoneName = null;
                 taxPayerdetails.Relationship = null;
@@ -224,7 +250,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
-    public async Task<bool> UpdateMaritalStatus(string userId, int year, int maritalStatusId)
+    public async Task<bool> UpdateMaritalStatus(MaritalStatusDetailsDto maritalStatusDetails)
     {
         bool isSuccess = false;
 
@@ -232,10 +258,20 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
             var _user = await _context.SelfOnlineFlowPersonalInformation
-                                .Where(p => p.UserId == userId && p.Year == year)
+                                .Where(p => p.UserId == maritalStatusDetails.UserId && p.Year == maritalStatusDetails.Year)
                                 .FirstOrDefaultAsync();
 
-            _user.MaritalStatusId = maritalStatusId;
+            if (maritalStatusDetails.Id != 2)
+            {
+                maritalStatusDetails.SpouseFullName = null;
+                maritalStatusDetails.SpouseTINNo = null;
+                maritalStatusDetails.SpouseNIC = null;
+            }
+
+            _user.MaritalStatusId = maritalStatusDetails.Id;
+            _user.SpouseName = maritalStatusDetails.SpouseFullName;
+            _user.SpouseTINNo = maritalStatusDetails.SpouseTINNo;
+            _user.SpouseNIC = maritalStatusDetails.SpouseNIC;
 
             await _context.SaveChangesAsync();
 
@@ -297,6 +333,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 _selfOnlineuser.NIC_NO = identifications.NIC_NO;
                 _selfOnlineuser.Address = identifications.Address;
                 _selfOnlineuser.Gender = identifications.Gender;
+                _selfOnlineuser.Title = identifications.Title;
+                _selfOnlineuser.PassportNo = identifications.PassportNo;
+                _selfOnlineuser.Nationality = identifications.Nationality;
+                _selfOnlineuser.Occupation = identifications.Occupation;
+                _selfOnlineuser.EmployerName = identifications.EmployerName;
 
                 await _context.SaveChangesAsync();
             }
@@ -309,7 +350,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             {
                 _user.FirstName = identifications.FirstName;
                 _user.LastName = identifications.LastName;
-               // _user.TinNo = identifications.TaxNumber;
+                // _user.TinNo = identifications.TaxNumber;
 
                 await _context.SaveChangesAsync();
             }
@@ -323,30 +364,39 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
-    public async Task<bool> UpdatelContactInformation(string userId, int year, string? careof, string? apt, string streetnumber, string street, string city)
+    public async Task<bool> UpdatelContactInformation(ContactInfromationDto contactInfromation)
     {
         bool isSuccess = false;
 
         try
         {
             var _selfOnlineuser = await _context.SelfOnlineFlowPersonalInformation
-                               .Where(p => p.UserId == userId && p.Year == year)
+                               .Where(p => p.UserId == contactInfromation.UserId && p.Year == contactInfromation.Year)
                                .FirstOrDefaultAsync();
 
             if (_selfOnlineuser != null)
             {
-                _selfOnlineuser.CareOf = careof;
-                _selfOnlineuser.Apt = apt;
-                _selfOnlineuser.StreetNumber = streetnumber;
-                _selfOnlineuser.Street = street;
-                _selfOnlineuser.City = city;
+                _selfOnlineuser.CareOf = contactInfromation.CareOf;
+                _selfOnlineuser.Apt = contactInfromation.Apt;
+                _selfOnlineuser.StreetNumber = contactInfromation.StreetNumber;
+                _selfOnlineuser.Street = contactInfromation.Street;
+                _selfOnlineuser.City = contactInfromation.City;
+                _selfOnlineuser.District = contactInfromation.District;
+                _selfOnlineuser.PostalCode = contactInfromation.PostalCode;
+                _selfOnlineuser.Country = contactInfromation.Country;
+                _selfOnlineuser.EmailPrimary = contactInfromation.EmailPrimary;
+                _selfOnlineuser.EmailSecondary = contactInfromation.EmailSecondary;
+                _selfOnlineuser.MobilePhone = contactInfromation.MobilePhone;
+                _selfOnlineuser.HomePhone = contactInfromation.HomePhone;
+                _selfOnlineuser.WhatsApp = contactInfromation.WhatsApp;
+                _selfOnlineuser.PreferredCommunicationMethod = contactInfromation.PreferredCommunicationMethod;
 
                 await _context.SaveChangesAsync();
             }
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error update LastYear");
+            _logger.LogError(e, "Error update Contact Information");
         }
         return isSuccess;
     }
@@ -369,7 +419,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 var _employmentIncome = new SelfOnlineEmploymentIncome
                 {
                     UserId = selfOnlineEmploymentIncome.UserId,
-                    Year= selfOnlineEmploymentIncome.Year,
+                    Year = selfOnlineEmploymentIncome.Year,
                     Residency = selfOnlineEmploymentIncome.Residency,
                     SeniorCitizen = selfOnlineEmploymentIncome.SeniorCitizen,
                     TerminalBenefits = selfOnlineEmploymentIncome.TerminalBenefits,
@@ -383,7 +433,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 await _context.SaveChangesAsync();
 
             }
-            else {
+            else
+            {
                 _employmentIncomuser.Residency = selfOnlineEmploymentIncome.Residency;
                 _employmentIncomuser.SeniorCitizen = selfOnlineEmploymentIncome.SeniorCitizen;
                 _employmentIncomuser.UpdatedBy = selfOnlineEmploymentIncome.UserId;
@@ -413,10 +464,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                         .Where(b => b.UserId == userId && b.Year == year)
                                         .Select(b => new SelfOnlineEmploymentIncomeDto
                                         {
-                                          
+
                                             UserId = userId,
                                             Year = year,
-                                            SeniorCitizen=b.SeniorCitizen,
+                                            SeniorCitizen = b.SeniorCitizen,
                                             Residency = b.Residency,
                                             TerminalBenefits = b.TerminalBenefits,
                                             ExemptAmounts = b.ExemptAmounts,
@@ -433,11 +484,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
     {
         bool isSuccess = false;
 
-      //  var dbTrans = await _context.Database.BeginTransactionAsync();
+        //  var dbTrans = await _context.Database.BeginTransactionAsync();
         try
         {
 
-       
+
             await _context.Database.ExecuteSqlRawAsync(
             @"CALL ADDEditSelfOnlineEmploymentIncomeDetails(
                 @loguser,
@@ -461,10 +512,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
             new MySqlParameter("@UserId", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
             new MySqlParameter("@Year", selfOnlineEmploymentIncomeDetails.Year),
-            new MySqlParameter("@MainCategoryName", "EmploymentIncome" ),
+            new MySqlParameter("@MainCategoryName", "EmploymentIncome"),
             new MySqlParameter("@CategoryName", selfOnlineEmploymentIncomeDetails.CategoryName ?? (object)DBNull.Value),
             new MySqlParameter("@TransactionType", "Add" ?? (object)DBNull.Value),
-            new MySqlParameter("@SelfOnlineEmploymentDetailsId",0),
+            new MySqlParameter("@SelfOnlineEmploymentDetailsId", 0),
             new MySqlParameter("@Residency", selfOnlineEmploymentIncomeDetails.Residency),
             new MySqlParameter("@SeniorCitizen", selfOnlineEmploymentIncomeDetails.SeniorCitizen),
             new MySqlParameter("@TypeOfName", selfOnlineEmploymentIncomeDetails.TypeOfName ?? (object)DBNull.Value),
@@ -478,7 +529,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         );
 
 
-         
+
 
             /* decimal? addToTotal = 0;
 
@@ -596,9 +647,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
             isSuccess = true;
 
-          //  await dbTrans.CommitAsync();
+            //  await dbTrans.CommitAsync();
 
-           // Message = "Successfully registered the User.";
+            // Message = "Successfully registered the User.";
         }
 
         catch (Exception e)
@@ -613,27 +664,27 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         List<SelfOnlineEmploymentIncomeDetailsDto> employmentIncome = [];
         try
         {
-            
-                employmentIncome = await _context.SelfOnlineEmploymentIncomeDetails
-                .Where(b => b.UserId == userId && b.Year == year)
-                .Select(t => new SelfOnlineEmploymentIncomeDetailsDto
-                {
-                    SelfOnlineEmploymentDetailsId = t.SelfOnlineEmploymentDetailsId,
-                   // SelfOnlineEmploymentIncomeId = t.SelfOnlineEmploymentIncomeId,
-                   Residency = t.Residency,
-                   SeniorCitizen = t.SeniorCitizen,
-                    CategoryName = t.CategoryName,
-                    TypeOfName = t.TypeOfName,
-                    EmployerORCompanyName = t.EmployerORCompanyName,
-                    TINOfEmployer = t.TINOfEmployer,
-                    Remuneration = t.Remuneration,
-                    APITPrimaryEmployment = t.APITPrimaryEmployment,
-                    APITSecondaryEmployment = t.APITSecondaryEmployment,
-                    TerminalBenefits = t.TerminalBenefits,
-                    Amount = t.Amount
 
-                }).ToListAsync(ctx);
-          
+            employmentIncome = await _context.SelfOnlineEmploymentIncomeDetails
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfOnlineEmploymentIncomeDetailsDto
+            {
+                SelfOnlineEmploymentDetailsId = t.SelfOnlineEmploymentDetailsId,
+                // SelfOnlineEmploymentIncomeId = t.SelfOnlineEmploymentIncomeId,
+                Residency = t.Residency,
+                SeniorCitizen = t.SeniorCitizen,
+                CategoryName = t.CategoryName,
+                TypeOfName = t.TypeOfName,
+                EmployerORCompanyName = t.EmployerORCompanyName,
+                TINOfEmployer = t.TINOfEmployer,
+                Remuneration = t.Remuneration,
+                APITPrimaryEmployment = t.APITPrimaryEmployment,
+                APITSecondaryEmployment = t.APITSecondaryEmployment,
+                TerminalBenefits = t.TerminalBenefits,
+                Amount = t.Amount
+
+            }).ToListAsync(ctx);
+
 
         }
         catch (Exception e)
@@ -644,7 +695,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return employmentIncome;
     }
 
-    public async Task<bool> UpdateEmploymentIncomeTerminalBenefits(string userId, int year, int employmentIncomeId, bool terminalBenefits )
+    public async Task<bool> UpdateEmploymentIncomeTerminalBenefits(string userId, int year, int employmentIncomeId, bool terminalBenefits)
     {
         bool isSuccess = false;
 
@@ -652,7 +703,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
             var employmentIncome = await _context.SelfOnlineEmploymentIncomes
-                              .Where(p => p.UserId == userId && p.Year == year )
+                              .Where(p => p.UserId == userId && p.Year == year)
                               .FirstOrDefaultAsync();
             if (employmentIncome != null)
             {
@@ -664,7 +715,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                     var recordsToDelete = await _context.SelfOnlineEmploymentIncomeDetails
                         .Where(b => b.UserId == userId
                                  && b.Year == year
-                                // && b.SelfOnlineEmploymentIncomeId == employmentIncomeId
+                                 // && b.SelfOnlineEmploymentIncomeId == employmentIncomeId
                                  && b.CategoryName == "TerminalBenefits")
                         .ToListAsync();
 
@@ -688,7 +739,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             {
                                 mainTaxIncome.TaxTotal = (mainTaxIncome.TaxTotal ?? 0) - sumTerminalBenefits;
                                 _context.Users.Update(mainTaxIncome);
-                               // await _context.SaveChangesAsync();
+                                // await _context.SaveChangesAsync();
                             }
                         }
                         // Remove records
@@ -716,7 +767,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
             var _employmentIncomuser = await _context.SelfOnlineEmploymentIncomes
-                              .Where(p => p.UserId == userId && p.Year == year )
+                              .Where(p => p.UserId == userId && p.Year == year)
                               .FirstOrDefaultAsync();
             if (_employmentIncomuser != null)
             {
@@ -728,7 +779,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 var recordsToDelete = await _context.SelfOnlineEmploymentIncomeDetails
                     .Where(b => b.UserId == userId
                              && b.Year == year
-                             
+
                              && b.CategoryName == "ExemptAmounts")
                     .ToListAsync();
 
@@ -935,26 +986,26 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
 
 
-                //    if (employmentDetailsName == "TerminalBenefits")
-                //    {
-                //        //     await _context.Database.ExecuteSqlRawAsync(
-                //        //              "CALL UpdateSelfFilingTotalCalculation({0}, {1}, {2},{3},{4},{5},{6})",
-                //        //              selfOnlineEmploymentIncomeDetails.UserId,
-                //        //              selfOnlineEmploymentIncomeDetails.UserId,
-                //        //              selfOnlineEmploymentIncomeDetails.Year,
-                //        //              "EmploymentIncome",
-                //        //              "EmploymentDetails",
-                //        //              "add",
-                //        //              addToTotal
+            //    if (employmentDetailsName == "TerminalBenefits")
+            //    {
+            //        //     await _context.Database.ExecuteSqlRawAsync(
+            //        //              "CALL UpdateSelfFilingTotalCalculation({0}, {1}, {2},{3},{4},{5},{6})",
+            //        //              selfOnlineEmploymentIncomeDetails.UserId,
+            //        //              selfOnlineEmploymentIncomeDetails.UserId,
+            //        //              selfOnlineEmploymentIncomeDetails.Year,
+            //        //              "EmploymentIncome",
+            //        //              "EmploymentDetails",
+            //        //              "add",
+            //        //              addToTotal
 
-                //        //          );
-                //    }
+            //        //          );
+            //    }
 
-                //}
+            //}
 
-                //await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
-                isSuccess = true;
+            isSuccess = true;
 
 
         }
@@ -964,7 +1015,101 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         }
         return isSuccess;
     }
+    public async Task<bool> SaveSelfOnlineInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDto selfOnlineInvestment)
+    {
+        bool isSuccess = false;
 
+        try
+        {
+
+
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineInvestmentIncomeDetails(
+                     @loguser,
+                     @UserId,
+                     @Year,
+                     @Category,
+                     @TransactionType,
+                     @SelfOnlineInvestmentId,
+                     @InvestmentIncomeType,
+                     @Remuneration,
+                     @GainsProfits,
+                     @TotalInvestmentIncome,
+                     @BankName,
+                     @BankBranch,
+                     @AccountNo,
+                     @AmountInvested,
+                     @Interest,
+                     @OpeningBalance,
+                     @Balance,
+                     @CompanyInstitution,
+                     @SharesStocks,
+                     @AcquisitionDate,
+                     @CostAcquisition,
+                     @NetDividendIncome,
+                     @PropertyDeedNo,
+                     @RentAcquisitionDate,
+                     @CostGiftInherited,
+                     @MarketValue,
+                     @PBTotalInvestmentIncome,
+                     @ActivityCode,
+                     @PartnershipName,
+                     @TrustTIN,
+                     @PBGainsProfits,
+                     @TotalInvestmentIncomePartnership,
+                     @TotalInvestmentIncomeTrust,
+                     @IsExemptAmountA,
+                     @IsExcludedAmountB,
+                     @ExemptExcludedIncome
+                 )",
+                 new MySqlParameter("@loguser", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
+                 new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
+                 new MySqlParameter("@Year", selfOnlineInvestment.Year),
+                 new MySqlParameter("@Category", selfOnlineInvestment.Category ?? (object)DBNull.Value),
+                 new MySqlParameter("@TransactionType", "Add"),
+                 new MySqlParameter("@SelfOnlineInvestmentId", selfOnlineInvestment.SelfOnlineInvestmentId == 0 ? 0 : selfOnlineInvestment.SelfOnlineInvestmentId),
+                 new MySqlParameter("@InvestmentIncomeType", selfOnlineInvestment.InvestmentIncomeType ?? (object)DBNull.Value),
+                 new MySqlParameter("@Remuneration", selfOnlineInvestment.Remuneration ?? (object)DBNull.Value),
+                 new MySqlParameter("@GainsProfits", selfOnlineInvestment.GainsProfits ?? (object)DBNull.Value),
+                 new MySqlParameter("@TotalInvestmentIncome", selfOnlineInvestment.TotalInvestmentIncome ?? (object)DBNull.Value),
+                 new MySqlParameter("@BankName", selfOnlineInvestment.BankName ?? (object)DBNull.Value),
+                 new MySqlParameter("@BankBranch", selfOnlineInvestment.BankBranch ?? (object)DBNull.Value),
+                 new MySqlParameter("@AccountNo", selfOnlineInvestment.AccountNo ?? (object)DBNull.Value),
+                 new MySqlParameter("@AmountInvested", selfOnlineInvestment.AmountInvested ?? (object)DBNull.Value),
+                 new MySqlParameter("@Interest", selfOnlineInvestment.Interest ?? (object)DBNull.Value),
+                 new MySqlParameter("@OpeningBalance", selfOnlineInvestment.OpeningBalance ?? (object)DBNull.Value),
+                 new MySqlParameter("@Balance", selfOnlineInvestment.Balance ?? (object)DBNull.Value),
+                 new MySqlParameter("@CompanyInstitution", selfOnlineInvestment.CompanyInstitution ?? (object)DBNull.Value),
+                 new MySqlParameter("@SharesStocks", selfOnlineInvestment.SharesStocks ?? (object)DBNull.Value),
+                 new MySqlParameter("@AcquisitionDate", selfOnlineInvestment.AcquisitionDate ?? (object)DBNull.Value),
+                 new MySqlParameter("@CostAcquisition", selfOnlineInvestment.CostAcquisition ?? (object)DBNull.Value),
+                 new MySqlParameter("@NetDividendIncome", selfOnlineInvestment.NetDividendIncome ?? (object)DBNull.Value),
+                 new MySqlParameter("@PropertyDeedNo", selfOnlineInvestment.PropertyDeedNo ?? (object)DBNull.Value),
+                 new MySqlParameter("@RentAcquisitionDate", selfOnlineInvestment.RentAcquisitionDate ?? (object)DBNull.Value),
+                 new MySqlParameter("@CostGiftInherited", selfOnlineInvestment.CostGiftInherited ?? (object)DBNull.Value),
+                 new MySqlParameter("@MarketValue", selfOnlineInvestment.MarketValue ?? (object)DBNull.Value),
+                 new MySqlParameter("@PBTotalInvestmentIncome", selfOnlineInvestment.PBTotalInvestmentIncome ?? (object)DBNull.Value),
+                 new MySqlParameter("@ActivityCode", selfOnlineInvestment.ActivityCode ?? (object)DBNull.Value),
+                 new MySqlParameter("@PartnershipName", selfOnlineInvestment.PartnershipName ?? (object)DBNull.Value),
+                 new MySqlParameter("@TrustTIN", selfOnlineInvestment.TrustTIN ?? (object)DBNull.Value),
+                 new MySqlParameter("@PBGainsProfits", selfOnlineInvestment.PBGainsProfits ?? (object)DBNull.Value),
+                 new MySqlParameter("@TotalInvestmentIncomePartnership", selfOnlineInvestment.TotalInvestmentIncomePartnership ?? (object)DBNull.Value),
+                 new MySqlParameter("@TotalInvestmentIncomeTrust", selfOnlineInvestment.TotalInvestmentIncomeTrust ?? (object)DBNull.Value),
+                 new MySqlParameter("@IsExemptAmountA", selfOnlineInvestment.IsExemptAmountA ?? (object)DBNull.Value),
+                 new MySqlParameter("@IsExcludedAmountB", selfOnlineInvestment.IsExcludedAmountB ?? (object)DBNull.Value),
+                 new MySqlParameter("@ExemptExcludedIncome", selfOnlineInvestment.ExemptExcludedIncome ?? (object)DBNull.Value)
+             );
+
+            isSuccess = true;
+
+        }
+
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error update LastYear");
+        }
+        return isSuccess;
+    }
 
 }
 

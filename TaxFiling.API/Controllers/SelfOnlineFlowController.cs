@@ -52,11 +52,11 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpGet("maritalStatus_list")]
-    public async Task<IActionResult> GetMaritalStatus(CancellationToken ctx)
+    public async Task<IActionResult> GetMaritalStatus(string userId, int year, CancellationToken ctx)
     {
         try
         {
-            var taxPayers = await _selfOnlineFlowRepository.GetMaritalStatus(ctx);
+            var taxPayers = await _selfOnlineFlowRepository.GetMaritalStatus(userId, year, ctx);
            
 
             return Ok(taxPayers);
@@ -131,11 +131,11 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpPut("update_maritalstatus")]
-    public async Task<IActionResult> UpdateMaritalStatus(string userId, int year, int maritalStatusId)
+    public async Task<IActionResult> UpdateMaritalStatus(MaritalStatusDetailsDto maritalStatus)
     {
         try
         {
-            var isSuccess = await _selfOnlineFlowRepository.UpdateMaritalStatus(userId, year, maritalStatusId);
+            var isSuccess = await _selfOnlineFlowRepository.UpdateMaritalStatus(maritalStatus);
 
             return Ok(isSuccess);
         }
@@ -173,11 +173,11 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
     [HttpPut("update_contactinformation")]
-    public async Task<IActionResult> UpdatelContactInformation(string userId, int year, string? careof,string? apt , string streetnumber , string street , string city)
+    public async Task<IActionResult> UpdatelContactInformation(ContactInfromationDto contactInfromation)
     {
         try
         {
-            var isSuccess = await _selfOnlineFlowRepository.UpdatelContactInformation(userId, year, careof , apt, streetnumber, street, city);
+            var isSuccess = await _selfOnlineFlowRepository.UpdatelContactInformation(contactInfromation);
 
             return Ok(isSuccess);
         }
@@ -306,6 +306,21 @@ public class SelfOnlineFlowController : ControllerBase
         try
         {
             var isSuccess = await _selfOnlineFlowRepository.DeleteEmploymentIncomeDetail(userId, year, employmentDetailsId , employmentDetailsName);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    //------------InvestmentIncome
+    [HttpPost("save_investmentincomedetails")]
+    public async Task<IActionResult> SaveSelfOnlineInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDto selfOnlineInvestmentIncome)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfOnlineInvestmentIncomeDetails(selfOnlineInvestmentIncome);
 
             return Ok(isSuccess);
         }
