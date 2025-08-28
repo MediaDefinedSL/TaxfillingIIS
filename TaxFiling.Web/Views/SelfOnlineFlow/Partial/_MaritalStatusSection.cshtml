@@ -37,6 +37,17 @@
 
             </div>
         </div>
+        <!-- Number of Dependents -->
+        <div class="mt-4">
+            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Number of Dependents</label>
+                        <input type="number" class="form-control" name="NumberOfDependents" id="NumberOfDependents" min="0" value="" />
+                    </div>
+                </div>
+            </div>
+        </div>
         @{
             var selectedMarital = Model.FirstOrDefault(t => t.Id == (int?)ViewBag.maritalStatusId);
         }
