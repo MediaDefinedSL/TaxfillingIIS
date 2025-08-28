@@ -40,6 +40,8 @@ public class SelfOnlineFlowPersonalInformation
     public string? Occupation { get; set; }
     [Column("EmployerName")]
     public string? EmployerName { get; set; }
+    [Column("NumberOfDependents")]
+    public int? NumberOfDependents { get; set; }
     [Column("Address")]
     public string Address { get; set; }
     [Column("Gender")]
