@@ -7,15 +7,15 @@ namespace TaxFiling.Business.Interfaces;
 public interface ISelfOnlineFlowRepository
 {
     Task<List<TaxPayerDetailsDto>> GetTaxPayers(string userId, int year, CancellationToken ctx);
-    Task<List<MaritalStatusDto>> GetMaritalStatus(CancellationToken cancellationToken);
+    Task<List<MaritalStatusDetailsDto>> GetMaritalStatus(string userId, int year, CancellationToken ctx);
     Task<List<TaxReturnLastyearDto>> GetTaxReturnLastyears(CancellationToken cancellationToken);
     Task<bool> SaveUserIdYear(string userId, int year);
     Task<SelfOnlineFlowPersonalInformationDto> GetSelfOnlineFlowPersonalInformationDetails(string userId, int year, CancellationToken ctx);
     Task<bool> UpdateTaxPayer(TaxPayerDetailsDto taxPayerdetails);
-    Task<bool> UpdateMaritalStatus(string userId, int year, int maritalStatusId);
+    Task<bool> UpdateMaritalStatus(MaritalStatusDetailsDto maritalStatusDetails);
     Task<bool> UpdatelLastYear(string userId, int year, int lastyearId);
     Task<bool> UpdatelIdentification(IdentificationsDto identifications);
-    Task<bool> UpdatelContactInformation(string userId, int year, string? careof, string? apt, string streetnumber, string street, string city);
+    Task<bool> UpdatelContactInformation(ContactInfromationDto contactInfromation);
     Task<bool> SaveSelfOnlineEmploymentIncome(SelfOnlineEmploymentIncomeDto selfOnlineEmploymentIncome);
     Task<SelfOnlineEmploymentIncomeDto> GetSelfOnlineEmploymentIncome(string userId, int year, CancellationToken ctx);
     Task<bool> SaveSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails);
@@ -25,4 +25,6 @@ public interface ISelfOnlineFlowRepository
     Task<bool> UpdateEmploymentIncomeExemptAmounts(string userId, int year, int employmentIncomeId, bool exemptAmounts);
     Task<bool> UpdateSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails);
     Task<bool> DeleteEmploymentIncomeDetail(string userId, int year, int employmentDetailsId, string employmentDetailsName);
+
+    Task<bool> SaveSelfOnlineInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDto selfOnlineInvestmentIncom);
 }

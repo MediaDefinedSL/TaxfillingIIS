@@ -133,17 +133,19 @@
   
  
         const radios = document.querySelectorAll(".imgbgchk");
-        const spouseSection = document.getElementById("spouseDetails");
+       // const spouseSection = document.getElementById("spouseDetails");
         const someoneElseSection = document.getElementById("someoneElseDetails");
 
         function toggleSections(selectedName) {
-            spouseSection.style.display = "none";
+            //
+            //spouseSection.style.display = "none";
             someoneElseSection.style.display = "none";
 
-            if (selectedName === "myself and my spouse") {
-                spouseSection.style.display = "block";
-            }
-            else if (selectedName === "someone else") {
+            //if (selectedName === "myself and my spouse") {
+            //    spouseSection.style.display = "block";
+            //}
+            //else
+            if (selectedName === "someone else") {
                 someoneElseSection.style.display = "block";
             }
         }

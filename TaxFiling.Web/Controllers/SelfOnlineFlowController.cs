@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Diagnostics.Metrics;
 using System.Text.Json;
 using TaxFiling.Web.Models;
 using TaxFiling.Web.Models.Common;
@@ -203,22 +204,24 @@ public class SelfOnlineFlowController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
         SelfOnlineFlowPersonalInformation personalInformation = new();
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
 
-        List<MaritalStatus> maritalStatuses = [];
-        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", ctx);
+        List<MaritalStatusViewModel> maritalStatuses = [];
+       
+        string maritalSListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", queryUserParams);
+        var response1 = await _httpClient.GetAsync(maritalSListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
             var responseContent = await response1.Content.ReadAsStringAsync(ctx);
             if (responseContent is not null)
             {
-                maritalStatuses = JsonSerializer.Deserialize<List<MaritalStatus>>(responseContent, _jsonSerializerOptions)!;
+                maritalStatuses = JsonSerializer.Deserialize<List<MaritalStatusViewModel>>(responseContent, _jsonSerializerOptions)!;
             }
         }
 
-        var queryUserParams = new Dictionary<string, string?> {
-                { "userId", userId.ToString()},
-                { "year", year.ToString()}
-            };
 
         string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
         var responseuser = await _httpClient.GetAsync(urluser, ctx);
@@ -311,7 +314,12 @@ public class SelfOnlineFlowController : Controller
             TaxNumber = personalInformation.TaxNumber,
             NIC_NO = personalInformation.NIC_NO,
             Gender = personalInformation.Gender,
-            Address = personalInformation.Address
+            Address = personalInformation.Address,
+            Title = personalInformation.Title,
+            PassportNo = personalInformation.PassportNo,
+            Nationality = personalInformation.Nationality,
+            Occupation = personalInformation.Occupation,
+            EmployerName = personalInformation.EmployerName
         };
 
         if(personalInformation.FirstName == null)
@@ -378,7 +386,16 @@ public class SelfOnlineFlowController : Controller
             Apt = personalInformation.Apt,
             StreetNumber = personalInformation.StreetNumber,
             Street = personalInformation.Street,
-            City = personalInformation.City
+            City = personalInformation.City,
+            District = personalInformation.District,
+            PostalCode = personalInformation.PostalCode,
+            Country = personalInformation.Country,
+            EmailPrimary = personalInformation.EmailPrimary,
+            EmailSecondary = personalInformation.EmailSecondary,
+            MobilePhone = personalInformation.MobilePhone,
+            HomePhone = personalInformation.HomePhone ,
+            WhatsApp = personalInformation.WhatsApp,
+            PreferredCommunicationMethod = personalInformation.PreferredCommunicationMethod
         };
 
         return PartialView("Partial/_ContactInformation" , contactInfromation);
@@ -500,24 +517,18 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Taxpayer selected successfully" });
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateMaritalStatus(int maritalStatusId, CancellationToken ctx)
+    [HttpPost]
+    public async Task<IActionResult> UpdateMaritalStatus([FromForm] MaritalStatusViewModel maritaldetails, CancellationToken ctx)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
+        maritaldetails.Year = year;
+        maritaldetails.UserId = userId;
 
         var responseResult = new ResponseResult<object>();
 
-        var queryUserParams = new Dictionary<string, string?> {
-                { "userId", userId.ToString()},
-                { "year", year.ToString()},
-                { "maritalStatusId", maritalStatusId.ToString()}
-            };
-
-        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_maritalstatus", queryUserParams);
-        var response = await _httpClient.PutAsync(urluser, null);
-
+        var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_maritalstatus", maritaldetails);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -584,21 +595,13 @@ public class SelfOnlineFlowController : Controller
 
         var responseResult = new ResponseResult<object>();
 
-        var queryUserParams = new Dictionary<string, string?> {
-                { "userId", userId.ToString()},
-                { "year", year.ToString()},
-                { "careof", string.IsNullOrWhiteSpace(user.CareOf) ? "" : user.CareOf},
-                { "apt", string.IsNullOrWhiteSpace(user.Apt) ? "" : user.Apt},
-                { "streetnumber", user.StreetNumber},
-                { "street", user.Street},
-                { "city", user.City}
-            };
+        user.Year = year;
+        user.UserId = userId;
 
 
-
-        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", queryUserParams);
-        var response = await _httpClient.PutAsync(urluser, null);
-
+      //  string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
+        var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
+       
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -914,6 +917,122 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Employment Details  Delete successfully" });
     }
 
-   
+    // -----------------Investment Income
+
+    public async Task<IActionResult> LoadInvestment_Detailsinvestment(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_Investment_DetailsinvestmentSection");
+    }
+    public async Task<IActionResult> LoadInvestment_PartnerInvestment(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_Investment_PartnerInvestmentSection");
+    }
+    public async Task<IActionResult> LoadInvestment_BeneficiaryInvestment(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_Investment_BeneficiaryInvestmentSection");
+    }
+    public async Task<IActionResult> LoadInvestment_ExemptAmounts(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_Investment_ExemptAmountsSection");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDetails investmentIncome)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        investmentIncome.UserId = userId;
+        investmentIncome.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/save_investmentincomedetails", investmentIncome);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
 
 }

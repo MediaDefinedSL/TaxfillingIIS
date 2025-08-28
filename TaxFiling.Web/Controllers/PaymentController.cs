@@ -93,12 +93,14 @@ public class PaymentController : Controller
         string hashSalt = "DLCY1190963FE17A926B9"; // provided by OnePay
         string authorization = "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE";
 
+
         string input = appId + currency + amount + hashSalt;
 
         string hash = ComputeSha256Hash(input);
 
         var paymentRequest = new
         {
+
             currency = currency,
             app_id = appId,
             hash = hash,
@@ -114,6 +116,7 @@ public class PaymentController : Controller
 
         var json = JsonSerializer.Serialize(paymentRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
+
 
         client.DefaultRequestHeaders.Add("Authorization", authorization);
 

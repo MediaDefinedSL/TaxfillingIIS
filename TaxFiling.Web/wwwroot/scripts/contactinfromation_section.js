@@ -7,19 +7,36 @@
 
         let street = $("#Street").val();
         let city = $("#City").val();
+        let district = $("#District").val();
+        let postalCode = $("#PostalCode").val();
+        let country = $("#Country").val();
+        let emailPrimary = $("#EmailPrimary").val();
+        let emailSecondary = $("#EmailSecondary").val();
+        let mobilePhone = $("#MobilePhone").val();
+        let homePhone = $("#HomePhone").val();
+        let whatsApp = $("#WhatsApp").val();
+        let preferredCommunicationMethod = $("#PreferredCommunicationMethod").val();  
 
 
         if (streetNumber.length == 0) {
-            notifyError(false, "Street Number is required");
-
+            $("#StreetNumber").after('<div class="text-danger validation-error">Street Number is required.</div>');
+            isValid = false;
         }
         else if (street.length == 0) {
-            notifyError(false, "Street is required");
-
+            $("#Street").after('<div class="text-danger validation-error">Street is required.</div>');
+            isValid = false;
         }
         else if (city.length == 0) {
-            notifyError(false, "City  is required");
-
+            $("#City").after('<div class="text-danger validation-error">City is required.</div>');
+            isValid = false;
+        }
+        else if (emailPrimary.length == 0) {
+            $("#EmailPrimary").after('<div class="text-danger validation-error">Primary Email is required.</div>');
+            isValid = false;
+        }
+        else if (mobilePhone.length == 0) {
+            $("#MobilePhone").after('<div class="text-danger validation-error">Mobile Phone is required.</div>');
+            isValid = false;
         }
 
         else { 
@@ -30,7 +47,16 @@
             Apt: $("#Apt").val(),
             StreetNumber: $("#StreetNumber").val(),
             Street: $("#Street").val(),
-            City: $("#City").val()
+            City: $("#City").val(),
+            District: district,
+            PostalCode: postalCode,
+            Country: country,
+            EmailPrimary: emailPrimary,
+            EmailSecondary: emailSecondary,
+            MobilePhone: mobilePhone,
+            HomePhone: homePhone,
+            WhatsApp: whatsApp,
+            PreferredCommunicationMethod: preferredCommunicationMethod
         };
 
 

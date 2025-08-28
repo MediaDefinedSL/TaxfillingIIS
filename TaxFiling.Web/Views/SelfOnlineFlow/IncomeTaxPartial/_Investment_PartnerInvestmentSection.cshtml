@@ -1,0 +1,98 @@
+﻿
+<main class="main-content">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+
+
+            <form method="post">
+
+                <div class=" mt-4 ">
+                    <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                        <h6 class="mb-4 text-primary"> <i class="bi bi-cash-stack me-2"></i>  Partner's investment income from partnership (Both local & foreign)</h6>
+                        <hr>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Total Investment Income (Individual)</label>
+                                <input type="text" class="form-control"  id="txtTotalInvestment" name="txtTotalInvestment">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Activity Code (Partnership)</label>
+                                <input type="text" class="form-control" id="txtActivityCodePartnership" name="txtActivityCodePartnership">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Partnership Name</label>
+                                <input type="text" class="form-control" id="txtPartnershipName" name="txtPartnershipName">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">TIN of Partnership</label>
+                                <input type="text" class="form-control" id="txtPartnershipTin" name="txtPartnershipTin">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Gains and Profits (Rs.) – Partnership</label>
+                                <input type="text" class="form-control" id="txtGainsProfits" name="txtGainsProfits">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Gains and Profits (Rs.) – Partnership</label>
+                                <input type="text" class="form-control" id="txtGainsProfits" name="txtGainsProfits">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Total Investment Income from Partnership</label>
+                                <input type="text" class="form-control" id="txtTotalInvestmentPartnership" name="txtTotalInvestmentPartnership">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <div class=" align-items-right" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary mt-3" id="btnPartnerInvestmentClear">Clear</button>
+                                    <button type="button" class="btn btn-primary mt-3" id="btnPartnerInvestmentSubmit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="table-responsive" id="terminalDetailsGrid">
+                            <table class="table table-bordered table-striped mt-2">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Type Employment</th>
+                                        <th>Name</th>
+                                        <th>TIN Employer</th>
+                                        <th>Terminal Benefits</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <br><br>
+            <div class="d-lg-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv">
+                    <button class="btn btn-primary btn-lg" id="linkEmploymentDetailsContinue">
+                        Back
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>

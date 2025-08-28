@@ -1,6 +1,8 @@
-﻿namespace TaxFiling.Web.Models;
+﻿
 
-public class ContactInfromationViewModel
+namespace TaxFiling.Domain.Dtos;
+
+public class ContactInfromationDto
 {
     public string UserId { get; set; }
     public int Year { get; set; }

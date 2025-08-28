@@ -1,163 +1,102 @@
 ﻿@model TaxFiling.Web.Models.SelfOnlineFlowPersonalInformation
+@{
+    int year = DateTime.Now.Year;
+}
+
 
 <main class="main-content">
     <div class="container-fluid">
 
-        <div class="text-center">
-            <h2>Summary</h2><br>
+        <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
+            <div class="text-">
+                <h2 style="
+    text-align: left;
+">
+                    Personal Information — Review
+                </h2>
+                <h7 style="
+    text-align: left;
+    width: 100% !important;
+    display: block;
+">Carefully check your details. If anything is wrong, go back and edit before continuing.</h7><br>
+
+                <div class="alert alert-warning" role="alert">
+                    Important: We will use the information exactly as shown below for your filing with the Inland Revenue Department.
+                </div>
+            </div>
         </div>
 
-        <h4> Personal Information</h4><br>
+        <h4 style="
+">
+            Filing Context
+        </h4>
+
+        <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
+            <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@year</div></div>
+            <div class="row"><div class="col-md-4">Preparing For</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.TaxPayerName</div></div>
+            <div class="row"><div class="col-md-4">Other Person Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneName</div></div>
+            <div class="row"><div class="col-md-4">Relationship</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Relationship</div></div>
+            <div class="row"><div class="col-md-4">Other Person TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneTINNo</div></div>
+            <div class="row"><div class="col-md-4">Marital Status (as at 31 Mar)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.MaritalStatusName</div></div>
+            <div class="row"><div class="col-md-4">Last Year Filing Method</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.LastyearsName</div></div>
+            <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@year</div></div>
+
+
+
+
+
+
+        </div>
+
+
 
         <div class=" mt-4">
-            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
-                <h6 class="fw-semibold text-dark mb-2">TaxPayer(s)</h6>
-                <p class="mb-1 small">@ViewBag.TaxPayerName</p>
-               
-                @if (@Model.TaxpayerId == 3)
-                {
-                    <br />
-                    <div class="row">
-                        <div class="col">
-                            <h6 class="fw-semibold text-dark mb-2">Name</h6>
-                            <label class="form-control">@Model.SomeoneName </label>
-                        </div>
-                        <div class="col">
-                            <h6 class="fw-semibold text-dark mb-2">Relationship</h6>
-                            <label class="form-control">@Model.Relationship </label>
-                        </div>
-                        <div class="col">
-                            <h6 class="fw-semibold text-dark mb-2">TIN Number</h6>
-                            <label class="form-control">@Model.SomeoneTINNo </label>
-                        </div>
-                    </div>
-                }
-                @if (@Model.TaxpayerId == 2)
-                {
-                    <br />
-                    <div class="row">
-                        <div class="col">
-                            <h6 class="fw-semibold text-dark mb-2">Name of Spouse</h6>
-                            <label class="form-control">@Model.SpouseName </label>
-                        </div>
-                        <div class="col">
-                            <h6 class="fw-semibold text-dark mb-2">TIN Number</h6>
-                            <label class="form-control">@Model.SpouseTINNo </label>
-                        </div>
-                        <div class="col">
-                            <h6 class="fw-semibold text-dark mb-2">NIC</h6>
-                            <label class="form-control">@Model.SpouseNIC </label>
-                        </div>
-                    </div>
-                }
-            </div>
-            
-
-            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
-                <h6 class="fw-semibold text-dark mb-2">Marital Status</h6>
-                <p class="mb-1 small">@ViewBag.MaritalStatusName</p>
-            </div>
-       
-            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
-                <h6 class="fw-semibold text-dark mb-2">Last Year</h6>
-                <p class="mb-1 small">@ViewBag.LastyearsName</p>
-            </div>
         </div>
+        <br><h4>Your Identification</h4>
 
-        <div class=" mt-4">
-            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
-                <h5> <i class="bi bi-person-vcard" style="font-size: 1rem;"></i> Your Identification</h5><br>
-                <div class="row">
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">First name</h6>
-                        <label class="form-control">@Model.FirstName </label> 
-                    </div>
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Middle Name</h6>
-                        <label class="form-control">@Model.MiddleName </label>
-                    </div>
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Last Name</h6>
-                        <label class="form-control">@Model.LastName </label>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Date of birth</h6>
-                        <label class="form-control">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("MM/dd/yyyy") : "") </label>
-                    </div>
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Tax Identification Number</h6>
-                        <label class="form-control">@Model.TaxNumber </label>
-                    </div>
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Tax Identification Number</h6>
-                        <label class="form-control">@Model.NIC_NO </label>
-                    </div>
-                    
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Date of birth</h6>
-                        <label class="form-control">@Model.Gender </label>
-                    </div>
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Tax Identification Number</h6>
-                        <label class="form-control">@Model.Address </label>
-                    </div>
-                    <div class="col">
-                       
-                    </div>
 
-                </div>
-            </div>
+        <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
+            <div class="row"><div class="col-md-4">Title</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Title</div></div>
+            <div class="row"><div class="col-md-4">First Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.FirstName</div></div>
+            <div class="row"><div class="col-md-4">Middle Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.MiddleName</div></div>
+            <div class="row"><div class="col-md-4">Last Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.LastName</div></div>
+            <div class="row"><div class="col-md-4">Gender</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Gender</div></div>
+            <div class="row"><div class="col-md-4">Date of Birth</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("MM/dd/yyyy") : "") </div></div>
+            <div class="row"><div class="col-md-4">NIC / Passport</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.NIC_NO  /  @Model.PassportNo</div></div>
+            <div class="row"><div class="col-md-4">TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.TaxNumber</div></div>
+
+
+
+
+
+
+        </div><br>
+        <h4>Your Contact Information</h4>
+        <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
+            <div class="row"><div class="col-md-4">Care of</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.CareOf</div></div>
+            <div class="row"><div class="col-md-4">Apartment / Unit</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Apt</div></div>
+            <div class="row"><div class="col-md-4">Street Number</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.StreetNumber</div></div>
+            <div class="row"><div class="col-md-4">Street</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Street</div></div>
+            <div class="row"><div class="col-md-4">City</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.City</div></div>
+            <div class="row"><div class="col-md-4">District / Province</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.District</div></div>
+            <div class="row"><div class="col-md-4">Postal Code</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PostalCode</div></div>
+            <div class="row"><div class="col-md-4">Country</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Country</div></div>
+            <div class="row"><div class="col-md-4">Email (Primary)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.EmailPrimary</div></div>
+            <div class="row"><div class="col-md-4">Secondary Email</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.EmailSecondary</div></div>
+            <div class="row"><div class="col-md-4">Mobile Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.MobilePhone</div></div>
+            <div class="row"><div class="col-md-4">Home Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.HomePhone</div></div>
+            <div class="row"><div class="col-md-4">Work Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa"></div></div>
+            <div class="row"><div class="col-md-4">Preferred Communication</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PreferredCommunicationMethod</div></div>
 
         </div>
 
-        <div class=" mt-4">
-            <div class="card shadow-sm border-1 rounded-3 p-3 mb-3">
-                <h5> <i class="bi bi-mailbox" style="font-size: 1rem;"></i> Your Contact infromation</h5><br>
-                <div class="row">
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Care of </h6>
-                        <label class="form-control">@Model.CareOf </label>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Apt</h6>
-                        <label class="form-control">@Model.Apt </label>
-                    </div>
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Street number</h6>
-                        <label class="form-control">@Model.StreetNumber </label>
-                    </div>
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">Street</h6>
-                        <label class="form-control">@Model.Street </label>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col">
-                        <h6 class="fw-semibold text-dark mb-2">City </h6>
-                        <label class="form-control">@Model.City </label>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <br><br>
         <div class="d-lg-flex justify-content-between">
             <div class="col-lg-6 col-md-6 btn-prv">
                 <button class="btn btn-primary btn-lg" id="linkTaxPayerNext">
                     Back
                 </button>
             </div>
-            <div class="col-lg-6 col-md-6 right next-btn"  style="display:none;" id="divSummaryAssistedNext">
+            <div class="col-lg-6 col-md-6 right next-btn" style="display: block;" id="divSummaryAssistedNext">
                 <button class="btn btn-primary btn-lg" id="linkTaxPayerContinue">
                     Continue
                 </button>
@@ -166,5 +105,6 @@
 
     </div>
 </main>
+
 <script src="~/scripts/summary_section.js" asp-append-version="true"></script>
 

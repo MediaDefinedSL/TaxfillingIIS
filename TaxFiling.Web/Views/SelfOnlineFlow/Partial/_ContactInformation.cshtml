@@ -8,50 +8,118 @@
             <h2>Your Contact Information</h2><br>
         </div>
 
-        <h4> Mailling Address</h4>
-        <br>
+        <form asp-action="SubmitContactInformation" method="post">
 
-        <form asp-action="SubmitIdentification" method="post">
+            <!-- Mailing Address -->
+            <h4>Mailing Address</h4>
+            <hr class="my-4">
+            <br>
             <div class="row mb-4">
-                <div class="col-md-4">
-                    <label for="FirstName">Care of</label>
+                <div class="col-md-6">
+                    <label for="CareOf">Care of (if applicable)</label>
                     @Html.TextBoxFor(m => m.CareOf, new { @class = "form-control" })
-
                 </div>
-              
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <label for="DateOfBirth">Apt.</label>
+                <div class="col-md-6">
+                    <label for="Apt">Apartment / Unit Number</label>
                     @Html.TextBoxFor(m => m.Apt, new { @class = "form-control" })
-
                 </div>
-                <div class="col-md-4">
-                    <span class="text-danger"> *</span>
-                    <label for="TaxIdentificationNumber">Street number </label>
+
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    <label for="StreetNumber">Street Number</label>
                     @Html.TextBoxFor(m => m.StreetNumber, new { @class = "form-control" })
-
                 </div>
-                <div class="col-md-4">
-                    <span class="text-danger"> *</span>
-                    <label for="TaxIdentificationNumber">Street </label>
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    <label for="Street">Street Name</label>
                     @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
-
                 </div>
+
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    <label for="City">City</label>
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    <label for="District">District / Province</label>
+                    @Html.TextBoxFor(m => m.District, new { @class = "form-control" })
+                </div>
+
             </div>
             <div class="row mb-4">
-                <div class="col-md-4">
-                    <span class="text-danger"> *</span>
-                    <label for="FirstName">City </label>
-                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-
+                <div class="col-md-6">
+                    <label for="PostalCode">Postal Code / Zip Code</label>
+                    @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    <label for="Country">Country</label>
+                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+                </div>
+            </div>
+            <br>
+            <!-- Email -->
+            <h4>Email</h4>
+            <hr class="my-4">
+            <br>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    <label for="EmailPrimary">Email Address (Primary)</label>
+                    @Html.TextBoxFor(m => m.EmailPrimary, new { @class = "form-control", type = "email" })
+                </div>
+                <div class="col-md-6">
+                    <label for="EmailSecondary">Secondary Email (optional)</label>
+                    @Html.TextBoxFor(m => m.EmailSecondary, new { @class = "form-control", type = "email" })
+                </div>
+            </div>
+            <br>
+            <!-- Telephone -->
+            <h4>Telephone</h4>
+            <hr class="my-4">
+            <br>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <span class="text-danger">*</span>
+                    <label for="MobilePhone">Mobile Phone Number</label>
+                    @Html.TextBoxFor(m => m.MobilePhone, new { @class = "form-control", type = "tel" })
+                </div>
+                <div class="col-md-6">
+                    <label for="HomePhone">Home Phone Number</label>
+                    @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", type = "tel" })
                 </div>
 
             </div>
-
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="WhatsApp">WhatsApp No</label>
+                    @Html.TextBoxFor(m => m.WhatsApp, new { @class = "form-control", type = "tel" })
+                </div>
+            </div>
+            <br>
+            <!-- Preferred Communication Method -->
+            <h4>Preferred Communication Method</h4>
+            <hr class="my-4">
+            <br>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    @Html.DropDownListFor(m => m.PreferredCommunicationMethod,
+                             new SelectList(new[]
+                             {
+                    new { Value = "Email", Text = "Email" },
+                    new { Value = "Phone", Text = "Phone" },
+                    new { Value = "WhatsApp", Text = "WhatsApp" }
+                    }, "Value", "Text"),
+                             "-- Select Preferred Method --",
+                             new { @class = "form-control" })
+                </div>
+            </div>
         </form>
-
 
         <br><br>
         <div class="d-lg-flex justify-content-between">
