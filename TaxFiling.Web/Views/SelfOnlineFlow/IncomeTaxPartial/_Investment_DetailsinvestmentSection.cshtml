@@ -123,24 +123,66 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Name of bank</th>
+                                                <th>Type Investment</th>
+                                                <th>Remuneration </th>
+                                                <th>Gains Profits</th>
+                                                <th>Total Investment</th>
+                                                <th>Bank</th>
+                                                <th>Branch</th>
                                                 <th>Account No</th>
-                                                <th>Opening Balance</th>
-                                                <th>Balance (Rs.)</th>
+                                                <th>Balance</th>
+                                                <th>Action</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Bank 1</td>
-                                                <td>123596633552565</td>
-                                                <td>100000</td>
-
-                                                <td>
-                                                    50000
-                                                </td>
-                                            </tr>
+                                            @if (Model != null && Model.Any(d => d.Category == "Savings"))
+                                            {
+                                                var index = 0;
+                                                foreach (var savingsIncome in Model.Where(d => d.Category == "Savings"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@savingsIncome.InvestmentIncomeType</td>
+                                                        <td>@savingsIncome.Remuneration</td>
+                                                        <td>@savingsIncome.GainsProfits</td>
+                                                        <td>@savingsIncome.TotalInvestmentIncome</td>
+                                                        <td>@savingsIncome.BankName</td>
+                                                        <td>@savingsIncome.BankBranch</td>
+                                                        <td>@savingsIncome.AccountNo</td>
+                                                        <td>@savingsIncome.Balance</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm savingsDetails-editbtn" type="button"
+                                                                    data-id="@savingsIncome.SelfOnlineInvestmentId"
+                                                                    data-category="Savings"
+                                                                    data-income-type="@savingsIncome.InvestmentIncomeType"
+                                                                    data-remuneration="@savingsIncome.Remuneration"
+                                                                    data-gains="@savingsIncome.GainsProfits"
+                                                                    data-total="@savingsIncome.TotalInvestmentIncome"
+                                                                    data-bank-name="@savingsIncome.BankName"
+                                                                    data-bank-branch="@savingsIncome.BankBranch"
+                                                                    data-account-no="@savingsIncome.AccountNo"
+                                                                    data-amount-invested="@savingsIncome.AmountInvested"
+                                                                    data-interest="@savingsIncome.Interest"
+                                                                    data-opening-balance="@savingsIncome.OpeningBalance"
+                                                                    data-balance="@savingsIncome.Balance">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm savingsDetails-deletebtn" type="button"
+                                                                    data-id="@savingsIncome.SelfOnlineInvestmentId"
+                                                                    data-name="Savings">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Savings Income found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>

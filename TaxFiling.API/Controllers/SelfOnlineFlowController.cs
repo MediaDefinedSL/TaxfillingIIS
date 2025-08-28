@@ -330,5 +330,35 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpGet("investmentincome_list")]
+    public async Task<IActionResult> GetSelfOnlineInvestmentIncomeList(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var investmentIncomeList = await _selfOnlineFlowRepository.GetSelfOnlineInvestmentIncomeList(userId, year, ctx);
+         
+            return Ok(investmentIncomeList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("delete_investmentincomedetail")]
+    public async Task<IActionResult> DeleteInvestmentIncomeDetail(string userId, int year, int investmentIncomeId, string categoryName)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.DeleteInvestmentIncomeDetail(userId, year, investmentIncomeId, categoryName);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 
 }

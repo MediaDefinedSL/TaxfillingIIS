@@ -209,9 +209,9 @@
     });
 
 
- 
+
     $(document).on("click", "#btnDetailsInvestmentSavings", function () {
-       
+
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -264,59 +264,196 @@
         if (!isValid) {
             return;
         }
-        
 
 
-        var employInvestment = {
-            SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
-            Category: "Savings",
-            TotalInvestmentIncome: investmentIncome ,
-            Remuneration: remuneration,
-            GainsProfits: gainsProfits,
-            TotalInvestmentIncome: txtinvestmentIncome,
-            BankName: bankName,
-            BankBranch: bankBranch,
-            AccountNo: accountNo,
-            AmountInvested: amountInvested ,
-            Interest: interest,
-            OpeningBalance: openingBalance,
-            Balance: balance
 
-          }
-          
-              $.ajax({
-                  url: '/SelfOnlineFlow/AddInvestmentIncomeDetails',
-                  type: 'POST',
-                  data: employInvestment,
-                  success: function (response) {
-                      $btn.prop("disabled", false);
-  
-                      notifySuccess("", "Saved successfully");
-  
-                      $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
-                          //$('#employmentDetailsGrid').html($(html).find('#employmentDetailsGrid').html()); // Direct replace
-                          //var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                          //   $("#spnEmploymentIncomeTotal").text(newTotal);
-                          // var newTaxTotal = $(html).find("#taxTotal").text();
-                         // $("#taxTotal").text(newTotal);
-                      });
-  
-                      //$("#drpTypeEmployment").val("Primary");
-                      //$("#txtRemuneration").val("");
-                      //$("#txtEmpDetailsECName").val("");
-                      //$("#txtAPITPrimaryEmployment").val("");
-                      //$("#txtTINEmployer").val("");
-                      //$("#txtAPITSecondaryEmployment").val("");
-  
-                  },
-                  error: function () {
-                      $btn.prop("disabled", false);
-                      alert("Error saving .");
-                  }
-              });
+    
+
+        if (selfOnlineEmploymentIncomeId) {
+            var employSavingsADD = {
+                SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
+                TransactionType: "Edit",
+                Category: "Savings",
+                InvestmentIncomeType: investmentIncome,
+                Remuneration: remuneration,
+                GainsProfits: gainsProfits,
+                TotalInvestmentIncome: txtinvestmentIncome,
+                BankName: bankName,
+                BankBranch: bankBranch,
+                AccountNo: accountNo,
+                AmountInvested: amountInvested,
+                Interest: interest,
+                OpeningBalance: openingBalance,
+                Balance: balance
+
+            }
+            $.ajax({
+                url: '/SelfOnlineFlow/UpdateInvestmentIncomeDetails',
+                type: 'POST',
+                data: employSavingsADD,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+
+                    notifySuccess("", "Update successfully");
+
+                    $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                        $('#SavingsGrid').html($(html).find('#SavingsGrid').html()); // Direct replace
+
+                        //$("#taxTotal").text(newTotal);
+                    });
+
+                    $("#dpdInvestmentIncome").val("");
+                    $("#txtRemuneration").val("");
+                    $("#txtGainsProfits").val("");
+                    $("#txtInvestmentIncome").val("");
+                    $("#bankInput").val("");
+                    $("#branchInput").val("");
+                    $("#txtAccountNo").val("");
+                    $("#txtAmountInvested").val("");
+                    $("#txtInterest").val("");
+                    $("#txtOpeningBalance").val("");
+                    $("#txtBalance").val("");
+
+
+                },
+                error: function () {
+                    $btn.prop("disabled", false);
+                    alert("Error saving .");
+                }
+            });
+
+        }
+        else {
+            var employSavingsEdit = {
+                SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
+                TransactionType: "Add",
+                Category: "Savings",
+                InvestmentIncomeType: investmentIncome,
+                Remuneration: remuneration,
+                GainsProfits: gainsProfits,
+                TotalInvestmentIncome: txtinvestmentIncome,
+                BankName: bankName,
+                BankBranch: bankBranch,
+                AccountNo: accountNo,
+                AmountInvested: amountInvested,
+                Interest: interest,
+                OpeningBalance: openingBalance,
+                Balance: balance
+
+            }
+            $.ajax({
+                url: '/SelfOnlineFlow/AddInvestmentIncomeDetails',
+                type: 'POST',
+                data: employSavingsEdit,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+
+                    notifySuccess("", "Saved successfully");
+
+                    $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                        $('#SavingsGrid').html($(html).find('#SavingsGrid').html()); // Direct replace
+                    
+                        //$("#taxTotal").text(newTotal);
+                    });
+
+                    $("#dpdInvestmentIncome").val("");
+                    $("#txtRemuneration").val("");
+                    $("#txtGainsProfits").val("");
+                    $("#txtInvestmentIncome").val("");
+                    $("#bankInput").val("");
+                    $("#branchInput").val("");
+                    $("#txtAccountNo").val("");
+                    $("#txtAmountInvested").val("");
+                    $("#txtInterest").val("");
+                    $("#txtOpeningBalance").val("");
+                    $("#txtBalance").val("");
+
+
+                },
+                error: function () {
+                    $btn.prop("disabled", false);
+                    alert("Error saving .");
+                }
+            });
+        }
 
     });
 
-   
+
+    $('.savingsDetails-editbtn').on('click', function () {
+
+        $(".validation-error").remove();
+        // Get row data from button attributes
+        var id = $(this).data("id");
+        var incomeType = $(this).data("income-type");
+        var remuneration = $(this).data("remuneration");
+        var gains = $(this).data("gains");
+        var total = $(this).data("total");
+        var bankName = $(this).data("bank-name");
+        var bankBranch = $(this).data("bank-branch");
+        var accountNo = $(this).data("account-no");
+        var amountInvested = $(this).data("amount-invested");
+        var interest = $(this).data("interest");
+        var openingBalance = $(this).data("opening-balance");
+        var balance = $(this).data("balance");
+
+        // Fill modal or form fields
+        $("#hndSavingsId").val(id); // hidden field for ID
+        $("#dpdInvestmentIncome").val(incomeType);
+        $("#txtRemuneration").val(remuneration);
+        $("#txtGainsProfits").val(gains);
+        $("#txtInvestmentIncome").val(total);
+        $("#bankInput").val(bankName);
+        $("#branchInput").val(bankBranch);
+        $("#txtAccountNo").val(accountNo);
+        $("#txtAmountInvested").val(amountInvested);
+        $("#txtInterest").val(interest);
+        $("#txtOpeningBalance").val(openingBalance);
+        $("#txtBalance").val(balance);
+
+        $("#hiddenInvestmentIncomeId").val(id);
+        $("#btnDetailsInvestmentSavings").text("Update");
+
+    });
+    let deleteInvestmentId = null;
+    let deleteCategoryName = null;
+
+    $('.savingsDetails-deletebtn').on('click', function () {
+
+        deleteInvestmentId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+
+    $('#selfonline_confirmDeleteBtn').on('click', function () {
+        if (!deleteInvestmentId) return;
+
+        var deleteId = {
+            investmentIncomeId: deleteInvestmentId,
+            categoryName: deleteCategoryName
+        };
+
+
+        $.ajax({
+            url: '/SelfOnlineFlow/DeleteInvestmentIncomeDetail',
+            type: 'POST',
+            data: deleteId,
+            success: function (response) {
+                $('#selfonline_confirmDeleteModal').modal('hide');
+
+                $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                    $('#SavingsGrid').html($(html).find('#SavingsGrid').html()); // Direct replace
+
+                    //$("#taxTotal").text(newTotal);
+                });
+            },
+            error: function () {
+                alert("Error deleting.");
+            }
+        });
+    });
+
 
 });

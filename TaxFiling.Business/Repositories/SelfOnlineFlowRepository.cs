@@ -59,7 +59,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
     public async Task<List<MaritalStatusDetailsDto>> GetMaritalStatus(string userId, int year, CancellationToken ctx)
     {
-       
+
         try
         {
             var maritalStatus = await (
@@ -76,10 +76,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 Id = m.Id,
                 Name = m.Name,
                 ImageUrl = m.ImageUrl,
+                // NumberOfDependents = s.NumberOfDependents,
                 SpouseFullName = s != null ? s.SpouseName : null,
                 SpouseTINNo = s != null ? s.SpouseTINNo : null,
                 SpouseNIC = s != null ? s.SpouseNIC : null,
-               
+
             }
             ).ToListAsync(ctx);
 
@@ -179,15 +180,15 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             Occupation = b.Occupation,
                                             EmployerName = b.EmployerName,
                                             District = b.District,
-                                            PostalCode= b.PostalCode,
+                                            PostalCode = b.PostalCode,
                                             Country = b.Country,
                                             EmailPrimary = b.EmailPrimary,
                                             EmailSecondary = b.EmailSecondary,
-                                            MobilePhone= b.MobilePhone,
+                                            MobilePhone = b.MobilePhone,
                                             HomePhone = b.HomePhone,
                                             WhatsApp = b.WhatsApp,
                                             PreferredCommunicationMethod = b.PreferredCommunicationMethod
-
+                                            // NumberOfDependents = b.NumberOfDependents
                                         })
                                         .AsNoTracking()
                                         .FirstOrDefaultAsync(ctx);
@@ -959,21 +960,21 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         {
 
             await _context.Database.ExecuteSqlRawAsync(
-    @"CALL DeleteSelfOnlineEmploymentIncomeDetails  (
-                @loguser,
-                @UserId,
-                @Year,
-                @MainCategoryName,
-                @CategoryName,
-                @SelfOnlineEmploymentDetailsId
-            )",
-    new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
-    new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
-    new MySqlParameter("@Year", year),
-    new MySqlParameter("@MainCategoryName", "EmploymentIncome"),
-    new MySqlParameter("@CategoryName", employmentDetailsName),
-    new MySqlParameter("@SelfOnlineEmploymentDetailsId", employmentDetailsId)
-);
+                    @"CALL DeleteSelfOnlineEmploymentIncomeDetails  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @MainCategoryName,
+                                        @CategoryName,
+                                        @SelfOnlineEmploymentDetailsId
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@MainCategoryName", "EmploymentIncome"),
+                            new MySqlParameter("@CategoryName", employmentDetailsName),
+                            new MySqlParameter("@SelfOnlineEmploymentDetailsId", employmentDetailsId)
+                );
             //var _employmentIncomDetails = await _context.SelfOnlineEmploymentIncomeDetails
             //                  .Where(p => p.UserId == userId && p.Year == year && p.SelfOnlineEmploymentDetailsId == employmentDetailsId)
             //                  .FirstOrDefaultAsync();
@@ -1066,7 +1067,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                  new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
                  new MySqlParameter("@Year", selfOnlineInvestment.Year),
                  new MySqlParameter("@Category", selfOnlineInvestment.Category ?? (object)DBNull.Value),
-                 new MySqlParameter("@TransactionType", "Add"),
+                 new MySqlParameter("@TransactionType", selfOnlineInvestment.TransactionType ?? (object)DBNull.Value),
                  new MySqlParameter("@SelfOnlineInvestmentId", selfOnlineInvestment.SelfOnlineInvestmentId == 0 ? 0 : selfOnlineInvestment.SelfOnlineInvestmentId),
                  new MySqlParameter("@InvestmentIncomeType", selfOnlineInvestment.InvestmentIncomeType ?? (object)DBNull.Value),
                  new MySqlParameter("@Remuneration", selfOnlineInvestment.Remuneration ?? (object)DBNull.Value),
@@ -1107,6 +1108,89 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         catch (Exception e)
         {
             _logger.LogError(e, "Error update LastYear");
+        }
+        return isSuccess;
+    }
+    public async Task<List<SelfOnlineInvestmentIncomeDto>> GetSelfOnlineInvestmentIncomeList(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfOnlineInvestmentIncomeDto> investmentIncome = [];
+        try
+        {
+
+            investmentIncome = await _context.SelfOnlineInvestmentIncome
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfOnlineInvestmentIncomeDto
+            {
+                SelfOnlineInvestmentId = t.SelfOnlineInvestmentId,
+                UserId = t.UserId,
+                Year = t.Year,
+                Category = t.Category,
+                InvestmentIncomeType = t.InvestmentIncomeType,
+                Remuneration = t.Remuneration,
+                GainsProfits = t.GainsProfits,
+                TotalInvestmentIncome = t.TotalInvestmentIncome,
+                BankName = t.BankName,
+                BankBranch = t.BankBranch,
+                AccountNo = t.AccountNo,
+                AmountInvested = t.AmountInvested,
+                Interest = t.Interest,
+                OpeningBalance = t.OpeningBalance,
+                Balance = t.Balance,
+                CompanyInstitution = t.CompanyInstitution,
+                SharesStocks = t.SharesStocks,
+                AcquisitionDate = t.AcquisitionDate,
+                CostAcquisition = t.CostAcquisition,
+                NetDividendIncome = t.NetDividendIncome,
+                PropertyDeedNo = t.PropertyDeedNo,
+                RentAcquisitionDate = t.RentAcquisitionDate,
+                CostGiftInherited = t.CostGiftInherited,
+                MarketValue = t.MarketValue
+
+
+            }).ToListAsync(ctx);
+
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return investmentIncome;
+    }
+
+    public async Task<bool> DeleteInvestmentIncomeDetail(string userId, int year, int investmentIncomeId, string categoryName)
+    {
+        bool isSuccess = false;
+
+
+        try
+        {
+
+            await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineInvestmentIncomeDetails  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @MainCategoryName,
+                                        @CategoryName,
+                                        @SelfOnlineEmploymentDetailsId
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@MainCategoryName", "InvestmentIncome"),
+                            new MySqlParameter("@CategoryName", categoryName),
+                            new MySqlParameter("@SelfOnlineInvestmentDetailsId", investmentIncomeId)
+                );
+           
+            isSuccess = true;
+
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error Delete Investment Income Detail");
         }
         return isSuccess;
     }
