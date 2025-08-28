@@ -142,7 +142,8 @@ public class PaymentController : Controller
                             .GetProperty("ipg_transaction_id")
                             .GetString();
 
-        return View("PaymentIframe", model: redirectUrl);
+        // return View("PaymentIframe", model: redirectUrl);
+        return Redirect(redirectUrl);
         //  return Json(new { redirectUrl });       
     }
     static string ComputeSha256Hash(string rawData)
