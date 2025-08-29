@@ -1174,7 +1174,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                         @Year,
                                         @MainCategoryName,
                                         @CategoryName,
-                                        @SelfOnlineEmploymentDetailsId
+                                        @SelfOnlineInvestmentDetailsId
                                     )",
                             new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
                             new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
