@@ -974,19 +974,18 @@ public class SelfOnlineFlowController : Controller
                 { "userId", userId.ToString()},
                 { "year", year.ToString()}
             };
-        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
-        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
-        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        List<SelfOnlineInvestmentIncomeDetails> investmentIncomeList = [];
+        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(investmentIncomeListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
             var responseContent = await response1.Content.ReadAsStringAsync(ctx);
             if (responseContent is not null)
             {
-                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+                investmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineInvestmentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
             }
         }
-
-        return PartialView("IncomeTaxPartial/_Investment_BeneficiaryInvestmentSection");
+        return PartialView("IncomeTaxPartial/_Investment_BeneficiaryInvestmentSection", investmentIncomeList);
     }
     public async Task<IActionResult> LoadInvestment_ExemptAmounts(CancellationToken ctx)
     {

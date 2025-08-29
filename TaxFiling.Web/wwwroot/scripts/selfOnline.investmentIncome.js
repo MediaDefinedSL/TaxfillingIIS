@@ -455,7 +455,7 @@
         });
     });
 
-    //---------------FD -----------------------------
+    //==============  FD ============
 
 
     $("#FDbankInput").on("input focus", function () {
@@ -828,7 +828,7 @@
     });
 
     $('.fixedDepositDetails-editbtn').on('click', function () {
-        alert(123);
+   
         $(".validation-error").remove();
         // Get row data from button attributes
         var id = $(this).data("id");
@@ -863,6 +863,199 @@
     });
 
 
+    /* ============= Divident  */
+
+    $(document).on("click", "#btnDetailsInvestmentDivident", function () {
+
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        let selfOnlineEmploymentIncomeId = $("#hiddenInvestmentIncomeId").val();
+        let investmentIncome = $("#dpdDInvestmentIncome").val();
+        let remuneration = $("#txtDRemuneration").val();
+        let gainsProfits = $("#txtDGainsProfits").val();
+        let txtinvestmentIncome = $("#txtDInvestmentIncome").val();
+
+        let companyInstitution = $("#dpdDCompanyInstitution").val();
+        let sharesStocks = $("#txtDSharesStocks").val();
+        let acquisitiondate = $("#txtDAcquisition").val();
+        let costAcquisitionMarket = $("#txtDCostAcquisitionMarket").val();
+        let netDividend = $("#txtDNetDividend").val();
+    
+
+        let isValid = true;
+
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+
+        if (!investmentIncome) {
+            $("#dpdFDInvestmentIncome").after('<div class="text-danger validation-error">Please select Type of Investment Income.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
+        if (!companyInstitution) {
+            $("#dpdDCompanyInstitution").after('<div class="text-danger validation-error">Please select Name of Company/Institution</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
+        if (!netDividend.trim()) {
+            $("#txtDNetDividend").after('<div class="text-danger validation-error">Net Dividend Income is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
+       
+
+        if (!isValid) {
+            return;
+        }
+
+
+        if (selfOnlineEmploymentIncomeId) {
+
+            var employSavingsADD = {
+                SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
+                TransactionType: "Edit",
+                Category: "Dividend",
+                InvestmentIncomeType: investmentIncome,
+                Remuneration: remuneration,
+                GainsProfits: gainsProfits,
+                TotalInvestmentIncome: txtinvestmentIncome,
+                CompanyInstitution: companyInstitution,
+                SharesStocks: sharesStocks,
+                AcquisitionDate: acquisitiondate,
+                CostAcquisition: costAcquisitionMarket,
+                NetDividendIncome: netDividend
+               
+
+            }
+            $.ajax({
+                url: '/SelfOnlineFlow/UpdateInvestmentIncomeDetails',
+                type: 'POST',
+                data: employSavingsADD,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+
+                    notifySuccess("", "Update successfully");
+
+                    $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                        $('#DividentGrid').html($(html).find('#DividentGrid').html()); // Direct replace
+
+                        //$("#taxTotal").text(newTotal);
+                    });
+
+                    $("#dpdDInvestmentIncome").val("");
+                    $("#txtDRemuneration").val("");
+                    $("#txtFDGainsProfits").val("");
+                    $("#txtDInvestmentIncome").val("");
+                    $("#dpdDCompanyInstitution").val("");
+                    $("#txtDSharesStocks").val("");
+                    $("#txtDAcquisition").val("");
+                    $("#txtDCostAcquisitionMarket").val("");
+                    $("#txtDNetDividend").val("");
+                    
+
+
+                },
+                error: function () {
+                    $btn.prop("disabled", false);
+                    alert("Error saving .");
+                }
+            });
+
+        }
+        else {
+            var employSavingsEdit = {
+                SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
+                TransactionType: "Add",
+                Category: "Dividend",
+                InvestmentIncomeType: investmentIncome,
+                Remuneration: remuneration,
+                GainsProfits: gainsProfits,
+                TotalInvestmentIncome: txtinvestmentIncome,
+                CompanyInstitution: companyInstitution,
+                SharesStocks: sharesStocks,
+                AcquisitionDate: acquisitiondate,
+                CostAcquisition: costAcquisitionMarket,
+                NetDividendIncome: netDividend
+
+            }
+            $.ajax({
+                url: '/SelfOnlineFlow/AddInvestmentIncomeDetails',
+                type: 'POST',
+                data: employSavingsEdit,
+                success: function (response) {
+                    $btn.prop("disabled", false);
+
+                    notifySuccess("", "Saved successfully");
+
+                    $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                        $('#DividentGrid').html($(html).find('#DividentGrid').html()); // Direct replace
+
+                        //$("#taxTotal").text(newTotal);
+                    });
+
+                    $("#dpdDInvestmentIncome").val("");
+                    $("#txtDRemuneration").val("");
+                    $("#txtFDGainsProfits").val("");
+                    $("#txtDInvestmentIncome").val("");
+                    $("#dpdDCompanyInstitution").val("");
+                    $("#txtDSharesStocks").val("");
+                    $("#txtDAcquisition").val("");
+                    $("#txtDCostAcquisitionMarket").val("");
+                    $("#txtDNetDividend").val("");
+
+
+                },
+                error: function () {
+                    $btn.prop("disabled", false);
+                    alert("Error saving .");
+                }
+            });
+        }
+
+    });
+
+    $('.dividend-editbtn').on('click', function () {
+    
+        $(".validation-error").remove();
+        // Get row data from button attributes
+        var id = $(this).data("id");
+        var incomeType = $(this).data("income-type");
+        var remuneration = $(this).data("remuneration");
+        var gains = $(this).data("gains");
+        var total = $(this).data("total");
+        var company = $(this).data("company");
+        var shares = $(this).data("shares");
+        var acquisition = $(this).data("acquisition");
+        var cost = $(this).data("cost");
+        var netDividend = $(this).data("net-dividend");
+       
+
+        // Fill modal or form fields
+        $("#hiddenInvestmentIncomeId").val(id); // hidden field for ID
+        $("#dpdDInvestmentIncome").val(incomeType);
+        $("#txtDRemuneration").val(remuneration);
+        $("#txtDGainsProfits").val(gains);
+        $("#txtDInvestmentIncome").val(total);
+        $("#dpdDCompanyInstitution").val(company);
+        $("#txtDSharesStocks").val(shares);
+
+        if (acquisition) {
+            // Format date for input[type="date"]
+            let date = new Date(acquisition);
+            let formatted = date.toISOString().split('T')[0];
+            $("#txtDAcquisition").val(formatted);
+        } else {
+            $("#txtDAcquisition").val("");
+        }
+
+        $("#txtDCostAcquisitionMarket").val(cost);
+        $("#txtDNetDividend").val(netDividend);
+       
+        $("#btnDetailsInvestmentDivident").text("Update");
+
+    });
 
 
 });
