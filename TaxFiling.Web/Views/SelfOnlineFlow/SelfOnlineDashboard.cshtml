@@ -6,7 +6,15 @@
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
     var packageId = User.FindFirst("PackageId")?.Value;
+
 }
+
+@* @if (isAuthenticated)
+{
+    <script>
+        alert("Hi @userName @packageId, your payment is already active ✅");
+    </script>
+} *@
 
 <main class="main">
 
