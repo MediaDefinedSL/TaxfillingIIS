@@ -1,4 +1,4 @@
-@using System.Security.Claims
+﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Html
 @model List<TaxFiling.Web.Models.PackagesViewModel>
 
@@ -6,22 +6,37 @@
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
+    var activePackageIdClaim = User.FindFirst("PackageId")?.Value;
+    int? activePackageId = string.IsNullOrEmpty(activePackageIdClaim) ? (int?)null : int.Parse(activePackageIdClaim);
 
 }
 
 @functions {
-    public IHtmlContent PayNowButton(string package, int packageId, bool isAuthenticated)
+    public IHtmlContent PayNowButton(string packageName, int packageId, bool isAuthenticated, int? activePackageId, bool isActivePayment)
     {
-        if (isAuthenticated)
+        if (!isAuthenticated)
         {
-            return new HtmlString($@"<a class='btn btn-primary' href='/Payment/PackagePayment?packageId={packageId}'>Pay Now</a>");
-        }
-        else
-        {
-            string encodedPackage = Uri.EscapeDataString(package);
+            // User not logged in → redirect to login
             string returnUrl = $"/Payment/PackagePayment?packageId={packageId}";
             return new HtmlString($@"<a class='btn btn-primary' href='/Account/Login?returnUrl={returnUrl}'>Pay Now</a>");
         }
+
+        if (isActivePayment && activePackageId.HasValue)
+        {
+            if (activePackageId.Value == packageId)
+            {
+                // This is the package already paid
+                return new HtmlString(@"<button class='btn btn-success' disabled>Already Paid</button>");
+            }
+            else
+            {
+                // Other packages are locked
+                return new HtmlString(@"<button class='btn btn-secondary' disabled>Pay Now</button>");
+            }
+        }
+
+        // Not yet paid → show Pay Now button
+        return new HtmlString($@"<a class='btn btn-primary' href='/Payment/PackagePayment?packageId={packageId}'>Pay Now</a>");
     }
 }
 
@@ -86,9 +101,19 @@
                                   
 
                                         <hr>
+                                        @{
+
+                                            bool isActivePayment = false;
+
+                                            if (isAuthenticated)
+                                            {
+                                                var claimValue = User.FindFirst("IsActivePayment")?.Value;
+                                                isActivePayment = claimValue == "1"; // or true if stored as bool
+                                            }
+                                        }
 
                                         @*  <button type="button" class="btn btn-primary" id="btnSelfEmployed">Pay Now</button> *@
-                                        @PayNowButton("SelfEmployed", @packageses.PackagesId, isAuthenticated)
+                                        @PayNowButton("TaxAssisted", @packageses.PackagesId, isAuthenticated, activePackageId, isActivePayment)
 
                                     </div>
 

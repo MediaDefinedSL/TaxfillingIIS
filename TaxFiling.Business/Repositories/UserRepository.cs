@@ -304,7 +304,8 @@ public class UserRepository : IUserRepository
                                 IsActivePayment = user.IsActivePayment,
                                 PackageId = user.PackageId,
                                 ProfileImagePath = user.ProfileImagePath,
-                                TaxTotal = user.TaxTotal
+                                TaxTotal = user.TaxTotal,
+                                taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus
                             })
                             .FirstOrDefaultAsync(ctx);
 

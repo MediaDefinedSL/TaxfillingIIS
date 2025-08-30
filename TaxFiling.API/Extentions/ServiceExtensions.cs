@@ -21,7 +21,7 @@ public static class ServiceExtensions
 
         services.AddTransient<IUserUploadTaxAssistedDocRepository, UserUploadTaxAssistedDocRepository>();
         services.AddTransient<IUserTaxAssistedOtherAssetsDetailsRepository, UserTaxAssistedOtherAssetsDetailsRepository>();
-
+        services.AddScoped<IUserTransactionsRepository, UserTransactionsRepository>();
 
     }
 }
