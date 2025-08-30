@@ -110,7 +110,7 @@ public class PaymentController : Controller
             WriteIndented = true
         });
 
-        var OrderResponse = await _httpClient.PostAsJsonAsync("https://localhost:7119/api/UserTransactions/SaveTransaction", transaction);
+        var OrderResponse = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/UserTransactions/SaveTransaction", transaction);
 
         if (!OrderResponse.IsSuccessStatusCode)
         {
@@ -255,7 +255,7 @@ public class PaymentController : Controller
         };
 
         var updateResponse = await client.PostAsJsonAsync(
-            "https://localhost:7119/api/UserTransactions/UpdatePaymentStatus",
+            $"{_baseApiUrl}api/UserTransactions/UpdatePaymentStatus",
             updateTransaction
         );
 
@@ -267,7 +267,7 @@ public class PaymentController : Controller
             return RedirectToAction("PackageFailPage", "Payment", new { orderId });
 
         // Fetch transaction details from API
-        var orderDataResponse = await client.GetAsync($"https://localhost:7119/api/UserTransactions/GetTransactionById/{orderId}");
+        var orderDataResponse = await client.GetAsync($"{_baseApiUrl}api/UserTransactions/GetTransactionById/{orderId}");
         if (!orderDataResponse.IsSuccessStatusCode)
             return View("Error");
 
@@ -282,7 +282,7 @@ public class PaymentController : Controller
         if (!string.IsNullOrEmpty(userId))
         {
             // Get latest user data from API
-            var userResponse = await client.GetAsync($"https://localhost:7119/api/Users/getuser?id={userId}");
+            var userResponse = await client.GetAsync($"{_baseApiUrl}api/Users/getuser?id={userId}");
             if (userResponse.IsSuccessStatusCode)
             {
                 var jsonUser = await userResponse.Content.ReadAsStringAsync();
@@ -322,7 +322,7 @@ public class PaymentController : Controller
     public async Task<IActionResult> DownloadReceipt(int orderId)
     {
         // Fetch transaction details
-        var response = await _httpClient.GetAsync($"https://localhost:7119/api/UserTransactions/GetTransactionById/{orderId}");
+        var response = await _httpClient.GetAsync($"{_baseApiUrl}api/UserTransactions/GetTransactionById/{orderId}");
         if (!response.IsSuccessStatusCode)
             return NotFound();
 
