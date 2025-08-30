@@ -1,7 +1,7 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Html
-@model List<TaxFiling.Web.Models.SelfOnlineInvestmentIncomeDetails>
+@model List<TaxFiling.Web.Models.SelfOnlineInvestmentIncomeDetailViewModel>
 
 <link href="~/assets/css/tree-container-css.css?v=3" rel="stylesheet">
 
@@ -39,70 +39,92 @@
                             <div aria-labelledby="home-tab" role="tabpanel" id="home" class="tab-pane insvesment fade fade-in active show">
                                <br />
                                 <h3 class="mb-3" >
-                                    <i class="bi bi-piggy-bank"></i> &nbsp; Savings
+                                    <i class="bi bi-piggy-bank"></i> &nbsp; Interest Income from Savings Accounts
                                 </h3>
                                 <hr>
-                                
+                                <br />
                                 <div class="row g-3">
+
+                                    <!-- Activity Code -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment Income</label>
-                                        <select class="form-select" id="dpdInvestmentIncome" name="dpdInvestmentIncome">
-                                            <option value="">-- Select --</option>
-                                            <option value="Interest">Interest</option>
-                                            <option value="Dividends">Dividends</option>
-                                            <option value="Rent">Rent</option>
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtSActivityCode" class="form-control" />
+                                    </div>
+
+                                    <!-- Type of Investment -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Type of Investment</label>
+                                        <select class="form-select" id="ddlSTypeInvestment" name="ddlSTypeInvestment">
+                                            <option value="">-- Select Activity Code --</option>
+                                            <option value="121">121 - Interest Income – Local</option>
+                                            <option value="122">122 - Interest Income – Foreign</option>
                                         </select>
+                                       
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Remuneration (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtSRemuneration" name="txtSRemuneration">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
-                                        <input type="text" class="form-control" id="txtGainsProfits" name="txtGainsProfits">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Total investment income other than partnership or trust</label>
-                                        <input type="text" class="form-control" id="txtInvestmentIncome" name="txtInvestmentIncome">
-                                    </div>
-                                    
                                 </div>
-                                <br /> <br />
+                                <br />
+                                <br />
                                 <div class="row g-3">
+                                    <!-- Bank Name -->
                                     <div class="col-md-6">
                                         <label class="form-label">Bank Name</label>
-                                       @*  <select class="form-select" id="dpdBankName" name="dpdBankName">
-                                            <option value="">-- Select Bank Name--</option>
-                                            
-                                        </select> *@
                                         <input type="text" id="bankInput" class="form-control" placeholder="Type Bank Name" autocomplete="off" />
                                         <div id="bankDropdown" class="dropdown"></div>
                                     </div>
+
+                                    <!-- Bank Branch -->
                                     <div class="col-md-6">
-                                     
                                         <label class="form-label">Bank Branch</label>
                                         <input type="text" id="branchInput" class="form-control" placeholder="Choose bank first" autocomplete="off" disabled />
                                         <div id="branchDropdown" class="dropdown"></div>
                                     </div>
+
+                                    <!-- Account No -->
                                     <div class="col-md-6">
                                         <label class="form-label">Account No.</label>
-                                        <input type="text" class="form-control" id="txtAccountNo" name="txtAccountNo">
+                                        <input type="text" class="form-control" id="txtSAccountNo" name="txtSAccountNo">
                                     </div>
+
+                                    <!-- WHT Certificate No -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">WHT Certificate No.</label>
+                                        <input type="text" class="form-control" id="txtSWHTCertificateNo" name="txtSWHTCertificateNo">
+                                    </div>
+
+                                    <!-- Amount Invested -->
                                     <div class="col-md-6">
                                         <label class="form-label">Amount Invested (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtAmountInvested" name="txtAmountInvested">
+                                        <input type="text" class="form-control" id="txtSAmountInvested" name="txtSAmountInvested">
                                     </div>
+
+                                    <!-- Interest Income -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Interest (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtInterest" name="txtInterest">
+                                        <label class="form-label">Interest Income (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtSInterest" name="txtSInterest">
                                     </div>
+
+                                    <!-- WHT Deducted -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Opening Balance</label>
-                                        <input type="text" class="form-control" id="txtOpeningBalance" name="txtOpeningBalance">
+                                        <label class="form-label">WHT Deducted Amount (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtSWHTDeducted" name="txtSWHTDeducted">
                                     </div>
+
+                                    <!-- Foreign Tax Credit -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Balance (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtBalance" name="txtBalance">
+                                        <label class="form-label">Foreign Tax Credit (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtSForeignTaxCredit" name="txtSForeignTaxCredit">
+                                    </div>
+
+                                    <!-- Opening Balance -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Opening Balance (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtSOpeningBalance" name="txtSOpeningBalance">
+                                    </div>
+
+                                    <!-- Closing Balance -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Closing Balance (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtSBalance" name="txtSBalance">
                                     </div>
                                 </div>
                                 <br />
@@ -111,6 +133,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentClear">Clear</button>
                                             <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentSavings">Submit</button>
                                         </div>
                                     </div>
@@ -123,14 +146,11 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
-                                                <th>Remuneration </th>
-                                                <th>Gains Profits</th>
-                                                <th>Total Investment</th>
+                                               <th>Type Investment</th>
                                                 <th>Bank</th>
                                                 <th>Branch</th>
                                                 <th>Account No</th>
-                                                <th>Balance</th>
+                                                <th>WHT Deducted Amount</th>
                                                 <th>Action</th>
 
                                             </tr>
@@ -143,33 +163,32 @@
                                                 {
                                                     <tr>
                                                         <td>@(++index)</td>
-                                                        <td>@savingsIncome.InvestmentIncomeType</td>
-                                                        <td>@savingsIncome.Remuneration</td>
-                                                        <td>@savingsIncome.GainsProfits</td>
-                                                        <td>@savingsIncome.TotalInvestmentIncome</td>
+                                                       <td>@savingsIncome.TypeOfInvestment</td>
                                                         <td>@savingsIncome.BankName</td>
                                                         <td>@savingsIncome.BankBranch</td>
                                                         <td>@savingsIncome.AccountNo</td>
-                                                        <td>@savingsIncome.Balance</td>
+                                                        <td>@savingsIncome.WHTDeducted</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm savingsDetails-editbtn" type="button"
-                                                                    data-id="@savingsIncome.SelfOnlineInvestmentId"
+                                                                    data-id="@savingsIncome.InvestmentIncomeDetailId"
                                                                     data-category="Savings"
-                                                                    data-income-type="@savingsIncome.InvestmentIncomeType"
-                                                                    data-remuneration="@savingsIncome.Remuneration"
-                                                                    data-gains="@savingsIncome.GainsProfits"
-                                                                    data-total="@savingsIncome.TotalInvestmentIncome"
-                                                                    data-bank-name="@savingsIncome.BankName"
-                                                                    data-bank-branch="@savingsIncome.BankBranch"
-                                                                    data-account-no="@savingsIncome.AccountNo"
-                                                                    data-amount-invested="@savingsIncome.AmountInvested"
-                                                                    data-interest="@savingsIncome.Interest"
-                                                                    data-opening-balance="@savingsIncome.OpeningBalance"
-                                                                    data-balance="@savingsIncome.Balance">
+                                                                    data-activitycode="@savingsIncome.ActivityCode"
+                                                                    data-typeofinvestment="@savingsIncome.TypeOfInvestment"
+                                                                    data-bankname="@savingsIncome.BankName"
+                                                                    data-bankbranch="@savingsIncome.BankBranch"
+                                                                    data-accountno="@savingsIncome.AccountNo"
+                                                                    data-whtcertificateno="@savingsIncome.WHTCertificateNo"
+                                                                    data-whtdeducted="@savingsIncome.WHTDeducted"
+                                                                    data-openingbalance="@savingsIncome.OpeningBalance"
+                                                                    data-closingbalance="@savingsIncome.ClosingBalance"
+                                                                    data-incomeamount="@savingsIncome.IncomeAmount"
+                                                                    data-foreigntaxcredit="@savingsIncome.ForeignTaxCredit"
+                                                                   
+                                                                    data-amountinvested="@savingsIncome.AmountInvested">
                                                                 Edit
                                                             </button>
-                                                            <button class="btn btn-danger btn-sm savingsDetails-deletebtn" type="button"
-                                                                    data-id="@savingsIncome.SelfOnlineInvestmentId"
+                                                            <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
+                                                                    data-id="@savingsIncome.InvestmentIncomeDetailId"
                                                                     data-name="Savings">
                                                                 Delete
                                                             </button>
@@ -195,73 +214,92 @@
                                 <h3 class="mb-3"> <i class="bi bi-bank"></i> &nbsp; Fixed Deposit</h3>
                                 <hr>
                                 <div class="row g-3">
+
+                                    <!-- Activity Code -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment Income</label>
-                                        <select class="form-select" id="dpdFDInvestmentIncome" name="dpdFDInvestmentIncome">
-                                            <option value="">-- Select --</option>
-                                            <option value="Interest">Interest</option>
-                                            <option value="Dividends">Dividends</option>
-                                            <option value="Rent">Rent</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Remuneration (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtFDRemuneration" name="txtFDRemuneration">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
-                                        <input type="text" class="form-control" id="txtFDGainsProfits" name="txtFDGainsProfits">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Total investment income other than partnership or trust</label>
-                                        <input type="text" class="form-control" id="txtFDInvestmentIncome" name="txtFDInvestmentIncome">
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtFDActivityCode" class="form-control" />
                                     </div>
 
+                                    <!-- Type of Investment -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Type of Investment</label>
+                                        <select class="form-select" id="ddlFDTypeInvestment" name="ddlFDTypeInvestment">
+                                            <option value="">-- Select Activity Code --</option>
+                                            <option value="121">121 - Interest Income – Local</option>
+                                            <option value="122">122 - Interest Income – Foreign</option>
+                                        </select>
+
+                                    </div>
                                 </div>
                                 <br /> <br />
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Bank Name</label>
-                                        @*  <select class="form-select" id="dpdBankName" name="dpdBankName">
-                                            <option value="">-- Select Bank Name--</option>
-
-                                        </select> *@
                                         <input type="text" id="FDbankInput" class="form-control" placeholder="Type Bank Name" autocomplete="off" />
                                         <div id="FDbankDropdown" class="dropdown"></div>
                                     </div>
                                     <div class="col-md-6">
-
                                         <label class="form-label">Bank Branch</label>
                                         <input type="text" id="FDbranchInput" class="form-control" placeholder="Choose bank first" autocomplete="off" disabled />
                                         <div id="FDbranchDropdown" class="dropdown"></div>
                                     </div>
+                                    <!-- Account No -->
                                     <div class="col-md-6">
                                         <label class="form-label">Account No.</label>
                                         <input type="text" class="form-control" id="txtFDAccountNo" name="txtFDAccountNo">
                                     </div>
+
+                                    <!-- WHT Certificate No -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">WHT Certificate No.</label>
+                                        <input type="text" class="form-control" id="txtFDWHTCertificateNo" name="txtFDWHTCertificateNo">
+                                    </div>
+
+                                    <!-- Amount Invested -->
                                     <div class="col-md-6">
                                         <label class="form-label">Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control" id="txtFDAmountInvested" name="txtFDAmountInvested">
                                     </div>
+
+                                    <!-- Interest Income -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Interest (Rs.)</label>
+                                        <label class="form-label">Interest Income (Rs.)</label>
                                         <input type="text" class="form-control" id="txtFDInterest" name="txtFDInterest">
                                     </div>
+
+                                    <!-- WHT Deducted -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Opening Balance</label>
+                                        <label class="form-label">WHT Deducted Amount (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtFDWHTDeducted" name="txtFDWHTDeducted">
+                                    </div>
+
+                                    <!-- Foreign Tax Credit -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Foreign Tax Credit (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtFDForeignTaxCredit" name="txtFDForeignTaxCredit">
+                                    </div>
+
+                                    <!-- Opening Balance -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Opening Balance (Rs.)</label>
                                         <input type="text" class="form-control" id="txtFDOpeningBalance" name="txtFDOpeningBalance">
                                     </div>
+
+                                    <!-- Closing Balance -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Balance (Rs.)</label>
+                                        <label class="form-label">Closing Balance (Rs.)</label>
                                         <input type="text" class="form-control" id="txtFDBalance" name="txtFDBalance">
                                     </div>
                                 </div>
+                                
                                 <br />
                                 <div class="row">
                                     <div class="col-md-6">
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentFDClear">Clear</button>
                                             <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentFD" >Submit</button>
                                         </div>
                                     </div>
@@ -275,13 +313,10 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Type Investment</th>
-                                                <th>Remuneration </th>
-                                                <th>Gains Profits</th>
-                                                <th>Total Investment</th>
                                                 <th>Bank</th>
                                                 <th>Branch</th>
                                                 <th>Account No</th>
-                                                <th>Balance</th>
+                                                <th>WHT Deducted Amount</th>
                                                 <th>Action</th>
 
                                             </tr>
@@ -294,33 +329,31 @@
                                                 {
                                                     <tr>
                                                         <td>@(++index)</td>
-                                                        <td>@fdIncome.InvestmentIncomeType</td>
-                                                        <td>@fdIncome.Remuneration</td>
-                                                        <td>@fdIncome.GainsProfits</td>
-                                                        <td>@fdIncome.TotalInvestmentIncome</td>
+                                                        <td>@fdIncome.TypeOfInvestment</td>
                                                         <td>@fdIncome.BankName</td>
                                                         <td>@fdIncome.BankBranch</td>
                                                         <td>@fdIncome.AccountNo</td>
-                                                        <td>@fdIncome.Balance</td>
+                                                        <td>@fdIncome.WHTDeducted</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm fixedDepositDetails-editbtn" type="button"
-                                                                    data-id="@fdIncome.SelfOnlineInvestmentId"
-                                                                    data-category="FixedDeposit"
-                                                                    data-income-type="@fdIncome.InvestmentIncomeType"
-                                                                    data-remuneration="@fdIncome.Remuneration"
-                                                                    data-gains="@fdIncome.GainsProfits"
-                                                                    data-total="@fdIncome.TotalInvestmentIncome"
-                                                                    data-bank-name="@fdIncome.BankName"
-                                                                    data-bank-branch="@fdIncome.BankBranch"
-                                                                    data-account-no="@fdIncome.AccountNo"
-                                                                    data-amount-invested="@fdIncome.AmountInvested"
-                                                                    data-interest="@fdIncome.Interest"
-                                                                    data-opening-balance="@fdIncome.OpeningBalance"
-                                                                    data-balance="@fdIncome.Balance">
+                                                                    data-id="@fdIncome.InvestmentIncomeDetailId"
+                                                                    data-category="Savings"
+                                                                    data-activitycode="@fdIncome.ActivityCode"
+                                                                    data-typeofinvestment="@fdIncome.TypeOfInvestment"
+                                                                    data-bankname="@fdIncome.BankName"
+                                                                    data-bankbranch="@fdIncome.BankBranch"
+                                                                    data-accountno="@fdIncome.AccountNo"
+                                                                    data-whtcertificateno="@fdIncome.WHTCertificateNo"
+                                                                    data-whtdeducted="@fdIncome.WHTDeducted"
+                                                                    data-openingbalance="@fdIncome.OpeningBalance"
+                                                                    data-closingbalance="@fdIncome.ClosingBalance"
+                                                                    data-incomeamount="@fdIncome.IncomeAmount"
+                                                                    data-foreigntaxcredit="@fdIncome.ForeignTaxCredit"
+                                                                    data-amountinvested="@fdIncome.AmountInvested">
                                                                 Edit
                                                             </button>
-                                                            <button class="btn btn-danger btn-sm savingsDetails-deletebtn" type="button"
-                                                                    data-id="@fdIncome.SelfOnlineInvestmentId"
+                                                            <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
+                                                                    data-id="@fdIncome.InvestmentIncomeDetailId"
                                                                     data-name="FixedDeposit">
                                                                 Delete
                                                             </button>
@@ -427,7 +460,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if (Model != null && Model.Any(d => d.Category == "Dividend"))
+                                           @*  @if (Model != null && Model.Any(d => d.Category == "Dividend"))
                                             {
                                                 var index = 0;
                                                 foreach (var dividendIncome in Model.Where(d => d.Category == "Dividend"))
@@ -471,7 +504,7 @@
                                                 <tr>
                                                     <td colspan="6" class="text-center">No Dividend Income found.</td>
                                                 </tr>
-                                            }
+                                            } *@
                                         </tbody>
                                     </table>
                                 </div>
