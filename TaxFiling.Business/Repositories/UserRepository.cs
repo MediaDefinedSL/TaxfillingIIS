@@ -464,5 +464,23 @@ public class UserRepository : IUserRepository
             .Where(d => d.UserId == userId)
             .Select(d => d.taxAssistedUserUploadDocsStatus )
             .FirstOrDefaultAsync();
+    }    
+
+    public async Task<bool> UpdatePasswordAsync(string email, string newPassword)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        if (user == null) return false;
+
+        var hasher = new PasswordHasher<object>();
+        string hashedPassword = string.Empty;
+        if (!string.IsNullOrWhiteSpace(newPassword))
+        {
+            hashedPassword = hasher.HashPassword(new object(), newPassword);
+            user.Password = hashedPassword;
+        }
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

@@ -14,6 +14,7 @@ using TaxFiling.Domain.Entities;
 using TaxFiling.Data;
 using TaxFiling.Business.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.Data;
 
 
 
@@ -207,6 +208,19 @@ namespace TaxFiling.API.Controllers
         {
             var latestStatus = await _userRepository.GetLatestUploadedDocumentStatusAsync(userId);
             return Ok(latestStatus);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] TaxFiling.Domain.Dtos.ResetPasswordRequest request)
+        {
+
+            // Update password using only email + new password
+            var success = await _userRepository.UpdatePasswordAsync(request.Email, request.NewPassword);
+
+            if (!success)
+                return StatusCode(500, "Failed to reset password.");
+
+            return Ok("Password reset successful.");
         }
 
 
