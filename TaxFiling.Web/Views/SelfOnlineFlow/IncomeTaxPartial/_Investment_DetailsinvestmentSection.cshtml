@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Remuneration (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtRemuneration" name="txtRemuneration">
+                                        <input type="text" class="form-control" id="txtSRemuneration" name="txtSRemuneration">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Gains and Profits (Rs.) – Individual</label>
@@ -123,24 +123,66 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Name of bank</th>
+                                                <th>Type Investment</th>
+                                                <th>Remuneration </th>
+                                                <th>Gains Profits</th>
+                                                <th>Total Investment</th>
+                                                <th>Bank</th>
+                                                <th>Branch</th>
                                                 <th>Account No</th>
-                                                <th>Opening Balance</th>
-                                                <th>Balance (Rs.)</th>
+                                                <th>Balance</th>
+                                                <th>Action</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Bank 1</td>
-                                                <td>123596633552565</td>
-                                                <td>100000</td>
-
-                                                <td>
-                                                    50000
-                                                </td>
-                                            </tr>
+                                            @if (Model != null && Model.Any(d => d.Category == "Savings"))
+                                            {
+                                                var index = 0;
+                                                foreach (var savingsIncome in Model.Where(d => d.Category == "Savings"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@savingsIncome.InvestmentIncomeType</td>
+                                                        <td>@savingsIncome.Remuneration</td>
+                                                        <td>@savingsIncome.GainsProfits</td>
+                                                        <td>@savingsIncome.TotalInvestmentIncome</td>
+                                                        <td>@savingsIncome.BankName</td>
+                                                        <td>@savingsIncome.BankBranch</td>
+                                                        <td>@savingsIncome.AccountNo</td>
+                                                        <td>@savingsIncome.Balance</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm savingsDetails-editbtn" type="button"
+                                                                    data-id="@savingsIncome.SelfOnlineInvestmentId"
+                                                                    data-category="Savings"
+                                                                    data-income-type="@savingsIncome.InvestmentIncomeType"
+                                                                    data-remuneration="@savingsIncome.Remuneration"
+                                                                    data-gains="@savingsIncome.GainsProfits"
+                                                                    data-total="@savingsIncome.TotalInvestmentIncome"
+                                                                    data-bank-name="@savingsIncome.BankName"
+                                                                    data-bank-branch="@savingsIncome.BankBranch"
+                                                                    data-account-no="@savingsIncome.AccountNo"
+                                                                    data-amount-invested="@savingsIncome.AmountInvested"
+                                                                    data-interest="@savingsIncome.Interest"
+                                                                    data-opening-balance="@savingsIncome.OpeningBalance"
+                                                                    data-balance="@savingsIncome.Balance">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm savingsDetails-deletebtn" type="button"
+                                                                    data-id="@savingsIncome.SelfOnlineInvestmentId"
+                                                                    data-name="Savings">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Savings Income found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -148,7 +190,7 @@
 
                           @*  ----- Fixed Deposit ------ *@
 
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="tab-pane insvesment fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <br />
                                 <h3 class="mb-3"> <i class="bi bi-bank"></i> &nbsp; Fixed Deposit</h3>
                                 <hr>
@@ -179,13 +221,19 @@
                                 <br /> <br />
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Name of bank/financial institution</label>
-                                        <select class="form-select" id="dpdFDBankInstitution" name="dpdFDBankInstitution">
-                                            <option value="">-- Select Bank --</option>
-                                            <option value="Bank1">Bank 1</option>
-                                            <option value="Bank2">Bank 2</option>
-                                            <option value="Bank3">Bank 3</option>
-                                        </select>
+                                        <label class="form-label">Bank Name</label>
+                                        @*  <select class="form-select" id="dpdBankName" name="dpdBankName">
+                                            <option value="">-- Select Bank Name--</option>
+
+                                        </select> *@
+                                        <input type="text" id="FDbankInput" class="form-control" placeholder="Type Bank Name" autocomplete="off" />
+                                        <div id="FDbankDropdown" class="dropdown"></div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label class="form-label">Bank Branch</label>
+                                        <input type="text" id="FDbranchInput" class="form-control" placeholder="Choose bank first" autocomplete="off" disabled />
+                                        <div id="FDbranchDropdown" class="dropdown"></div>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Account No.</label>
@@ -214,7 +262,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
-                                            <button type="button" class="btn btn-primary mt-3">Submit</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentFD" >Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -226,24 +274,66 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Name of bank</th>
+                                                <th>Type Investment</th>
+                                                <th>Remuneration </th>
+                                                <th>Gains Profits</th>
+                                                <th>Total Investment</th>
+                                                <th>Bank</th>
+                                                <th>Branch</th>
                                                 <th>Account No</th>
-                                                <th>Opening Balance</th>
-                                                <th>Balance (Rs.)</th>
+                                                <th>Balance</th>
+                                                <th>Action</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Bank 1</td>
-                                                <td>123596633552565</td>
-                                                <td>100000</td>
-
-                                                <td>
-                                                    50000
-                                                </td>
-                                            </tr>
+                                            @if (Model != null && Model.Any(d => d.Category == "FixedDeposit"))
+                                            {
+                                                var index = 0;
+                                                foreach (var fdIncome in Model.Where(d => d.Category == "FixedDeposit"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@fdIncome.InvestmentIncomeType</td>
+                                                        <td>@fdIncome.Remuneration</td>
+                                                        <td>@fdIncome.GainsProfits</td>
+                                                        <td>@fdIncome.TotalInvestmentIncome</td>
+                                                        <td>@fdIncome.BankName</td>
+                                                        <td>@fdIncome.BankBranch</td>
+                                                        <td>@fdIncome.AccountNo</td>
+                                                        <td>@fdIncome.Balance</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm fixedDepositDetails-editbtn" type="button"
+                                                                    data-id="@fdIncome.SelfOnlineInvestmentId"
+                                                                    data-category="FixedDeposit"
+                                                                    data-income-type="@fdIncome.InvestmentIncomeType"
+                                                                    data-remuneration="@fdIncome.Remuneration"
+                                                                    data-gains="@fdIncome.GainsProfits"
+                                                                    data-total="@fdIncome.TotalInvestmentIncome"
+                                                                    data-bank-name="@fdIncome.BankName"
+                                                                    data-bank-branch="@fdIncome.BankBranch"
+                                                                    data-account-no="@fdIncome.AccountNo"
+                                                                    data-amount-invested="@fdIncome.AmountInvested"
+                                                                    data-interest="@fdIncome.Interest"
+                                                                    data-opening-balance="@fdIncome.OpeningBalance"
+                                                                    data-balance="@fdIncome.Balance">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm savingsDetails-deletebtn" type="button"
+                                                                    data-id="@fdIncome.SelfOnlineInvestmentId"
+                                                                    data-name="FixedDeposit">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No FixedDeposit Income found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -285,9 +375,9 @@
                                         <label class="form-label">Name of company/institution</label>
                                         <select class="form-select" id="dpdDCompanyInstitution" name="dpdDCompanyInstitution">
                                             <option value="">-- Select Company/Institution --</option>
-                                            <option value="Bank1">Company 1</option>
-                                            <option value="Bank2">Company 2</option>
-                                            <option value="Bank3">Institution 3</option>
+                                            <option value="Company1">Company 1</option>
+                                            <option value="Company2">Company 2</option>
+                                            <option value="Institution3">Institution 3</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
@@ -314,35 +404,74 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
-                                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                                            <button type="submit" class="btn btn-primary mt-3" id="btnDetailsInvestmentDivident">Submit</button>
                                         </div>
                                     </div>
 
                                 </div>
                                 <hr class="my-4">
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="DividentGrid">
                                     <table class="table table-bordered table-striped mt-2">
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Name of company/institution</th>
-                                                <th>No of shares/stocks</th>
-                                                <th>Cost of acquisition</th>
-                                                <th>Net dividend income</th>
-
+                                                <th>Type Investment</th>
+                                                <th>Remuneration </th>
+                                                <th>Gains Profits</th>
+                                                <th>Total Investment</th>
+                                                <th>Company/Institution</th>
+                                                <th>Shares/Stocks</th>
+                                                <th>Cost Acquisition</th>
+                                                <th>Net Income</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Company 1</td>
-                                                <td>123596633552565</td>
-                                                <td>100000</td>
-
-                                                <td>
-                                                    50000
-                                                </td>
-                                            </tr>
+                                            @if (Model != null && Model.Any(d => d.Category == "Dividend"))
+                                            {
+                                                var index = 0;
+                                                foreach (var dividendIncome in Model.Where(d => d.Category == "Dividend"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@dividendIncome.InvestmentIncomeType</td>
+                                                        <td>@dividendIncome.Remuneration</td>
+                                                        <td>@dividendIncome.GainsProfits</td>
+                                                        <td>@dividendIncome.TotalInvestmentIncome</td>
+                                                        <td>@dividendIncome.CompanyInstitution</td>
+                                                        <td>@dividendIncome.SharesStocks</td>
+                                                        <td>@dividendIncome.CostAcquisition</td>
+                                                        <td>@dividendIncome.NetDividendIncome</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm dividend-editbtn" type="button"
+                                                                    data-id="@dividendIncome.SelfOnlineInvestmentId"
+                                                                    data-category="Dividend"
+                                                                    data-income-type="@dividendIncome.InvestmentIncomeType"
+                                                                    data-remuneration="@dividendIncome.Remuneration"
+                                                                    data-gains="@dividendIncome.GainsProfits"
+                                                                    data-total="@dividendIncome.TotalInvestmentIncome" 
+                                                                    data-company="@dividendIncome.CompanyInstitution"
+                                                                    data-shares="@dividendIncome.SharesStocks"
+                                                                    data-acquisition="@dividendIncome.AcquisitionDate?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@dividendIncome.CostAcquisition"
+                                                                    data-net-dividend="@dividendIncome.NetDividendIncome">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm dividend-deletebtn" type="button"
+                                                                    data-id="@dividendIncome.SelfOnlineInvestmentId"
+                                                                    data-name="Dividend">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Dividend Income found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -480,41 +609,41 @@
 
 <script>
 
-     // Load all branches once
-    $.getJSON("https://mail.taxfiling.lk/bank-branches", function (data) {
-        allBranches = data.map(branch => ({
-            id: branch.BranchCode,
-            // text: branch.BranchName + " (" + branch.bankName + ")" // show both branch and bank
-            text: branch.BranchName
-        }));
+    //  // Load all branches once
+    // $.getJSON("https://mail.taxfiling.lk/bank-branches", function (data) {
+    //     allBranches = data.map(branch => ({
+    //         id: branch.BranchCode,
+    //         // text: branch.BranchName + " (" + branch.bankName + ")" // show both branch and bank
+    //         text: branch.BranchName
+    //     }));
 
-        $('#dpdBankInstitution').select2({
-            placeholder: "Select bank",
-            minimumInputLength: 0, // allow opening full list without typing
-            data: allBranches,
-            matcher: function (params, data) {
-                // If no search term, show all
-                if ($.trim(params.term) === '') {
-                    return data;
-                }
+    //     $('#dpdBankInstitution').select2({
+    //         placeholder: "Select bank",
+    //         minimumInputLength: 0, // allow opening full list without typing
+    //         data: allBranches,
+    //         matcher: function (params, data) {
+    //             // If no search term, show all
+    //             if ($.trim(params.term) === '') {
+    //                 return data;
+    //             }
 
-                // Match text anywhere (contains match, not just startsWith)
-                if (data.text.toLowerCase().startsWith(params.term.toLowerCase())) {
-                    return data;
-                }
+    //             // Match text anywhere (contains match, not just startsWith)
+    //             if (data.text.toLowerCase().startsWith(params.term.toLowerCase())) {
+    //                 return data;
+    //             }
 
-                return null;
-            },
-            dropdownAutoWidth: true,
-            width: 'resolve',
-            allowClear: true
-        });
-    });
+    //             return null;
+    //         },
+    //         dropdownAutoWidth: true,
+    //         width: 'resolve',
+    //         allowClear: true
+    //     });
+    // });
 
-    $('#dpdBankInstitution').on('select2:open', function () {
-        let searchBox = document.querySelector('.select2-container--open .select2-search__field');
-        if (searchBox) {
-            searchBox.setAttribute('placeholder', 'Filter your choice');
-        }
-    });
+    // $('#dpdBankInstitution').on('select2:open', function () {
+    //     let searchBox = document.querySelector('.select2-container--open .select2-search__field');
+    //     if (searchBox) {
+    //         searchBox.setAttribute('placeholder', 'Filter your choice');
+    //     }
+    // });
 </script>
