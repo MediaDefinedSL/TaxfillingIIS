@@ -264,7 +264,7 @@ public class PaymentController : Controller
 
         // If payment failed, redirect to fail page
         if (!onePayResponse.data.status)
-            return RedirectToAction("PackageFailPage", "Payment", new { orderId });
+            return RedirectToAction("PackageFailPage", "Payment", new { orderId , PackageId});
 
         // Fetch transaction details from API
         var orderDataResponse = await client.GetAsync($"{_baseApiUrl}api/UserTransactions/GetTransactionById/{orderId}");
@@ -388,6 +388,13 @@ public class PaymentController : Controller
 
         byte[] fileBytes = memoryStream.ToArray();
         return File(fileBytes, "application/pdf", $"Receipt_{transaction.OrderId}.pdf");
+    }
+
+    public IActionResult PackageFailPage(int orderId, int packageId)
+    {
+        ViewBag.OrderId = orderId;
+        ViewBag.PackageId = packageId;
+        return View();
     }
 
 
