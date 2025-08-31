@@ -96,6 +96,8 @@ namespace TaxFiling.Business.Repositories
             {
                 transaction.User.IsActivePayment = 1;
                 transaction.User.PackageId = PackageId;
+                if (PackageId == 4 || PackageId == 5 || PackageId == 6)
+                    transaction.User.taxAssistedUserUploadDocsStatus = 0;
             }
             //_context.UserTransactions.Update(transaction);
             await _context.SaveChangesAsync();
