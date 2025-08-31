@@ -9,6 +9,11 @@
         var FDselectedValue = this.value;
         document.getElementById("txtFDActivityCode").value = FDselectedValue;
     });
+    document.getElementById("ddlDTypeInvestment").addEventListener("change", function () {
+        var DselectedValue = this.value;
+        document.getElementById("txtDActivityCode").value = DselectedValue;
+    });
+
 
     //----------------------- Interest Income from Savings Accounts
     let allBanks = [];
@@ -414,6 +419,12 @@
                     if (deleteCategoryName == "FixedDeposit") {
                         $('#FDGrid').html($(html).find('#FDGrid').html());
                     }
+                    if (deleteCategoryName == "Dividend") {
+                        $('#DividentGrid').html($(html).find('#DividentGrid').html());
+                    }
+                    if (deleteCategoryName == "Rent") {
+                        $('#RentGrid').html($(html).find('#RentGrid').html());
+                    }
                     
                     //$("#taxTotal").text(newTotal);
                 });
@@ -789,183 +800,140 @@
     }
 
 
-    /* ============= Divident  */
+    /* ============= Divident  =================*/
 
     $(document).on("click", "#btnDetailsInvestmentDivident", function () {
 
         var $btn = $(this);
         $btn.prop("disabled", true);
 
-        let selfOnlineEmploymentIncomeId = $("#hiddenInvestmentIncomeId").val();
-        let investmentIncome = $("#dpdDInvestmentIncome").val();
-        let remuneration = $("#txtDRemuneration").val();
-        let gainsProfits = $("#txtDGainsProfits").val();
-        let txtinvestmentIncome = $("#txtDInvestmentIncome").val();
-
-        let companyInstitution = $("#dpdDCompanyInstitution").val();
+        // Collecting values from your form
+        let selfOnlineInvestmentId = $("#hiddenInvestmentIncomeId").val();   // hidden field for edit/update
+        let activityCode = $("#txtDActivityCode").val();
+        let typeOfInvestment = $("#ddlDTypeInvestment").val();
+        let amountInvested = $("#txtDAmountInvested").val();
+        let dividendIncome = $("#txtDDividendIncome").val();
+        let companyInstitution = $("#txtDNameCompanyInstitution").val();
         let sharesStocks = $("#txtDSharesStocks").val();
-        let acquisitiondate = $("#txtDAcquisition").val();
+        let acquisitionDate = $("#txtDAcquisition").val();
         let costAcquisitionMarket = $("#txtDCostAcquisitionMarket").val();
-        let netDividend = $("#txtDNetDividend").val();
-    
+        let whtDeducted = $("#txtDWHTDeducted").val();
+        let foreignTaxCredit = $("#txtDForeignTaxCredit").val();
 
         let isValid = true;
 
-        // Remove old validation messages
         $(".validation-error").remove();
 
-
-        if (!investmentIncome) {
-            $("#dpdFDInvestmentIncome").after('<div class="text-danger validation-error">Please select Type of Investment Income.</div>');
-            $btn.prop("disabled", false);
+        if (!typeOfInvestment) {
+            $("#ddlDTypeInvestment").after('<div class="text-danger validation-error">Please select Type of Invemsent.</div>');
             isValid = false;
         }
-        if (!companyInstitution) {
-            $("#dpdDCompanyInstitution").after('<div class="text-danger validation-error">Please select Name of Company/Institution</div>');
-            $btn.prop("disabled", false);
+        if (!amountInvested) {
+            $("#txtDAmountInvested").after('<div class="text-danger validation-error">Amount Invested is required</div>');
             isValid = false;
         }
-        if (!netDividend.trim()) {
-            $("#txtDNetDividend").after('<div class="text-danger validation-error">Net Dividend Income is required.</div>');
-            $btn.prop("disabled", false);
+        if (!dividendIncome.trim()) {
+            $("#dividendIncome").after('<div class="text-danger validation-error">Dividend Income is required.</div>');
             isValid = false;
         }
        
 
         if (!isValid) {
+            $btn.prop("disabled", false);
             return;
         }
 
+        let dividendData = {
+            InvestmentIncomeDetailId: selfOnlineInvestmentId,
+            TransactionType: selfOnlineInvestmentId ? "Edit" : "Add",
+            Category: "Dividend",
+            ActivityCode: activityCode,
+            TypeOfInvestment: typeOfInvestment,
+            AmountInvested: amountInvested,
+            NetDividendIncome: dividendIncome,
+            CompanyInstitution: companyInstitution,
+            SharesStocks: sharesStocks,
+            AcquisitionDate: acquisitionDate,
+            CostAcquisition: costAcquisitionMarket,
+            WHTDeducted: whtDeducted,
+            ForeignTaxCredit: foreignTaxCredit
 
-        if (selfOnlineEmploymentIncomeId) {
+        };
+        // === AJAX URL ===
+        var url = selfOnlineInvestmentId
+            ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
+            : '/SelfOnlineFlow/AddSelfOnlineInvestmentIncomeDetails';
 
-            var employSavingsADD = {
-                SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
-                TransactionType: "Edit",
-                Category: "Dividend",
-                InvestmentIncomeType: investmentIncome,
-                Remuneration: remuneration,
-                GainsProfits: gainsProfits,
-                TotalInvestmentIncome: txtinvestmentIncome,
-                CompanyInstitution: companyInstitution,
-                SharesStocks: sharesStocks,
-                AcquisitionDate: acquisitiondate,
-                CostAcquisition: costAcquisitionMarket,
-                NetDividendIncome: netDividend
-               
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: dividendData,
+            success: function (response) {
+                $btn.prop("disabled", false);
 
+                notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
+
+                $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                    $('#DividentGrid').html($(html).find('#DividentGrid').html());
+                });
+
+                resetFormDivident();
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving.");
             }
-            $.ajax({
-                url: '/SelfOnlineFlow/UpdateInvestmentIncomeDetails',
-                type: 'POST',
-                data: employSavingsADD,
-                success: function (response) {
-                    $btn.prop("disabled", false);
+        });
 
-                    notifySuccess("", "Update successfully");
-
-                    $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
-                        $('#DividentGrid').html($(html).find('#DividentGrid').html()); // Direct replace
-
-                        //$("#taxTotal").text(newTotal);
-                    });
-
-                    $("#dpdDInvestmentIncome").val("");
-                    $("#txtDRemuneration").val("");
-                    $("#txtFDGainsProfits").val("");
-                    $("#txtDInvestmentIncome").val("");
-                    $("#dpdDCompanyInstitution").val("");
-                    $("#txtDSharesStocks").val("");
-                    $("#txtDAcquisition").val("");
-                    $("#txtDCostAcquisitionMarket").val("");
-                    $("#txtDNetDividend").val("");
-                    
-
-
-                },
-                error: function () {
-                    $btn.prop("disabled", false);
-                    alert("Error saving .");
-                }
-            });
-
-        }
-        else {
-            var employSavingsEdit = {
-                SelfOnlineInvestmentId: selfOnlineEmploymentIncomeId,
-                TransactionType: "Add",
-                Category: "Dividend",
-                InvestmentIncomeType: investmentIncome,
-                Remuneration: remuneration,
-                GainsProfits: gainsProfits,
-                TotalInvestmentIncome: txtinvestmentIncome,
-                CompanyInstitution: companyInstitution,
-                SharesStocks: sharesStocks,
-                AcquisitionDate: acquisitiondate,
-                CostAcquisition: costAcquisitionMarket,
-                NetDividendIncome: netDividend
-
-            }
-            $.ajax({
-                url: '/SelfOnlineFlow/AddInvestmentIncomeDetails',
-                type: 'POST',
-                data: employSavingsEdit,
-                success: function (response) {
-                    $btn.prop("disabled", false);
-
-                    notifySuccess("", "Saved successfully");
-
-                    $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
-                        $('#DividentGrid').html($(html).find('#DividentGrid').html()); // Direct replace
-
-                        //$("#taxTotal").text(newTotal);
-                    });
-
-                    $("#dpdDInvestmentIncome").val("");
-                    $("#txtDRemuneration").val("");
-                    $("#txtFDGainsProfits").val("");
-                    $("#txtDInvestmentIncome").val("");
-                    $("#dpdDCompanyInstitution").val("");
-                    $("#txtDSharesStocks").val("");
-                    $("#txtDAcquisition").val("");
-                    $("#txtDCostAcquisitionMarket").val("");
-                    $("#txtDNetDividend").val("");
-
-
-                },
-                error: function () {
-                    $btn.prop("disabled", false);
-                    alert("Error saving .");
-                }
-            });
-        }
+      
 
     });
+
+    function resetFormDivident() {
+
+        $("#hiddenInvestmentIncomeId").val("");
+        $("#txtDActivityCode").val("");
+        $("#ddlDTypeInvestment").val("");
+        $("#txtDAmountInvested").val("");
+        $("#txtDDividendIncome").val("");
+        $("#txtDNameCompanyInstitution").val("");
+        $("#txtDSharesStocks").val("");
+        $("#txtDAcquisition").val("");
+        $("#txtDCostAcquisitionMarket").val("");
+        $("#txtDWHTDeducted").val("");
+        $("#txtDForeignTaxCredit").val("");
+
+        
+    }
 
     $('.dividend-editbtn').on('click', function () {
     
         $(".validation-error").remove();
         // Get row data from button attributes
         var id = $(this).data("id");
-        var incomeType = $(this).data("income-type");
-        var remuneration = $(this).data("remuneration");
-        var gains = $(this).data("gains");
-        var total = $(this).data("total");
+        var category = $(this).data("category");
+        var activityCode = $(this).data("activitycode");
+        var typeOfInvestment = $(this).data("typeofinvestment");
+        var amountinvested = $(this).data("amountinvested");
         var company = $(this).data("company");
         var shares = $(this).data("shares");
         var acquisition = $(this).data("acquisition");
         var cost = $(this).data("cost");
-        var netDividend = $(this).data("net-dividend");
-       
+        var netdividend = $(this).data("netdividend");
+        var netwhtdeducted = $(this).data("netwhtdeducted");
+        var netforeigntaxcredit = $(this).data("netforeigntaxcredit");
 
-        // Fill modal or form fields
-        $("#hiddenInvestmentIncomeId").val(id); // hidden field for ID
-        $("#dpdDInvestmentIncome").val(incomeType);
-        $("#txtDRemuneration").val(remuneration);
-        $("#txtDGainsProfits").val(gains);
-        $("#txtDInvestmentIncome").val(total);
-        $("#dpdDCompanyInstitution").val(company);
+        $("#txtDActivityCode").val(activityCode);
+        $("#ddlDTypeInvestment").val(typeOfInvestment);
+        $("#txtDAmountInvested").val(amountinvested);
+        $("#txtDDividendIncome").val(netdividend);
+        $("#txtDNameCompanyInstitution").val(company);
         $("#txtDSharesStocks").val(shares);
+        $("#txtDCostAcquisitionMarket").val(cost);
+        $("#txtDWHTDeducted").val(netwhtdeducted);
+        $("#txtDForeignTaxCredit").val(netforeigntaxcredit);
+
+        
 
         if (acquisition) {
             // Format date for input[type="date"]
@@ -976,10 +944,155 @@
             $("#txtDAcquisition").val("");
         }
 
-        $("#txtDCostAcquisitionMarket").val(cost);
-        $("#txtDNetDividend").val(netDividend);
-       
+        $("#hiddenInvestmentIncomeId").val(id);
         $("#btnDetailsInvestmentDivident").text("Update");
+
+    });
+
+    /* ============= Divident  =================*/
+
+    $(document).on("click", "#btnDetailsInvestmentRent", function () {
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Collecting values from your form
+        let selfOnlineInvestmentId = $("#hiddenInvestmentIncomeId").val();   // hidden field for edit/update
+        let activityCode = $("#txtRActivityCode").val();
+        let typeOfInvestment = $("#ddlRTypeInvestment").val();
+        let sProperty = $("#txtRProperty").val();
+        let addess = $("#txtRAddess").val();
+        let rentIncome = $("#txtRTotalRentIncome").val();
+        let ratesLocalAuthority = $("#txtRRatesLocalAuthority").val();
+        let acquisitionDate = $("#txtRAcquisitionDate").val();
+        let giftInhreted = $("#txtRCostGiftInhreted").val();
+        let marketValue = $("#txtRMarketValue").val();
+        let freignTaxCredit = $("#txtForeignTaxCredit").val();
+       
+
+        let isValid = true;
+        $(".validation-error").remove();
+
+        // === Validation ===
+        if (!typeOfInvestment) {
+            $("#ddlRTypeInvestment").after('<div class="text-danger validation-error">Please select Type of Investment.</div>');
+            isValid = false;
+        }
+        if (!sProperty) {
+            $("#txtRProperty").after('<div class="text-danger validation-error">Situation of property is required.</div>');
+            isValid = false;
+        }
+        if (!rentIncome.trim()) {
+            $("#txtRTotalRentIncome").after('<div class="text-danger validation-error">Rent Income is required.</div>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            $btn.prop("disabled", false);
+            return;
+        }
+
+        // === Data Object ===
+        let rentData = {
+            InvestmentIncomeDetailId: selfOnlineInvestmentId,
+            TransactionType: selfOnlineInvestmentId ? "Edit" : "Add",
+            Category: "Rent",
+            ActivityCode: activityCode,
+            TypeOfInvestment: typeOfInvestment,
+            PropertySituation: sProperty,
+            PropertyAddress: addess,
+            RatesLocalAuthority: ratesLocalAuthority,
+            IncomeAmount: rentIncome,
+            GiftOrInheritedCost: giftInhreted,
+            AcquisitionDate: acquisitionDate,
+            MarketValue: marketValue,
+            ForeignTaxCredit: freignTaxCredit
+          
+        };
+
+        // === AJAX URL ===
+        var url = selfOnlineInvestmentId
+            ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
+            : '/SelfOnlineFlow/AddSelfOnlineInvestmentIncomeDetails';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: rentData,
+            success: function (response) {
+                $btn.prop("disabled", false);
+
+                notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
+
+                // Reload rent grid
+                $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                    $('#RentGrid').html($(html).find('#RentGrid').html());
+                });
+
+                resetFormRent();
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving.");
+            }
+        });
+    });
+
+    function resetFormRent() {
+
+        $("#hiddenInvestmentIncomeId").val("");
+        $("#txtRActivityCode").val("");
+        $("#ddlRTypeInvestment").val("");
+        $("#txtRProperty").val("");
+        $("#txtRAddess").val("");
+        $("#txtRTotalRentIncome").val("");
+        $("#txtRRatesLocalAuthority").val("");
+        $("#txtRAcquisitionDate").val("");
+        $("#txtRCostGiftInhreted").val("");
+        $("#txtRMarketValue").val("");
+        $("#txtForeignTaxCredit").val("");
+
+    }
+    $(document).on("click", ".rent-editbtn", function () {
+    
+        $(".validation-error").remove();
+        // Get row data from button attributes
+       
+        var id = $(this).data("id");
+        var activitycode = $(this).data("activity");
+        var activity = $(this).data("activity");
+        var property = $(this).data("property");
+        var address = $(this).data("address");
+        var income = $(this).data("income");
+        var rates = $(this).data("rates");
+        var cost = $(this).data("cost");
+        var market = $(this).data("market");
+        var foreigntax = $(this).data("foreigntax");
+        var acquisition = $(this).data("acquisition");
+
+        // Set values back to form
+        $("#txtRActivityCode").val(activitycode);
+        $("#ddlRTypeInvestment").val(activity);
+        $("#txtRProperty").val(property);
+        $("#txtRAddess").val(address);
+        $("#txtRTotalRentIncome").val(income);
+        $("#txtRRatesLocalAuthority").val(rates);
+        $("#txtRCostGiftInhreted").val(cost);
+        $("#txtRMarketValue").val(market);
+        $("#txtForeignTaxCredit").val(foreigntax); // if you add deed field in form
+
+
+
+        if (acquisition) {
+            // Format date for input[type="date"]
+            let date = new Date(acquisition);
+            let formatted = date.toISOString().split('T')[0];
+            $("#txtRAcquisitionDate").val(formatted);
+        } else {
+            $("#txtRAcquisitionDate").val("");
+        }
+
+        $("#hiddenInvestmentIncomeId").val(id);
+        $("#btnDetailsInvestmentRent").text("Update");
 
     });
 

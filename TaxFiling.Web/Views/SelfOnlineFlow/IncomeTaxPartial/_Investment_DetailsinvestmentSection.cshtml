@@ -211,7 +211,7 @@
 
                             <div class="tab-pane insvesment fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <br />
-                                <h3 class="mb-3"> <i class="bi bi-bank"></i> &nbsp; Fixed Deposit</h3>
+                                <h3 class="mb-3"> <i class="bi bi-bank"></i> &nbsp; Interest Income from Fixed Deposit Accounts</h3>
                                 <hr>
                                 <div class="row g-3">
 
@@ -375,43 +375,40 @@
                             @*  ----- Divident ------ *@
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <br />
-                                <h3 class="mb-3"> <i class="bi bi-pie-chart-fill"></i> &nbsp; Divident</h3>
+                                <h3 class="mb-3"> <i class="bi bi-pie-chart-fill"></i> &nbsp; Dividend Income</h3>
                                 <hr>
                                 <div class="row g-3">
 
+                                    <!-- Activity Code -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment Income</label>
-                                        <select class="form-select" id="dpdDInvestmentIncome" name="dpdDInvestmentIncome">
-                                            <option value="">-- Select --</option>
-                                            <option value="Interest">Interest</option>
-                                            <option value="Dividends">Dividends</option>
-                                            <option value="Rent">Rent</option>
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtDActivityCode" class="form-control" />
+                                    </div>
+
+                                    <!-- Type of Investment -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Type of Investment</label>
+                                        <select class="form-select" id="ddlDTypeInvestment" name="ddlDTypeInvestment">
+                                            <option value="">-- Select Activity Code --</option>
+                                            <option value="111">111 - Dividend Income – Local</option>
+                                            <option value="112">112 - Dividend Income – Foreign</option>
                                         </select>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <label class="form-label">Remuneration (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtDRemuneration" name="txtDRemuneration">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
-                                        <input type="text" class="form-control" id="txtDGainsProfits" name="txtDGainsProfits">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Total investment income other than partnership or trust</label>
-                                        <input type="text" class="form-control" id="txtDInvestmentIncome" name="txtDInvestmentIncome">
+
                                     </div>
                                 </div>
                                 <br /><br />
                                 <div class="row g-3">
                                     <div class="col-md-6">
+                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <input type="number" class="form-control" id="txtDAmountInvested" name="txtDAmountInvested">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Dividend Income (Rs.)</label>
+                                        <input type="number" class="form-control" id="txtDDividendIncome" name="txtDDividendIncome">
+                                    </div>
+                                    <div class="col-md-6">
                                         <label class="form-label">Name of company/institution</label>
-                                        <select class="form-select" id="dpdDCompanyInstitution" name="dpdDCompanyInstitution">
-                                            <option value="">-- Select Company/Institution --</option>
-                                            <option value="Company1">Company 1</option>
-                                            <option value="Company2">Company 2</option>
-                                            <option value="Institution3">Institution 3</option>
-                                        </select>
+                                        <input class="form-control" id="txtDNameCompanyInstitution" name="txtDNameCompanyInstitution">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">No. of Shares/Stocks</label>
@@ -422,12 +419,16 @@
                                         <input type="date" class="form-control" id="txtDAcquisition" name="txtDAcquisition">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Cost of Acquisition/Market value if not acquired (Rs.)</label>
+                                        <label class="form-label">Cost of acquisition/market value if not acquired (Rs.)</label>
                                         <input type="text" class="form-control" id="txtDCostAcquisitionMarket" name="txtDCostAcquisitionMarket">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Net Dividend Income (Rs.)</label>
-                                        <input type="number" class="form-control" id="txtDNetDividend" name="txtDNetDividend">
+                                        <label class="form-label">WHT Deducted Amount (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtDWHTDeducted" name="txtDWHTDeducted">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Foreign Tax Credit (Rs.)</label>
+                                        <input type="text" class="form-control" id="txtDForeignTaxCredit" name="txtDForeignTaxCredit">
                                     </div>
                                    
                                 </div>
@@ -449,49 +450,46 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Type Investment</th>
-                                                <th>Remuneration </th>
-                                                <th>Gains Profits</th>
-                                                <th>Total Investment</th>
+                                                <th>Amount Invested </th>
+                                                <th>Dividend Income </th>
                                                 <th>Company/Institution</th>
                                                 <th>Shares/Stocks</th>
                                                 <th>Cost Acquisition</th>
-                                                <th>Net Income</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           @*  @if (Model != null && Model.Any(d => d.Category == "Dividend"))
+                                            @if (Model != null && Model.Any(d => d.Category == "Dividend"))
                                             {
                                                 var index = 0;
                                                 foreach (var dividendIncome in Model.Where(d => d.Category == "Dividend"))
                                                 {
                                                     <tr>
                                                         <td>@(++index)</td>
-                                                        <td>@dividendIncome.InvestmentIncomeType</td>
-                                                        <td>@dividendIncome.Remuneration</td>
-                                                        <td>@dividendIncome.GainsProfits</td>
-                                                        <td>@dividendIncome.TotalInvestmentIncome</td>
+                                                        <td>@dividendIncome.TypeOfInvestment</td>
+                                                        <td>@dividendIncome.AmountInvested</td>
+                                                        <td>@dividendIncome.NetDividendIncome</td>
                                                         <td>@dividendIncome.CompanyInstitution</td>
                                                         <td>@dividendIncome.SharesStocks</td>
                                                         <td>@dividendIncome.CostAcquisition</td>
-                                                        <td>@dividendIncome.NetDividendIncome</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm dividend-editbtn" type="button"
-                                                                    data-id="@dividendIncome.SelfOnlineInvestmentId"
+                                                                    data-id="@dividendIncome.InvestmentIncomeDetailId"
                                                                     data-category="Dividend"
-                                                                    data-income-type="@dividendIncome.InvestmentIncomeType"
-                                                                    data-remuneration="@dividendIncome.Remuneration"
-                                                                    data-gains="@dividendIncome.GainsProfits"
-                                                                    data-total="@dividendIncome.TotalInvestmentIncome" 
+                                                                    data-activitycode="@dividendIncome.ActivityCode"
+                                                                    data-typeofinvestment="@dividendIncome.TypeOfInvestment"
+                                                                    data-amountinvested="@dividendIncome.AmountInvested"
                                                                     data-company="@dividendIncome.CompanyInstitution"
                                                                     data-shares="@dividendIncome.SharesStocks"
                                                                     data-acquisition="@dividendIncome.AcquisitionDate?.ToString("yyyy-MM-dd")"
                                                                     data-cost="@dividendIncome.CostAcquisition"
-                                                                    data-net-dividend="@dividendIncome.NetDividendIncome">
+                                                                    data-netdividend="@dividendIncome.NetDividendIncome"
+                                                                    data-netwhtdeducted="@dividendIncome.WHTDeducted"
+                                                                    data-netforeigntaxcredit="@dividendIncome.ForeignTaxCredit">
                                                                 Edit
                                                             </button>
-                                                            <button class="btn btn-danger btn-sm dividend-deletebtn" type="button"
-                                                                    data-id="@dividendIncome.SelfOnlineInvestmentId"
+                                                            <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
+                                                                    data-id="@dividendIncome.InvestmentIncomeDetailId"
                                                                     data-name="Dividend">
                                                                 Delete
                                                             </button>
@@ -504,7 +502,7 @@
                                                 <tr>
                                                     <td colspan="6" class="text-center">No Dividend Income found.</td>
                                                 </tr>
-                                            } *@
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -513,50 +511,60 @@
                             @*  ----- Rent ------ *@
                             <div class="tab-pane fade" id="rent" role="tabpanel" aria-labelledby="rent-tab">
                                 <br />
-                                <h3 class="mb-3"> <i class="bi bi-house-door"></i> &nbsp;  Rent</h3>
+                                <h3 class="mb-3"> <i class="bi bi-house-door"></i> &nbsp;  Rent Income</h3>
                                 <hr>
                                 <div class="row g-3">
+                                    <!-- Activity Code -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Name of company/institution</label>
-                                        <select class="form-select" id="dpRCompanyInstitution" name="dpdRCompanyInstitution">
-                                            <option value="">-- Select Company/Institution --</option>
-                                            <option value="Bank1">Company 1</option>
-                                            <option value="Bank2">Company 2</option>
-                                            <option value="Bank3">Institution 3</option>
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtRActivityCode" class="form-control" />
+                                    </div>
+
+                                    <!-- Type of Investment -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Type of Investment</label>
+                                        <select class="form-select" id="ddlRTypeInvestment" name="ddlRTypeInvestment">
+                                            <option value="">-- Select Activity Code --</option>
+                                            <option value="311">311 - Rent Income – Local</option>
+                                            <option value="312">312 - Rent Income – Foreign</option>
                                         </select>
-                                    </div>
-                                  
-                                    <div class="col-md-6">
-                                        <label class="form-label">Remuneration (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtRRemuneration" name="txtRRemuneration">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Gains and Profits (Rs.) – Individual</label>
-                                        <input type="text" class="form-control" id="txtRGainsProfits" name="txtRGainsProfits">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Total investment income other than partnership or trust</label>
-                                        <input type="text" class="form-control" id="txtRInvestmentIncome" name="txtRInvestmentIncome">
+
                                     </div>
                                 </div>
                                 <br /><br />
                                 <div class="row g-3">
                                     
                                     <div class="col-md-6">
-                                        <label class="form-label">Situation of Property Deed No</label>
-                                        <input type="text" class="form-control" id="txtRPropertyDeed" name="txtRPropertyDeed">
+                                        <label class="form-label">Situation of property</label>
+                                        <input type="text" class="form-control" id="txtRProperty" name="txtRProperty">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Addess</label>
+                                        <input type="text" class="form-control" id="txtRAddess" name="txtRAddess">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Total Rent Income </label>
+                                        <input type="number" class="form-control" id="txtRTotalRentIncome" name="txtRTotalRentIncome">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Rates and local authority</label>
+                                        <input type="text" class="form-control" id="txtRRatesLocalAuthority" name="txtRRatesLocalAuthority">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Date of Acquisition</label>
-                                        <input type="date" class="form-control" id="txtRAcquisition" name="txtRAcquisition">
+                                        <input type="date" class="form-control" id="txtRAcquisitionDate" name="txtRAcquisitionDate">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Cost (Rs.) / Gift/ Inhreted</label>
-                                        <input type="text" class="form-control" id="txtRCostGiftInhreted" name="txtRCostGiftInhreted">
+                                        <input type="number" class="form-control" id="txtRCostGiftInhreted" name="txtRCostGiftInhreted">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Market Value (Rs.)</label>
-                                        <input type="text" class="form-control" id="txtRMarketValue" name="txtRMarketValue">
+                                        <input type="number" class="form-control" id="txtRMarketValue" name="txtRMarketValue">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Foreign Tax Credit </label>
+                                        <input type="number" class="form-control" id="txtForeignTaxCredit" name="txtForeignTaxCredit">
                                     </div>
                                     
                                 </div>
@@ -566,35 +574,71 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
-                                            <button type="button" class="btn btn-primary mt-3">Submit</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentRent">Submit</button>
                                         </div>
                                     </div>
                                 </div>
 
                                 <hr class="my-4">
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="RentGrid">
                                     <table class="table table-bordered table-striped mt-2">
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
+                                                <th>Type Investment</th>
                                                 <th>Situation property Deed No</th>
-                                                <th>Situation property Deed No</th>
+                                                <th>Total Rent Income </th>
                                                 <th>Cost Gift/ Inhreted</th>
                                                 <th>Market value</th>
+                                                <th>Action</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>test property</td>
-                                                <td>123596633552565</td>
-                                                <td>100000</td>
-
-                                                <td>
-                                                    50000
-                                                </td>
-                                            </tr>
+                                            @if (Model != null && Model.Any(d => d.Category == "Rent"))
+                                            {
+                                                var index = 0;
+                                                foreach (var rentIncome in Model.Where(d => d.Category == "Rent"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@rentIncome.TypeOfInvestment</td>
+                                                        <td>@rentIncome.PropertySituation</td>
+                                                        <td>@rentIncome.IncomeAmount</td>
+                                                        <td>@rentIncome.GiftOrInheritedCost</td>
+                                                        <td>@rentIncome.MarketValue</td>
+                                                        
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm rent-editbtn" type="button"
+                                                                    data-id="@rentIncome.InvestmentIncomeDetailId"
+                                                                    data-category="Rent"
+                                                                    data-activitycode="@rentIncome.ActivityCode"
+                                                                    data-activity="@rentIncome.TypeOfInvestment"
+                                                                    data-property="@rentIncome.PropertySituation"
+                                                                    data-address="@rentIncome.PropertyAddress"
+                                                                    data-income="@rentIncome.IncomeAmount"
+                                                                    data-acquisition="@rentIncome.AcquisitionDate"
+                                                                    data-rates="@rentIncome.RatesLocalAuthority"
+                                                                    data-cost="@rentIncome.GiftOrInheritedCost"
+                                                                    data-market="@rentIncome.MarketValue"
+                                                                    data-foreigntax="@rentIncome.ForeignTaxCredit">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
+                                                                    data-id="@rentIncome.InvestmentIncomeDetailId"
+                                                                    data-name="Rent">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Dividend Income found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
