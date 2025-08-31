@@ -422,8 +422,7 @@
                     </div>
 
                 </div>
-                <br>
-                <br>
+                
                 <!-- Upload Tracker (place inside each section header) -->
                 <!-- Global Upload Tracker -->
                 
@@ -455,17 +454,33 @@
 
                     <!-- Upload Prompt -->
                     <div class="uplode-parts">
-                        <div class="alert alert-primary d-flex align-items-center p-4 shadow-lg border border-2 border-primary rounded-4" role="alert" style="background: #e9f4ff;">
-                            <i class="fas fa-cloud-upload-alt fa-2x me-4 text-primary pulse-icon"></i>
-                            <div>
-                                <h5 class="mb-2 fw-bold text-primary">📤 Ready to submit?</h5>
-                                <p class="mb-2">
-                                    Click below to upload your
-                                    <span class="text-decoration-underline fw-semibold">2024/2025 Tax Documents</span>.
-                                </p>
-                                <button class="btn btn-primary btn-lg px-4 py-2" id="uploadDoc-btn">
-                                    <i class="fas fa-upload me-2"></i> Upload Documents
-                                </button>
+                        <div class="row ">
+                            <div class="col-md-6 alert alert-primary d-flex align-items-center p-4 shadow-lg border border-2 border-primary rounded-4" role="alert" style="background: #e9f4ff;">
+                                <i class="fas fa-cloud-upload-alt fa-2x me-4 text-primary pulse-icon"></i>
+                                <div>
+                                    <h5 class="mb-2 fw-bold text-primary">📤 Ready to submit?</h5>
+                                    <p class="mb-2">
+                                        Click below to upload your
+                                        <span class="text-decoration-underline fw-semibold">2024/2025 Tax Documents</span>.
+                                    </p>
+                                    <button class="btn btn-primary btn-lg px-4 py-2" id="uploadDoc-btn">
+                                        <i class="fas fa-upload me-2"></i> Upload Documents
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 guid-line">
+
+                                <div>Required Documents for Upload (as applicable)</div>
+                                <ul>
+                                    <li><i class="bi bi-check"></i>APIT / PAYE – T10 Certificate (Employment income)</li>
+                                    <li><i class="bi bi-check"></i>Bank Confirmation Letters – Savings, Current, Fixed Deposits, Credit Cards, Lease, Loan, WHT certificates </li>
+                                    <li><i class="bi bi-check"></i>Rent Income Evidence – Rent agreements, receipts, or statements</li>
+                                    <li><i class="bi bi-check"></i>Investment / Dividend Statements – Including unit trusts, share dividends, treasury bills, etc.</li>
+                                    <li><i class="bi bi-check"></i>Foreign Income Proof – Payslips, remittance advice, bank credit notices </li>
+                                    <li><i class="bi bi-check"></i>Solar Panel Purchase &amp; Donation Receipts – If claiming relevant reliefs</li>
+                                    <li><i class="bi bi-check"></i>Tax Payment Evidence – Payment receipts and IRD acknowledgements</li>
+                                    <li><i class="bi bi-check"></i>Any Other Supporting Documents relevant for tax filing (e.g., previous year’s tax return,) </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -474,9 +489,9 @@
                     <div class="mt-4 document-guidelines">
                         <h5><i class="fas fa-info-circle text-secondary me-2"></i>Document Guidelines</h5>
                         <ul class="text-muted">
-                            <li>Accepted formats: <strong>PDF, JPG, PNG</strong></li>
-                            <li>Maximum size per file: <strong>5MB</strong></li>
-                            <li>Include all necessary forms and receipts for the selected tax year</li>
+                            <li><strong>Accepted formats: <strong>PDF, JPG, PNG</strong></strong></li>
+                            <li><strong>Maximum size per file: <strong>5MB</strong></strong></li>
+                            <li>Privacy: Files are encrypted in transit and at rest. Only your assigned tax advisor can view them.</li>
                         </ul>
                     </div>
 
@@ -1320,19 +1335,19 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Cash in hand</label>
-                                        <input type="number" class="form-control" name="CashInHand" />
+                                        <input type="text" class="form-control numeric-input" name="CashInHand" />
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Loans given / Receivables</label>
-                                        <input type="number" class="form-control" name="LoansGiven" />
+                                        <input type="text" class="form-control numeric-input" name="LoansGiven" />
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Value of Gold, Silver, Gems, Jewellery</label>
-                                        <input type="number" class="form-control" name="JewelleryValue" />
+                                        <input type="text" class="form-control numeric-input" name="JewelleryValue" />
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Disposal of assets</label>
-                                        <input type="text" class="form-control" name="AssetDisposals" />
+                                        <input type="text" class="form-control numeric-input" name="AssetDisposals" />
                                     </div>
                                 </div>
                             </div>
@@ -1341,18 +1356,18 @@
                             <div class="p-4 border rounded bg-light shadow-sm mb-4">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Expenses Details</h6>
                                 <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label">Living Expenses</label><input type="number" class="form-control" name="LivingExpenses" /></div>
-                                    <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="number" class="form-control" name="EPF8Percent" /></div>
-                                    <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="number" class="form-control" name="FixedDeductions" /></div>
-                                    <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="number" class="form-control" name="ChildrenEducation" /></div>
-                                    <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="number" class="form-control" name="VehicleExpenses" /></div>
-                                    <div class="col-md-6"><label class="form-label">Medical Expenses</label><input type="number" class="form-control" name="MedicalExpenses" /></div>
-                                    <div class="col-md-6"><label class="form-label">Loan Re-Payments</label><input type="number" class="form-control" name="LoanRepayments" /></div>
-                                    <div class="col-md-6"><label class="form-label">Credit Card Payments</label><input type="number" class="form-control" name="CreditCardPayments" /></div>
-                                    <div class="col-md-6"><label class="form-label">House Rent</label><input type="number" class="form-control" name="HouseRent" /></div>
-                                    <div class="col-md-6"><label class="form-label">Donation</label><input type="number" class="form-control" name="Donations" /></div>
-                                    <div class="col-md-6"><label class="form-label">Life/Medical Insurance Premium</label><input type="number" class="form-control" name="InsurancePremium" /></div>
-                                    <div class="col-md-6"><label class="form-label">Any Other Expenses</label><input type="text" class="form-control" name="OtherExpenses" /></div>
+                                    <div class="col-md-6"><label class="form-label">Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" /></div>
+                                    <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
+                                    <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="text" class="form-control numeric-input" name="FixedDeductions" /></div>
+                                    <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="text" class="form-control numeric-input" name="ChildrenEducation" /></div>
+                                    <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="text" class="form-control numeric-input" name="VehicleExpenses" /></div>
+                                    <div class="col-md-6"><label class="form-label">Medical Expenses</label><input type="text" class="form-control numeric-input" name="MedicalExpenses" /></div>
+                                    <div class="col-md-6"><label class="form-label">Loan Re-Payments</label><input type="text" class="form-control numeric-input" name="LoanRepayments" /></div>
+                                    <div class="col-md-6"><label class="form-label">Credit Card Payments</label><input type="text" class="form-control numeric-input" name="CreditCardPayments" /></div>
+                                    <div class="col-md-6"><label class="form-label">House Rent</label><input type="text" class="form-control numeric-input" name="HouseRent" /></div>
+                                    <div class="col-md-6"><label class="form-label">Donation</label><input type="text" class="form-control numeric-input" name="Donations" /></div>
+                                    <div class="col-md-6"><label class="form-label">Life/Medical Insurance Premium</label><input type="text" class="form-control numeric-input" name="InsurancePremium" /></div>
+                                    <div class="col-md-6"><label class="form-label">Any Other Expenses</label><input type="text" class="form-control numeric-input" name="OtherExpenses" /></div>
                                 </div>
                             </div>
 
@@ -1588,7 +1603,7 @@
                     globalUploadCount++;
                     $('#globalUploadCount').text(globalUploadCount);
                     
-                    if(globalUploadCount == 1)
+                    if(globalUploadCount > 0)
                     {
                            const payload = {
                                 userId: userId,
@@ -2112,7 +2127,13 @@
                            const label = div.querySelector('label.form-label');
                            const input = div.querySelector('input');
                            if (label && input && label.innerText.trim() === detail.category) {
-                             input.value = detail.value;
+                            // input.value = detail.value;
+                                if (!isNaN(detail.value)) {
+                                    input.value = Number(detail.value).toLocaleString('en-US');
+                                } else {
+                                    input.value = detail.value; // fallback if not a number
+                                }
+
                              if (docStatus === "2") {
                                  input.disabled = true;
                              }
@@ -2513,7 +2534,9 @@
                     // bank confirmation
                     const hasBankConfirmation = docs.some(d => d.categoryName === "Bank Confirmation");
                     setStatus("bankConfirmationStatus", hasBankConfirmation);
-                     if (hasBankConfirmation) completed++;
+                     if (hasBankConfirmation) {
+                         completed++;
+                     }
 
                     // assets
                     const hasAssets = docs.some(d =>
@@ -2584,7 +2607,10 @@
                         el.textContent = "Missing";
                         el.className = "text-danger";
                     }
+                    //setStepsIndicatorProgress(elementId);
                 }
+
+                   
 
                      function renderDocsTable(categoryFilter = null) {
                         let tableBody;
@@ -2671,8 +2697,8 @@
 
                         const formData = new FormData();
                         formData.append("filename", fileName); // Match the API's expected field
-                        formData.append("decryptionKey", decryptionKey);
-                        formData.append("userId",userId);
+                        formData.append("decryptionKey", decryptionKey);                        
+                        formData.append("year", new Date().getFullYear().toString());
 
                         const viewRes = await fetch("https://file.taxfiling.lk/view", {
                             method: "POST",
@@ -2681,7 +2707,9 @@
                             },
                             body: JSON.stringify({
                                 filename: fileName,
-                                decryptionKey: decryptionKey
+                                decryptionKey: decryptionKey,
+                                userId : userId,
+                                year : new Date().getFullYear().toString()
                             })
 
                         });
@@ -2775,7 +2803,8 @@
                       async function deleteFilefromServer(uploadId) {
 
                           try {
-                                const response = await fetch(`https://file.taxfiling.lk/file/${uploadId}/${userId}`, {
+                                let year = new Date().getFullYear();
+                                const response = await fetch(`https://file.taxfiling.lk/file/${uploadId}/${userId}/${year}`, {
                                   method: "DELETE"
                               });
 
@@ -2862,6 +2891,8 @@
                                          if(data.success){
                                                  document.getElementById("docUploadStatus").value = status;
                                                    acceptCheckbox.disabled = true;
+                                                   
+
                                                  if (badge) {
                                                    badge.innerText = "SUBMITTED";
                                                    badge.className = "badge bg-success";
@@ -2911,6 +2942,11 @@
                                               //alert("Your Documents submitted successfully");
                                                 showMessage("Your Documents submitted successfully and Tax admins are contact you ASAP!", "success");
                                                printBtn.disabled = false;
+                                               const steps = document.querySelectorAll('.taxAssistedSteps span');
+                                               if (!steps.length) return;
+                                                  steps[5].classList.add('completed');
+                                                  steps[6].classList.add('completed');
+
 
 
                                          }
@@ -3000,7 +3036,7 @@
                                         <tr>
                                             <td>${otherTbody.children().length + 1}</td>
                                             <td>${doc.category}</td>
-                                            <td>${doc.value}</td>
+                                                  <td>${Number(doc.value).toLocaleString('en-US')}</td>
                                             <td class="no-wrap">${doc.createdDate.split("T")[0]}</td>
                                         </tr>
                                     `;
@@ -3039,8 +3075,12 @@
 
                 }
 
+                 
+
                      //page load
                 document.addEventListener("DOMContentLoaded", function () {
+
+                
 
                    const checkboxes = document.querySelectorAll(".checkbox-lg");
                    const removeBtn = document.getElementById("btnRemoveDraft");
@@ -3091,26 +3131,53 @@
                                else
                                {
                                                updateProgressHeader(yearText, statusText, newStatusClass);
-                                            updateChecklistStatuses(allDocs,docStatus);
+                                                  updateChecklistStatuses(allDocs,parseInt(document.getElementById("docUploadStatus").value, 10));
                                                   const bar = document.getElementById("progressBar");
                                               if (bar) {
                                                   bar.style.width = progress + "%";
                                                   bar.textContent = progress + "%";
                                               }
-                                               if(docStatus == 1 || docStatus == 0)
+                                                  if(parseInt(document.getElementById("docUploadStatus").value, 10) == 1)
                                             {
-                                                   btnContinue.style.display = "block";
-                                                   btnRemoveDft.style.display = "block";
-                                                      btnUploadDocs.style.display = "block";
-                                                         btnViewSubmittedDocs.style.display = "none";
+                                                   if(btnContinue)
+                                                           btnContinue.style.display = "block";
+                                                    if(btnUploadDocs)
+                                                            btnUploadDocs.style.display = "block";
+                                                    if(btnRemoveDft)
+                                                           btnRemoveDft.style.display = "block";
+                                                    if(btnViewSubmittedDocs)
+                                                       btnViewSubmittedDocs.style.display = "none";
+                                                   
 
                                             }
-                                               else if(docStatus == 2)
+                                               else if(parseInt(document.getElementById("docUploadStatus").value, 10) == 0)
+                                            {
+                                                   if(btnContinue)
+                                                              btnContinue.style.display = "block";
+                                                         if(btnUploadDocs)
+                                                               btnUploadDocs.style.display = "block";
+               
+                                                       if(btnRemoveDft)
+                                                              btnRemoveDft.style.display = "none";
+                                                       if(btnViewSubmittedDocs)
+                                                          btnViewSubmittedDocs.style.display = "none";
+                                                  
+
+                                            }
+                                                  else if(parseInt(document.getElementById("docUploadStatus").value, 10) == 2)
                                                {
-                                                          btnViewSubmittedDocs.style.display = "block";
-                                                             btnContinue.style.display = "none";
-                                                         btnRemoveDft.style.display = "none";
-                                                            btnUploadDocs.style.display = "none";
+
+                                                   if(btnContinue)
+                                                              btnContinue.style.display = "none";
+                                                         if(btnUploadDocs)
+                                                               btnUploadDocs.style.display = "none";
+               
+                                                       if(btnRemoveDft)
+                                                              btnRemoveDft.style.display = "none";
+                                                       if(btnViewSubmittedDocs)
+                                                             btnViewSubmittedDocs.style.display = "block";
+
+                                                       
 
                                                }
                                                   
@@ -3123,6 +3190,28 @@
 
                         updateRemoveBtn();
                     });
+                });
+
+                            // Allow only numeric input
+                $(".numeric-input").on("keypress", function(e) {
+                    var charCode = (e.which) ? e.which : e.keyCode;
+                    // Allow numbers, backspace, delete
+                    if (charCode != 8 && charCode != 46 && (charCode < 48 || charCode > 57)) {
+                        e.preventDefault();
+                    }
+                });
+
+                // Auto-format number on blur (e.g., 1000 → 1,000)
+                $(".numeric-input").on("blur", function() {
+                    var value = $(this).val().replace(/,/g, '');
+                    if(value) {
+                        $(this).val(Number(value).toLocaleString('en-US'));
+                    }
+                });
+
+                // Remove formatting on focus for easy editing
+                $(".numeric-input").on("focus", function() {
+                    $(this).val($(this).val().replace(/,/g, ''));
                 });
 
                 // Initial state: disable remove button until a valid row is selected
@@ -3508,6 +3597,11 @@
                         selectedCategoryName = 'T10'; //firstButton.innerText.trim();
                     }
 
+                    //scroll to top of the page
+                     $("#start-btn, #btnContinue, #btnNext, #btnAssestsNext, #btnDocNext,#btnOtherNext, #btnDeclareNext,#btnOtherPrevious,#btnAssetsPrevious, #btnBankPrevious, #btnEmployementPrevious, #btnPrevious,#btnDocPrevious, #linkTaxPayerNext,#divSummaryAssistedNext,#linkTaxPayerContinue").on("click", function () {
+                         $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    }); 
+
                     const startBtn = document.getElementById("start-btn");
                     const btnContinue = document.getElementById("btnContinue");
                     [startBtn, btnContinue].forEach(btn => {
@@ -3683,18 +3777,38 @@
                             const formData = new FormData();
                             formData.append("file", selectedFile);
                             formData.append("userId", userId);
+                            formData.append("year", new Date().getFullYear().toString());
 
-                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
 
-                            if (!uploadRes.ok) throw new Error("External upload failed");
+                           // if (!uploadRes.ok) 
+                            //{
+                              //  showMessage("❌ Failed to upload document - " + uploadRes.error, "danger");
+                                //throw new Error("External upload failed");
+                           // }
 
                             const uploadResult = await uploadRes.json();
 
                             if (!uploadResult.success || !uploadResult.data) {
-                                throw new Error("Upload failed: " + uploadResult.message);
+                                  // throw new Error("Upload failed: " + uploadResult.error);
+                                showMessage("❌ Failed to upload document - " + uploadResult.error, "danger");
+                                    selectedFile = null;
+                                const fileInput = document.getElementById("fileInput");
+                                if (fileInput) fileInput.value = "";
+                                   const fileInputTerminal = document.getElementById("fileInputTerminal");
+                                   if (fileInputTerminal) fileInputTerminal.value = "";
+                                const fileInputAnyOther = document.getElementById("fileInputAnyOther");
+                                   if (fileInputAnyOther) fileInputAnyOther.value = "";
+
+                                let el;
+                              (el = document.getElementById("T10EmployerName")) && (el.value = "");
+                                 (el = document.getElementById("TerminalEmployerName")) && (el.value = "");
+                              (el = document.getElementById("AnyOtherType")) && (el.selectedIndex = 0);
+                                return;
+                                    // throw new Error("Upload failed: " + uploadResult.error);
                             }
 
                             const data = uploadResult.data;
@@ -3819,19 +3933,36 @@
                             // 1. Upload to external API
                             const formData = new FormData();
                             formData.append("file", selectedFile);
-                               formData.append("userId", userId);
+                            formData.append("userId", userId);
+                            formData.append("year", new Date().getFullYear().toString());
 
                             const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
 
-                            if (!uploadRes.ok) throw new Error("External upload failed");
+                            //if (!uploadRes.ok) throw new Error("External upload failed");
 
                             const uploadResult = await uploadRes.json();
 
                             if (!uploadResult.success || !uploadResult.data) {
-                                throw new Error("Upload failed: " + uploadResult.message);
+                                showMessage("❌ Failed to upload document - " + uploadResult.error, "danger");
+                                selectedFile = null;
+                               document.getElementById("BankConfirmationType").selectedIndex = 0;
+                               //document.getElementById("BankName").value = "";
+                               //$('#BankName').val(null).trigger('change');
+                               $("#bankInput").val("");
+                               $("#bank_id").val("");
+                               $("#branchInput").val("").prop("disabled", true).attr("placeholder", "Select a bank first");
+                               $("#branch_code, #branch_name").val("");
+                               $("#branchDropdown").hide();
+                               $("#bankDropdown").hide();
+
+                               selectedBank = null;
+                               highlightedBranchIndex = -1;
+                               document.getElementById("fileInputBank").value = "";
+                                return;
+                                //throw new Error("Upload failed: " + uploadResult.message);
                             }
 
                             const data = uploadResult.data;
@@ -3956,7 +4087,8 @@
                                // 1. Upload to external API
                                const formData = new FormData();
                                formData.append("file", selectedFile);
-                                  formData.append("userId", userId);
+                               formData.append("userId", userId);
+                               formData.append("year", new Date().getFullYear().toString());
 
                                const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                    method: "POST",
@@ -4064,19 +4196,25 @@
                             // 1. Upload to external API
                             const formData = new FormData();
                             formData.append("file", selectedFile);
-                               formData.append("userId", userId);
+                            formData.append("userId", userId);
+                            formData.append("year", new Date().getFullYear().toString());
 
                             const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
 
-                            if (!uploadRes.ok) throw new Error("External upload failed");
+                           // if (!uploadRes.ok) throw new Error("External upload failed");
 
                             const uploadResult = await uploadRes.json();
 
                             if (!uploadResult.success || !uploadResult.data) {
-                                throw new Error("Upload failed: " + uploadResult.message);
+                                showMessage("❌ Failed to upload document - " + uploadResult.error, "danger");
+                                   selectedFile = null;
+                               document.getElementById("otherDocName").value = "";
+                               document.getElementById("fileInputOther").value = "";
+                                return;
+                                //throw new Error("Upload failed: " + uploadResult.message);
                             }
 
                             const data = uploadResult.data;

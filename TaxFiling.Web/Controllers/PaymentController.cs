@@ -14,6 +14,16 @@ using System.Xml.Linq;
 using System.Text;
 using System.Web.Helpers;
 using System.Security.Cryptography;
+using System.IO.Pipelines;
+using Microsoft.AspNetCore.Http.Json;
+using System.Transactions;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+
 
 namespace TaxFiling.Web.Controllers;
 
@@ -37,10 +47,10 @@ public class PaymentController : Controller
     }
     public async Task<IActionResult> PackagePayment(int packageId, CancellationToken ctx)
     {
-       
+
 
         PackagesViewModel package = new();
-      
+
 
         if (packageId != null)
         {
@@ -64,14 +74,63 @@ public class PaymentController : Controller
     }
 
     [HttpPost("StartPayment")]
-    public async Task<IActionResult> StartPayment(int packageId,decimal Price)
+    public async Task<IActionResult> StartPayment(int packageId, decimal Price)
     {
+        UserViewModel user = new();
+        //get user details
+        var userId = User.FindFirst("UserID")?.Value;
+        var userApiUrl = $"{_baseApiUrl}api/users/getuser?id={userId}";
+
+        var userResponse = await _httpClient.GetAsync(userApiUrl);
+        if (!userResponse.IsSuccessStatusCode)
+        {
+            return BadRequest("Failed to fetch user details.");
+        }
+
+        var userJson = await userResponse.Content.ReadAsStringAsync();
+        if (!string.IsNullOrWhiteSpace(userJson))
+        {
+            user = JsonSerializer.Deserialize<UserViewModel>(userJson, _jsonSerializerOptions) ?? new();
+        }
+
+        var transaction = new Models.UserTransactions
+        {
+            UserId = userId,  // or from session
+            PackageId = packageId,
+            TransactionAmount = Price,
+            TransactionStatus = 0,        // Pending
+            Currency = "LKR",
+            TransactionCreatedDate = DateTime.Now,
+            OnePayStatus = false
+        };
+
+        var transjson = JsonSerializer.Serialize(transaction, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        });
+
+        var OrderResponse = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/UserTransactions/SaveTransaction", transaction);
+
+        if (!OrderResponse.IsSuccessStatusCode)
+        {
+            return StatusCode(500, "Failed to create transaction");
+        }
+
+        var responseContent = await OrderResponse.Content.ReadAsStringAsync();
+        var jsonDoc = JsonDocument.Parse(responseContent);
+        int orderId = jsonDoc.RootElement.GetProperty("orderId").GetInt32();
+
+        string orderNumber = "ORDTAX-" + orderId;
+
         var client = _httpClientFactory.CreateClient();
 
-        string appId = "L2PV11908FB6E4139D0E3";
+        string appId = "3EMG1190963FE17A92690";
         string currency = "LKR";
         string amount = Price.ToString();
-        string hashSalt = "AOOP11908FB6E4139D12F"; // provided by OnePay
+        string hashSalt = "DLCY1190963FE17A926B9"; // provided by OnePay
+        string authorization = "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE";
+
 
         string input = appId + currency + amount + hashSalt;
 
@@ -79,23 +138,25 @@ public class PaymentController : Controller
 
         var paymentRequest = new
         {
-            currency = "LKR",
-            app_id = "L2PV11908FB6E4139D0E3",
+
+            currency = currency,
+            app_id = appId,
             hash = hash,
             amount = Price.ToString(),
-            reference = "REF1750077420233",
-            customer_first_name = "testTax",
-            customer_last_name = "test",
-            customer_phone_number = "0123456789",
-            customer_email = "mayusuneth@gmail.com",
-            transaction_redirect_url = "https://localhost:7108/Payment/PackageSuccessPage?packageId=" + packageId,
-            additionalData = "SubscriptionPlan_1"
+            reference = orderNumber, //"REF1750077420233",
+            customer_first_name = user.FirstName,
+            customer_last_name = user.LastName,
+            customer_phone_number = user.Phone,
+            customer_email = user.Email,
+            transaction_redirect_url = Url.Action("PackageSuccessPage", "Payment", new { PackageId = packageId, reference = orderNumber }, Request.Scheme),//"https://localhost:7108/Payment/PackageSuccessPage?packageId=" + packageId,
+            additionalData = "additional"
         };
 
         var json = JsonSerializer.Serialize(paymentRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        client.DefaultRequestHeaders.Add("Authorization", "48be272c6152110cfa5be401c59e15d6aead47d3830c388e3ff082b6c1ef5eeef58f8fa57daf9fda.JK9J11908FB75441D06A3");
+
+        client.DefaultRequestHeaders.Add("Authorization", authorization);
 
         var response = await client.PostAsync("https://api.onepay.lk/v3/checkout/link/", content);
         var responseBody = await response.Content.ReadAsStringAsync();
@@ -119,7 +180,10 @@ public class PaymentController : Controller
                             .GetProperty("ipg_transaction_id")
                             .GetString();
 
-        return View("PaymentIframe", model: redirectUrl);
+        HttpContext.Session.SetString("LastTransactionId", transaction_id);
+
+        // return View("PaymentIframe", model: redirectUrl);
+        return Redirect(redirectUrl);
         //  return Json(new { redirectUrl });       
     }
     static string ComputeSha256Hash(string rawData)
@@ -137,33 +201,201 @@ public class PaymentController : Controller
         }
     }
 
-    public async Task<IActionResult> PackageSuccessPage(int packageId, CancellationToken ctx)
+    [HttpGet]
+    public async Task<IActionResult> PackageSuccessPage(int PackageId, string reference)
     {
+        // Save PackageId and reference for the view
+        ViewBag.PackageId = PackageId;
+        ViewBag.Reference = reference;
 
+        // Get transaction ID from session
+        string transactionId = HttpContext.Session.GetString("LastTransactionId");
+        if (string.IsNullOrEmpty(transactionId))
+            return View("Error");
 
-        PackagesViewModel package = new();
+        // Prepare OnePay request
+        string url = "https://api.onepay.lk/v3/transaction/status/";
+        string appId = "3EMG1190963FE17A92690";
+        string authorization = "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE";
 
-
-        if (packageId != null)
+        var requestBody = new
         {
-            var queryParams = new Dictionary<string, string?> {
-                { "id", packageId.ToString()}
-            };
+            app_id = appId,
+            onepay_transaction_id = transactionId
+        };
 
-            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/packeges/get", queryParams);
-            var response = await _httpClient.GetAsync(url, ctx);
-            if (response != null && response.IsSuccessStatusCode)
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", authorization);
+        using var content = JsonContent.Create(requestBody);
+
+        // Call OnePay API
+        var response = await client.PostAsync(url, content);
+        if (!response.IsSuccessStatusCode)
+            return View("Error");
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+        var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var onePayResponse = JsonSerializer.Deserialize<OnePayResponseModel>(responseJson, jsonOptions);
+
+        if (onePayResponse == null)
+            return View("Error");
+
+        // Extract order ID from reference
+        var orderId = reference.Substring(7);
+
+        // Update transaction status via API
+        var updateTransaction = new
+        {
+            OrderId = orderId,
+            OnePayTransactionId = onePayResponse.data.ipg_transaction_id,
+            OnePayStatus = onePayResponse.data.status,
+            OnePayPaidOn = onePayResponse.data.paid_on,
+            OnePayTransactionRequestDatetime = onePayResponse.data.transaction_request_datetime,
+            PackageId = PackageId
+        };
+
+        var updateResponse = await client.PostAsJsonAsync(
+            $"{_baseApiUrl}api/UserTransactions/UpdatePaymentStatus",
+            updateTransaction
+        );
+
+        if (!updateResponse.IsSuccessStatusCode)
+            return View("Error");
+
+        // If payment failed, redirect to fail page
+        if (!onePayResponse.data.status)
+            return RedirectToAction("PackageFailPage", "Payment", new { orderId , PackageId});
+
+        // Fetch transaction details from API
+        var orderDataResponse = await client.GetAsync($"{_baseApiUrl}api/UserTransactions/GetTransactionById/{orderId}");
+        if (!orderDataResponse.IsSuccessStatusCode)
+            return View("Error");
+
+        var jsonOrderData = await orderDataResponse.Content.ReadAsStringAsync();
+        var transaction = JsonSerializer.Deserialize<UserTransactionViewModel>(jsonOrderData, jsonOptions);
+
+        if (transaction == null)
+            return View("Error");
+
+        // ✅ Refresh Claims with IsActivePayment updated
+        var userId = User.FindFirst("UserID")?.Value;
+        if (!string.IsNullOrEmpty(userId))
+        {
+            // Get latest user data from API
+            var userResponse = await client.GetAsync($"{_baseApiUrl}api/Users/getuser?id={userId}");
+            if (userResponse.IsSuccessStatusCode)
             {
-                var responseContent = await response.Content.ReadAsStringAsync(ctx);
-                if (!string.IsNullOrWhiteSpace(responseContent))
+                var jsonUser = await userResponse.Content.ReadAsStringAsync();
+                var user = JsonSerializer.Deserialize<UserViewModel>(jsonUser, jsonOptions);
+
+                if (user != null)
                 {
-                    package = JsonSerializer.Deserialize<PackagesViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+                    var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                    new Claim("UserID", user.UserId.ToString()),
+                    new Claim("IsTin", user.IsTin.ToString()),
+                    new Claim("IsActivePayment", user.IsActivePayment.ToString()), // ✅ updated
+                    new Claim("ProfileImagePath", user.ProfileImagePath ?? string.Empty),
+                    new Claim("PackageId", PackageId.ToString()),
+                    new Claim("UserUploadDocStatus","0"),
+                    new Claim("TinNo", user.TinNo),
+                    new Claim("RoleId", user.UserRoleId.ToString() )
+                };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        "AuthCookie",
+                        new ClaimsPrincipal(claimsIdentity),
+                        new AuthenticationProperties { IsPersistent = true }
+                    );
                 }
             }
         }
 
-        return View(package);
+        // Return success view with transaction data
+        return View(transaction);
     }
 
-    
+
+    public async Task<IActionResult> DownloadReceipt(int orderId)
+    {
+        // Fetch transaction details
+        var response = await _httpClient.GetAsync($"{_baseApiUrl}api/UserTransactions/GetTransactionById/{orderId}");
+        if (!response.IsSuccessStatusCode)
+            return NotFound();
+
+        var json = await response.Content.ReadAsStringAsync();
+        var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var transaction = JsonSerializer.Deserialize<UserTransactionViewModel>(json, jsonOptions);
+
+        if (transaction == null)
+            return NotFound();
+
+        // Create PDF
+        using var memoryStream = new MemoryStream();
+        var document = new Document(PageSize.A4, 40, 40, 40, 40);
+        var writer = PdfWriter.GetInstance(document, memoryStream);
+        document.Open();
+
+        // Add title
+        var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 20);
+        var heading = new Paragraph("Payment Receipt", titleFont) { Alignment = Element.ALIGN_CENTER };
+        document.Add(heading);
+
+        document.Add(new Paragraph("\n")); // spacing
+
+        // Add status
+        var statusFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.Green);
+        if (transaction.TransactionStatus != 1)
+            statusFont.Color = BaseColor.Red;
+
+        var statusText = transaction.TransactionStatus == 1 ? "Payment Success" : "Payment Failed";
+        var statusParagraph = new Paragraph(statusText, statusFont) { Alignment = Element.ALIGN_CENTER };
+        document.Add(statusParagraph);
+
+        document.Add(new Paragraph("\n")); // spacing
+
+        // Add transaction info table
+        PdfPTable table = new PdfPTable(2) { WidthPercentage = 100 };
+        table.SetWidths(new float[] { 1, 2 }); // Column widths
+
+        void AddCell(string label, string value)
+        {
+            var boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+            var regularFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+            table.AddCell(new PdfPCell(new Phrase(label, boldFont)) { Border = Rectangle.NO_BORDER });
+            table.AddCell(new PdfPCell(new Phrase(value, regularFont)) { Border = Rectangle.NO_BORDER });
+        }
+
+        AddCell("Order ID:", transaction.OrderId.ToString());
+        AddCell("Order Number:", transaction.OrderNumber);
+        AddCell("User Full Name:", transaction.UserFullName ?? "-");
+        AddCell("Package Name:", transaction.PackageName ?? "-");
+        AddCell("Amount:", $"{transaction.Currency} {transaction.TransactionAmount}");
+        AddCell("Created On:", transaction.TransactionCreatedDate.ToString("yyyy-MM-dd HH:mm"));
+        AddCell("Paid On:", transaction.OnePayPaidOn ?? "-");
+        AddCell("OnePay Transaction ID:", transaction.OnePayTransactionId ?? "-");
+        AddCell("Status:", transaction.TransactionStatus == 1 ? "Success" : "Failed");
+
+        document.Add(table);
+
+        // Optional: Add footer or thank you note
+        document.Add(new Paragraph("\nThank you for your payment!", FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 12)));
+
+        document.Close();
+
+        byte[] fileBytes = memoryStream.ToArray();
+        return File(fileBytes, "application/pdf", $"Receipt_{transaction.OrderId}.pdf");
+    }
+
+    public IActionResult PackageFailPage(int orderId, int packageId)
+    {
+        ViewBag.OrderId = orderId;
+        ViewBag.PackageId = packageId;
+        return View();
+    }
+
+
 }

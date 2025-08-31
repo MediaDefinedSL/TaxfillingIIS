@@ -537,6 +537,7 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
                     content.Add(fileContent, "file", file.FileName);  // Adjust 'files' key if needed by external API
                     content.Add(new StringContent(asset.UserId.ToString()), "userId");
+                    content.Add(new StringContent(DateTime.Now.Year.ToString()), "year");
 
                     var response = await httpClient.PostAsync("https://file.taxfiling.lk/upload", content);
 		

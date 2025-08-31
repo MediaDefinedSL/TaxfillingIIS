@@ -1,0 +1,29 @@
+﻿@using System.Security.Claims
+@model TaxFiling.Web.Models.UserTransactionViewModel
+
+@{   
+    var orderId = ViewBag.OrderId;
+    var packageId = ViewBag.PackageId;
+}
+
+
+<main class="main">
+
+    <div class="container text-center mt-5">
+        <div class="alert alert-danger p-4 rounded shadow-sm">
+            <h2 class="text-danger">❌ Payment Failed</h2>
+            <p>Your payment for <strong>Order ID: @orderId</strong> could not be processed.</p>
+            <p>Please try again or contact support if the issue persists.</p>
+        </div>
+
+        <div class="mt-4">
+            <a href="/Payment/PackagePayment?packageId=@packageId" class="btn btn-primary">
+                🔄 Retry Payment
+            </a>
+            <a href="/" class="btn btn-secondary">
+                🏠 Back to Home
+            </a>
+        </div>
+    </div>
+
+</main>

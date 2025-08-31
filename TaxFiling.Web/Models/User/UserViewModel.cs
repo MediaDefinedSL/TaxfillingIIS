@@ -28,5 +28,6 @@ public class UserViewModel
     public string BeforeProfileImagePath { get; set; }
 
     public IFormFile? ProfileImage { get; set; }
+    public int? taxAssistedUserUploadDocsStatus { get; set; }
 
 }

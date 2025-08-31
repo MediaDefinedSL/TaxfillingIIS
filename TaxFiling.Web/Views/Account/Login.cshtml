@@ -31,7 +31,8 @@
                            
                             </div>
 
-                            <p class=" pb-sm-0">I forgot my <a class="text-muted link-info" href="#!"> username</a> or<a class="text-muted link-info" href="#!"> password</a></p>
+                            @* <p class=" pb-sm-0">I forgot my <a class="text-muted link-info" href="#!"> username</a> or<a class="text-muted link-info" href="#!"> password</a></p>*@
+                            <p class="pb-sm-0">I forgot my <a asp-controller="Account" asp-action="ForgotPassword" class="text-muted link-info">password</a></p>
                             <p>I'm new. <a asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewBag.returnUrl" class="link-info">I want to create an account</a></p>
                             @* <input type="hidden" name="ReturnUrl" value="@Context.Request.Query[" returnurl"]"=""> *@
                             <input type="hidden" name="ReturnUrl" id="ReturnUrl" value="@ViewBag.returnUrl">
