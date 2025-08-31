@@ -31,4 +31,9 @@ public interface ISelfOnlineFlowRepository
     Task<bool> SaveSelfOnlineInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDto selfOnlineInvestmentIncom);
     Task<List<SelfOnlineInvestmentIncomeDto>> GetSelfOnlineInvestmentIncomeList(string userId, int year, CancellationToken ctx);
     Task<bool> DeleteInvestmentIncomeDetail(string userId, int year, int investmentIncomeId, string categoryName);
+
+    //----------InvestmentIncome new 
+    Task<bool> SaveSelfOnlineInvestmentDetails(SelfOnlineInvestmentIncomeDetailDto selfOnlineInvestmentIncomeDetail);
+    Task<List<SelfOnlineInvestmentIncomeDetailDto>> GetSelfOnlineInvestmentIncomeDetailsList(string userId, int year, CancellationToken ctx);
+    Task<bool> DeleteSelfOnlineInvestmentDetails(string userId, int year, int investmentIncomeId, string categoryName);
 }
