@@ -159,7 +159,7 @@ public sealed class AccountController : Controller
             else if (isActivePayment== "1" && (!string.IsNullOrWhiteSpace(packageId) && !string.IsNullOrWhiteSpace(packageId)))
             {
                 
-                 if (packageId == "1" || packageId == "4")
+                 if (packageId == "1" || packageId == "2" || packageId == "3" ||  packageId == "4" || packageId == "5" || packageId == "6")
                 {
                     return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/SelfOnlineFlow/SelfOnlineDashboard" });
                 }
@@ -345,13 +345,15 @@ public sealed class AccountController : Controller
             var result = await SignIn(loginModel) as IActionResult;
 
             if (result != null)
-                return Ok("Password reset successful! Redirecting to dashboard...");
+            {
+                return Ok(new { success = true, message = "Password reset successful! Redirecting to dashboard..." });
+            }
 
-            return Ok("Password reset successful, but auto-login failed. Please login manually.");
+            return Ok(new { success = true, message = "Password reset successful, but auto-login failed. Please login manually." });
         }
 
         var errorContent = await response.Content.ReadAsStringAsync();
-        return BadRequest($"Something went wrong: {errorContent}");
+        return BadRequest(new { success = false, message = $"Something went wrong: {errorContent}" });
     }
 
 
