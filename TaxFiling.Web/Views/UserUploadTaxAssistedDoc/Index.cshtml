@@ -3779,17 +3779,36 @@
                             formData.append("userId", userId);
                             formData.append("year", new Date().getFullYear().toString());
 
-                                     const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
                                 method: "POST",
                                 body: formData
                             });
 
-                            if (!uploadRes.ok) throw new Error("External upload failed");
+                           // if (!uploadRes.ok) 
+                            //{
+                              //  showMessage("❌ Failed to upload document - " + uploadRes.error, "danger");
+                                //throw new Error("External upload failed");
+                           // }
 
                             const uploadResult = await uploadRes.json();
 
                             if (!uploadResult.success || !uploadResult.data) {
-                                throw new Error("Upload failed: " + uploadResult.message);
+                                  // throw new Error("Upload failed: " + uploadResult.error);
+                                showMessage("❌ Failed to upload document - " + uploadResult.error, "danger");
+                                    selectedFile = null;
+                                const fileInput = document.getElementById("fileInput");
+                                if (fileInput) fileInput.value = "";
+                                   const fileInputTerminal = document.getElementById("fileInputTerminal");
+                                   if (fileInputTerminal) fileInputTerminal.value = "";
+                                const fileInputAnyOther = document.getElementById("fileInputAnyOther");
+                                   if (fileInputAnyOther) fileInputAnyOther.value = "";
+
+                                let el;
+                              (el = document.getElementById("T10EmployerName")) && (el.value = "");
+                                 (el = document.getElementById("TerminalEmployerName")) && (el.value = "");
+                              (el = document.getElementById("AnyOtherType")) && (el.selectedIndex = 0);
+                                return;
+                                    // throw new Error("Upload failed: " + uploadResult.error);
                             }
 
                             const data = uploadResult.data;
@@ -3922,12 +3941,28 @@
                                 body: formData
                             });
 
-                            if (!uploadRes.ok) throw new Error("External upload failed");
+                            //if (!uploadRes.ok) throw new Error("External upload failed");
 
                             const uploadResult = await uploadRes.json();
 
                             if (!uploadResult.success || !uploadResult.data) {
-                                throw new Error("Upload failed: " + uploadResult.message);
+                                showMessage("❌ Failed to upload document - " + uploadResult.error, "danger");
+                                selectedFile = null;
+                               document.getElementById("BankConfirmationType").selectedIndex = 0;
+                               //document.getElementById("BankName").value = "";
+                               //$('#BankName').val(null).trigger('change');
+                               $("#bankInput").val("");
+                               $("#bank_id").val("");
+                               $("#branchInput").val("").prop("disabled", true).attr("placeholder", "Select a bank first");
+                               $("#branch_code, #branch_name").val("");
+                               $("#branchDropdown").hide();
+                               $("#bankDropdown").hide();
+
+                               selectedBank = null;
+                               highlightedBranchIndex = -1;
+                               document.getElementById("fileInputBank").value = "";
+                                return;
+                                //throw new Error("Upload failed: " + uploadResult.message);
                             }
 
                             const data = uploadResult.data;
@@ -4169,12 +4204,17 @@
                                 body: formData
                             });
 
-                            if (!uploadRes.ok) throw new Error("External upload failed");
+                           // if (!uploadRes.ok) throw new Error("External upload failed");
 
                             const uploadResult = await uploadRes.json();
 
                             if (!uploadResult.success || !uploadResult.data) {
-                                throw new Error("Upload failed: " + uploadResult.message);
+                                showMessage("❌ Failed to upload document - " + uploadResult.error, "danger");
+                                   selectedFile = null;
+                               document.getElementById("otherDocName").value = "";
+                               document.getElementById("fileInputOther").value = "";
+                                return;
+                                //throw new Error("Upload failed: " + uploadResult.message);
                             }
 
                             const data = uploadResult.data;
