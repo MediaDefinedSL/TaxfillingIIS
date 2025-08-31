@@ -310,16 +310,24 @@ public sealed class AccountController : Controller
     public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
     {
         if (!ModelState.IsValid)
-            return View(model);
-        
+        {
+            // Return all validation errors as a single string for AJAX
+            var errors = ModelState
+         .Where(kvp => kvp.Value.Errors.Count > 0)
+         .ToDictionary(
+             kvp => kvp.Key,
+             kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+         );
 
-        using var client = new HttpClient(); 
+            return BadRequest(errors);
+        }
+
+        using var client = new HttpClient();
         var apiUrl = $"{_baseApiUrl}api/users/reset-password";
 
         var body = new
         {
             email = model.Email,
-            // token = model.Token,
             newPassword = model.Password
         };
 
@@ -331,22 +339,19 @@ public sealed class AccountController : Controller
             var loginModel = new LoginModel
             {
                 Username = model.Email,
-                Password = model.Password
+                Password = model.Password // raw password, API will verify hash
             };
 
-            // Call SignIn internally
             var result = await SignIn(loginModel) as IActionResult;
 
-            // If SignIn returns success, redirect to dashboard/home
-            return RedirectToAction("Index", "Home");
+            if (result != null)
+                return Ok("Password reset successful! Redirecting to dashboard...");
 
-            ViewBag.Error = "Password reset successful, but auto login failed. Please login manually.";
-            return View(model);
+            return Ok("Password reset successful, but auto-login failed. Please login manually.");
         }
 
         var errorContent = await response.Content.ReadAsStringAsync();
-        ViewBag.Error = $"Something went wrong: {errorContent}";
-        return View(model);
+        return BadRequest($"Something went wrong: {errorContent}");
     }
 
 
