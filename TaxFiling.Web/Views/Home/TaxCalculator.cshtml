@@ -1,5 +1,4 @@
 ﻿
-
 <main class="cal">
 
     <div class="container">
@@ -103,85 +102,121 @@
   </div>
             </div>
             <div class="tab-pane fade  cal-foreing" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="wrap Domestic">
-    <h1 class="h1">Tax Calculator effective from <span style="white-space:nowrap">01.04.2025</span></h1>
-    <p class="subtitle">Calculate <strong>PAYE / APIT</strong> on your <strong>Local Salary</strong> (Sri Lanka)</p>
-    <p class="muted" style="text-align:center;max-width:760px;margin:0 auto 24px">This tool computes the tax on monthly employment income using the revised rates from 01.04.2025. Enter your <strong>monthly income</strong> to see the tax and slab-wise breakdown.
-    </p>
+                <div class="page foreing">
+  <h1>Foreign Employment & Overseas Income – APIT Table 8 (Effective 01.04.2025)</h1>
 
+  <div class="grid g-2">
+    <!-- Inputs -->
     <div class="card">
-      <div class="panel">
-        <h2 style="text-align:center;margin:0 0 8px">Local Tax Calculator</h2>
-
+      <div class="grid g-3">
         <div>
-          <label for="monthlyIncome">Monthly Income (LKR)</label>
-          <input id="monthlyIncome" class="input" inputmode="numeric" placeholder="e.g., 250,000" />
-          <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div>
+          <label>Period</label>
+          <select id="period">
+            <option value="monthly" selected>Monthly</option>
+            <option value="annual">Annual</option>
+          </select>
         </div>
-
-        <div class="grid">
-          <div class="tile">
-            <h4>Monthly Income (LKR)</h4>
-            <div class="big" id="outMonthlyIncome">Rs. 0</div>
-            <div class="muted" style="margin-top:8px">Monthly Tax (LKR)</div>
-            <div class="big" id="outMonthlyTax">Rs. 0.00</div>
-          </div>
-          <div class="tile">
-            <h4>Annual Income (LKR)</h4>
-            <div class="big" id="outAnnualIncome">Rs. 0</div>
-            <div class="muted" style="margin-top:8px">Annual Tax (LKR)</div>
-            <div class="big" id="outAnnualTax">Rs. 0.00</div>
-          </div>
+        <div>
+          <label>Salary in Foreign Currency</label>
+          <input id="salaryFC" type="number" step="0.01" value="3000">
         </div>
-
-        <div class="tile" style="background:#fff">
-          <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px">
-            <div>
-              <strong>Monthly Salary (Annual / 12)</strong>
-              <span class="tag" title="Tax-free monthly relief">Relief: Rs <span id="reliefTag">150,000</span></span>
-            </div>
-          </div>
-
-          <div class="tableWrap">
-            <table aria-describedby="breakdown">
-              <thead>
-                <tr>
-                  <th>Band</th>
-                  <th>Rate (%)</th>
-                  <th>Taxable (LKR)</th>
-                  <th>Tax (LKR)</th>
-                </tr>
-              </thead>
-              <tbody id="rows01"></tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="3">Monthly Total</td>
-                  <td id="monthlyTotal">Rs. 0.00</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+        <div>
+          <label>FX Rate (LKR per 1 FC unit)</label>
+          <input id="fx" type="number" step="0.0001" value="305">
         </div>
+      </div>
 
-        <div style="text-align:center">
-          <button id="resetBtn" class="btn" type="button" aria-label="Reset calculator">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            Reset Calculator
-          </button>
+      <div class="grid g-3" style="margin-top:12px">
+        <div>
+          <label>Salary in LKR (auto)</label>
+          <input id="salaryLKR" type="number" step="0.01" value="915000" disabled>
         </div>
+        <div>
+          <label>Personal Relief (LKR)</label>
+          <input id="relief" type="number" step="0.01" value="150000">
+          <div class="foot">Tip: Monthly 150,000 → Annual 1,800,000.</div>
+        </div>
+        <div>
+          <label>Rounding</label>
+          <select id="round">
+            <option value="nearest" selected>Nearest Rupee</option>
+            <option value="down">Round Down</option>
+            <option value="up">Round Up</option>
+          </select>
+        </div>
+      </div>
 
-                            <p class="note" style="margin:6px 2px 0">
-                                Assumptions: relief of <strong>Rs 1,800,000</strong> per year (Rs 150,000 monthly).
-                                Post-relief bands (annual): next 1,000,000 @@ 6%;
-                                next 1,500,000 @@ 18%;
-                                next 1,500,000 @@ 24%;
-                                next 1,500,000 @@ 30%;
-                                balance @@ 36%.
-                                You can change bands in code easily.
-                            </p>
+      <div class="grid" style="margin-top:14px">
+        <div class="pill">Eligibility (Table 8) – ensure all true:</div>
+        <ul class="muted" style="margin:8px 0 0 18px;line-height:1.35">
+          <li>Employer is <b>outside Sri Lanka</b> (no PE/branch in SL).</li>
+          <li>Services are <b>utilized outside Sri Lanka</b>.</li>
+          <li>Salary is <b>paid in foreign currency</b> and <b>remitted via a licensed Sri Lankan bank</b>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Slabs -->
+    <div class="card">
+      <div class="right">
+        <button class="btn secondary" id="addSlab">+ Add slab</button>
+        <button class="btn secondary" id="resetSlabs">Reset to Table 8</button>
+      </div>
+      <div class="foot">Define slabs from lowest upwards. Last row “Above” applies to the balance.</div>
+      <table id="slabTable" style="margin-top:8px">
+        <thead>
+          <tr>
+            <th>Upto (LKR)</th>
+            <th>Rate</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="slabs"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card" style="margin-top:16px">
+    <div class="grid g-3">
+      <div><div class="muted">Gross Income</div><div class="big mono" id="rGross">—</div></div>
+      <div><div class="muted">Taxable (after relief)</div><div class="big mono" id="rTaxable">—</div></div>
+      <div><div class="muted">Monthly/Annual Tax</div><div class="big mono" id="rTax">—</div></div>
+    </div>
+    <div class="grid" style="margin-top:10px">
+      <table id="breakdown">
+        <thead>
+          <tr>
+            <th>Slab</th>
+            <th>Taxable in Slab (LKR)</th>
+            <th>Rate</th>
+            <th>Tax (LKR)</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+        <tfoot>
+          <tr>
+            <th colspan="3" style="text-align:right">Total Tax</th>
+            <th id="sumTax" class="mono">—</th>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="grid g-3">
+        <div><div class="muted">Annual Tax Liability</div><div class="big mono" id="rAnnual">—</div></div>
+        <div><div class="muted">Effective Tax Rate</div><div class="big mono" id="rEff">—</div></div>
+        <div style="align-self:end;text-align:right">
+          <button class="btn" id="recalc">Recalculate</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <p class="foot">
+    Notes: This tool computes APIT for Table 8 based on the slabs you set. Tax is calculated on
+    <i>Taxable Income = Gross Income − Relief</i>. Results are informational only.
+  </p>
+</div>
+
 
             </div>
             <div class="tab-pane fade active show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
