@@ -22,6 +22,7 @@ public class SelfOnlineFlowPersonalInformationDto
     public string? Nationality { get; set; }
     public string? Occupation { get; set; }
     public string? EmployerName { get; set; }
+    public int? NumberOfDependents { get; set; }
     public string? Address { get; set; }
     public string? Gender { get; set; }
     public string? CareOf { get; set; }

@@ -8,6 +8,7 @@ public class SelfOnlineInvestmentIncomeDto
     public int SelfOnlineInvestmentId { get; set; }
     public string UserId { get; set; }
     public int Year { get; set; }
+    public string TransactionType { get; set; }
     public string Category { get; set; }
     public string InvestmentIncomeType { get; set; }
 

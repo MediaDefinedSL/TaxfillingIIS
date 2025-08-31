@@ -7,6 +7,7 @@ public class MaritalStatusViewModel
     public int Id { get; set; }
     public string Name { get; set; }
     public string ImageUrl { get; set; }
+    public int? NumberOfDependents { get; set; }
     public string SpouseFullName { get; set; }
     public string SpouseTINNo { get; set; }
     public string SpouseNIC { get; set; }
