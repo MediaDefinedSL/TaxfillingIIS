@@ -1,4 +1,6 @@
-﻿<main class="cal">
+﻿
+
+<main class="cal">
 
     <div class="container">
         <br>
@@ -18,173 +20,169 @@
         </ul>
         <div class="tab-content mt-3" id="myTabContent">
             <div class="tab-pane fade domestic " id="home" role="tabpanel" aria-labelledby="home-tab">
-             <div class="wrap">
-    <h1>Tax Calculator effective from 01.04.2025</h1>
-    <div class="sub">Calculate <b>PAYE / APIT</b> on your local monthly salary in LKR.</div>
+            
 
-    <div class="container">
-      <div class="title">Local Tax Calculator</div>
+ <div class="wrap Domestic">
+    <h1 class="h1">Tax Calculator effective from <span style="white-space:nowrap">01.04.2025</span></h1>
+    <p class="subtitle">Calculate <strong>PAYE / APIT</strong> on your <strong>Local Salary</strong> (Sri Lanka)</p>
+    <p class="muted" style="text-align:center;max-width:760px;margin:0 auto 24px">This tool computes the tax on monthly employment income using the revised rates from 01.04.2025. Enter your <strong>monthly income</strong> to see the tax and slab-wise breakdown.
+    </p>
 
-      <div class="grid">
-        <!-- Left column: inputs + stats -->
+    <div class="card">
+      <div class="panel">
+        <h2 style="text-align:center;margin:0 0 8px">Local Tax Calculator</h2>
+
         <div>
-          <label for="income">Monthly Income (LKR)</label>
-          <input id="income" type="text" inputmode="numeric" placeholder="e.g. 250,000" />
+          <label for="monthlyIncome">Monthly Income (LKR)</label>
+          <input id="monthlyIncome" class="input" inputmode="numeric" placeholder="e.g., 250,000" />
+          <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div>
+        </div>
 
-          <div class="two">
-            <div class="stat">
-              <div class="k">Monthly Income (LKR)</div>
-              <div id="monIncome" class="v">–</div>
-              <div class="muted">Monthly Tax (LKR): <b id="monTax">–</b></div>
-            </div>
-            <div class="stat">
-              <div class="k">Annual Income (LKR)</div>
-              <div id="annIncome" class="v">–</div>
-              <div class="muted">Annual Tax (LKR): <b id="annTax">–</b></div>
+        <div class="grid">
+          <div class="tile">
+            <h4>Monthly Income (LKR)</h4>
+            <div class="big" id="outMonthlyIncome">Rs. 0</div>
+            <div class="muted" style="margin-top:8px">Monthly Tax (LKR)</div>
+            <div class="big" id="outMonthlyTax">Rs. 0.00</div>
+          </div>
+          <div class="tile">
+            <h4>Annual Income (LKR)</h4>
+            <div class="big" id="outAnnualIncome">Rs. 0</div>
+            <div class="muted" style="margin-top:8px">Annual Tax (LKR)</div>
+            <div class="big" id="outAnnualTax">Rs. 0.00</div>
+          </div>
+        </div>
+
+        <div class="tile" style="background:#fff">
+          <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px">
+            <div>
+              <strong>Monthly Salary (Annual / 12)</strong>
+              <span class="tag" title="Tax-free monthly relief">Relief: Rs <span id="reliefTag">150,000</span></span>
             </div>
           </div>
 
-          <div class="actions">
-            <button id="reset" class="ghost">Reset Calculator</button>
-            <button id="example" class="primary">Use Example (250,000)</button>
+          <div class="tableWrap">
+            <table aria-describedby="breakdown">
+              <thead>
+                <tr>
+                  <th>Band</th>
+                  <th>Rate (%)</th>
+                  <th>Taxable (LKR)</th>
+                  <th>Tax (LKR)</th>
+                </tr>
+              </thead>
+              <tbody id="rows01"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3">Monthly Total</td>
+                  <td id="monthlyTotal">Rs. 0.00</td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
-          @* <div class="hint">Bands used after monthly relief of Rs. 150,000: First ~83,333 @ 6%, next ~41,667 @ 18%, next ~41,667 @ 24%, next ~41,667 @ 30%, balance @ 36%.</div> *@
         </div>
 
-        <!-- Right column: breakdown -->
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Monthly Salary (Annual/12)</th>
-                <th>Rate (%)</th>
-                <th>Tax</th>
-              </tr>
-            </thead>
-            <tbody id="rows">
-              <tr><td colspan="3" style="color:#cbd8e6">Enter a monthly income to see the breakdown.</td></tr>
-            </tbody>
-          </table>
+        <div style="text-align:center">
+          <button id="resetBtn" class="btn" type="button" aria-label="Reset calculator">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Reset Calculator
+          </button>
         </div>
+
+                            <p class="note" style="margin:6px 2px 0">
+                                Assumptions: relief of <strong>Rs 1,800,000</strong> per year (Rs 150,000 monthly).
+                                Post-relief bands (annual): next 1,000,000 @@ 6%;
+                                next 1,500,000 @@ 18%;
+                                next 1,500,000 @@ 24%;
+                                next 1,500,000 @@ 30%;
+                                balance @@ 36%.
+                                You can change bands in code easily.
+                            </p>
       </div>
     </div>
   </div>
             </div>
             <div class="tab-pane fade  cal-foreing" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="page foreing">
-  <h1>Foreign Employment & Overseas Income – APIT Table 8 (Effective 01.04.2025)</h1>
+                <div class="wrap Domestic">
+    <h1 class="h1">Tax Calculator effective from <span style="white-space:nowrap">01.04.2025</span></h1>
+    <p class="subtitle">Calculate <strong>PAYE / APIT</strong> on your <strong>Local Salary</strong> (Sri Lanka)</p>
+    <p class="muted" style="text-align:center;max-width:760px;margin:0 auto 24px">This tool computes the tax on monthly employment income using the revised rates from 01.04.2025. Enter your <strong>monthly income</strong> to see the tax and slab-wise breakdown.
+    </p>
 
-  <div class="grid g-2">
-    <!-- Inputs -->
     <div class="card">
-      <div class="grid g-3">
-        <div>
-          <label>Period</label>
-          <select id="period">
-            <option value="monthly" selected>Monthly</option>
-            <option value="annual">Annual</option>
-          </select>
-        </div>
-        <div>
-          <label>Salary in Foreign Currency</label>
-          <input id="salaryFC" type="number" step="0.01" value="3000">
-        </div>
-        <div>
-          <label>FX Rate (LKR per 1 FC unit)</label>
-          <input id="fx" type="number" step="0.0001" value="305">
-        </div>
-      </div>
+      <div class="panel">
+        <h2 style="text-align:center;margin:0 0 8px">Local Tax Calculator</h2>
 
-      <div class="grid g-3" style="margin-top:12px">
         <div>
-          <label>Salary in LKR (auto)</label>
-          <input id="salaryLKR" type="number" step="0.01" value="915000" disabled>
+          <label for="monthlyIncome">Monthly Income (LKR)</label>
+          <input id="monthlyIncome" class="input" inputmode="numeric" placeholder="e.g., 250,000" />
+          <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div>
         </div>
-        <div>
-          <label>Personal Relief (LKR)</label>
-          <input id="relief" type="number" step="0.01" value="150000">
-          <div class="foot">Tip: Monthly 150,000 → Annual 1,800,000.</div>
-        </div>
-        <div>
-          <label>Rounding</label>
-          <select id="round">
-            <option value="nearest" selected>Nearest Rupee</option>
-            <option value="down">Round Down</option>
-            <option value="up">Round Up</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="grid" style="margin-top:14px">
-        <div class="pill">Eligibility (Table 8) – ensure all true:</div>
-        <ul class="muted" style="margin:8px 0 0 18px;line-height:1.35">
-          <li>Employer is <b>outside Sri Lanka</b> (no PE/branch in SL).</li>
-          <li>Services are <b>utilized outside Sri Lanka</b>.</li>
-          <li>Salary is <b>paid in foreign currency</b> and <b>remitted via a licensed Sri Lankan bank</b>.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Slabs -->
-    <div class="card">
-      <div class="right">
-        <button class="btn secondary" id="addSlab">+ Add slab</button>
-        <button class="btn secondary" id="resetSlabs">Reset to Table 8</button>
-      </div>
-      <div class="foot">Define slabs from lowest upwards. Last row “Above” applies to the balance.</div>
-      <table id="slabTable" style="margin-top:8px">
-        <thead>
-          <tr>
-            <th>Upto (LKR)</th>
-            <th>Rate</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="slabs"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Results -->
-  <div class="card" style="margin-top:16px">
-    <div class="grid g-3">
-      <div><div class="muted">Gross Income</div><div class="big mono" id="rGross">—</div></div>
-      <div><div class="muted">Taxable (after relief)</div><div class="big mono" id="rTaxable">—</div></div>
-      <div><div class="muted">Monthly/Annual Tax</div><div class="big mono" id="rTax">—</div></div>
-    </div>
-    <div class="grid" style="margin-top:10px">
-      <table id="breakdown">
-        <thead>
-          <tr>
-            <th>Slab</th>
-            <th>Taxable in Slab (LKR)</th>
-            <th>Rate</th>
-            <th>Tax (LKR)</th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-        <tfoot>
-          <tr>
-            <th colspan="3" style="text-align:right">Total Tax</th>
-            <th id="sumTax" class="mono">—</th>
-          </tr>
-        </tfoot>
-      </table>
-      <div class="grid g-3">
-        <div><div class="muted">Annual Tax Liability</div><div class="big mono" id="rAnnual">—</div></div>
-        <div><div class="muted">Effective Tax Rate</div><div class="big mono" id="rEff">—</div></div>
-        <div style="align-self:end;text-align:right">
-          <button class="btn" id="recalc">Recalculate</button>
+        <div class="grid">
+          <div class="tile">
+            <h4>Monthly Income (LKR)</h4>
+            <div class="big" id="outMonthlyIncome">Rs. 0</div>
+            <div class="muted" style="margin-top:8px">Monthly Tax (LKR)</div>
+            <div class="big" id="outMonthlyTax">Rs. 0.00</div>
+          </div>
+          <div class="tile">
+            <h4>Annual Income (LKR)</h4>
+            <div class="big" id="outAnnualIncome">Rs. 0</div>
+            <div class="muted" style="margin-top:8px">Annual Tax (LKR)</div>
+            <div class="big" id="outAnnualTax">Rs. 0.00</div>
+          </div>
         </div>
+
+        <div class="tile" style="background:#fff">
+          <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px">
+            <div>
+              <strong>Monthly Salary (Annual / 12)</strong>
+              <span class="tag" title="Tax-free monthly relief">Relief: Rs <span id="reliefTag">150,000</span></span>
+            </div>
+          </div>
+
+          <div class="tableWrap">
+            <table aria-describedby="breakdown">
+              <thead>
+                <tr>
+                  <th>Band</th>
+                  <th>Rate (%)</th>
+                  <th>Taxable (LKR)</th>
+                  <th>Tax (LKR)</th>
+                </tr>
+              </thead>
+              <tbody id="rows01"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3">Monthly Total</td>
+                  <td id="monthlyTotal">Rs. 0.00</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <button id="resetBtn" class="btn" type="button" aria-label="Reset calculator">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Reset Calculator
+          </button>
+        </div>
+
+                            <p class="note" style="margin:6px 2px 0">
+                                Assumptions: relief of <strong>Rs 1,800,000</strong> per year (Rs 150,000 monthly).
+                                Post-relief bands (annual): next 1,000,000 @@ 6%;
+                                next 1,500,000 @@ 18%;
+                                next 1,500,000 @@ 24%;
+                                next 1,500,000 @@ 30%;
+                                balance @@ 36%.
+                                You can change bands in code easily.
+                            </p>
       </div>
     </div>
   </div>
 
-  <p class="foot">
-    Notes: This tool computes APIT for Table 8 based on the slabs you set. Tax is calculated on
-    <i>Taxable Income = Gross Income − Relief</i>. Results are informational only.
-  </p>
-</div>
             </div>
             <div class="tab-pane fade active show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="sheet">
@@ -550,124 +548,7 @@
 </script>
 
 
-
-
- <script>
-
-    // ===== Domestic Employment (APIT / PAYE) =====
-    // ===== CONFIG (monthly amounts) =====
-    const RELIEF_MONTHLY = 150000; // tax-free monthly relief
-    // Monthly equivalents of annual slabs (1,000,000; 500k; 500k; 500k; balance)
-    const CAP1 = 1000000/12; // ~83,333.33 at 6%
-    const CAP2 =  500000/12; // ~41,666.67 at 18%
-    const CAP3 =  500000/12; // ~41,666.67 at 24%
-    const CAP4 =  500000/12; // ~41,666.67 at 30%
-
-    const SLABS = [
-      { cap: CAP1, rate: 6 },
-      { cap: CAP2, rate: 18 },
-      { cap: CAP3, rate: 24 },
-      { cap: CAP4, rate: 30 },
-      { cap: Infinity, rate: 36 }
-    ];
-
-    // ===== Helpers =====
-    const fmt = n => (isFinite(n) ? n.toLocaleString("en-LK", {maximumFractionDigits: 2}) : "–");
-    const digits = s => s.replace(/[^\d.]/g, "");
-
-    function parseMoney(v){
-      const n = Number(digits(String(v)));
-      return isNaN(n) ? 0 : n;
-    }
-
-    function calcMonthlyTax(monthIncome){
-      const rows = [];
-      // Relief row (not taxed)
-      rows.push({ label: `Up to ${fmt(RELIEF_MONTHLY)}`, rateLabel: 'Relief', tax: 0 });
-
-      const taxable = Math.max(0, monthIncome - RELIEF_MONTHLY);
-      let remaining = taxable;
-      let total = 0;
-      let previous = 0;
-
-      for(const s of SLABS){
-        if(remaining <= 0) break;
-        const band = Math.min(remaining, s.cap);
-        const t = band * (s.rate/100);
-        total += t;
-        const pretty = previous === 0 ? `First ${fmt(Math.round(CAP1))} LKR` : (s.cap === Infinity ? `Balance` : `Next ${fmt(Math.round(s.cap))} LKR`);
-        rows.push({ label: pretty, rateLabel: s.rate + '%', tax: t });
-        previous += band;
-        remaining -= band;
-      }
-
-      return { rows, total };
-    }
-
-    // ===== UI =====
-    const elIncome   = document.getElementById('income');
-    const elMonInc   = document.getElementById('monIncome');
-    const elAnnInc   = document.getElementById('annIncome');
-    const elMonTax   = document.getElementById('monTax');
-    const elAnnTax   = document.getElementById('annTax');
-    const elRows     = document.getElementById('rows');
-    const elReset    = document.getElementById('reset');
-    const elExample  = document.getElementById('example');
-
-    function render(){
-      const income = parseMoney(elIncome.value);
-      if(!income){
-        elMonInc.textContent = '–';
-        elAnnInc.textContent = '–';
-        elMonTax.textContent = '–';
-        elAnnTax.textContent = '–';
-        elRows.innerHTML = `<tr><td colspan="3" style="color:#cbd8e6">Enter a monthly income to see the breakdown.</td></tr>`;
-        return;
-      }
-
-      elIncome.value = fmt(income);
-
-      const { rows, total } = calcMonthlyTax(income);
-
-      elMonInc.textContent = 'Rs. ' + fmt(income);
-      elAnnInc.textContent = 'Rs. ' + fmt(income * 12);
-      elMonTax.textContent = 'Rs. ' + fmt(total);
-      elAnnTax.textContent = 'Rs. ' + fmt(total * 12);
-
-      let html = '';
-      rows.forEach(r=>{
-        html += `<tr><td>${r.label}</td><td>${r.rateLabel}</td><td>Rs. ${fmt(r.tax)}</td></tr>`;
-      });
-      html += `<tr class="tr-total"><td><strong>Monthly Total</strong></td><td></td><td><strong>Rs. ${fmt(total)}</strong></td></tr>`;
-      elRows.innerHTML = html;
-    }
-
-    // Events
-    elIncome.addEventListener('input', () => {
-      const pos = elIncome.selectionStart;
-      elIncome.value = digits(elIncome.value);
-      elIncome.setSelectionRange(pos, pos);
-    });
-    elIncome.addEventListener('change', render);
-    elIncome.addEventListener('blur', render);
-
-    elReset.addEventListener('click', ()=>{
-      elIncome.value = '';
-      render();
-      elIncome.focus();
-    });
-    elExample.addEventListener('click', ()=>{
-      elIncome.value = '250000';
-      render();
-    });
-
-    // initial
-    render();
-  </script>
-
-
   <script>
-   // ---- Foreign Income ----
   // ---- state helpers ----
   const fmt = n => (isFinite(n) ? n.toLocaleString('en-LK', {maximumFractionDigits:0}) : '—');
   const fmt2 = n => (isFinite(n) ? n.toLocaleString('en-LK', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—');
@@ -817,3 +698,122 @@
   // Init
   renderSlabs(); calc();
 </script>
+
+ <script>
+    // =================== Configuration ===================
+    // Annual slabs effective 01.04.2025 (editable)
+    // Each item: [bandAmountAnnual, rate]
+    const CONFIG = {
+      reliefAnnual: 1_800_000, // tax-free allowance per year
+      slabs: [
+        [1_000_000, 0.06], // 6%
+        [1_500_000, 0.18], // 18%
+        [1_500_000, 0.24], // 24%
+        [1_500_000, 0.30], // 30%
+        [Infinity, 0.36],  // 36%
+      ],
+    };
+
+    // =================== Helpers ===================
+    const fmt5 = new Intl.NumberFormat("en-LK", { maximumFractionDigits: 2 });
+    const fmt50 = new Intl.NumberFormat("en-LK");
+
+    function parseMoneyToNumber(v){
+      if(typeof v !== 'string') return Number(v)||0;
+      return Number(v.replace(/[^0-9.]/g, '')) || 0;
+    }
+
+    function splitSlabsMonthly(monthlyIncome){
+      const annual = monthlyIncome * 12;
+      const reliefMonthly = CONFIG.reliefAnnual / 12;
+      const taxableMonthly = Math.max(0, monthlyIncome - reliefMonthly);
+
+      // Convert annual slabs to monthly sizes
+      const monthlySlabs = CONFIG.slabs.map(([amt, rate]) => [
+        (amt === Infinity ? Infinity : amt/12), rate
+      ]);
+
+      const rows01 = [];
+      let remaining = taxableMonthly;
+      let idx = 0;
+      while(remaining > 0 && idx < monthlySlabs.length){
+        const [bandSize, rate] = monthlySlabs[idx];
+        const used = Math.min(remaining, bandSize);
+        const tax = used * rate;
+        rows01.push({
+          label: idx===0 ? `First ${fmt50.format(Math.floor(bandSize))} LKR` : (bandSize===Infinity? `Balance` : `Next ${fmt50.format(Math.floor(bandSize))} LKR`),
+          ratePct: rate*100,
+          amount: used,
+          tax,
+        });
+        remaining -= used;
+        idx++;
+      }
+      return {
+        annual,
+        reliefMonthly,
+        taxableMonthly,
+        rows01,
+      };
+    }
+
+    function updateUI(){
+      const inputEl = document.getElementById('monthlyIncome');
+      const monthly = parseMoneyToNumber(inputEl.value);
+
+      const { annual, rows01 } = splitSlabsMonthly(monthly);
+      const monthlyTax = rows01.reduce((s,r)=>s+r.tax,0);
+      const annualTax = monthlyTax*12;
+
+      // Numbers panel
+      document.getElementById('outMonthlyIncome').textContent = `Rs. ${fmt50.format(Math.round(monthly))}`;
+      document.getElementById('outAnnualIncome').textContent = `Rs. ${fmt50.format(Math.round(annual))}`;
+      document.getElementById('outMonthlyTax').textContent = `Rs. ${fmt5.format(monthlyTax)}`;
+      document.getElementById('outAnnualTax').textContent = `Rs. ${fmt5.format(annualTax)}`;
+
+      // Relief tag
+      document.getElementById('reliefTag').textContent = fmt50.format(CONFIG.reliefAnnual/12);
+
+      // Table rows01
+      const tbody = document.getElementById('rows01');
+      tbody.innerHTML = '';
+      if(monthly <= CONFIG.reliefAnnual/12){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>Up to ${fmt50.format(CONFIG.reliefAnnual/12)}</td><td>Relief</td><td>–</td><td>–</td>`;
+        tbody.appendChild(tr);
+      } else {
+        // Relief row
+        const tr0 = document.createElement('tr');
+        tr0.innerHTML = `<td>Up to ${fmt50.format(CONFIG.reliefAnnual/12)}</td><td>Relief</td><td>–</td><td>–</td>`;
+        tbody.appendChild(tr0);
+
+        rows01.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${r.label}</td><td>${r.ratePct.toFixed(0)}%</td><td>Rs. ${fmt50.format(Math.round(r.amount))}</td><td>Rs. ${fmt5.format(r.tax)}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('monthlyTotal').textContent = `Rs. ${fmt5.format(monthlyTax)}`;
+    }
+
+    // =================== Events ===================
+    const input = document.getElementById('monthlyIncome');
+    input.addEventListener('input', (e)=>{
+      // keep user's typing while still allowing commas
+      const pos = e.target.selectionStart;
+      updateUI();
+      // Try to preserve caret position
+      requestAnimationFrame(()=>{ e.target.selectionStart = e.target.selectionEnd = pos; });
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      input.value = '';
+      updateUI();
+      input.focus();
+    });
+
+    // Demo value
+    input.value = '250,000';
+    updateUI();
+  </script>
