@@ -216,7 +216,7 @@ public class PaymentController : Controller
         // Prepare OnePay request
         string url = "https://api.onepay.lk/v3/transaction/status/";
         string appId = "3EMG1190963FE17A92690";
-        string authorization = "YOUR_ONEPAY_AUTH_KEY";
+        string authorization = "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE";
 
         var requestBody = new
         {
