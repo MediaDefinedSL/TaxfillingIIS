@@ -25,6 +25,14 @@ catch (Exception ex)
 }
 
 builder.Host.UseSerilog();
+builder.Services.AddDistributedMemoryCache(); // Needed for session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -100,6 +108,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection(); // ✅ Redirect HTTP to HTTPS
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 

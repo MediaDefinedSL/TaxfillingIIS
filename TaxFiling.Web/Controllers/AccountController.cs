@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Web.Helpers;
 using System.Web.WebPages;
 using TaxFiling.Web.Models;
 using TaxFiling.Web.Models.Auth;
@@ -84,6 +86,7 @@ public sealed class AccountController : Controller
 
         var client = _httpClientFactory.CreateClient();
         var response = await client.PostAsJsonAsync($"{_baseApiUrl}api/auth/login", loginModel);
+       // var response = await client.PostAsJsonAsync($"https://localhost:7119/api/auth/login", loginModel);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -156,7 +159,7 @@ public sealed class AccountController : Controller
             else if (isActivePayment== "1" && (!string.IsNullOrWhiteSpace(packageId) && !string.IsNullOrWhiteSpace(packageId)))
             {
                 
-                 if (packageId == "1" || packageId == "4")
+                 if (packageId == "1" || packageId == "2" || packageId == "3" ||  packageId == "4" || packageId == "5" || packageId == "6")
                 {
                     return Json(new { success = true, returnUrl = loginModel.ReturnUrl ?? $"/SelfOnlineFlow/SelfOnlineDashboard" });
                 }
@@ -238,5 +241,121 @@ public sealed class AccountController : Controller
         return Json(new { responseResult });
 
     }
+
+    [HttpGet]
+    public IActionResult ForgotPassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        using var client = new HttpClient();
+
+        // API endpoint
+        var apiUrl = "https://mail.taxfiling.lk/generate-reset-link";
+
+        // API body (must match your expected parameter name: username)
+        var body = new { username = model.Email };
+
+        var response = await client.PostAsJsonAsync(apiUrl, body);
+
+        if (response.IsSuccessStatusCode)
+        {
+            ViewBag.Message = "We sent a reset link to your email.";
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            ViewBag.Error = $"Something went wrong. Server says: {error}";
+        }
+
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ResetPassword(string token, string email)
+    {
+        //https://taxfilling.lk/Account/ResetPassword?token=XYZ123&email=user@example.com
+        //var model = new ResetPasswordModel { Token = token, Email = email };
+        //return View(model);
+
+        if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
+        {
+            ViewBag.Error = "Invalid reset link.";
+            return View("ResetPasswordInvalid"); // Optional: create a separate view for invalid links
+        }
+
+        using var client = new HttpClient();
+        var apiUrl = $"https://mail.taxfiling.lk/validatetoken/{token}";
+
+        // Call API to validate token
+        var response = await client.GetAsync(apiUrl);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            ViewBag.Error = "Reset token is invalid or has expired.";
+            return View("ResetPasswordInvalid"); // Optional: create a separate view for invalid tokens
+        }
+
+        var model = new ResetPasswordModel { Token = token, Email = email };
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            // Return all validation errors as a single string for AJAX
+            var errors = ModelState
+         .Where(kvp => kvp.Value.Errors.Count > 0)
+         .ToDictionary(
+             kvp => kvp.Key,
+             kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+         );
+
+            return BadRequest(errors);
+        }
+
+        using var client = new HttpClient();
+        var apiUrl = $"{_baseApiUrl}api/users/reset-password";
+
+        var body = new
+        {
+            email = model.Email,
+            newPassword = model.Password
+        };
+
+        var response = await client.PostAsJsonAsync(apiUrl, body);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // --- Auto login by calling existing SignIn method ---
+            var loginModel = new LoginModel
+            {
+                Username = model.Email,
+                Password = model.Password // raw password, API will verify hash
+            };
+
+            var result = await SignIn(loginModel) as IActionResult;
+
+            if (result != null)
+            {
+                return Ok(new { success = true, message = "Password reset successful! Redirecting to dashboard..." });
+            }
+
+            return Ok(new { success = true, message = "Password reset successful, but auto-login failed. Please login manually." });
+        }
+
+        var errorContent = await response.Content.ReadAsStringAsync();
+        return BadRequest(new { success = false, message = $"Something went wrong: {errorContent}" });
+    }
+
+
 }
 
