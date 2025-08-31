@@ -1,6 +1,6 @@
 ﻿$(function () {
 
-    $('#linkTaxPayerContinue').on('click', function () {
+    $('#linkLastyearContinue').on('click', function () {
 
         var selectedId = $("input[name='imgbackground']:checked").val();
 
@@ -34,7 +34,7 @@
         }
     });
 
-    $('#linkTaxPayerNext').on('click', function () {
+    $('#linkLastyearNext').on('click', function () {
        
         $.ajax({
             url: '/SelfOnlineFlow/LoadMaritalStatus',

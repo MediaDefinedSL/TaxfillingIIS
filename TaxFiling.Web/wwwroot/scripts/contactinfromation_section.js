@@ -1,6 +1,6 @@
 ﻿$(function () {
 
-    $('#linkTaxPayerContinue').on('click', function () {
+    $('#linkContactInformationrContinue').on('click', function () {
         let careOf = $("#CareOf").val();
         let apt = $("#Apt").val();
         let streetNumber = $("#StreetNumber").val();
