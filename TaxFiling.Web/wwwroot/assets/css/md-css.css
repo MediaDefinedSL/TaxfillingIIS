@@ -4835,3 +4835,16 @@ div#myTabContent.tab-content.mt-3 {
 .row.contact-detalis .social-links i:hover {
     font-size: 20px !important;
 }
+
+/* Move validation messages below the input */
+span.field-validation-error {
+    display: block; /* force new line */
+    margin-top: 5px; /* spacing */
+    color: #dc3545; /* bootstrap danger color */
+    font-size: 0.875rem; /* smaller font */
+}
+
+/* Optional: prevent messages from stretching too wide */
+span.field-validation-error {
+    max-width: 100%;
+}
