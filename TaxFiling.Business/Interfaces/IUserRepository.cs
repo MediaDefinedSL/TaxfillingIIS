@@ -25,5 +25,7 @@ public interface IUserRepository
     Task<bool> updateProfileImage(string userId, string profileImagePath);
     Task<bool> UpdateUserUploadedDocumentStatus(Guid userId, int? userUploadedDocStatus);
     Task<int?> GetLatestUploadedDocumentStatusAsync(Guid userId);
+
+    Task<bool> UpdatePasswordAsync(string email, string newPassword);
 }
 
