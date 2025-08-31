@@ -1,0 +1,60 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+@model List<TaxFiling.Web.Models.SelfOnlineEmploymentIncomeDetails>
+
+    <link href="~/assets/css/tree-container-css.css?v=3" rel="stylesheet">
+
+<main class="main-content">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+
+
+            <form method="post">
+                <div class=" mt-4 ">
+                    <div class="custom-tabs">
+                        <ul class="nav nav-tabs col-md-12" id="myEmpTab" role="tablist">
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link emp-details active" id="empdetails-tab" data-bs-toggle="tab" data-bs-target="#empdetails" type="button" role="tab" aria-controls="empdetails" aria-selected="true" data-target="bank-section">Employment Details</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link emp-terminal" id="terminal-tab" data-bs-toggle="tab" data-bs-target="#terminal" type="button" role="tab" aria-controls="terminal" aria-selected="false" tabindex="-1">Terminal Benefits</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link emp-exempt" id="exempt-tab" data-bs-toggle="tab" data-bs-target="#exempt" type="button" role="tab" aria-controls="exempt" aria-selected="false" tabindex="-1">Exempt Amounts</button>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content" id="myEmpTabContent">
+                            <div aria-labelledby="empdetails-tab" role="tabpanel" id="empdetails" class="tab-pane insvesment fade fade-in active show">
+                                @Html.Partial("IncomeTaxPartial/_EmploymentDetailsSection", Model)
+                            </div>
+                            <div class="tab-pane insvesment fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+                                @Html.Partial("IncomeTaxPartial/_TerminalBenefitsSection", Model)
+                            </div>
+                            <div class="tab-pane fade" id="exempt" role="tabpanel" aria-labelledby="exempt-tab">
+                                @Html.Partial("IncomeTaxPartial/_ExemptAmountsSection", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <div class="d-lg-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv">
+                    <button class="btn btn-primary btn-lg" id="linkEmploymentDetailsContinue">
+                        Back
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
