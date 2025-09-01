@@ -140,6 +140,36 @@
 </html>
 
 <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentPath = window.location.pathname.toLowerCase();
+        
+        document.querySelectorAll("#navmenu a").forEach(link => {
+            link.classList.remove("active");
+        });
+        
+        document.querySelectorAll("#navmenu a").forEach(link => {
+            const href = link.getAttribute("href");
+            if (!href || href === "#") return;
+
+            const linkPath = href.toLowerCase();
+            
+            
+            
+            if (currentPath === linkPath ) {
+                link.classList.add("active");
+               
+                const parentDropdown = link.closest(".dropdown");
+                if (parentDropdown) {
+                    const dropdownToggle = parentDropdown.querySelector(":scope > a");
+                    if (dropdownToggle) {
+                        dropdownToggle.classList.add("active");
+                    }
+                }
+            }
+        });
+    });
+
     $(function () {
 
        
