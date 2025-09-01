@@ -3000,13 +3000,14 @@
 
                                                   this.disabled = true;
                                                   this.innerText = "Terms Accepted";
-                                                 //alert("Your Documents submitted successfully");
-                                                   showMessage("Your Documents submitted successfully and Tax admins are contact you ASAP!", "success");
-                                                  printBtn.disabled = false;
                                                   const steps = document.querySelectorAll('.taxAssistedSteps span');
                                                   if (!steps.length) return;
                                                      steps[5].classList.add('completed');
                                                      steps[6].classList.add('completed');
+                                                 //alert("Your Documents submitted successfully");
+                                                   showMessage("Your Documents submitted successfully and Tax admins are contact you ASAP!", "success");
+                                                  printBtn.disabled = false;
+                                                  
 
 
 
