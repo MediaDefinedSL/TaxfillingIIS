@@ -1,6 +1,14 @@
 ﻿
 <main class="cal">
-
+    <div class="page-title accent-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h2 class="mb-2 mb-lg-0 mb-2 mb-lg-0 font-weight-bold">TaxCalculator</h2>
+            <nav class="breadcrumbs">
+                <ol>
+                </ol>
+            </nav>
+        </div>
+    </div>
     <div class="container">
         <br>
         <br>
@@ -19,203 +27,197 @@
         </ul>
         <div class="tab-content mt-3" id="myTabContent">
             <div class="tab-pane fade domestic " id="home" role="tabpanel" aria-labelledby="home-tab">
-            
 
- <div class="wrap Domestic">
-    <h1 class="h1">Tax Calculator effective from <span style="white-space:nowrap">01.04.2025</span></h1>
-    <p class="subtitle">Calculate <strong>PAYE / APIT</strong> on your <strong>Local Salary</strong> (Sri Lanka)</p>
-    <p class="muted" style="text-align:center;max-width:760px;margin:0 auto 24px">This tool computes the tax on monthly employment income using the revised rates from 01.04.2025. Enter your <strong>monthly income</strong> to see the tax and slab-wise breakdown.
-    </p>
 
-    <div class="card">
-      <div class="panel">
-        <h2 style="text-align:center;margin:0 0 8px">Local Tax Calculator</h2>
+                <div class="wrap Domestic">
+                    <h1 class="h1">Tax Calculator effective from <span style="white-space:nowrap">01.04.2025</span></h1>
+                    <p class="subtitle">Calculate <strong>PAYE / APIT</strong> on your <strong>Local Salary</strong> (Sri Lanka)</p>
+                    <p class="muted" style="text-align:center;max-width:760px;margin:0 auto 24px">
+                        This tool computes the tax on monthly employment income using the revised rates from 01.04.2025. Enter your <strong>monthly income</strong> to see the tax and slab-wise breakdown.
+                    </p>
 
-        <div>
-          <label for="monthlyIncome">Monthly Income (LKR)</label>
-          <input id="monthlyIncome" class="input" inputmode="numeric" placeholder="e.g., 250,000" />
-          <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div>
-        </div>
+                    <div class="card">
+                        <div class="panel">
+                            <h2 style="text-align:center;margin:0 0 8px">Local Tax Calculator</h2>
 
-        <div class="grid">
-          <div class="tile">
-            <h4>Monthly Income (LKR)</h4>
-            <div class="big" id="outMonthlyIncome">Rs. 0</div>
-            <div class="muted" style="margin-top:8px">Monthly Tax (LKR)</div>
-            <div class="big" id="outMonthlyTax">Rs. 0.00</div>
-          </div>
-          <div class="tile">
-            <h4>Annual Income (LKR)</h4>
-            <div class="big" id="outAnnualIncome">Rs. 0</div>
-            <div class="muted" style="margin-top:8px">Annual Tax (LKR)</div>
-            <div class="big" id="outAnnualTax">Rs. 0.00</div>
-          </div>
-        </div>
+                            <div>
+                                <label for="monthlyIncome">Monthly Income (LKR)</label>
+                                <input id="monthlyIncome" class="input" inputmode="numeric" placeholder="e.g., 250,000" />
+                                <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div>
+                            </div>
 
-        <div class="tile" style="background:#fff">
-          <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px">
-            <div>
-              <strong>Monthly Salary (Annual / 12)</strong>
-              <span class="tag" title="Tax-free monthly relief">Relief: Rs <span id="reliefTag">150,000</span></span>
-            </div>
-          </div>
+                            <div class="grid">
+                                <div class="tile">
+                                    <h4>Monthly Income (LKR)</h4>
+                                    <div class="big" id="outMonthlyIncome">Rs. 0</div>
+                                    <div class="muted" style="margin-top:8px">Monthly Tax (LKR)</div>
+                                    <div class="big" id="outMonthlyTax">Rs. 0.00</div>
+                                </div>
+                                <div class="tile">
+                                    <h4>Annual Income (LKR)</h4>
+                                    <div class="big" id="outAnnualIncome">Rs. 0</div>
+                                    <div class="muted" style="margin-top:8px">Annual Tax (LKR)</div>
+                                    <div class="big" id="outAnnualTax">Rs. 0.00</div>
+                                </div>
+                            </div>
 
-          <div class="tableWrap">
-            <table aria-describedby="breakdown">
-              <thead>
-                <tr>
-                  <th>Band</th>
-                  <th>Rate (%)</th>
-                  <th>Taxable (LKR)</th>
-                  <th>Tax (LKR)</th>
-                </tr>
-              </thead>
-              <tbody id="rows01"></tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="3">Monthly Total</td>
-                  <td id="monthlyTotal">Rs. 0.00</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
+                            <div class="tile" style="background:#fff">
+                                <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px">
+                                    <div>
+                                        <strong>Monthly Salary (Annual / 12)</strong>
+                                        <span class="tag" title="Tax-free monthly relief">Relief: Rs <span id="reliefTag">150,000</span></span>
+                                    </div>
+                                </div>
 
-        <div style="text-align:center">
-          <button id="resetBtn" class="btn" type="button" aria-label="Reset calculator">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            Reset Calculator
-          </button>
-        </div>
+                                <div class="tableWrap">
+                                    <table aria-describedby="breakdown">
+                                        <thead>
+                                            <tr>
+                                                <th>Band</th>
+                                                <th>Rate (%)</th>
+                                                <th>Taxable (LKR)</th>
+                                                <th>Tax (LKR)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="rows01"></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="3">Monthly Total</td>
+                                                <td id="monthlyTotal">Rs. 0.00</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
 
-                            <p class="note" style="margin:6px 2px 0">
-                                Assumptions: relief of <strong>Rs 1,800,000</strong> per year (Rs 150,000 monthly).
-                                Post-relief bands (annual): next 1,000,000 @@ 6%;
-                                next 1,500,000 @@ 18%;
-                                next 1,500,000 @@ 24%;
-                                next 1,500,000 @@ 30%;
-                                balance @@ 36%.
-                                You can change bands in code easily.
-                            </p>
-      </div>
-    </div>
-  </div>
+                            <div style="text-align:center">
+                                <button id="resetBtn" class="btn" type="button" aria-label="Reset calculator">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                                    Reset Calculator
+                                </button>
+                            </div>
+
+                            <p class="note" style="margin:6px 2px 0">Assumptions: relief of <strong>Rs 1,800,000</strong> per year (Rs 150,000 monthly). Post‑relief bands (annual): next 1,000,000 @@ 6%; next 1,500,000 @@ 18%; next 1,500,000 @@ 24%; next 1,500,000 @@ 30%; balance @@ 36%. You can change bands in code easily.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade  cal-foreing" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="page foreing">
-  <h1>Foreign Employment & Overseas Income – APIT Table 8 (Effective 01.04.2025)</h1>
+                    <h1>Foreign Employment & Overseas Income – APIT Table 8 (Effective 01.04.2025)</h1>
 
-  <div class="grid g-2">
-    <!-- Inputs -->
-    <div class="card">
-      <div class="grid g-3">
-        <div>
-          <label>Period</label>
-          <select id="period">
-            <option value="monthly" selected>Monthly</option>
-            <option value="annual">Annual</option>
-          </select>
-        </div>
-        <div>
-          <label>Salary in Foreign Currency</label>
-          <input id="salaryFC" type="number" step="0.01" value="3000">
-        </div>
-        <div>
-          <label>FX Rate (LKR per 1 FC unit)</label>
-          <input id="fx" type="number" step="0.0001" value="305">
-        </div>
-      </div>
+                    <div class="grid g-2">
+                        <!-- Inputs -->
+                        <div class="card">
+                            <div class="grid g-3">
+                                <div>
+                                    <label>Period</label>
+                                    <select id="period">
+                                        <option value="monthly" selected>Monthly</option>
+                                        <option value="annual">Annual</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Salary in Foreign Currency</label>
+                                    <input id="salaryFC" type="number" step="0.01" value="3000">
+                                </div>
+                                <div>
+                                    <label>FX Rate (LKR per 1 FC unit)</label>
+                                    <input id="fx" type="number" step="0.0001" value="305">
+                                </div>
+                            </div>
 
-      <div class="grid g-3" style="margin-top:12px">
-        <div>
-          <label>Salary in LKR (auto)</label>
-          <input id="salaryLKR" type="number" step="0.01" value="915000" disabled>
-        </div>
-        <div>
-          <label>Personal Relief (LKR)</label>
-          <input id="relief" type="number" step="0.01" value="150000">
-          <div class="foot">Tip: Monthly 150,000 → Annual 1,800,000.</div>
-        </div>
-        <div>
-          <label>Rounding</label>
-          <select id="round">
-            <option value="nearest" selected>Nearest Rupee</option>
-            <option value="down">Round Down</option>
-            <option value="up">Round Up</option>
-          </select>
-        </div>
-      </div>
+                            <div class="grid g-3" style="margin-top:12px">
+                                <div>
+                                    <label>Salary in LKR (auto)</label>
+                                    <input id="salaryLKR" type="number" step="0.01" value="915000" disabled>
+                                </div>
+                                <div>
+                                    <label>Personal Relief (LKR)</label>
+                                    <input id="relief" type="number" step="0.01" value="150000">
+                                    <div class="foot">Tip: Monthly 150,000 → Annual 1,800,000.</div>
+                                </div>
+                                <div>
+                                    <label>Rounding</label>
+                                    <select id="round">
+                                        <option value="nearest" selected>Nearest Rupee</option>
+                                        <option value="down">Round Down</option>
+                                        <option value="up">Round Up</option>
+                                    </select>
+                                </div>
+                            </div>
 
-      <div class="grid" style="margin-top:14px">
-        <div class="pill">Eligibility (Table 8) – ensure all true:</div>
-        <ul class="muted" style="margin:8px 0 0 18px;line-height:1.35">
-          <li>Employer is <b>outside Sri Lanka</b> (no PE/branch in SL).</li>
-          <li>Services are <b>utilized outside Sri Lanka</b>.</li>
-          <li>Salary is <b>paid in foreign currency</b> and <b>remitted via a licensed Sri Lankan bank</b>.</li>
-        </ul>
-      </div>
-    </div>
+                            <div class="grid" style="margin-top:14px">
+                                <div class="pill">Eligibility (Table 8) – ensure all true:</div>
+                                <ul class="muted" style="margin:8px 0 0 18px;line-height:1.35">
+                                    <li>Employer is <b>outside Sri Lanka</b> (no PE/branch in SL).</li>
+                                    <li>Services are <b>utilized outside Sri Lanka</b>.</li>
+                                    <li>Salary is <b>paid in foreign currency</b> and <b>remitted via a licensed Sri Lankan bank</b>.</li>
+                                </ul>
+                            </div>
+                        </div>
 
-    <!-- Slabs -->
-    <div class="card">
-      <div class="right">
-        <button class="btn secondary" id="addSlab">+ Add slab</button>
-        <button class="btn secondary" id="resetSlabs">Reset to Table 8</button>
-      </div>
-      <div class="foot">Define slabs from lowest upwards. Last row “Above” applies to the balance.</div>
-      <table id="slabTable" style="margin-top:8px">
-        <thead>
-          <tr>
-            <th>Upto (LKR)</th>
-            <th>Rate</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="slabs"></tbody>
-      </table>
-    </div>
-  </div>
+                        <!-- Slabs -->
+                        <div class="card">
+                            <div class="right">
+                                <button class="btn secondary" id="addSlab">+ Add slab</button>
+                                <button class="btn secondary" id="resetSlabs">Reset to Table 8</button>
+                            </div>
+                            <div class="foot">Define slabs from lowest upwards. Last row “Above” applies to the balance.</div>
+                            <table id="slabTable" style="margin-top:8px">
+                                <thead>
+                                    <tr>
+                                        <th>Upto (LKR)</th>
+                                        <th>Rate</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="slabs"></tbody>
+                            </table>
+                        </div>
+                    </div>
 
-  <!-- Results -->
-  <div class="card" style="margin-top:16px">
-    <div class="grid g-3">
-      <div><div class="muted">Gross Income</div><div class="big mono" id="rGross">—</div></div>
-      <div><div class="muted">Taxable (after relief)</div><div class="big mono" id="rTaxable">—</div></div>
-      <div><div class="muted">Monthly/Annual Tax</div><div class="big mono" id="rTax">—</div></div>
-    </div>
-    <div class="grid" style="margin-top:10px">
-      <table id="breakdown">
-        <thead>
-          <tr>
-            <th>Slab</th>
-            <th>Taxable in Slab (LKR)</th>
-            <th>Rate</th>
-            <th>Tax (LKR)</th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-        <tfoot>
-          <tr>
-            <th colspan="3" style="text-align:right">Total Tax</th>
-            <th id="sumTax" class="mono">—</th>
-          </tr>
-        </tfoot>
-      </table>
-      <div class="grid g-3">
-        <div><div class="muted">Annual Tax Liability</div><div class="big mono" id="rAnnual">—</div></div>
-        <div><div class="muted">Effective Tax Rate</div><div class="big mono" id="rEff">—</div></div>
-        <div style="align-self:end;text-align:right">
-          <button class="btn" id="recalc">Recalculate</button>
-        </div>
-      </div>
-    </div>
-  </div>
+                    <!-- Results -->
+                    <div class="card" style="margin-top:16px">
+                        <div class="grid g-3">
+                            <div><div class="muted">Gross Income</div><div class="big mono" id="rGross">—</div></div>
+                            <div><div class="muted">Taxable (after relief)</div><div class="big mono" id="rTaxable">—</div></div>
+                            <div><div class="muted">Monthly/Annual Tax</div><div class="big mono" id="rTax">—</div></div>
+                        </div>
+                        <div class="grid" style="margin-top:10px">
+                            <table id="breakdown">
+                                <thead>
+                                    <tr>
+                                        <th>Slab</th>
+                                        <th>Taxable in Slab (LKR)</th>
+                                        <th>Rate</th>
+                                        <th>Tax (LKR)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rows"></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3" style="text-align:right">Total Tax</th>
+                                        <th id="sumTax" class="mono">—</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="grid g-3">
+                                <div><div class="muted">Annual Tax Liability</div><div class="big mono" id="rAnnual">—</div></div>
+                                <div><div class="muted">Effective Tax Rate</div><div class="big mono" id="rEff">—</div></div>
+                                <div style="align-self:end;text-align:right">
+                                    <button class="btn" id="recalc">Recalculate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-  <p class="foot">
-    Notes: This tool computes APIT for Table 8 based on the slabs you set. Tax is calculated on
-    <i>Taxable Income = Gross Income − Relief</i>. Results are informational only.
-  </p>
-</div>
+                    <p class="foot">
+                        Notes: This tool computes APIT for Table 8 based on the slabs you set. Tax is calculated on
+                        <i>Taxable Income = Gross Income − Relief</i>. Results are informational only.
+                    </p>
+                </div>
+
 
 
             </div>
@@ -223,7 +225,7 @@
                 <div class="sheet">
                     <h1>INCOME TAX LIABILITY </h1>
                     <br>
-                    <h4>(Starting 01.04.2025&nbsp;&nbsp;to&nbsp;&nbsp;31.03.2025)</h4>
+                    <h4>(Starting 01.04.2025 to 31.03.2025)</h4>
 
 
                     <!-- ================= 1) INCOME SOURCES ================= -->
@@ -583,158 +585,159 @@
 </script>
 
 
-  <script>
-  // ---- state helpers ----
-  const fmt06 = n => (isFinite(n) ? n.toLocaleString('en-LK', {maximumFractionDigits:0}) : '—');
-  const fmt062 = n => (isFinite(n) ? n.toLocaleString('en-LK', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—');
+<script>
+    // ---- state helpers ----
+    const fmt06 = n => (isFinite(n) ? n.toLocaleString('en-LK', {maximumFractionDigits:0}) : '—');
+    const fmt062 = n => (isFinite(n) ? n.toLocaleString('en-LK', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—');
 
-  const els = {
-    period: document.getElementById('period'),
-    salaryFC: document.getElementById('salaryFC'),
-    fx: document.getElementById('fx'),
-    salaryLKR: document.getElementById('salaryLKR'),
-    relief: document.getElementById('relief'),
-    round: document.getElementById('round'),
-    addSlab: document.getElementById('addSlab'),
-    resetSlabs: document.getElementById('resetSlabs'),
-    slabTbody: document.getElementById('slabs'),
-    recalc: document.getElementById('recalc'),
-    rows: document.getElementById('rows'),
-    sumTax: document.getElementById('sumTax'),
-    rGross: document.getElementById('rGross'),
-    rTaxable: document.getElementById('rTaxable'),
-    rTax: document.getElementById('rTax'),
-    rAnnual: document.getElementById('rAnnual'),
-    rEff: document.getElementById('rEff')
-  };
+    const els = {
+      period: document.getElementById('period'),
+      salaryFC: document.getElementById('salaryFC'),
+      fx: document.getElementById('fx'),
+      salaryLKR: document.getElementById('salaryLKR'),
+      relief: document.getElementById('relief'),
+      round: document.getElementById('round'),
+      addSlab: document.getElementById('addSlab'),
+      resetSlabs: document.getElementById('resetSlabs'),
+      slabTbody: document.getElementById('slabs'),
+      recalc: document.getElementById('recalc'),
+      rows: document.getElementById('rows'),
+      sumTax: document.getElementById('sumTax'),
+      rGross: document.getElementById('rGross'),
+      rTaxable: document.getElementById('rTaxable'),
+      rTax: document.getElementById('rTax'),
+      rAnnual: document.getElementById('rAnnual'),
+      rEff: document.getElementById('rEff')
+    };
 
-  // Default Table 8 (as per your example)
-  let slabs = [
-    { upto: 83333.33, rate: 6 },
-    { upto: Infinity, rate: 15 }
-  ];
-
-  // ---- UI for slabs ----
-  function renderSlabs(){
-    els.slabTbody.innerHTML = '';
-    slabs.forEach((s, i) => {
-      const tr = document.createElement('tr');
-      const uptoCell = document.createElement('td');
-      const rateCell = document.createElement('td');
-      const delCell  = document.createElement('td');
-      // Inputs
-      const upto = document.createElement('input');
-      upto.type = 'number'; upto.step = '0.01';
-      upto.value = (isFinite(s.upto) ? s.upto : '');
-      upto.placeholder = (i === slabs.length - 1 ? 'Above (leave blank)' : '');
-      upto.disabled = (i === slabs.length - 1); // last is "Above"
-      const rate = document.createElement('input');
-      rate.type='number'; rate.step='0.01'; rate.value = s.rate;
-      const del = document.createElement('button');
-      del.className='btn secondary'; del.textContent='Delete';
-      del.onclick = () => { slabs.splice(i,1); if(!slabs.length) slabs=[{upto:Infinity,rate:0}]; // keep one
-                            if(slabs[slabs.length-1].upto!==Infinity) slabs.push({upto:Infinity,rate:slabs.pop().rate});
-                            renderSlabs(); calc(); };
-
-      upto.oninput = e => { const v = parseFloat(e.target.value); slabs[i].upto = isNaN(v)?Infinity:v; calc(); };
-      rate.oninput = e => { slabs[i].rate = parseFloat(e.target.value)||0; calc(); };
-
-      uptoCell.appendChild(upto); rateCell.appendChild(rate); delCell.appendChild(del);
-      tr.append(uptoCell, rateCell, delCell);
-      els.slabTbody.appendChild(tr);
-    });
-  }
-
-  document.getElementById('addSlab').onclick = () => {
-    // insert before the last "Above" slab
-    const last = slabs.pop(); // Infinity
-    slabs.push({ upto: 0, rate: 0 }, last);
-    renderSlabs();
-  };
-
-  document.getElementById('resetSlabs').onclick = () => {
-    slabs = [
+    // Default Table 8 (as per your example)
+    let slabs = [
       { upto: 83333.33, rate: 6 },
       { upto: Infinity, rate: 15 }
     ];
-    renderSlabs(); calc();
-  };
 
-  // ---- Calculations ----
-  function rounder(mode, value){
-    if(mode==='down') return Math.floor(value);
-    if(mode==='up') return Math.ceil(value);
-    return Math.round(value);
-  }
+    // ---- UI for slabs ----
+    function renderSlabs(){
+      els.slabTbody.innerHTML = '';
+      slabs.forEach((s, i) => {
+        const tr = document.createElement('tr');
+        const uptoCell = document.createElement('td');
+        const rateCell = document.createElement('td');
+        const delCell  = document.createElement('td');
+        // Inputs
+        const upto = document.createElement('input');
+        upto.type = 'number'; upto.step = '0.01';
+        upto.value = (isFinite(s.upto) ? s.upto : '');
+        upto.placeholder = (i === slabs.length - 1 ? 'Above (leave blank)' : '');
+        upto.disabled = (i === slabs.length - 1); // last is "Above"
+        const rate = document.createElement('input');
+        rate.type='number'; rate.step='0.01'; rate.value = s.rate;
+        const del = document.createElement('button');
+        del.className='btn secondary'; del.textContent='Delete';
+        del.onclick = () => { slabs.splice(i,1); if(!slabs.length) slabs=[{upto:Infinity,rate:0}]; // keep one
+                              if(slabs[slabs.length-1].upto!==Infinity) slabs.push({upto:Infinity,rate:slabs.pop().rate});
+                              renderSlabs(); calc(); };
 
-  function calc(){
-    // Salary in LKR
-    const salaryFC = parseFloat(els.salaryFC.value)||0;
-    const fx = parseFloat(els.fx.value)||0;
-    const gross = salaryFC * fx;
-    els.salaryLKR.value = fmt062(gross);
+        upto.oninput = e => { const v = parseFloat(e.target.value); slabs[i].upto = isNaN(v)?Infinity:v; calc(); };
+        rate.oninput = e => { slabs[i].rate = parseFloat(e.target.value)||0; calc(); };
 
-    // Relief
-    const relief = parseFloat(els.relief.value)||0;
-    const taxable = Math.max(0, gross - relief);
-
-    // Walk slabs
-    let remaining = taxable, lastLimit = 0, totalTax = 0;
-    els.rows.innerHTML = '';
-    for(let i=0;i<slabs.length;i++){
-      const {upto, rate} = slabs[i];
-      const cap = isFinite(upto) ? upto : Infinity;
-      const span = Math.max(0, Math.min(remaining, cap - lastLimit));
-      const tax = span * (rate/100);
-      totalTax += tax;
-
-      // row
-      const tr = document.createElement('tr');
-      const label = isFinite(upto) ? `Up to ${fmt06(upto)}` : 'Above';
-      tr.innerHTML = `<td>${label}</td>
-                      <td class="mono">${fmt06(rounder(els.round.value, span))}</td>
-                      <td>${rate.toFixed(2)}%</td>
-                      <td class="mono">${fmt06(rounder(els.round.value, tax))}</td>`;
-      els.rows.appendChild(tr);
-
-      remaining -= span; lastLimit = cap;
-      if(remaining<=0) break;
+        uptoCell.appendChild(upto); rateCell.appendChild(rate); delCell.appendChild(del);
+        tr.append(uptoCell, rateCell, delCell);
+        els.slabTbody.appendChild(tr);
+      });
     }
 
-    // Results
-    const period = els.period.value;
-    const taxRounded = rounder(els.round.value, totalTax);
-    const annualTax = (period==='monthly') ? taxRounded*12 : taxRounded;
-    const effective = gross>0 ? (taxRounded/gross)*100 : 0;
+    document.getElementById('addSlab').onclick = () => {
+      // insert before the last "Above" slab
+      const last = slabs.pop(); // Infinity
+      slabs.push({ upto: 0, rate: 0 }, last);
+      renderSlabs();
+    };
 
-    els.sumTax.textContent = fmt06(taxRounded);
-    els.rGross.textContent = fmt06(gross);
-    els.rTaxable.textContent = fmt06(taxable);
-    els.rTax.textContent = (period==='monthly' ? `Rs. ${fmt06(taxRounded)} / month` : `Rs. ${fmt06(taxRounded)} / year`);
-    els.rAnnual.textContent = `Rs. ${fmt06(annualTax)} / year`;
-    els.rEff.textContent = `${effective.toFixed(2)}%`;
-  }
+    document.getElementById('resetSlabs').onclick = () => {
+      slabs = [
+        { upto: 83333.33, rate: 6 },
+        { upto: Infinity, rate: 15 }
+      ];
+      renderSlabs(); calc();
+    };
 
-  // ---- Wire events ----
-  ['period','salaryFC','fx','relief','round'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', e=>{
-      if(id==='period'){
-        // auto-switch relief between monthly/annual baseline if it exactly matches the default on change
-        const isMonthly = e.target.value==='monthly';
-        const currentRelief = parseFloat(els.relief.value)||0;
-        if(isMonthly && currentRelief===1800000) els.relief.value = 150000;
-        if(!isMonthly && currentRelief===150000) els.relief.value = 1800000;
+    // ---- Calculations ----
+    function rounder(mode, value){
+      if(mode==='down') return Math.floor(value);
+      if(mode==='up') return Math.ceil(value);
+      return Math.round(value);
+    }
+
+    function calc(){
+      // Salary in LKR
+      const salaryFC = parseFloat(els.salaryFC.value)||0;
+      const fx = parseFloat(els.fx.value)||0;
+      const gross = salaryFC * fx;
+      els.salaryLKR.value = fmt062(gross);
+
+      // Relief
+      const relief = parseFloat(els.relief.value)||0;
+      const taxable = Math.max(0, gross - relief);
+
+      // Walk slabs
+      let remaining = taxable, lastLimit = 0, totalTax = 0;
+      els.rows.innerHTML = '';
+      for(let i=0;i<slabs.length;i++){
+        const {upto, rate} = slabs[i];
+        const cap = isFinite(upto) ? upto : Infinity;
+        const span = Math.max(0, Math.min(remaining, cap - lastLimit));
+        const tax = span * (rate/100);
+        totalTax += tax;
+
+        // row
+        const tr = document.createElement('tr');
+        const label = isFinite(upto) ? `Up to ${fmt06(upto)}` : 'Above';
+        tr.innerHTML = `<td>${label}</td>
+                        <td class="mono">${fmt06(rounder(els.round.value, span))}</td>
+                        <td>${rate.toFixed(2)}%</td>
+                        <td class="mono">${fmt06(rounder(els.round.value, tax))}</td>`;
+        els.rows.appendChild(tr);
+
+        remaining -= span; lastLimit = cap;
+        if(remaining<=0) break;
       }
-      calc();
-    });
-  });
-  document.getElementById('recalc').onclick = calc;
 
-  // Init
-  renderSlabs(); calc();
+      // Results
+      const period = els.period.value;
+      const taxRounded = rounder(els.round.value, totalTax);
+      const annualTax = (period==='monthly') ? taxRounded*12 : taxRounded;
+      const effective = gross>0 ? (taxRounded/gross)*100 : 0;
+
+      els.sumTax.textContent = fmt06(taxRounded);
+      els.rGross.textContent = fmt06(gross);
+      els.rTaxable.textContent = fmt06(taxable);
+      els.rTax.textContent = (period==='monthly' ? `Rs. ${fmt06(taxRounded)} / month` : `Rs. ${fmt06(taxRounded)} / year`);
+      els.rAnnual.textContent = `Rs. ${fmt06(annualTax)} / year`;
+      els.rEff.textContent = `${effective.toFixed(2)}%`;
+    }
+
+    // ---- Wire events ----
+    ['period','salaryFC','fx','relief','round'].forEach(id=>{
+      document.getElementById(id).addEventListener('input', e=>{
+        if(id==='period'){
+          // auto-switch relief between monthly/annual baseline if it exactly matches the default on change
+          const isMonthly = e.target.value==='monthly';
+          const currentRelief = parseFloat(els.relief.value)||0;
+          if(isMonthly && currentRelief===1800000) els.relief.value = 150000;
+          if(!isMonthly && currentRelief===150000) els.relief.value = 1800000;
+        }
+        calc();
+      });
+    });
+    document.getElementById('recalc').onclick = calc;
+
+    // Init
+    renderSlabs(); calc();
 </script>
 
- <script>
+
+<script>
     // =================== Configuration ===================
     // Annual slabs effective 01.04.2025 (editable)
     // Each item: [bandAmountAnnual, rate]
@@ -851,4 +854,4 @@
     // Demo value
     input.value = '250,000';
     updateUI();
-  </script>
+</script>
