@@ -2781,7 +2781,7 @@ section#about.about.section {
 div#documents-section {
     /* padding-right: 37% !important; */
     background-image: url(http://images.netexam.com/images/10229/file-uplode.gif) !important;
-    background-size: 199px;
+    background-size: 20%;
     background-repeat: no-repeat;
     background-position: right 6px;
     background-color: #ffffff !important;
@@ -4724,6 +4724,8 @@ table.table.table-bordered.table-striped th:last-child {
     color: #fff;
     text-transform: uppercase;
     margin-top: 0;
+    font-family: sans-serif;
+    font-weight: 100;
 }
 
 .foreing .card {
@@ -5151,6 +5153,8 @@ span.field-validation-error {
     color: #ffffff;
     margin-top: 0px;
     font-size: 18px;
+    font-family: sans-serif;
+    font-weight: 100;
 }
 
 .Domestic .subtitle {
@@ -5510,6 +5514,7 @@ section#Sign-in .pb-sm-0 {
     font-size: 16px !important;
     padding: 7px;
     padding-left: 15px;
+    width: fit-content;
 }
 
 .post-content.d-flex.flex-column {
@@ -5531,4 +5536,19 @@ section#Sign-in .pb-sm-0 {
     margin-bottom: 34px !important;
     opacity: 1;
     border-color: #2196F3;
+}
+
+.uplode-parts p.mb-2 {
+    font-size: 15px !important;
+}
+
+div#documents-section {
+    background-size: 18%;
+}
+
+.package button.btn.btn-primary {
+    bottom: 0px !important;
+    position: absolute;
+    width: 83%;
+    margin-bottom: 34px !important;
 }
