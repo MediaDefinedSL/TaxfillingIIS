@@ -255,4 +255,75 @@
         $("#btnBeneficiarySubmit").text("Update");
     });
 
+    //---------------Exempt
+
+    $(document).off("click", "#btnExemptAmountsClear").on("click", "#btnExemptAmountsClear", function () {
+
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Collecting values from your form
+        let selfOnlineInvestmentPartnerId = $("#hiddenInvestmentExemptIncomeId").val();   // hidden field for edit/update
+        let profitsInvestment = $("#rdbTProfitsInvestment").val();
+        let excludedAmount = $("#rdbTExcludedAmount").val();
+        let exempt = $("#txtTExempt").val();
+        
+
+        let isValid = true;
+        $(".validation-error").remove();
+
+        // === Validation ===
+
+        if (!trustName.trim()) {
+            $("#txtTExempt").after('<div class="text-danger validation-error">Trust Name is required.</div>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            $btn.prop("disabled", false);
+            return;
+        }
+
+        // === Data Object ===
+        let beneficiaryInvestmentData = {
+            InvestmentIncomePBEId: selfOnlineInvestmentPartnerId,
+            TransactionType: selfOnlineInvestmentPartnerId ? "Edit" : "Add",
+            Category: "Beneficiary",
+            TotalInvestmentIncome: totalInvestment,
+            ActivityCode: activityCode,
+            TrustName: trustName,
+            TINNO: trustTin,
+            GainsProfits: gainsProfits,
+            TotalInvestmentIncomeTrust: totalInvestmenttrust
+
+        };
+
+        // === AJAX URL ===
+        var url = selfOnlineInvestmentPartnerId
+            ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
+            : '/SelfOnlineFlow/AddSelfOnlineInvestmentPartnerBeneficiaryExemptDetails';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: beneficiaryInvestmentData,
+            success: function (response) {
+                $btn.prop("disabled", false);
+
+                notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
+
+                // Reload rent grid
+                $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
+                    $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
+                });
+
+                // resetFormRent();
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving.");
+            }
+        });
+    });
+
 });
