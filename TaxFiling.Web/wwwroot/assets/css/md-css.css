@@ -4724,6 +4724,8 @@ table.table.table-bordered.table-striped th:last-child {
     color: #fff;
     text-transform: uppercase;
     margin-top: 0;
+    font-family: sans-serif;
+    font-weight: 100;
 }
 
 .foreing .card {
@@ -5151,6 +5153,8 @@ span.field-validation-error {
     color: #ffffff;
     margin-top: 0px;
     font-size: 18px;
+    font-family: sans-serif;
+    font-weight: 100;
 }
 
 .Domestic .subtitle {
