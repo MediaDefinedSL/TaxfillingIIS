@@ -451,7 +451,9 @@
                             <!-- You can place a summary or help link here -->
                         </div>
                     </div>
-
+                    <div class="alert alert-warning col-md-8 up-pri" role="alert">
+                        Files are encrypted in transit and at rest. Only your assigned tax advisor can view them.
+                    </div>
                     <!-- Upload Prompt -->
                     <div class="uplode-parts">
                         <div class="row ">
@@ -493,7 +495,7 @@
                         <ul class="text-muted">
                             <li><strong>Accepted formats: <strong>PDF, JPG, PNG</strong></strong></li>
                             <li><strong>Maximum size per file: <strong>5MB</strong></strong></li>
-                            <li>Privacy: Files are encrypted in transit and at rest. Only your assigned tax advisor can view them.</li>
+
                         </ul>
                     </div>
 
@@ -3974,6 +3976,46 @@
                        });
 
                        submitBankBtn.addEventListener("click", async function () {
+
+                            let isValid = true;
+                            let messages = [];
+
+                            // Bank Confirmation Type
+                            const bankType = document.getElementById("BankConfirmationType");
+                            if (!bankType.value.trim()) {
+                                isValid = false;
+                                messages.push("Bank Confirmation Type is required.");
+                                bankType.classList.add("is-invalid");
+                            } else {
+                                bankType.classList.remove("is-invalid");
+                            }
+
+                            // Bank Name
+                            const bankName = document.getElementById("bankInput");
+                            if (!bankName.value.trim()) {
+                                isValid = false;
+                                messages.push("Bank Name is required.");
+                                bankName.classList.add("is-invalid");
+                            } else {
+                                bankName.classList.remove("is-invalid");
+                            }
+
+                            // Branch
+                            const branch = document.getElementById("branchInput");
+                            if (!branch.value.trim()) {
+                                isValid = false;
+                                messages.push("Branch Name is required.");
+                                branch.classList.add("is-invalid");
+                            } else {
+                                branch.classList.remove("is-invalid");
+                            }
+
+                             if (!isValid) {
+                                //alert(messages.join("\n"));
+                                showMessage(messages.join("\n"),"error");
+                                return;
+                            }
+
 
                            if (!selectedFile || !selectedCategoryName){
                                   Swal.fire({
