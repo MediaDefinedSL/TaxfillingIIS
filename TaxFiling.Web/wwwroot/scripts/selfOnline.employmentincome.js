@@ -40,7 +40,8 @@ $(function () {
         });
     });
 
-    $(document).on("click", "#btnEmploymentDetails", function () {
+    $(document).off("click", "#btnEmploymentDetails").on("click", "#btnEmploymentDetails", function () {
+      
         // e.preventDefault();
         var id = $("#hiddenEmploymentDetailsId").val();
         var $btn = $(this);
@@ -108,11 +109,12 @@ $(function () {
                     $btn.prop("disabled", false);
                     notifySuccess("", "Update successfully");
 
-                    $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
-                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                    //   $("#spnEmploymentIncomeTotal").text(newTotal);
-                    // var newTaxTotal = $(html).find("#taxTotal").text();
-                    $("#taxTotal").text(newTotal);
+                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                        $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
+                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
+                       
+                        $("#taxTotal").text(newTotal);
+                    });
 
                     $("#drpTypeEmployment").val("Primary");
                     $("#txtRemuneration").val("");
@@ -120,6 +122,7 @@ $(function () {
                     $("#txtAPITPrimaryEmployment").val("");
                     $("#txtTINEmployer").val("");
                     $("#txtAPITSecondaryEmployment").val("");
+                    $("#hndSelfOnlineEmploymentIncomeId").val("");
 
                 },
                 error: function () {
@@ -128,23 +131,25 @@ $(function () {
                 }
             });
         }
-        else { 
+        else {
+           
         $.ajax({
             url: '/SelfOnlineFlow/AddEmploymentIncomeDetails',
             type: 'POST',
             data: employIncome,
             success: function (response) {
+                alert(25);
                 $btn.prop("disabled", false);
+                notifySuccess("", "Update successfully");
 
-                notifySuccess("", "Saved successfully");
+                $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                    $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html());
 
-                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
-                    $('#employmentDetailsGrid').html($(html).find('#employmentDetailsGrid').html()); // Direct replace
                     var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                    //   $("#spnEmploymentIncomeTotal").text(newTotal);
-                    // var newTaxTotal = $(html).find("#taxTotal").text();
+                    // $("#spnEmploymentIncomeTotal").text(newTotal);
                     $("#taxTotal").text(newTotal);
                 });
+
 
                 $("#drpTypeEmployment").val("Primary");
                 $("#txtRemuneration").val("");
@@ -152,6 +157,7 @@ $(function () {
                 $("#txtAPITPrimaryEmployment").val("");
                 $("#txtTINEmployer").val("");
                 $("#txtAPITSecondaryEmployment").val("");
+                $("#hndSelfOnlineEmploymentIncomeId").val("");
 
             },
             error: function () {
@@ -174,8 +180,8 @@ $(function () {
         $("#btnEmploymentDetails").text("Submit");
 
     });
-
-    $(document).on("click", "#btnTerminalSubmit", function () {
+    $(document).off("click", "#btnTerminalSubmit").on("click", "#btnTerminalSubmit", function () {
+  
         // e.preventDefault();
         var id = $("#hiddenTerminalId").val();
 
@@ -230,7 +236,7 @@ $(function () {
                     $btn.prop("disabled", false);
                     notifySuccess("", "Update successfully");
 
-                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
 
                         var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
@@ -260,7 +266,7 @@ $(function () {
                     $btn.prop("disabled", false);
                     notifySuccess("", "Saved successfully");
 
-                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
 
                         var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
@@ -292,7 +298,8 @@ $(function () {
 
     });
 
-    $(document).on("click", "#btnExemptSubmit", function () {
+    $(document).off("click", "#btnExemptSubmit").on("click", "#btnExemptSubmit", function () {
+    
         // e.preventDefault();
         var id = $("#hiddenExemptId").val();
         var $btn = $(this);
@@ -346,7 +353,7 @@ $(function () {
                     $btn.prop("disabled", false);
                     notifySuccess("", "Update successfully");
 
-                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
                         $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
                         var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
                        // $("#spnEmploymentIncomeTotal").text(newTotal);
@@ -375,7 +382,7 @@ $(function () {
                     $btn.prop("disabled", false);
                     notifySuccess("", "Saved successfully");
 
-                    $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
+                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
                         $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
                         var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
                         $("#spnEmploymentIncomeTotal").text(newTotal);
