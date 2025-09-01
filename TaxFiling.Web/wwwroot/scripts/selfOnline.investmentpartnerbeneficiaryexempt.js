@@ -67,7 +67,7 @@
                     $('#partnerInvestmentsGrid').html($(html).find('#partnerInvestmentsGrid').html());
                 });
 
-               // resetFormRent();
+                resetFormPartner();
             },
             error: function () {
                 $btn.prop("disabled", false);
@@ -75,6 +75,17 @@
             }
         });
     });
+
+    function resetFormPartner() {
+
+        $("#hiddenInvestmentPartnerIncomeId").val("");   
+        $("#txtTotalInvestment").val("");
+        $("#txtActivityCodePartnership").val("");
+        $("#txtPartnershipName").val("");
+        $("#txtPartnershipTin").val("");
+        $("#txtGainsProfits").val("");
+        $("#txtTotalInvestmentPartnership").val("");
+    }
 
     $(document).off("click", ".partnerDetails-editbtn").on("click", ".partnerDetails-editbtn", function () {
 
@@ -85,7 +96,7 @@
         let totalInvestment = $(this).data("total");
         let code = $(this).data("code");
         let partnershipName = $(this).data("partnership");
-        let ptinNo = $(this).data("ptinNo");
+        let ptinNo = $(this).data("ptin");
         let gainsProfits = $(this).data("gains");
         let totalPartnership = $(this).data("totalpartnership");
        
@@ -103,6 +114,13 @@
         // $("#partnerDetailsModal").modal("show");
         $("#hiddenInvestmentPartnerIncomeId").val(id);
         $("#btnPartnerInvestmentSubmit").text("Update");
+    });
+
+    $(document).on("click", "#btnPartnerInvestmentClear", function () {
+
+        resetFormPartner();
+        $("#btnPartnerInvestmentSubmit").text("Submit");
+
     });
 
     let deleteInvestmentId = null;
@@ -150,6 +168,32 @@
             },
             error: function () {
                 alert("Error deleting.");
+            }
+        });
+    });
+
+    $('#linkDetailsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+    $('#linkBeneficiaryContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
             }
         });
     });
