@@ -76,9 +76,8 @@
         });
     });
 
+    $(document).off("click", ".partnerDetails-editbtn").on("click", ".partnerDetails-editbtn", function () {
 
-    $(document).on('click', '.partnerDetails-editbtn', function () {
-  
         $(".validation-error").remove();
 
         let id = $(this).data("id");
@@ -89,11 +88,10 @@
         let ptinNo = $(this).data("ptinNo");
         let gainsProfits = $(this).data("gains");
         let totalPartnership = $(this).data("totalpartnership");
-        alert(ptinNo);
-
+       
         // Now fill the modal/form inputs
         $("#hiddenInvestmentPartnerIncomeId").val(id);
-        $("#txtCategory").val(category);
+      //  $("#txtCategory").val(category);
         $("#txtTotalInvestment").val(totalInvestment);
         $("#txtActivityCodePartnership").val(code);
         $("#txtPartnershipName").val(partnershipName);
@@ -118,7 +116,8 @@
         $('#selfonline_confirmDeleteModal').modal('show');
 
     });
-    $(document).on("click", "#selfonline_confirmDeleteBtn", function () {
+
+    $(document).off("click", "#selfonline_confirmDeleteBtn").on("click", "#selfonline_confirmDeleteBtn", function () {
 
         if (!deleteInvestmentId) return;
 
@@ -147,6 +146,113 @@
                 alert("Error deleting.");
             }
         });
+    });
+
+
+    //---------------Beneficiary
+
+    $(document).off("click", "#btnBeneficiarySubmit").on("click", "#btnBeneficiarySubmit", function () {
+
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Collecting values from your form
+        let selfOnlineInvestmentPartnerId = $("#hiddenInvestmentBeneficiaryIncomeId").val();   // hidden field for edit/update
+        let totalInvestment = $("#txtBTotalInvestment").val();
+        let activityCode = $("#txtBActivityCode").val();
+        let trustName = $("#txtBTrustName").val();
+        let trustTin = $("#txtBTINTrust").val();
+        let gainsProfits = $("#txtBGainsProfits").val();
+        let totalInvestmenttrust = $("#txtBTotalInvestment").val();
+
+
+        let isValid = true;
+        $(".validation-error").remove();
+
+        // === Validation ===
+
+        if (!totalInvestment) {
+            $("#txtBTotalInvestment").after('<div class="text-danger validation-error">Total Investment Income is required.</div>');
+            isValid = false;
+        }
+        if (!trustName.trim()) {
+            $("#txtBTrustName").after('<div class="text-danger validation-error">Trust Name is required.</div>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            $btn.prop("disabled", false);
+            return;
+        }
+
+        // === Data Object ===
+        let beneficiaryInvestmentData = {
+            InvestmentIncomePBEId: selfOnlineInvestmentPartnerId,
+            TransactionType: selfOnlineInvestmentPartnerId ? "Edit" : "Add",
+            Category: "Beneficiary",
+            TotalInvestmentIncome: totalInvestment,
+            ActivityCode: activityCode,
+            TrustName: trustName,
+            TINNO: trustTin,
+            GainsProfits: gainsProfits,
+            TotalInvestmentIncomeTrust: totalInvestmenttrust
+
+        };
+
+        // === AJAX URL ===
+        var url = selfOnlineInvestmentPartnerId
+            ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
+            : '/SelfOnlineFlow/AddSelfOnlineInvestmentPartnerBeneficiaryExemptDetails';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: beneficiaryInvestmentData,
+            success: function (response) {
+                $btn.prop("disabled", false);
+
+                notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
+
+                // Reload rent grid
+                $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
+                    $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
+                });
+
+                // resetFormRent();
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving.");
+            }
+        });
+    });
+    $(document).off("click", ".beneficiaryDetails-editbtn").on("click", ".beneficiaryDetails-editbtn", function () {
+
+        $(".validation-error").remove();
+
+        let id = $(this).data("id");
+        let category = $(this).data("category");
+        let totalInvestment = $(this).data("total");
+        let code = $(this).data("code");
+        let trustname = $(this).data("trustname");
+        let ptinNo = $(this).data("ptinNo");
+        let gainsProfits = $(this).data("gains");
+        let totaltrust = $(this).data("totaltrust");
+       
+        // Now fill the modal/form inputs
+        $("#hiddenInvestmentPartnerIncomeId").val(id);
+       // $("#txtCategory").val(category);
+        $("#txtBTotalInvestment").val(totalInvestment);
+        $("#txtBActivityCode").val(code);
+        $("#txtBTrustName").val(trustname);
+        $("#txtBTINTrust").val(ptinNo);
+        $("#txtBGainsProfits").val(gainsProfits);
+        $("#txtBTotalInvestment").val(totaltrust);
+
+        // Open modal
+        // $("#partnerDetailsModal").modal("show");
+        $("#hiddenInvestmentBeneficiaryIncomeId").val(id);
+        $("#btnBeneficiarySubmit").text("Update");
     });
 
 });
