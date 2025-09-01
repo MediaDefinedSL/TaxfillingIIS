@@ -585,8 +585,8 @@
 
   <script>
   // ---- state helpers ----
-  const fmt = n => (isFinite(n) ? n.toLocaleString('en-LK', {maximumFractionDigits:0}) : '—');
-  const fmt2 = n => (isFinite(n) ? n.toLocaleString('en-LK', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—');
+  const fmt06 = n => (isFinite(n) ? n.toLocaleString('en-LK', {maximumFractionDigits:0}) : '—');
+  const fmt062 = n => (isFinite(n) ? n.toLocaleString('en-LK', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—');
 
   const els = {
     period: document.getElementById('period'),
@@ -672,7 +672,7 @@
     const salaryFC = parseFloat(els.salaryFC.value)||0;
     const fx = parseFloat(els.fx.value)||0;
     const gross = salaryFC * fx;
-    els.salaryLKR.value = fmt2(gross);
+    els.salaryLKR.value = fmt062(gross);
 
     // Relief
     const relief = parseFloat(els.relief.value)||0;
@@ -690,11 +690,11 @@
 
       // row
       const tr = document.createElement('tr');
-      const label = isFinite(upto) ? `Up to ${fmt(upto)}` : 'Above';
+      const label = isFinite(upto) ? `Up to ${fmt06(upto)}` : 'Above';
       tr.innerHTML = `<td>${label}</td>
-                      <td class="mono">${fmt(rounder(els.round.value, span))}</td>
+                      <td class="mono">${fmt06(rounder(els.round.value, span))}</td>
                       <td>${rate.toFixed(2)}%</td>
-                      <td class="mono">${fmt(rounder(els.round.value, tax))}</td>`;
+                      <td class="mono">${fmt06(rounder(els.round.value, tax))}</td>`;
       els.rows.appendChild(tr);
 
       remaining -= span; lastLimit = cap;
@@ -707,11 +707,11 @@
     const annualTax = (period==='monthly') ? taxRounded*12 : taxRounded;
     const effective = gross>0 ? (taxRounded/gross)*100 : 0;
 
-    els.sumTax.textContent = fmt(taxRounded);
-    els.rGross.textContent = fmt(gross);
-    els.rTaxable.textContent = fmt(taxable);
-    els.rTax.textContent = (period==='monthly' ? `Rs. ${fmt(taxRounded)} / month` : `Rs. ${fmt(taxRounded)} / year`);
-    els.rAnnual.textContent = `Rs. ${fmt(annualTax)} / year`;
+    els.sumTax.textContent = fmt06(taxRounded);
+    els.rGross.textContent = fmt06(gross);
+    els.rTaxable.textContent = fmt06(taxable);
+    els.rTax.textContent = (period==='monthly' ? `Rs. ${fmt06(taxRounded)} / month` : `Rs. ${fmt06(taxRounded)} / year`);
+    els.rAnnual.textContent = `Rs. ${fmt06(annualTax)} / year`;
     els.rEff.textContent = `${effective.toFixed(2)}%`;
   }
 
