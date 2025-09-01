@@ -2624,8 +2624,8 @@ section#Self-Online-Flow {
     border: 0;
     border-radius: 10px;
     padding: 10px 14px;
-    font-weight: 800;
-    cursor: pointer
+    /* font-weight: 800; */
+    /* cursor: pointer; */
 }
 
 .cal .pill {
@@ -4148,6 +4148,8 @@ section#team {
 
 .cal-foreing .grid th, .cal-foreing .grid td {
     padding: 10px !important;
+    font-size: 15px !important;
+    font-family: sans-serif;
 }
 
 /*END cal-foreing*/
@@ -4654,9 +4656,9 @@ div#in-this-section-container i {
 #documents-section .uplode-parts ul {
     padding: 0px;
     list-style-type: none;
-    padding-left: 10px;
+    padding-left: 19px;
     font-size: 11px;
-    line-height: 15px;
+    line-height: 14px;
 }
 
 
@@ -4664,6 +4666,7 @@ div#in-this-section-container i {
 #documents-section .col-md-6.guid-line {
     /* padding-left: 0px; */
     color: #585858;
+    padding-left: 0px;
 }
 
 .col-md-6.guid-line {
@@ -4732,7 +4735,7 @@ table.table.table-bordered.table-striped th:last-child {
 
 .foreing .grid {
     display: grid;
-    gap: 14px
+    gap: 14px;
 }
 
 .foreing .g-2 {
@@ -4748,7 +4751,7 @@ table.table.table-bordered.table-striped th:last-child {
     display: block;
     font-size: 12px;
     color: var(--muted);
-    margin: 0 0 6px
+    margin: 0 0 6px; /* color: #ccc !important; */
 }
 
 .foreing input, select, button {
@@ -4796,13 +4799,13 @@ table.table.table-bordered.table-striped th:last-child {
 
     .foreing .btn.secondary {
         background: #e2e8f0;
-        color: #0f172a
+        color: #0f172a;
+        font-size: 16px !important;
     }
 
 .foreing .pill {
-    display: inline-block;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
+    display: block;
+    background: #eff6ff00; /* border:1px solid #bfdbfe; */
     color: #1e3a8a;
     padding: 2px 8px;
     border-radius: 999px;
@@ -4810,7 +4813,9 @@ table.table.table-bordered.table-striped th:last-child {
 }
 
 .foreing .muted {
-    color: var(--muted)
+    color: var(--muted);
+    width: 100% !important;
+    display: block;
 }
 
 .foreing .big {
@@ -4819,7 +4824,8 @@ table.table.table-bordered.table-striped th:last-child {
 }
 
 .foreing .mono {
-    font-variant-numeric: tabular-nums
+    font-variant-numeric: tabular-nums;
+    font-size: 16px;
 }
 
 .foreing .right {
@@ -5097,7 +5103,6 @@ div#myTabContent.tab-content.mt-3 {
         .row.contact-detalis .social-links i:hover {
             font-size: 20px !important;
         }
-
 /* Move validation messages below the input */
 span.field-validation-error {
     display: block; /* force new line */
@@ -5111,9 +5116,10 @@ span.field-validation-error {
     max-width: 100%;
 }
 
+
 .client-single.inactive.position-8 {
     right: 0;
-    top: 259px;
+    top: 245px;
     scale: 0.80;
 }
 
@@ -5133,7 +5139,7 @@ span.field-validation-error {
 }
 
 .Domestic .h1 {
-    font-weight: 800;
+    /* font-weight: 800; */
     font-size: clamp(22px,3vw,34px);
     text-align: center;
     margin: 4px 0 6px;
@@ -5310,3 +5316,125 @@ span.field-validation-error {
         margin-left: auto;
         margin-right: auto;
     }
+
+.foreing table#breakdown {
+    display: block !important;
+    width: 100% !important;
+}
+
+    .foreing table#breakdown + .grid.g-3 {
+        /* display: block !important; */
+        width: 100% !important;
+    }
+
+
+
+.foreing .grid[style="margin-top:10px"] {
+    display: block;
+}
+
+.foreing table#breakdown thead {
+    width: 1000px !important;
+}
+
+
+/*css canges may one*/
+
+.custom-tabs .tab-content {
+}
+
+div#myEmpTabContent {
+    padding: 0px;
+    border: none;
+    border-radius: 0px !important;
+    background-color: #fff;
+}
+
+
+
+    div#myEmpTabContent .tab-pane {
+        padding: 0px;
+    }
+
+    div#myEmpTabContent main.main-content {
+        padding: 0px;
+    }
+
+    div#myEmpTabContent .card.card-body {
+        padding: 0;
+    }
+
+        div#myEmpTabContent .card.card-body .mt-4 {
+            margin-top: 0px !important;
+        }
+
+        div#myEmpTabContent .card.card-body .border.rounded {
+            background-color: #fff !important;
+            border: none !important;
+        }
+
+    div#myEmpTabContent .tab-pane .mt-4 {
+        margin-top: 0px !important;
+    }
+
+#Self-Online-Flow #in-this-section-container .custom-tabs {
+    background: none !important;
+    margin-top: -5px;
+}
+
+div#in-this-section-container .custom-tabs li.nav-item {
+    margin-right: 3%;
+}
+
+div#in-this-section-container ul#myEmpTab {
+    border: none !important;
+}
+
+#in-this-section-container .card.card-body {
+    padding-top: 0px;
+}
+
+div#taxtotalview {
+    display: inline-block;
+    float: right;
+    margin-right: 18px;
+    margin-top: 10px;
+}
+
+#Self-Online-Flow .logo-text {
+    color: #101010 !important;
+    /* background: linear-gradient(45deg, #6b8cff, #8b9fff); */
+    background: linear-gradient(45deg, #033afb, #0023c9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: opacity 0.3s ease;
+}
+
+#Self-Online-Flow h6.mb-4.text-primary {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px !important;
+}
+
+div#myEmpTabContent .Domestic th:first-child,
+div#myEmpTabContent td:first-child {
+    border-radius: 0px;
+}
+
+/*END css canges may one*/
+
+.client-single.inactive.position-6 {
+    transform: scale(0.4);
+}
+
+
+#Self-Online-Flow .logo-text {
+    background: linear-gradient(45deg, #5f5f5f, #212121);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+a#btnLoadSection {
+    cursor: pointer;
+}
