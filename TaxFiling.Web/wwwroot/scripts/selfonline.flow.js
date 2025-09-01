@@ -37,26 +37,39 @@ $(function () {
         });
     });
 
-    $('#btnLoadSection').on('click', function () {        
-        $('.sub-link').removeClass('active');
-        $('#linkInThisSection').addClass('active');
+    //$('#btnLoadSection').on('click', function () {        
+    //    $('.sub-link').removeClass('active');
+    //    $('#linkInThisSection').addClass('active');
+
+    //    $.ajax({
+    //        url: '/SelfOnlineFlow/LoadInThisSection',
+    //        type: 'GET',
+    //        success: function (data) {
+    //            $('#in-this-section-container').html(data);
+    //        },
+    //        error: function () {
+    //            alert("Error loading section content.");
+    //        }
+    //    });
+    //});
+
+    //$('#linkInThisSection').on('click', function () {
+       
+    //    $.ajax({
+    //        url: '/SelfOnlineFlow/LoadInThisSection', 
+    //        type: 'GET',
+    //        success: function (data) {
+    //            $('#in-this-section-container').html(data);
+    //        },
+    //        error: function () {
+    //            alert("Error loading section content.");
+    //        }
+    //    });
+    //});
+    $('#btnLoadSection').on('click', function () {
 
         $.ajax({
             url: '/SelfOnlineFlow/LoadInThisSection',
-            type: 'GET',
-            success: function (data) {
-                $('#in-this-section-container').html(data);
-            },
-            error: function () {
-                alert("Error loading section content.");
-            }
-        });
-    });
-
-    $('#linkInThisSection').on('click', function () {
-       
-        $.ajax({
-            url: '/SelfOnlineFlow/LoadInThisSection', 
             type: 'GET',
             success: function (data) {
                 $('#in-this-section-container').html(data);
