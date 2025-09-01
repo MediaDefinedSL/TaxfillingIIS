@@ -2602,7 +2602,8 @@ section#Self-Online-Flow {
     border-radius: 8px;
     background: #fff;
     font: inherit;
-    color: #000
+    color: #000;
+    font-size: 16px !important;
 }
 
     .cal input:focus, select:focus {
@@ -2688,33 +2689,35 @@ section#Self-Online-Flow {
 .cal .nav-link.active {
     background: none !important;
     box-shadow: none !important;
-    border: solid 1px #ccc !important;
+    border: solid 2px #ccc !important;
     border-bottom: none;
     border-color: #319df4 !important;
     border-bottom: none !important;
     color: #319df4 !important;
-    border: none !important;
-    border-bottom: solid 2px #319df4 !important;
+    /* border: none !important; */
+    /* border-bottom: solid 2px #319df4 !important; */
     height: 44px !important;
+    /* background-color: #f3f3f3 !important; */
 }
 
 .cal .nav-link:hover {
-    border-bottom: solid 2px #319df4 !important;
+    /* border-bottom: solid 2px #319df4 !important; */
+    color: #2094ef !important;
 }
 
 .cal .nav-link {
     box-shadow: none !important;
-    border: solid 1px #ccc !important;
-    border-bottom: none;
+    border: solid 2px #ccc !important;
+    /* border-bottom: none; */
     border-color: #319df4 !important;
-    height: 43px !important;
+    height: 44px !important;
     border-bottom: none !important;
     color: #414141 !important;
-    border: none !important;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-right: 10px !important;
-    border-bottom: solid 3px #ffffff !important;
+    /* border: none !important; */
+    /* padding-left: 0px; */
+    /* padding-right: 0px; */
+    /* margin-right: 10px !important; */
+    /* border-bottom: solid 3px #ffffff !important; */
 }
 
 .cal ul#myTab {
@@ -2727,7 +2730,7 @@ section#Self-Online-Flow {
 
 
 .cal li.nav-item {
-    margin-right: 4px;
+    margin-right: 0px;
     display: inline-block;
     /* margin-left: auto; */
     /* margin-right: auto; */
@@ -2778,7 +2781,7 @@ section#about.about.section {
 div#documents-section {
     /* padding-right: 37% !important; */
     background-image: url(http://images.netexam.com/images/10229/file-uplode.gif) !important;
-    background-size: 222px;
+    background-size: 199px;
     background-repeat: no-repeat;
     background-position: right 6px;
     background-color: #ffffff !important;
@@ -3972,6 +3975,7 @@ section#team {
 
 .cal h4 {
     text-align: center;
+    font-family: sans-serif;
 }
 
 
@@ -4801,6 +4805,7 @@ table.table.table-bordered.table-striped th:last-child {
         background: #e2e8f0;
         color: #0f172a;
         font-size: 16px !important;
+        font-weight: 500;
     }
 
 .foreing .pill {
@@ -5166,7 +5171,7 @@ span.field-validation-error {
 }
 
 .Domestic .grid {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr;
     gap: 18px
 }
@@ -5181,7 +5186,10 @@ span.field-validation-error {
     background: #f1f5f9;
     border: 1px solid var(--border);
     padding: 18px;
-    border-radius: 12px
+    border-radius: 12px;
+    /* display: inline-block !important; */
+    /* width: 49%; */
+    text-align: left;
 }
 
 .Domestic .Domestic .tile h4 {
@@ -5192,8 +5200,8 @@ span.field-validation-error {
 }
 
 .Domestic .tile .big {
-    font-size: 22px;
-    font-weight: 800
+    font-size: 16px;
+    /* font-weight: 800; */
 }
 
 .Domestic label {
@@ -5383,11 +5391,12 @@ div#myEmpTabContent {
 }
 
 div#in-this-section-container .custom-tabs li.nav-item {
-    margin-right: 3%;
+    /* margin-right: 3%; */
 }
 
 div#in-this-section-container ul#myEmpTab {
     border: none !important;
+    column-gap: 34px;
 }
 
 #in-this-section-container .card.card-body {
@@ -5437,4 +5446,89 @@ div#myEmpTabContent td:first-child {
 
 a#btnLoadSection {
     cursor: pointer;
+}
+
+.sidebar-main i.bi.bi-person-fill-down {
+    margin-right: 0px !important;
+}
+
+
+#in-this-section-container div#dashboard-section {
+    margin-top: 26px;
+}
+
+div#myTabContent {
+    padding: 0px;
+    /* border: none; */
+    border: solid 1px #ccc;
+}
+
+#Self-Online-Flow .logo-text {
+    background: linear-gradient(45deg, #4f4f4f, #4b4b4b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+.Domestic .tile h4 {
+    text-align: left;
+    font-size: 19px;
+}
+
+.Domestic .grid .tile {
+    width: 49% !important;
+}
+
+
+section#Sign-in .pb-sm-0 {
+    text-align: center;
+}
+
+    section#Sign-in .pb-sm-0 + P {
+        text-align: center;
+    }
+
+.selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate, .selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate {
+    pointer-events: auto !important;
+}
+
+.uplode-parts .col-md-6.alert.alert-primary {
+    min-width: 490px !important;
+    width: auto;
+    max-width: 490px;
+}
+
+
+.uplode-parts .col-md-6.alert.alert-primary {
+    min-width: 490px !important;
+    width: auto;
+    max-width: 490px;
+}
+
+
+.alert.alert-warning.col-md-8.up-pri {
+    font-size: 16px !important;
+    padding: 7px;
+    padding-left: 15px;
+}
+
+.post-content.d-flex.flex-column {
+}
+
+.package button.btn.btn-secondary {
+    bottom: 0px !important;
+    position: absolute;
+    width: 83%;
+    margin-bottom: 34px !important;
+}
+
+
+.package .btn.btn-success {
+    background-color: #1999ff !important;
+    bottom: 0px !important;
+    position: absolute;
+    width: 83%;
+    margin-bottom: 34px !important;
+    opacity: 1;
+    border-color: #2196F3;
 }
