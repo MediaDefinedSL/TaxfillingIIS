@@ -39,6 +39,7 @@ public class Context : DbContext
     public DbSet<SelfOnlineInvestmentIncomeDetail> SelfOnlineInvestmentIncomeDetail { get; set; }
 
     public DbSet<UserTransactions> UserTransactions { get; set; }
+    public DbSet<SelfOnlineInvestmentPartnerBeneficiaryExempt> SelfOnlineInvestmentPartnerBeneficiaryExempt { get; set; }
 
 
 }
