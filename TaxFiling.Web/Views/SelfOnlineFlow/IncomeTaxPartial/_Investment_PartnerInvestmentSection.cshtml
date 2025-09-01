@@ -1,4 +1,5 @@
-﻿
+﻿@model List<TaxFiling.Web.Models.SelfOnlineInvestmentPartnerBeneficiaryExemptViewModel>
+
 <main class="main-content">
 
     <div class=" mt-4">
@@ -8,6 +9,7 @@
             <form method="post">
 
                 <div class=" mt-4 ">
+                    <input type="hidden" id="hiddenInvestmentPartnerIncomeId" name="hiddenInvestmentPartnerIncomeId" />
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"> <i class="bi bi-cash-stack me-2"></i>  Partner's investment income from partnership (Both local & foreign)</h6>
                         <hr>
@@ -35,10 +37,7 @@
                                 <label class="form-label">Gains and Profits (Rs.) – Partnership</label>
                                 <input type="text" class="form-control" id="txtGainsProfits" name="txtGainsProfits">
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Gains and Profits (Rs.) – Partnership</label>
-                                <input type="text" class="form-control" id="txtGainsProfits" name="txtGainsProfits">
-                            </div>
+                           
                             <div class="col-md-6">
                                 <label class="form-label">Total Investment Income from Partnership</label>
                                 <input type="text" class="form-control" id="txtTotalInvestmentPartnership" name="txtTotalInvestmentPartnership">
@@ -57,21 +56,60 @@
                         </div>
 
                         <hr class="my-4">
-                        <div class="table-responsive" id="terminalDetailsGrid">
+                        <div class="table-responsive" id="partnerInvestmentsGrid">
                             <table class="table table-bordered table-striped mt-2">
                                 <thead class="table-light">
                                     <tr>
                                         <th>No</th>
-                                        <th>Type Employment</th>
-                                        <th>Name</th>
-                                        <th>TIN Employer</th>
-                                        <th>Terminal Benefits</th>
+                                        <th>Total Investment Individual</th>
+                                        <th>Partnership Name</th>
+                                        <th>Gains and Profits</th>
+                                        <th>Total Investment Partnership</th>
                                         <th>Action</th>
 
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                      <tbody>
+                                            @if (Model != null && Model.Any(d => d.Category == "Partner"))
+                                            {
+                                                var index = 0;
+                                                foreach (var fdIncome in Model.Where(d => d.Category == "Partner"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@fdIncome.TotalInvestmentIncome</td>
+                                                        <td>@fdIncome.PartnershipName</td>
+                                                        <td>@fdIncome.GainsProfits</td>
+                                                        <td>@fdIncome.TotalInvestmentIncomePartnership</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm partnerDetails-editbtn" type="button"
+                                                                    data-id="@fdIncome.InvestmentIncomePBEId"
+                                                            data-category="Partner" 
+                                                            data-total="@fdIncome.TotalInvestmentIncome"
+                                                            data-code="@fdIncome.ActivityCode"
+                                                            data-partnership="@fdIncome.PartnershipName"
+                                                            data-ptinNo="@fdIncome.TINNO"
+                                                            data-gains="@fdIncome.GainsProfits"
+                                                            data-totalpartnership="@fdIncome.TotalInvestmentIncomePartnership">
+                                                                    
+                                                                Edit
+                                                            </button>
+                                                    <button class="btn btn-danger btn-sm PartnerBeneficiaryExemptDetails-deletebtn" type="button"
+                                                                    data-id="@fdIncome.InvestmentIncomePBEId"
+                                                            data-name="Partner">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No FixedDeposit Income found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
                             </table>
                         </div>
                     </div>
@@ -96,3 +134,5 @@
     </div>
 
 </main>
+
+<script src="~/scripts/selfOnline.investmentpartnerbeneficiaryexempt.js" asp-append-version="true"></script>

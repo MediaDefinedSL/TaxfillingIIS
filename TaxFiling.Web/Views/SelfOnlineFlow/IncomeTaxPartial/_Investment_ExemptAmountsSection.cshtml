@@ -1,4 +1,6 @@
-﻿<main class="main-content">
+﻿@model List<TaxFiling.Web.Models.SelfOnlineInvestmentPartnerBeneficiaryExemptViewModel>
+
+<main class="main-content">
 
     <div class=" mt-4">
         <div class="card card-body">
@@ -7,7 +9,7 @@
             <form method="post">
 
                 <div class=" mt-4 ">
-
+                    <input type="hidden" id="hiddenInvestmentExemptIncomeId" name="hiddenInvestmentExemptIncomeId" />
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"> <i class="bi bi-graph-up me-2"></i> Exempt Amounts/Gains and Profits for Investment Income A Excluded amount</h6>
                         <hr>
@@ -60,4 +62,6 @@
     </div>
 
 </main>
+
+<script src="~/scripts/selfOnline.investmentpartnerbeneficiaryexempt.js" asp-append-version="true"></script>
 
