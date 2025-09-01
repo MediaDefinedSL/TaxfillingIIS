@@ -2346,10 +2346,16 @@
                            contentPanels.forEach(panel => {
                                panel.style.display = (panel.id === panelId) ? "block" : "none";
                            });
+
+                            // Remove "active" from all sidebar and sub-links
+                            document.querySelectorAll('.sidebar-link, .sub-link').forEach(link => {
+                                link.classList.remove("active");
+                            });
+
                            // Remove "active" from all links
-                           sidebarLinks.forEach(link => {
-                               link.classList.remove("active");
-                           });
+                           //sidebarLinks.forEach(link => {
+                               //link.classList.remove("active");
+                          // });
                            // Add "active" to current clicked link
                            const activeLink = document.querySelector(`.sidebar-link[data-target="${panelId}"]`);
                            if (activeLink) {
