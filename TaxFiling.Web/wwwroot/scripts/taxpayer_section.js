@@ -112,7 +112,7 @@
             });
         }
         else {
-
+            $('#in-this-section-container').show();
             $.ajax({
                 url: '/SelfOnlineFlow/LoadInThisSection',
                 type: 'GET',

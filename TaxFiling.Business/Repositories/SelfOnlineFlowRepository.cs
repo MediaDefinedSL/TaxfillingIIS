@@ -1195,6 +1195,305 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
+    //----------------------------new 
+    public async Task<bool> SaveSelfOnlineInvestmentDetails(SelfOnlineInvestmentIncomeDetailDto selfOnlineInvestment)
+    {
+        bool isSuccess = false;
+
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                @"CALL ADDEditSelfOnlineInvestmentIncomeDetailsV1(
+                @loguser,
+                @UserId,
+                @year,
+                @Category,
+                @transactionType,
+                @SelfOnlineInvestmentDetailsId,
+                @ActivityCode,
+                @TypeOfInvestment,
+                @AmountInvested,
+                @IncomeAmount,
+                @WHTDeducted,
+                @ForeignTaxCredit,
+                @BankName,
+                @BankBranch,
+                @AccountNo,
+                @WHTCertificateNo,
+                @OpeningBalance,
+                @ClosingBalance,
+                @CompanyInstitution,
+                @SharesStocks,
+                @AcquisitionDate,
+                @CostAcquisition,
+                @NetDividendIncome,
+                @PropertySituation,
+                @PropertyAddress,
+                @DeedNo,
+                @RatesLocalAuthority,
+                @GiftOrInheritedCost,
+                @MarketValue
+            )",
+                new MySqlParameter("@loguser", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
+                new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
+                new MySqlParameter("@year", selfOnlineInvestment.Year),
+                new MySqlParameter("@Category", selfOnlineInvestment.Category ?? (object)DBNull.Value),
+                new MySqlParameter("@transactionType", selfOnlineInvestment.TransactionType ?? (object)DBNull.Value),
+                new MySqlParameter("@SelfOnlineInvestmentDetailsId", selfOnlineInvestment.InvestmentIncomeDetailId == 0 ? 0 : selfOnlineInvestment.InvestmentIncomeDetailId),
+                new MySqlParameter("@ActivityCode", selfOnlineInvestment.ActivityCode ?? (object)DBNull.Value),
+                new MySqlParameter("@TypeOfInvestment", selfOnlineInvestment.TypeOfInvestment ?? (object)DBNull.Value),
+                new MySqlParameter("@AmountInvested", selfOnlineInvestment.AmountInvested ?? (object)DBNull.Value),
+                new MySqlParameter("@IncomeAmount", selfOnlineInvestment.IncomeAmount ?? (object)DBNull.Value),
+                new MySqlParameter("@WHTDeducted", selfOnlineInvestment.WHTDeducted ?? (object)DBNull.Value),
+                new MySqlParameter("@ForeignTaxCredit", selfOnlineInvestment.ForeignTaxCredit ?? (object)DBNull.Value),
+                new MySqlParameter("@BankName", selfOnlineInvestment.BankName ?? (object)DBNull.Value),
+                new MySqlParameter("@BankBranch", selfOnlineInvestment.BankBranch ?? (object)DBNull.Value),
+                new MySqlParameter("@AccountNo", selfOnlineInvestment.AccountNo ?? (object)DBNull.Value),
+                new MySqlParameter("@WHTCertificateNo", selfOnlineInvestment.WHTCertificateNo ?? (object)DBNull.Value),
+                new MySqlParameter("@OpeningBalance", selfOnlineInvestment.OpeningBalance ?? (object)DBNull.Value),
+                new MySqlParameter("@ClosingBalance", selfOnlineInvestment.ClosingBalance ?? (object)DBNull.Value),
+                new MySqlParameter("@CompanyInstitution", selfOnlineInvestment.CompanyInstitution ?? (object)DBNull.Value),
+                new MySqlParameter("@SharesStocks", selfOnlineInvestment.SharesStocks ?? (object)DBNull.Value),
+                new MySqlParameter("@AcquisitionDate", selfOnlineInvestment.AcquisitionDate ?? (object)DBNull.Value),
+                new MySqlParameter("@CostAcquisition", selfOnlineInvestment.CostAcquisition ?? (object)DBNull.Value),
+                new MySqlParameter("@NetDividendIncome", selfOnlineInvestment.NetDividendIncome ?? (object)DBNull.Value),
+                new MySqlParameter("@PropertySituation", selfOnlineInvestment.PropertySituation ?? (object)DBNull.Value),
+                new MySqlParameter("@PropertyAddress", selfOnlineInvestment.PropertyAddress ?? (object)DBNull.Value),
+                new MySqlParameter("@DeedNo", selfOnlineInvestment.DeedNo ?? (object)DBNull.Value),
+                new MySqlParameter("@RatesLocalAuthority", selfOnlineInvestment.RatesLocalAuthority ?? (object)DBNull.Value),
+                new MySqlParameter("@GiftOrInheritedCost", selfOnlineInvestment.GiftOrInheritedCost ?? (object)DBNull.Value),
+                new MySqlParameter("@MarketValue", selfOnlineInvestment.MarketValue ?? (object)DBNull.Value)
+            );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveSelfOnlineInvestmentDetails");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfOnlineInvestmentIncomeDetailDto>> GetSelfOnlineInvestmentIncomeDetailsList(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfOnlineInvestmentIncomeDetailDto> investmentIncome = [];
+        try
+        {
+
+            investmentIncome = await _context.SelfOnlineInvestmentIncomeDetail
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfOnlineInvestmentIncomeDetailDto
+            {
+                InvestmentIncomeDetailId = t.InvestmentIncomeDetailId,
+                UserId = t.UserId,
+                Year = t.Year,
+                Category = t.Category,
+
+                ActivityCode = t.ActivityCode,
+                TypeOfInvestment = t.TypeOfInvestment,
+
+                AmountInvested = t.AmountInvested,
+                IncomeAmount = t.IncomeAmount,
+                WHTDeducted = t.WHTDeducted,
+                ForeignTaxCredit = t.ForeignTaxCredit,
+
+                BankName = t.BankName,
+                BankBranch = t.BankBranch,
+                AccountNo = t.AccountNo,
+                WHTCertificateNo = t.WHTCertificateNo,
+                OpeningBalance = t.OpeningBalance,
+                ClosingBalance = t.ClosingBalance,
+
+                CompanyInstitution = t.CompanyInstitution,
+                SharesStocks = t.SharesStocks,
+                AcquisitionDate = t.AcquisitionDate,
+                CostAcquisition = t.CostAcquisition,
+                NetDividendIncome = t.NetDividendIncome,
+
+                PropertySituation = t.PropertySituation,
+                PropertyAddress = t.PropertyAddress,
+                DeedNo = t.DeedNo,
+                RatesLocalAuthority = t.RatesLocalAuthority,
+                GiftOrInheritedCost = t.GiftOrInheritedCost,
+                MarketValue = t.MarketValue
+            })
+            .ToListAsync(ctx);
+
+
+      
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return investmentIncome;
+    }
+
+    public async Task<bool> DeleteSelfOnlineInvestmentDetails(string userId, int year, int investmentIncomeId, string categoryName)
+    {
+        bool isSuccess = false;
+
+
+        try
+        {
+
+            await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteselfOnlineinvestmentincomeDetailsV1  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @MainCategoryName,
+                                        @CategoryName,
+                                        @SelfOnlineInvestmentDetailsId
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@MainCategoryName", "InvestmentIncome"),
+                            new MySqlParameter("@CategoryName", categoryName),
+                            new MySqlParameter("@SelfOnlineInvestmentDetailsId", investmentIncomeId)
+                );
+
+           
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error Delete Investment Income Detail");
+        }
+        return isSuccess;
+    }
+
+    public async Task<bool> SaveSelfOnlineInvestmentPartnerBeneficiaryExempt(SelfOnlineInvestmentPartnerBeneficiaryExemptDto selfOnlineInvestment)
+    {
+        bool isSuccess = false;
+
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                   @"CALL ADDEditSelfOnlineInvestmentPartnerBeneficiaryExempt(
+                        @loguser,
+                        @UserId,
+                        @year,
+                        @Category,
+                        @transactionType,
+                        @InvestmentIncomePBEId,
+                        @TotalInvestmentIncome,
+                        @ActivityCode,
+                        @PartnershipName,
+                        @TrustName,
+                        @TINNO,
+                        @GainsProfits,
+                        @TotalInvestmentIncomePartnership,
+                        @TotalInvestmentIncomeTrust,
+                        @IsExemptAmountA,
+                        @IsExcludedAmountB,
+                        @ExemptExcludedIncome
+                    )",
+                       new MySqlParameter("@loguser", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
+                       new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
+                       new MySqlParameter("@year", selfOnlineInvestment.Year),
+                       new MySqlParameter("@Category", selfOnlineInvestment.Category ?? (object)DBNull.Value),
+                       new MySqlParameter("@transactionType", selfOnlineInvestment.TransactionType ?? (object)DBNull.Value),
+                       new MySqlParameter("@InvestmentIncomePBEId", selfOnlineInvestment.InvestmentIncomePBEId),
+                       new MySqlParameter("@TotalInvestmentIncome", selfOnlineInvestment.TotalInvestmentIncome ?? (object)DBNull.Value),
+                       new MySqlParameter("@ActivityCode", selfOnlineInvestment.ActivityCode ?? (object)DBNull.Value),
+                       new MySqlParameter("@PartnershipName", selfOnlineInvestment.PartnershipName ?? (object)DBNull.Value),
+                       new MySqlParameter("@TrustName", selfOnlineInvestment.TrustName ?? (object)DBNull.Value),
+                       new MySqlParameter("@TINNO", selfOnlineInvestment.TINNO ?? (object)DBNull.Value),
+                       new MySqlParameter("@GainsProfits", selfOnlineInvestment.GainsProfits ?? (object)DBNull.Value),
+                       new MySqlParameter("@TotalInvestmentIncomePartnership", selfOnlineInvestment.TotalInvestmentIncomePartnership ?? (object)DBNull.Value),
+                       new MySqlParameter("@TotalInvestmentIncomeTrust", selfOnlineInvestment.TotalInvestmentIncomeTrust ?? (object)DBNull.Value),
+                       new MySqlParameter("@IsExemptAmountA", selfOnlineInvestment.IsExemptAmountA ?? (object)DBNull.Value),
+                       new MySqlParameter("@IsExcludedAmountB", selfOnlineInvestment.IsExcludedAmountB ?? (object)DBNull.Value),
+                       new MySqlParameter("@ExemptExcludedIncome", selfOnlineInvestment.ExemptExcludedIncome ?? (object)DBNull.Value)
+                   );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveSelfOnlineInvestmentPartnerBeneficiaryExempt");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfOnlineInvestmentPartnerBeneficiaryExemptDto>> GetSelfOnlineInvestmentPartnerBeneficiaryExempt(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfOnlineInvestmentPartnerBeneficiaryExemptDto> investmentIncome = [];
+        try
+        {
+
+            investmentIncome = await _context.SelfOnlineInvestmentPartnerBeneficiaryExempt
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfOnlineInvestmentPartnerBeneficiaryExemptDto
+            {
+                InvestmentIncomePBEId = t.InvestmentIncomePBEId,
+                UserId = t.UserId,
+                Year = t.Year,
+                Category = t.Category,
+                TotalInvestmentIncome = t.TotalInvestmentIncome,
+                ActivityCode = t.ActivityCode,
+                PartnershipName = t.PartnershipName,
+                TrustName = t.TrustName,
+                TINNO = t.TINNO,
+                GainsProfits = t.GainsProfits,
+                TotalInvestmentIncomePartnership = t.TotalInvestmentIncomePartnership,
+                TotalInvestmentIncomeTrust = t.TotalInvestmentIncomeTrust,
+                IsExemptAmountA = t.IsExemptAmountA,
+                IsExcludedAmountB = t.IsExcludedAmountB,
+                ExemptExcludedIncome = t.ExemptExcludedIncome
+
+            })
+            .ToListAsync(ctx);
+
+
+
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return investmentIncome;
+    }
+
+    public async Task<bool> DeleteSelfOnlineInvestmentPartnerBeneficiaryExempt(string userId, int year, int investmentIncomeId, string categoryName)
+    {
+        bool isSuccess = false;
+
+
+        try
+        {
+
+            await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteselfOnlineinvestmentpartnerbeneficiaryexempt  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @MainCategoryName,
+                                        @CategoryName,
+                                        @SelfOnlineInvestmentIncomePBEId
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@MainCategoryName", "InvestmentIncome"),
+                            new MySqlParameter("@CategoryName", categoryName),
+                            new MySqlParameter("@SelfOnlineInvestmentIncomePBEId", investmentIncomeId)
+                );
+
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error Delete Investment Partner Beneficiary Exempt Income Detail");
+        }
+        return isSuccess;
+    }
+
 }
 
 

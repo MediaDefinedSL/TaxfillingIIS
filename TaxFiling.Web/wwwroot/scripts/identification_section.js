@@ -1,6 +1,6 @@
 ﻿$(function () {
 
-    $('#linkTaxPayerContinue').on('click', function () {
+    $('#linkIdentificationContinue').on('click', function () {
         let firstName = $("#FirstName").val();
         let middleName = $("#MiddleName").val();
         let lastName = $("#LastName").val();
@@ -82,7 +82,7 @@
        
     });
 
-    $('#linkTaxPayerNext').on('click', function () {
+    $('#linkIdentificationNext').on('click', function () {
 
         $.ajax({
             url: '/SelfOnlineFlow/LoadTaxReturnLastyear',

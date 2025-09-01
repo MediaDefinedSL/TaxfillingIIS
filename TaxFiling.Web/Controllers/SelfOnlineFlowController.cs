@@ -793,7 +793,30 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Terminal Benefits  save successfully" });
     }
 
+    //---------------box view
+    public async Task<IActionResult> LoadEmploymentIncome(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
 
+        var queryUserParams1 = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
+        var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_Incomeliable_EmploymentIncome", employmentIncomeList);
+    }
 
     public async Task<IActionResult> LoadEmploymentDetails(CancellationToken ctx)
     {
@@ -928,15 +951,15 @@ public class SelfOnlineFlowController : Controller
                 { "userId", userId.ToString()},
                 { "year", year.ToString()}
             };
-        List<SelfOnlineInvestmentIncomeDetails> investmentIncomeList = [];
-        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentincome_list", queryUserParams1);
+        List<SelfOnlineInvestmentIncomeDetailViewModel> investmentIncomeList = [];
+        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentincomedtail_list", queryUserParams1);
         var response1 = await _httpClient.GetAsync(investmentIncomeListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
             var responseContent = await response1.Content.ReadAsStringAsync(ctx);
             if (responseContent is not null)
             {
-                investmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineInvestmentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+                investmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineInvestmentIncomeDetailViewModel>>(responseContent, _jsonSerializerOptions)!;
             }
         }
 
@@ -1082,6 +1105,82 @@ public class SelfOnlineFlowController : Controller
 
         return Ok(new { success = true, message = "Employment Details  Delete successfully" });
     }
+
+    //--------new
+    [HttpPost]
+    public async Task<IActionResult> AddSelfOnlineInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDetailViewModel investmentIncome)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        investmentIncome.UserId = userId;
+        investmentIncome.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveinvestment_incomedetails", investmentIncome);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateSelfOnlineInvestmentIncomeDetails(SelfOnlineInvestmentIncomeDetailViewModel investmentIncome)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        investmentIncome.UserId = userId;
+        investmentIncome.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveinvestment_incomedetails", investmentIncome);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteSelfOnlineInvestmentIncomeDetails(int investmentIncomeId, string categoryName, CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "investmentIncomeId", investmentIncomeId.ToString()},
+                { "categoryName", categoryName}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/deleteinvestment_incomedetail", queryUserParams);
+        var response = await _httpClient.PostAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Employment Details  Delete successfully" });
+    }
+
 
 
 }

@@ -42,27 +42,27 @@
                 </div>
 
                 <div class="nav flex-column">
-                    <button id="" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
+                   @*  <button id="" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
                       
                         <h4 class="logo-text fw-bold mb-0">LKR  <span id="taxTotal"> @ViewBag.TaxTotal</span> </h4>
-                    </button>
+                    </button> *@
                     <button id="btndashboardSection" class="dropdown-btn sidebar-link text-decoration-none p-3 active">
                         <i class="fas fa-home me-3"></i> 
                         Dashboard
                     </button>
                     <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3">
                         <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
-                        Get Started
+                        Personal Information
                     </button>
                     <div class="dropdown-container" style="display: none;">
 
-                        <a class="sub-link"  id="linkInThisSection">In This Section</a>
-                        <a class="sub-link" id="linkTaxPayer">TaxPayer(s)</a>
-                        <a class="sub-link"  id="linkMaritalStatus">Marital Status</a>
-                        <a class="sub-link" id="linkLastYear">Last Year</a>
-                        <a class="sub-link"  id="linkIdentification">Identification</a>
-                        <a class="sub-link"  id="linkContactInformation">Contact Information</a>
-                        <a class="sub-link"  id="linkSummary">Summary</a>
+                       @*  <a class="sub-link"  id="linkInThisSection">In This Section</a> *@
+                        <a class="sub-link" id="linkTaxPayer"><i class="bi bi-cash-coin me-2"></i> TaxPayer(s)</a>
+                        <a class="sub-link" id="linkMaritalStatus"><i class="bi bi-activity me-2"></i> Marital Status</a>
+                        <a class="sub-link" id="linkLastYear"> <i class="fas fa-calendar me-2"></i> Last Year</a>
+                        <a class="sub-link" id="linkIdentification"><i class="bi bi-person-vcard-fill me-2"></i> Identification</a>
+                        <a class="sub-link" id="linkContactInformation"><i class="bi bi-telephone-outbound me-2"></i> Contact Information</a>
+                        <a class="sub-link" id="linkSummary"> <i class="bi bi-bar-chart-fill me-2"></i> Summary</a>
                         
                     </div>
 
@@ -81,7 +81,7 @@
                             <a class="sub-link dropdown-btn" id="linkEmploymentIncome">
                                 <i class="bi bi-briefcase-fill"></i> &nbsp; Employment Income
                             </a>
-                            <div class="dropdown-container" style="display: none; margin-left: 20px;">
+                          @*   <div class="dropdown-container" style="display: none; margin-left: 20px;">
                                 <a class="sub-link" id="linkEmploymentDetails">
                                     <i class="bi bi-card-text"></i> &nbsp; Employment Details
                                 </a>
@@ -91,12 +91,12 @@
                                 <a class="sub-link" id="linkExemptAmounts">
                                     <i class="bi bi-slash-circle"></i> &nbsp; Exempt Amounts
                                 </a>
-                            </div>
+                            </div> *@
 
                             <!-- Business Income -->
-                            <a class="sub-link" id="linkBusinessIncome">
+                           @*  <a class="sub-link" id="linkBusinessIncome">
                                 <i class="bi bi-building"></i> &nbsp; Business Income
-                            </a>
+                            </a> *@
                             <!-- Investment Income -->
                             <a class="sub-link dropdown-btn" id="linkInvestmentIncome">
                                 <i class="bi bi-bar-chart-line"></i> &nbsp; Investment Income
@@ -118,13 +118,13 @@
 
 
 
-                            <a class="sub-link" id="linkOtherIncome">
+                           @*  <a class="sub-link" id="linkOtherIncome">
                                 <i class="bi bi-three-dots"></i> &nbsp; Other Income
-                            </a>
+                            </a> *@
                         </div>
 
                         <!-- Other main sections -->
-                        <a class="sub-link" id="linkDeductions">
+                      @*   <a class="sub-link" id="linkDeductions">
                             <i class="bi bi-scissors"></i> &nbsp; Deductions from assessable income
                         </a>
                         <a class="sub-link" id="linkTaxCalculation">
@@ -132,7 +132,7 @@
                         </a>
                         <a class="sub-link" id="linkExemptIncome">
                             <i class="bi bi-shield-check"></i> &nbsp; Exempt income
-                        </a>
+                        </a> *@
                     </div>
 
 
@@ -155,7 +155,13 @@
                 </div>
             </nav>
 
-            <div id="in-this-section-container"></div>
+
+            <div id="taxtotalview">
+                <h4 class="logo-text fw-bold mb-0">LKR  <span id="taxTotal"> @ViewBag.TaxTotal</span> </h4>
+            </div>
+            <div id="in-this-section-container">
+               
+            </div>
 
         </div>
 

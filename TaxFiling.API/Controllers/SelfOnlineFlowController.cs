@@ -360,5 +360,94 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    //-------------------------- InvestmentIncome  new--
+    [HttpPost("saveinvestment_incomedetails")]
+    public async Task<IActionResult> SaveSelfOnlineInvestmentDetails(SelfOnlineInvestmentIncomeDetailDto selfOnlineInvestmentIncomeDetail)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfOnlineInvestmentDetails(selfOnlineInvestmentIncomeDetail);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("investmentincomedtail_list")]
+    public async Task<IActionResult> GetSelfOnlineInvestmentIncomeDetailsList(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var investmentIncomeList = await _selfOnlineFlowRepository.GetSelfOnlineInvestmentIncomeDetailsList(userId, year, ctx);
+
+            return Ok(investmentIncomeList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("deleteinvestment_incomedetail")]
+    public async Task<IActionResult> DeleteSelfOnlineInvestmentDetails(string userId, int year, int investmentIncomeId, string categoryName)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.DeleteSelfOnlineInvestmentDetails(userId, year, investmentIncomeId, categoryName);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("saveinvestment_partnerbeneficiaryexempt")]
+    public async Task<IActionResult> SaveSelfOnlineInvestmentPartnerBeneficiaryExempt(SelfOnlineInvestmentPartnerBeneficiaryExemptDto selfOnlineInvestmentIncomeDetail)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfOnlineInvestmentPartnerBeneficiaryExempt(selfOnlineInvestmentIncomeDetail);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("investmentpartnerbeneficiaryexempt_list")]
+    public async Task<IActionResult> GetSelfOnlineInvestmentPartnerBeneficiaryExempt(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var investmentIncomeList = await _selfOnlineFlowRepository.GetSelfOnlineInvestmentPartnerBeneficiaryExempt(userId, year, ctx);
+
+            return Ok(investmentIncomeList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPost("deleteinvestment_partnerbeneficiaryexempt")]
+    public async Task<IActionResult> DeleteSelfOnlineInvestmentPartnerBeneficiaryExempt(string userId, int year, int investmentIncomeId, string categoryName)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.DeleteSelfOnlineInvestmentPartnerBeneficiaryExempt(userId, year, investmentIncomeId, categoryName);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
 }
