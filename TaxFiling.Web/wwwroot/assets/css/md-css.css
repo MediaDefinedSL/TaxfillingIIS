@@ -5548,8 +5548,13 @@ section#Sign-in .pb-sm-0 {
 }
 
 div#documents-section {
-
     background-size: 18%;
+}
 
+.package button.btn.btn-primary {
+    bottom: 0px !important;
+    position: absolute;
+    width: 83%;
+    margin-bottom: 34px !important;
 }
 
