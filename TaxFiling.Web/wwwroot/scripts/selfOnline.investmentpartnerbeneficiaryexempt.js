@@ -139,6 +139,12 @@
                             $('#partnerInvestmentsGrid').html($(html).find('#partnerInvestmentsGrid').html());
                     });
                 }
+                if (deleteCategoryName == "Beneficiary") {
+                    $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
+                        $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
+                    });
+                }
+
 
 
             },
@@ -163,7 +169,7 @@
         let trustName = $("#txtBTrustName").val();
         let trustTin = $("#txtBTINTrust").val();
         let gainsProfits = $("#txtBGainsProfits").val();
-        let totalInvestmenttrust = $("#txtBTotalInvestment").val();
+        let totalInvestmenttrust = $("#txtBTotalInvestmentTrust").val();
 
 
         let isValid = true;
@@ -218,7 +224,7 @@
                     $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
                 });
 
-                // resetFormRent();
+                resetBeneficiaryForm();
             },
             error: function () {
                 $btn.prop("disabled", false);
@@ -226,6 +232,25 @@
             }
         });
     });
+
+    function resetBeneficiaryForm() {
+
+         $("#hiddenInvestmentBeneficiaryIncomeId").val("");   
+         $("#txtBTotalInvestment").val("");
+         $("#txtBActivityCode").val("");
+         $("#txtBTrustName").val("");
+         $("#txtBTINTrust").val("");
+         $("#txtBGainsProfits").val("");
+        $("#txtBTotalInvestmentTrust").val("");
+    }
+
+    $(document).on("click", "#btnBeneficiaryClear", function () {
+
+        resetBeneficiaryForm();
+        $("#btnBeneficiarySubmit").text("Submit");
+
+    });
+
     $(document).off("click", ".beneficiaryDetails-editbtn").on("click", ".beneficiaryDetails-editbtn", function () {
 
         $(".validation-error").remove();
@@ -235,25 +260,51 @@
         let totalInvestment = $(this).data("total");
         let code = $(this).data("code");
         let trustname = $(this).data("trustname");
-        let ptinNo = $(this).data("ptinNo");
+        let ptinNo = $(this).data("btin");
         let gainsProfits = $(this).data("gains");
         let totaltrust = $(this).data("totaltrust");
-       
+      
         // Now fill the modal/form inputs
         $("#hiddenInvestmentPartnerIncomeId").val(id);
-       // $("#txtCategory").val(category);
         $("#txtBTotalInvestment").val(totalInvestment);
         $("#txtBActivityCode").val(code);
         $("#txtBTrustName").val(trustname);
         $("#txtBTINTrust").val(ptinNo);
         $("#txtBGainsProfits").val(gainsProfits);
-        $("#txtBTotalInvestment").val(totaltrust);
+        $("#txtBTotalInvestmentTrust").val(totaltrust);
 
         // Open modal
         // $("#partnerDetailsModal").modal("show");
         $("#hiddenInvestmentBeneficiaryIncomeId").val(id);
         $("#btnBeneficiarySubmit").text("Update");
     });
+
+    $('#linkExemptContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+    $('#linkPartnerDetailsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_PartnerInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
 
     //---------------Exempt
 
