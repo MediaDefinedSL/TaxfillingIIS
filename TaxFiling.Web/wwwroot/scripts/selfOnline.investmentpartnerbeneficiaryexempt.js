@@ -257,25 +257,20 @@
 
     //---------------Exempt
 
-    $(document).off("click", "#btnExemptAmountsClear").on("click", "#btnExemptAmountsClear", function () {
-
+    $(document).off("click", "#btnExemptAmountsSubmit").on("click", "#btnExemptAmountsSubmit", function () {
         var $btn = $(this);
         $btn.prop("disabled", true);
 
-        // Collecting values from your form
-        let selfOnlineInvestmentPartnerId = $("#hiddenInvestmentExemptIncomeId").val();   // hidden field for edit/update
-        let profitsInvestment = $("#rdbTProfitsInvestment").val();
-        let excludedAmount = $("#rdbTExcludedAmount").val();
+        let selfOnlineInvestmentPartnerId = $("#hiddenInvestmentExemptIncomeId").val();
+        let profitsInvestment = $("#rdbTProfitsInvestment").is(":checked");
+        let excludedAmount = $("#rdbTExcludedAmount").is(":checked");
         let exempt = $("#txtTExempt").val();
-        
 
         let isValid = true;
         $(".validation-error").remove();
 
-        // === Validation ===
-
-        if (!trustName.trim()) {
-            $("#txtTExempt").after('<div class="text-danger validation-error">Trust Name is required.</div>');
+        if (!exempt.trim()) {
+            $("#txtTExempt").after('<div class="text-danger validation-error">Exempt/Excluded Income is required.</div>');
             isValid = false;
         }
 
@@ -284,21 +279,15 @@
             return;
         }
 
-        // === Data Object ===
-        let beneficiaryInvestmentData = {
+        let excludedInvestmentData = {
             InvestmentIncomePBEId: selfOnlineInvestmentPartnerId,
             TransactionType: selfOnlineInvestmentPartnerId ? "Edit" : "Add",
-            Category: "Beneficiary",
-            TotalInvestmentIncome: totalInvestment,
-            ActivityCode: activityCode,
-            TrustName: trustName,
-            TINNO: trustTin,
-            GainsProfits: gainsProfits,
-            TotalInvestmentIncomeTrust: totalInvestmenttrust
-
+            Category: "Exempt",
+            IsExemptAmountA: profitsInvestment,
+            IsExcludedAmountB: excludedAmount,
+            ExemptExcludedIncome: exempt
         };
 
-        // === AJAX URL ===
         var url = selfOnlineInvestmentPartnerId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
             : '/SelfOnlineFlow/AddSelfOnlineInvestmentPartnerBeneficiaryExemptDetails';
@@ -306,22 +295,33 @@
         $.ajax({
             url: url,
             type: 'POST',
-            data: beneficiaryInvestmentData,
+            data: excludedInvestmentData,
             success: function (response) {
                 $btn.prop("disabled", false);
 
                 notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
 
-                // Reload rent grid
-                $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
-                    $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
+                $.get('/SelfOnlineFlow/LoadInvestment_ExemptAmounts', function (html) {
+                    // refresh grid here if needed
                 });
-
-                // resetFormRent();
             },
             error: function () {
                 $btn.prop("disabled", false);
                 alert("Error saving.");
+            }
+        });
+    });
+
+
+    $('#linkExemptAmountsBack').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
             }
         });
     });
