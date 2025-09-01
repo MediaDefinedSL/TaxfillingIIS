@@ -17,7 +17,7 @@
 
     document.querySelectorAll('.sub-link').forEach(link => {
         link.addEventListener('click', function () {
-            document.querySelectorAll('.sub-link').forEach(l => l.classList.remove('active'));
+            document.querySelectorAll('.sub-link, .sidebar-link').forEach(l => l.classList.remove('active'));
             this.classList.add('active');
         });
     });
