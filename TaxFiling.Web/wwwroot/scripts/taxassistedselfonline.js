@@ -39,9 +39,11 @@
     });
 
     function setStepsIndicatorProgress(element) {
-
-        const el = document.getElementById(element);
-        if (!el) return;
+        let el;
+        if (element != "Declare" && element != "submission") {
+            el = document.getElementById(element);
+            if (!el) return;
+        }
         const steps = document.querySelectorAll('.taxAssistedSteps span');
         if (!steps.length) return;
 
@@ -50,7 +52,6 @@
             case "employmentIncomeStatus":
                 if (el.className == "text-success") {
                     steps[1].classList.add('completed');
-                    console.log(steps[1]);
                 }
                 break;
             case "bankConfirmationStatus":
@@ -69,12 +70,14 @@
                 }
                 break;
             case "Declare":
-                if (el.className == "text-success") {
+                if (document.getElementById("docUploadStatus").value == "2") {
                     steps[5].classList.add('completed');
                 }
                 break;
             case "submission":
-                steps[6].classList.add('completed');
+                if (document.getElementById("docUploadStatus").value == "2") {
+                    steps[6].classList.add('completed');
+                }
                 break;
         }
 

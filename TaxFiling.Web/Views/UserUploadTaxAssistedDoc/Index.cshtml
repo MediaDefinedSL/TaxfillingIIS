@@ -3000,13 +3000,14 @@
 
                                                   this.disabled = true;
                                                   this.innerText = "Terms Accepted";
-                                                 //alert("Your Documents submitted successfully");
-                                                   showMessage("Your Documents submitted successfully and Tax admins are contact you ASAP!", "success");
-                                                  printBtn.disabled = false;
                                                   const steps = document.querySelectorAll('.taxAssistedSteps span');
                                                   if (!steps.length) return;
                                                      steps[5].classList.add('completed');
                                                      steps[6].classList.add('completed');
+                                                 //alert("Your Documents submitted successfully");
+                                                   showMessage("Your Documents submitted successfully and Tax admins are contact you ASAP!", "success");
+                                                  printBtn.disabled = false;
+                                                  
 
 
 
@@ -3818,16 +3819,82 @@
                        });
 
                         submitBtn.addEventListener("click", async function () {
+                            let isValid = true;
+                            let messages = [];                    
+
+                           if(selectedCategoryName == "T10")
+                           {
+                               // Employer Name
+                            const employerName = document.getElementById("T10EmployerName");
+                            if (!employerName.value.trim()) {
+                                isValid = false;
+                                messages.push("T10 Employer Name is required.");
+                                employerName.classList.add("is-invalid");
+                            } else {
+                                employerName.classList.remove("is-invalid");
+                            }
+
+                             if (!isValid) {
+                                //alert(messages.join("\n"));
+                                showMessage(messages.join("\n"),"error");
+                                return;
+                            }
+
+                           }
+                           else if(selectedCategoryName == "Terminal Benefit")
+                           {
+                               isValid = true;
+                               messages = [];
+                               // Employer Name
+                                const TBemployerName = document.getElementById("TerminalEmployerName");
+                                if (!TBemployerName.value.trim()) {
+                                    isValid = false;
+                                    messages.push("Terminal Benefit Employer Name is required.");
+                                    TBemployerName.classList.add("is-invalid");
+                                } else {
+                                    TBemployerName.classList.remove("is-invalid");
+                                }
+
+                                 if (!isValid) {
+                                    //alert(messages.join("\n"));
+                                    showMessage(messages.join("\n"),"error");
+                                    return;
+                                }
+
+                           }
+
+                           else if(selectedCategoryName == "Any Other")
+                           {
+                               isValid = true;
+                               messages = [];
+                               // Employer Name
+                               const anyOtherType = document.getElementById("AnyOtherType");
+                                if (!anyOtherType.value.trim()) {
+                                    isValid = false;
+                                    messages.push("Please select Any Other Type.");
+                                    anyOtherType.classList.add("is-invalid");
+                                } else {
+                                    anyOtherType.classList.remove("is-invalid");
+                                }
+
+                                 if (!isValid) {
+                                    //alert(messages.join("\n"));
+                                    showMessage(messages.join("\n"),"error");
+                                    return;
+                                }
+
+                           }
+
 
                            if (!selectedFile || !selectedCategoryName) {
-                           Swal.fire({
-                               icon: 'warning',
-                               title: 'Upload file',
-                               text: 'Please upload a file before submitting.',
-                                           customClass: {
-                               popup: 'small-swal-popup'
-                           }
-                           });
+                               Swal.fire({
+                                   icon: 'warning',
+                                   title: 'Upload file',
+                                   text: 'Please upload a file before submitting.',
+                                               customClass: {
+                                   popup: 'small-swal-popup'
+                               }
+                               });
 
                            return;
                            }
@@ -4276,6 +4343,25 @@
 
 
                        submitOtherBtn.addEventListener("click", async function () {
+
+                            let isValid = true;
+                            let   messages = [];
+                               // Doc Name
+                            const otherDocName = document.getElementById("otherDocName");
+                            if (!otherDocName.value.trim()) {
+                                isValid = false;
+                                messages.push("Other Document Name is required.");
+                                otherDocName.classList.add("is-invalid");
+                            } else {
+                                otherDocName.classList.remove("is-invalid");
+                            }
+
+                                if (!isValid) {
+                                //alert(messages.join("\n"));
+                                showMessage(messages.join("\n"),"error");
+                                return;
+                            }
+
 
                            if (!selectedFile || !selectedCategoryName) {
                                   Swal.fire({
