@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Http.Extensions; // Needed for UriHelper
 using TaxFiling.Web.Services;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using Rotativa.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,7 +92,16 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("AuthenticatedUsers", policy =>
         policy.RequireAuthenticatedUser());
 
+
+
+
+
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+builder.Services.AddSingleton<IViewRenderService, ViewRenderService>();
+
 var app = builder.Build();
+
+
 
 // ✅ Forwarded headers — must come BEFORE UseHttpsRedirection
 app.UseForwardedHeaders(new ForwardedHeadersOptions

@@ -5557,12 +5557,12 @@ div#documents-section {
 }
 
 
-main.cal div, main.cal label, main.cal span, main.cal td, main.cal button, main.cal h1, main.cal h2, main.cal h3, main.cal input, main.cal b, main.cal a,
-main.cal strong, main.cal p {
+main.cal div, main.cal label, main.cal span, main.cal td, main.cal button, main.cal h1, main.cal h2, main.cal h3, main.cal input, main.cal b, main.cal a, 
+main.cal strong, main.cal p{
     font-family: sans-serif !important;
 }
 
-main.cal h1, main.cal h2, main.cal h3, main.cal input {
+main.cal h1, main.cal h2, main.cal h3, main.cal input{
     font-weight: 500 !important;
 }
 
@@ -5594,13 +5594,17 @@ button#empdetails-tab {
 }
 
 button#terminal-tab {
+
     background-image: url(/assets/img/Terminal-Benefitss.png) !important;
+
     background-size: cover;
     background-size: 82px;
 }
 
 button#exempt-tab {
-    background-image: url(/assets/img/Exempt-Amountss.png) !important;
+
+        background-image: url(/assets/img/Exempt-Amountss.png) !important;
     background-size: cover;
     background-size: 82px;
 }
+

@@ -67,7 +67,7 @@
                     $('#partnerInvestmentsGrid').html($(html).find('#partnerInvestmentsGrid').html());
                 });
 
-               // resetFormRent();
+                resetFormPartner();
             },
             error: function () {
                 $btn.prop("disabled", false);
@@ -75,6 +75,17 @@
             }
         });
     });
+
+    function resetFormPartner() {
+
+        $("#hiddenInvestmentPartnerIncomeId").val("");   
+        $("#txtTotalInvestment").val("");
+        $("#txtActivityCodePartnership").val("");
+        $("#txtPartnershipName").val("");
+        $("#txtPartnershipTin").val("");
+        $("#txtGainsProfits").val("");
+        $("#txtTotalInvestmentPartnership").val("");
+    }
 
     $(document).off("click", ".partnerDetails-editbtn").on("click", ".partnerDetails-editbtn", function () {
 
@@ -85,7 +96,7 @@
         let totalInvestment = $(this).data("total");
         let code = $(this).data("code");
         let partnershipName = $(this).data("partnership");
-        let ptinNo = $(this).data("ptinNo");
+        let ptinNo = $(this).data("ptin");
         let gainsProfits = $(this).data("gains");
         let totalPartnership = $(this).data("totalpartnership");
        
@@ -103,6 +114,13 @@
         // $("#partnerDetailsModal").modal("show");
         $("#hiddenInvestmentPartnerIncomeId").val(id);
         $("#btnPartnerInvestmentSubmit").text("Update");
+    });
+
+    $(document).on("click", "#btnPartnerInvestmentClear", function () {
+
+        resetFormPartner();
+        $("#btnPartnerInvestmentSubmit").text("Submit");
+
     });
 
     let deleteInvestmentId = null;
@@ -139,11 +157,43 @@
                             $('#partnerInvestmentsGrid').html($(html).find('#partnerInvestmentsGrid').html());
                     });
                 }
+                if (deleteCategoryName == "Beneficiary") {
+                    $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
+                        $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
+                    });
+                }
+
 
 
             },
             error: function () {
                 alert("Error deleting.");
+            }
+        });
+    });
+
+    $('#linkDetailsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+    $('#linkBeneficiaryContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
             }
         });
     });
@@ -163,7 +213,7 @@
         let trustName = $("#txtBTrustName").val();
         let trustTin = $("#txtBTINTrust").val();
         let gainsProfits = $("#txtBGainsProfits").val();
-        let totalInvestmenttrust = $("#txtBTotalInvestment").val();
+        let totalInvestmenttrust = $("#txtBTotalInvestmentTrust").val();
 
 
         let isValid = true;
@@ -218,7 +268,7 @@
                     $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
                 });
 
-                // resetFormRent();
+                resetBeneficiaryForm();
             },
             error: function () {
                 $btn.prop("disabled", false);
@@ -226,6 +276,25 @@
             }
         });
     });
+
+    function resetBeneficiaryForm() {
+
+         $("#hiddenInvestmentBeneficiaryIncomeId").val("");   
+         $("#txtBTotalInvestment").val("");
+         $("#txtBActivityCode").val("");
+         $("#txtBTrustName").val("");
+         $("#txtBTINTrust").val("");
+         $("#txtBGainsProfits").val("");
+        $("#txtBTotalInvestmentTrust").val("");
+    }
+
+    $(document).on("click", "#btnBeneficiaryClear", function () {
+
+        resetBeneficiaryForm();
+        $("#btnBeneficiarySubmit").text("Submit");
+
+    });
+
     $(document).off("click", ".beneficiaryDetails-editbtn").on("click", ".beneficiaryDetails-editbtn", function () {
 
         $(".validation-error").remove();
@@ -235,19 +304,18 @@
         let totalInvestment = $(this).data("total");
         let code = $(this).data("code");
         let trustname = $(this).data("trustname");
-        let ptinNo = $(this).data("ptinNo");
+        let ptinNo = $(this).data("btin");
         let gainsProfits = $(this).data("gains");
         let totaltrust = $(this).data("totaltrust");
-       
+      
         // Now fill the modal/form inputs
         $("#hiddenInvestmentPartnerIncomeId").val(id);
-       // $("#txtCategory").val(category);
         $("#txtBTotalInvestment").val(totalInvestment);
         $("#txtBActivityCode").val(code);
         $("#txtBTrustName").val(trustname);
         $("#txtBTINTrust").val(ptinNo);
         $("#txtBGainsProfits").val(gainsProfits);
-        $("#txtBTotalInvestment").val(totaltrust);
+        $("#txtBTotalInvestmentTrust").val(totaltrust);
 
         // Open modal
         // $("#partnerDetailsModal").modal("show");
@@ -255,27 +323,49 @@
         $("#btnBeneficiarySubmit").text("Update");
     });
 
+    $('#linkExemptContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+    $('#linkPartnerDetailsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_PartnerInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+
     //---------------Exempt
 
-    $(document).off("click", "#btnExemptAmountsClear").on("click", "#btnExemptAmountsClear", function () {
-
+    $(document).off("click", "#btnExemptAmountsSubmit").on("click", "#btnExemptAmountsSubmit", function () {
         var $btn = $(this);
         $btn.prop("disabled", true);
 
-        // Collecting values from your form
-        let selfOnlineInvestmentPartnerId = $("#hiddenInvestmentExemptIncomeId").val();   // hidden field for edit/update
-        let profitsInvestment = $("#rdbTProfitsInvestment").val();
-        let excludedAmount = $("#rdbTExcludedAmount").val();
+        let selfOnlineInvestmentPartnerId = $("#hiddenInvestmentExemptIncomeId").val();
+        let profitsInvestment = $("#rdbTProfitsInvestment").is(":checked");
+        let excludedAmount = $("#rdbTExcludedAmount").is(":checked");
         let exempt = $("#txtTExempt").val();
-        
 
         let isValid = true;
         $(".validation-error").remove();
 
-        // === Validation ===
-
-        if (!trustName.trim()) {
-            $("#txtTExempt").after('<div class="text-danger validation-error">Trust Name is required.</div>');
+        if (!exempt.trim()) {
+            $("#txtTExempt").after('<div class="text-danger validation-error">Exempt/Excluded Income is required.</div>');
             isValid = false;
         }
 
@@ -284,21 +374,15 @@
             return;
         }
 
-        // === Data Object ===
-        let beneficiaryInvestmentData = {
+        let excludedInvestmentData = {
             InvestmentIncomePBEId: selfOnlineInvestmentPartnerId,
             TransactionType: selfOnlineInvestmentPartnerId ? "Edit" : "Add",
-            Category: "Beneficiary",
-            TotalInvestmentIncome: totalInvestment,
-            ActivityCode: activityCode,
-            TrustName: trustName,
-            TINNO: trustTin,
-            GainsProfits: gainsProfits,
-            TotalInvestmentIncomeTrust: totalInvestmenttrust
-
+            Category: "Exempt",
+            IsExemptAmountA: profitsInvestment,
+            IsExcludedAmountB: excludedAmount,
+            ExemptExcludedIncome: exempt
         };
 
-        // === AJAX URL ===
         var url = selfOnlineInvestmentPartnerId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
             : '/SelfOnlineFlow/AddSelfOnlineInvestmentPartnerBeneficiaryExemptDetails';
@@ -306,22 +390,33 @@
         $.ajax({
             url: url,
             type: 'POST',
-            data: beneficiaryInvestmentData,
+            data: excludedInvestmentData,
             success: function (response) {
                 $btn.prop("disabled", false);
 
                 notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
 
-                // Reload rent grid
-                $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
-                    $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
+                $.get('/SelfOnlineFlow/LoadInvestment_ExemptAmounts', function (html) {
+                    // refresh grid here if needed
                 });
-
-                // resetFormRent();
             },
             error: function () {
                 $btn.prop("disabled", false);
                 alert("Error saving.");
+            }
+        });
+    });
+
+
+    $('#linkExemptAmountsBack').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
             }
         });
     });
