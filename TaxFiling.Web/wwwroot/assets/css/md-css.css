@@ -5472,9 +5472,9 @@ div#myTabContent {
 }
 
 #Self-Online-Flow .logo-text {
-    background: linear-gradient(45deg, #4f4f4f, #4b4b4b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background: linear-gradient(45deg, #4f4f4f, #4b4b4b) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
 }
 
 
@@ -5558,3 +5558,51 @@ div#documents-section {
     margin-bottom: 34px !important;
 }
 
+
+main.cal div, main.cal label, main.cal span, main.cal td, main.cal button, main.cal h1, main.cal h2, main.cal h3, main.cal input, main.cal b, main.cal a, 
+main.cal strong, main.cal p{
+    font-family: sans-serif !important;
+}
+
+main.cal h1, main.cal h2, main.cal h3, main.cal input{
+    font-weight: 500 !important;
+}
+
+.cal .grid td.lbl {
+    font-weight: 300;
+}
+
+.foreing .muted li {
+    font-weight: 300;
+    font-size: 14px !important;
+}
+
+button#recalc {
+    font-size: 14px !important;
+}
+
+button#recalc {
+    font-size: 14px !important;
+}
+
+main.cal strong {
+    font-weight: 100;
+}
+
+button#empdetails-tab {
+    background-image: url(/assets/img/Employment-Detailss.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#terminal-tab {
+        background-image: url(/assets/img/Terminal-Benefitss.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#exempt-tab {
+        background-image: url(/assets/img/Exempt-Amountss.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
