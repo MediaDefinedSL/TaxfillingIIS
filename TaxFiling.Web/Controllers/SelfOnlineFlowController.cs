@@ -1,28 +1,14 @@
+using iText.Html2pdf;
+using iText.Kernel.Pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using System.Diagnostics.Metrics;
 using System.Text.Json;
+using TaxFiling.Web.Helpers;
 using TaxFiling.Web.Models;
 using TaxFiling.Web.Models.Common;
 using TaxFiling.Web.Models.User;
-using System.IO;
-using DinkToPdf;
-using DinkToPdf.Contracts;
-using System;
-using TaxFiling.Web.Helpers;
-using Rotativa.AspNetCore;
 using TaxFiling.Web.Services;
-using iTextSharp.text.pdf;
-using System.Text;
-using iText.Html2pdf;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using iText.Html2pdf.Resolver.Font;
-
-
-
 
 namespace TaxFiling.Web.Controllers;
 
@@ -35,19 +21,18 @@ public class SelfOnlineFlowController : Controller
     private readonly HttpClient _httpClient;
 
     private readonly string _baseApiUrl;
-    private readonly IConverter _converter;
+
     private readonly IViewRenderService _viewRenderService;
 
-    public SelfOnlineFlowController(IConfiguration configuration, IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializerOptions, IViewRenderService viewRenderService, IConverter converter)
+    public SelfOnlineFlowController(IConfiguration configuration, IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializerOptions, IViewRenderService viewRenderService)
     {
         _configuration = configuration;
         _httpClientFactory = httpClientFactory;
         _jsonSerializerOptions = jsonSerializerOptions;
         _httpClient = httpClientFactory.CreateClient("ApiClient");
         _baseApiUrl = _configuration.GetValue<string>("BaseAPIUrl") ?? string.Empty;
-       
-        _viewRenderService = viewRenderService;
-        _converter = converter;
+
+        _viewRenderService = viewRenderService;      
     }
     public IActionResult Index()
     {
@@ -93,7 +78,7 @@ public class SelfOnlineFlowController : Controller
         int year = DateTime.Now.Year;
         var responseResult = false;
 
-       // PackagesViewModel package = new();
+        // PackagesViewModel package = new();
         UserViewModel user = new();
 
         SelfOnlineFlowPersonalInformation personalInformation = new();
@@ -159,7 +144,7 @@ public class SelfOnlineFlowController : Controller
 
         }
 
-      
+
         ViewBag.TaxTotal = user.TaxTotal;
 
         return View();
@@ -202,7 +187,7 @@ public class SelfOnlineFlowController : Controller
                 taxPayers = JsonSerializer.Deserialize<List<TaxPayerViewModel>>(responseContent, _jsonSerializerOptions)!;
             }
         }
-       
+
 
         string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/sofpersonalinformation_details", queryUserParams);
         var responseuser = await _httpClient.GetAsync(urluser, ctx);
@@ -231,7 +216,7 @@ public class SelfOnlineFlowController : Controller
             };
 
         List<MaritalStatusViewModel> maritalStatuses = [];
-       
+
         string maritalSListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", queryUserParams);
         var response1 = await _httpClient.GetAsync(maritalSListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
@@ -323,7 +308,7 @@ public class SelfOnlineFlowController : Controller
 
         }
 
-       
+
         identifications = new IdentificationsViewModel
         {
             UserId = userId,
@@ -343,7 +328,7 @@ public class SelfOnlineFlowController : Controller
             EmployerName = personalInformation.EmployerName
         };
 
-        if(personalInformation.FirstName == null)
+        if (personalInformation.FirstName == null)
         {
             var queryParams = new Dictionary<string, string?> {
                 { "Id", userId.ToString()}
@@ -414,12 +399,12 @@ public class SelfOnlineFlowController : Controller
             EmailPrimary = personalInformation.EmailPrimary,
             EmailSecondary = personalInformation.EmailSecondary,
             MobilePhone = personalInformation.MobilePhone,
-            HomePhone = personalInformation.HomePhone ,
+            HomePhone = personalInformation.HomePhone,
             WhatsApp = personalInformation.WhatsApp,
             PreferredCommunicationMethod = personalInformation.PreferredCommunicationMethod
         };
 
-        return PartialView("Partial/_ContactInformation" , contactInfromation);
+        return PartialView("Partial/_ContactInformation", contactInfromation);
     }
 
     public async Task<IActionResult> LoadSummary(CancellationToken ctx)
@@ -469,10 +454,10 @@ public class SelfOnlineFlowController : Controller
 
         ViewBag.MaritalStatusName = maritalStatusName;
 
-        
+
         List<TaxPayerViewModel> taxPayers = [];
         string taxPayersListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/taxpayer_list", queryUserParams);
-       
+
         var response2 = await _httpClient.GetAsync(taxPayersListUrl, ctx);
         if (response2 != null && response1.IsSuccessStatusCode)
         {
@@ -620,9 +605,9 @@ public class SelfOnlineFlowController : Controller
         user.UserId = userId;
 
 
-      //  string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
+        //  string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
         var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
-       
+
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -647,7 +632,7 @@ public class SelfOnlineFlowController : Controller
                 taxPayers = JsonSerializer.Deserialize<List<TaxPayer>>(responseContent, _jsonSerializerOptions)!;
             }
         }
-        
+
 
         return PartialView("Partial/_PersonalData", taxPayers);
     }
@@ -712,7 +697,7 @@ public class SelfOnlineFlowController : Controller
         return PartialView("IncomeTaxPartial/_IncomeLiableTaxSection", model);
     }
     [HttpPost]
-    public async Task<IActionResult> AddEmploymentIncome( SelfOnlineEmploymentIncome employmentIncome)
+    public async Task<IActionResult> AddEmploymentIncome(SelfOnlineEmploymentIncome employmentIncome)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
@@ -934,7 +919,7 @@ public class SelfOnlineFlowController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteEmploymentIncomeDetail(int employmentDetailsId,string employmentDetailsName, CancellationToken ctx)
+    public async Task<IActionResult> DeleteEmploymentIncomeDetail(int employmentDetailsId, string employmentDetailsName, CancellationToken ctx)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
@@ -1281,7 +1266,7 @@ public class SelfOnlineFlowController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
 
-       
+
 
         return PartialView("SelfOnlineSummary");
     }
@@ -1289,37 +1274,19 @@ public class SelfOnlineFlowController : Controller
     [HttpPost]
     public async Task<IActionResult> DownloadTaxPdf()
     {
-        // Render the same view you are showing
-        //var html = await _viewRenderService.RenderToStringAsync(this, "SelfOnlineFlow/SelfOnlineSummary", null); // name of your cshtml view
-        var html = await this.RenderViewToStringAsync<object>("~/Views/SelfOnlineFlow/SelfOnlineSummary.cshtml");
-
-        var pdfDoc = new HtmlToPdfDocument()
-        {
-            GlobalSettings = new GlobalSettings
-            {
-                PaperSize = PaperKind.A4,
-                Orientation = Orientation.Portrait,
-                DocumentTitle = "Income Tax Liability"
-            },
-            Objects = {
-                new ObjectSettings
-                {
-                    HtmlContent = html,
-                    WebSettings = { DefaultEncoding = "utf-8" }
-                }
-            }
-        };
-
-        var file = _converter.Convert(pdfDoc);
-
-        return File(file, "application/pdf", "TaxCalculation.pdf");
+        
+        var html = await this.RenderViewToStringAsync<object>("~/Views/SelfOnlineFlow/SelfOnlineSummaryPDF.cshtml");
 
 
+        using var ms = new MemoryStream();
+        HtmlConverter.ConvertToPdf(html, ms);
 
+        //var file = _converter.Convert(pdfDoc);
 
+        return File(ms.ToArray(), "application/pdf", "TaxCalculation.pdf");
 
     }
 
-   
+
 
 }
