@@ -2878,7 +2878,7 @@ padding-bottom: 9;
 }
 
 .customers-saying .client-single {
-    margin-top: 20px;
+    margin-top: 23px;
     text-align: center;
     position: absolute;
     -webkit-transition: all 1s ease;
@@ -2915,13 +2915,13 @@ padding-bottom: 9;
 }
 
 &.position-2 {
-    left: -40px;
-    top: 27px;
+    left: -41px;
+    top: 130px;
 }
 
 &.position-3 {
-    left: -48px;
-    top: 198px;
+    left: -58px;
+    top: 261px;
     -webkit-transform: scale(0.4) !important;
     transform: scale(0.4) !important;
     /* float: right !important; */
@@ -2929,13 +2929,13 @@ padding-bottom: 9;
 }
 
 &.position-4 {
-    left: 2px;
-    top: 370px;
+    left: 26px;
+    top: 388px;
 }
 
 &.position-5 {
-    top: 8px;
-    right: 55px;
+    top: -5px;
+    right: 66px;
     scale: 0.7;
 }
 
@@ -2969,7 +2969,7 @@ padding-bottom: 9;
 
 &:not(.active) {
     -webkit-transform: scale(0.55);
-    transform: scale(0.55);
+    transform: scale(0.57);
     z-index: 99;
 }
 
@@ -3659,7 +3659,7 @@ div#assets-section .form-control {
 span i {
     font-size: 60px;
     color: #0084ff;
-    margin: 40px 0 24px;
+    margin: 30px 0 24px;
     display: inline-block;
 }
 
@@ -5129,8 +5129,8 @@ span.field-validation-error {
 
 
 .client-single.inactive.position-8 {
-    right: 0;
-    top: 245px;
+    right: -35px;
+    top: 262px;
     scale: 0.80;
 }
 
@@ -5441,7 +5441,7 @@ div#myEmpTabContent td:first-child {
 /*END css canges may one*/
 
 .client-single.inactive.position-6 {
-    transform: scale(0.4);
+    transform: scale(0.38);
 }
 
 
