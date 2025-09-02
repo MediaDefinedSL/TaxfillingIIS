@@ -6,6 +6,23 @@ using System.Text.Json;
 using TaxFiling.Web.Models;
 using TaxFiling.Web.Models.Common;
 using TaxFiling.Web.Models.User;
+using System.IO;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using System;
+using TaxFiling.Web.Helpers;
+using Rotativa.AspNetCore;
+using TaxFiling.Web.Services;
+using iTextSharp.text.pdf;
+using System.Text;
+using iText.Html2pdf;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using iText.Html2pdf.Resolver.Font;
+
+
+
 
 namespace TaxFiling.Web.Controllers;
 
@@ -18,15 +35,19 @@ public class SelfOnlineFlowController : Controller
     private readonly HttpClient _httpClient;
 
     private readonly string _baseApiUrl;
+    private readonly IConverter _converter;
+    private readonly IViewRenderService _viewRenderService;
 
-
-    public SelfOnlineFlowController(IConfiguration configuration, IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializerOptions)
+    public SelfOnlineFlowController(IConfiguration configuration, IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializerOptions, IViewRenderService viewRenderService, IConverter converter)
     {
         _configuration = configuration;
         _httpClientFactory = httpClientFactory;
         _jsonSerializerOptions = jsonSerializerOptions;
         _httpClient = httpClientFactory.CreateClient("ApiClient");
         _baseApiUrl = _configuration.GetValue<string>("BaseAPIUrl") ?? string.Empty;
+       
+        _viewRenderService = viewRenderService;
+        _converter = converter;
     }
     public IActionResult Index()
     {
@@ -1254,5 +1275,51 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Employment Details  Delete successfully" });
     }
 
+
+    public async Task<IActionResult> LoadSummarySection(CancellationToken ctx)
+    {
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+       
+
+        return PartialView("SelfOnlineSummary");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DownloadTaxPdf()
+    {
+        // Render the same view you are showing
+        //var html = await _viewRenderService.RenderToStringAsync(this, "SelfOnlineFlow/SelfOnlineSummary", null); // name of your cshtml view
+        var html = await this.RenderViewToStringAsync<object>("~/Views/SelfOnlineFlow/SelfOnlineSummary.cshtml");
+
+        var pdfDoc = new HtmlToPdfDocument()
+        {
+            GlobalSettings = new GlobalSettings
+            {
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Portrait,
+                DocumentTitle = "Income Tax Liability"
+            },
+            Objects = {
+                new ObjectSettings
+                {
+                    HtmlContent = html,
+                    WebSettings = { DefaultEncoding = "utf-8" }
+                }
+            }
+        };
+
+        var file = _converter.Convert(pdfDoc);
+
+        return File(file, "application/pdf", "TaxCalculation.pdf");
+
+
+
+
+
+    }
+
+   
 
 }
