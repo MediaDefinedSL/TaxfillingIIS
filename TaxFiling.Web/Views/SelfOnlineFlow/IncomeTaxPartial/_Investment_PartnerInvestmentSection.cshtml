@@ -16,7 +16,7 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Total Investment Income (Individual)</label>
-                                <input type="text" class="form-control"  id="txtTotalInvestment" name="txtTotalInvestment">
+                                <input type="number" class="form-control" id="txtTotalInvestment" name="txtTotalInvestment">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"></label>
@@ -35,12 +35,12 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Gains and Profits (Rs.) – Partnership</label>
-                                <input type="text" class="form-control" id="txtGainsProfits" name="txtGainsProfits">
+                                <input type="number" class="form-control" id="txtGainsProfits" name="txtGainsProfits">
                             </div>
                            
                             <div class="col-md-6">
                                 <label class="form-label">Total Investment Income from Partnership</label>
-                                <input type="text" class="form-control" id="txtTotalInvestmentPartnership" name="txtTotalInvestmentPartnership">
+                                <input type="number" class="form-control" id="txtTotalInvestmentPartnership" name="txtTotalInvestmentPartnership">
                             </div>
                         </div>
                         <br />
@@ -88,7 +88,7 @@
                                                             data-total="@fdIncome.TotalInvestmentIncome"
                                                             data-code="@fdIncome.ActivityCode"
                                                             data-partnership="@fdIncome.PartnershipName"
-                                                            data-ptinNo="@fdIncome.TINNO"
+                                                            data-ptin="@fdIncome.TINNO"
                                                             data-gains="@fdIncome.GainsProfits"
                                                             data-totalpartnership="@fdIncome.TotalInvestmentIncomePartnership">
                                                                     
@@ -119,11 +119,11 @@
             <br><br>
             <div class="d-lg-flex justify-content-between">
                 <div class="col-lg-6 col-md-6 btn-prv">
-                    <button class="btn btn-primary btn-lg" id="linkEmploymentDetailsContinue">
+                    <button class="btn btn-primary btn-lg" id="linkDetailsContinue">
                         Back
                     </button>
                 </div>
-                <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue">
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkBeneficiaryContinue">
                     <button class="btn btn-primary btn-lg">
                         Continue
                     </button>

@@ -28,15 +28,15 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Gains and Profits (Rs.) – Trust</label>
-                                <input type="text" class="form-control" id="txtBGainsProfits" name="txtBGainsProfits">
+                                <input type="number" class="form-control" id="txtBGainsProfits" name="txtBGainsProfits">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Total Investment Income from Trust</label>
-                                <input type="text" class="form-control" id="txtBTotalInvestment" name="txtBTotalInvestment">
+                                <input type="number" class="form-control" id="txtBTotalInvestmentTrust" name="txtBTotalInvestmentTrust">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Total Investment Income</label>
-                                <input type="text" class="form-control" id="txtBTotalInvestment" name="txtBTotalInvestment">
+                                <input type="number" class="form-control" id="txtBTotalInvestment" name="txtBTotalInvestment">
                             </div>
                         </div>
                         <br />
@@ -84,7 +84,7 @@
                                                             data-total="@fdIncome.TotalInvestmentIncome"
                                                             data-code="@fdIncome.ActivityCode"
                                                             data-trustname="@fdIncome.TrustName"
-                                                            data-ptinNo="@fdIncome.TINNO"
+                                                            data-btin="@fdIncome.TINNO"
                                                             data-gains="@fdIncome.GainsProfits"
                                                             data-totaltrust="@fdIncome.TotalInvestmentIncomeTrust">
 
@@ -115,11 +115,11 @@
             <br><br>
             <div class="d-lg-flex justify-content-between">
                 <div class="col-lg-6 col-md-6 btn-prv">
-                    <button class="btn btn-primary btn-lg" id="linkEmploymentDetailsContinue">
+                    <button class="btn btn-primary btn-lg" id="linkPartnerDetailsContinue">
                         Back
                     </button>
                 </div>
-                <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue">
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptContinue">
                     <button class="btn btn-primary btn-lg">
                         Continue
                     </button>
