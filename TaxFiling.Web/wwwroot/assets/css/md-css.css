@@ -2781,9 +2781,7 @@ section#about.about.section {
 div#documents-section {
     /* padding-right: 37% !important; */
     background-image: url(http://images.netexam.com/images/10229/file-uplode.gif) !important;
-
     background-size: 20%;
-
     background-repeat: no-repeat;
     background-position: right 6px;
     background-color: #ffffff !important;
@@ -5559,12 +5557,12 @@ div#documents-section {
 }
 
 
-main.cal div, main.cal label, main.cal span, main.cal td, main.cal button, main.cal h1, main.cal h2, main.cal h3, main.cal input, main.cal b, main.cal a, 
-main.cal strong, main.cal p{
+main.cal div, main.cal label, main.cal span, main.cal td, main.cal button, main.cal h1, main.cal h2, main.cal h3, main.cal input, main.cal b, main.cal a,
+main.cal strong, main.cal p {
     font-family: sans-serif !important;
 }
 
-main.cal h1, main.cal h2, main.cal h3, main.cal input{
+main.cal h1, main.cal h2, main.cal h3, main.cal input {
     font-weight: 500 !important;
 }
 
@@ -5596,13 +5594,50 @@ button#empdetails-tab {
 }
 
 button#terminal-tab {
-        background-image: url(/assets/img/Terminal-Benefitss.png) !important;
+    background-image: url(/assets/img/Terminal-Benefitss.png) !important;
     background-size: cover;
     background-size: 82px;
 }
 
 button#exempt-tab {
-        background-image: url(/assets/img/Exempt-Amountss.png) !important;
+    background-image: url(/assets/img/Exempt-Amountss.png) !important;
     background-size: cover;
     background-size: 82px;
+}
+
+
+.client-single h3 {
+    font-size: 14px;
+    color: #505050;
+}
+
+.client-comment h3 {
+    font-size: 22px;
+    color: #000;
+}
+
+h3.c-coli {
+    font-size: 14px;
+    margin-top: -4px !important;
+    color: #505050;
+    line-height: 19px;
+}
+
+h3.c-dis {
+    font-size: 14px;
+    color: #505050;
+}
+
+.client-comment h4 {
+    font-size: 18px;
+}
+
+.client-single h4 {
+    font-size: 18px;
+}
+
+.client-comment a + h3 {
+    font-size: 14px;
+    color: #505050;
+    line-height: 21px;
 }
