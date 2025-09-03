@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 <main class="cal">
     <div class="page-title accent-background">
         <div class="container d-lg-flex justify-content-between align-items-center">
@@ -13,6 +13,9 @@
         <br>
         <br>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="profile" aria-selected="true">Total Individual Income Tax</button>
+            </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false" tabindex="-1">Domestic Employment (APIT / PAYE)</button>
             </li>
@@ -20,9 +23,7 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Foreign Income</button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="profile" aria-selected="true">Total Individual Income Tax</button>
-            </li>
+          
 
         </ul>
         <div class="tab-content mt-3" id="myTabContent">
@@ -245,12 +246,7 @@
                                         <span class="pill">Annual</span>
                                         <input id="foreign_amount_annual" type="text" inputmode="decimal" value="0" style="max-width:200px">
                                         <select id="foreign_currency" style="max-width:110px">
-                                            <option>USD</option>
-                                            <option>EUR</option>
-                                            <option>GBP</option>
-                                            <option>AUD</option>
-                                            <option>CAD</option>
-                                            <option selected="">LKR</option>
+                                            <option>USD</option>  
                                         </select>
                                         <span class="pill">FX→LKR</span>
                                         <input id="fx_rate" type="text" inputmode="decimal" value="300" style="max-width:120px">
