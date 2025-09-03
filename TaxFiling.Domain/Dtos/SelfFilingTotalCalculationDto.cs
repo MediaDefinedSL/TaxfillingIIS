@@ -15,5 +15,13 @@ public class SelfFilingTotalCalculationDto
     public decimal? EmpIncome_EmpDetails { get; set; }
     public decimal? EmpIncome_TermBenefits { get; set; }
     public decimal? EmpIncome_ExeAmounts { get; set; }
+    public decimal? InvestmentIncomeTotal { get; set; }
+    public decimal? InvIncome_Savings { get; set; }
+    public decimal? InvIncome_FixedDeposit { get; set; }
+    public decimal? InvIncome_Dividend { get; set; }
+    public decimal? InvIncome_Rent { get; set; }
+    public decimal? InvIncome_Partner { get; set; }
+ public decimal? InvIncome_Beneficiary { get; set; }
+ public decimal? InvIncome_ExemptAmounts { get; set; }
     public decimal? TaxTotal { get; set; }
 }

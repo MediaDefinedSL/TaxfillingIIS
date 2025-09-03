@@ -1,47 +1,52 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace TaxFiling.Web.Models;
 
-namespace TaxFiling.Domain.Entities;
-[Table("SelfFilingTotalCalculation")]
-public class SelfFilingTotalCalculation
+public class SelfFilingTotalCalculationViewModel
 {
-    [Column("SelfOnlineTotalId")]
-    [Key]
     public int SelfOnlineTotalId { get; set; }
-
-    [Column("UserId")]
     public string UserId { get; set; }
-    [Column("Year")]
     public int Year { get; set; }
 
-    [Column("EmploymentIncomeTotal")]
+    // Employment Income
     public decimal? EmploymentIncomeTotal { get; set; }
-
-    [Column("EmpIncome_EmpDetails")]
     public decimal? EmpIncome_EmpDetails { get; set; }
-
-    [Column("EmpIncome_TermBenefits")]
     public decimal? EmpIncome_TermBenefits { get; set; }
-
-    [Column("EmpIncome_ExeAmounts")]
     public decimal? EmpIncome_ExeAmounts { get; set; }
-    [Column("InvestmentIncomeTotal")]
+
+    // Investment Income
     public decimal? InvestmentIncomeTotal { get; set; }
-    [Column("InvIncome_Savings")]
     public decimal? InvIncome_Savings { get; set; }
-    [Column("InvIncome_FixedDeposit")]
     public decimal? InvIncome_FixedDeposit { get; set; }
-    [Column("InvIncome_Dividend")]
     public decimal? InvIncome_Dividend { get; set; }
-    [Column("InvIncome_Rent")]
     public decimal? InvIncome_Rent { get; set; }
-    [Column("InvIncome_Partner")]
     public decimal? InvIncome_Partner { get; set; }
-    [Column("InvIncome_Beneficiary")]
     public decimal? InvIncome_Beneficiary { get; set; }
-    [Column("InvIncome_ExemptAmounts")]
     public decimal? InvIncome_ExemptAmounts { get; set; }
 
-    [Column("TaxTotal")]
+    // Tax
     public decimal? TaxTotal { get; set; }
+
+    // New Computed Property
+    public decimal? InterestIncome
+    {
+        get
+        {
+            return (InvIncome_Savings ?? 0) + (InvIncome_FixedDeposit ?? 0);
+        }
+    }
+
+    public decimal? InvestmentIncome
+    {
+        get
+        {
+            return (InterestIncome ?? 0) + (InvIncome_Dividend ?? 0  +(InvIncome_Rent ?? 0));
+        }
+    }
+    public decimal? AssessableIncome
+    {
+        get
+        {
+            return (EmploymentIncomeTotal ?? 0) + (InvestmentIncome ?? 0);
+        }
+    }
 }
+
