@@ -402,6 +402,34 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
+    public async Task<SelfFilingTotalCalculationDto?> GetSelfFilingTotalCalculation(string userId, int year, CancellationToken ctx)
+    {
+        var totalCalculation = await _context.SelfFilingTotalCalculation
+                            .AsNoTracking()
+                            .Where(p => p.UserId == userId && p.Year == year)
+                            .Select(p => new SelfFilingTotalCalculationDto
+                            {
+                                UserId = p.UserId,
+                               EmploymentIncomeTotal = p.EmploymentIncomeTotal,
+                                EmpIncome_EmpDetails = p.EmpIncome_EmpDetails,
+                                EmpIncome_TermBenefits = p.EmpIncome_TermBenefits,
+                                EmpIncome_ExeAmounts = p.EmpIncome_ExeAmounts,
+                                InvestmentIncomeTotal  = p.InvestmentIncomeTotal,
+                                InvIncome_Savings = p.InvIncome_Savings,
+                                InvIncome_FixedDeposit = p.InvIncome_FixedDeposit,
+                                InvIncome_Dividend = p.InvIncome_Dividend,
+                                InvIncome_Rent = p.InvIncome_Rent,
+                                InvIncome_Partner = p.InvIncome_Partner,
+                                InvIncome_Beneficiary = p.InvIncome_Beneficiary,
+                                InvIncome_ExemptAmounts = p.InvIncome_ExemptAmounts,
+                            })
+                            .FirstOrDefaultAsync(ctx);
+
+
+
+        return totalCalculation;
+    }
+
     public async Task<bool> SaveSelfOnlineEmploymentIncome(SelfOnlineEmploymentIncomeDto selfOnlineEmploymentIncome)
     {
         bool isSuccess = false;

@@ -16,6 +16,8 @@ public interface ISelfOnlineFlowRepository
     Task<bool> UpdatelLastYear(string userId, int year, int lastyearId);
     Task<bool> UpdatelIdentification(IdentificationsDto identifications);
     Task<bool> UpdatelContactInformation(ContactInfromationDto contactInfromation);
+
+    Task<SelfFilingTotalCalculationDto?> GetSelfFilingTotalCalculation(string userId, int year, CancellationToken ctx);
     Task<bool> SaveSelfOnlineEmploymentIncome(SelfOnlineEmploymentIncomeDto selfOnlineEmploymentIncome);
     Task<SelfOnlineEmploymentIncomeDto> GetSelfOnlineEmploymentIncome(string userId, int year, CancellationToken ctx);
     Task<bool> SaveSelfOnlineEmploymentIncomeDetails(SelfOnlineEmploymentIncomeDetailsDto selfOnlineEmploymentIncomeDetails);

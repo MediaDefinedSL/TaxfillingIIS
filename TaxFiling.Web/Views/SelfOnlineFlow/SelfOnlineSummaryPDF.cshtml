@@ -1,4 +1,7 @@
-﻿<html lang="en">
+﻿@model TaxFiling.Web.Models.SelfFilingTotalCalculationViewModel
+
+
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -224,7 +227,7 @@
                     <td>Employment Income</td>
                     <td class="num">10</td>
                     <td></td>
-                    <td class="num">7,091,400</td>
+                    <td class="num">@Model.EmploymentIncomeTotal</td>
                 </tr>
                 <tr>
                     <td>Business Income</td>
@@ -241,20 +244,20 @@
                 <tr>
                     <td class="indent">+ Interest Income</td>
                     <td></td>
-                    <td class="num">2,120,723</td>
+                    <td class="num">@Model.InterestIncome</td>
                     <td class="num right-merge">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">+ Dividend Income <span class="red">(Final Tax)</span></td>
                     <td></td>
-                    <td class="num">24,306</td>
+                    <td class="num">@Model.InvIncome_Dividend</td>
                     <td class="num right-merge">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">+ Rent Income</td>
                     <td></td>
-                    <td></td>
-                    <td class="num">2,120,723</td>
+                    <td class="num">@Model.InvIncome_Rent</td>
+                    <td class="num">@Model.InvestmentIncome</td>
                 </tr>
                 <tr>
                     <td>Other Income</td>
@@ -267,7 +270,7 @@
                     <td>Assessable Income</td>
                     <td class="num">50</td>
                     <td class="muted">(10+20+30+40)</td>
-                    <td class="num">9,212,123</td>
+                    <td class="num">@Model.AssessableIncome</td>
                 </tr>
 
                 <tr>
@@ -277,7 +280,7 @@
                     <td>Personal relief</td>
                     <td class="num">60</td>
                     <td></td>
-                    <td class="num">1,200,000</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Relief for rent income</td>
@@ -301,7 +304,7 @@
                     <td>Total relief</td>
                     <td class="num">100</td>
                     <td class="muted">(60+70+80+90)</td>
-                    <td class="num">1,200,000</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Qualifying payments</td>
@@ -313,14 +316,14 @@
                     <td>Total deduction from assessable income</td>
                     <td class="num">120</td>
                     <td class="muted">(100+110)</td>
-                    <td class="num">1,200,000</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
 
                 <tr class="section">
                     <td>Taxable income</td>
                     <td class="num">130</td>
                     <td class="muted">(50-120)</td>
-                    <td class="num">8,012,123</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
 
                 <tr>
@@ -335,8 +338,8 @@
                 <tr>
                     <td>Tax on gain on realization of investment assets</td>
                     <td class="num">150</td>
-                    <td class="num">1,200,000</td>
-                    <td class="num">1,700,000</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Tax on balance taxable income</td>
@@ -347,57 +350,57 @@
                 <tr>
                     <td class="indent">500,000 @@ 6%</td>
                     <td></td>
-                    <td class="num">500,000</td>
-                    <td class="num">30,000</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 12%</td>
                     <td></td>
-                    <td class="num">500,000</td>
-                    <td class="num">60,000</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 18%</td>
                     <td></td>
-                    <td class="num">500,000</td>
-                    <td class="num">90,000</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 24%</td>
                     <td></td>
-                    <td class="num">500,000</td>
-                    <td class="num">120,000</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 30%</td>
                     <td></td>
-                    <td class="num">500,000</td>
-                    <td class="num">150,000</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">Balance @@ 36%</td>
                     <td></td>
-                    <td class="num">5,512,123</td>
-                    <td class="num">1,984,364</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
 
                 <tr class="footer-row">
                     <td>Total Tax Payable</td>
                     <td class="num">170</td>
                     <td class="muted">(140+150+160)</td>
-                    <td class="num">2,434,364</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Less: Tax Credits</td>
                     <td class="num">180</td>
                     <td></td>
-                    <td class="num">1,920,430</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="section">
                     <td>Balance Tax Payable / (Refund)</td>
                     <td class="num">190</td>
                     <td class="muted">(170-180)</td>
-                    <td class="num">513,934</td>
+                    <td class="num">&nbsp;</td>
                 </tr>
             </tbody>
         </table>
