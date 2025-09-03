@@ -5664,3 +5664,32 @@ h3.c-dis {
 .client-single.inactive.position-9 {
     display: none;
 }
+
+.tax-about-o .post-img.position-relative.overflow-hidden.rounded-md-image {
+    height: 200px;
+}
+
+.tax-about-o .post-img.position-relative.overflow-hidden.rounded-md-image img {
+    width: 100% !important;
+}
+
+.tax-about-o ul.list-group.price-list {
+    height: 214px;
+}
+
+
+
+.tax-about-o .row.gy-4 {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    width: auto !important;
+}
+
+.tax-about-o .col-lg-4.aos-init.aos-animates.aos-animate {
+    display: inline-block;
+}
+
+.tax-about-o .post-content.d-flex.flex-column {
+    height: 564px;
+}
