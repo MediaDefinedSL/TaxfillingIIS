@@ -5660,3 +5660,7 @@ h3.c-dis {
     transform: scale(0.5);
 }
 
+
+.client-single.inactive.position-9 {
+    display: none;
+}
