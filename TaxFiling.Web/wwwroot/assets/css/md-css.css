@@ -5439,7 +5439,7 @@ div#myEmpTabContent td:first-child {
 /*END css canges may one*/
 
 .client-single.inactive.position-6 {
-    transform: scale(0.4);
+    transform: scale(0.38);
 }
 
 
@@ -5643,6 +5643,7 @@ h3.c-dis {
 }
 
 
+
 .cal .nav-link.active {
     background: #d1d1d1;
     background: linear-gradient(0deg, rgb(214 214 214) 0%, rgb(242 242 242) 100%) !important;
@@ -5658,3 +5659,4 @@ h3.c-dis {
 .client-single.inactive.position-9 {
     transform: scale(0.5);
 }
+

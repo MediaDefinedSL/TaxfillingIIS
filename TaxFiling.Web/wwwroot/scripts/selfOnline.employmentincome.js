@@ -466,7 +466,7 @@ $(function () {
     });
 
   
-    $('.employmentDetails-editbtn').on('click', function () {
+    $(document).$('.employmentDetails-editbtn').on('click', function () {
 
         $(".validation-error").remove();
 
@@ -499,7 +499,8 @@ $(function () {
         $("#hiddenEmploymentDetailsId").val(id);
         $("#btnEmploymentDetails").text("Update");
     });
-    $('.terminalbenefits-editbtn').on('click', function () {
+    $(document).on("click", ".terminalbenefits-editbtn", function () {
+  
 
         var id = $(this).data("id");
         var type = $(this).data("type");
