@@ -1266,16 +1266,57 @@ public class SelfOnlineFlowController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
 
+        SelfFilingTotalCalculationViewModel totalCalculation = new();
+
+        var queryParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()}
+            };
+
+        string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryParams);
+        var response = await _httpClient.GetAsync(url, ctx);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContent))
+            {
+                totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+            }
+        }
 
 
-        return PartialView("SelfOnlineSummary");
+        return PartialView("SelfOnlineSummary", totalCalculation);
     }
 
     [HttpPost]
-    public async Task<IActionResult> DownloadTaxPdf()
+    public async Task<IActionResult> DownloadTaxPdf(CancellationToken ctx)
     {
-        
-        var html = await this.RenderViewToStringAsync<object>("~/Views/SelfOnlineFlow/SelfOnlineSummaryPDF.cshtml");
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        SelfFilingTotalCalculationViewModel totalCalculation = new();
+
+        var queryParams = new Dictionary<string, string?> {
+        { "userId", userId },
+        { "year", year.ToString() }
+    };
+
+        string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryParams);
+        var response = await _httpClient.GetAsync(url, ctx);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContent))
+            {
+                totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(
+                    responseContent, _jsonSerializerOptions
+                ) ?? new();
+            }
+        }
+
+        var html = await this.RenderViewToStringAsync<object>("~/Views/SelfOnlineFlow/SelfOnlineSummaryPDF.cshtml", totalCalculation);
 
 
         using var ms = new MemoryStream();

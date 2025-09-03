@@ -1,5 +1,8 @@
-﻿@{
-    await Html.RenderPartialAsync("SelfOnlineSummaryPDF");
+﻿@model TaxFiling.Web.Models.SelfFilingTotalCalculationViewModel
+
+
+@{
+    await Html.RenderPartialAsync("SelfOnlineSummaryPDF",Model);
 }
 
 <div style="text-align:center; margin-top:20px;">
