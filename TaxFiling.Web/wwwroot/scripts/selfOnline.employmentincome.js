@@ -40,7 +40,8 @@ $(function () {
         });
     });
 
-    $(document).on("click", "#btnEmploymentDetails", function () {
+    $(document).off("click", "#btnEmploymentDetails").on("click", "#btnEmploymentDetails", function () {
+   
         // e.preventDefault();
         var id = $("#hiddenEmploymentDetailsId").val();
         var $btn = $(this);
@@ -137,7 +138,7 @@ $(function () {
                 type: 'POST',
                 data: employIncome,
                 success: function (response) {
-                    alert(25);
+                 
                     $btn.prop("disabled", false);
                     notifySuccess("", "Update successfully");
 
@@ -177,6 +178,7 @@ $(function () {
         $("#txtAPITSecondaryEmployment").val("");
         $("#hiddenEmploymentDetailsId").val(0);
         $("#btnEmploymentDetails").text("Submit");
+        $("#hndSelfOnlineEmploymentIncomeId").val("");
 
     });
 
@@ -568,7 +570,7 @@ $(function () {
             employmentDetailsName: deleteEmploymentDetailsName
         };
 
-
+      
         $.ajax({
             url: '/SelfOnlineFlow/DeleteEmploymentIncomeDetail',
             type: 'POST',
