@@ -5722,6 +5722,12 @@ h3.c-dis {
 }
 
 
+.error {
+    border: 2px solid red !important;
+    background-color: #ffe6e6;
+}
+
+
 
 .cal .nav-link.active {
     background: #d1d1d1;
@@ -5932,3 +5938,4 @@ a.logo.d-flex.align-items-center {
 section#Self-Online-Flow {
     margin-top: 74px;
 }
+
