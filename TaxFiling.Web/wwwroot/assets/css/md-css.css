@@ -5693,3 +5693,9 @@ h3.c-dis {
 .tax-about-o .post-content.d-flex.flex-column {
     height: 564px;
 }
+
+
+#Self-Online-Flow .sidebar-main h2:after {
+    margin-top: 1%;
+
+}
