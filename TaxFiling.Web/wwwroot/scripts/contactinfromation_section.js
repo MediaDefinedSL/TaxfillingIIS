@@ -1,6 +1,9 @@
 ﻿$(function () {
 
     $('#linkContactInformationrContinue').on('click', function () {
+
+        $(".validation-error").remove();
+
         let careOf = $("#CareOf").val();
         let apt = $("#Apt").val();
         let streetNumber = $("#StreetNumber").val();
@@ -17,30 +20,33 @@
         let whatsApp = $("#WhatsApp").val();
         let preferredCommunicationMethod = $("#PreferredCommunicationMethod").val();  
 
+        let isValid = true;
 
         if (streetNumber.length == 0) {
             $("#StreetNumber").after('<div class="text-danger validation-error">Street Number is required.</div>');
             isValid = false;
         }
-        else if (street.length == 0) {
+       if (street.length == 0) {
             $("#Street").after('<div class="text-danger validation-error">Street is required.</div>');
             isValid = false;
         }
-        else if (city.length == 0) {
+        if (city.length == 0) {
             $("#City").after('<div class="text-danger validation-error">City is required.</div>');
             isValid = false;
         }
-        else if (emailPrimary.length == 0) {
+        if (emailPrimary.length == 0) {
             $("#EmailPrimary").after('<div class="text-danger validation-error">Primary Email is required.</div>');
             isValid = false;
         }
-        else if (mobilePhone.length == 0) {
+        if (mobilePhone.length == 0) {
             $("#MobilePhone").after('<div class="text-danger validation-error">Mobile Phone is required.</div>');
             isValid = false;
         }
 
-        else { 
+        if (!isValid) {
 
+            return;
+        }
 
         var user = {
             CareOf: $("#CareOf").val(),
@@ -73,6 +79,7 @@
                         $('#in-this-section-container').html(data);
                         $('.sub-link').removeClass('active');
                         $('#linkSummary').addClass('active');
+                        $("html, body").animate({ scrollTop: 0 }, "smooth");
                     },
                     error: function () {
                         alert("Error loading section content.");
@@ -83,12 +90,12 @@
                 alert("Error saving taxpayer.");
             }
         });
-    }
+   
 
 
     });
 
-    $('#linkTaxPayerNext').on('click', function () {
+    $('#linkContactInformationNext').on('click', function () {
 
         $.ajax({
             url: '/SelfOnlineFlow/LoadIdentification',
@@ -97,6 +104,7 @@
                 $('#in-this-section-container').html(data);
                 $('.sub-link').removeClass('active');
                 $('#linkIdentification').addClass('active');
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
             },
             error: function () {
                 alert("Error loading section content.");

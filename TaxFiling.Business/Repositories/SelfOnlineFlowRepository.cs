@@ -76,7 +76,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 Id = m.Id,
                 Name = m.Name,
                 ImageUrl = m.ImageUrl,
-                // NumberOfDependents = s.NumberOfDependents,
+                NumberOfDependents = s.NumberOfDependents,
                 SpouseFullName = s != null ? s.SpouseName : null,
                 SpouseTINNo = s != null ? s.SpouseTINNo : null,
                 SpouseNIC = s != null ? s.SpouseNIC : null,
@@ -187,8 +187,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             MobilePhone = b.MobilePhone,
                                             HomePhone = b.HomePhone,
                                             WhatsApp = b.WhatsApp,
-                                            PreferredCommunicationMethod = b.PreferredCommunicationMethod
-                                            // NumberOfDependents = b.NumberOfDependents
+                                            PreferredCommunicationMethod = b.PreferredCommunicationMethod,
+                                            NumberOfDependents = b.NumberOfDependents
                                         })
                                         .AsNoTracking()
                                         .FirstOrDefaultAsync(ctx);
@@ -273,6 +273,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             _user.SpouseName = maritalStatusDetails.SpouseFullName;
             _user.SpouseTINNo = maritalStatusDetails.SpouseTINNo;
             _user.SpouseNIC = maritalStatusDetails.SpouseNIC;
+            _user.NumberOfDependents = maritalStatusDetails.NumberOfDependents;
 
             await _context.SaveChangesAsync();
 

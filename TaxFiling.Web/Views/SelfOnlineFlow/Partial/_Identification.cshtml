@@ -94,7 +94,7 @@
             <div class="row mb-4">
                 <div class="col-md-6">
                     <label for="NIC">National Identity Card (NIC) Number</label>
-                    @Html.TextBoxFor(m => m.NIC_NO, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.NIC_NO, new { @class = "form-control", @disabled = "disabled" })
                 </div>
                 <div class="col-md-6">
                     <label for="PassportNo">Passport No</label>
@@ -107,7 +107,7 @@
             <div class="row mb-4">
              <div class="col-md-6">
                     <label for="TaxNumber">Tax Identification Number (TIN)</label>
-                    @Html.TextBoxFor(m => m.TaxNumber, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.TaxNumber, new { @class = "form-control", @disabled = "disabled" })
                 </div>
                 <div class="col-md-6">
                     <label for="Nationality">Nationality / Citizenship</label>
