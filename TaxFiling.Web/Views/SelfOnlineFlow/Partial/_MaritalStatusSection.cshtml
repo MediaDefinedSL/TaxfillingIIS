@@ -46,7 +46,7 @@
         <div class="row mb-4">
             <div class="col-md-4">
                 <label for="EmailPrimary">Number of Dependents</label>
-                <input type="number" class="form-control" name="NumberOfDependents" id="NumberOfDependents" min="0" value="@selectedMarital?.NumberOfDependents" />
+                <input type="number" class="form-control" name="NumberOfDependents" id="NumberOfDependents" min="0" value="@(selectedMarital?.NumberOfDependents ?? 0)" />
             </div>
             <div class="col-md-8">
             </div>
