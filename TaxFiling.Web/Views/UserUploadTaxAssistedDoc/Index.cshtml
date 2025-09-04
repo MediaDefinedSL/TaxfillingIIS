@@ -132,7 +132,7 @@
             <main class="main-content">
                 <div class="container-fluid">
                     <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
-                        <div class="mt-4">
+                        <div class="mt-0">
                             <div class="d-flex align-items-center mb-3">
                                 <h4 class="mb-0 mx-auto">Individual Income Tax Filing Summary</h4>
 
@@ -458,9 +458,9 @@
                     <div class="uplode-parts">
                         <div class="row ">
 
-                            <div class="col-md-6 guid-line">
+                            <div class="col-md-8 guid-line">
 
-                                <div>Ensure the following documents are available for upload, as relevant to your case.</div>
+                                <div class="uplode-text">Ensure the following documents are available for upload, as relevant to your case.</div>
                                 <ul>
                                     <li><i class="bi bi-check"></i>APIT / PAYE – T10 Certificate (Employment income)</li>
                                     <li><i class="bi bi-check"></i>Bank Confirmation Letters – Savings, Current, Fixed Deposits, Credit Cards, Lease, Loan, WHT certificates </li>
@@ -473,14 +473,11 @@
                                 </ul>
                             </div>
 
-                            <div class="col-md-6 alert alert-primary d-flex align-items-center p-4 shadow-lg border border-2 border-primary rounded-4" role="alert" style="background: #e9f4ff;">
-                                <i class="fas fa-cloud-upload-alt fa-2x me-4 text-primary pulse-icon"></i>
+                            <div class="col-md-6 alert alert-primary d-flex align-items-center p-4 shadow-lg border border-2 border-primary rounded-4 uplode-file-s" role="alert" style="background: #e9f4ff;">
+                                
                                 <div>
-                                    <h5 class="mb-2 fw-bold text-primary">📤 Ready to submit?</h5>
-                                    <p class="mb-2">
-                                        Click below to upload your
-                                        <span class="text-decoration-underline fw-semibold">2024/2025 Tax Documents</span>.
-                                    </p>
+                                    
+                                    
                                     <button class="btn btn-primary btn-lg px-4 py-2" id="uploadDoc-btn">
                                         <i class="fas fa-upload me-2"></i> Upload Documents
                                     </button>
@@ -495,6 +492,7 @@
                         <ul class="text-muted">
                             <li><strong>Accepted formats: <strong>PDF, JPG, PNG</strong></strong></li>
                             <li><strong>Maximum size per file: <strong>5MB</strong></strong></li>
+                            <p>Privacy: Files are encrypted in transit and at rest. Only your assigned tax advisor can view them.</p>
 
                         </ul>
                     </div>
