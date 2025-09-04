@@ -317,3 +317,48 @@ function toggleSidebar() {
 
 let allBranches = [];
 
+function showMessage(message, type = "success", autoClose = true, autoCloseTime = 5000) {
+    const modal = document.getElementById("enhancedModal");
+    const modalContent = modal.querySelector(".enhanced-modal-content");
+    const msgElem = document.getElementById("enhancedModalMessage");
+    const closeBtn = document.getElementById("enhancedModalClose");
+
+    // Set message text
+    msgElem.textContent = message;
+
+    // Remove previous type classes
+    modalContent.classList.remove("modal-success", "modal-error", "modal-info");
+
+    // Add current type class
+    if (type === "success") modalContent.classList.add("modal-success");
+    else if (type === "error") modalContent.classList.add("modal-error");
+    else modalContent.classList.add("modal-info");
+
+    // Show modal
+    modal.style.display = "flex";
+
+    // Close function
+    function closeModal() {
+        modal.style.display = "none";
+        // Cleanup event listeners to avoid duplicates if called again
+        closeBtn.removeEventListener("click", closeModal);
+        window.removeEventListener("click", outsideClick);
+        if (autoCloseTimer) clearTimeout(autoCloseTimer);
+    }
+
+    // Close when clicking close button
+    closeBtn.addEventListener("click", closeModal);
+
+    // Close when clicking outside modal content
+    function outsideClick(e) {
+        if (e.target === modal) closeModal();
+    }
+    window.addEventListener("click", outsideClick);
+
+    // Auto-close timer if enabled
+    let autoCloseTimer;
+    if (autoClose) {
+        autoCloseTimer = setTimeout(closeModal, autoCloseTime);
+    }
+}
+
