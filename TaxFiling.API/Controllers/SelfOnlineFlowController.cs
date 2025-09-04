@@ -187,6 +187,25 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpGet("get_selfFilingyotalcalculation")]
+    public async Task<IActionResult> GetSelfFilingTotalCalculation(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var result = await _selfOnlineFlowRepository.GetSelfFilingTotalCalculation(userId, year, ctx);
+            if (result is null)
+            {
+                return NoContent();
+            }
+
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
     [HttpPost("save_employmentincome")]
     public async Task<IActionResult> SaveSelfOnlineEmploymentIncome(SelfOnlineEmploymentIncomeDto selfOnlineEmploymentIncome)
     {

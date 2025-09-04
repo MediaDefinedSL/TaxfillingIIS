@@ -43,11 +43,11 @@
             <br><br>
             <div class="d-lg-flex justify-content-between">
                 <div class="col-lg-6 col-md-6 btn-prv">
-                    <button class="btn btn-primary btn-lg" id="linkEmploymentIncomeContinue">
+                    <button class="btn btn-primary btn-lg" id="linkPersonalSummaryContinue">
                         Back
                     </button>
                 </div>
-                <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue">
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkInvestmentDetailsContinue">
                     <button class="btn btn-primary btn-lg">
                         Continue
                     </button>
@@ -58,3 +58,38 @@
     </div>
 
 </main>
+
+
+
+<script>
+    $(function () {
+
+         $('#linkInvestmentDetailsContinue').on('click', function () {
+                $.ajax({
+                url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+                type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                    },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        });
+
+         $('#linkPersonalSummaryContinue').on('click', function () {
+                 $.ajax({
+                    url: '/SelfOnlineFlow/LoadSummary',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                    },
+                    error: function () {
+                        alert("Error loading section content.");
+                    }
+                });
+            
+        });
+    });
+</script>
+               

@@ -18,6 +18,7 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://api.taxfiling.lk"
       // "applicationUrl": "https://localhost:7119"
+
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",

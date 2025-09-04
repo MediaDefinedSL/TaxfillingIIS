@@ -1,0 +1,412 @@
+﻿@model TaxFiling.Web.Models.SelfFilingTotalCalculationViewModel
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calculation of Income Tax Liability – Year of Assessment</title>
+    <style>
+        /* ====== Page + Typography ====== */
+        :root {
+            --blue: #7cc7f0;
+            --accent: #34a3df;
+            --ink: #111827;
+            --muted: #374151;
+            --grid: #999;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+            color: var(--ink);
+            margin: 0;
+            background: #f8fafc;
+        }
+
+        .sheet {
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+            padding: 22mm 18mm; /* print-friendly margins */
+            box-sizing: border-box;
+        }
+
+        /* ====== Header ====== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent), #89d0ff);
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        h1 {
+            font-size: 18px;
+            letter-spacing: .4px;
+            margin: 0;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .note {
+            font-size: 10px;
+            color: var(--muted);
+            text-align: right
+        }
+
+        /* ====== Table ====== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        colgroup col:nth-child(1) {
+            width: 48%;
+        }
+
+        colgroup col:nth-child(2) {
+            width: 10%;
+        }
+
+        colgroup col:nth-child(3) {
+            width: 18%;
+        }
+
+        colgroup col:nth-child(4) {
+            width: 24%;
+        }
+
+        th, td {
+            border: 1px solid #cfd8e3;
+            padding: 8px 10px;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f3f6fb;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        td.num {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .muted {
+            color: #6b7280
+        }
+
+        .red {
+            color: #b91c1c;
+            font-weight: 600
+        }
+
+        .indent {
+            padding-left: 28px
+        }
+
+        .section {
+            background: var(--blue);
+            color: #0b3652;
+            font-weight: 700;
+        }
+
+            .section td, .section th {
+                border-color: #a8d8f2
+            }
+
+        .right-merge {
+            border-left: 0
+        }
+
+        .left-merge {
+            border-right: 0
+        }
+
+        .totals {
+            font-weight: 700
+        }
+
+        /* ====== Footer area ====== */
+        .footer-row td {
+            background: #eef7fd;
+            font-weight: 700
+        }
+
+        /* ====== Print ====== */
+        @@media print {
+            body {
+                background: #fff
+            }
+
+            .sheet {
+                box-shadow: none;
+                margin: 0;
+                width: auto;
+                min-height: auto;
+                padding: 0
+            }
+        }
+
+        .logo {
+            background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
+            width: 274px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet" role="document">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo"></div>
+
+            </div>
+            <div style="text-align:center;/* flex:1; */display: block !important;width: 100% !important;">
+                <h1>CALCULATION OF INCOME TAX LIABILITY</h1>
+                <div class="subtitle">YEAR OF ASSESSMENT</div>
+            </div>
+            <div class="note">(All Amounts Are In Sri Lanka Rupees)</div>
+        </div>
+
+        <!-- Main Table -->
+        <table aria-label="Calculation of Income Tax Liability">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Income Liable To Tax</th>
+                    <th>Note</th>
+                    <th></th>
+                    <th class="num">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Employment Income</td>
+                    <td class="num">10</td>
+                    <td></td>
+                    <td class="num">@Model.EmploymentIncomeTotal</td>
+                </tr>
+                <tr>
+                    <td>Business Income</td>
+                    <td class="num">20</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Investment Income</td>
+                    <td class="num">30</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">+ Interest Income</td>
+                    <td></td>
+                    <td class="num">@Model.InterestIncome</td>
+                    <td class="num right-merge">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">+ Dividend Income <span class="red">(Final Tax)</span></td>
+                    <td></td>
+                    <td class="num">@Model.InvIncome_Dividend</td>
+                    <td class="num right-merge">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">+ Rent Income</td>
+                    <td></td>
+                    <td class="num">@Model.InvIncome_Rent</td>
+                    <td class="num">@Model.InvestmentIncome</td>
+                </tr>
+                <tr>
+                    <td>Other Income</td>
+                    <td class="num">40</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+
+                <tr class="section">
+                    <td>Assessable Income</td>
+                    <td class="num">50</td>
+                    <td class="muted">(10+20+30+40)</td>
+                    <td class="num">@Model.AssessableIncome</td>
+                </tr>
+
+                <tr>
+                    <th colspan="4">Deduction From Assessable Income</th>
+                </tr>
+                <tr>
+                    <td>Personal relief</td>
+                    <td class="num">60</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Relief for rent income</td>
+                    <td class="num">80</td>
+                    <td>25% Max</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Solar Relief</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Relief for foreign service income</td>
+                    <td class="num">90</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr class="totals">
+                    <td>Total relief</td>
+                    <td class="num">100</td>
+                    <td class="muted">(60+70+80+90)</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Qualifying payments</td>
+                    <td class="num">110</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr class="totals">
+                    <td>Total deduction from assessable income</td>
+                    <td class="num">120</td>
+                    <td class="muted">(100+110)</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+
+                <tr class="section">
+                    <td>Taxable income</td>
+                    <td class="num">130</td>
+                    <td class="muted">(50-120)</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <th colspan="4">Calculation of tax payable</th>
+                </tr>
+                <tr>
+                    <td>Tax on terminal benefits</td>
+                    <td class="num">140</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Tax on gain on realization of investment assets</td>
+                    <td class="num">150</td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Tax on balance taxable income</td>
+                    <td class="num">160</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">500,000 @@ 6%</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">500,000 @@ 12%</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">500,000 @@ 18%</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">500,000 @@ 24%</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">500,000 @@ 30%</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">Balance @@ 36%</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+
+                <tr class="footer-row">
+                    <td>Total Tax Payable</td>
+                    <td class="num">170</td>
+                    <td class="muted">(140+150+160)</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Less: Tax Credits</td>
+                    <td class="num">180</td>
+                    <td></td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr class="section">
+                    <td>Balance Tax Payable / (Refund)</td>
+                    <td class="num">190</td>
+                    <td class="muted">(170-180)</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="subtitle" style="margin-top:18px">This HTML is a clean, print‑ready reproduction of the provided image. Adjust numbers/labels as needed.</p>
+    </div>
+
+</body>
+</html>

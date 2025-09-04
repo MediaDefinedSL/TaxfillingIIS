@@ -14,13 +14,14 @@
 ">
                     Personal Information — Review
                 </h2>
+                <br>
                 <h7 style="
     text-align: left;
     width: 100% !important;
-    display: block;
+    display: block; margin-bottom: 11px;
 ">Carefully check your details. If anything is wrong, go back and edit before continuing.</h7><br>
 
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-warning col-md-7" role="alert">
                     Important: We will use the information exactly as shown below for your filing with the Inland Revenue Department.
                 </div>
             </div>
@@ -32,20 +33,14 @@
         </h4>
 
         <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
-            <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@year</div></div>
+            <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
             <div class="row"><div class="col-md-4">Preparing For</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.TaxPayerName</div></div>
             <div class="row"><div class="col-md-4">Other Person Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneName</div></div>
             <div class="row"><div class="col-md-4">Relationship</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Relationship</div></div>
             <div class="row"><div class="col-md-4">Other Person TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneTINNo</div></div>
             <div class="row"><div class="col-md-4">Marital Status (as at 31 Mar)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.MaritalStatusName</div></div>
             <div class="row"><div class="col-md-4">Last Year Filing Method</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.LastyearsName</div></div>
-            <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@year</div></div>
-
-
-
-
-
-
+            
         </div>
 
 
@@ -62,7 +57,7 @@
             <div class="row"><div class="col-md-4">Last Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.LastName</div></div>
             <div class="row"><div class="col-md-4">Gender</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Gender</div></div>
             <div class="row"><div class="col-md-4">Date of Birth</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("MM/dd/yyyy") : "") </div></div>
-            <div class="row"><div class="col-md-4">NIC / Passport</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.NIC_NO  /  @Model.PassportNo</div></div>
+            <div class="row"><div class="col-md-4">NIC / Passport</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.NIC_NO </div></div>
             <div class="row"><div class="col-md-4">TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.TaxNumber</div></div>
 
 
