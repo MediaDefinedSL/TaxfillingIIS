@@ -12,6 +12,10 @@
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Exempt Amounts</h6>
                         <input type="hidden" id="hiddenExemptId" name="hiddenExemptId" />
+                        @{
+                            var fristrecord = Model.FirstOrDefault();
+                        }
+                        <input type="hidden" id="hiddenEtotal" name="hiddenEtotal" value="@fristrecord?.Total" />
                         <hr>
                         <div class="row g-3">
 
@@ -32,7 +36,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Amount (Rs.)</label>
-                                <input type="number" class="form-control" id="txtExemptAmount" name="txtExemptAmount">
+                                <input type="text" class="form-control numeric-input" id="txtExemptAmount" name="txtExemptAmount">
                             </div>
                         </div>
                         <br />

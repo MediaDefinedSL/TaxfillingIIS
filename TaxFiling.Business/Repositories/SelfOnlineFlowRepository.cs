@@ -411,11 +411,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             .Select(p => new SelfFilingTotalCalculationDto
                             {
                                 UserId = p.UserId,
-                               EmploymentIncomeTotal = p.EmploymentIncomeTotal,
+                                EmploymentIncomeTotal = p.EmploymentIncomeTotal,
                                 EmpIncome_EmpDetails = p.EmpIncome_EmpDetails,
                                 EmpIncome_TermBenefits = p.EmpIncome_TermBenefits,
                                 EmpIncome_ExeAmounts = p.EmpIncome_ExeAmounts,
-                                InvestmentIncomeTotal  = p.InvestmentIncomeTotal,
+                                InvestmentIncomeTotal = p.InvestmentIncomeTotal,
                                 InvIncome_Savings = p.InvIncome_Savings,
                                 InvIncome_FixedDeposit = p.InvIncome_FixedDeposit,
                                 InvIncome_Dividend = p.InvIncome_Dividend,
@@ -695,25 +695,28 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
 
-            employmentIncome = await _context.SelfOnlineEmploymentIncomeDetails
-            .Where(b => b.UserId == userId && b.Year == year)
-            .Select(t => new SelfOnlineEmploymentIncomeDetailsDto
-            {
-                SelfOnlineEmploymentDetailsId = t.SelfOnlineEmploymentDetailsId,
-                // SelfOnlineEmploymentIncomeId = t.SelfOnlineEmploymentIncomeId,
-                Residency = t.Residency,
-                SeniorCitizen = t.SeniorCitizen,
-                CategoryName = t.CategoryName,
-                TypeOfName = t.TypeOfName,
-                EmployerORCompanyName = t.EmployerORCompanyName,
-                TINOfEmployer = t.TINOfEmployer,
-                Remuneration = t.Remuneration,
-                APITPrimaryEmployment = t.APITPrimaryEmployment,
-                APITSecondaryEmployment = t.APITSecondaryEmployment,
-                TerminalBenefits = t.TerminalBenefits,
-                Amount = t.Amount
-
-            }).ToListAsync(ctx);
+             employmentIncome = await (
+                    from e in _context.SelfOnlineEmploymentIncomeDetails
+                    join t in _context.SelfFilingTotalCalculation
+                        on new { e.UserId, e.Year } equals new { t.UserId, t.Year }
+                    where e.UserId == userId && e.Year == year
+                    select new SelfOnlineEmploymentIncomeDetailsDto
+                    {
+                        SelfOnlineEmploymentDetailsId = e.SelfOnlineEmploymentDetailsId,
+                        Residency = e.Residency,
+                        SeniorCitizen = e.SeniorCitizen,
+                        CategoryName = e.CategoryName,
+                        TypeOfName = e.TypeOfName,
+                        EmployerORCompanyName = e.EmployerORCompanyName,
+                        TINOfEmployer = e.TINOfEmployer,
+                        Remuneration = e.Remuneration,
+                        APITPrimaryEmployment = e.APITPrimaryEmployment,
+                        APITSecondaryEmployment = e.APITSecondaryEmployment,
+                        TerminalBenefits = e.TerminalBenefits,
+                        Amount = e.Amount,
+                        Total = t.TaxTotal
+                    }
+                ).ToListAsync(ctx);
 
 
         }
@@ -861,74 +864,6 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
         try
         {
-
-            //await _context.Database.ExecuteSqlRawAsync(
-            //     "CALL ADDEditSelfOnlineEmploymentIncomeDetails({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})",
-            //     selfOnlineEmploymentIncomeDetails.UserId,
-            //     selfOnlineEmploymentIncomeDetails.UserId,
-            //     selfOnlineEmploymentIncomeDetails.Year,
-            //     "EmploymentIncome",
-            //     selfOnlineEmploymentIncomeDetails.CategoryName,
-            //     "Edit",
-            //     selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentDetailsId,
-            //     selfOnlineEmploymentIncomeDetails.Residency,
-            //     selfOnlineEmploymentIncomeDetails.SeniorCitizen,
-            //     selfOnlineEmploymentIncomeDetails.TypeOfName,
-            //     selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
-            //     selfOnlineEmploymentIncomeDetails.TINOfEmployer,
-            //     selfOnlineEmploymentIncomeDetails.Remuneration,
-            //     selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment,
-            //     selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment,
-            //     selfOnlineEmploymentIncomeDetails.TerminalBenefits,
-            //     selfOnlineEmploymentIncomeDetails.Amount
-            // );
-            /*  var _employmentIncomuser = await _context.SelfOnlineEmploymentIncomeDetails
-                               .Where(p => p.SelfOnlineEmploymentDetailsId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentDetailsId && p.UserId == selfOnlineEmploymentIncomeDetails.UserId && p.Year == selfOnlineEmploymentIncomeDetails.Year)
-                               .FirstOrDefaultAsync();
-
-              if (_employmentIncomuser != null)
-              {
-                  if (selfOnlineEmploymentIncomeDetails.CategoryName == "EmploymentDetails")
-                  {
-                      _employmentIncomuser.Residency = selfOnlineEmploymentIncomeDetails.Residency;
-                      _employmentIncomuser.SeniorCitizen = selfOnlineEmploymentIncomeDetails.SeniorCitizen;
-                      _employmentIncomuser.TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName;
-                      _employmentIncomuser.EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName;
-                      _employmentIncomuser.TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer;
-                      _employmentIncomuser.Remuneration = selfOnlineEmploymentIncomeDetails.Remuneration;
-                      _employmentIncomuser.APITPrimaryEmployment = selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment;
-                      _employmentIncomuser.APITSecondaryEmployment = selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment;
-                      _employmentIncomuser.UpdatedBy = selfOnlineEmploymentIncomeDetails.UserId;
-                      _employmentIncomuser.UpdatedOn = DateTime.Now;
-
-                  }
-                  else if (selfOnlineEmploymentIncomeDetails.CategoryName == "TerminalBenefits")
-                  {
-                      _employmentIncomuser.TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName;
-                      _employmentIncomuser.EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName;
-                      _employmentIncomuser.TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer;
-                      _employmentIncomuser.TerminalBenefits = selfOnlineEmploymentIncomeDetails.TerminalBenefits;
-                      _employmentIncomuser.UpdatedBy = selfOnlineEmploymentIncomeDetails.UserId;
-                      _employmentIncomuser.UpdatedOn = DateTime.Now;
-                  }
-                  else if (selfOnlineEmploymentIncomeDetails.CategoryName == "ExemptAmounts")
-                  {
-                      _employmentIncomuser.TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName;
-                      _employmentIncomuser.EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName;
-                      _employmentIncomuser.TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer;
-                      _employmentIncomuser.Amount = selfOnlineEmploymentIncomeDetails.Amount;
-                      _employmentIncomuser.UpdatedBy = selfOnlineEmploymentIncomeDetails.UserId;
-                      _employmentIncomuser.UpdatedOn = DateTime.Now;
-                  }
-
-                  await _context.SaveChangesAsync();*/
-            //}
-            //else
-            //{
-
-            //    return false;
-            //}
-
             await _context.Database.ExecuteSqlRawAsync(
           @"CALL ADDEditSelfOnlineEmploymentIncomeDetails(
                 @loguser,
@@ -1004,36 +939,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             new MySqlParameter("@CategoryName", employmentDetailsName),
                             new MySqlParameter("@SelfOnlineEmploymentDetailsId", employmentDetailsId)
                 );
-            //var _employmentIncomDetails = await _context.SelfOnlineEmploymentIncomeDetails
-            //                  .Where(p => p.UserId == userId && p.Year == year && p.SelfOnlineEmploymentDetailsId == employmentDetailsId)
-            //                  .FirstOrDefaultAsync();
-            //if (_employmentIncomDetails != null)
-            //{
 
-            //    _context.SelfOnlineEmploymentIncomeDetails.Remove(_employmentIncomDetails);
-
-
-
-
-
-            //    if (employmentDetailsName == "TerminalBenefits")
-            //    {
-            //        //     await _context.Database.ExecuteSqlRawAsync(
-            //        //              "CALL UpdateSelfFilingTotalCalculation({0}, {1}, {2},{3},{4},{5},{6})",
-            //        //              selfOnlineEmploymentIncomeDetails.UserId,
-            //        //              selfOnlineEmploymentIncomeDetails.UserId,
-            //        //              selfOnlineEmploymentIncomeDetails.Year,
-            //        //              "EmploymentIncome",
-            //        //              "EmploymentDetails",
-            //        //              "add",
-            //        //              addToTotal
-
-            //        //          );
-            //    }
-
-            //}
-
-            //await _context.SaveChangesAsync();
 
             isSuccess = true;
 
@@ -1212,7 +1118,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             new MySqlParameter("@CategoryName", categoryName),
                             new MySqlParameter("@SelfOnlineInvestmentDetailsId", investmentIncomeId)
                 );
-           
+
             isSuccess = true;
 
 
@@ -1349,7 +1255,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             .ToListAsync(ctx);
 
 
-      
+
 
         }
         catch (Exception e)
@@ -1385,7 +1291,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             new MySqlParameter("@SelfOnlineInvestmentDetailsId", investmentIncomeId)
                 );
 
-           
+
         }
         catch (Exception e)
         {

@@ -9,6 +9,10 @@
 
                 <div class=" mt-4 ">
                     <input type="hidden" id="hiddenEmploymentDetailsId" name="hiddenEmploymentDetailsId" />
+                    @{
+                        var fristrecord = Model.FirstOrDefault();
+                    }
+                    <input type="hidden" id="hiddentotal" name="hiddentotal" value="@fristrecord?.Total" />
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Employment Details</h6>
                         <hr>
@@ -37,7 +41,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Remuneration (Rs.)</label>
-                                <input type="number" class="form-control" maxlength="9" id="txtRemuneration" name="txtRemuneration">
+                                <input type="text" class="form-control numeric-input" maxlength="9" id="txtRemuneration" name="txtRemuneration">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Employer/Company Name</label>
@@ -45,7 +49,7 @@
                             </div>
                             <div class="col-md-6" id="divAPITPrimaryEmployment">
                                 <label class="form-label"> APIT Paid on Primary Employment</label>
-                                <input type="number" class="form-control" maxlength="9" id="txtAPITPrimaryEmployment" name="txtAPITPrimaryEmployment">
+                                <input type="text" class="form-control numeric-input" maxlength="9" id="txtAPITPrimaryEmployment" name="txtAPITPrimaryEmployment">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label"> TIN of Employer</label>
@@ -53,7 +57,7 @@
                             </div>
                             <div class="col-md-6" id="divAPITSecondaryEmployment">
                                 <label class="form-label"> APIT Paid on Secondary Employment</label>
-                                <input type="number" class="form-control" maxlength="9" id="txtAPITSecondaryEmployment" name="txtAPITSecondaryEmployment">
+                                <input type="text" class="form-control numeric-input" maxlength="9" id="txtAPITSecondaryEmployment" name="txtAPITSecondaryEmployment">
                             </div>
 
                         </div>
