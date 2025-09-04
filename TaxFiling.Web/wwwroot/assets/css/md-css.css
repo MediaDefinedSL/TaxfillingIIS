@@ -5809,3 +5809,46 @@ input#NumberOfDependents {
 #Self-Online-Flow .main-content .main-content {
     padding-top: 0px;
 }
+
+.cal ul#myTab {
+    display: flex;
+    column-gap: 0px !important;
+}
+
+.cal ul#myTab {
+    border-right: none !important;
+}
+
+.cal .nav-link,
+.cal .nav-link.active {
+    border-right: none !important;
+
+}
+
+.cal ul#myTab li:last-child button {
+    border-right: solid 2px #319df4 !important;
+}
+
+.cal li.nav-item:first-child button {
+    width: 100%;
+}
+
+.cal li.nav-item:first-child {
+    width: 32% !important;
+}
+
+.cal li.nav-item:nth-child(2) button {
+    width: 100%;
+}
+
+.cal li.nav-item:nth-child(2) {
+    width: 44% !important;
+}
+
+.cal li.nav-item:last-child button {
+    width: 100%;
+}
+
+.cal li.nav-item:last-child {
+    width: 24% !important;
+}
