@@ -231,6 +231,9 @@ $(function () {
                         if (response.responseResult.success) {
                             notifySuccess("", response.responseResult.message);
                             window.location.href = `${appUrl}/home/FileMyTaxes`;
+                            $.get('/User/UserProfile', { userId: userId }, function (html) {
+                                $('#drplogout').html($(html).find('#drplogout').html());
+                            });
 
                         } else {
                             notifyError(false, response.responseResult.message);
