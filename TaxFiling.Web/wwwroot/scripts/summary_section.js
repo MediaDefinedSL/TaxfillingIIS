@@ -1,4 +1,6 @@
-﻿$('#linkTaxPayerNext').on('click', function () {  
+﻿$(function () {
+
+    $('#divSummaryAssistedContinue').on('click', function () {  
     $('#in-this-section-container').show();
     $.ajax({
         url: '/SelfOnlineFlow/LoadContactInformation',
@@ -7,6 +9,7 @@
             $('#in-this-section-container').html(data);
             $('.sub-link').removeClass('active');
             $('#linkContactInformation').addClass('active');
+            $("html, body").animate({ scrollTop: 0 }, "smooth");
         },
         error: function () {
             alert("Error loading section content.");
@@ -14,6 +17,27 @@
     });
 
 });
+    $('#divSummaryAssistedNext').on('click', function () {
+   
+        $('#in-this-section-container').show();
+        
+            $.ajax({
+                url: '/SelfOnlineFlow/LoadEmploymentIncome',
+                type: 'GET',
+                success: function (data) {
+                    $('#in-this-section-container').html(data);
+                    $('#linkSummary').removeClass('active');
+                    $('.linkIncomeLiableTax').addClass('active');
+
+                    $("html, body").animate({ scrollTop: 0 }, "smooth");
+                },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+       
+
+    });
 
 $('#linkTaxPayerContinue').on('click', function () {        
     $('#linkSummary').removeClass('active');    
@@ -24,6 +48,10 @@ $('#linkTaxPayerContinue').on('click', function () {
         }
     });
     showPanel("documents-section");
+
+   
+
+});
 
 });
 

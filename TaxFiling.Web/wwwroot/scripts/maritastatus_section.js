@@ -15,7 +15,8 @@
             Name: selectedName,
             SpouseFullName: $("#SpouseFullName").val(),
             SpouseTINNo: $("#SpouseTINNo").val(),
-            SpouseNIC: $("#SpouseNIC").val()
+            SpouseNIC: $("#SpouseNIC").val(),
+            NumberOfDependents: $("#NumberOfDependents").val()
             
         };
 
@@ -33,6 +34,7 @@
                             $('#in-this-section-container').html(data);
                             $('.sub-link').removeClass('active');
                             $('#linkLastYear').addClass('active');
+                            $("html, body").animate({ scrollTop: 0 }, "smooth");
                         },
                         error: function () {
                             alert("Error loading section content.");
@@ -58,6 +60,7 @@
                 $('#in-this-section-container').html(data);
                 $('.sub-link').removeClass('active');
                 $('#linkTaxPayer').addClass('active');
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
             },
             error: function () {
                 alert("Error loading section content.");

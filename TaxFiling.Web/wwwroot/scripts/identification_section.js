@@ -91,6 +91,7 @@
                             $('#in-this-section-container').html(data);
                             $('.sub-link').removeClass('active');
                             $('#linkContactInformation').addClass('active');
+                            $("html, body").animate({ scrollTop: 0 }, "smooth");
                         },
                         error: function () {
                             alert("Error loading section content.");
@@ -115,6 +116,7 @@
                 $('#in-this-section-container').html(data);
                 $('.sub-link').removeClass('active');
                 $('#linkLastYear').addClass('active');
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
             },
             error: function () {
                 alert("Error loading section content.");
