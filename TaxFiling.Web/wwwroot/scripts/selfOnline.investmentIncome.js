@@ -14,6 +14,53 @@
         document.getElementById("txtDActivityCode").value = DselectedValue;
     });
 
+    $(document).on("input", "#txtSActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(document).on("input", "#txtFDActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    document.querySelectorAll(".numeric-input").forEach(function (input) {
+        input.addEventListener("input", function (e) {
+            // Remove everything except digits and decimal point
+            let value = e.target.value.replace(/[^0-9.]/g, "");
+
+            // Only allow one decimal point
+            let parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts.slice(1).join("");
+            }
+
+            // Format integer part with commas
+            if (parts.length > 1) {
+                // Has decimals
+                let integerPart = parts[0];
+                let decimalPart = parts[1].substring(0, 2); // limit to 2 decimals
+                integerPart = integerPart ? parseInt(integerPart, 10).toLocaleString("en-US") : "0";
+                value = integerPart + "." + decimalPart;
+            } else {
+                // No decimals
+                if (value) {
+                    value = parseInt(value, 10).toLocaleString("en-US");
+                }
+            }
+
+            e.target.value = value;
+        });
+
+        // Prevent entering multiple dots directly
+        input.addEventListener("keypress", function (e) {
+            if (!/[0-9.]/.test(e.key)) {
+                e.preventDefault();
+            }
+            // Prevent typing a second dot
+            if (e.key === "." && e.target.value.includes(".")) {
+                e.preventDefault();
+            }
+        });
+    });
+
 
     //----------------------- Interest Income from Savings Accounts
     let allBanks = [];
@@ -305,12 +352,13 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-
+                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
+                
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#SavingsGrid').html($(html).find('#SavingsGrid').html());
                 });
 
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetForm();
             },
             error: function () {
@@ -339,10 +387,11 @@
         $("#txtSOpeningBalance").val("");
         $("#txtSBalance").val("");
         $("#btnDetailsInvestmentSavings").text("Submit");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
     }
 
-    $(document).on('click', '.savingsDetails-editbtn', function () {
-      
+    $(document).off("click", ".savingsDetails-editbtn").on("click", ".savingsDetails-editbtn", function () {
+     
         $(".validation-error").remove();
 
         // Read all data-* attributes
@@ -377,8 +426,10 @@
 
         $("#hiddenInvestmentIncomeId").val(id);
         $("#btnDetailsInvestmentSavings").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
 
     });
+
     $(document).on("click", "#btnDetailsInvestmentClear", function () {
 
         resetForm();
@@ -426,7 +477,7 @@
                     if (deleteCategoryName == "Rent") {
                         $('#RentGrid').html($(html).find('#RentGrid').html());
                     }
-                    
+                    $("html, body").animate({ scrollTop: 0 }, "smooth");
                     //$("#taxTotal").text(newTotal);
                 });
             },
@@ -722,12 +773,12 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-
+              //  notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
+                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#FDGrid').html($(html).find('#FDGrid').html());
                 });
-
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetFormFD();
             },
             error: function () {
@@ -773,6 +824,7 @@
 
         $("#hiddenInvestmentIncomeId").val(id);
         $("#btnDetailsInvestmentFD").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
 
     });
 
@@ -798,6 +850,7 @@
         $("#txtFDForeignTaxCredit").val("");
         $("#txtFDOpeningBalance").val("");
         $("#txtFDBalance").val("");
+       
     }
 
 
@@ -872,12 +925,12 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-
+              //  notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
+                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#DividentGrid').html($(html).find('#DividentGrid').html());
                 });
-
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetFormDivident();
             },
             error: function () {
@@ -903,7 +956,7 @@
         $("#txtDCostAcquisitionMarket").val("");
         $("#txtDWHTDeducted").val("");
         $("#txtDForeignTaxCredit").val("");
-
+      
         
     }
 
@@ -947,6 +1000,7 @@
 
         $("#hiddenInvestmentIncomeId").val(id);
         $("#btnDetailsInvestmentDivident").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
 
     });
 
@@ -1022,13 +1076,13 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-
+               // notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
+                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#RentGrid').html($(html).find('#RentGrid').html());
                 });
-
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetFormRent();
             },
             error: function () {
@@ -1094,6 +1148,7 @@
 
         $("#hiddenInvestmentIncomeId").val(id);
         $("#btnDetailsInvestmentRent").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
 
     });
 

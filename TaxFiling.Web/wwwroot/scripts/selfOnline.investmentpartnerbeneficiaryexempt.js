@@ -1,4 +1,13 @@
 ﻿$(function () {
+
+    $(document).on("input", "#txtSActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(document).on("input", "#txtFDActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+
     //-----------------------------Partner Income
     $(document).off("click", "#btnPartnerInvestmentSubmit").on("click", "#btnPartnerInvestmentSubmit", function () {
 
