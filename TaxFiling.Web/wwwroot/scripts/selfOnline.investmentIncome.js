@@ -226,7 +226,7 @@
 
 
 
-    $(document).on("click", "#btnDetailsInvestmentSavings", function () {
+        $(document).off("click", "#btnDetailsInvestmentSavings").on("click", "#btnDetailsInvestmentSavings", function () {
 
         var $btn = $(this);
         $btn.prop("disabled", true);
@@ -338,6 +338,7 @@
         $("#txtSForeignTaxCredit").val("");
         $("#txtSOpeningBalance").val("");
         $("#txtSBalance").val("");
+        $("#btnDetailsInvestmentSavings").text("Submit");
     }
 
     $(document).on('click', '.savingsDetails-editbtn', function () {
