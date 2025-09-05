@@ -6,7 +6,7 @@
         var selectedName = $("input[name='imgbackground']:checked").data("name");
 
         if (!selectedId) {
-            alert("Please select a taxpayer.");
+            showMessage("Please select a taxpayer.","error");
             return;
         }
 

@@ -132,7 +132,7 @@
             <main class="main-content">
                 <div class="container-fluid">
                     <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
-                        <div class="mt-4">
+                        <div class="mt-0">
                             <div class="d-flex align-items-center mb-3">
                                 <h4 class="mb-0 mx-auto">Individual Income Tax Filing Summary</h4>
 
@@ -442,10 +442,7 @@
                             <h4>
                                 <i class="fas fa-folder-open text-primary me-2"></i> Documents
                             </h4>
-                            <p class="text-muted">
-                                <i class="fas fa-lock me-1 text-secondary"></i>
-                                Upload and manage your tax documents securely and easily.
-                            </p>
+                            
                         </div>
                         <div class="col-lg-3 col-md-12 text-lg-end text-md-center mt-3 mt-lg-0">
                             <!-- You can place a summary or help link here -->
@@ -458,9 +455,9 @@
                     <div class="uplode-parts">
                         <div class="row ">
 
-                            <div class="col-md-6 guid-line">
+                            <div class="col-md-8 guid-line">
 
-                                <div>Ensure the following documents are available for upload, as relevant to your case.</div>
+                                <div class="uplode-text">Ensure the following documents are available for upload, as relevant to your case.</div>
                                 <ul>
                                     <li><i class="bi bi-check"></i>APIT / PAYE – T10 Certificate (Employment income)</li>
                                     <li><i class="bi bi-check"></i>Bank Confirmation Letters – Savings, Current, Fixed Deposits, Credit Cards, Lease, Loan, WHT certificates </li>
@@ -473,14 +470,11 @@
                                 </ul>
                             </div>
 
-                            <div class="col-md-6 alert alert-primary d-flex align-items-center p-4 shadow-lg border border-2 border-primary rounded-4" role="alert" style="background: #e9f4ff;">
-                                <i class="fas fa-cloud-upload-alt fa-2x me-4 text-primary pulse-icon"></i>
+                            <div class="col-md-6 alert alert-primary d-flex align-items-center p-4 shadow-lg border border-2 border-primary rounded-4 uplode-file-s" role="alert" style="background: #e9f4ff;">
+                                
                                 <div>
-                                    <h5 class="mb-2 fw-bold text-primary">📤 Ready to submit?</h5>
-                                    <p class="mb-2">
-                                        Click below to upload your
-                                        <span class="text-decoration-underline fw-semibold">2024/2025 Tax Documents</span>.
-                                    </p>
+
+                                    
                                     <button class="btn btn-primary btn-lg px-4 py-2" id="uploadDoc-btn">
                                         <i class="fas fa-upload me-2"></i> Upload Documents
                                     </button>
@@ -495,6 +489,7 @@
                         <ul class="text-muted">
                             <li><strong>Accepted formats: <strong>PDF, JPG, PNG</strong></strong></li>
                             <li><strong>Maximum size per file: <strong>5MB</strong></strong></li>
+                            <p>Privacy: Files are encrypted in transit and at rest. Only your assigned tax advisor can view them.</p>
 
                         </ul>
                     </div>
@@ -855,7 +850,7 @@
                                 }
 
                                 <div class="alert alert-info mt-2" role="alert">
-                                    <strong>Note:</strong> Upload all relevant supporting documents (e.g., Deeds for Land, Vehicle Reports, Share Balances, etc. so we can complete the details on your behalf.
+                                    <strong>Note:</strong> Please upload all relevant supporting documents (e.g., land deeds, vehicle reports, share balance statements, etc.) to enable us to complete the details on your behalf.
                                 </div>
                                 <!-- Tab Buttons -->
                                 <div class="d-flex gap-2 mb-4" id="manualTabs">
@@ -1328,17 +1323,35 @@
 
                         <!-- TAB 2: Income Tax Payment and Expenses -->
                         <div class="tab-pane fade" id="income-expenses" role="tabpanel">
-                            <div class="alert alert-info mt-3">
-                                <i class="fas fa-info-circle me-2"></i>
-                                Please provide the following information for the year <strong>01.04.2024 to 31.03.2025</strong>.
+                            
+                            <!-- Expenses Section -->
+                            <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                                <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Annual Expenses </h6>
+                                <div class="alert alert-info mt-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Note: Please provide your average annual expenses for the period from 1 April 2024 to 31 March 2025.
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label"><span style="color: red">*</span> Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
+                                    <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
+                                    <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="text" class="form-control numeric-input" name="FixedDeductions" /></div>
+                                    <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="text" class="form-control numeric-input" name="ChildrenEducation" /></div>
+                                    <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="text" class="form-control numeric-input" name="VehicleExpenses" /></div>
+                                    <div class="col-md-6"><label class="form-label">Medical Expenses</label><input type="text" class="form-control numeric-input" name="MedicalExpenses" /></div>
+                                    <div class="col-md-6"><label class="form-label">Loan Re-Payments</label><input type="text" class="form-control numeric-input" name="LoanRepayments" /></div>
+                                    <div class="col-md-6"><label class="form-label">Cash Payments for Credit Cards</label><input type="text" class="form-control numeric-input" name="CreditCardPayments" /></div>
+                                    <div class="col-md-6"><label class="form-label">House Rent</label><input type="text" class="form-control numeric-input" name="HouseRent" /></div>
+                                    <div class="col-md-6"><label class="form-label">Donation</label><input type="text" class="form-control numeric-input" name="Donations" /></div>
+                                    <div class="col-md-6"><label class="form-label">Life/Medical Insurance Premium</label><input type="text" class="form-control numeric-input" name="InsurancePremium" /></div>
+                                    <div class="col-md-6"><label class="form-label">Any Other Expenses</label><input type="text" class="form-control numeric-input" name="OtherExpenses" /></div>
+                                </div>
                             </div>
-
-                            <!-- Assets Section -->
+                            
                             <div class="p-4 border rounded bg-light shadow-sm mb-4">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-boxes me-2"></i> Balances as at 31.03.2025</h6>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Cash in hand</label>
+                                        <label class="form-label"><span style="color: red">*</span> Cash in hand</label>
                                         <input type="text" class="form-control numeric-input" name="CashInHand" required />
                                     </div>
                                     <div class="col-md-6">
@@ -1356,24 +1369,7 @@
                                 </div>
                             </div>
 
-                            <!-- Expenses Section -->
-                            <div class="p-4 border rounded bg-light shadow-sm mb-4">
-                                <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Annual Expenses (Please enter your average annual expenses below)</h6>
-                                <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label">Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
-                                    <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
-                                    <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="text" class="form-control numeric-input" name="FixedDeductions" /></div>
-                                    <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="text" class="form-control numeric-input" name="ChildrenEducation" /></div>
-                                    <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="text" class="form-control numeric-input" name="VehicleExpenses" /></div>
-                                    <div class="col-md-6"><label class="form-label">Medical Expenses</label><input type="text" class="form-control numeric-input" name="MedicalExpenses" /></div>
-                                    <div class="col-md-6"><label class="form-label">Loan Re-Payments</label><input type="text" class="form-control numeric-input" name="LoanRepayments" /></div>
-                                    <div class="col-md-6"><label class="form-label">Cash Payments for Credit Cards</label><input type="text" class="form-control numeric-input" name="CreditCardPayments" /></div>
-                                    <div class="col-md-6"><label class="form-label">House Rent</label><input type="text" class="form-control numeric-input" name="HouseRent" /></div>
-                                    <div class="col-md-6"><label class="form-label">Donation</label><input type="text" class="form-control numeric-input" name="Donations" /></div>
-                                    <div class="col-md-6"><label class="form-label">Life/Medical Insurance Premium</label><input type="text" class="form-control numeric-input" name="InsurancePremium" /></div>
-                                    <div class="col-md-6"><label class="form-label">Any Other Expenses</label><input type="text" class="form-control numeric-input" name="OtherExpenses" /></div>
-                                </div>
-                            </div>
+                            
 
                             <div class="mt-4 d-flex justify-content-end">
                                 <button type="button" class="btn btn-success" id="saveFinancialDetailsBtn">
@@ -1468,6 +1464,11 @@
                             <!-- Previous Button -->
                             <button class="btn btn-primary btn-lg" id="btnOtherPrevious">
                                 Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right ">
+                            <button class="btn btn-primary btn-lg" id="btnMainDashboardNext" style="display:none;">
+                                Finish
                             </button>
                         </div>
 
@@ -2224,17 +2225,59 @@
                        const vehicleTypeSelect = $(`select[name="assets[${index}].vehicleTypes"]`);
                       const institutionSelect = $(`select[name="assets[${index}].InstitutionType"]`);
 
+                      if (vehicleTypeSelect.length > 0) {   // check if dropdown exists                            
+                        if (!vehicleType || vehicleType.trim() === "") {
+                            hideLoadMask();
+                            isValid = false;
+                            vehicleTypeSelect.addClass("error"); // highlight
+                            showMessage("Please select vehicle Type","error");
+                            return;
+                        } 
+                        else
+                        {
+                            vehicleTypeSelect.removeClass("error");
+                        }
+                       }
+
+                        if (institutionSelect.length > 0) {   // check if dropdown exists
+                            
+                            if (!assestInstitution || assestInstitution.trim() === "") {
+                                hideLoadMask();
+                                isValid = false;
+                                institutionSelect.addClass("error");
+                                showMessage("Please select Institution Type","error");
+                                return;
+                            } 
+                            else
+                            {
+                                institutionSelect.removeClass("error");
+                            }
+                        }
+
                         // Basic validation
-                        // if (!note) {
-                        //   alert("Please enter a note or value.");
-                        //   noteInput.focus();
-                        //   return;
-                        // }
-                        // if (!file) {
-                        //   alert("Please select a file to upload.");
-                        //   fileInput.focus();
-                        //   return;
-                        // }
+                         if (!note) {
+                          hideLoadMask();
+                          showMessage("Please enter a note or value.","error");
+                          noteInput.addClass("error");
+                          noteInput.focus();
+                          return;
+                        }
+                        else
+                        {
+                            noteInput.removeClass("error");
+                        }
+                        if (!file) {
+                            hideLoadMask();
+                          showMessage("Please select a file to upload.","error");
+                          $(fileInput).addClass("error");
+                          fileInput.focus();
+                          return;
+                        }
+                        else
+                        {
+                            $(fileInput).removeClass("error");
+                        }
+
 
                         // Prepare form data for AJAX
                         const formData = new FormData();
@@ -2952,8 +2995,8 @@
                                             if(data.success){
                                                     document.getElementById("docUploadStatus").value = status;
                                                       acceptCheckbox.disabled = true;
-
-
+                                                      document.getElementById("btnMainDashboardNext").style.display="block";
+                                                      document.getElementById('saveFinancialDetailsBtn').style.display="none";
                                                     if (badge) {
                                                       badge.innerText = "SUBMITTED";
                                                       badge.className = "badge bg-success";
@@ -2999,6 +3042,7 @@
 
 
                                                   this.disabled = true;
+                                                  
                                                   this.innerText = "Terms Accepted";
                                                   const steps = document.querySelectorAll('.taxAssistedSteps span');
                                                   if (!steps.length) return;
@@ -3044,6 +3088,9 @@
                               const tbody = $("#declarationDocsTable tbody");
                               tbody.empty();
                                  $("#uploadedDeclarationDocs").show();
+                                 if(document.getElementById("acceptDeclaration").checked)
+                                    document.getElementById("btnMainDashboardNext").style.display="block";
+
                               if (allDocs && allDocs.length > 0) {
                                   //$("#uploadedDeclarationDocs").show();
                                   allDocs.forEach((doc, index) => {
@@ -3723,6 +3770,15 @@
 
                            });
                        }
+                        const  btnMainDashboardNext= document.getElementById("btnMainDashboardNext");
+
+                        if (btnMainDashboardNext) {
+                           btnMainDashboardNext.addEventListener("click", function () {                              
+                            showPanel("dashboard-section"); // default
+
+                           });
+                       }
+
                         const  btnDocPrevious= document.getElementById("btnDocPrevious");
 
                         if (btnDocPrevious) {
@@ -3731,6 +3787,8 @@
 
                            });
                        }
+
+
 
                        const  previousBtn= document.getElementById("btnPrevious");
                        const  btnUploadDocs= document.getElementById("btnUploadDocs");

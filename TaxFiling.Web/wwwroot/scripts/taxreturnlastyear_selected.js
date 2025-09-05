@@ -31,7 +31,7 @@
             });
 
         } else {
-            alert("Please select a taxpayer.");
+            showMessage("Please select a last year filling option.","error");
         }
     });
 
