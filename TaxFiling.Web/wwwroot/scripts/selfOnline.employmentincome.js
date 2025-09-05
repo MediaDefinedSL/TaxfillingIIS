@@ -94,10 +94,7 @@ $(function () {
         let TINEmployer = $("#txtTINEmployer").val();
         let APITSecondaryEmployment = $("#txtAPITSecondaryEmployment").val();
         let residency = $("input[name='Residency']:checked").val();
-        let seniorCitizen = $("#seniorCitizen").val();
-
-
-
+        let seniorCitizen = $("#rdbSeniorCitizen").prop("checked");
 
         let isValid = true;
 
@@ -162,6 +159,8 @@ $(function () {
                     $("#txtTINEmployer").val("");
                     $("#txtAPITSecondaryEmployment").val("");
                     $("#hndSelfOnlineEmploymentIncomeId").val("");
+                    $("#rdbSeniorCitizen").prop("checked", false);
+                    $("input[name='Residency']").prop("checked", false);
 
                 },
                 error: function () {
@@ -191,11 +190,14 @@ $(function () {
 
                     $("#drpTypeEmployment").val("Primary");
                     $("#txtRemuneration").val("");
+                    $("#rdbSeniorCitizen").prop("checked", false);
+                    $("input[name='Residency']").prop("checked", false);
                     $("#txtEmpDetailsECName").val("");
                     $("#txtAPITPrimaryEmployment").val("");
                     $("#txtTINEmployer").val("");
                     $("#txtAPITSecondaryEmployment").val("");
                     $("#hndSelfOnlineEmploymentIncomeId").val("");
+                   
 
                 },
                 error: function () {
@@ -210,6 +212,8 @@ $(function () {
 
         $("#drpTypeEmployment").val("Primary");
         $("#txtRemuneration").val("");
+        $("#rdbSeniorCitizen").prop("checked", false);
+        $("input[name='Residency']").prop("checked", false);
         $("#txtEmpDetailsECName").val("");
         $("#txtAPITPrimaryEmployment").val("");
         $("#txtTINEmployer").val("");
@@ -509,25 +513,21 @@ $(function () {
     $(document).off("click", ".employmentDetails-editbtn").on("click", ".employmentDetails-editbtn", function () {
  
         $(".validation-error").remove();
+        $("#rdbSeniorCitizen").prop("checked", false);
+        $("input[name='Residency']").prop("checked", false);
 
         var id = $(this).data("id");
         var residency = $(this).data("residency");
-        var seniorcitizen = $(this).data("seniorcitizen");
         var type = $(this).data("type");
         var name = $(this).data("name");
         var tin = $(this).data("tin");
         var remuneration = $(this).data("remuneration");
         var primary = $(this).data("primary");
         var secondary = $(this).data("secondary");
-
+        var seniorcitizen = String($(this).data("seniorcitizen")).toLowerCase() === "true";
 
         $(".rdbresidency[value='" + residency + "']").prop("checked", true);
-
-        if (seniorcitizen) {
-            $("#rdbSeniorCitizen").prop("checked", true);
-        } else {
-            $("#rdbSeniorCitizen").prop("checked", false);
-        }
+        $("#rdbSeniorCitizen").prop("checked", seniorcitizen);
         $("#drpTypeEmployment").val(type);
         $("#txtEmpDetailsECName").val(name);
         $("#txtTINEmployer").val(tin);

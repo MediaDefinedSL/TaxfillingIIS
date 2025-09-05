@@ -30,7 +30,10 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="col-sm-3 col-form-label font-weight-bold">Senior Citizen</label>
-                                <input type="radio" name="rdbSeniorCitizen" id="rdbSeniorCitizen" />
+                               @*  <input type="radio" name="rdbSeniorCitizen" id="rdbSeniorCitizen" /> *@
+                                <input type="checkbox" class="form-check-input"
+                                       id="rdbSeniorCitizen"
+                                       name="rdbSeniorCitizen" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Type of Employment</label>
@@ -102,6 +105,7 @@
                                         .Where(d => d.CategoryName == "EmploymentDetails"))
                                         {
                                             var Residency = "";
+                                            var SeniorCitizen = "";
                                             if (@eploymentIncome.Residency == 1 ){
                                                 Residency = "Resident";
                                             }
@@ -109,10 +113,18 @@
                                             {
                                                 Residency = "Non-resident";
                                             }
+                                            if (@eploymentIncome.SeniorCitizen)
+                                            {
+                                                SeniorCitizen = "Yes";
+                                            }
+                                            if (!@eploymentIncome.SeniorCitizen)
+                                            {
+                                                SeniorCitizen = "No";
+                                            }
                                             <tr>
                                                 <td>@(++index)</td>
                                                 <td>@Residency</td>
-                                                <td>@eploymentIncome.SeniorCitizen</td>
+                                                <td>@SeniorCitizen</td>
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>
