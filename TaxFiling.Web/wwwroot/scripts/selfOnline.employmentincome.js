@@ -70,7 +70,8 @@ $(function () {
             data: employmentIncome,
             success: function (response) {
                 $btn.prop("disabled", false);
-                notifySuccess("", "Saved successfully");
+                //notifySuccess("", "Saved successfully");
+                showMessage("Saved successfully.", "success");
             },
             error: function () {
                 $btn.setButtonDisabled(false);
@@ -143,7 +144,7 @@ $(function () {
                 data: employIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Update successfully");
+                    showMessage("Update successfully.", "success");
 
                     $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
@@ -178,8 +179,8 @@ $(function () {
                 success: function (response) {
                  
                     $btn.prop("disabled", false);
-                    notifySuccess("", "save successfully");
-
+                   // notifySuccess("", "save successfully");
+                    showMessage("Save successfully.", "success");
                     $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
                         
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html());
@@ -278,8 +279,8 @@ $(function () {
                 data: terminalIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Update successfully");
-
+                   // notifySuccess("", "Update successfully");
+                    showMessage("Update successfully.", "success");
                     $.get('/SelfOnlineFlow/LoadETerminalBenefits', function (html) {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
                         var newTotal = parseFloat($(html).find("#hiddenBtotal").val() || 0); 
@@ -307,8 +308,8 @@ $(function () {
                 data: terminalIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Saved successfully");
-
+                   // notifySuccess("", "Saved successfully");
+                    showMessage("Saved successfully.", "success");
                     $.get('/SelfOnlineFlow/LoadETerminalBenefits', function (html) {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
 
@@ -393,8 +394,8 @@ $(function () {
                 data: exemptIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Update successfully");
-
+                  //  notifySuccess("", "Update successfully");
+                    showMessage("Update successfully.", "success");
                     $.get('/SelfOnlineFlow/LoadExemptAmounts', function (html) {
                         $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
                         var newTotal = parseFloat($(html).find("#hiddenEtotal").val() || 0);
@@ -423,7 +424,8 @@ $(function () {
                 data: exemptIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Saved successfully");
+                    //notifySuccess("", "Saved successfully");
+                    showMessage("Saved successfully.", "success");
 
                     $.get('/SelfOnlineFlow/LoadExemptAmounts', function (html) {
                         $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
