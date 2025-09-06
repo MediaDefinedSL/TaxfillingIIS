@@ -60,7 +60,7 @@
         if (!phonePattern.test(mobilePhone)) {
             $("#MobilePhone").after('<div class="text-danger validation-error">Invalid phone number!</div>');
             isValid = false;
-
+        }
         if (!phonePattern.test(homePhone)) {
             $("#HomePhone").after('<div class="text-danger validation-error">Invalid phone number!</div>');
               isValid = false;
