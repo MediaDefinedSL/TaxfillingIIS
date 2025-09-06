@@ -271,7 +271,7 @@ public sealed class AccountController : Controller
         else
         {
             var error = await response.Content.ReadAsStringAsync();
-            ViewBag.Error = $"Something went wrong. Server says: {error}";
+            ViewBag.Error = $"{error} Please try again.";
         }
 
         return View();
