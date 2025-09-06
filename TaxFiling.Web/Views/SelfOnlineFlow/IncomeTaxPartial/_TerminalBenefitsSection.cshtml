@@ -15,6 +15,10 @@
                         <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Terminal Benefits (Gratuity, ETF, EPF, Compensation)</h6>
                         <hr>
                         <input type="hidden" id="hiddenTerminalId" name="hiddenTerminalId" />
+                        @{
+                            var fristrecord = Model.FirstOrDefault();
+                        }
+                        <input type="hidden" id="hiddenBtotal" name="hiddenBtotal" value="@fristrecord?.Total" />
                         <div class="row g-3">
 
                             <div class="col-md-6">
@@ -34,7 +38,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Terminal Benefits (Rs.)</label>
-                                <input type="number" class="form-control" id="txtTerminalBenefits" name="txtTerminalBenefits">
+                                <input type="text" class="form-control numeric-input" id="txtTerminalBenefits" name="txtTerminalBenefits">
                             </div>
 
                         </div>

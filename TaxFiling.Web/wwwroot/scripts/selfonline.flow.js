@@ -178,18 +178,39 @@ $(function () {
         });
     });
 
-    //$('#linkIncomeLiableTax').on('click', function () {
-    //    $.ajax({
-    //        url: '/SelfOnlineFlow/LoadIncomeLiableTax',
-    //        type: 'GET',
-    //        success: function (data) {
-    //            $('#in-this-section-container').html(data);
-    //        },
-    //        error: function () {
-    //            alert("Error loading section content.");
-    //        }
-    //    });
-    //});
+    $('#linkIncomeLiableTax').on('click', function () {
+        $('.sub-link').removeClass('active');
+
+        $('#linkEmploymentIncome').addClass('active');
+
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadEmploymentIncome',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+
+    $('#linkInvestmentIncome').on('click', function () {
+        $('.sub-link').removeClass('active');
+        $('#linkDetailsinvestment').addClass('active');
+
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
 
     $('#linkEmploymentIncome').on('click', function () {
         $.ajax({
@@ -307,8 +328,10 @@ $(function () {
             }
         });
     });
+
    
 });
+
 
 function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');

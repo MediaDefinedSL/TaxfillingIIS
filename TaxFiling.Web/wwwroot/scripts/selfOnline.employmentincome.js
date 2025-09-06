@@ -1,5 +1,44 @@
 ﻿
 $(function () {
+    document.querySelectorAll(".numeric-input").forEach(function (input) {
+        input.addEventListener("input", function (e) {
+            // Remove everything except digits and decimal point
+            let value = e.target.value.replace(/[^0-9.]/g, "");
+
+            // Only allow one decimal point
+            let parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts.slice(1).join("");
+            }
+
+            // Format integer part with commas
+            if (parts.length > 1) {
+                // Has decimals
+                let integerPart = parts[0];
+                let decimalPart = parts[1].substring(0, 2); // limit to 2 decimals
+                integerPart = integerPart ? parseInt(integerPart, 10).toLocaleString("en-US") : "0";
+                value = integerPart + "." + decimalPart;
+            } else {
+                // No decimals
+                if (value) {
+                    value = parseInt(value, 10).toLocaleString("en-US");
+                }
+            }
+
+            e.target.value = value;
+        });
+
+        // Prevent entering multiple dots directly
+        input.addEventListener("keypress", function (e) {
+            if (!/[0-9.]/.test(e.key)) {
+                e.preventDefault();
+            }
+            // Prevent typing a second dot
+            if (e.key === "." && e.target.value.includes(".")) {
+                e.preventDefault();
+            }
+        });
+    });
 
     $("#divAPITPrimaryEmployment").show();
     $("#divAPITSecondaryEmployment").hide();
@@ -31,7 +70,8 @@ $(function () {
             data: employmentIncome,
             success: function (response) {
                 $btn.prop("disabled", false);
-                notifySuccess("", "Saved successfully");
+                //notifySuccess("", "Saved successfully");
+                showMessage("Saved successfully.", "success");
             },
             error: function () {
                 $btn.setButtonDisabled(false);
@@ -41,7 +81,7 @@ $(function () {
     });
 
     $(document).off("click", "#btnEmploymentDetails").on("click", "#btnEmploymentDetails", function () {
-   
+    
         // e.preventDefault();
         var id = $("#hiddenEmploymentDetailsId").val();
         var $btn = $(this);
@@ -55,10 +95,7 @@ $(function () {
         let TINEmployer = $("#txtTINEmployer").val();
         let APITSecondaryEmployment = $("#txtAPITSecondaryEmployment").val();
         let residency = $("input[name='Residency']:checked").val();
-        let seniorCitizen = $("#seniorCitizen").val();
-
-
-
+        let seniorCitizen = $("#rdbSeniorCitizen").prop("checked");
 
         let isValid = true;
 
@@ -107,12 +144,12 @@ $(function () {
                 data: employIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Update successfully");
+                    showMessage("Employment income details updated successfully", "success");
 
-                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                    $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
-                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-
+                        var newTotal = parseFloat($(html).find("#hiddentotal").val() || 0);
+                        
                         $("#taxTotal").text(newTotal);
                     });
 
@@ -123,6 +160,8 @@ $(function () {
                     $("#txtTINEmployer").val("");
                     $("#txtAPITSecondaryEmployment").val("");
                     $("#hndSelfOnlineEmploymentIncomeId").val("");
+                    $("#rdbSeniorCitizen").prop("checked", false);
+                    $("input[name='Residency']").prop("checked", false);
 
                 },
                 error: function () {
@@ -132,7 +171,7 @@ $(function () {
             });
         }
         else {
-
+            
             $.ajax({
                 url: '/SelfOnlineFlow/AddEmploymentIncomeDetails',
                 type: 'POST',
@@ -140,24 +179,26 @@ $(function () {
                 success: function (response) {
                  
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Update successfully");
-
-                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                   // notifySuccess("", "save successfully");
+                    showMessage("Employment income details save successfully.", "success");
+                    $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
+                        
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html());
-
-                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                        // $("#spnEmploymentIncomeTotal").text(newTotal);
+                        var newTotal = parseFloat($(html).find("#hiddentotal").val() || 0);
                         $("#taxTotal").text(newTotal);
                     });
 
 
                     $("#drpTypeEmployment").val("Primary");
                     $("#txtRemuneration").val("");
+                    $("#rdbSeniorCitizen").prop("checked", false);
+                    $("input[name='Residency']").prop("checked", false);
                     $("#txtEmpDetailsECName").val("");
                     $("#txtAPITPrimaryEmployment").val("");
                     $("#txtTINEmployer").val("");
                     $("#txtAPITSecondaryEmployment").val("");
                     $("#hndSelfOnlineEmploymentIncomeId").val("");
+                   
 
                 },
                 error: function () {
@@ -172,6 +213,8 @@ $(function () {
 
         $("#drpTypeEmployment").val("Primary");
         $("#txtRemuneration").val("");
+        $("#rdbSeniorCitizen").prop("checked", false);
+        $("input[name='Residency']").prop("checked", false);
         $("#txtEmpDetailsECName").val("");
         $("#txtAPITPrimaryEmployment").val("");
         $("#txtTINEmployer").val("");
@@ -236,13 +279,11 @@ $(function () {
                 data: terminalIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Update successfully");
-
-                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                   // notifySuccess("", "Update successfully");
+                    showMessage("Update successfully.", "success");
+                    $.get('/SelfOnlineFlow/LoadETerminalBenefits', function (html) {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
-
-                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                        // $("#spnEmploymentIncomeTotal").text(newTotal);
+                        var newTotal = parseFloat($(html).find("#hiddenBtotal").val() || 0); 
                         $("#taxTotal").text(newTotal);
                     });
 
@@ -267,13 +308,12 @@ $(function () {
                 data: terminalIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Saved successfully");
-
-                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                   // notifySuccess("", "Saved successfully");
+                    showMessage("Saved successfully.", "success");
+                    $.get('/SelfOnlineFlow/LoadETerminalBenefits', function (html) {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
 
-                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                        $("#spnEmploymentIncomeTotal").text(newTotal);
+                        var newTotal = parseFloat($(html).find("#hiddenBtotal").val() || 0); 
                         $("#taxTotal").text(newTotal);
                     });
 
@@ -354,12 +394,11 @@ $(function () {
                 data: exemptIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Update successfully");
-
-                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                  //  notifySuccess("", "Update successfully");
+                    showMessage("Update successfully.", "success");
+                    $.get('/SelfOnlineFlow/LoadExemptAmounts', function (html) {
                         $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
-                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                        // $("#spnEmploymentIncomeTotal").text(newTotal);
+                        var newTotal = parseFloat($(html).find("#hiddenEtotal").val() || 0);
                         $("#taxTotal").text(newTotal);
                     });
 
@@ -385,12 +424,12 @@ $(function () {
                 data: exemptIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    notifySuccess("", "Saved successfully");
+                    //notifySuccess("", "Saved successfully");
+                    showMessage("Saved successfully.", "success");
 
-                    $.get('/SelfOnlineFlow/LoadEmploymentIncome', function (html) {
+                    $.get('/SelfOnlineFlow/LoadExemptAmounts', function (html) {
                         $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
-                        var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                      //  $("#spnEmploymentIncomeTotal").text(newTotal);
+                        var newTotal = parseFloat($(html).find("#hiddenEtotal").val() || 0);
                         $("#taxTotal").text(newTotal);
                     });
 
@@ -473,29 +512,24 @@ $(function () {
         });
     });
 
-
-    $('.employmentDetails-editbtn').on('click', function () {
-
+    $(document).off("click", ".employmentDetails-editbtn").on("click", ".employmentDetails-editbtn", function () {
+ 
         $(".validation-error").remove();
+        $("#rdbSeniorCitizen").prop("checked", false);
+        $("input[name='Residency']").prop("checked", false);
 
         var id = $(this).data("id");
         var residency = $(this).data("residency");
-        var seniorcitizen = $(this).data("seniorcitizen");
         var type = $(this).data("type");
         var name = $(this).data("name");
         var tin = $(this).data("tin");
         var remuneration = $(this).data("remuneration");
         var primary = $(this).data("primary");
         var secondary = $(this).data("secondary");
-
+        var seniorcitizen = String($(this).data("seniorcitizen")).toLowerCase() === "true";
 
         $(".rdbresidency[value='" + residency + "']").prop("checked", true);
-
-        if (seniorcitizen) {
-            $("#rdbSeniorCitizen").prop("checked", true);
-        } else {
-            $("#rdbSeniorCitizen").prop("checked", false);
-        }
+        $("#rdbSeniorCitizen").prop("checked", seniorcitizen);
         $("#drpTypeEmployment").val(type);
         $("#txtEmpDetailsECName").val(name);
         $("#txtTINEmployer").val(tin);
@@ -506,6 +540,7 @@ $(function () {
         // Store id in hidden field for update
         $("#hiddenEmploymentDetailsId").val(id);
         $("#btnEmploymentDetails").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
     });
 
     $(document).off("click", ".terminalbenefits-editbtn").on("click", ".terminalbenefits-editbtn", function () {
@@ -525,6 +560,7 @@ $(function () {
         // Store id in hidden field for update
         $("#hiddenTerminalId").val(id);
         $("#btnTerminalSubmit").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
     });
 
     $(document).off("click", ".exemptamounts-editbtn").on("click", ".exemptamounts-editbtn", function () {
@@ -545,6 +581,7 @@ $(function () {
         // Store id in hidden field for update
         $("#hiddenExemptId").val(id);
         $("#btnExemptSubmit").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
     });
 
 
@@ -558,11 +595,12 @@ $(function () {
 
         // $("#hiddenTerminalId").val(deleteEmploymentDetailsId);
         $('#selfonline_confirmDeleteModal').modal('show');
+        
 
     });
 
-
-    $('#selfonline_confirmDeleteBtn').on('click', function () {
+    $(document).off("click", "#selfonline_confirmDeleteBtn").on("click", "#selfonline_confirmDeleteBtn", function () {
+  
         if (!deleteEmploymentDetailsId) return;
 
         var deleteId = {

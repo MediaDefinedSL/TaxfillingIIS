@@ -22,4 +22,5 @@ public class EmploymentIncomeViewModel
     public string ExemptType { get; set; }
     public string ExemptEmployerTIN { get; set; }
     public decimal ExemptAmount { get; set; }
+    public decimal? Total { get; set; }
 }
