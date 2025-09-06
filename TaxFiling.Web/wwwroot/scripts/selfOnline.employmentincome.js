@@ -144,7 +144,7 @@ $(function () {
                 data: employIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    showMessage("Update successfully.", "success");
+                    showMessage("Employment income details updated successfully", "success");
 
                     $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
@@ -180,7 +180,7 @@ $(function () {
                  
                     $btn.prop("disabled", false);
                    // notifySuccess("", "save successfully");
-                    showMessage("Save successfully.", "success");
+                    showMessage("Employment income details save successfully.", "success");
                     $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
                         
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html());
