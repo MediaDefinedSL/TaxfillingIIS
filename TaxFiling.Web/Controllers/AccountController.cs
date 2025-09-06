@@ -271,7 +271,10 @@ public sealed class AccountController : Controller
         else
         {
             var error = await response.Content.ReadAsStringAsync();
-            ViewBag.Error = $"{error} Please try again.";
+            using var doc = JsonDocument.Parse(error);
+            string errorText = doc.RootElement.GetProperty("error").GetString();
+
+            ViewBag.Error = $"{errorText} Please try again.";
         }
 
         return View();
