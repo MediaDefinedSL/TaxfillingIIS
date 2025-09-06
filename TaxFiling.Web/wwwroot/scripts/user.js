@@ -39,52 +39,62 @@ $(function () {
             notifyError(false, "First Name is required");
             // $btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else if (lastName.length == 0) {
             notifyError(false, "Last Name is required");
             //$btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else if (email.length == 0) {
             notifyError(false, "Email is required");
             //$btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else if (!emailPattern.test(email)) {
             notifyError(false, "Ivalid email");
             //$btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else if (phone.length == 0) {
             notifyError(false, "Phone is required");
             // $btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else if (!phonePattern.test(phone)) {
             notifyError(false, "Invalid phone number!");
             //$btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else if (password.length == 0) {
             notifyError(false, "Password is required");
             //  $btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
-        if (password.length < 6) {
+        else  if (password.length < 6) {
             notifyError(false, "Password must be at least 6 characters.");
             //$btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
             
         }
         else if (confirmPassword.length == 0) {
             notifyError(false, "Confirm Password is required");
             // $btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else if (password !== confirmPassword) {
             notifyError(false, "Passwords do not match.");
             // $btn.setButtonDisabled(false);
             $btn.prop("disabled", false); // disable button
+            return;
         }
         else {
             $.ajax({
