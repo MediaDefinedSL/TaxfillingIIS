@@ -1,14 +1,23 @@
 ﻿@model TaxFiling.Web.Models.SelfFilingTotalCalculationViewModel
 
+<main class="main-content">
 
-@{
-    await Html.RenderPartialAsync("SelfOnlineSummaryPDF",Model);
-}
+    <div class=" mt-4">
+        <div class="card card-body">
+            @{
+                await Html.RenderPartialAsync("SelfOnlineSummaryPDF", Model);
+            }
 
-<div style="text-align:center; margin-top:20px;">
-    <form asp-controller="SelfOnlineFlow" asp-action="DownloadTaxPdf" method="post">
-        <button type="submit" class="btn btn-primary">
-            <i class="bi bi-file-earmark-pdf"></i> Download PDF
-        </button>
-    </form>
-</div>
+            <div style="text-align:center; margin-top:20px;">
+                <form asp-controller="SelfOnlineFlow" asp-action="DownloadTaxPdf" method="post">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
