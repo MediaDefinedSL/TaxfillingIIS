@@ -62,8 +62,7 @@
                                        
                                     </div>
                                 </div>
-                                <br />
-                                <br />
+                                <hr>
                                 <div class="row g-3">
                                     <!-- Bank Name -->
                                     <div class="col-md-6">
@@ -201,7 +200,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="6" class="text-center">No Savings Income found.</td>
+                                                    <td colspan="8" class="text-center">No Savings Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -234,7 +233,7 @@
 
                                     </div>
                                 </div>
-                                <br /> <br />
+                                <hr>
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Bank Name</label>
@@ -368,7 +367,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="6" class="text-center">No FixedDeposit Income found.</td>
+                                                    <td colspan="8" class="text-center">No FixedDeposit Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -400,7 +399,7 @@
 
                                     </div>
                                 </div>
-                                <br /><br />
+                                <hr>
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Amount Invested (Rs.)</label>
@@ -504,7 +503,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="6" class="text-center">No Dividend Income found.</td>
+                                                    <td colspan="8" class="text-center">No Dividend Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -535,7 +534,7 @@
 
                                     </div>
                                 </div>
-                                <br /><br />
+                                <hr>
                                 <div class="row g-3">
                                     
                                     <div class="col-md-6">
@@ -640,7 +639,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="6" class="text-center">No Dividend Income found.</td>
+                                                    <td colspan="7" class="text-center">No Dividend Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -660,6 +659,116 @@
 
                             <div class="tab-pane fade" id="otherincome" role="tabpanel" aria-labelledby="otherincome-tab">
                                 <h3 class="mb-3"> <i class="bi bi-cash-coin"></i> &nbsp; Other Income</h3>
+                                <hr>
+                                <br />
+                                <div class="row g-3">
+
+                                    <!-- Activity Code -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtOActivityCode" class="form-control" />
+                                    </div>
+                                    <!-- Type of Investment -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Type of Investment</label>
+                                        <select class="form-select" id="ddlOTypeInvestment" name="ddlOTypeInvestment">
+                                            <option value="">-- Select Activity Code --</option>
+                                            <option value="211">211 - GAIN FROM THE REALIZATION OF ASSETS - Local</option>
+                                            <option value="212">212 - GAIN FROM THE REALIZATION OF ASSETS - Foreign</option>
+                                            <option value="411">411 - WINNING FROM LOTTERIES, BETTING OR GAMBLING - Local</option>
+                                            <option value="412">412 - WINNING FROM LOTTERIES, BETTING OR GAMBLING - Foreign</option>
+                                            <option value="511">511 - ROYALTY INCOME - Local</option>
+                                            <option value="512">512 - ROYALTY INCOME - Foreign</option>
+                                            <option value="611">611 - ANNUITY INCOME - Local</option>
+                                            <option value="612">612 - ANNUITY INCOME - Foreign</option>
+                                            <option value="711">711 - NATURAL RESOURCE PAYMENT - Local</option>
+                                            <option value="712">712 - NATURAL RESOURCE PAYMENT - Foreign</option>
+                                            <option value="811">811 - DISCOUNT INCOME - Local</option>
+                                            <option value="812">812 - DISCOUNT INCOME - Foreign</option>
+                                            <option value="911">911 - OTHER INVESTMENT INCOME - Local</option>
+                                            <option value="912">912 - OTHER INVESTMENT INCOME - Foreign</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row g-3">
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <input type="text" class="form-control numeric-input" id="txtOAmountInvested" name="txtOAmountInvested">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Interest Income (Rs.)</label>
+                                        <input type="text" class="form-control numeric-input" id="txtOInterestIncome" name="txtOInterestIncome">
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentOther">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <hr class="my-4">
+                                <div class="table-responsive" id="OtherGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type Investment</th>
+                                                <th>Amount Invested</th>
+                                                <th>Interest Income </th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null && Model.Any(d => d.Category == "Other"))
+                                            {
+                                                var index = 0;
+                                                foreach (var otherIncome in Model.Where(d => d.Category == "Other"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@otherIncome.TypeOfInvestment</td>
+                                                        <td>@otherIncome.AmountInvested</td>
+                                                        <td>@otherIncome.IncomeAmount</td>
+                                                        
+
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm other-editbtn" type="button"
+                                                                    data-id="@otherIncome.InvestmentIncomeDetailId"
+                                                                    data-category="Other"
+                                                                    data-activitycode="@otherIncome.ActivityCode"
+                                                                    data-activity="@otherIncome.TypeOfInvestment"
+                                                                    data-amount="@otherIncome.AmountInvested"
+                                                                    data-income="@otherIncome.IncomeAmount">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
+                                                                    data-id="@otherIncome.InvestmentIncomeDetailId"
+                                                                    data-name="Other">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No Other income found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
