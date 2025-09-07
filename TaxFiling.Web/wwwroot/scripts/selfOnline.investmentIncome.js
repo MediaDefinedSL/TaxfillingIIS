@@ -14,6 +14,10 @@
         var DselectedValue = this.value;
         document.getElementById("txtDActivityCode").value = DselectedValue;
     });
+    document.getElementById("ddlRTypeInvestment").addEventListener("change", function () {
+        var DselectedValue = this.value;
+        document.getElementById("txtRActivityCode").value = DselectedValue;
+    });
 
     $(document).on("input", "#txtSActivityCode", function () {
         this.value = this.value.replace(/[^0-9]/g, '');
@@ -24,7 +28,9 @@
     $(document).on("input", "#txtDActivityCode", function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
-
+    $(document).on("input", "#txtRActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
 
     document.querySelectorAll(".numeric-input").forEach(function (input) {
         input.addEventListener("input", function (e) {
