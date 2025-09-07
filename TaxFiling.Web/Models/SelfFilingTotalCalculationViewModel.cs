@@ -21,6 +21,7 @@ public class SelfFilingTotalCalculationViewModel
     public decimal? InvIncome_Partner { get; set; }
     public decimal? InvIncome_Beneficiary { get; set; }
     public decimal? InvIncome_ExemptAmounts { get; set; }
+    public decimal? InvIncome_Other { get; set; }
 
     // Tax
     public decimal? TaxTotal { get; set; }
@@ -38,7 +39,7 @@ public class SelfFilingTotalCalculationViewModel
     {
         get
         {
-            return (InterestIncome ?? 0) + (InvIncome_Dividend ?? 0  +(InvIncome_Rent ?? 0));
+            return (InterestIncome ?? 0) + (InvIncome_Dividend ?? 0  +(InvIncome_Rent ?? 0) + (InvIncome_Other ?? 0));
         }
     }
     public decimal? AssessableIncome

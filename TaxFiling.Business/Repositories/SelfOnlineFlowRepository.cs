@@ -423,6 +423,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                 InvIncome_Partner = p.InvIncome_Partner,
                                 InvIncome_Beneficiary = p.InvIncome_Beneficiary,
                                 InvIncome_ExemptAmounts = p.InvIncome_ExemptAmounts,
+                                InvIncome_Other = p.InvIncome_Other
                             })
                             .FirstOrDefaultAsync(ctx);
 
