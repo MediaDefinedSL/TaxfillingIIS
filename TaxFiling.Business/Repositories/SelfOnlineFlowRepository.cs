@@ -696,11 +696,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         {
 
              employmentIncome = await (
-                    from e in _context.SelfOnlineEmploymentIncomeDetails
-                    join t in _context.SelfFilingTotalCalculation
-                        on new { e.UserId, e.Year } equals new { t.UserId, t.Year }
-                    where e.UserId == userId && e.Year == year
-                    select new SelfOnlineEmploymentIncomeDetailsDto
+                   from e in _context.SelfOnlineEmploymentIncomeDetails
+                   join t in _context.Users
+                       on e.UserId equals t.UserId.ToString()
+                   where e.UserId == userId && e.Year == year
+                   select new SelfOnlineEmploymentIncomeDetailsDto
                     {
                         SelfOnlineEmploymentDetailsId = e.SelfOnlineEmploymentDetailsId,
                         Residency = e.Residency,

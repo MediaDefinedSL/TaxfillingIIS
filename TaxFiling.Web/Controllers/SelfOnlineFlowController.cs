@@ -80,7 +80,7 @@ public class SelfOnlineFlowController : Controller
 
         // PackagesViewModel package = new();
         UserViewModel user = new();
-        ViewBag.TaxTotal = "0.00";
+        ViewBag.TaxTotal = "";
 
        SelfOnlineFlowPersonalInformation personalInformation = new();
 
@@ -158,11 +158,11 @@ public class SelfOnlineFlowController : Controller
                     totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent1, _jsonSerializerOptions) ?? new();
                 }
             }
-            ViewBag.TaxTotal = totalCalculation.TaxTotal;
+           
         }
 
+        ViewBag.TaxTotal = user.TaxTotal;
 
-        
 
         return View();
     }
