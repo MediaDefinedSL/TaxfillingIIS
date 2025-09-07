@@ -80,8 +80,9 @@ public class SelfOnlineFlowController : Controller
 
         // PackagesViewModel package = new();
         UserViewModel user = new();
+        ViewBag.TaxTotal = "0.00";
 
-        SelfOnlineFlowPersonalInformation personalInformation = new();
+       SelfOnlineFlowPersonalInformation personalInformation = new();
 
 
         if (packageId != null)
@@ -142,10 +143,26 @@ public class SelfOnlineFlowController : Controller
                 }
             }
 
+            SelfFilingTotalCalculationViewModel totalCalculation = new();
+
+
+           
+
+            string url1 = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryUserParams);
+            var response1 = await _httpClient.GetAsync(url1, ctx);
+            if (response1 != null && response1.IsSuccessStatusCode)
+            {
+                var responseContent1 = await response1.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContent1))
+                {
+                    totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent1, _jsonSerializerOptions) ?? new();
+                }
+            }
+            ViewBag.TaxTotal = totalCalculation.TaxTotal;
         }
 
 
-        ViewBag.TaxTotal = user.TaxTotal;
+        
 
         return View();
     }
