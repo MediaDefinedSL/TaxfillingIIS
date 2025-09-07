@@ -9,6 +9,7 @@
         var FDselectedValue = this.value;
         document.getElementById("txtFDActivityCode").value = FDselectedValue;
     });
+ 
     document.getElementById("ddlDTypeInvestment").addEventListener("change", function () {
         var DselectedValue = this.value;
         document.getElementById("txtDActivityCode").value = DselectedValue;
@@ -20,6 +21,10 @@
     $(document).on("input", "#txtFDActivityCode", function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
+    $(document).on("input", "#txtDActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
 
     document.querySelectorAll(".numeric-input").forEach(function (input) {
         input.addEventListener("input", function (e) {
@@ -693,9 +698,8 @@
             highlightedBranchIndex = 0;
         });
     });
-
-    $(document).on("click", "#btnDetailsInvestmentFD", function () {
-
+    $(document).off("click", "#btnDetailsInvestmentFD").on("click", "#btnDetailsInvestmentFD", function () {
+   
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -789,7 +793,8 @@
 
 
     });
-    $(document).on('click', '.fixedDepositDetails-editbtn', function () {
+    $(document).off("click", ".fixedDepositDetails-editbtn").on("click", ".fixedDepositDetails-editbtn", function () {
+   
        $(".validation-error").remove();
 
         // Read all data-* attributes
@@ -855,9 +860,8 @@
 
 
     /* ============= Divident  =================*/
-
-    $(document).on("click", "#btnDetailsInvestmentDivident", function () {
-
+    $(document).off("click", "#btnDetailsInvestmentDivident").on("click", "#btnDetailsInvestmentDivident", function () {
+   
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -959,9 +963,8 @@
       
         
     }
-
-    $('.dividend-editbtn').on('click', function () {
-    
+    $(document).off("click", ".dividend-editbtn").on("click", ".dividend-editbtn", function () {
+   
         $(".validation-error").remove();
         // Get row data from button attributes
         var id = $(this).data("id");
@@ -1005,8 +1008,8 @@
     });
 
     /* ============= Divident  =================*/
+    $(document).off("click", "#btnDetailsInvestmentRent").on("click", "#btnDetailsInvestmentRent", function () {
 
-    $(document).on("click", "#btnDetailsInvestmentRent", function () {
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -1107,8 +1110,8 @@
         $("#txtForeignTaxCredit").val("");
 
     }
-    $(document).on("click", ".rent-editbtn", function () {
-    
+    $(document).off("click", ".rent-editbtn").on("click", "#.rent-editbtn", function () {
+   
         $(".validation-error").remove();
         // Get row data from button attributes
        
