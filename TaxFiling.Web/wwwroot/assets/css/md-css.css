@@ -5871,7 +5871,7 @@ main.cal strong {
     font-weight: 100;
 }
 
-button#empdetails-tab {
+button#empdetails-tab, button#t10-tab {
     background-image: url(/assets/img/Employment-Detailss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -5883,7 +5883,7 @@ button#terminal-tab {
     background-size: 82px;
 }
 
-button#exempt-tab {
+button#exempt-tab, button#anyother-tab {
     background-image: url(/assets/img/Exempt-Amountss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -6219,6 +6219,30 @@ form[action="/SelfOnlineFlow/DownloadTaxPdf"] {
 }
 
 
+div#employment-section ul#employmentTab {
+    border: none !important;
+    column-gap: 34px;
+}
+
+div#other-section ul#taxTabs {
+    border: none !important;
+    column-gap: 34px;
+}
+
+button#tax-slips-tab {
+    background-image: url(/assets/img/Employment-Detailss.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#income-expenses-tab {
+    background-image: url(/assets/img/Terminal-Benefitss.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+
+
 
 
 #Self-Online-Flow .sidebar-main h2 {
@@ -6328,3 +6352,4 @@ div#in-this-section-container main.main-content.Personal-Information-summary .fi
 #contact .card.card-body.border p {
     font-size: 14px !important;
 }
+

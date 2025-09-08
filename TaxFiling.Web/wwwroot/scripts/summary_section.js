@@ -17,10 +17,23 @@
     });
 
 });
-    $('#divSummaryAssistedContinue').on('click', function () {
-   
-        $('#in-this-section-container').show();
-        
+
+    $('#divSummaryAssistedNext').on('click', function () {
+
+        var docUploadStatus = $('#docUploadStatus').val();
+        if (docUploadStatus) {
+            $('#linkSummary').removeClass('active');
+            $('.dropdown-btn').each(function () {
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent && dropdownContent.classList.contains("dropdown-container")) {
+                    dropdownContent.style.display = "none";
+                }
+            });
+            showPanel("documents-section");
+        }
+        else {
+            $('#in-this-section-container').show();
+
             $.ajax({
                 url: '/SelfOnlineFlow/LoadEmploymentIncome',
                 type: 'GET',
@@ -35,6 +48,9 @@
                     alert("Error loading section content.");
                 }
             });
+        }
+   
+        
        
 
     });
