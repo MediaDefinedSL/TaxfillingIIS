@@ -6243,7 +6243,7 @@ section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
 
 div#excelUploadSection:before {
     content: "1";
-    background-image: url(assets/img/GFuqSC4Eab.gif) !important;
+    background-image: url(assets/img/GFuqSC4Eab5.gif) !important;
     height: 88px;
     width: 140px;
     display: inline-block;
@@ -6260,7 +6260,7 @@ div#excelUploadSection:before {
 
 div#manualTableSection:before {
     content: "1";
-    background-image: url(assets/img/uplode-file-2025.gif) !important;
+    background-image: url(assets/img/uplode-file-20255.gif) !important;
     height: 88px;
     width: 140px;
     display: inline-block;
@@ -6274,3 +6274,33 @@ div#manualTableSection:before {
     background-repeat: no-repeat;
 }
 
+#Self-Online-Flow .logo-text {
+    font-size: 16px;
+    color: #000 !important;
+    /* background: linear-gradient(45deg, #4f4f4f, #4b4b4b) !important; */
+    background: linear-gradient(45deg, #010101, #000000) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+span#taxTotal {
+    font-size: 16px;
+}
+
+
+#Self-Online-Flow .logo-text {
+    z-index: 9999999;
+    position: absolute !important;
+    width: 100% !important;
+    text-align: right;
+}
+
+div#taxtotalview {
+    /* z-index: 9999; */
+    /* position: relative; */
+    width: 100%;
+}
+
+#Self-Online-Flow .toggle-btn {
+    z-index: 9999999 !important;
+}
