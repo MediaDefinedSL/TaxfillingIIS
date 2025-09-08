@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Calculation of Income Tax Liability – Year of Assessment</title>
-    <style>
+<style>
         /* ====== Page + Typography ====== */
         :root {
             --blue: #7cc7f0;
@@ -27,24 +27,27 @@
             background: #f8fafc;
         }
 
-        .sheet {
-            width: 210mm; /* A4 width */
-            min-height: 297mm; /* A4 height */
-            margin: 20px auto;
-            background: #fff;
-            box-shadow: 0 10px 30px rgba(0,0,0,.08);
-            padding: 22mm 18mm; /* print-friendly margins */
-            box-sizing: border-box;
-        }
+      .sheet {
+    /* width: 210mm; */
+    min-height: 297mm;
+    /* margin: 20px auto; */
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    /* padding: 22mm 18mm; */
+    box-sizing: border-box;
+    margin-top: 14px;
+}
 
         /* ====== Header ====== */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
+    .header.pdf {
+    display: flex
+;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-right: 16px;
+}
 
         .brand {
             display: flex;
@@ -180,23 +183,27 @@
             }
         }
 
-        .logo {
-            background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
-            width: 274px;
-            height: 100px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            margin-left: auto;
-            margin-right: auto;
-        }
+   .logo.pdf {
+    background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
+    width: 274px;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
+    background-size: 244px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
     </style>
 </head>
 <body>
     <div class="sheet" role="document">
         <!-- Header -->
-        <div class="header">
+        <div class="header pdf">
             <div class="brand">
-                <div class="logo"></div>
+                <div class="logo pdf"></div>
 
             </div>
             <div style="text-align:center;/* flex:1; */display: block !important;width: 100% !important;">
@@ -257,6 +264,12 @@
                     <td class="indent">+ Rent Income</td>
                     <td></td>
                     <td class="num">@Model.InvIncome_Rent</td>
+                    <td class="num">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="indent">+ Other Income</td>
+                    <td></td>
+                    <td class="num">@Model.InvIncome_Other</td>
                     <td class="num">@Model.InvestmentIncome</td>
                 </tr>
                 <tr>

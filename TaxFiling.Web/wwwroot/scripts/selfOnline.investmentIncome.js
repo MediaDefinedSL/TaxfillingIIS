@@ -9,15 +9,33 @@
         var FDselectedValue = this.value;
         document.getElementById("txtFDActivityCode").value = FDselectedValue;
     });
+ 
     document.getElementById("ddlDTypeInvestment").addEventListener("change", function () {
         var DselectedValue = this.value;
         document.getElementById("txtDActivityCode").value = DselectedValue;
+    });
+    document.getElementById("ddlRTypeInvestment").addEventListener("change", function () {
+        var DselectedValue = this.value;
+        document.getElementById("txtRActivityCode").value = DselectedValue;
+    });
+    document.getElementById("ddlOTypeInvestment").addEventListener("change", function () {
+        var DselectedValue = this.value;
+        document.getElementById("txtOActivityCode").value = DselectedValue;
     });
 
     $(document).on("input", "#txtSActivityCode", function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
     $(document).on("input", "#txtFDActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(document).on("input", "#txtDActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(document).on("input", "#txtRActivityCode", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $(document).on("input", "#txtOActivityCode", function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
 
@@ -477,6 +495,9 @@
                     if (deleteCategoryName == "Rent") {
                         $('#RentGrid').html($(html).find('#RentGrid').html());
                     }
+                    if (deleteCategoryName == "Other") {
+                        $('#OtherGrid').html($(html).find('#OtherGrid').html());
+                    }
                     $("html, body").animate({ scrollTop: 0 }, "smooth");
                     //$("#taxTotal").text(newTotal);
                 });
@@ -693,9 +714,8 @@
             highlightedBranchIndex = 0;
         });
     });
-
-    $(document).on("click", "#btnDetailsInvestmentFD", function () {
-
+    $(document).off("click", "#btnDetailsInvestmentFD").on("click", "#btnDetailsInvestmentFD", function () {
+   
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -789,7 +809,8 @@
 
 
     });
-    $(document).on('click', '.fixedDepositDetails-editbtn', function () {
+    $(document).off("click", ".fixedDepositDetails-editbtn").on("click", ".fixedDepositDetails-editbtn", function () {
+   
        $(".validation-error").remove();
 
         // Read all data-* attributes
@@ -855,9 +876,8 @@
 
 
     /* ============= Divident  =================*/
-
-    $(document).on("click", "#btnDetailsInvestmentDivident", function () {
-
+    $(document).off("click", "#btnDetailsInvestmentDivident").on("click", "#btnDetailsInvestmentDivident", function () {
+   
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -959,9 +979,8 @@
       
         
     }
-
-    $('.dividend-editbtn').on('click', function () {
-    
+    $(document).off("click", ".dividend-editbtn").on("click", ".dividend-editbtn", function () {
+   
         $(".validation-error").remove();
         // Get row data from button attributes
         var id = $(this).data("id");
@@ -1004,9 +1023,9 @@
 
     });
 
-    /* ============= Divident  =================*/
+    /* ============= Rent  =================*/
+    $(document).off("click", "#btnDetailsInvestmentRent").on("click", "#btnDetailsInvestmentRent", function () {
 
-    $(document).on("click", "#btnDetailsInvestmentRent", function () {
         var $btn = $(this);
         $btn.prop("disabled", true);
 
@@ -1105,10 +1124,11 @@
         $("#txtRCostGiftInhreted").val("");
         $("#txtRMarketValue").val("");
         $("#txtForeignTaxCredit").val("");
+        $("#btnDetailsInvestmentRent").text("Submit");
 
     }
-    $(document).on("click", ".rent-editbtn", function () {
-    
+    $(document).off("click", ".rent-editbtn").on("click", ".rent-editbtn", function () {
+   
         $(".validation-error").remove();
         // Get row data from button attributes
        
@@ -1148,6 +1168,116 @@
 
         $("#hiddenInvestmentIncomeId").val(id);
         $("#btnDetailsInvestmentRent").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+
+    });
+
+    /* ============= Other  =================*/
+    $(document).off("click", "#btnDetailsInvestmentOther").on("click", "#btnDetailsInvestmentOther", function () {
+
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Collecting values from your form
+        let selfOnlineInvestmentId = $("#hiddenInvestmentIncomeId").val();   // hidden field for edit/update
+        let activityCode = $("#txtOActivityCode").val();
+        let typeOfInvestment = $("#ddlOTypeInvestment").val();
+        let amountInvested = $("#txtOAmountInvested").val();
+        let incomeAmount = $("#txtOInterestIncome").val();
+        
+
+
+        let isValid = true;
+        $(".validation-error").remove();
+
+        // === Validation ===
+        if (!typeOfInvestment) {
+            $("#ddlOTypeInvestment").after('<div class="text-danger validation-error">Please select Type of Investment.</div>');
+            isValid = false;
+        }
+        if (!amountInvested) {
+            $("#txtOAmountInvested").after('<div class="text-danger validation-error">Amount Invested is required.</div>');
+            isValid = false;
+        }
+        
+
+        if (!isValid) {
+            $btn.prop("disabled", false);
+            return;
+        }
+
+        // === Data Object ===
+        let rentData = {
+            InvestmentIncomeDetailId: selfOnlineInvestmentId,
+            TransactionType: selfOnlineInvestmentId ? "Edit" : "Add",
+            Category: "Other",
+            ActivityCode: activityCode,
+            TypeOfInvestment: typeOfInvestment,
+            AmountInvested: amountInvested,
+            IncomeAmount: incomeAmount
+
+        };
+
+        // === AJAX URL ===
+        var url = selfOnlineInvestmentId
+            ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
+            : '/SelfOnlineFlow/AddSelfOnlineInvestmentIncomeDetails';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: rentData,
+            success: function (response) {
+                $btn.prop("disabled", false);
+
+                // notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
+                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
+                // Reload rent grid
+                $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
+                    $('#OtherGrid').html($(html).find('#OtherGrid').html());
+                });
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
+                resetFormOther();
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving.");
+            }
+        });
+    });
+
+    function resetFormOther() {
+
+        $("#hiddenInvestmentIncomeId").val("");
+        $("#txtOActivityCode").val("");
+        $("#ddlOTypeInvestment").val("");
+        $("#txtOAmountInvested").val("");
+        $("#txtOInterestIncome").val("");
+        $("#btnDetailsInvestmentOther").text("Submit");
+        
+
+    }
+    $(document).off("click", ".other-editbtn").on("click", ".other-editbtn", function () {
+
+        $(".validation-error").remove();
+        // Get row data from button attributes
+
+        var id = $(this).data("id");
+        var activitycode = $(this).data("activity");
+        var activity = $(this).data("activity");
+        var amount = $(this).data("amount");
+        var income = $(this).data("income");
+        
+
+        // Set values back to form
+        $("#txtOActivityCode").val(activitycode);
+        $("#ddlOTypeInvestment").val(activity);
+        $("#txtOAmountInvested").val(amount);
+        $("#txtOInterestIncome").val(income);
+      
+       
+        $("#hiddenInvestmentIncomeId").val(id);
+        $("#btnDetailsInvestmentOther").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
 
     });

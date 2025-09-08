@@ -292,6 +292,7 @@ $(function () {
                     $("#txtTerminalTINNo").val("");
                     $("#txtTerminalBenefits").val("");
                     $("#btnTerminalSubmit").text("Submit");
+                    $("#hiddenTerminalId").val("")
 
                 },
                 error: function () {
@@ -322,6 +323,7 @@ $(function () {
                     $("#txtTerminalTINNo").val("");
                     $("#txtTerminalBenefits").val("");
                     $("#btnTerminalSubmit").text("Submit");
+                    $("#hiddenTerminalId").val("")
 
                 },
                 error: function () {
@@ -337,8 +339,8 @@ $(function () {
         $("#txtTerminalECName").val("");
         $("#txtTerminalTINNo").val("");
         $("#txtTerminalBenefits").val("");
-        $("#hiddenTerminalId").val(0);
         $("#btnTerminalSubmit").text("Submit");
+        $("#hiddenTerminalId").val("")
 
     });
 
@@ -615,22 +617,30 @@ $(function () {
             data: deleteId,
             success: function (response) {
                 $('#selfonline_confirmDeleteModal').modal('hide');
-               
-                $.get('/SelfOnlineFlow/LoadIncomeLiableTax', function (html) {
-                    if (deleteEmploymentDetailsName == "TerminalBenefits") {
-                        $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
-                     }
-                    if (deleteEmploymentDetailsName == "ExemptAmounts") {
-                        $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
-                    }
-                    if (deleteEmploymentDetailsName == "EmploymentDetails") {
-                        $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html());
-                    }
+ 
+                if (deleteEmploymentDetailsName == "EmploymentDetails") {
+                    $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
+                        $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
+                        var newTotal = parseFloat($(html).find("#hiddentotal").val() || 0);
 
-                    var newTotal = $(html).find("#spnEmploymentIncomeTotal").text();
-                    // $("#spnEmploymentIncomeTotal").text(newTotal);
-                    $("#taxTotal").text(newTotal);
-                });
+                        $("#taxTotal").text(newTotal);
+                    });
+                }
+                if (deleteEmploymentDetailsName == "TerminalBenefits") {
+                    $.get('/SelfOnlineFlow/LoadETerminalBenefits', function (html) {
+                        $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
+                        var newTotal = parseFloat($(html).find("#hiddenBtotal").val() || 0);
+                        $("#taxTotal").text(newTotal);
+                    });
+                }
+                if (deleteEmploymentDetailsName == "ExemptAmounts") {
+                    $.get('/SelfOnlineFlow/LoadExemptAmounts', function (html) {
+                        $('#exemptDetailsGrid').html($(html).find('#exemptDetailsGrid').html());
+                        var newTotal = parseFloat($(html).find("#hiddenEtotal").val() || 0);
+                        $("#taxTotal").text(newTotal);
+                    });
+                }
+             
             },
             error: function () {
                 alert("Error deleting.");
