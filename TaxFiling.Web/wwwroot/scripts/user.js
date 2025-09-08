@@ -3,11 +3,9 @@ $(function () {
 
     var istin = $("#isTin").val();
 
-    //if (istin == 0) {
-
-    //    let myModal = new bootstrap.Modal(document.getElementById('File-my-taxes'));
-    //    myModal.show();
-    //}
+    $(document).on("input", "#TinNo", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
 
     $(document).on("click", "#btnAddUser", function (e) {
         e.preventDefault();
@@ -24,6 +22,7 @@ $(function () {
         let phone = $("#Phone").val();
         let password = $("#Password").val();
         let confirmPassword = $("#ConfirmPassword").val();
+        let isValid = true;
 
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var phonePattern = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
@@ -35,68 +34,70 @@ $(function () {
             Phone: $("#Phone").val(),
             Password: $("#Password").val()
         };
-        if (firstName.length == 0) {
-            notifyError(false, "First Name is required");
-            // $btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
+
+
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+        if (!firstName.trim()) {
+            $("#FirstName").after('<div class="text-danger validation-error">First Name is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
         }
-        else if (lastName.length == 0) {
-            notifyError(false, "Last Name is required");
-            //$btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
+        if (!lastName.trim()) {
+            $("#LastName").after('<div class="text-danger validation-error">Last Name is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
         }
-        else if (email.length == 0) {
-            notifyError(false, "Email is required");
-            //$btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
+        if (!email.trim()) {
+            $("#Email").after('<div class="text-danger validation-error">Email is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
         }
-        else if (!emailPattern.test(email)) {
-            notifyError(false, "Ivalid email");
-            //$btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
-        }
-        else if (phone.length == 0) {
-            notifyError(false, "Phone is required");
-            // $btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
-        }
-        else if (!phonePattern.test(phone)) {
-            notifyError(false, "Invalid phone number!");
-            //$btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
-        }
-        else if (password.length == 0) {
-            notifyError(false, "Password is required");
-            //  $btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
-        }
-        else  if (password.length < 6) {
-            notifyError(false, "Password must be at least 6 characters.");
-            //$btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
-            
-        }
-        else if (confirmPassword.length == 0) {
-            notifyError(false, "Confirm Password is required");
-            // $btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
-        }
-        else if (password !== confirmPassword) {
-            notifyError(false, "Passwords do not match.");
-            // $btn.setButtonDisabled(false);
-            $btn.prop("disabled", false); // disable button
-            return;
+        if (!password.trim()) {
+            $("#Password").after('<div class="text-danger validation-error">Password is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
         }
         else {
+            if (password.length < 6) {
+                $("#Password").after('<div class="text-danger validation-error">Password must be at least 6 characters.</div>');
+                $btn.prop("disabled", false);
+                isValid = false;
+            }
+            else {
+                if (password !== confirmPassword) {
+                    $("#Password").after('<div class="text-danger validation-error">Passwords do not match.</div>');
+                    $btn.prop("disabled", false);
+                    isValid = false;
+                }
+            }
+        }
+        if (!phone.trim()) {
+            $("#Phone").after('<div class="text-danger validation-error">Phone Number is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
+        else {
+            if (!phonePattern.test(phone)) {
+                $("#Phone").after('<div class="text-danger validation-error">Invalid Phone number!</div>');
+                $btn.prop("disabled", false);
+                isValid = false;
+            }
+        }
+ 
+        if (!confirmPassword) {
+            $("#ConfirmPassword").after('<div class="text-danger validation-error">Confirm Password is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
+       
+
+        if (!isValid) {
+            return;
+        }
+
+      
             $.ajax({
                 url: `${appUrl}/account/userregister`,
                 type: "POST",
@@ -106,7 +107,9 @@ $(function () {
                     if (response.responseResult != null) {
                         console.log(response.responseResult);
                         if (response.responseResult.success) {
-                            notifySuccess("", response.responseResult.message);
+                         
+                            showMessage(response.responseResult.message, "success");
+
                             var userid = response.responseResult.resultGuid;
                             var name = response.responseResult.name;
                             var tinNo = response.responseResult.data.tinNo;
@@ -116,27 +119,27 @@ $(function () {
                             $('#UserId').val(userid);
                             $('#UserFullName').val(name);
 
-                            let myModal = new bootstrap.Modal(document.getElementById('File-my-taxes'));
-                            myModal.show();
+                            setTimeout(function () {
+                                $('#mytaxes_tin').modal('show');
+                            }, 1500);
 
                         } else {
-                            notifyError(false, response.responseResult.message);
+                            showMessage(response.responseResult.message, "error");
                         }
                     }
                     else {
-                        notifyError(false, 'An error occurred while registering the User.');
+                        showMessage('An error occurred while registering the User.', "error");  
                     }
 
-                    //$btn.setButtonDisabled(false);
-                    $btn.prop("disabled", false); // disable button
+                    $btn.prop("disabled", false); 
                 },
                 error: function (xhr) {
-                    //$btn.setButtonDisabled(false);
-                    $btn.prop("disabled", false); // disable button
-                    notifyError(false, 'An error occurred while registering the User.');
+
+                    $btn.prop("disabled", false); 
+                    showMessage('An error occurred while registering the User.', "error");  
                 }
             });
-        }
+      
 
     });
 
@@ -239,14 +242,16 @@ $(function () {
                 success: function (response) {
                     if (response.responseResult != null) {
                         if (response.responseResult.success) {
-                            notifySuccess("", response.responseResult.message);
+                           // notifySuccess("", response.responseResult.message);
+                            showMessage(response.responseResult.message, "success");
                             window.location.href = `${appUrl}/home/FileMyTaxes`;
                             $.get('/User/UserProfile', { userId: userId }, function (html) {
                                 $('#drplogout').html($(html).find('#drplogout').html());
                             });
 
                         } else {
-                            notifyError(false, response.responseResult.message);
+                           // notifyError(false, response.responseResult.message);
+                            showMessage(response.responseResult.message, "error");
                         }
                     }
                     else {
@@ -291,8 +296,8 @@ $(function () {
                 console.log(response.responseResult);
                 if (response.responseResult != null) {
                     if (response.responseResult.success) {
-                        notifySuccess("", response.responseResult.message);
-
+                       // notifySuccess("", response.responseResult.message);
+                        showMessage(response.responseResult.message, "success");
                         // Now sign in the user
                         $.ajax({
                             url: `${appUrl}/account/signin`,
@@ -360,11 +365,12 @@ $(function () {
             success: function (response) {
                 if (response.responseResult != null) {
                     if (response.responseResult.success) {
-                        notifySuccess("", response.responseResult.message);
-
-
+                       // notifySuccess("", response.responseResult.message);
+                        showMessage("Populate Name and email and Subject as Help me to create TIN Number", "success");
+                       
+                        setTimeout(function () {
                         // Now sign in the user
-                        $.ajax({
+                       $.ajax({
                             url: `${appUrl}/account/signin`,
                             type: "POST",
                             contentType: "application/json",
@@ -377,16 +383,19 @@ $(function () {
                                 console.log(signInResponse);
                                 if (signInResponse.success) {
 
-                                    window.location.href = `${appUrl}/home/notinnumber`;
-                                    //  window.location.href = `${appUrl}${signInResponse.returnUrl}`;
+                                    window.location.href = `${appUrl}/home/ContactUs`;
+                                  
                                 } else {
-                                    notifyError(false, "Sign-in failed after TIN status update.");
+                                   // notifyError(false, "Sign-in failed after TIN status update.");
+                                    showMessage("Sign-in failed after TIN status update.", "error");
                                 }
                             },
                             error: function () {
-                                notifyError(false, "Error occurred during sign-in.");
+                                showMessage("Error occurred during sign-in.", "error");
+                               // notifyError(false, "Error occurred during sign-in.");
                             }
-                        });
+                       });
+                        }, 1500); 
 
                     } else {
                         notifyError(false, response.responseResult.message);
@@ -428,7 +437,8 @@ $(function () {
             success: function (response) {
                 if (response.responseResult != null) {
                     if (response.responseResult.success) {
-                        notifySuccess("", response.responseResult.message);
+                        //notifySuccess("", response.responseResult.message);
+                        showMessage(response.responseResult.message, "success");
                         var name = $('#UserFullName').val();
                         /*  window.location.href = `${appUrl}/home/FileMyTaxes`;*/
                         // window.location.href = `${appUrl}${response.responseResult.returnUrl}`;
@@ -558,3 +568,50 @@ function displaySelectedImage(event, elementId) {
         reader.readAsDataURL(fileInput.files[0]);
     }
 }
+
+function showMessage(message, type = "success", autoClose = true, autoCloseTime = 5000) {
+    const modal = document.getElementById("enhancedModalUser");
+    const modalContent = modal.querySelector(".enhanced-modal-content");
+    const msgElem = document.getElementById("enhancedModalMessageUser");
+    const closeBtn = document.getElementById("enhancedModalCloseUser");
+
+    // Set message text
+    msgElem.textContent = message;
+
+    // Remove previous type classes
+    modalContent.classList.remove("modal-success", "modal-error", "modal-info");
+
+    // Add current type class
+    if (type === "success") modalContent.classList.add("modal-success");
+    else if (type === "error") modalContent.classList.add("modal-error");
+    else modalContent.classList.add("modal-info");
+
+    // Show modal
+    modal.style.display = "flex";
+
+    // Close function
+    function closeModal() {
+        modal.style.display = "none";
+        // Cleanup event listeners to avoid duplicates if called again
+        closeBtn.removeEventListener("click", closeModal);
+        window.removeEventListener("click", outsideClick);
+        if (autoCloseTimer) clearTimeout(autoCloseTimer);
+    }
+
+    // Close when clicking close button
+    closeBtn.addEventListener("click", closeModal);
+
+    // Close when clicking outside modal content
+    function outsideClick(e) {
+        if (e.target === modal) closeModal();
+    }
+    window.addEventListener("click", outsideClick);
+
+    // Auto-close timer if enabled
+    let autoCloseTimer;
+    if (autoClose) {
+        autoCloseTimer = setTimeout(closeModal, autoCloseTime);
+    }
+}
+
+
