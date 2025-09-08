@@ -128,7 +128,13 @@
                             <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4 mr-10">
                                 <span class="text-danger"> *</span>
                                 <label class="form-label" for="form2Example28">Tin Number</label>
-                                @Html.TextBoxFor(m => m.TinNo, new { @class = "form-control form-control-lg" })
+                                @* @Html.TextBoxFor(m => m.TinNo, new { @class = "form-control form-control-lg" }) *@
+                                @Html.TextBoxFor(m => m.TinNo, new
+                                    {
+                                        @class = "form-control form-control-lg",
+                                        @maxlength = "9",
+                                        @pattern = @"\d{9}"
+                                    })
 
                             </div>
 
