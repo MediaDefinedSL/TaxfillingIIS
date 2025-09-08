@@ -6305,7 +6305,7 @@ div#taxtotalview {
     z-index: 9999999 !important;
 }
 
-div#in-this-section-container main.main-content.Personal-Information-summary .filling {
+div#in-this-section-container main.main-content.Personal-Information-summary .filling:first-child {
     background-image: url(https://taxfiling.lk/assets/img/recruitment-demand-summary.png) !important;
     background-size: 127px;
     background-repeat: no-repeat !important;
