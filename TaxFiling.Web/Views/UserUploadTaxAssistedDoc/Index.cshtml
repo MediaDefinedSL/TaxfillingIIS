@@ -2204,24 +2204,22 @@
                                   document.querySelectorAll('#income-expenses .col-md-6').forEach(div => {
                               const label = div.querySelector('label.form-label');
                               const input = div.querySelector('input');
-                              if (label && input && label.innerText.trim() === detail.category) {
-                               // input.value = detail.value;
-                                   if (!isNaN(detail.value)) {
-                                       input.value = Number(detail.value).toLocaleString('en-US');
-                                   } else {
-                                       input.value = detail.value; // fallback if not a number
-                                   }
+                              if (label && input) {
+                                const labelText = label.innerText.replace("*", "").trim(); // remove * if present
+                                if (labelText === detail.category) {
+                                    if (!isNaN(detail.value)) {
+                                        input.value = Number(detail.value).toLocaleString('en-US');
+                                    } else {
+                                        input.value = detail.value;
+                                    }
 
-                                if (docStatus === "2") {
+                                    if (docStatus === "2") {
+                                        input.disabled = true;
+                                    }
+                                } else if (docStatus === "2") {
                                     input.disabled = true;
                                 }
-                              }
-                              else
-                              {
-                                  if (docStatus === "2") {
-                                    input.disabled = true;
-                                }
-                              }
+                            }
 
                             });
                           });
@@ -3941,9 +3939,8 @@
 
                         submitBtn.addEventListener("click", async function () {
                             let isValid = true;
-                            let messages = [];     
+                            let messages = [];                                
                             
-                            alert(selectedCategoryName);
 
                            if(selectedCategoryName == "T10")
                            {
