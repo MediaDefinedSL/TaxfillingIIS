@@ -6087,7 +6087,7 @@ div#excelUploadSection:before {
 
 
 div#manualTableSection:before {
-    content: "1";
+    content: "11";
     background-image: url(http://images.netexam.com/images/10229/uplode-file-2025.gif) !important;
     height: 88px;
     width: 140px;
@@ -6100,4 +6100,5 @@ div#manualTableSection:before {
     right: 4px;
     font-size: 0px;
     background-repeat: no-repeat;
+
 }
