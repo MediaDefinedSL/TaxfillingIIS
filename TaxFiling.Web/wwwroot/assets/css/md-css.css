@@ -6243,7 +6243,7 @@ section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
 
 div#excelUploadSection:before {
     content: "1";
-    background-image: url(assets/img/GFuqSC4Eab5.gif) !important;
+    background-image: url(https://taxfiling.lk/assets/img/GFuqSC4Eab5.gif) !important;
     height: 88px;
     width: 140px;
     display: inline-block;
@@ -6260,7 +6260,7 @@ div#excelUploadSection:before {
 
 div#manualTableSection:before {
     content: "1";
-    background-image: url(assets/img/uplode-file-20255.gif) !important;
+    background-image: url(https://taxfiling.lk/assets/img/uplode-file-20255.gif) !important;
     height: 88px;
     width: 140px;
     display: inline-block;
@@ -6303,4 +6303,12 @@ div#taxtotalview {
 
 #Self-Online-Flow .toggle-btn {
     z-index: 9999999 !important;
+}
+
+div#in-this-section-container main.main-content.Personal-Information-summary .filling {
+    background-image: url(https://taxfiling.lk/assets/img/recruitment-demand-summary.png) !important;
+    background-size: 127px;
+    background-repeat: no-repeat !important;
+    background-position: 98%;
+    background-position-y: 10px;
 }
