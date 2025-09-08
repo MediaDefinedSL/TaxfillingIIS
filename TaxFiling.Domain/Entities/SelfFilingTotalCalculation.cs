@@ -41,6 +41,8 @@ public class SelfFilingTotalCalculation
     public decimal? InvIncome_Beneficiary { get; set; }
     [Column("InvIncome_ExemptAmounts")]
     public decimal? InvIncome_ExemptAmounts { get; set; }
+    [Column("InvIncome_Other")]
+    public decimal? InvIncome_Other { get; set; }
 
     [Column("TaxTotal")]
     public decimal? TaxTotal { get; set; }

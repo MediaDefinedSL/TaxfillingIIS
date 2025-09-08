@@ -9,6 +9,10 @@
 
                 <div class=" mt-4 ">
                     <input type="hidden" id="hiddenEmploymentDetailsId" name="hiddenEmploymentDetailsId" />
+                    @{
+                        var fristrecord = Model.FirstOrDefault();
+                    }
+                    <input type="hidden" id="hiddentotal" name="hiddentotal" value="@fristrecord?.Total" />
                     <div class="p-4 border rounded bg-light shadow-sm mb-4">
                         <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Employment Details</h6>
                         <hr>
@@ -26,7 +30,10 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="col-sm-3 col-form-label font-weight-bold">Senior Citizen</label>
-                                <input type="radio" name="rdbSeniorCitizen" id="rdbSeniorCitizen" />
+                               @*  <input type="radio" name="rdbSeniorCitizen" id="rdbSeniorCitizen" /> *@
+                                <input type="checkbox" class="form-check-input"
+                                       id="rdbSeniorCitizen"
+                                       name="rdbSeniorCitizen" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Type of Employment</label>
@@ -37,23 +44,23 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Remuneration (Rs.)</label>
-                                <input type="number" class="form-control" maxlength="9" id="txtRemuneration" name="txtRemuneration">
+                                <input type="text" class="form-control numeric-input"  id="txtRemuneration" name="txtRemuneration">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Employer/Company Name</label>
                                 <input type="text" class="form-control" id="txtEmpDetailsECName" name="txtEmpDetailsECName">
                             </div>
-                            <div class="col-md-6" id="divAPITPrimaryEmployment">
-                                <label class="form-label"> APIT Paid on Primary Employment</label>
-                                <input type="number" class="form-control" maxlength="9" id="txtAPITPrimaryEmployment" name="txtAPITPrimaryEmployment">
-                            </div>
                             <div class="col-md-6">
                                 <label class="form-label"> TIN of Employer</label>
                                 <input type="text" class="form-control" maxlength="9" id="txtTINEmployer" name="txtTINEmployer">
                             </div>
+                            <div class="col-md-6" id="divAPITPrimaryEmployment">
+                                <label class="form-label"> APIT Paid on Primary Employment</label>
+                                <input type="text" class="form-control numeric-input"  id="txtAPITPrimaryEmployment" name="txtAPITPrimaryEmployment">
+                            </div>
                             <div class="col-md-6" id="divAPITSecondaryEmployment">
                                 <label class="form-label"> APIT Paid on Secondary Employment</label>
-                                <input type="number" class="form-control" maxlength="9" id="txtAPITSecondaryEmployment" name="txtAPITSecondaryEmployment">
+                                <input type="text" class="form-control numeric-input"  id="txtAPITSecondaryEmployment" name="txtAPITSecondaryEmployment">
                             </div>
 
                         </div>
@@ -80,8 +87,8 @@
                                         <th>Residency</th>
                                         <th>Senior Citizen</th>
                                         <th>Type Employment</th>
-                                        <th>Name</th>
-                                        <th>TIN Employer</th>
+                                        <th>Company/Employer Name</th>
+                                        <th>TIN of Employer</th>
                                         <th>Remuneration</th>
                                         <th>APIT Primary</th>
                                         <th>APIT Secondary</th>
@@ -98,6 +105,7 @@
                                         .Where(d => d.CategoryName == "EmploymentDetails"))
                                         {
                                             var Residency = "";
+                                            var SeniorCitizen = "";
                                             if (@eploymentIncome.Residency == 1 ){
                                                 Residency = "Resident";
                                             }
@@ -105,10 +113,18 @@
                                             {
                                                 Residency = "Non-resident";
                                             }
+                                            if (@eploymentIncome.SeniorCitizen)
+                                            {
+                                                SeniorCitizen = "Yes";
+                                            }
+                                            if (!@eploymentIncome.SeniorCitizen)
+                                            {
+                                                SeniorCitizen = "No";
+                                            }
                                             <tr>
                                                 <td>@(++index)</td>
                                                 <td>@Residency</td>
-                                                <td>@eploymentIncome.SeniorCitizen</td>
+                                                <td>@SeniorCitizen</td>
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>

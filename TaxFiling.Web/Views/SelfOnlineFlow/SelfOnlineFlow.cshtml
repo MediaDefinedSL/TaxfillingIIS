@@ -30,6 +30,9 @@
     <!-- File my taxes Section -->
     <section id="Self-Online-Flow" class="">
         <div class="sidebar-main">
+            <div id="taxtotalview">
+                <h4 class="logo-text fw-bold mb-0">Your Total Tax: LKR  <span id="taxTotal">  @(ViewBag.TaxTotal != null ? ViewBag.TaxTotal.ToString("N2") : "0.00")</span> </h4>
+            </div>
             <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed">
                 <button class="toggle-btn" onclick="toggleSidebar()">
                     <i class="fas fa-chevron-left"></i>
@@ -62,7 +65,7 @@
                         <a class="sub-link" id="linkLastYear"> <i class="fas fa-calendar me-2"></i> Last Year</a>
                         <a class="sub-link" id="linkIdentification"><i class="bi bi-person-vcard-fill me-2"></i> Identification</a>
                         <a class="sub-link" id="linkContactInformation"><i class="bi bi-telephone-outbound me-2"></i> Contact Information</a>
-                        <a class="sub-link" id="linkSummary"> <i class="bi bi-bar-chart-fill me-2"></i> Summary</a>
+                        <a class="sub-link" id="linkSummary"> <i class="bi bi-bar-chart-fill me-2"></i>Personal Information Summary</a>
                         
                     </div>
 
@@ -160,9 +163,7 @@
             </nav>
 
 
-            <div id="taxtotalview">
-                <h4 class="logo-text fw-bold mb-0">LKR  <span id="taxTotal"> @ViewBag.TaxTotal</span> </h4>
-            </div>
+            
             <div id="in-this-section-container">
                
             </div>
