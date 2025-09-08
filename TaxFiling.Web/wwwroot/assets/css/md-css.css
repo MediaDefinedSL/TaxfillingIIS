@@ -6274,3 +6274,33 @@ div#manualTableSection:before {
     background-repeat: no-repeat;
 }
 
+#Self-Online-Flow .logo-text {
+    font-size: 16px;
+    color: #000 !important;
+    /* background: linear-gradient(45deg, #4f4f4f, #4b4b4b) !important; */
+    background: linear-gradient(45deg, #010101, #000000) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+span#taxTotal {
+    font-size: 16px;
+}
+
+
+#Self-Online-Flow .logo-text {
+    z-index: 9999999;
+    position: absolute !important;
+    width: 100% !important;
+    text-align: right;
+}
+
+div#taxtotalview {
+    /* z-index: 9999; */
+    /* position: relative; */
+    width: 100%;
+}
+
+#Self-Online-Flow .toggle-btn {
+    z-index: 9999999 !important;
+}
