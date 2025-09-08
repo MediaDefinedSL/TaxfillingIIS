@@ -6071,7 +6071,7 @@ section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
 
 div#excelUploadSection:before {
     content: "1";
-    background-image: url(http://images.netexam.com/images/10229/GFuqSC4Eab.gif) !important;
+    background-image: url(assets/img/GFuqSC4Eab.gif) !important;
     height: 88px;
     width: 140px;
     display: inline-block;
@@ -6087,8 +6087,8 @@ div#excelUploadSection:before {
 
 
 div#manualTableSection:before {
-    content: "11";
-    background-image: url(http://images.netexam.com/images/10229/uplode-file-2025.gif) !important;
+    content: "1";
+    background-image: url(assets/img/uplode-file-2025.gif) !important;
     height: 88px;
     width: 140px;
     display: inline-block;
@@ -6100,5 +6100,12 @@ div#manualTableSection:before {
     right: 4px;
     font-size: 0px;
     background-repeat: no-repeat;
+}
 
+.header .logo {
+    background: no-repeat;
+}
+
+.page-title.accent-background .mb-2.mb-lg-0 {
+    text-align: left;
 }
