@@ -334,6 +334,23 @@ public class UserRepository : IUserRepository
     public async Task<bool> UpdateUser(UserDto User)
     {
         bool isSuccess = false;
+        // Check if email or phone already exists
+        bool userEmailExists = await _context.Users
+            .AnyAsync(u => u.Email == User.Email);
+
+        bool userPhoneExists = await _context.Users
+           .AnyAsync(u => u.Phone == User.Phone);
+
+        if (userEmailExists)
+        {
+            Message = "A user with the same Email  already exists.";
+            return false; // Do not continue
+        }
+        if (userPhoneExists)
+        {
+            Message = "A user with the same Phone number already exists.";
+            return false; // Do not continue
+        }
 
         try
         {
