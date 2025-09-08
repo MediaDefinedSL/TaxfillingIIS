@@ -901,6 +901,16 @@ img.user-avatar.user-title {
 }
 
 
+.site-color th,
+.site-color td,
+.site-color tr {
+    color: #414141 !important;
+    padding: 0px;
+    padding-right: 10px;
+    line-height: 30px;
+    background-color: #f8f9fa !important;
+}
+
     .site-color th,
     .site-color td,
     .site-color tr {
@@ -910,6 +920,8 @@ img.user-avatar.user-title {
         line-height: 30px;
         background-color: #f8f9fa !important;
     }
+
+
 
 
 div#dashboard-section {
@@ -940,6 +952,16 @@ div#employment-section,
 }
 
 
+
+div#documents-section h4,
+div#employment-section h4,
+#bank-section h4,
+#assets-section h4,
+#other-section h4,
+#declaration-section h4 {
+    margin-bottom: 26px;
+}
+
     div#documents-section h4,
     div#employment-section h4,
     #bank-section h4,
@@ -948,6 +970,8 @@ div#employment-section,
     #declaration-section h4 {
         margin-bottom: 26px;
     }
+
+
 
 
 .document-guidelines {
@@ -1480,10 +1504,17 @@ main.main {
 }
 
 
+
+.form-check-input.view-toggle:checked {
+    background-color: #198754;
+    /* Optional: custom green for checked */
+}
     .form-check-input.view-toggle:checked {
         background-color: #198754;
         /* Optional: custom green for checked */
     }
+
+
 
 
 /*END mayu view-toggle */
@@ -1612,6 +1643,21 @@ main.main {
     }
 
 
+.category-btn.active {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    /* strong gradient */
+    color: #fff;
+    border: 2px solid #0046a0;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+    transform: scale(1.05);
+    opacity: 1;
+    z-index: 1;
+}
+
+
+
+
 .sidebar-main .p-4 h4.logo-text {
     font-size: 1.1rem;
     /* color: #1188e7 !important; */
@@ -1655,9 +1701,16 @@ nav.sidebar.collapsed div#documents-submenu {
 }
 
 
+
+.clients .client-logo img[src="assets/img/clients/Etihad02.png"] {
+    max-width: 112%;
+}
+
     .clients .client-logo img[src="assets/img/clients/Etihad02.png"] {
         max-width: 112%;
     }
+
+
 
 
 /*About up page changes*/
@@ -1910,6 +1963,14 @@ section#services {
 }
 
 
+
+#hero-carousel .btn.btn-primary.btn-lg i,
+#hero-carousel .btn-get-started i {
+    /* font-size: 22px; */
+    padding-right: 4px;
+}
+
+
     #hero-carousel .btn.btn-primary.btn-lg i,
     #hero-carousel .btn-get-started i {
         /* font-size: 22px; */
@@ -1920,6 +1981,7 @@ section#services {
     #hero-carousel .btn-get-started:hover {
         background-color: #cecece8a !important;
     }
+
 
 
 /* Slider */
@@ -2660,6 +2722,19 @@ select {
 }
 
 
+
+.cal input:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent)
+}
+
+.cal input:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent)
+}
+
     .cal input:focus,
     select:focus {
         outline: 2px solid var(--accent);
@@ -2671,6 +2746,8 @@ select {
         outline: 2px solid var(--accent);
         border-color: var(--accent)
     }
+
+
 
 
 .cal .controls {
@@ -3716,6 +3793,22 @@ padding-bottom: 9;
 }
 
 
+
+    #manualForeignTab select.form-select,
+    div#assets-section .form-select,
+    div#assets-section .form-control {
+        width: 100% !important;
+    }
+
+
+    span i {
+        font-size: 60px;
+        color: #0084ff;
+        margin: 30px 0 24px;
+        display: inline-block;
+    }
+
+
 #manualForeignTab select.form-select,
 div#assets-section .form-select,
 div#assets-section .form-control {
@@ -3729,6 +3822,7 @@ span i {
     margin: 30px 0 24px;
     display: inline-block;
 }
+
 
 }
 
@@ -4113,6 +4207,17 @@ select {
 }
 
 
+
+.cal-foreing input:focus,
+select:focus {
+    outline: 2px solid var(--brand);
+    border-color: var(--brand)
+}
+
+border-color: var(--brand)
+}
+
+
     .cal-foreing input:focus,
     select:focus {
         outline: 2px solid var(--brand);
@@ -4121,6 +4226,7 @@ select {
 
 border-color: var(--brand)
 }
+
 
 
 .cal-foreing .btn {
@@ -4859,12 +4965,22 @@ select {
 }
 
 
+
+.foreing input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px var(--ring)
+}
+
     .foreing input:focus,
     select:focus {
         outline: none;
         border-color: var(--blue);
         box-shadow: 0 0 0 4px var(--ring)
     }
+
+
 
 
 .foreing table {
@@ -4881,10 +4997,18 @@ td {
 }
 
 
+
+.foreing th:first-child,
+td:first-child {
+    text-align: left
+}
+
     .foreing th:first-child,
     td:first-child {
         text-align: left
     }
+
+
 
 
 .foreing .btn {
@@ -5227,6 +5351,12 @@ div#myTabContent.tab-content.mt-3 {
         }
 
 
+
+.row.contact-detalis .social-links i:hover {
+    font-size: 20px !important;
+}
+
+
 /* Move validation messages below the input */
 span.field-validation-error {
     display: block;
@@ -5365,6 +5495,14 @@ td {
 }
 
 
+
+.Domestic th:first-child,
+td:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px
+}
+
+
     .Domestic th:first-child,
     td:first-child {
         border-top-left-radius: 12px;
@@ -5376,6 +5514,7 @@ td {
         border-top-right-radius: 12px;
         border-bottom-right-radius: 12px
     }
+
 
 
 .Domestic thead th {
@@ -5621,8 +5760,11 @@ section#Sign-in .pb-sm-0 {
     }
 
 
+
+
 .selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate,
 .selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate {
+
     pointer-events: auto !important;
 }
 
@@ -5818,9 +5960,15 @@ h3.c-dis {
 }
 
 
+
+.tax-about-o .post-img.position-relative.overflow-hidden.rounded-md-image img {
+    width: 100% !important;
+
     .tax-about-o .post-img.position-relative.overflow-hidden.rounded-md-image img {
         width: 100% !important;
     }
+
+
 
 
 .tax-about-o ul.list-group.price-list {
@@ -5959,9 +6107,14 @@ input#NumberOfDependents {
 
 
 
+#documents-section .uplode-parts button#uploadDoc-btn:hover {
+    scale: 1.02;
+}
+
     #documents-section .uplode-parts button#uploadDoc-btn:hover {
         scale: 1.02;
     }
+
 
 
 
@@ -6068,3 +6221,58 @@ input#rdbTExcludedAmount {
 form[action="/SelfOnlineFlow/DownloadTaxPdf"] {
     margin-bottom: 16px;
 }
+
+
+
+
+#Self-Online-Flow .sidebar-main h2 {
+    font-family: sans-serif !important;
+}
+
+
+.page-title.accent-background h1.mb-2.mb-lg-0 {
+    float: left;
+}
+
+section#Self-Online-Flow {
+    padding: 0px;
+    position: relative;
+}
+
+section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
+    margin-top: 4%;
+}
+
+div#excelUploadSection:before {
+    content: "1";
+    background-image: url(assets/img/GFuqSC4Eab.gif) !important;
+    height: 88px;
+    width: 140px;
+    display: inline-block;
+    background-position: center;
+    background-size: cover;
+    top: 0px;
+    position: absolute;
+    float: right;
+    right: 4px;
+    font-size: 0px;
+    background-repeat: no-repeat;
+}
+
+
+div#manualTableSection:before {
+    content: "1";
+    background-image: url(assets/img/uplode-file-2025.gif) !important;
+    height: 88px;
+    width: 140px;
+    display: inline-block;
+    background-position: center;
+    background-size: cover;
+    top: 10px;
+    position: absolute;
+    float: right;
+    right: 4px;
+    font-size: 0px;
+    background-repeat: no-repeat;
+}
+
