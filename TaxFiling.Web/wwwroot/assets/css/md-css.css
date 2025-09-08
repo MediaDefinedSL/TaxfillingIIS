@@ -4493,7 +4493,7 @@ a.phone-call {
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
-    /* border-radius: 100%; */
+     border-radius: 100%; 
 }
 
 
@@ -6159,9 +6159,7 @@ button#btnLoadSection {
     display: block !important;
 }
 
-#Self-Online-Flow .sidebar-main h2:after {
-    border-radius: 0;
-}
+
 
 section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
     margin-top: 1%;
@@ -6311,4 +6309,22 @@ div#in-this-section-container main.main-content.Personal-Information-summary .fi
     background-repeat: no-repeat !important;
     background-position: 98%;
     background-position-y: 10px;
+}
+
+
+.page-title.accent-background {
+    z-index: 99999999 !important;
+}
+
+.container-fluid.not-padding.menubar-css {
+    z-index: 99999999 !important;
+}
+
+#contact .card.card-body.border {
+    font-style: italic;
+    font-size: 14px !important;
+}
+
+#contact .card.card-body.border p {
+    font-size: 14px !important;
 }
