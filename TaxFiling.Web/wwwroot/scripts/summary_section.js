@@ -34,6 +34,7 @@
 
     });
 
+
     $('#divSummaryAssistedNext').on('click', function () {
 
         var docUploadStatus = $('#docUploadStatus').val();
@@ -70,6 +71,23 @@
 
 
 
+
+    });
+    $('#divSummaryAssistedBack').on('click', function () {
+
+        $('#in-this-section-container').show();
+
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadContactInformation',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
 
     });
     $('#divSummaryAssistedBack').on('click', function () {

@@ -69,8 +69,8 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-
+               // notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
+                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_PartnerInvestment', function (html) {
                     $('#partnerInvestmentsGrid').html($(html).find('#partnerInvestmentsGrid').html());
@@ -270,8 +270,8 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-
+                //notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
+                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
                     $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
@@ -403,8 +403,8 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-
+               // notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
+                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
                 $.get('/SelfOnlineFlow/LoadInvestment_ExemptAmounts', function (html) {
                     // refresh grid here if needed
                 });
