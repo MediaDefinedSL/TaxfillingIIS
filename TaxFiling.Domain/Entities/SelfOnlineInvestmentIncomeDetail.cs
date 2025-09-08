@@ -60,4 +60,6 @@ public class SelfOnlineInvestmentIncomeDetail : Entity
     public decimal? GiftOrInheritedCost { get; set; }
     [Column("MarketValue")]
     public decimal? MarketValue { get; set; }
+    [Column("InterestIncome")]
+    public decimal? InterestIncome { get; set; }
 }

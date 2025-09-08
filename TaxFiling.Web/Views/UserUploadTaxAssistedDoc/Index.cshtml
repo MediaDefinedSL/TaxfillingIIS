@@ -1332,7 +1332,7 @@
                                     Note: Please provide your average annual expenses for the period from 1 April 2024 to 31 March 2025.
                                 </div>
                                 <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label">Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
+                                    <div class="col-md-6"><label class="form-label"><span style="color: red">*</span> Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
                                     <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
                                     <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="text" class="form-control numeric-input" name="FixedDeductions" /></div>
                                     <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="text" class="form-control numeric-input" name="ChildrenEducation" /></div>
@@ -1351,7 +1351,7 @@
                                 <h6 class="mb-4 text-primary"><i class="fas fa-boxes me-2"></i> Balances as at 31.03.2025</h6>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Cash in hand</label>
+                                        <label class="form-label"><span style="color: red">*</span> Cash in hand</label>
                                         <input type="text" class="form-control numeric-input" name="CashInHand" required />
                                     </div>
                                     <div class="col-md-6">
@@ -1464,6 +1464,11 @@
                             <!-- Previous Button -->
                             <button class="btn btn-primary btn-lg" id="btnOtherPrevious">
                                 Previous
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 right ">
+                            <button class="btn btn-primary btn-lg" id="btnMainDashboardNext" style="display:none;">
+                                Finish
                             </button>
                         </div>
 
@@ -2220,17 +2225,59 @@
                        const vehicleTypeSelect = $(`select[name="assets[${index}].vehicleTypes"]`);
                       const institutionSelect = $(`select[name="assets[${index}].InstitutionType"]`);
 
+                      if (vehicleTypeSelect.length > 0) {   // check if dropdown exists                            
+                        if (!vehicleType || vehicleType.trim() === "") {
+                            hideLoadMask();
+                            isValid = false;
+                            vehicleTypeSelect.addClass("error"); // highlight
+                            showMessage("Please select vehicle Type","error");
+                            return;
+                        } 
+                        else
+                        {
+                            vehicleTypeSelect.removeClass("error");
+                        }
+                       }
+
+                        if (institutionSelect.length > 0) {   // check if dropdown exists
+                            
+                            if (!assestInstitution || assestInstitution.trim() === "") {
+                                hideLoadMask();
+                                isValid = false;
+                                institutionSelect.addClass("error");
+                                showMessage("Please select Institution Type","error");
+                                return;
+                            } 
+                            else
+                            {
+                                institutionSelect.removeClass("error");
+                            }
+                        }
+
                         // Basic validation
-                        // if (!note) {
-                        //   alert("Please enter a note or value.");
-                        //   noteInput.focus();
-                        //   return;
-                        // }
-                        // if (!file) {
-                        //   alert("Please select a file to upload.");
-                        //   fileInput.focus();
-                        //   return;
-                        // }
+                         if (!note) {
+                          hideLoadMask();
+                          showMessage("Please enter a note or value.","error");
+                          noteInput.addClass("error");
+                          noteInput.focus();
+                          return;
+                        }
+                        else
+                        {
+                            noteInput.removeClass("error");
+                        }
+                        if (!file) {
+                            hideLoadMask();
+                          showMessage("Please select a file to upload.","error");
+                          $(fileInput).addClass("error");
+                          fileInput.focus();
+                          return;
+                        }
+                        else
+                        {
+                            $(fileInput).removeClass("error");
+                        }
+
 
                         // Prepare form data for AJAX
                         const formData = new FormData();
@@ -2948,8 +2995,8 @@
                                             if(data.success){
                                                     document.getElementById("docUploadStatus").value = status;
                                                       acceptCheckbox.disabled = true;
-
-
+                                                      document.getElementById("btnMainDashboardNext").style.display="block";
+                                                      document.getElementById('saveFinancialDetailsBtn').style.display="none";
                                                     if (badge) {
                                                       badge.innerText = "SUBMITTED";
                                                       badge.className = "badge bg-success";
@@ -2995,6 +3042,7 @@
 
 
                                                   this.disabled = true;
+                                                  
                                                   this.innerText = "Terms Accepted";
                                                   const steps = document.querySelectorAll('.taxAssistedSteps span');
                                                   if (!steps.length) return;
@@ -3040,6 +3088,9 @@
                               const tbody = $("#declarationDocsTable tbody");
                               tbody.empty();
                                  $("#uploadedDeclarationDocs").show();
+                                 if(document.getElementById("acceptDeclaration").checked)
+                                    document.getElementById("btnMainDashboardNext").style.display="block";
+
                               if (allDocs && allDocs.length > 0) {
                                   //$("#uploadedDeclarationDocs").show();
                                   allDocs.forEach((doc, index) => {
@@ -3719,6 +3770,15 @@
 
                            });
                        }
+                        const  btnMainDashboardNext= document.getElementById("btnMainDashboardNext");
+
+                        if (btnMainDashboardNext) {
+                           btnMainDashboardNext.addEventListener("click", function () {                              
+                            showPanel("dashboard-section"); // default
+
+                           });
+                       }
+
                         const  btnDocPrevious= document.getElementById("btnDocPrevious");
 
                         if (btnDocPrevious) {
@@ -3727,6 +3787,8 @@
 
                            });
                        }
+
+
 
                        const  previousBtn= document.getElementById("btnPrevious");
                        const  btnUploadDocs= document.getElementById("btnUploadDocs");

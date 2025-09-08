@@ -33,6 +33,7 @@
                         $('#in-this-section-container').html(data);
                         $('.sub-link').removeClass('active');
                         $('#linkMaritalStatus').addClass('active');
+                        $("html, body").animate({ scrollTop: 0 }, "smooth");
                     }
                 });
             },
@@ -105,6 +106,7 @@
                     setStepsIndicatorProgress("otherDocsStatus");
                     setStepsIndicatorProgress("Declare");
                     setStepsIndicatorProgress("submission");
+                    
                 },
                 error: function () {
                     alert("Error loading section content.");
@@ -120,6 +122,7 @@
                     $('#in-this-section-container').html(data);
                     $('.sub-link').removeClass('active');
                     $('#linkInThisSection').addClass('active');
+                    $("html, body").animate({ scrollTop: 0 }, "smooth");
                 },
                 error: function () {
                     alert("Error loading section content.");

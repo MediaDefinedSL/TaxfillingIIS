@@ -19,5 +19,6 @@ public class SelfOnlineEmploymentIncomeDetailsDto
     public decimal? APITSecondaryEmployment { get; set; }
     public decimal? TerminalBenefits { get; set; }
     public decimal? Amount { get; set; }
-   
+    public decimal? Total { get; set; }
+
 }

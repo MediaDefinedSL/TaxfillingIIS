@@ -99,11 +99,11 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult About()
+    public IActionResult AboutUs()
     {
         return View();
     }
-    public IActionResult Contact()
+    public IActionResult ContactUs()
     {
         return View();
     }
