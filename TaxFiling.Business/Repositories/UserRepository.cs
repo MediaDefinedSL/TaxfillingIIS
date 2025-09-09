@@ -224,6 +224,24 @@ public class UserRepository : IUserRepository
         try
         {
 
+            // Check if email or phone already exists
+            bool userEmailExists = await _context.Users
+                .AnyAsync(u => u.Email == User.Email );
+
+            bool userPhoneExists = await _context.Users
+               .AnyAsync(u => u.Phone == User.Phone);
+
+            if (userEmailExists)
+            {
+                Message = "A user with the same Email  already exists.";
+                return false; // Do not continue
+            }
+            if (userPhoneExists)
+            {
+                Message = "A user with the same Phone number already exists.";
+                return false; // Do not continue
+            }
+
             var hasher = new PasswordHasher<object>();
             string hashedPassword = string.Empty;
             if (!string.IsNullOrWhiteSpace(User.Password))
@@ -316,6 +334,23 @@ public class UserRepository : IUserRepository
     public async Task<bool> UpdateUser(UserDto User)
     {
         bool isSuccess = false;
+        // Check if email or phone already exists
+        bool userEmailExists = await _context.Users
+     .AnyAsync(u => u.Email == User.Email && u.UserId != User.UserId);
+
+        bool userPhoneExists = await _context.Users
+            .AnyAsync(u => u.Phone == User.Phone && u.UserId != User.UserId);
+
+        if (userEmailExists)
+        {
+            Message = "A user with the same Email  already exists.";
+            return false; // Do not continue
+        }
+        if (userPhoneExists)
+        {
+            Message = "A user with the same Phone number already exists.";
+            return false; // Do not continue
+        }
 
         try
         {
