@@ -6379,3 +6379,12 @@ button#income-expenses-tab i {
 .selfOnline-dashboard {
     padding-bottom: 322px !important;
 }
+
+
+div#bank-section {
+    background-image: url(https://taxfiling.lk/assets/img/bank-com.gif) !important;
+    background-size: 22%;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+}
