@@ -17,16 +17,16 @@
 
             <div class="row text-start">
                 <div class="col-md-2"><strong>Transaction ID:</strong></div>
-                <div class="col-md-6">@Model.OnePayTransactionId</div>
+                <div class="col-md-10">@Model.OnePayTransactionId</div>
 
                 <div class="col-md-2"><strong>Order Number:</strong></div>
-                <div class="col-md-6">@Model.OrderNumber</div>
+                <div class="col-md-10">@Model.OrderNumber</div>
 
                 <div class="col-md-2"><strong>Date & Time:</strong></div>
-                <div class="col-md-6">@Model.OnePayPaidOn</div>                
+                <div class="col-md-10">@Model.OnePayPaidOn</div>                
 
                 <div class="col-md-2"><strong>Total Paid Amount:</strong></div>
-                <div class="col-md-6">@Model.Currency @Model.TransactionAmount.ToString("N2")</div>
+                <div class="col-md-10">@Model.Currency @Model.TransactionAmount.ToString("N2")</div>
             </div>
 
             <hr />
