@@ -329,6 +329,19 @@ $(function () {
         });
     });
 
+    $('#linkDeductions').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadDeductions',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
    
 });
 
