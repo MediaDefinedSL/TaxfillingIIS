@@ -336,10 +336,10 @@ public class UserRepository : IUserRepository
         bool isSuccess = false;
         // Check if email or phone already exists
         bool userEmailExists = await _context.Users
-            .AnyAsync(u => u.Email == User.Email);
+     .AnyAsync(u => u.Email == User.Email && u.UserId != User.UserId);
 
         bool userPhoneExists = await _context.Users
-           .AnyAsync(u => u.Phone == User.Phone);
+            .AnyAsync(u => u.Phone == User.Phone && u.UserId != User.UserId);
 
         if (userEmailExists)
         {
