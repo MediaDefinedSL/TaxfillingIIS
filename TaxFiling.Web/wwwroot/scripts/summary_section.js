@@ -1,5 +1,6 @@
 ﻿$(function () {
 
+
     $('#divSummaryAssistedContinue').on('click', function () {
         var docUploadStatus = $('#docUploadStatus').val();
         if (docUploadStatus) {
@@ -53,6 +54,7 @@
         else {
             $('#in-this-section-container').show();
 
+
             $.ajax({
                 url: '/SelfOnlineFlow/LoadEmploymentIncome',
                 type: 'GET',
@@ -90,23 +92,7 @@
         });
 
     });
-    $('#divSummaryAssistedBack').on('click', function () {
 
-        $('#in-this-section-container').show();
-
-        $.ajax({
-            url: '/SelfOnlineFlow/LoadContactInformation',
-            type: 'GET',
-            success: function (data) {
-                $('#in-this-section-container').html(data);
-                $("html, body").animate({ scrollTop: 0 }, "smooth");
-            },
-            error: function () {
-                alert("Error loading section content.");
-            }
-        });
-
-    });
 
     $('#linkTaxPayerContinue').on('click', function () {
         $('#linkSummary').removeClass('active');
