@@ -5849,9 +5849,8 @@ main.cal strong {
     font-weight: 100;
 }
 
-
-button#empdetails-tab, button#t10-tab {
-
+button#empdetails-tab,
+button#t10-tab {
     background-image: url(/assets/img/Employment-Detailss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -5863,10 +5862,8 @@ button#terminal-tab {
     background-size: 82px;
 }
 
-
-
-button#exempt-tab, button#anyother-tab {
-
+button#exempt-tab,
+button#anyother-tab {
     background-image: url(/assets/img/Exempt-Amountss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -6324,7 +6321,7 @@ div#in-this-section-container main.main-content.Personal-Information-summary .fi
 
 
 .page-title.accent-background {
-    z-index: 99999999 !important;
+    z-index: 9999999 !important;
 }
 
 .container-fluid.not-padding.menubar-css {
@@ -6340,3 +6337,22 @@ div#in-this-section-container main.main-content.Personal-Information-summary .fi
     font-size: 14px !important;
 }
 
+#contact #Collapse055 .card.card-body.border {
+    font-style: normal !important;
+    font-size: 17px !important;
+}
+
+#contact #Collapse055 .card.card-body.border .card.card-body.border {
+    font-style: italic !important;
+    font-size: 14px !important;
+}
+
+div#employmentTabContent {
+    padding: 0px;
+}
+
+#documents-section .uplode-parts .col-md-6.alert.alert-primary.uplode-file-s {
+    float: left !important;
+    /* text-align: left; */
+    margin-left: 30px;
+}
