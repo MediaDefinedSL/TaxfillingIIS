@@ -553,7 +553,64 @@
                                         </a>
                                     </div>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="t10Modal" tabindex="-1" aria-labelledby="t10ModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="t10Modal" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Sample T10 Certificate</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body p-0 text-center">
+                                                    <canvas id="pdfCanvas"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- PDF.js -->
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+                                    <script>
+                                        const url = "/assets/files/T10.pdf";  // your PDF path
+                                        let pdfRendered = false;
+
+                                        function loadPdf() {
+                                          const loadingTask = pdfjsLib.getDocument(url);
+                                          loadingTask.promise.then(function (pdf) {
+                                            // Load first page (you can loop if you want all pages)
+                                            pdf.getPage(1).then(function (page) {
+                                              const scale = 1.3;
+                                              const viewport = page.getViewport({ scale });
+
+                                              const canvas = document.getElementById("pdfCanvas");
+                                              const context = canvas.getContext("2d");
+
+                                              canvas.height = viewport.height;
+                                              canvas.width = viewport.width;
+
+                                              page.render({
+                                                canvasContext: context,
+                                                viewport: viewport
+                                              });
+                                            });
+                                          });
+                                        }
+
+                                        // Load only once when modal opens
+                                        document.getElementById("t10Modal").addEventListener("shown.bs.modal", function () {
+                                          if (!pdfRendered) {
+                                            loadPdf();
+                                            pdfRendered = true;
+                                          }
+                                        });
+
+                                        // Optional: Reset when modal closes
+                                        document.getElementById("t10Modal").addEventListener("hidden.bs.modal", function () {
+                                          document.getElementById("pdfCanvas").getContext("2d").clearRect(0, 0, pdfCanvas.width, pdfCanvas.height);
+                                          pdfRendered = false; // if you want to reload fresh each time
+                                        });
+                                    </script>
+                                    @* <div class="modal fade" id="t10Modal" tabindex="-1" aria-labelledby="t10ModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -565,7 +622,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> *@
                                     <label>Employer Name</label>
                                     <input type="text" name="T10EmployerName" class="form-control" id="T10EmployerName" />
                                     <form method="post" enctype="multipart/form-data" class="mt-3">
@@ -1539,6 +1596,25 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button id="confirmDeleteBtn" type="button" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirmation Modal -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #cce5ff;">
+                            <h5 class="modal-title">Confirmation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            No file uploaded. Do you want to proceed?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" id="confirmYes">Yes</button>
                         </div>
                     </div>
                 </div>
@@ -3783,35 +3859,82 @@
                        }
                    });
 
+                   const confirmModal = new bootstrap.Modal(document.getElementById("confirmModal"));
+                    let confirmCallback = null; // store callback for Yes button
 
+                    // Show modal with optional callback
+                    function showConfirmModal(callback) {
+                        confirmCallback = callback;
+                        confirmModal.show();
+                    }
+
+                     document.getElementById("confirmYes").addEventListener("click", function() {
+                        confirmModal.hide();
+                        if (confirmCallback) confirmCallback();
+                    });
 
                        const  nextBtn= document.getElementById("btnNext");
                        if (nextBtn) {
-                           nextBtn.addEventListener("click", function () {
+                           nextBtn.addEventListener("click", function (e) {
+                            const fileInput = document.getElementById("fileInput");
+                           if (!fileInput.files || fileInput.files.length === 0) {
+                            e.preventDefault(); // stop default action
+                             showConfirmModal(function() {
+                                
                                selectedCategoryName = 'Bank Confirmation';
                                showPanel("bank-section");
                               loadUploadedDocs(userId,'Bank Confirmation');
+                            });
+                        } else {
+                            // Proceed normally if file uploaded
+                            selectedCategoryName = 'Bank Confirmation';
+                               showPanel("bank-section");
+                              loadUploadedDocs(userId,'Bank Confirmation');
+                        }
+                               
                            });
-                       }
+                       }                       
 
                        const  nextAssestBtn= document.getElementById("btnAssestsNext");
                        if (nextAssestBtn) {
-                           nextAssestBtn.addEventListener("click", function () {
+                           nextAssestBtn.addEventListener("click", function (e) {
+                           const fileInputBank = document.getElementById("fileInputBank");
+                           if (!fileInputBank.files || fileInputBank.files.length === 0) {
+                            e.preventDefault(); // stop default action
+                            showConfirmModal(function() {
 
+                            showPanel("assets-section");
+                                    loadExcelAssestsUploadedFiles(userId);
+                                   loadAssestsUploadedFiles(userId);
+                            });
+                        } else {
                                showPanel("assets-section");
                                     loadExcelAssestsUploadedFiles(userId);
                                    loadAssestsUploadedFiles(userId);
+                        }
 
                            });
                        }
 
                        const  nextOtherBtn= document.getElementById("btnOtherNext");
                        if (nextOtherBtn) {
-                           nextOtherBtn.addEventListener("click", function () {
+                           nextOtherBtn.addEventListener("click", function (e) {
+                               const fileInputAssests = document.getElementById("assetsExcelFile");
+                               if (!fileInputAssests.files || fileInputAssests.files.length === 0) {
+                            e.preventDefault(); // stop default action
+                            showConfirmModal(function() {
+
+                             selectedCategoryName = 'Other Documents';
+                               showPanel("other-section");
+                               loadUploadedDocs(userId,'Other Documents');
+                                     loadFinancialDetails(userId,'2024/2025');
+                            });
+                        } else {
                                selectedCategoryName = 'Other Documents';
                                showPanel("other-section");
                                loadUploadedDocs(userId,'Other Documents');
                                      loadFinancialDetails(userId,'2024/2025');
+                        }
                            });
                        }
 
