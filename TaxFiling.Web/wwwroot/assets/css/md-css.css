@@ -901,15 +901,27 @@ img.user-avatar.user-title {
 }
 
 
-    .site-color th,
-    .site-color td,
-    .site-color tr {
-        color: #414141 !important;
-        padding: 0px;
-        padding-right: 10px;
-        line-height: 30px;
-        background-color: #f8f9fa !important;
-    }
+.site-color th,
+.site-color td,
+.site-color tr {
+    color: #414141 !important;
+    padding: 0px;
+    padding-right: 10px;
+    line-height: 30px;
+    background-color: #f8f9fa !important;
+}
+
+.site-color th,
+.site-color td,
+.site-color tr {
+    color: #414141 !important;
+    padding: 0px;
+    padding-right: 10px;
+    line-height: 30px;
+    background-color: #f8f9fa !important;
+}
+
+
 
 
 div#dashboard-section {
@@ -940,14 +952,26 @@ div#employment-section,
 }
 
 
-    div#documents-section h4,
-    div#employment-section h4,
-    #bank-section h4,
-    #assets-section h4,
-    #other-section h4,
-    #declaration-section h4 {
-        margin-bottom: 26px;
-    }
+
+div#documents-section h4,
+div#employment-section h4,
+#bank-section h4,
+#assets-section h4,
+#other-section h4,
+#declaration-section h4 {
+    margin-bottom: 26px;
+}
+
+div#documents-section h4,
+div#employment-section h4,
+#bank-section h4,
+#assets-section h4,
+#other-section h4,
+#declaration-section h4 {
+    margin-bottom: 26px;
+}
+
+
 
 
 .document-guidelines {
@@ -1481,10 +1505,18 @@ main.main {
 }
 
 
-    .form-check-input.view-toggle:checked {
-        background-color: #198754;
-        /* Optional: custom green for checked */
-    }
+
+.form-check-input.view-toggle:checked {
+    background-color: #198754;
+    /* Optional: custom green for checked */
+}
+
+.form-check-input.view-toggle:checked {
+    background-color: #198754;
+    /* Optional: custom green for checked */
+}
+
+
 
 
 /*END mayu view-toggle */
@@ -1600,17 +1632,32 @@ main.main {
 }
 
 
-    .category-btn.active {
-        background: linear-gradient(to right, #007bff, #0056b3);
-        /* strong gradient */
-        color: #fff;
-        border: 2px solid #0046a0;
-        font-weight: 700;
-        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
-        transform: scale(1.05);
-        opacity: 1;
-        z-index: 1;
-    }
+.category-btn.active {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    /* strong gradient */
+    color: #fff;
+    border: 2px solid #0046a0;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+    transform: scale(1.05);
+    opacity: 1;
+    z-index: 1;
+}
+
+
+.category-btn.active {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    /* strong gradient */
+    color: #fff;
+    border: 2px solid #0046a0;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
+    transform: scale(1.05);
+    opacity: 1;
+    z-index: 1;
+}
+
+
 
 
 .sidebar-main .p-4 h4.logo-text {
@@ -1655,9 +1702,16 @@ nav.sidebar.collapsed div#documents-submenu {
 }
 
 
-    .clients .client-logo img[src="assets/img/clients/Etihad02.png"] {
-        max-width: 112%;
-    }
+
+.clients .client-logo img[src="assets/img/clients/Etihad02.png"] {
+    max-width: 112%;
+}
+
+.clients .client-logo img[src="assets/img/clients/Etihad02.png"] {
+    max-width: 112%;
+}
+
+
 
 
 /*About up page changes*/
@@ -1909,16 +1963,25 @@ section#services {
 }
 
 
-    #hero-carousel .btn.btn-primary.btn-lg i,
-    #hero-carousel .btn-get-started i {
-        /* font-size: 22px; */
-        padding-right: 4px;
-    }
 
-    #hero-carousel .btn.btn-primary.btn-lg:hover,
-    #hero-carousel .btn-get-started:hover {
-        background-color: #cecece8a !important;
-    }
+#hero-carousel .btn.btn-primary.btn-lg i,
+#hero-carousel .btn-get-started i {
+    /* font-size: 22px; */
+    padding-right: 4px;
+}
+
+
+#hero-carousel .btn.btn-primary.btn-lg i,
+#hero-carousel .btn-get-started i {
+    /* font-size: 22px; */
+    padding-right: 4px;
+}
+
+#hero-carousel .btn.btn-primary.btn-lg:hover,
+#hero-carousel .btn-get-started:hover {
+    background-color: #cecece8a !important;
+}
+
 
 
 /* Slider */
@@ -2659,17 +2722,32 @@ select {
 }
 
 
-    .cal input:focus,
-    select:focus {
-        outline: 2px solid var(--accent);
-        border-color: var(--accent)
-    }
 
 .cal input:focus,
 select:focus {
     outline: 2px solid var(--accent);
     border-color: var(--accent)
 }
+
+.cal input:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent)
+}
+
+.cal input:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent)
+}
+
+.cal input:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent)
+}
+
+
 
 
 .cal .controls {
@@ -3699,11 +3777,12 @@ span.select2-selection.select2-selection--single {
     }
 
 
-#manualForeignTab select.form-select,
-div#assets-section .form-select,
-div#assets-section .form-control {
-    width: 100% !important;
-}
+
+    #manualForeignTab select.form-select,
+    div#assets-section .form-select,
+    div#assets-section .form-control {
+        width: 100% !important;
+    }
 
 
     span i {
@@ -3712,6 +3791,22 @@ div#assets-section .form-control {
         margin: 30px 0 24px;
         display: inline-block;
     }
+
+
+    #manualForeignTab select.form-select,
+    div#assets-section .form-select,
+    div#assets-section .form-control {
+        width: 100% !important;
+    }
+
+
+    span i {
+        font-size: 60px;
+        color: #0084ff;
+        margin: 30px 0 24px;
+        display: inline-block;
+    }
+
 
 }
 
@@ -4094,13 +4189,26 @@ select {
 }
 
 
-    .cal-foreing input:focus,
-    select:focus {
-        outline: 2px solid var(--brand);
-        border-color: var(--brand)
-    }
- border-color: var(--brand)
+
+.cal-foreing input:focus,
+select:focus {
+    outline: 2px solid var(--brand);
+    border-color: var(--brand)
 }
+
+border-color: var(--brand)
+}
+
+
+.cal-foreing input:focus,
+select:focus {
+    outline: 2px solid var(--brand);
+    border-color: var(--brand)
+}
+
+border-color: var(--brand)
+}
+
 
 
 .cal-foreing .btn {
@@ -4367,7 +4475,7 @@ a.phone-call {
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
-    /* border-radius: 100%; */
+    border-radius: 100%;
 }
 
 
@@ -4837,12 +4945,22 @@ select {
 }
 
 
-    .foreing input:focus,
-    select:focus {
-        outline: none;
-        border-color: var(--blue);
-        box-shadow: 0 0 0 4px var(--ring)
-    }
+
+.foreing input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px var(--ring)
+}
+
+.foreing input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px var(--ring)
+}
+
+
 
 
 .foreing table {
@@ -4859,10 +4977,18 @@ td {
 }
 
 
-    .foreing th:first-child,
-    td:first-child {
-        text-align: left
-    }
+
+.foreing th:first-child,
+td:first-child {
+    text-align: left
+}
+
+.foreing th:first-child,
+td:first-child {
+    text-align: left
+}
+
+
 
 
 .foreing .btn {
@@ -5200,9 +5326,15 @@ div#myTabContent.tab-content.mt-3 {
 }
 
 
-        .row.contact-detalis .social-links i:hover {
-            font-size: 20px !important;
-        }
+.row.contact-detalis .social-links i:hover {
+    font-size: 20px !important;
+}
+
+
+
+.row.contact-detalis .social-links i:hover {
+    font-size: 20px !important;
+}
 
 
 /* Move validation messages below the input */
@@ -5343,17 +5475,26 @@ td {
 }
 
 
-    .Domestic th:first-child,
-    td:first-child {
-        border-top-left-radius: 12px;
-        border-bottom-left-radius: 12px
-    }
 
-    .Domestic th:last-child,
-    td:last-child {
-        border-top-right-radius: 12px;
-        border-bottom-right-radius: 12px
-    }
+.Domestic th:first-child,
+td:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px
+}
+
+
+.Domestic th:first-child,
+td:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px
+}
+
+.Domestic th:last-child,
+td:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px
+}
+
 
 
 .Domestic thead th {
@@ -5598,8 +5739,10 @@ section#Sign-in .pb-sm-0+P {
 }
 
 
-.selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate,
-.selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate + .col-lg-3.aos-init.aos-animates.aos-animate {
+
+
+.selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate+.col-lg-3.aos-init.aos-animates.aos-animate+.col-lg-3.aos-init.aos-animates.aos-animate+.col-lg-3.aos-init.aos-animates.aos-animate,
+.selfOnline-dashboard .col-lg-3.aos-init.aos-animates.aos-animate+.col-lg-3.aos-init.aos-animates.aos-animate+.col-lg-3.aos-init.aos-animates.aos-animate+.col-lg-3.aos-init.aos-animates.aos-animate {
 
     pointer-events: auto !important;
 }
@@ -5706,7 +5849,8 @@ main.cal strong {
     font-weight: 100;
 }
 
-button#empdetails-tab {
+button#empdetails-tab,
+button#t10-tab {
     background-image: url(/assets/img/Employment-Detailss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -5718,7 +5862,8 @@ button#terminal-tab {
     background-size: 82px;
 }
 
-button#exempt-tab {
+button#exempt-tab,
+button#anyother-tab {
     background-image: url(/assets/img/Exempt-Amountss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -5795,9 +5940,13 @@ h3.c-dis {
 }
 
 
-    .tax-about-o .post-img.position-relative.overflow-hidden.rounded-md-image img {
-        width: 100% !important;
-    }
+
+
+.tax-about-o .post-img.position-relative.overflow-hidden.rounded-md-image img {
+    width: 100% !important;
+}
+
+
 
 
 .tax-about-o ul.list-group.price-list {
@@ -5824,7 +5973,6 @@ h3.c-dis {
 
 #Self-Online-Flow .sidebar-main h2:after {
     margin-top: 1%;
-
 }
 
 div#in-this-section-container i.fa.fa-check {
@@ -5860,25 +6008,27 @@ input#NumberOfDependents {
 
 .cal ul#myTab {
     display: flex;
-    column-gap: 0px !important;
+    column-gap: 1% !important;
 }
 
 .cal ul#myTab {
     border-right: none !important;
+    border-bottom: none;
 }
 
 .cal .nav-link,
 .cal .nav-link.active {
-    border-right: none !important;
-
+    /* border-right: none !important; */
 }
 
 .cal ul#myTab li:last-child button {
     border-right: solid 2px #319df4 !important;
+    border-bottom: solid 2px #319df4 !important;
 }
 
 .cal li.nav-item:first-child button {
     width: 100%;
+    border-bottom: solid 2px #319df4 !important;
 }
 
 .cal li.nav-item:first-child {
@@ -5887,6 +6037,7 @@ input#NumberOfDependents {
 
 .cal li.nav-item:nth-child(2) button {
     width: 100%;
+    border-bottom: solid 2px #319df4 !important;
 }
 
 .cal li.nav-item:nth-child(2) {
@@ -5898,7 +6049,7 @@ input#NumberOfDependents {
 }
 
 .cal li.nav-item:last-child {
-    width: 24% !important;
+    width: 22% !important;
 }
 
 
@@ -5938,9 +6089,14 @@ input#NumberOfDependents {
 
 
 
-    #documents-section .uplode-parts button#uploadDoc-btn:hover {
-        scale: 1.02;
-    }
+#documents-section .uplode-parts button#uploadDoc-btn:hover {
+    scale: 1.02;
+}
+
+#documents-section .uplode-parts button#uploadDoc-btn:hover {
+    scale: 1.02;
+}
+
 
 
 
@@ -5987,6 +6143,216 @@ button#btnLoadSection {
     display: block !important;
 }
 
-#Self-Online-Flow .sidebar-main h2:after {
-    border-radius: 0;
+
+
+section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
+    margin-top: 1%;
+}
+
+.filling .alert.alert-warning.col-md-7 {
+    width: 856px;
+    margin-top: -24px;
+}
+
+
+
+.form-select {
+    height: 46px;
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    border-radius: 8px !important;
+    border: 1px solid #d6e3fb;
+}
+
+
+input#rdbSeniorCitizen {
+    margin-top: 10px !important;
+}
+
+
+button#btnMainDashboardNext {
+    float: right;
+    margin-top: 10px;
+}
+
+span.text-muted {
+    font-family: sans-serif;
+}
+
+
+#Self-Online-Flow h6.mb-4.text-primary {
+    font-family: sans-serif;
+}
+
+h5.mb-3 {
+    font-family: sans-serif;
+}
+
+input#rdbTProfitsInvestment {
+    margin-top: 11px;
+}
+
+input#rdbTExcludedAmount {
+    margin-top: 11px;
+}
+
+
+form[action="/SelfOnlineFlow/DownloadTaxPdf"] {
+    margin-bottom: 16px;
+}
+
+
+div#employment-section ul#employmentTab {
+    border: none !important;
+    column-gap: 34px;
+}
+
+div#other-section ul#taxTabs {
+    border: none !important;
+    column-gap: 34px;
+}
+
+button#tax-slips-tab {
+    background-image: url(/assets/img/Employment-Detailss.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#income-expenses-tab {
+    background-image: url(/assets/img/Terminal-Benefitss.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+
+
+
+
+#Self-Online-Flow .sidebar-main h2 {
+    font-family: sans-serif !important;
+}
+
+
+.page-title.accent-background h1.mb-2.mb-lg-0 {
+    float: left;
+}
+
+section#Self-Online-Flow {
+    padding: 0px;
+    position: relative;
+}
+
+section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
+    margin-top: 4%;
+}
+
+div#excelUploadSection:before {
+    content: "1";
+    background-image: url(https://taxfiling.lk/assets/img/GFuqSC4Eab5.gif) !important;
+    height: 88px;
+    width: 140px;
+    display: inline-block;
+    background-position: center;
+    background-size: cover;
+    top: 0px;
+    position: absolute;
+    float: right;
+    right: 4px;
+    font-size: 0px;
+    background-repeat: no-repeat;
+}
+
+
+div#manualTableSection:before {
+    content: "1";
+    background-image: url(https://taxfiling.lk/assets/img/uplode-file-20255.gif) !important;
+    height: 88px;
+    width: 140px;
+    display: inline-block;
+    background-position: center;
+    background-size: cover;
+    top: 10px;
+    position: absolute;
+    float: right;
+    right: 4px;
+    font-size: 0px;
+    background-repeat: no-repeat;
+}
+
+#Self-Online-Flow .logo-text {
+    font-size: 16px;
+    color: #000 !important;
+    /* background: linear-gradient(45deg, #4f4f4f, #4b4b4b) !important; */
+    background: linear-gradient(45deg, #010101, #000000) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+span#taxTotal {
+    font-size: 16px;
+}
+
+
+#Self-Online-Flow .logo-text {
+    z-index: 9999999;
+    position: absolute !important;
+    width: 100% !important;
+    text-align: right;
+}
+
+div#taxtotalview {
+    /* z-index: 9999; */
+    /* position: relative; */
+    width: 100%;
+}
+
+#Self-Online-Flow .toggle-btn {
+    z-index: 9999999 !important;
+}
+
+div#in-this-section-container main.main-content.Personal-Information-summary .filling:first-child {
+    background-image: url(https://taxfiling.lk/assets/img/recruitment-demand-summary.png) !important;
+    background-size: 127px;
+    background-repeat: no-repeat !important;
+    background-position: 98%;
+    background-position-y: 10px;
+}
+
+
+.page-title.accent-background {
+    z-index: 9999999 !important;
+}
+
+.container-fluid.not-padding.menubar-css {
+    z-index: 99999999 !important;
+}
+
+#contact .card.card-body.border {
+    font-style: italic;
+    font-size: 14px !important;
+}
+
+#contact .card.card-body.border p {
+    font-size: 14px !important;
+}
+
+#contact #Collapse055 .card.card-body.border {
+    font-style: normal !important;
+    font-size: 17px !important;
+}
+
+#contact #Collapse055 .card.card-body.border .card.card-body.border {
+    font-style: italic !important;
+    font-size: 14px !important;
+}
+
+div#employmentTabContent {
+    padding: 0px;
+}
+
+#documents-section .uplode-parts .col-md-6.alert.alert-primary.uplode-file-s {
+    float: left !important;
+    /* text-align: left; */
+    margin-left: 30px;
 }

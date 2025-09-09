@@ -33,8 +33,9 @@
                 }
             });
 
-        }
 
+        }
+        
 
     });
 
@@ -43,7 +44,7 @@
 
         var docUploadStatus = $('#docUploadStatus').val();
         if (docUploadStatus) {
-
+           
             $('#in-this-section-container').hide();
             $('#linkSummary').removeClass('active');
             $('.dropdown-btn').each(function () {
@@ -56,6 +57,7 @@
         }
         else {
             $('#in-this-section-container').show();
+
 
 
             $.ajax({
@@ -72,12 +74,15 @@
                     alert("Error loading section content.");
                 }
             });
+
+
         }
 
 
-
-
     });
+
+
+  
     $('#divSummaryAssistedBack').on('click', function () {
 
         $('#in-this-section-container').show();
