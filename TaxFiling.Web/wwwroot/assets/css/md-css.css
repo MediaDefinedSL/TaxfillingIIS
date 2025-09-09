@@ -6071,10 +6071,12 @@ input#NumberOfDependents {
     max-width: unset !important;
     min-width: unset !important;
     /* box-shadow: none !important; */
-    width: 200px !important;
-    height: 200px !important;
+    width: 98px !important;
+    height: 98px !important;
     padding: 0px !important;
     border-radius: 100% !important;
+    background-color: #ffffff !important;
+    margin-top: 56px;
 }
 
 #documents-section .uplode-parts button#uploadDoc-btn {
@@ -6084,6 +6086,8 @@ input#NumberOfDependents {
     height: 100px;
     border: none;
     background-size: cover;
+    background-color: #ffffff !important;
+    border-radius: 100% !important;
 }
 
 
@@ -6112,6 +6116,7 @@ input#NumberOfDependents {
     width: auto !important;
     width: 100% !important;
     border-radius: 100% !important;
+    background-color: #ffffff !important;
 }
 
 #dashboard-section .card-body.d-flex.flex-column {
@@ -6355,4 +6360,31 @@ div#employmentTabContent {
     float: left !important;
     /* text-align: left; */
     margin-left: 30px;
+}
+
+
+div#taxTabsContent {
+    padding: 0px;
+}
+
+button#anyother-tab {
+    background-image: url(/assets/img/other-incomee.png) !important;
+}
+
+button#tax-slips-tab i,
+button#income-expenses-tab i {
+    display: none;
+}
+
+.selfOnline-dashboard {
+    padding-bottom: 322px !important;
+}
+
+
+div#bank-section {
+    background-image: url(https://taxfiling.lk/assets/img/bank-com.gif) !important;
+    background-size: 22%;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
 }
