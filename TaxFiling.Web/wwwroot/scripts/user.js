@@ -240,17 +240,20 @@ $(function () {
                 processData: false,
                 data: formData,
                 success: function (response) {
+                    console.log(response);
                     if (response.responseResult != null) {
                         if (response.responseResult.success) {
-                           // notifySuccess("", response.responseResult.message);
+                           
                             showMessage(response.responseResult.message, "success");
+
+                            var imagePath = appUrl + response.user.profileImagePath;
+                            console.log(imagePath);
+                          //  $("#btnprofileimage").css("background-image", "url('" + imagePath + "')");
                             window.location.href = `${appUrl}/home/FileMyTaxes`;
-                            $.get('/User/UserProfile', { userId: userId }, function (html) {
-                                $('#drplogout').html($(html).find('#drplogout').html());
-                            });
+                           
 
                         } else {
-                           // notifyError(false, response.responseResult.message);
+                          
                             showMessage(response.responseResult.message, "error");
                         }
                     }
@@ -258,7 +261,6 @@ $(function () {
                         notifyError(false, 'An error occurred while updating the User.');
                     }
 
-                    // $btn.setButtonDisabled(false);
                     $btn.prop("disabled", false);
                 },
                 error: function (xhr) {
