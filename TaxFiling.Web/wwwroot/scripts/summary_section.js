@@ -17,19 +17,23 @@
         }
         else {
             $('#in-this-section-container').show();
+
             $.ajax({
-                url: '/SelfOnlineFlow/LoadContactInformation',
+                url: '/SelfOnlineFlow/LoadEmploymentIncome',
                 type: 'GET',
                 success: function (data) {
                     $('#in-this-section-container').html(data);
-                    $('.sub-link').removeClass('active');
-                    $('#linkContactInformation').addClass('active');
+                    $('#linkSummary').removeClass('active');
+                    $('.linkIncomeLiableTax').addClass('active');
+
                     $("html, body").animate({ scrollTop: 0 }, "smooth");
                 },
                 error: function () {
                     alert("Error loading section content.");
                 }
             });
+
+
         }
         
 
@@ -55,6 +59,7 @@
             $('#in-this-section-container').show();
 
 
+
             $.ajax({
                 url: '/SelfOnlineFlow/LoadEmploymentIncome',
                 type: 'GET',
@@ -69,12 +74,15 @@
                     alert("Error loading section content.");
                 }
             });
+
+
         }
 
 
-
-
     });
+
+
+  
     $('#divSummaryAssistedBack').on('click', function () {
 
         $('#in-this-section-container').show();
