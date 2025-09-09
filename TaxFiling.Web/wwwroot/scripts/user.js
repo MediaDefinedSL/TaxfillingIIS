@@ -247,7 +247,6 @@ $(function () {
                             showMessage(response.responseResult.message, "success");
 
                             var imagePath = appUrl + response.user.profileImagePath;
-                            console.log(imagePath);
                           //  $("#btnprofileimage").css("background-image", "url('" + imagePath + "')");
                             window.location.href = `${appUrl}/home/FileMyTaxes`;
                            
@@ -368,9 +367,9 @@ $(function () {
                 if (response.responseResult != null) {
                     if (response.responseResult.success) {
                        // notifySuccess("", response.responseResult.message);
-                        showMessage("Populate Name and email and Subject as Help me to create TIN Number", "success");
+                      //  showMessage("Populate Name and email and Subject as Help me to create TIN Number", "success");
                        
-                        setTimeout(function () {
+                        $('#mytaxes_tin').modal('hide');
                         // Now sign in the user
                        $.ajax({
                             url: `${appUrl}/account/signin`,
@@ -384,7 +383,8 @@ $(function () {
                             success: function (signInResponse) {
                                 console.log(signInResponse);
                                 if (signInResponse.success) {
-
+                                    
+                                    $("#contatUsemail").val(email);
                                     window.location.href = `${appUrl}/home/ContactUs`;
                                   
                                 } else {
@@ -397,7 +397,7 @@ $(function () {
                                // notifyError(false, "Error occurred during sign-in.");
                             }
                        });
-                        }, 1500); 
+                      
 
                     } else {
                         notifyError(false, response.responseResult.message);

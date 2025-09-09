@@ -4,11 +4,15 @@
 @{
     var userId = "";
     var isActivePayment = "0";
-   // var profileImageUrl = User.Claims.FirstOrDefault(mbox => mbox.Type == "ProfileImagePath")?.Value;
+
     var profileImageUrl = User.FindFirst("ProfileImagePath")?.Value
                       ?? "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg";
+    if (profileImageUrl == "")
+    {
+        profileImageUrl = "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg";
+    }
     var roleId = "3";
-   
+
     // var profileImageUrl = "/UserImages/a2b6c0ba-878d-49ee-91d2-a6250ff9632c/17146853.png";
     string baseApiUrl = Configuration.GetValue<string>("BaseAPIUrl") ?? "";
 
@@ -18,14 +22,11 @@
         var userName = User.FindFirst(ClaimTypes.Name)?.Value;
         userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
         isActivePayment = User.Claims.FirstOrDefault(mbox => mbox.Type == "IsActivePayment")?.Value;
-       // profileImageUrl = User.Claims.FirstOrDefault(mbox => mbox.Type == "ProfileImagePath")?.Value;
-        roleId = User.Claims.FirstOrDefault(mbox => mbox.Type == "RoleId")?.Value; 
-        // if (profileImageUrl == "")
-        // {
-        //     profileImageUrl = "https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg";
-        // }
+        roleId = User.Claims.FirstOrDefault(mbox => mbox.Type == "RoleId")?.Value;
+        
     }
-    catch(Exception ex) {
+    catch (Exception ex)
+    {
         var aa = ex.Message;
     }
 
@@ -41,61 +42,65 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a asp-controller="Home" asp-action="Index" >Home</a></li>
-                @if(roleId == "1"){
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                @if (roleId == "1")
+                {
                     <li><a asp-controller="UserUploadTaxAssistedDoc" asp-action="AdminDashboard">Dashboard</a></li>
-                }else{
+                }
+                else
+                {
                     <li style="display:@(showDashboard ? "none" : "block");"><a asp-controller="SelfOnlineFlow" asp-action="SelfOnlineDashboard">Dashboard</a></li>
                 }
-                
+
                 <li class="dropdown">
-                    <a ><span>Resources</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <a><span>Resources</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
                         <li><a asp-controller="Home" asp-action="TaxCalculator">Tax Calculator</a></li>
-                   @*      <li><a >Support</a></li>
+                        @*      <li><a >Support</a></li>
                         <li><a asp-controller="Home" asp-action="Blog">Blog</a></li> 
                         <li><a asp-controller="Home" asp-action="SelfOnlineDashboard">Important Tax Dates</a></li>*@
-                     
+
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a ><span>File My Taxes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <a><span>File My Taxes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
                         <li><a asp-controller="Home" asp-action="TaxAssisted">Tax Assisted Filing</a></li>
                         <li><a asp-controller="Home" asp-action="SelfFiling">Self Filing</a></li>
                     </ul>
                 </li>
-                <li><a  asp-controller="Home" asp-action="AboutUs" >About Us</a></li>
-                
-    
+
+                <li><a asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+                <li><a href="pricing.html" class="d-none">Pricing</a></li>
+                <li><a href="blog.html" class="d-none">Blog</a></li>
                 <li><a asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-      
-            <div class="header-social-links d-flex justify-content-between">
-                <button type="button" class="btn btn-primary sign-in mr-10"  style="display:@(string.IsNullOrEmpty(userId) ? "block" : "none");">
-                    <a asp-controller="Account" asp-action="Login"  asp-route-returnUrl="">Sign in</a>
-                    </button>
-                <input type="checkbox" data-toggle="switchbutton" checked data-onlabel="English" data-offlabel="සිංහල" data-onstyle="primary" data-offstyle="primary">
-            <div class="dropdown ml-10" id="drplogout" style="display:@(string.IsNullOrEmpty(userId) ? "none" : "block");" >
+
+        <div class="header-social-links d-flex justify-content-between">
+            <button type="button" class="btn btn-primary sign-in mr-10" style="display:@(string.IsNullOrEmpty(userId) ? "block" : "none");">
+                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="">Sign in</a>
+            </button>
+            <input type="checkbox" data-toggle="switchbutton" checked data-onlabel="English" data-offlabel="සිංහල" data-onstyle="primary" data-offstyle="primary">
+            <div class="dropdown ml-10" id="drplogout" style="display:@(string.IsNullOrEmpty(userId) ? "none" : "block");">
                 <button class="btn btn-secondary dropdown-toggle profile-button" type="button" id="btnprofileimage" data-bs-toggle="dropdown" aria-expanded="false" style="background-image: url(@profileImageUrl);">
-                        Profile
-                    </button>
-                    <ul class="dropdown-menu">
+                    Profile
+                </button>
+                <ul class="dropdown-menu">
                     <li><a class="dropdown-item" asp-controller="User" asp-action="UserProfile" asp-route-userId=@userId>Profile</a></li>
-                        <li>
-                            @* <a class="dropdown-item"  asp-controller="Account" asp-action="Logout">Log Out</a> *@
-                        <form asp-controller="Account" asp-action="Logout" method="post" >
+                    <li>
+                        @* <a class="dropdown-item"  asp-controller="Account" asp-action="Logout">Log Out</a> *@
+                        <form asp-controller="Account" asp-action="Logout" method="post">
                             <button type="submit" class="dropdown-item">
                                 Logout
                             </button>
                         </form>
-                            
-                        </li>
-                    </ul>
-                </div>
+
+                    </li>
+                </ul>
+            </div>
 
 
         </div>
