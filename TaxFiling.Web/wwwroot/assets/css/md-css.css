@@ -5849,8 +5849,9 @@ main.cal strong {
     font-weight: 100;
 }
 
-button#empdetails-tab,
-button#t10-tab {
+
+button#empdetails-tab, button#t10-tab {
+
     background-image: url(/assets/img/Employment-Detailss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -5862,8 +5863,10 @@ button#terminal-tab {
     background-size: 82px;
 }
 
-button#exempt-tab,
-button#anyother-tab {
+
+
+button#exempt-tab, button#anyother-tab {
+
     background-image: url(/assets/img/Exempt-Amountss.png) !important;
     background-size: cover;
     background-size: 82px;
@@ -6336,3 +6339,4 @@ div#in-this-section-container main.main-content.Personal-Information-summary .fi
 #contact .card.card-body.border p {
     font-size: 14px !important;
 }
+

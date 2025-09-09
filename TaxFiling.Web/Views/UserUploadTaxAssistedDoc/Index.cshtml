@@ -12,6 +12,7 @@
     //int docStatus = int.TryParse(userUploadDocStatus, out var parsedStatus) ? parsedStatus : -1;
     int docStatus = ViewBag.UploadedDocStatus ?? -1;
 }
+<link href="~/assets/css/tree-container-taxassisted-css.css?v=3" rel="stylesheet">
 <main class="main">
 
     <!-- Page Title -->
@@ -240,7 +241,7 @@
                                                         <th>Year of assessment</th>
                                                         <th>Due date</th>
                                                         <th>Progress</th>
-                                                        <th style="text-align: center;">Status</th>
+                                                        <th class="text-center">Status</th>
                                                         <!--<th class="text-end">Actions</th>-->
                                                     </tr>
                                                 </thead>
@@ -280,7 +281,7 @@
                                                         var badgeId = $"status-badge-{year}";
                                                         <tr id="@rowId" data-status="@numericStatus">
                                                             <td align="center">
-                                                                <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "") />
+                                                                <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "disabled") />
                                                             </td>
                                                             <td>@year/@(year + 1)</td>
                                                             <td>@dueDate</td>
@@ -289,8 +290,10 @@
                                                                     <div class="progress-bar bg-primary" @(numericStatus == 2 ? "style=width:100%" : "")></div>
                                                                 </div>
                                                             </td>
-                                                            <td align="center">
-                                                                <span id="@badgeId" class="badge @badgeClass">@status</span>
+                                                            <td class="text-center">
+                                                                <span id="@badgeId" class="badge @badgeClass d-inline-flex justify-content-center align-items-center" style="min-width: 80px;">
+                                                                    @status
+                                                                </span>
                                                             </td>
                                                             <!--<td class="text-end actionButtons"></td>-->
 
@@ -489,7 +492,7 @@
                         <ul class="text-muted">
                             <li><strong>Accepted formats: <strong>PDF, JPG, PNG</strong></strong></li>
                             <li><strong>Maximum size per file: <strong>5MB</strong></strong></li>
-                            <p>Privacy: Files are encrypted in transit and at rest. Only your assigned tax advisor can view them.</p>
+                           
 
                         </ul>
                     </div>
@@ -513,101 +516,110 @@
                 </div>
 
                 <div id="employment-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
-                    <h4><i class="fas fa-briefcase text-primary me-2"></i> Employment Documents</h4>
+                    <h4>
+                        <i class="fas fa-briefcase text-primary me-2"></i> Employment Documents
+                    </h4>
 
-                    <!-- Toggle Buttons for Category -->
-                    <div class="mb-3 tab-btn-list d-flex flex-wrap gap-2">
-                        <button type="button" class="btn category-btn active" data-category="T10">T10</button>
-                        <button type="button" class="btn category-btn" data-category="TerminalBenefit">Terminal Benefit</button>
-                        <button type="button" class="btn category-btn" data-category="AnyOther">Any Other</button>
-                    </div>
+                    <div class="custom-tabs mt-3">
+                        <!-- Nav Tabs -->
+                        <ul class="nav nav-tabs col-md-12" id="employmentTab" role="tablist">
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link active" id="t10-tab" data-bs-toggle="tab" data-bs-target="#t10" type="button" role="tab" aria-controls="t10" aria-selected="true">
+                                    T10
+                                </button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link" id="terminal-tab" data-bs-toggle="tab" data-bs-target="#terminal" type="button" role="tab" aria-controls="terminal" aria-selected="false">
+                                    Terminal Benefit
+                                </button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link" id="anyother-tab" data-bs-toggle="tab" data-bs-target="#anyother" type="button" role="tab" aria-controls="anyother" aria-selected="false">
+                                    Any Other
+                                </button>
+                            </li>
+                        </ul>
 
-                    <!-- T10 Form -->
-                    <div id="t10-form" class="upload-form-section" style="display: none;">
-
-                        <input type="hidden" name="CategoryName" value="T10" />
-                        <div class="mb-3">
-                            <div class="alert alert-info mt-2" role="alert">
-                                <strong>Note:</strong> Please upload your T10 Certificate for the relevant period. If you have multiple T10 Certificates for different employees, kindly upload each separately. <br>
-                                <a href="#" class="text-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#t10Modal">
-                                    View Sample T10 Certificate
-                                </a>
-                            </div>
-                            <!-- Modal -->
-                            <div class="modal fade" id="t10Modal" tabindex="-1" aria-labelledby="t10ModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
-                                    <!-- smaller width -->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="t10ModalLabel">Sample T10 Certificate</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" style="height: 400px;">
-                                            <!-- smaller height -->
-                                            <iframe src="/assets/files/T10.pdf" style="width:100%; height:100%;" frameborder="0"></iframe>
+                        <!-- Tab Content -->
+                        <div class="tab-content mt-3" id="employmentTabContent">
+                            <!-- T10 Form -->
+                            <div class="tab-pane fade show active" id="t10" role="tabpanel" aria-labelledby="t10-tab">
+                                <input type="hidden" name="CategoryName" value="T10" />
+                                <div class="mb-3">
+                                    <div class="alert alert-info mt-2" role="alert">
+                                        <strong>Note:</strong> Please upload your T10 Certificate for the relevant period. If you have multiple T10 Certificates for different employees, kindly upload each separately. <br>
+                                        <a href="#" class="text-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#t10Modal">
+                                            View Sample T10 Certificate
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="t10Modal" tabindex="-1" aria-labelledby="t10ModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="t10ModalLabel">Sample T10 Certificate</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body" style="height: 400px;">
+                                                    <iframe src="/assets/files/T10.pdf" style="width:100%; height:100%;" frameborder="0"></iframe>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <label>Employer Name</label>
+                                    <input type="text" name="T10EmployerName" class="form-control" id="T10EmployerName" />
+                                    <form method="post" enctype="multipart/form-data" class="mt-3">
+                                        <label>Upload File</label>
+                                        <input type="file" id="fileInput" name="UploadedFile" class="form-control" />
+                                    </form>
                                 </div>
                             </div>
-                            <label>Employer Name</label>
-                            <input type="text" name="T10EmployerName" class="form-control" id="T10EmployerName" />
-                            <form method="post" enctype="multipart/form-data" class="mt-3">
-                                <label>Upload File</label>
-                                <input type="file" id="fileInput" name="UploadedFile" class="form-control" />
-                            </form>
-                        </div>
 
-
-                    </div>
-
-                    <!-- Terminal Benefit Form -->
-                    <div id="terminal-form" class="upload-form-section" style="display: none;">
-
-                        <input type="hidden" name="CategoryName" value="TerminalBenefit" />
-                        <div class="mb-3">
-                            <label>Employer Name</label>
-                            <input type="text" name="TerminalEmployerName" class="form-control" id="TerminalEmployerName" />
-                            <form method="post" enctype="multipart/form-data" class="mt-3">
-
-                                <label>Upload File</label>
-                                <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control" />
-                            </form>
-                        </div>
-
-                    </div>
-
-                    <!-- Any Other Form -->
-                    <div id="AnyOther-form" class="upload-form-section" style="display: none;">
-
-                        <input type="hidden" name="CategoryName" value="AnyOther" />
-                        <div class="mb-3">
-                            <label class="form-label">Type</label>
-                            <select class="form-select" name="OtherType" id="AnyOtherType">
-                                <option value="">-- Select Type --</option>
-                                <option value="SalarySlips">Salary Slips</option>
-                                <option value="Otherbenefits">Other benefits received from the employer</option>
-                                <option value="Anyotherdocuments">Any other documents relevant to employment income</option>
-                            </select>
-                            <!-- Message container -->
-                            <div id="otherTypeAlert" class="alert alert-warning mt-2" role="alert" style="display:none;">
-                                Such as a vehicle for private use, a house for residential purposes, and company shares.
+                            <!-- Terminal Benefit Form -->
+                            <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+                                <input type="hidden" name="CategoryName" value="TerminalBenefit" />
+                                <div class="mb-3">
+                                    <label>Employer Name</label>
+                                    <input type="text" name="TerminalEmployerName" class="form-control" id="TerminalEmployerName" />
+                                    <form method="post" enctype="multipart/form-data" class="mt-3">
+                                        <label>Upload File</label>
+                                        <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control" />
+                                    </form>
+                                </div>
                             </div>
 
-
-                            <form method="post" enctype="multipart/form-data" class="mt-3">
-                                <label>Upload File</label>
-                                <input type="file" id="fileInputAnyOther" name="UploadedFile" class="form-control" />
-                            </form>
+                            <!-- Any Other Form -->
+                            <div class="tab-pane fade" id="anyother" role="tabpanel" aria-labelledby="anyother-tab">
+                                <input type="hidden" name="CategoryName" value="AnyOther" />
+                                <div class="mb-3">
+                                    <label class="form-label">Type</label>
+                                    <select class="form-select" name="OtherType" id="AnyOtherType">
+                                        <option value="">-- Select Type --</option>
+                                        <option value="SalarySlips">Salary Slips</option>
+                                        <option value="Otherbenefits">Other benefits received from the employer</option>
+                                        <option value="Anyotherdocuments">Any other documents relevant to employment income</option>
+                                    </select>
+                                    <!-- Message container -->
+                                    <div id="otherTypeAlert" class="alert alert-warning mt-2" role="alert" style="display:none;">
+                                        Such as a vehicle for private use, a house for residential purposes, and company shares.
+                                    </div>
+                                    <form method="post" enctype="multipart/form-data" class="mt-3">
+                                        <label>Upload File</label>
+                                        <input type="file" id="fileInputAnyOther" name="UploadedFile" class="form-control" />
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
 
-                    <div class="d-flex justify-content-end">
+                    <!-- Upload button -->
+                    <div class="d-flex justify-content-end mt-3">
                         <button type="button" class="btn btn-primary submit-btn" id="submitBtn">
                             <i class="fas fa-save me-1"></i> Upload
                         </button>
                     </div>
 
+                    <!-- Uploaded docs -->
                     <div id="uploadedDocs" class="mt-5" style="display: none;">
                         <h5 class="mb-3" id="categoryHeading">Your Documents for 2024/2025</h5>
                         <div class="table-responsive">
@@ -626,22 +638,18 @@
                             </table>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between">
+
+                    <!-- Prev / Next -->
+                    <div class="d-flex justify-content-between mt-3">
                         <div class="col-lg-6 col-md-6 btn-prv">
-                            <!-- Previous Button -->
-                            <button class="btn btn-primary btn-lg" id="btnPrevious">
-                                Previous
-                            </button>
+                            <button class="btn btn-primary btn-lg" id="btnPrevious">Previous</button>
                         </div>
                         <div class="col-lg-6 col-md-6 right next-btn">
-                            <button class="btn btn-primary btn-lg" id="btnNext">
-                                Next
-                            </button>
+                            <button class="btn btn-primary btn-lg" id="btnNext">Next</button>
                         </div>
                     </div>
-
-
                 </div>
+
 
                 <div id="bank-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
                     <h4><i class="fas fa-university me-2 text-primary me-2"></i> Bank Confirmation</h4>
@@ -754,7 +762,7 @@
 
                         <input type="hidden" name="CategoryName" value="T10" />
                         <div class="card p-4 shadow-sm">
-                            <h5 class="mb-3">Assets as at <strong>31.03.2025</strong></h5>
+                            <!--<h5 class="mb-3">Assets as at <strong>31.03.2025</strong></h5>-->
 
                             <!-- Local/Foreign checkbox summary -->
                             <!-- <div class="mb-4">
@@ -770,7 +778,8 @@
                             </div>-->
                             <!-- Upload method selection -->
                             <!-- Upload method selection -->
-                            <label class="form-label fw-semibold mb-2">Please provide your Asset and Liability details as at 31.03.2025 by selecting one of the following options:</label>
+                            <h5 class="mb-3">
+                                Please provide your Asset and Liability details as at 31.03.2025 by selecting one of the following options:</h5>
                             <div class="btn-group mb-4" role="group">
                                 <input type="radio" class="btn-check" name="assetInputOption" id="optionExcel" value="1" autocomplete="off" checked>
                                 <label class="btn btn-outline-secondary" for="optionExcel">Enter Asset & Liability Details Using Excel Template</label>
@@ -1251,18 +1260,29 @@
 
                 </div>
                 <div id="other-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
-                    <h4><i class="fas fa-folder me-2 text-primary"></i> Tax Payment Slips & Other Details </h4>
-
+                    <h4>
+                        <i class="fas fa-folder me-2 text-primary"></i>
+                        Tax Payment Slips & Other Details
+                    </h4>
+                    <div class="custom-tabs">
                     <!-- Tabs Nav -->
-                    <ul class="nav nav-tabs" id="taxTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="tax-slips-tab" data-bs-toggle="tab" data-bs-target="#tax-slips" type="button" role="tab">
+                    <ul class="nav nav-tabs mt-3" id="taxTabs" role="tablist">
+                        <li class="nav-item col-md-3" role="presentation">
+                            <button class="nav-link active" id="tax-slips-tab"
+                                    data-bs-toggle="tab" data-bs-target="#tax-slips"
+                                    type="button" role="tab"
+                                    aria-controls="tax-slips" aria-selected="true"
+                                    data-category="Tax Payment Slips">
                                 <i class="fas fa-file-upload me-1"></i> Tax Payment Slips
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="income-expenses-tab" data-bs-toggle="tab" data-bs-target="#income-expenses" type="button" role="tab">
-                                <i class="fas fa-wallet me-1"></i> Annual Expenses and Balances
+                        <li class="nav-item col-md-3" role="presentation">
+                            <button class="nav-link" id="income-expenses-tab"
+                                    data-bs-toggle="tab" data-bs-target="#income-expenses"
+                                    type="button" role="tab"
+                                    aria-controls="income-expenses" aria-selected="false"
+                                    data-category="Annual Expenses & Balances">
+                                <i class="fas fa-wallet me-1"></i> Annual Expenses & Balances
                             </button>
                         </li>
                     </ul>
@@ -1271,11 +1291,14 @@
                     <div class="tab-content mt-3" id="taxTabsContent">
 
                         <!-- TAB 1: Tax Payment Slips -->
-                        <div class="tab-pane fade show active" id="tax-slips" role="tabpanel">
+                        <div class="tab-pane fade show active" id="tax-slips" role="tabpanel" aria-labelledby="tax-slips-tab">
                             <div id="other-form" class="upload-form-section">
-                                <input type="hidden" name="CategoryName" value="T10" />
+
+                                <input type="hidden" name="CategoryName" value="TaxSlips" />
+
                                 <div class="alert alert-info mt-2">
-                                    <strong>Note:</strong> Please upload all available tax payment slips here. If you have any additional documents that should be considered for your tax computation, kindly upload them as well.
+                                    <strong>Note:</strong> Please upload all available tax payment slips here.
+                                    If you have any additional documents that should be considered for your tax computation, kindly upload them as well.
                                 </div>
 
                                 <div class="mb-3">
@@ -1288,10 +1311,9 @@
                                         <label>Upload File</label>
                                         <input type="file" id="fileInputOther" name="UploadedFile" class="form-control" />
                                     </div>
-
                                     <div class="d-flex justify-content-end">
                                         <button type="button" class="btn btn-primary submit-btn" id="submitOtherBtn">
-                                            <i class="fas fa-save me-1"></i>Upload
+                                            <i class="fas fa-save me-1"></i> Upload
                                         </button>
                                     </div>
                                 </form>
@@ -1321,9 +1343,9 @@
                             </div>
                         </div>
 
-                        <!-- TAB 2: Income Tax Payment and Expenses -->
-                        <div class="tab-pane fade" id="income-expenses" role="tabpanel">
-                            
+                        <!-- TAB 2: Income & Expenses -->
+                        <div class="tab-pane fade" id="income-expenses" role="tabpanel" aria-labelledby="income-expenses-tab">
+
                             <!-- Expenses Section -->
                             <div class="p-4 border rounded bg-light shadow-sm mb-4">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Annual Expenses </h6>
@@ -1346,7 +1368,8 @@
                                     <div class="col-md-6"><label class="form-label">Any Other Expenses</label><input type="text" class="form-control numeric-input" name="OtherExpenses" /></div>
                                 </div>
                             </div>
-                            
+
+                            <!-- Balances Section -->
                             <div class="p-4 border rounded bg-light shadow-sm mb-4">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-boxes me-2"></i> Balances as at 31.03.2025</h6>
                                 <div class="row g-3">
@@ -1369,8 +1392,6 @@
                                 </div>
                             </div>
 
-                            
-
                             <div class="mt-4 d-flex justify-content-end">
                                 <button type="button" class="btn btn-success" id="saveFinancialDetailsBtn">
                                     <i class="fas fa-check-circle me-1"></i> Save
@@ -1379,9 +1400,11 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between">
+                    </div>
+
+                    <!-- Prev / Next -->
+                    <div class="d-flex justify-content-between mt-4">
                         <div class="col-lg-6 col-md-6 btn-prv">
-                            <!-- Previous Button -->
                             <button class="btn btn-primary btn-lg" id="btnAssetsPrevious">
                                 Previous
                             </button>
@@ -1392,9 +1415,8 @@
                             </button>
                         </div>
                     </div>
-
-
                 </div>
+
 
 
                 <div id="declaration-section" class="content-panel p-4 bg-light rounded shadow-sm" style="display: none;">
@@ -1418,7 +1440,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Category</th>
-                                        <th>Assest Category</th>
+                                        <th>Description</th>
                                         <th>Uploaded On</th>
 
                                     </tr>
@@ -2088,10 +2110,10 @@
                            let missingFields = [];
 
                            requiredFields.forEach(fieldLabel => {
-                             const input = Array.from(container.querySelectorAll('label.form-label'))
-                               .find(label => label.innerText.trim() === fieldLabel)
-                               ?.closest('.col-md-6')
-                               ?.querySelector('input');
+                            const input = Array.from(container.querySelectorAll('label.form-label'))
+                                .find(label => label.innerText.replace(/^\*\s*/, '').trim() === fieldLabel)
+                                ?.closest('.col-md-6')
+                                ?.querySelector('input');
 
                              if (!input || input.value.trim() === "") {
                                isValid = false;
@@ -2105,21 +2127,21 @@
                              return;
                            }
 
-                        container.querySelectorAll('input').forEach(input => {
-                          const parentDiv = input.closest('.col-md-6');
-                          if (parentDiv) {
-                            const label = parentDiv.querySelector('label.form-label');
-                            if (label) {
-                                 const value = input.value.trim();
+                            container.querySelectorAll('input').forEach(input => {
+                              const parentDiv = input.closest('.col-md-6');
+                              if (parentDiv) {
+                                const label = parentDiv.querySelector('label.form-label');
+                                if (label) {
+                                  const value = input.value.trim();
                                   if (value !== "") {  // only add if not empty
                                     dataArray.push({
-                                      Category: label.innerText.trim(),
+                                      Category: label.innerText.replace(/^\*\s*/, '').trim(), // remove leading * and spaces
                                       Value: value
                                     });
                                   }
-                            }
-                          }
-                        });
+                                }
+                              }
+                            });
 
                         // Add any other info you want, e.g., userId, assessmentYear
                         const payload = {
@@ -2182,24 +2204,22 @@
                                   document.querySelectorAll('#income-expenses .col-md-6').forEach(div => {
                               const label = div.querySelector('label.form-label');
                               const input = div.querySelector('input');
-                              if (label && input && label.innerText.trim() === detail.category) {
-                               // input.value = detail.value;
-                                   if (!isNaN(detail.value)) {
-                                       input.value = Number(detail.value).toLocaleString('en-US');
-                                   } else {
-                                       input.value = detail.value; // fallback if not a number
-                                   }
+                              if (label && input) {
+                                const labelText = label.innerText.replace("*", "").trim(); // remove * if present
+                                if (labelText === detail.category) {
+                                    if (!isNaN(detail.value)) {
+                                        input.value = Number(detail.value).toLocaleString('en-US');
+                                    } else {
+                                        input.value = detail.value;
+                                    }
 
-                                if (docStatus === "2") {
+                                    if (docStatus === "2") {
+                                        input.disabled = true;
+                                    }
+                                } else if (docStatus === "2") {
                                     input.disabled = true;
                                 }
-                              }
-                              else
-                              {
-                                  if (docStatus === "2") {
-                                    input.disabled = true;
-                                }
-                              }
+                            }
 
                             });
                           });
@@ -2381,6 +2401,33 @@
                                    renderDocsTable(categoryText); // Only filter already loaded docs
                            });
                        });
+
+                       // Listen for Bootstrap tab change event
+                        document.querySelectorAll('#employmentTab button[data-bs-toggle="tab"]').forEach(btn => {
+                            btn.addEventListener('shown.bs.tab', function (event) {
+                                console.log("Now active tab:", event.target.id);       // New active tab
+                                console.log("Previously active tab:", event.relatedTarget?.id); // Old tab
+                                const selectedtab = this.getAttribute('data-bs-target').replace('#', ''); // t10, terminal, anyother
+
+                                // Map IDs to readable labels
+                                const displayMap = {
+                                    "t10": "T10",
+                                    "terminal": "Terminal Benefit",
+                                    "anyother": "Any Other"
+                                };
+
+                                const selectedCategory  = displayMap[selectedtab] || selectedtab;
+                                selectedCategoryName = selectedCategory;
+                                console.log(selectedCategory);
+                                // Update heading text
+                                document.getElementById("categoryHeading").innerHTML =
+                                    `<span class="text-muted">Your Uploaded</span> <span class="badge bg-primary">${selectedCategory}</span> <span class="text-muted">Documents for 2024/2025</span>`;
+
+                                // Call your existing renderDocsTable function with proper label
+                                renderDocsTable(selectedCategory);
+                            });
+                        });
+
                        function toggleSidebar() {
                            const sidebar = document.querySelector('.sidebar');
                            sidebar.classList.toggle('collapsed');
@@ -3193,6 +3240,7 @@
 
                       const checkboxes = document.querySelectorAll(".checkbox-lg");
                       const removeBtn = document.getElementById("btnRemoveDraft");
+                      const sidebarLinks = document.querySelectorAll(".sidebar-link");
 
                    checkboxes.forEach(cb => {
                        cb.addEventListener("change", function () {
@@ -3217,6 +3265,12 @@
 
                                   if(yearText + 1 != currentYear)
                                   {
+                                      sidebarLinks.forEach(link => {
+                                        link.classList.add("disabled");
+                                        link.style.pointerEvents = "none";  // block clicks
+                                        link.style.opacity = "0.5";         // dim look
+                                    });
+
                                           updateProgressHeader(yearText, "SUBMITTED", "bg-success text-white");
                                           const btnContinue = document.getElementById("btnContinue");
                                           const btnUploadDocs = document.getElementById("btnUploadDocs");
@@ -3239,6 +3293,13 @@
                                   }
                                   else
                                   {
+
+                                      sidebarLinks.forEach(link => {
+                                        link.classList.remove("disabled");
+                                        link.style.pointerEvents = "auto";
+                                        link.style.opacity = "1";
+                                    });
+
                                                   updateProgressHeader(yearText, statusText, newStatusClass);
                                                      updateChecklistStatuses(allDocs,parseInt(document.getElementById("docUploadStatus").value, 10));
                                                      const bar = document.getElementById("progressBar");
@@ -3878,7 +3939,8 @@
 
                         submitBtn.addEventListener("click", async function () {
                             let isValid = true;
-                            let messages = [];                    
+                            let messages = [];                                
+                            
 
                            if(selectedCategoryName == "T10")
                            {
