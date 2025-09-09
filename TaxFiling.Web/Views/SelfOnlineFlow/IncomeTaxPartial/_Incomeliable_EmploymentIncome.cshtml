@@ -70,6 +70,7 @@
                 type: 'GET',
                     success: function (data) {
                         $('#in-this-section-container').html(data);
+                          $("html, body").animate({ scrollTop: 0 }, "smooth");
                     },
                 error: function () {
                     alert("Error loading section content.");
@@ -83,6 +84,7 @@
                     type: 'GET',
                     success: function (data) {
                         $('#in-this-section-container').html(data);
+                         $("html, body").animate({ scrollTop: 0 }, "smooth");
                     },
                     error: function () {
                         alert("Error loading section content.");
