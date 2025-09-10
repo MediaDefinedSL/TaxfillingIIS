@@ -722,9 +722,19 @@ $(document).ready(function () {
     $(document).on("show.bs.collapse", ".collapse", function () {
         $(".collapse.show").not(this).collapse("hide");
     });
-   $("#name").val(localStorage.getItem("contact_name"));
-            $("#email").val(localStorage.getItem("contact_email"));
+        const params = new URLSearchParams(window.location.search);
+        const fromNoTin = params.get("fromNoTin");
+
+
+            if (fromNoTin) {
+            $("#name").val(localStorage.getItem("contact_name"));
+            $("#contatUsemail").val(localStorage.getItem("contact_email"));
             $("#subject").val(localStorage.getItem("contact_subject"));
+        } else {
+            $("#name").val("");
+            $("#contatUsemail").val("");
+            $("#subject").val("");
+        }
 });
 
 
