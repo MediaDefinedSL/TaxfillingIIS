@@ -718,7 +718,7 @@
 
 
 	<script>
-    
+
 $(document).ready(function () {
     $(document).on("show.bs.collapse", ".collapse", function () {
         $(".collapse.show").not(this).collapse("hide");
@@ -726,4 +726,16 @@ $(document).ready(function () {
 });
 
 	</script>
+
+    <script>
+    document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', function (e) {
+
+document.querySelectorAll('.collapse').forEach(div => {
+  div.classList.remove("show");  // remove show class
+});
+
+  });
+});
+    </script>
 
