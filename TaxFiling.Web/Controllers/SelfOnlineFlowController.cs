@@ -422,7 +422,7 @@ public class SelfOnlineFlowController : Controller
             PreferredCommunicationMethod = personalInformation.PreferredCommunicationMethod
         };
 
-        if (personalInformation.FirstName == null)
+        if (personalInformation.EmailPrimary == null)
         {
             var queryParams = new Dictionary<string, string?> {
                 { "Id", userId.ToString()}
