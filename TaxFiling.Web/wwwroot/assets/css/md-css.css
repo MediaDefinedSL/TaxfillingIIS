@@ -6410,3 +6410,17 @@ main.main-content.Deductions .card-body {
     font-style: italic !important;
     font-size: 14px !important;
 }
+
+.navmenu button.dropdown-toggle {
+    border: none !important;
+    background: none;
+    font-weight: 700;
+    font-size: 15px;
+    font-family: var(--nav-font);
+    color: #494949 !important;
+    text-transform: uppercase;
+}
+
+.navmenu button.dropdown-toggle:after {
+    display: none;
+}
