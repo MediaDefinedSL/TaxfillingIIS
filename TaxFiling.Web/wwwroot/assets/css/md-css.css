@@ -6413,12 +6413,13 @@ main.main-content.Deductions .card-body {
 
 .navmenu button.dropdown-toggle {
     border: none !important;
-    background: none;
-    font-weight: 700;
-    font-size: 15px;
-    font-family: var(--nav-font);
-    color: #494949 !important;
-    text-transform: uppercase;
+        background: none;
+        font-weight: 700;
+        font-size: 14px;
+        font-family: var(--nav-font);
+        color: #494949 !important;
+        text-transform: uppercase;
+        margin-bottom: 2px !important;
 }
 
 .navmenu button.dropdown-toggle:after {
