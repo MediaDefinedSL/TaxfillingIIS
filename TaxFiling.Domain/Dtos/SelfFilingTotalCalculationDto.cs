@@ -24,5 +24,7 @@ public class SelfFilingTotalCalculationDto
     public decimal? InvIncome_Beneficiary { get; set; }
     public decimal? InvIncome_ExemptAmounts { get; set; }
     public decimal?  InvIncome_Other { get; set; }
+    public decimal? ReliefSolarPanel { get; set; }
+    public decimal? QualifyingPayments { get; set; }
     public decimal? TaxTotal { get; set; }
 }

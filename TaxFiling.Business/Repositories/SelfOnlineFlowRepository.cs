@@ -423,7 +423,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                 InvIncome_Partner = p.InvIncome_Partner,
                                 InvIncome_Beneficiary = p.InvIncome_Beneficiary,
                                 InvIncome_ExemptAmounts = p.InvIncome_ExemptAmounts,
-                                InvIncome_Other = p.InvIncome_Other
+                                InvIncome_Other = p.InvIncome_Other,
+                                ReliefSolarPanel = p.ReliefSolarPanel,
+                                QualifyingPayments =p.QualifyingPayments
                             })
                             .FirstOrDefaultAsync(ctx);
 
@@ -1420,12 +1422,45 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             new MySqlParameter("@CategoryName", categoryName),
                             new MySqlParameter("@SelfOnlineInvestmentIncomePBEId", investmentIncomeId)
                 );
-
+            isSuccess = true;
 
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Error Delete Investment Partner Beneficiary Exempt Income Detail");
+        }
+        return isSuccess;
+    }
+
+    public async Task<bool> UpdateSelfFilingTotalCalculation(SelfFilingTotalCalculationDto totalCalculation)
+    {
+        bool isSuccess = false;
+
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineAdditionalDetails  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @CategoryName,
+                                        @ReliefSolarPanel,
+                                        @QualifyingPayments
+                                    )",
+                          new MySqlParameter("@loguser", totalCalculation.UserId ?? (object)DBNull.Value),
+                          new MySqlParameter("@UserId", totalCalculation.UserId ?? (object)DBNull.Value),
+                          new MySqlParameter("@Year", totalCalculation.Year),
+                          new MySqlParameter("@CategoryName", "Deductions"),
+                          new MySqlParameter("@ReliefSolarPanel", totalCalculation.ReliefSolarPanel),
+                          new MySqlParameter("@QualifyingPayments", totalCalculation.QualifyingPayments)
+              );
+            isSuccess = true;
+            
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error update UpdateSelfFilingTotalCalculation");
         }
         return isSuccess;
     }

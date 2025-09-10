@@ -78,7 +78,38 @@
 
     // Submit validation
     $(document).off("click", "#btnDeductionsSubmit").on("click", "#btnDeductionsSubmit", function () {
-       
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Get form values
+        let selfOnlineTotalId = $("#hiddenSelfOnlineTotalId").val();
+        let reliefSolarPanel = $("#ReliefSolarPanel").val();
+        let qualifyingPayments = $("#QualifyingPayments").val();
+        alert(reliefSolarPanel);
+
+        var selfOnlineTotal = {
+            SelfOnlineTotalId: selfOnlineTotalId,
+            ReliefSolarPanel: reliefSolarPanel,
+            QualifyingPayments: qualifyingPayments
+        };
+
+        $.ajax({
+            url: '/SelfOnlineFlow/UpdateSelfFilingTotalCalculation',
+            type: 'POST',
+            data: selfOnlineTotal,
+            success: function (response) {
+                $btn.prop("disabled", false);
+                showMessage( "Saved successfully", "success");
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
+               
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving.");
+            }
+        });
+
+
     });
 
   
