@@ -624,10 +624,10 @@
                                         </div>
                                     </div> *@
                                     <label>Employer Name</label>
-                                    <input type="text" name="T10EmployerName" class="form-control" id="T10EmployerName" />
+                                    <input type="text" name="T10EmployerName" class="form-control form-select" id="T10EmployerName" />
                                     <form method="post" enctype="multipart/form-data" class="mt-3">
                                         <label>Upload File</label>
-                                        <input type="file" id="fileInput" name="UploadedFile" class="form-control" />
+                                        <input type="file" id="fileInput" name="UploadedFile" class="form-control form-select" />
                                     </form>
                                 </div>
                             </div>
@@ -637,10 +637,10 @@
                                 <input type="hidden" name="CategoryName" value="TerminalBenefit" />
                                 <div class="mb-3">
                                     <label>Employer Name</label>
-                                    <input type="text" name="TerminalEmployerName" class="form-control" id="TerminalEmployerName" />
+                                    <input type="text" name="TerminalEmployerName" class="form-control form-select" id="TerminalEmployerName" />
                                     <form method="post" enctype="multipart/form-data" class="mt-3">
                                         <label>Upload File</label>
-                                        <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control" />
+                                        <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control form-select" />
                                     </form>
                                 </div>
                             </div>
@@ -3848,6 +3848,25 @@
                             $("html, body").animate({ scrollTop: 0 }, "smooth");
                        });
 
+                       function checkUploadedFileExists(tableName) {
+                        let uploadedTable = document.getElementById(tableName);
+
+                        // Check if table has any rows in tbody
+                        let rows = uploadedTable.querySelectorAll("tbody tr");
+
+                                    let validRows = Array.from(rows).filter(row => {
+                    let text = row.innerText.trim();
+                    return text !== "" && text !== "No Assets/Liabilities uploaded.";
+                });
+
+                if (validRows.length === 0) {
+        //alert("Please upload at least one file before proceeding.");
+        return false;
+    }
+
+                        return true;
+                    }
+
                        const startBtn = document.getElementById("start-btn");
                        const btnContinue = document.getElementById("btnContinue");
                        [startBtn, btnContinue].forEach(btn => {
@@ -3876,8 +3895,8 @@
                        const  nextBtn= document.getElementById("btnNext");
                        if (nextBtn) {
                            nextBtn.addEventListener("click", function (e) {
-                            const fileInput = document.getElementById("fileInput");
-                           if (!fileInput.files || fileInput.files.length === 0) {
+                           
+                           if (!checkUploadedFileExists("documentsTableBody")) {
                             e.preventDefault(); // stop default action
                              showConfirmModal(function() {
                                 
@@ -3898,8 +3917,8 @@
                        const  nextAssestBtn= document.getElementById("btnAssestsNext");
                        if (nextAssestBtn) {
                            nextAssestBtn.addEventListener("click", function (e) {
-                           const fileInputBank = document.getElementById("fileInputBank");
-                           if (!fileInputBank.files || fileInputBank.files.length === 0) {
+                           
+                           if (!checkUploadedFileExists("documentsTableBankBody")) {
                             e.preventDefault(); // stop default action
                             showConfirmModal(function() {
 
@@ -3919,8 +3938,8 @@
                        const  nextOtherBtn= document.getElementById("btnOtherNext");
                        if (nextOtherBtn) {
                            nextOtherBtn.addEventListener("click", function (e) {
-                               const fileInputAssests = document.getElementById("assetsExcelFile");
-                               if (!fileInputAssests.files || fileInputAssests.files.length === 0) {
+                               
+                           if (!checkUploadedFileExists("uploadedExcelAssetsTable") && !checkUploadedFileExists("uploadedAssetsTable")) {
                             e.preventDefault(); // stop default action
                             showConfirmModal(function() {
 
@@ -3940,9 +3959,37 @@
 
                        const  nextDeclareBtn= document.getElementById("btnDeclareNext");
                        if (nextDeclareBtn) {
-                           nextDeclareBtn.addEventListener("click", function () {
+                           nextDeclareBtn.addEventListener("click", function (e) {
+                               const container = document.getElementById('income-expenses');
+                               // const dataArray = [];
+
+                           // Validation: Check mandatory fields
+                           const requiredFields = ["Cash in hand", "Living Expenses"];
+                           let isValid = true;
+                          // let missingFields = [];
+
+                           requiredFields.forEach(fieldLabel => {
+                            const input = Array.from(container.querySelectorAll('label.form-label'))
+                                .find(label => label.innerText.replace(/^\*\s*/, '').trim() === fieldLabel)
+                                ?.closest('.col-md-6')
+                                ?.querySelector('input');
+
+                             if (!input || input.value.trim() === "") {
+                               isValid = false;
+                               //missingFields.push(fieldLabel);
+                             }
+                           });
+                               if (!checkUploadedFileExists("documentsTableOtherBody") && !isValid  ) {
+                                   e.preventDefault(); // stop default action
+                            showConfirmModal(function() {
+
+                              showPanel("declaration-section");
+                               loadDeclarationDocs(userId) ;
+                            });
+                        } else {
                                showPanel("declaration-section");
                                loadDeclarationDocs(userId) ;
+                        }
 
                            });
                        }
