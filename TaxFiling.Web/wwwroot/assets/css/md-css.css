@@ -1084,7 +1084,7 @@ section#user-uploaddocuments,
 /*dashboard changes*/
 .dash-icon-uplode {
     display: block;
-    background-image: url(http://images.netexam.com/images/10229/uplode-tax-file.gif) !important;
+    background-image: url(/assets/img/uplode-tax-file.gif) !important;
     width: 160px;
     height: 160px;
     display: block;
@@ -1096,7 +1096,7 @@ section#user-uploaddocuments,
 
 .view-your-task {
     display: block;
-    background-image: url(https://images.netexam.com/images/10229/View-Your-Tasks.gif) !important;
+    background-image: url(/assets/img/View-Your-Tasks.gif) !important;
     width: 160px;
     height: 160px;
     display: block;
@@ -1108,7 +1108,7 @@ section#user-uploaddocuments,
 
 .view-user-file-uplode {
     display: block;
-    background-image: url(https://images.netexam.com/images/10229/view-user-file-uplode.gif) !important;
+    background-image: url(/assets/img/view-user-file-uplode.gif) !important;
     width: 160px;
     height: 160px;
     display: block;
@@ -2483,7 +2483,7 @@ i.bi.bi-person-fill-down {
 
 
 div#dashboard-section {
-    background-image: url(http://images.netexam.com/images/10229/animation_500_kre26aub.gif) !important;
+    background-image: url(/assets/img/animation_500_kre26aub.gif) !important;
     background-repeat: no-repeat;
     background-position: right top;
     background-position-y: -60px;
@@ -2921,7 +2921,7 @@ section#about.about.section {
 
 div#documents-section {
     /* padding-right: 37% !important; */
-    background-image: url(http://images.netexam.com/images/10229/file-uplode.gif) !important;
+    background-image: url(/assets/img/file-uplode.gif) !important;
     background-size: 20%;
     background-repeat: no-repeat;
     background-position: right 6px;
@@ -6081,7 +6081,7 @@ input#NumberOfDependents {
 
 #documents-section .uplode-parts button#uploadDoc-btn {
     font-size: 0px;
-    background-image: url(http://images.netexam.com/images/10229/uplode-imagess.png) !important;
+    background-image: url(/assets/img/uplode-imagess.png) !important;
     width: 100px;
     height: 100px;
     border: none;
