@@ -231,6 +231,11 @@ $(function () {
             $btn.prop("disabled", false);
            // $btn.setButtonDisabled(false);
         }
+        else if (!validateTIN(tinNO)) {
+            notifyError(false, "Invalid TIN number");
+            $btn.prop("disabled", false);
+            // $btn.setButtonDisabled(false);
+        }
         else {
 
             $.ajax({
@@ -366,8 +371,6 @@ $(function () {
             success: function (response) {
                 if (response.responseResult != null) {
                     if (response.responseResult.success) {
-                       // notifySuccess("", response.responseResult.message);
-                      //  showMessage("Populate Name and email and Subject as Help me to create TIN Number", "success");
                        
                         $('#mytaxes_tin').modal('hide');
                         // Now sign in the user
@@ -383,8 +386,12 @@ $(function () {
                             success: function (signInResponse) {
                                 console.log(signInResponse);
                                 if (signInResponse.success) {
+
+                                    localStorage.setItem("contact_name", name);
+                                    localStorage.setItem("contact_email", email);
+                                    localStorage.setItem("contact_subject", "Help me to create TIN Number");
                                     
-                                    $("#contatUsemail").val(email);
+
                                     window.location.href = `${appUrl}/home/ContactUs`;
                                   
                                 } else {
@@ -543,6 +550,16 @@ function validateNIC(nic) {
         return true;
     }
     return false;
+}
+
+function validateTIN(tin) {
+    // Pattern: exactly 9 digits
+    var tinPattern = /^[0-9]{9}$/;
+
+    if (tinPattern.test(tin)) {
+        return true; // valid TIN
+    }
+    return false; // invalid TIN
 }
 
 

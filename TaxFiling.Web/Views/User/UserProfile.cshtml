@@ -80,7 +80,7 @@
                         <form  enctype="multipart/form-data" method="post">
 
                             <h5 class=" mb-6 pb-3 fw-bold" style="letter-spacing: 1px;">
-                                Get your taxes started
+                                My Account
                             </h5>
 
                             <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4 mr-10">
@@ -133,15 +133,17 @@
                                 @Html.TextBoxFor(m => m.TinNo, new
                                     {
                                         @class = "form-control form-control-lg",
-                                        @maxlength = "9",
-                                        @pattern = @"\d{9}"
+                                        maxlength = "9",
+                                        minlength = "9", // ensures at least 9
+                                        pattern = @"\d{9}", // ensures exactly 9 digits
+                                        oninput = "this.value=this.value.replace(/[^0-9]/g,'')" // digits only
                                     })
-
+                                
 
                             </div>
 
                             <div class="pt-1 mb-4 col-sm-4">
-                                <button data-mdb-button-init="" data-mdb-ripple-init="" class=" form-control btn btn-primary" type="button"><a id="btnUpdateUser" class="d-block">Register</a></button>
+                                <button data-mdb-button-init="" data-mdb-ripple-init="" class=" form-control btn btn-primary" type="button"><a id="btnUpdateUser" class="d-block">Update</a></button>
                             </div>
                             <input type="hidden" name="UserId" id="UserId" value="@Model.UserId" />
                             <input type="hidden" name="isTin" id="isTin" value="@Model.IsTin" />

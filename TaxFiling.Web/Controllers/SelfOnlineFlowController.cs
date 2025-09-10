@@ -380,7 +380,8 @@ public class SelfOnlineFlowController : Controller
 
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
-
+        UserViewModel user = new();
+        
         ContactInfromationViewModel contactInfromation = new();
         SelfOnlineFlowPersonalInformation personalInformation = new();
 
@@ -420,6 +421,32 @@ public class SelfOnlineFlowController : Controller
             WhatsApp = personalInformation.WhatsApp,
             PreferredCommunicationMethod = personalInformation.PreferredCommunicationMethod
         };
+
+        if (personalInformation.FirstName == null)
+        {
+            var queryParams = new Dictionary<string, string?> {
+                { "Id", userId.ToString()}
+            };
+
+            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
+            var response = await _httpClient.GetAsync(url, ctx);
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    user = JsonSerializer.Deserialize<UserViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+
+                    contactInfromation = new ContactInfromationViewModel
+                    {
+                        UserId = userId,
+                        Year = year,
+                        EmailPrimary = user.Email,
+                        MobilePhone = user.Phone
+                    };
+                }
+            }
+        }
 
         return PartialView("Partial/_ContactInformation", contactInfromation);
     }
