@@ -469,4 +469,19 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpPut("update_selfFilingtotalcalculation")]
+    public async Task<IActionResult> UpdateSelfFilingTotalCalculation(SelfFilingTotalCalculationDto totalCalculation)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.UpdateSelfFilingTotalCalculation(totalCalculation);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }

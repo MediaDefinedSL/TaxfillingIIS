@@ -41,4 +41,6 @@ public interface ISelfOnlineFlowRepository
     Task<bool> SaveSelfOnlineInvestmentPartnerBeneficiaryExempt(SelfOnlineInvestmentPartnerBeneficiaryExemptDto selfOnlineInvestmentIncomeDetail);
     Task<List<SelfOnlineInvestmentPartnerBeneficiaryExemptDto>> GetSelfOnlineInvestmentPartnerBeneficiaryExempt(string userId, int year, CancellationToken ctx);
     Task<bool> DeleteSelfOnlineInvestmentPartnerBeneficiaryExempt(string userId, int year, int investmentIncomeId, string categoryName);
+
+    Task<bool> UpdateSelfFilingTotalCalculation(SelfFilingTotalCalculationDto totalCalculation);
 }

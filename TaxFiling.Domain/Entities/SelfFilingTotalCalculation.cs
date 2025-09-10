@@ -43,6 +43,10 @@ public class SelfFilingTotalCalculation
     public decimal? InvIncome_ExemptAmounts { get; set; }
     [Column("InvIncome_Other")]
     public decimal? InvIncome_Other { get; set; }
+    [Column("ReliefSolarPanel")]
+    public decimal? ReliefSolarPanel { get; set; }
+    [Column("QualifyingPayments")]
+    public decimal? QualifyingPayments { get; set; }
 
     [Column("TaxTotal")]
     public decimal? TaxTotal { get; set; }
