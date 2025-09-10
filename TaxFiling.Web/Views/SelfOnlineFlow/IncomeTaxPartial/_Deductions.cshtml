@@ -1,4 +1,7 @@
-﻿<main class="main-content Deductions ">
+﻿@model TaxFiling.Web.Models.SelfFilingTotalCalculationViewModel
+
+
+<main class="main-content Deductions ">
 
     <div class=" mt-4">
         <div class="card card-body">
@@ -13,7 +16,16 @@
                         <div class="row mb-2">
 
                             <div class="col-3">Relief for rent income</div>
-                            <div class="col-5"> <input type="text" class="form-control" id="txtBTrustName" name="txtBTrustName"> </div>
+                            <div class="col-5">
+                                @Html.TextBox(
+                                         "RentRelief25",              
+                                         String.Format("{0:N2}", Model.RentRelief25), 
+                                         new
+                                         {
+                                             @class = "form-control text-end",
+                                             disabled = "disabled"
+                                         })
+                            </div>
                            
                         </div>
 
@@ -21,28 +33,55 @@
                         <div class="row mb-2">
 
                             <div class="col-3">Relief on solar panel</div>
-                             <div class="col-5"> <input type="text" class="form-control" id="txtBTrustName" name="txtBTrustName"> </div>
+                             <div class="col-5">
+                                @Html.TextBox(
+                                         "ReliefSolarPanel",
+                                         String.Format("{0:N2}", Model.ReliefSolarPanel),
+                                         new
+                                         {
+                                             @class = "form-control text-end numeric-format",
+                                             @autocomplete = "off"
+                                         })
+                             </div>
                         </div>
 
                         <!-- Personal relief -->
                         <div class="row mb-2">
-
                             <div class="col-3">Personal relief</div>
-                            <div class="col-5"> <input type="text" class="form-control" id="txtBTrustName" name="txtBTrustName"> </div>
+                            <div class="col-5">
+                                @Html.TextBox(
+                                         "PersonalRelief",
+                                         String.Format("{0:N2}", Model.PersonalRelief),
+                                         new
+                                         {
+                                             @class = "form-control text-end",
+                                             disabled = "disabled"
+                                         })
+                            </div>
                         </div>
 
                         <!-- Total reliefs -->
                         <div class="row mb-2  fw-bold">
 
                             <div class="col-3">Total reliefs</div>
-                            <div class="col-5"> <input type="text" class="form-control totak-relif" id="txtBTrustName" name="txtBTrustName"> </div>
+                            <div class="col-5">
+                                <input type="text" class="form-control totak-relif text-end" id="txtTotalReliefs" name="txtTotalReliefs" disabled>
+                            
+                            </div>
                         </div>
 
                         <!-- Qualifying payments -->
                         <div class="row mb-2">
 
                             <div class="col-3">Qualifying payments</div>
-                            <div class="col-5"> <input type="text" class="form-control" id="txtBTrustName" name="txtBTrustName"> </div>
+                            <div class="col-5"> 
+                                @Html.TextBoxFor(m => m.QualifyingPayments,
+                                         new
+                                         {
+                                             @class = "form-control text-end",
+                                             Value = String.Format("{0:N2}", Model.QualifyingPayments)
+                                         })
+                             </div>
                         </div>
 
                       
@@ -50,14 +89,14 @@
                         <div class="row mb-2 bg-light fw-bold">
 
                             <div class="col-3">Total deductions</div>
-                            <div class="col-5"> <input type="text" class="form-control totak-relif" id="txtBTrustName" name="txtBTrustName"> </div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif" id="txtTotalDeductions" name="txtTotalDeductions"> </div>
                         </div>
 
                         <!-- Taxable income -->
                         <div class="row mb-2 bg-light fw-bold">
 
                             <div class="col-3">Taxable income</div>
-                            <div class="col-5"> <input type="text" class="form-control totak-relif" id="txtBTrustName" name="txtBTrustName"> </div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif" id="txtTaxableIncome" name="txtTaxableIncome"> </div>
                         </div>
                     </div>
                     <div class="row">
@@ -76,3 +115,5 @@
     </div>
 
 </main>
+
+<script src="~/scripts/selfonline.deductions.js" asp-append-version="true"></script>
