@@ -6388,3 +6388,25 @@ div#bank-section {
     background-position: right;
     background-position: top right;
 }
+
+.totak-relif {
+    border: solid 2px #8d8d8d;
+}
+
+
+main.main-content.Deductions .card-body {
+    background-image: url(https://taxfiling.lk/assets/img/Deductionss.png) !important;
+    background-size: 32%;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+#contact #Collapse0555 .card.card-body.border {
+    font-style: normal !important;
+    font-size: 17px !important;
+}
+
+#contact #Collapse0555 .card.card-body.border .card.card-body.border {
+    font-style: italic !important;
+    font-size: 14px !important;
+}
