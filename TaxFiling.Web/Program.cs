@@ -66,6 +66,7 @@ builder.Services
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // ✅ Enforce HTTPS-only cookies
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect if unauthorized
+        options.Cookie.Name = "MyAppAuth";
         options.ExpireTimeSpan = TimeSpan.FromMinutes(cookieTimeoutMinutes); // Set expiration time
 
         options.Events = new CookieAuthenticationEvents

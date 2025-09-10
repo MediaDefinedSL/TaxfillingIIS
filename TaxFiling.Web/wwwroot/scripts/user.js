@@ -245,17 +245,19 @@ $(function () {
                 processData: false,
                 data: formData,
                 success: function (response) {
+                    console.log(response);
                     if (response.responseResult != null) {
                         if (response.responseResult.success) {
-                           // notifySuccess("", response.responseResult.message);
+                           
                             showMessage(response.responseResult.message, "success");
+
+                            var imagePath = appUrl + response.user.profileImagePath;
+                          //  $("#btnprofileimage").css("background-image", "url('" + imagePath + "')");
                             window.location.href = `${appUrl}/home/FileMyTaxes`;
-                            $.get('/User/UserProfile', { userId: userId }, function (html) {
-                                $('#drplogout').html($(html).find('#drplogout').html());
-                            });
+                           
 
                         } else {
-                           // notifyError(false, response.responseResult.message);
+                          
                             showMessage(response.responseResult.message, "error");
                         }
                     }
@@ -263,7 +265,6 @@ $(function () {
                         notifyError(false, 'An error occurred while updating the User.');
                     }
 
-                    // $btn.setButtonDisabled(false);
                     $btn.prop("disabled", false);
                 },
                 error: function (xhr) {
@@ -370,10 +371,8 @@ $(function () {
             success: function (response) {
                 if (response.responseResult != null) {
                     if (response.responseResult.success) {
-                       // notifySuccess("", response.responseResult.message);
-                        //showMessage("Populate Name and email and Subject as Help me to create TIN Number", "success");
                        
-                        setTimeout(function () {
+                        $('#mytaxes_tin').modal('hide');
                         // Now sign in the user
                        $.ajax({
                             url: `${appUrl}/account/signin`,
@@ -387,9 +386,12 @@ $(function () {
                             success: function (signInResponse) {
                                 console.log(signInResponse);
                                 if (signInResponse.success) {
+
                                     localStorage.setItem("contact_name", name);
                                     localStorage.setItem("contact_email", email);
                                     localStorage.setItem("contact_subject", "Help me to create TIN Number");
+                                    
+
                                     window.location.href = `${appUrl}/home/ContactUs`;
                                   
                                 } else {
@@ -402,7 +404,7 @@ $(function () {
                                // notifyError(false, "Error occurred during sign-in.");
                             }
                        });
-                        }, 1500); 
+                      
 
                     } else {
                         notifyError(false, response.responseResult.message);

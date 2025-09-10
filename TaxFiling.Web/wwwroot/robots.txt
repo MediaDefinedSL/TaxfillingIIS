@@ -1,4 +1,6 @@
 User-agent: *
-Disallow:
+Disallow:/Account/Login
+Disallow:/Account/Register
+
 
 Sitemap: https://taxfiling.lk/sitemap.xml

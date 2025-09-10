@@ -1373,6 +1373,33 @@ public class SelfOnlineFlowController : Controller
 
     }
 
+    public async Task<IActionResult> LoadDeductions(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
+
+        SelfFilingTotalCalculationViewModel totalCalculation = new();
+
+        string url1 = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryUserParams);
+        var response1 = await _httpClient.GetAsync(url1, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent1 = await response1.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContent1))
+            {
+                totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent1, _jsonSerializerOptions) ?? new();
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_Deductions", totalCalculation);
+    }
+
 
 
 }

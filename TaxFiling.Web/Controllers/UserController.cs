@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -138,16 +140,42 @@ public class UserController : Controller
         }
 
         var fullName = $"{user.FirstName} {user.LastName}";
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, fullName),
-            new Claim("UserID", user.UserId.ToString()),
-            new Claim("IsTin", user.IsTin.ToString()),
-            new Claim("IsActivePayment", user.IsActivePayment.ToString()),
-            new Claim("ProfileImagePath", user.ProfileImagePath ?? string.Empty)
-        };
+      //  var fullName = $"{user.FirstName} {user.LastName}";
 
-        return Json(new { responseResult });
+        // Get the current ClaimsIdentity from HttpContext
+        var identity = (ClaimsIdentity)HttpContext.User.Identity;
+
+        // If identity is null or not authenticated, you might need to sign in again
+        if (identity == null || !identity.IsAuthenticated)
+        {
+            identity = new ClaimsIdentity("AuthCookie");
+        }
+
+        // Remove existing ProfileImagePath claim if it exists
+        var existingClaim = identity.FindFirst("ProfileImagePath");
+        if (existingClaim != null)
+        {
+            identity.RemoveClaim(existingClaim);
+        }
+
+        // Add updated claims
+        identity.AddClaim(new Claim(ClaimTypes.Name, fullName));
+        identity.AddClaim(new Claim("UserID", user.UserId.ToString()));
+        identity.AddClaim(new Claim("IsTin", user.IsTin.ToString()));
+        identity.AddClaim(new Claim("IsActivePayment", user.IsActivePayment.ToString()));
+        identity.AddClaim(new Claim("ProfileImagePath", user.ProfileImagePath ?? string.Empty));
+
+        // Re-sign the user with the updated claims
+        await HttpContext.SignInAsync(
+            "AuthCookie",
+            new ClaimsPrincipal(identity),
+            new AuthenticationProperties
+            {
+                IsPersistent = true, // keep login alive
+                ExpiresUtc = DateTime.UtcNow.AddHours(1)
+            });
+
+        return Json(new { responseResult, user });
     }
 
     [HttpPut]
