@@ -722,5 +722,11 @@ $(document).on("show.bs.collapse", ".collapse", function () {
     // Close all other collapse elements
     $(".collapse.show").not(this).collapse("hide");
 });
+
+    $(document).ready(function () {
+            $("#name").val(localStorage.getItem("contact_name"));
+            $("#email").val(localStorage.getItem("contact_email"));
+            $("#subject").val(localStorage.getItem("contact_subject"));
+    });
 	</script>
 

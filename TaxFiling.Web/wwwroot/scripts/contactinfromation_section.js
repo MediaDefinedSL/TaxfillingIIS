@@ -18,7 +18,7 @@
         let mobilePhone = $("#MobilePhone").val();
         let homePhone = $("#HomePhone").val();
         let whatsApp = $("#WhatsApp").val();
-        let preferredCommunicationMethod = $("#PreferredCommunicationMethod").val();  
+        let preferredCommunicationMethod = $("#PreferredCommunicationMethod").val();
 
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var phonePattern = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
@@ -29,8 +29,8 @@
             $("#StreetNumber").after('<div class="text-danger validation-error">Street Number is required.</div>');
             isValid = false;
         }
-       if (street.length == 0) {
-           $("#Street").after('<div class="text-danger validation-error">Street name is required.</div>');
+        if (street.length == 0) {
+            $("#Street").after('<div class="text-danger validation-error">Street name is required.</div>');
             isValid = false;
         }
         if (city.length == 0) {
@@ -45,29 +45,41 @@
             $("#MobilePhone").after('<div class="text-danger validation-error">Mobile Phone is required.</div>');
             isValid = false;
         }
-        if (!emailPattern.test(emailPrimary)) { 
-            $("#EmailPrimary").after('<div class="text-danger validation-error">Primary email is Ivalid email.</div>');
-            isValid = false;
+        if (emailPrimary.length > 0) { 
+            if (!emailPattern.test(emailPrimary)) {
+                $("#EmailPrimary").after('<div class="text-danger validation-error">Primary email is Invalid email.</div>');
+                isValid = false;
+            }
         }
-        if (!emailPattern.test(emailSecondary)) {
-            $("#EmailSecondary").after('<div class="text-danger validation-error">Secondary email is Ivalid email.</div>');
-            isValid = false;
+        if (emailSecondary.length > 0) {
+            if (!emailPattern.test(emailSecondary)) {
+                $("#EmailSecondary").after('<div class="text-danger validation-error">Secondary email is Invalid email.</div>');
+                isValid = false;
+            }
         }
-        if (!phonePattern.test(mobilePhone)) {
-            $("#EmailSecondary").after('<div class="text-danger validation-error">Invalid phone number!</div>');
-            isValid = false;
+        if (mobilePhone.length > 0) { 
+            if (!phonePattern.test(mobilePhone)) {
+                $("#MobilePhone").after('<div class="text-danger validation-error">Invalid phone number!</div>');
+                isValid = false;
+            }
         }
-        if (!phonePattern.test(mobilePhone)) {
-            $("#MobilePhone").after('<div class="text-danger validation-error">Invalid phone number!</div>');
-            isValid = false;
+        //if (!phonePattern.test(mobilePhone)) {
+            //$("#MobilePhone").after('<div class="text-danger validation-error">Invalid phone number!</div>');
+            //isValid = false;
+        // }
+        if (homePhone.length > 0) {
+            if (!phonePattern.test(homePhone)) {
+                $("#HomePhone").after('<div class="text-danger validation-error">Invalid phone number!</div>');
+
+                isValid = false;
+            }
         }
-        if (!phonePattern.test(homePhone)) {
-            $("#HomePhone").after('<div class="text-danger validation-error">Invalid phone number!</div>');
-              isValid = false;
-       }
-        if (!phonePattern.test(whatsApp)) {
-           $("#WhatsApp").after('<div class="text-danger validation-error">Invalid phone number!</div>');
-             isValid = false;
+
+        if (whatsApp.length > 0) {
+            if (!phonePattern.test(whatsApp)) {
+                $("#WhatsApp").after('<div class="text-danger validation-error">Invalid phone number!</div>');
+                isValid = false;
+            }
         }
 
         if (!isValid) {
