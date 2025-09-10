@@ -7,7 +7,7 @@
         <div class="card card-body">
             <form method="post">
                 <div class=" mt-4 ">
-
+                    <input type="hidden" id="hndAssessableIncome" name="hndAssessableIncome" value="@Model.AssessableIncome" />
                     <div class="container mt-4">
                         
                         <h5 class="mb-3 Deductions-head"> <i class="fas fa-folder-open text-primary me-2"></i>Deductions from assessable income</h5>
@@ -75,11 +75,13 @@
 
                             <div class="col-3">Qualifying payments</div>
                             <div class="col-5"> 
-                                @Html.TextBoxFor(m => m.QualifyingPayments,
+                                @Html.TextBox(
+                                         "QualifyingPayments",
+                                         String.Format("{0:N2}", Model.QualifyingPayments),
                                          new
                                          {
-                                             @class = "form-control text-end",
-                                             Value = String.Format("{0:N2}", Model.QualifyingPayments)
+                                             @class = "form-control text-end numeric-format",
+                                             @autocomplete = "off"
                                          })
                              </div>
                         </div>
@@ -89,14 +91,14 @@
                         <div class="row mb-2 bg-light fw-bold">
 
                             <div class="col-3">Total deductions</div>
-                            <div class="col-5"> <input type="text" class="form-control totak-relif" id="txtTotalDeductions" name="txtTotalDeductions"> </div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTotalDeductions" name="txtTotalDeductions"> </div>
                         </div>
 
                         <!-- Taxable income -->
                         <div class="row mb-2 bg-light fw-bold">
 
                             <div class="col-3">Taxable income</div>
-                            <div class="col-5"> <input type="text" class="form-control totak-relif" id="txtTaxableIncome" name="txtTaxableIncome"> </div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTaxableIncome" name="txtTaxableIncome"> </div>
                         </div>
                     </div>
                     <div class="row">
