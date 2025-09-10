@@ -392,7 +392,7 @@ $(function () {
                                     localStorage.setItem("contact_subject", "Help me to create TIN Number");
                                     
 
-                                    window.location.href = `${appUrl}/home/ContactUs`;
+                                    window.location.href = `${appUrl}/home/ContactUs?fromNoTin=true`;
                                   
                                 } else {
                                    // notifyError(false, "Sign-in failed after TIN status update.");
