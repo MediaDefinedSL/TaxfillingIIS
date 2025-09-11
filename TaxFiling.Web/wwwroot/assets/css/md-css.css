@@ -6425,3 +6425,8 @@ main.main-content.Deductions .card-body {
 .navmenu button.dropdown-toggle:after {
     display: none;
 }
+
+.form-control {
+    border: 1px solid #d6e3fb !important;
+
+}
