@@ -7,6 +7,8 @@ using TaxFiling.Business.Interfaces;
 using TaxFiling.Data;
 using TaxFiling.Domain.Dtos;
 using TaxFiling.Domain.Entities;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TaxFiling.Business.Repositories;
 
@@ -1465,6 +1467,91 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
+    public async Task<bool> SaveSelfonlineAssetsImmovableProperty(SelfonlineAssetsImmovablePropertyDto immovableProperties)
+    {
+        bool isSuccess = false;
+        try
+            {
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineAdditionalDetails  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Situation,
+                                        @DateOfAcquisition,
+                                        @Cost,
+                                        @MarketValue,
+                                        @transactionType,
+                                        @SelfonlinePropertyID
+                                    )",
+                          new MySqlParameter("@loguser", immovableProperties.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@UserId", immovableProperties.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@Year", immovableProperties.Year),
+                        new MySqlParameter("@Type", immovableProperties.Type ?? (object)DBNull.Value),
+                        new MySqlParameter("@SerialNumber", immovableProperties.SerialNumber ?? (object)DBNull.Value),
+                        new MySqlParameter("@Situation", immovableProperties.Situation ?? (object)DBNull.Value),
+                        new MySqlParameter("@DateOfAcquisition", immovableProperties.DateOfAcquisition ?? (object)DBNull.Value),
+                        new MySqlParameter("@Cost", immovableProperties.Cost ?? (object)DBNull.Value),
+                        new MySqlParameter("@MarketValue", immovableProperties.MarketValue ?? (object)DBNull.Value),
+                        new MySqlParameter("@transactionType", immovableProperties.TransactionType ?? (object)DBNull.Value),
+                        new MySqlParameter("@SelfonlinePropertyID", immovableProperties.SelfonlinePropertyID)
+
+              );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveSelfonlineAssetsMotorVehicle");
+        }
+
+        return isSuccess;
+    }
+
+    public async Task<bool> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles)
+    {
+        bool isSuccess = false;
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineAdditionalDetails  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @transactionType,
+                                        @SelfonlineMotorVehicleID
+                                        @Type,
+                                        @SerialNumber,
+                                        @Description,
+                                        @DateOfAcquisition,
+                                        @CostMarketValue
+                                        
+                                    )",
+                            new MySqlParameter("@loguser", motorVehicles.UserId),
+                            new MySqlParameter("@UserId", motorVehicles.UserId),
+                            new MySqlParameter("@Year", motorVehicles.Year),
+                            new MySqlParameter("@transactionType", motorVehicles.TransactionType ?? (object)DBNull.Value),
+                            new MySqlParameter("@SelfonlineMotorVehicleID", motorVehicles.SelfonlineMotorVehicleID),
+                            new MySqlParameter("@Type", motorVehicles.Type ?? (object)DBNull.Value),
+                            new MySqlParameter("@SerialNumber", motorVehicles.SerialNumber ?? (object)DBNull.Value),
+                            new MySqlParameter("@Description", motorVehicles.Description ?? (object)DBNull.Value),
+                            new MySqlParameter("@RegistrationNo", motorVehicles.RegistrationNo ?? (object)DBNull.Value),
+                            new MySqlParameter("@DateOfAcquisition", motorVehicles.DateOfAcquisition ?? (object)DBNull.Value),
+                            new MySqlParameter("@CostMarketValue", motorVehicles.CostMarketValue ?? (object)DBNull.Value)
+
+              );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveSelfonlineAssetsMotorVehicle");
+        }
+
+        return isSuccess;
+    }
 }
 
 

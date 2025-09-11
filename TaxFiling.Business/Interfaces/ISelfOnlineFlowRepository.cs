@@ -43,4 +43,9 @@ public interface ISelfOnlineFlowRepository
     Task<bool> DeleteSelfOnlineInvestmentPartnerBeneficiaryExempt(string userId, int year, int investmentIncomeId, string categoryName);
 
     Task<bool> UpdateSelfFilingTotalCalculation(SelfFilingTotalCalculationDto totalCalculation);
+
+    //-------- Assets and Liabilities
+    //-------- Assets
+    Task<bool> SaveSelfonlineAssetsImmovableProperty(SelfonlineAssetsImmovablePropertyDto immovableProperties);
+    Task<bool> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles);
 }
