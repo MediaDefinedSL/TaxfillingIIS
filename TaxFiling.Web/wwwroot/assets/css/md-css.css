@@ -6049,7 +6049,7 @@ input#NumberOfDependents {
 }
 
 .cal li.nav-item:last-child {
-    width: 22% !important;
+    width: 23.6% !important;
 }
 
 
@@ -6534,4 +6534,26 @@ tr.band-soft.tax-boldd td {
 .cal .section-title.nothi {
     border-bottom: solid 1px #a1bacf;
     color: #262626;
+}
+
+
+td.lbl.text-bold {
+    font-weight: 600 !important;
+}
+
+td.lbl.totals {
+    font-weight: 600 !important;
+}
+
+
+td#sum_net {
+    font-weight: 600 !important;
+}
+
+td#kpi_taxable {
+    font-weight: 600 !important;
+}
+
+td#kpi_assessable {
+    font-weight: 600 !important;
 }
