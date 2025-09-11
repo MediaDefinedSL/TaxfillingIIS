@@ -1,12 +1,12 @@
 ﻿@model TaxFiling.Web.Models.User.UserViewModel
 @using System.Security.Claims
 @inject IConfiguration Configuration
-
+@using System.Globalization
 @{
     var userId = "";
     var isActivePayment = "0";
     var profileImageUrl = "";
-
+    var formattedName = "";
     // var profileImageUrl = "/UserImages/a2b6c0ba-878d-49ee-91d2-a6250ff9632c/17146853.png";
     string baseApiUrl = Configuration.GetValue<string>("BaseAPIUrl") ?? "";
 
@@ -17,6 +17,7 @@
         userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
         isActivePayment = User.Claims.FirstOrDefault(mbox => mbox.Type == "IsActivePayment")?.Value;
         profileImageUrl = User.Claims.FirstOrDefault(mbox => mbox.Type == "ProfileImagePath")?.Value;
+        formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
     }
     catch (Exception ex)
     {
@@ -32,7 +33,7 @@
         <div class="container d-lg-flex justify-content-between align-items-center">
             <div class="col-lg-4 col-md-6">
                 <h2 class="mb-2 mb-lg-0 font-weight-bold">User Profile</h2></br>
-                <h1 class="mb-2 mb-lg-0">Welcome <span>@Model.FirstName  @Model.LastName</span></h1>
+                <h1 class="mb-2 mb-lg-0">Welcome <span>@formattedName</span></h1>
             </div>
             <div class="col-lg-2 col-md-4">
                 <nav class="breadcrumbs">

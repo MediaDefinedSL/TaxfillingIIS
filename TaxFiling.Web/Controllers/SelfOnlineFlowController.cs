@@ -478,7 +478,10 @@ public class SelfOnlineFlowController : Controller
         }
 
         List<MaritalStatus> maritalStatuses = [];
-        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", ctx);
+
+        string maritalStatus = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", queryUserParams);
+        
+        var response1 = await _httpClient.GetAsync(maritalStatus, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
             var responseContent = await response1.Content.ReadAsStringAsync(ctx);

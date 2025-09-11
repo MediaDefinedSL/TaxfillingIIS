@@ -1,11 +1,12 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Html
-
+@using System.Globalization
 @{
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
-    var packageId = User.FindFirst("PackageId")?.Value;
+    var packageId = User.FindFirst("PackageId")?.Value;    
+    var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
 
 }
 
@@ -54,7 +55,7 @@
                    
                         <div class="col-lg-4 col-md-6">
                             <h2 class="mb-2 mb-lg-0 font-weight-bold">Self Online Flow</h2><br>
-                    <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+                    <h1 class="mb-2 mb-lg-0">Welcome <span>@formattedName</span></h1>
                         </div>
                         
                    
