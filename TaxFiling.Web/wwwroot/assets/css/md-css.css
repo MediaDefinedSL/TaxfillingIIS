@@ -6461,3 +6461,77 @@ main.main-content.Deductions .fw-bold {
 .totak-relif {
     border: solid 2px #b0c7f2 !important;
 }
+
+.body-header:after {
+    border-radius: 100%;
+}
+
+span.text-changes-cal {
+    font-size: 12px;
+    line-height: 17px !important;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 9px;
+    padding-top: 10px;
+}
+
+.alert.alert-warning.cal-wa {
+    font-size: 12px;
+    line-height: 17px !important;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+
+.controls.inline-f {
+    display: inline-block;
+    width: 100% !important;
+}
+
+td.lbl.inline-f {
+    width: 506px !important;
+    display: block !important;
+}
+
+.cal .section-title.nothi {
+    background: none !important;
+    color: #004ab8;
+    font-weight: 600 !important;
+    text-align: left;
+    background: #f7f9ff !important;
+}
+
+
+td.lbl.text-bold {
+    font-weight: 500 !important;
+    color: #003995 !important;
+    background-color: #cccccc;
+    border-radius: 0px !important;
+}
+
+
+.text-boldd td {
+    /* font-weight: 500 !important; */
+    color: #003995 !important;
+    background-color: #cccccc;
+    border-radius: 0px !important;
+}
+
+
+tr.band-soft.tax-boldd td {
+    color: #003995 !important;
+    background-color: #cccccc;
+    border-radius: 0px !important;
+}
+
+tr.band-soft.tax-boldd td {
+    font-weight: 600 !important;
+}
+
+
+.cal .section-title.nothi {
+    border-bottom: solid 1px #a1bacf;
+    color: #262626;
+}

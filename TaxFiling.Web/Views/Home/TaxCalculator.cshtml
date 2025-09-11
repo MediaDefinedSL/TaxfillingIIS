@@ -14,7 +14,7 @@
         <br>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="profile" aria-selected="true">Total Individual Income Tax</button>
+                <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="profile" aria-selected="true">Individual Income Tax</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false" tabindex="-1">Domestic Employment (APIT / PAYE)</button>
@@ -231,9 +231,19 @@
             </div>
             <div class="tab-pane fade active show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="sheet">
-                    <h1>Calculate Your Income Tax Liability – Year of Assessment 2025/2026 </h1>
-                    <br>
-                   
+                    <h1>Income Tax Calculator – Get an estimate of your annual tax liability (Sri Lanka)<br>Year of Assessment 2025/2026</h1>
+            
+                      <span class="text-changes-cal">
+Local employment income (APIT/PAYE).<br>		
+Interest income – subject to 10% Withholding Tax (WHT).		<br>
+Foreign employment/business income – included, with a maximum rate of 15%	<br>	
+Rent income – with the 25% statutory relief		<br>
+Dividend income – subject to final tax at 15%.		</span>
+
+
+
+<div class="alert alert-warning cal-wa" role="alert"> This tool only gives a rough estimate. Your final tax liability may differ based on credits, deductions, and reliefs available under the Inland Revenue Act, No. 24 of 2017 (as amended).
+</div>
 
 
                     <!-- ================= 1) INCOME SOURCES ================= -->
@@ -259,7 +269,7 @@
                                         
                                         <input id="fx_rate" type="text" inputmode="decimal" value="300" style="max-width:120px">
                                     </div>
-                                    <small class="note">If your figure is already in LKR, set FX to <b>1</b>.</small>
+                                    
                                 </td>
                                 <td class="num"><span id="foreign_lkr_annual" class="mono">0.00</span></td>
                             </tr>
@@ -270,7 +280,7 @@
                             </tr>
 
                             <tr>
-                                <td class="lbl">Investment Income – Interest</td>
+                                <td class="lbl">Investment Income – Interest(WHT dedcted)</td>
                                 <td class="num"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0"></td>
                             </tr>
                             <tr>
@@ -292,8 +302,8 @@
                                 <td class="num"><input id="other_income_annual" type="text" inputmode="decimal" value="0"></td>
                             </tr>
 
-                            <tr class="band">
-                                <td class="lbl"><b>Total Assessable Income</b> <span class="muted">(excludes dividends)</span></td>
+                            <tr class="band text-boldd">
+                                <td class="lbl text-bold">Total Assessable Income(excludes dividends)</td>
                                 <td class="num kpi" id="kpi_assessable">0.00</td>
                             </tr>
                         </tbody>
@@ -309,11 +319,11 @@
                                 <td class="num"><input id="relief_personal" type="text" inputmode="decimal" value="1800000"></td>
                             </tr>
                             <tr>
-                                <td class="lbl">Relief for Rent Income <span class="muted">(auto 25% of gross)</span></td>
+                                <td class="lbl">Relief for Rent Income – <span class="muted">(25% of Gross Rent)</span></td>
                                 <td class="num"><span id="relief_rent_auto" class="mono">0.00</span></td>
                             </tr>
                             <tr>
-                                <td class="lbl">Solar Relief <span class="muted">(cap 600,000)</span></td>
+                                <td class="lbl">Relief for Solar Panel - <span class="muted">(Deductible up to Rs. 600,000 or Actual cost)</span></td>
                                 <td class="num"><input id="relief_solar" type="text" inputmode="decimal" value="0"></td>
                             </tr>
                             <tr>
@@ -325,8 +335,8 @@
                                 <td class="lbl"><b>Total Relief</b></td>
                                 <td class="num kpi" id="kpi_deductions">1,800,000.00</td>
                             </tr>
-                            <tr class="band">
-                                <td class="lbl"><b>Taxable Income </b></td>
+                            <tr class="band text-boldd">
+                                <td class="lbl text-bold">Taxable Income</td>
                                 <td class="num kpi" id="kpi_taxable">0.00</td>
                             </tr>
                         </tbody>
@@ -338,8 +348,8 @@
                         <thead><tr><th>Tax Bracket</th><th class="num">Taxable Income</th><th class="num">Tax Rate</th><th class="num">Tax Amount</th></tr></thead>
                         <tbody id="slab_body"></tbody>
                         <tfoot>
-                            <tr class="band-soft">
-                                <td class="lbl"><b>Total <strong>Tax Liability</strong></b></td>
+                            <tr class="band-soft tax-boldd">
+                                <td class="lbl tax-bold">Total Tax Liability</td>
                                 <td></td>
                                 <td></td>
                                 <td class="num kpi" id="kpi_tax_liability">0.00</td>
@@ -359,7 +369,7 @@
                                 <td class="lbl">Less: WHT on Interest <span class="muted">(10% of interest income)</span></td>
                                 <td class="num"><span id="credit_wht_interest_auto" class="mono">0.00</span></td>
                             </tr>
-                            <tr class="band">
+                            <tr class="band text-boldd">
                                 <td class="lbl totals">Final Income Tax Payable / (Refundable)</td>
                                 <td class="num totals pos" id="sum_net">0.00</td>
                             </tr>
