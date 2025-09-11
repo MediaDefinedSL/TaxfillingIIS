@@ -178,6 +178,23 @@ $(function () {
         });
     });
 
+    $('#btnIncomeTaxCredits').on('click', function () {
+        $('.sub-link').removeClass('active');
+
+        $('#linkEmploymentIncome').addClass('active');
+
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadEmploymentIncome',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
     $('#linkIncomeLiableTax').on('click', function () {
         $('.sub-link').removeClass('active');
 
