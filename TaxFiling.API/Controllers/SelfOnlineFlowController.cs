@@ -484,4 +484,36 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    //-------- Assets and Liabilities
+
+    //-------- Assets
+    [HttpPost("saveassets_immovableproperties")]
+    public async Task<IActionResult> SaveSelfonlineAssetsImmovableProperty(SelfonlineAssetsImmovablePropertyDto immovableProperties)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfonlineAssetsImmovableProperty(immovableProperties);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPost("saveassets_motorVehicles")]
+    public async Task<IActionResult> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfonlineAssetsMotorVehicle(motorVehicles);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }
