@@ -6491,8 +6491,9 @@ span.text-changes-cal {
 }
 
 td.lbl.inline-f {
-    width: 506px !important;
+width: 407px !important;
     display: block !important;
+    border-radius: 0;
 }
 
 .cal .section-title.nothi {
@@ -6556,4 +6557,22 @@ td#kpi_taxable {
 
 td#kpi_assessable {
     font-weight: 600 !important;
+}
+
+
+td.num.month-cal input {
+    width: 115px;
+    display: inline-block;
+}
+
+input#foreign_amount_annual {
+    max-width: 140px !important;
+}
+
+td.num.month-cal {
+    padding-left: 0px;
+}
+
+tr.band-soft {
+    background-color: var(--band);
 }
