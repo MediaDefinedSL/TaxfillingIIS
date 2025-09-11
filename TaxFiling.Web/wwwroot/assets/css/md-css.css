@@ -2687,7 +2687,7 @@ section#Self-Online-Flow {
 }
 
 .cal .grid td.lbl {
-    width: 64%
+    width: 59%
 }
 
 .cal .grid td.num {
@@ -6561,7 +6561,7 @@ td#kpi_assessable {
 
 
 td.num.month-cal input {
-    width: 115px;
+    width: 132px;
     display: inline-block;
 }
 
