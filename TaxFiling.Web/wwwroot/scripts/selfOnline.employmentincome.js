@@ -191,7 +191,7 @@ $(function () {
                  
                     $btn.prop("disabled", false);
                    // notifySuccess("", "save successfully");
-                    showMessage("Employment income details save successfully.", "success");
+                    showMessage("Saved successfully.", "success");
                     $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
                         
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html());
@@ -291,7 +291,7 @@ $(function () {
                 success: function (response) {
                     $btn.prop("disabled", false);
                    // notifySuccess("", "Update successfully");
-                    showMessage("Update successfully.", "success");
+                    showMessage("Updated successfully.", "success");
                     $.get('/SelfOnlineFlow/LoadETerminalBenefits', function (html) {
                         $('#terminalDetailsGrid').html($(html).find('#terminalDetailsGrid').html());
                         var newTotal = parseFloat($(html).find("#hiddenBtotal").val() || 0); 
@@ -526,7 +526,21 @@ $(function () {
     });
 
     $(document).off("click", ".employmentDetails-editbtn").on("click", ".employmentDetails-editbtn", function () {
- 
+
+        
+
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".employmentdetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
+       
+       
+        
+        
+
         $(".validation-error").remove();
         $("#rdbSeniorCitizen").prop("checked", false);
         $("input[name='Residency']").prop("checked", false);
@@ -557,6 +571,15 @@ $(function () {
     });
 
     $(document).off("click", ".terminalbenefits-editbtn").on("click", ".terminalbenefits-editbtn", function () {
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".employmentdetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
+
+
    
         var id = $(this).data("id");
         var type = $(this).data("type");
@@ -578,6 +601,13 @@ $(function () {
 
     $(document).off("click", ".exemptamounts-editbtn").on("click", ".exemptamounts-editbtn", function () {
    
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".employmentdetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
 
         var id = $(this).data("id");
         var type = $(this).data("type");
@@ -602,7 +632,13 @@ $(function () {
     let deleteEmploymentDetailsName = null;
 
     $(document).off("click", ".employmentdetails-deletebtn").on("click", ".employmentdetails-deletebtn", function () {
-
+       
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
         deleteEmploymentDetailsId = $(this).data("id");
         deleteEmploymentDetailsName = $(this).data("name");
 
@@ -612,8 +648,9 @@ $(function () {
 
     });
 
-    $(document).off("click", "#selfonline_confirmDeleteBtn").on("click", "#selfonline_confirmDeleteBtn", function () {
-  
+    $(document).off("click", "#selfonline_confirmDeleteBtn").on("click", "#selfonline_confirmDeleteBtn", function (e) {
+
+        
         if (!deleteEmploymentDetailsId) return;
 
         var deleteId = {

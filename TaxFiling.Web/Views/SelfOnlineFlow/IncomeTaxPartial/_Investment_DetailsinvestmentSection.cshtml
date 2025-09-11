@@ -57,7 +57,7 @@
                                 <div class="row g-3">
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlSTypeInvestment" name="ddlSTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="121">121 - Interest Income – Local</option>
@@ -78,7 +78,7 @@
                                 <div class="row g-3">
                                     <!-- Bank Name -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Bank Name</label>
+                                        <label class="form-label"><span style="color: red">*</span>Bank Name</label>
                                         <input type="text" id="bankInput" class="form-select" placeholder="Type Bank Name" autocomplete="off" />
                                         <div id="bankDropdown" class="dropdown"></div>
                                     </div>
@@ -92,7 +92,7 @@
 
                                     <!-- Account No -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Account No.</label>
+                                        <label class="form-label"><span style="color: red">*</span>Account No.</label>
                                         <input type="text" class="form-control" id="txtSAccountNo" name="txtSAccountNo">
                                     </div>
 
@@ -104,7 +104,7 @@
 
                                     <!-- Amount Invested -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtSAmountInvested" name="txtSAmountInvested">
                                     </div>
 
@@ -157,7 +157,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                               <th>Type Investment</th>
+                                               <th>Type Of Investment</th>
                                                 <th>Bank</th>
                                                 <th>Branch</th>
                                                 <th>Account No</th>
@@ -179,8 +179,8 @@
                                                         <td>@savingsIncome.BankName</td>
                                                         <td>@savingsIncome.BankBranch</td>
                                                         <td>@savingsIncome.AccountNo</td>
-                                                        <td>@savingsIncome.IncomeAmount</td>
-                                                        <td>@savingsIncome.WHTDeducted</td>
+                                                        <td>@String.Format("{0:N2}",@savingsIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}",@savingsIncome.WHTDeducted)</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm savingsDetails-editbtn" type="button"
                                                                     data-id="@savingsIncome.InvestmentIncomeDetailId"
@@ -240,7 +240,7 @@
 
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlFDTypeInvestment" name="ddlFDTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="121">121 - Interest Income – Local</option>
@@ -260,7 +260,7 @@
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Bank Name</label>
+                                        <label class="form-label"><span style="color: red">*</span>Bank Name</label>
                                         <input type="text" id="FDbankInput" class="form-select" placeholder="Type Bank Name" autocomplete="off" />
                                         <div id="FDbankDropdown" class="dropdown"></div>
                                     </div>
@@ -271,7 +271,7 @@
                                     </div>
                                     <!-- Account No -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Account No.</label>
+                                        <label class="form-label"><span style="color: red">*</span>Account No.</label>
                                         <input type="text" class="form-control" id="txtFDAccountNo" name="txtFDAccountNo">
                                     </div>
 
@@ -283,7 +283,7 @@
 
                                     <!-- Amount Invested -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtFDAmountInvested" name="txtFDAmountInvested">
                                     </div>
 
@@ -337,7 +337,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Bank</th>
                                                 <th>Branch</th>
                                                 <th>Account No</th>
@@ -359,8 +359,8 @@
                                                         <td>@fdIncome.BankName</td>
                                                         <td>@fdIncome.BankBranch</td>
                                                         <td>@fdIncome.AccountNo</td>
-                                                        <td>@fdIncome.IncomeAmount</td>
-                                                        <td>@fdIncome.WHTDeducted</td>
+                                                        <td>@String.Format("{0:N2}",@fdIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}",@fdIncome.WHTDeducted)</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm fixedDepositDetails-editbtn" type="button"
                                                                     data-id="@fdIncome.InvestmentIncomeDetailId"
@@ -391,7 +391,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="8" class="text-center">No FixedDeposit Income found.</td>
+                                                    <td colspan="8" class="text-center">No Fixed Deposit Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -402,7 +402,7 @@
                             @*  ----- Divident ------ *@
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <br />
-                                <h3 class="mb-3"> <i class="bi bi-pie-chart-fill"></i> &nbsp; Dividend Income</h3>
+                                <h3 class="mb-3"> <i class="bi bi-pie-chart-fill"></i> &nbsp; Divident Income</h3>
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-12 alert alert-info">
@@ -417,7 +417,7 @@
 
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlDTypeInvestment" name="ddlDTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="111">111 - Dividend Income – Local</option>
@@ -437,7 +437,7 @@
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtDAmountInvested" name="txtDAmountInvested">
                                     </div>
                                     <div class="col-md-6">
@@ -487,7 +487,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Amount Invested </th>
                                                 <th>Dividend Income </th>
                                                 <th>Company/Institution</th>
@@ -505,11 +505,11 @@
                                                     <tr>
                                                         <td>@(++index)</td>
                                                         <td>@dividendIncome.TypeOfInvestment</td>
-                                                        <td>@dividendIncome.AmountInvested</td>
-                                                        <td>@dividendIncome.NetDividendIncome</td>
+                                                        <td>@String.Format("{0:N2}",@dividendIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}",@dividendIncome.NetDividendIncome)</td>
                                                         <td>@dividendIncome.CompanyInstitution</td>
                                                         <td>@dividendIncome.SharesStocks</td>
-                                                        <td>@dividendIncome.CostAcquisition</td>
+                                                        <td>@String.Format("{0:N2}",@dividendIncome.CostAcquisition)</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm dividend-editbtn" type="button"
                                                                     data-id="@dividendIncome.InvestmentIncomeDetailId"
@@ -565,7 +565,7 @@
 
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlRTypeInvestment" name="ddlRTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="311">311 - Rent Income – Local</option>
@@ -585,7 +585,7 @@
                                 <div class="row g-3">
                                     
                                     <div class="col-md-6">
-                                        <label class="form-label">Situation of property</label>
+                                        <label class="form-label"><span style="color: red">*</span>Situation of property</label>
                                         <input type="text" class="form-control" id="txtRProperty" name="txtRProperty">
                                     </div>
                                     <div class="col-md-6">
@@ -593,7 +593,7 @@
                                         <input type="text" class="form-control" id="txtRAddess" name="txtRAddess">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Total Rent Income </label>
+                                        <label class="form-label"><span style="color: red">*</span>Total Rent Income </label>
                                         <input type="text" class="form-control numeric-input" id="txtRTotalRentIncome" name="txtRTotalRentIncome">
                                     </div>
                                     <div class="col-md-6">
@@ -635,7 +635,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Situation property Deed No</th>
                                                 <th>Total Rent Income </th>
                                                 <th>Cost Gift/ Inhreted</th>
@@ -654,9 +654,9 @@
                                                         <td>@(++index)</td>
                                                         <td>@rentIncome.TypeOfInvestment</td>
                                                         <td>@rentIncome.PropertySituation</td>
-                                                        <td>@rentIncome.IncomeAmount</td>
-                                                        <td>@rentIncome.GiftOrInheritedCost</td>
-                                                        <td>@rentIncome.MarketValue</td>
+                                                        <td>@String.Format("{0:N2}",@rentIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}",@rentIncome.GiftOrInheritedCost)</td>
+                                                        <td>@String.Format("{0:N2}",@rentIncome.MarketValue)</td>
                                                         
                                                         <td>
                                                             <button class="btn btn-primary btn-sm rent-editbtn" type="button"
@@ -686,7 +686,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="7" class="text-center">No Dividend Income found.</td>
+                                                    <td colspan="7" class="text-center">No Rent Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -726,7 +726,7 @@
 
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlOTypeInvestment" name="ddlOTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="211">211 - GAIN FROM THE REALIZATION OF ASSETS - Local</option>
@@ -757,7 +757,7 @@
                                 <div class="row g-3">
 
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtOAmountInvested" name="txtOAmountInvested">
                                     </div>
                                     <div class="col-md-6">
@@ -783,7 +783,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Amount Invested</th>
                                                 <th>Interest Income </th>
                                                 <th>Action</th>
@@ -799,8 +799,8 @@
                                                     <tr>
                                                         <td>@(++index)</td>
                                                         <td>@otherIncome.TypeOfInvestment</td>
-                                                        <td>@otherIncome.AmountInvested</td>
-                                                        <td>@otherIncome.IncomeAmount</td>
+                                                        <td>@String.Format("{0:N2}",@otherIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}",@otherIncome.IncomeAmount)</td>
                                                         
 
                                                         <td>
