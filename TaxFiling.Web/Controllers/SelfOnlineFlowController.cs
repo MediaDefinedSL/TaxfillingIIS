@@ -1396,7 +1396,7 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Self Filing Total Calculation update successfully" });
     }
 
-    public async Task<IActionResult> LoadDeducLoadAssetstions(CancellationToken ctx)
+    public async Task<IActionResult> LoadAssets(CancellationToken ctx)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
