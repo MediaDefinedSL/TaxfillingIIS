@@ -1,12 +1,14 @@
 ﻿@using System.Security.Claims
-
+@using System.Globalization
 @{
     var userId = "";
     var userName = "";
+    var formattedName = "";
     try
     {
         userName = User.FindFirst(ClaimTypes.Name)?.Value;
         userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
+        formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
     }
     catch (Exception ex)
     {
@@ -21,7 +23,7 @@
         <div class="container d-lg-flex justify-content-between align-items-center">
             <div class="col-lg-4 col-md-6">
                 <h2 class="mb-2 mb-lg-0 font-weight-bold">Assisted Filing</h2></br>
-                <h1 class="mb-2 mb-lg-0">Wellcome <span>@userName</span></h1>
+                <h1 class="mb-2 mb-lg-0">Wellcome <span>@formattedName</span></h1>
             </div>
             <div class="col-lg-2 col-md-4">
                 <nav class="breadcrumbs">
