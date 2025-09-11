@@ -1,0 +1,189 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+@model List<TaxFiling.Web.Models.SelfOnlineInvestmentIncomeDetailViewModel>
+
+<link href="~/assets/css/tree-container-css.css?v=3" rel="stylesheet">
+
+<main class="main-content">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+            <form method="post">
+                <div class=" mt-4 ">
+                    <div class="custom-tabs">
+                        <ul class="nav nav-tabs col-md-12" id="myAssetsTab" role="tablist">
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link immovable_properties active" id="immovableproperties-tab" data-bs-toggle="tab" data-bs-target="#immovableproperties" type="button" role="tab" aria-controls="immovableproperties" aria-selected="true" data-target="bank-section">Immovable Properties</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link motor_vehicle" id="motorvehicle-tab" data-bs-toggle="tab" data-bs-target="#motorvehicle" type="button" role="tab" aria-controls="motorvehicle" aria-selected="false" tabindex="-1">Motor Vehicle</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link bank_balances" id="bankbalances-tab" data-bs-toggle="tab" data-bs-target="#bankbalances" type="button" role="tab" aria-controls="bankbalances" aria-selected="false" tabindex="-1">Bank Balances</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link shares_stocks_securities" id="sharesstockssecurities-tab" data-bs-toggle="tab" data-bs-target="#sharesstockssecurities" type="button" role="tab" aria-controls="sharesstockssecurities" aria-selected="false" tabindex="-1">
+                                    Shares/Stocks/Securities
+                                </button>
+                            </li>
+
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link expenses_balances" id="expensesbalances-tab" data-bs-toggle="tab" data-bs-target="#expensesbalances" type="button" role="tab" aria-controls="expensesbalances" aria-selected="false" tabindex="-1">Expenses & Balances</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link declare_capital" id="declarecapital-tab" data-bs-toggle="tab" data-bs-target="#declarecapital" type="button" role="tab" aria-controls="declarecapital" aria-selected="false" tabindex="-1">Declare the Capital</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myAssetsTabContent">
+                         @*    Immovable Properties *@
+
+                            <div aria-labelledby="immovableproperties-tab" role="tabpanel" id="immovableproperties" class="tab-pane insvesment fade fade-in active show">
+                                <br />
+                                <h3 class="mb-3">
+                                    <i class="bi bi-building"></i> &nbsp;Immovable Properties
+                                </h3>
+                                <hr>
+
+                                <div class="row g-3">
+
+                                    <!-- Type -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Type</label>
+                                        <select class="form-select" id="ddlImmovablePropertiesType" name="ddlImmovablePropertiesType">
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Local">Local</option>
+                                            <option value="Foreign">Foreign</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- S/N -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">S/N</label>
+                                        <input type="text" id="txtImmPropertiesSN" class="form-control" />
+                                    </div>
+
+                                    <!-- Situation of property -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Situation of property</label>
+                                        <input type="text" id="txtImmPropertiesSituation" class="form-control" />
+                                    </div>
+
+                                    <!-- Date of acquisition -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Date of acquisition</label>
+                                        <input type="date" id="txtImmPropertiesDate" class="form-control" />
+                                    </div>
+
+                                    <!-- Cost (Rs.) -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Cost (Rs.)</label>
+                                        <input type="number" step="0.01" id="txtImmPropertiesCost" class="form-control" />
+                                    </div>
+
+                                    <!-- Market value (Rs.) -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Market value (Rs.)</label>
+                                        <input type="number" step="0.01" id="txtImmPropertiesMarketValue" class="form-control" />
+                                    </div>
+
+                                </div>
+                                <hr class="my-4">
+
+                                <div class="table-responsive" id="ImmovablePropertiesGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>S/N</th>
+                                                <th>Situation Property</th>
+                                                <th>Date Acquisition  </th>
+                                                <th>Cost</th>
+                                                <th>Market value</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                            @*    Motor Vehicle *@
+
+                            <div aria-labelledby="motorvehicle-tab" role="tabpanel" id="motorvehicle" class="tab-pane insvesment fade">
+                                <br />
+                                <h3 class="mb-3">
+                                    <i class="bi bi-truck"></i> &nbsp; Motor Vehicle
+                                </h3>
+                                <hr>
+                            </div>
+
+                            @*    Bank Balances *@
+
+                            <div aria-labelledby="bankbalances-tab" role="tabpanel" id="bankbalances" class="tab-pane insvesment fade">
+                                <br />
+                                <h3 class="mb-3">
+                                    <i class="bi bi-bank"></i> &nbsp; Bank Balances Including Term Deposits as at 31.03.2025
+                                </h3>
+                                <hr>
+                            </div>
+
+                            @*   Shares/stocks/securities *@
+
+                            <div aria-labelledby="sharesstockssecurities-tab" role="tabpanel" id="sharesstockssecurities" class="tab-pane insvesment fade">
+                                <br />
+                                <h3 class="mb-3">
+                                    <i class="bi bi-graph-up"></i> &nbsp; Shares/Stocks/Securities as at 31.03.2025
+                                </h3>
+                                <hr>
+                            </div>
+
+                            @*     Expenses and Balances *@
+
+                            <div aria-labelledby="expensesbalances-tab" role="tabpanel" id="expensesbalances" class="tab-pane insvesment fade">
+                                <br />
+                                <h3 class="mb-3">
+                                    <i class="bi bi-cash-stack"></i> &nbsp; Expenses and Balances
+                                </h3>
+                                <hr>
+                            </div>
+
+                            @*     Declare the Capital *@
+
+                            <div aria-labelledby="declarecapital-tab" role="tabpanel" id="declarecapital" class="tab-pane insvesment fade">
+                                <br />
+                                <h3 class="mb-3">
+                                    <i class="bi bi-briefcase"></i> &nbsp; Declare the Capital and Current Account (credit) Balances Held as a Part of Business, as at 31.03.2025
+                                </h3>
+                                <hr>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <br><br>
+            <div class="d-lg-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv">
+                    <button class="btn btn-primary btn-lg" id="linContinue">
+                        Back
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>

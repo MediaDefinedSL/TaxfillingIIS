@@ -2687,7 +2687,7 @@ section#Self-Online-Flow {
 }
 
 .cal .grid td.lbl {
-    width: 64%
+    width: 59%
 }
 
 .cal .grid td.num {
@@ -6049,7 +6049,7 @@ input#NumberOfDependents {
 }
 
 .cal li.nav-item:last-child {
-    width: 22% !important;
+    width: 23.6% !important;
 }
 
 
@@ -6424,4 +6424,155 @@ main.main-content.Deductions .card-body {
 
 .navmenu button.dropdown-toggle:after {
     display: none;
+}
+
+.form-control {
+    border: 1px solid #d6e3fb !important;
+
+}
+
+
+
+.cal li.nav-item:first-child button {
+    border-bottom: none !important;
+}
+
+.cal li.nav-item:nth-child(2) button {
+    border-bottom: none !important;
+}
+
+.cal ul#myTab li:last-child button {
+    border-bottom: none !important;
+}
+
+div#myTabContent.tab-content.mt-3 {
+    margin-top: -2px !important;
+}
+
+.cal ul#myTab {
+    column-gap: 0.2% !important;
+}
+
+
+main.main-content.Deductions .fw-bold {
+    background: none !important;
+}
+
+.totak-relif {
+    border: solid 2px #b0c7f2 !important;
+}
+
+.body-header:after {
+    border-radius: 100%;
+}
+
+span.text-changes-cal {
+    font-size: 12px;
+    line-height: 17px !important;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 9px;
+    padding-top: 10px;
+}
+
+.alert.alert-warning.cal-wa {
+    font-size: 12px;
+    line-height: 17px !important;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+
+.controls.inline-f {
+    display: inline-block;
+    width: 100% !important;
+}
+
+td.lbl.inline-f {
+width: 407px !important;
+    display: block !important;
+    border-radius: 0;
+}
+
+.cal .section-title.nothi {
+    background: none !important;
+    color: #004ab8;
+    font-weight: 600 !important;
+    text-align: left;
+    background: #f7f9ff !important;
+}
+
+
+td.lbl.text-bold {
+    font-weight: 500 !important;
+    color: #003995 !important;
+    background-color: #cccccc;
+    border-radius: 0px !important;
+}
+
+
+.text-boldd td {
+    /* font-weight: 500 !important; */
+    color: #003995 !important;
+    background-color: #cccccc;
+    border-radius: 0px !important;
+}
+
+
+tr.band-soft.tax-boldd td {
+    color: #003995 !important;
+    background-color: #cccccc;
+    border-radius: 0px !important;
+}
+
+tr.band-soft.tax-boldd td {
+    font-weight: 600 !important;
+}
+
+
+.cal .section-title.nothi {
+    border-bottom: solid 1px #a1bacf;
+    color: #262626;
+}
+
+
+td.lbl.text-bold {
+    font-weight: 600 !important;
+}
+
+td.lbl.totals {
+    font-weight: 600 !important;
+}
+
+
+td#sum_net {
+    font-weight: 600 !important;
+}
+
+td#kpi_taxable {
+    font-weight: 600 !important;
+}
+
+td#kpi_assessable {
+    font-weight: 600 !important;
+}
+
+
+td.num.month-cal input {
+    width: 132px;
+    display: inline-block;
+}
+
+input#foreign_amount_annual {
+    max-width: 140px !important;
+}
+
+td.num.month-cal {
+    padding-left: 0px;
+}
+
+tr.band-soft {
+    background-color: var(--band);
 }
