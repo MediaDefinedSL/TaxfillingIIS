@@ -252,7 +252,9 @@ Dividend income – subject to final tax at 15%.		</span>
                         <tbody>
                             <tr>
                                 <td class="lbl">Employment Income – <span class="muted">Local (APIT deducted)</span></td>
-                                <td class="num"><input id="emp_apit_annual" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num"><input id="emp_apit_annual" type="text" inputmode="decimal" value="0">
+                                <input id="annual-money" type="text" inputmode="decimal" value="0">
+                                </td>
                             </tr>
 
                             <!-- Foreign employment: Annual amount + currency + FX (one line) -->
@@ -866,4 +868,25 @@ Dividend income – subject to final tax at 15%.		</span>
     // Demo value
     input.value = '250,000';
     updateUI();
+</script>
+
+
+
+
+<script>
+
+const empInput = document.getElementById("emp_apit_annual");
+  const annualInput = document.getElementById("annual-money");
+
+  function updateAnnual() {
+    let monthly = parseFloat(empInput.value) || 0;
+    annualInput.value = (monthly * 12).toFixed(2); // 2 decimal places
+  }
+
+  // Update when user types or changes
+  empInput.addEventListener("input", updateAnnual);
+
+  // Run once on page load
+  updateAnnual();
+
 </script>
