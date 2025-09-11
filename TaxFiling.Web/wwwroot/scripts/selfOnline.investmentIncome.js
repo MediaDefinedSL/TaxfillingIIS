@@ -67,6 +67,14 @@
             e.target.value = value;
         });
 
+        input.addEventListener("blur", function (e) {
+            let value = e.target.value.replace(/,/g, "");
+            if (value) {
+                let num = parseFloat(value);
+                e.target.value = num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        });
+
         // Prevent entering multiple dots directly
         input.addEventListener("keypress", function (e) {
             if (!/[0-9.]/.test(e.key)) {
