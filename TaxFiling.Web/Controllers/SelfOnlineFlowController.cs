@@ -1403,6 +1403,45 @@ public class SelfOnlineFlowController : Controller
         return PartialView("IncomeTaxPartial/_Deductions", totalCalculation);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> UpdateSelfFilingTotalCalculation([FromForm] SelfFilingTotalCalculationViewModel totalCalculation)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        totalCalculation.Year = year;
+        totalCalculation.UserId = userId;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_selfFilingtotalcalculation", totalCalculation);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Self Filing Total Calculation update successfully" });
+    }
+
+    public async Task<IActionResult> LoadAssets(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
+
+       
+
+        return PartialView("AssetsLiabilities/_Assets");
+    }
+
 
 
 }

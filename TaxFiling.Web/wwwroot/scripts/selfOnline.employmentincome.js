@@ -173,6 +173,8 @@ $(function () {
                     $("#hndSelfOnlineEmploymentIncomeId").val("");
                     $("#rdbSeniorCitizen").prop("checked", false);
                     $("input[name='Residency']").prop("checked", false);
+                    $("#hiddenEmploymentDetailsId").val("");
+                    $("#btnEmploymentDetails").text("Submit");
 
                 },
                 error: function () {
@@ -209,6 +211,8 @@ $(function () {
                     $("#txtTINEmployer").val("");
                     $("#txtAPITSecondaryEmployment").val("");
                     $("#hndSelfOnlineEmploymentIncomeId").val("");
+                    $("#hiddenEmploymentDetailsId").val("");
+                    $("#btnEmploymentDetails").text("Submit");
                    
 
                 },

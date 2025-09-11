@@ -8,14 +8,15 @@
             <form method="post">
                 <div class=" mt-4 ">
                     <input type="hidden" id="hndAssessableIncome" name="hndAssessableIncome" value="@Model.AssessableIncome" />
-                    <div class="container mt-4">
+                    <input type="hidden" id="hiddenSelfOnlineTotalId" name="hiddenSelfOnlineTotalId" value="@Model.SelfOnlineTotalId" />
+                    <div class="mt-4">
                         
-                        <h5 class="mb-3 Deductions-head"> <i class="fas fa-folder-open text-primary me-2"></i>Deductions from assessable income</h5>
+                        <h5 class="mb-3 Deductions-head"> <i class="fas fa-folder-open text-primary me-2"></i>Deductions from Assessable Income</h5>
                         <hr>
                         <!-- Relief for rent income -->
                         <div class="row mb-2">
 
-                            <div class="col-3">Relief for rent income</div>
+                            <div class="col-3">Relief for Rent Income</div>
                             <div class="col-5">
                                 @Html.TextBox(
                                          "RentRelief25",              
@@ -32,7 +33,7 @@
                         <!-- Relief on solar panel -->
                         <div class="row mb-2">
 
-                            <div class="col-3">Relief on solar panel</div>
+                            <div class="col-3">Relief on Solar Panel</div>
                              <div class="col-5">
                                 @Html.TextBox(
                                          "ReliefSolarPanel",
@@ -47,7 +48,7 @@
 
                         <!-- Personal relief -->
                         <div class="row mb-2">
-                            <div class="col-3">Personal relief</div>
+                            <div class="col-3">Personal Relief</div>
                             <div class="col-5">
                                 @Html.TextBox(
                                          "PersonalRelief",
@@ -63,7 +64,7 @@
                         <!-- Total reliefs -->
                         <div class="row mb-2  fw-bold">
 
-                            <div class="col-3">Total reliefs</div>
+                            <div class="col-3">Total Reliefs</div>
                             <div class="col-5">
                                 <input type="text" class="form-control totak-relif text-end" id="txtTotalReliefs" name="txtTotalReliefs" disabled>
                             
@@ -73,7 +74,7 @@
                         <!-- Qualifying payments -->
                         <div class="row mb-2">
 
-                            <div class="col-3">Qualifying payments</div>
+                            <div class="col-3">Qualifying Payments</div>
                             <div class="col-5"> 
                                 @Html.TextBox(
                                          "QualifyingPayments",
@@ -90,15 +91,15 @@
                         <!-- Total deductions -->
                         <div class="row mb-2 bg-light fw-bold">
 
-                            <div class="col-3">Total deductions</div>
-                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTotalDeductions" name="txtTotalDeductions"> </div>
+                            <div class="col-3">Total Deductions</div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTotalDeductions" name="txtTotalDeductions" disabled> </div>
                         </div>
 
                         <!-- Taxable income -->
                         <div class="row mb-2 bg-light fw-bold">
 
-                            <div class="col-3">Taxable income</div>
-                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTaxableIncome" name="txtTaxableIncome"> </div>
+                            <div class="col-3">Taxable Income</div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTaxableIncome" name="txtTaxableIncome" disabled> </div>
                         </div>
                     </div>
                     <div class="row">
