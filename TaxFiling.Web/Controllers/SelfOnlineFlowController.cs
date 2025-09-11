@@ -1396,6 +1396,22 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Self Filing Total Calculation update successfully" });
     }
 
+    public async Task<IActionResult> LoadDeducLoadAssetstions(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
+
+       
+
+        return PartialView("AssetsLiabilities/_Assets");
+    }
+
 
 
 }

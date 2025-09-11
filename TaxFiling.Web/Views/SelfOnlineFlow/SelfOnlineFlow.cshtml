@@ -54,7 +54,7 @@
                         Dashboard
                     </button>
                     <button id="btnLoadSection" class="dropdown-btn sidebar-link text-decoration-none p-3">
-                        <i class="bi bi-person-fill-down"></i> &nbsp;&nbsp;
+                        <i class="bi bi-person-fill-down me-2"></i> &nbsp;&nbsp;
                         Personal Information
                     </button>
                     <div class="dropdown-container" style="display: none;">
@@ -70,13 +70,13 @@
                     </div>
 
                     <button id="btnIncomeTaxCredits" class="dropdown-btn sidebar-link text-decoration-none p-3">
-                        <i class="bi bi-cash-coin"></i> &nbsp; Income and Tax Credits
+                        <i class="bi bi-cash-coin me-2"></i> &nbsp;&nbsp; Income and Tax Credits
                     </button>
                     <div class="dropdown-container" style="display: none;">
 
                         <!-- Income liable to tax -->
                         <a class="sub-link dropdown-btn" id="linkIncomeLiableTax">
-                            <i class="bi bi-graph-up"></i> &nbsp; Income liable to tax
+                            <i class="bi bi-graph-up"></i> &nbsp; Income Liable to Tax
                         </a>
                         <div class="dropdown-container" style="display: none; margin-left: 20px;">
 
@@ -109,27 +109,28 @@
                             </a>
                         </div>
 
-                        <!-- Other main sections -->
-                      @*   <a class="sub-link" id="linkDeductions">
-                            <i class="bi bi-scissors"></i> &nbsp; Deductions from assessable income
-                        </a>
-                        <a class="sub-link" id="linkTaxCalculation">
-                            <i class="bi bi-calculator"></i> &nbsp; Calculation of tax payable
-                        </a>
-                        <a class="sub-link" id="linkExemptIncome">
-                            <i class="bi bi-shield-check"></i> &nbsp; Exempt income
-                        </a> *@
                     </div>
 
-                    <button id="btnSummarySection" class="dropdown-btn sidebar-link text-decoration-none p-3">
-                        <i class="bi bi-file-earmark-text"></i> &nbsp;&nbsp;
-                    Summary
+                    <!-- Assets & Liabilities main button -->
+                    <button id="btnAssetsLiabilities" class="dropdown-btn sidebar-link text-decoration-none p-3">
+                        <i class="fas fa-balance-scale me-2"></i> &nbsp;&nbsp; Assets and Liabilities
                     </button>
 
-                   @*  <a  class="sidebar-link active text-decoration-none p-3">
-                        <i class="bi bi-person-bounding-box"></i> &nbsp;&nbsp;
-                        <span class="hide-on-collapse">Doument's Return</span>
-                    </a> *@
+                    <!-- Submenu -->
+                    <div class="dropdown-container" style="display: none;">
+                        <a class="sub-link dropdown-btn" id="linkAssets">
+                            <i class="bi bi-piggy-bank"></i> &nbsp; Assets
+                        </a>
+                        <a class="sub-link dropdown-btn" id="linkLiabilities">
+                            <i class="bi bi-cash-stack"></i> &nbsp; Liabilities
+                        </a>
+                    </div>
+
+                    <!-- Summary main button -->
+                    <button id="btnSummarySection" class="dropdown-btn sidebar-link text-decoration-none p-3">
+                        <i class="bi bi-file-earmark-text me-2"></i> &nbsp;&nbsp;
+                    Summary
+                    </button>
 
                 </div>
 
