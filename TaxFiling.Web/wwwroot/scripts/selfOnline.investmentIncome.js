@@ -420,6 +420,15 @@
      
         $(".validation-error").remove();
 
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".investmentDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
+
+
         // Read all data-* attributes
         var id = $(this).data("id");
         var category = $(this).data("category");
@@ -466,7 +475,13 @@
     let deleteCategoryName = null;
 
     $(document).on("click", ".investmentDetails-deletebtn", function () {
-   
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
         deleteInvestmentId = $(this).data("id");
         deleteCategoryName = $(this).data("name");
 
@@ -819,7 +834,15 @@
     });
     $(document).off("click", ".fixedDepositDetails-editbtn").on("click", ".fixedDepositDetails-editbtn", function () {
    
-       $(".validation-error").remove();
+        $(".validation-error").remove();
+
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".investmentDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
 
         // Read all data-* attributes
         var id = $(this).data("id");
@@ -990,6 +1013,14 @@
     $(document).off("click", ".dividend-editbtn").on("click", ".dividend-editbtn", function () {
    
         $(".validation-error").remove();
+
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".investmentDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
         // Get row data from button attributes
         var id = $(this).data("id");
         var category = $(this).data("category");
@@ -1139,7 +1170,13 @@
    
         $(".validation-error").remove();
         // Get row data from button attributes
-       
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".investmentDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
         var id = $(this).data("id");
         var activitycode = $(this).data("activity");
         var activity = $(this).data("activity");
@@ -1269,7 +1306,13 @@
 
         $(".validation-error").remove();
         // Get row data from button attributes
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".investmentDetails-deletebtn");
 
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
         var id = $(this).data("id");
         var activitycode = $(this).data("activity");
         var activity = $(this).data("activity");

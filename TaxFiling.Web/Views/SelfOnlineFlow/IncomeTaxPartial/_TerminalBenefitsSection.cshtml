@@ -29,7 +29,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Employer/Company Name</label>
+                                <label class="form-label"><span style="color: red">*</span>Employer/Company Name</label>
                                 <input type="text" class="form-control" id="txtTerminalECName" name="txtTerminalECName">
                             </div>
                             <div class="col-md-6">
@@ -37,7 +37,7 @@
                                 <input type="text" class="form-control" maxlength="9" id="txtTerminalTINNo" name="txtTerminalTINNo">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Terminal Benefits (Rs.)</label>
+                                <label class="form-label"><span style="color: red">*</span>Terminal Benefits (Rs.)</label>
                                 <input type="text" class="form-control numeric-input" id="txtTerminalBenefits" name="txtTerminalBenefits">
                             </div>
 
@@ -83,7 +83,7 @@
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>
-                                                <td>@eploymentIncome.TerminalBenefits</td>
+                                                <td>@String.Format("{0:N2}",@eploymentIncome.TerminalBenefits)</td>
                                                 <td>
 
                                                     <button class="btn btn-primary btn-sm terminalbenefits-editbtn" type="button"

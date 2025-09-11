@@ -43,11 +43,11 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Annual Remuneration (Rs.)</label>
+                                <label class="form-label"><span style="color: red">*</span>Annual Remuneration (Rs.)</label>
                                 <input type="text" class="form-control numeric-input"  id="txtRemuneration" name="txtRemuneration">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Employer/Company Name</label>
+                                <label class="form-label"><span style="color: red">*</span>Employer/Company Name</label>
                                 <input type="text" class="form-control" id="txtEmpDetailsECName" name="txtEmpDetailsECName">
                             </div>
                             <div class="col-md-6">
@@ -128,7 +128,7 @@
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>
-                                                <td>@eploymentIncome.Remuneration</td>
+                                                <td>@String.Format("{0:N2}", eploymentIncome.Remuneration)</td>
                                                 <td>@eploymentIncome.APITPrimaryEmployment</td>
                                                 <td>@eploymentIncome.APITSecondaryEmployment</td>
                                                 <td>
