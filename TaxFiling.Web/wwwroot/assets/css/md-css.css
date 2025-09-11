@@ -6430,3 +6430,34 @@ main.main-content.Deductions .card-body {
     border: 1px solid #d6e3fb !important;
 
 }
+
+
+
+.cal li.nav-item:first-child button {
+    border-bottom: none !important;
+}
+
+.cal li.nav-item:nth-child(2) button {
+    border-bottom: none !important;
+}
+
+.cal ul#myTab li:last-child button {
+    border-bottom: none !important;
+}
+
+div#myTabContent.tab-content.mt-3 {
+    margin-top: -2px !important;
+}
+
+.cal ul#myTab {
+    column-gap: 0.2% !important;
+}
+
+
+main.main-content.Deductions .fw-bold {
+    background: none !important;
+}
+
+.totak-relif {
+    border: solid 2px #b0c7f2 !important;
+}
