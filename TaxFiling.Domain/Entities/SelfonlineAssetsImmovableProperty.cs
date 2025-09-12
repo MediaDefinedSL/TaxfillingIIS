@@ -26,7 +26,7 @@ public class SelfonlineAssetsImmovableProperty
 
     [Column("Situation")]
     public string Situation { get; set; }
-    [Column("UserId")]
+    [Column("DateOfAcquisition")]
     public DateTime? DateOfAcquisition { get; set; }
     [Column("Cost")]
     public decimal? Cost { get; set; }
