@@ -418,9 +418,16 @@
         let profitsInvestment = $("#rdbTProfitsInvestment").is(":checked");
         let excludedAmount = $("#rdbTExcludedAmount").is(":checked");
         let exempt = $("#txtTExempt").val();
+        let exemptName = $("#txtTExemptName").val();
+
+        alert(exemptName);
 
         let isValid = true;
         $(".validation-error").remove();
+        if (!exemptName.trim()) {
+            $("#txtTExemptName").after('<div class="text-danger validation-error">Exempt/Excluded Income Name is required.</div>');
+            isValid = false;
+        }
 
         if (!exempt.trim()) {
             $("#txtTExempt").after('<div class="text-danger validation-error">Exempt/Excluded Income is required.</div>');
@@ -438,7 +445,8 @@
             Category: "Exempt",
             IsExemptAmountA: profitsInvestment,
             IsExcludedAmountB: excludedAmount,
-            ExemptExcludedIncome: exempt
+            ExemptExcludedIncome: exempt,
+            ExemptExcludedIncomeName: exemptName
         };
 
         var url = selfOnlineInvestmentPartnerId

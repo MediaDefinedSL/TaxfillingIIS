@@ -44,6 +44,12 @@
                             </div>
 
                             <div class="col-md-6">
+                                <label class="form-label"><span style="color: red">*</span>Exempt / Excluded Investment Income Name</label>
+                                <input type="text" class="form-control" id="txtTExemptName" name="txtTExemptName"
+                                       value="@exemptRecord?.ExemptExcludedIncomeName">
+                            </div>
+
+                            <div class="col-md-6">
                                 <label class="form-label"><span style="color: red">*</span>Exempt / Excluded Investment Income</label>
                                 <input type="text" class="form-control numeric-input" maxlength="9" id="txtTExempt" name="txtTExempt"
                                        value="@exemptRecord?.ExemptExcludedIncome">
