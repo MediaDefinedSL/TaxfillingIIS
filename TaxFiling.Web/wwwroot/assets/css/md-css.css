@@ -6863,10 +6863,13 @@ input[data-offlabel="සිංහල"] {
 
 .foreing input {
     width: 100%;
-    border: none;
-    text-align: right;
-    font-size: 14px;
-    background: #fefefe;
+        padding: 8px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        font: inherit;
+        color: #000;
+        font-size: 16px !important;
 }
 
 .foreing input:focus {
@@ -6900,6 +6903,54 @@ input[data-offlabel="සිංහල"] {
 
 .foreing .btn-reset:hover {
     background: #ffcccc;
+}
+
+.foreing table {
+    border: none !important;
+    min-width: auto;
+    box-shadow: none !important;
+}
+
+.foreing .card {
+    padding: 0px;
+}
+
+.foreing table td {
+    border: none !important;
+    font-size: 14px;
+    text-align: left;
+}
+
+.foreing table th {
+    border: none !important;
+    background: #f8fafc;
+    text-align: left;
+    color: #00276c !important;
+    font-weight: 600;
+}
+
+
+.foreing .highlight {
+    background: #ffffff;
+}
+
+.foreing button.btn-reset {
+    background: linear-gradient(180deg, #2e6ff2, #1d52c8);
+    background: #1d52c8 !important;
+    color: #fff !important;
+}
+
+.foreing .controls {
+    text-align: center !important;
+    display: block;
+}
+
+p.muted.text-changes-cal {
+    text-align: left !important;
+}
+
+button.btn.btn-secondary.dropdown-toggle {
+    background-size: cover;
 }
 
 /*END foreing changes*/
