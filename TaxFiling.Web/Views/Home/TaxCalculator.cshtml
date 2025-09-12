@@ -242,18 +242,21 @@ Dividend income – subject to final tax at 15%.		</span>
 
 
 
-<div class="alert alert-warning cal-wa" role="alert"> This tool only gives a rough estimate. Your final tax liability may differ based on credits, deductions, and reliefs available under the Inland Revenue Act, No. 24 of 2017 (as amended).
+<div class="alert alert-warning cal-wa" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> Important: This tool only gives a rough estimate. Your final tax liability may differ based on credits, deductions, and reliefs available under the Inland Revenue Act, No. 24 of 2017 (as amended).
 </div>
 
 
                     <!-- ================= 1) INCOME SOURCES ================= -->
                     <table class="grid" id="tblIncome">
-                        <thead><tr><th>Sources of Income</th><th class="num">Amount (LKR)</th></tr></thead>
+                        <thead><tr><th>Sources of Income</th><th class="num center">Amount (LKR)</th></tr></thead>
                         <tbody>
                             <tr>
                                 <td class="lbl">Employment Income – <span class="muted">Local (APIT deducted)</span></td>
-                                <td class="num month-cal"><input id="emp_apit_annual" type="text" inputmode="decimal" value="0">
-                                <input id="annual-money" type="text" inputmode="decimal" value="0">
+                                <td class="num month-cal">
+                                <div class="monthly-div"><span style="">Monthly</span>
+                                    <input id="emp_apit_annual" type="text" inputmode="decimal" value="0"></div>
+                                <div class="annual-div">   <span style="">Annual</span>
+                                <input id="annual-money" class="none-edit" type="text" inputmode="decimal" value="0"></div>
                                 </td>
                             </tr>
 
@@ -278,30 +281,36 @@ Dividend income – subject to final tax at 15%.		</span>
 
                             <tr>
                                 <td class="lbl">Business / Professional Income – <span class="muted">Annual profit</span></td>
-                                <td class="num"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0">
+                                <input id="profit_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
                             </tr>
 
                             <tr>
-                                <td class="lbl">Investment Income – Interest(WHT dedcted)</td>
-                                <td class="num"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0"></td>
+                                <td class="lbl">Investment Income – Interest<span class="muted"> (WHT dedcted) </span></td>
+                                <td class="num inline"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0">
+                                <input id="gross_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Other Investment Income<span class="muted"> (WHT not dedcted)</span></td>
-                                <td class="num"><input id="invest_other_annual" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="invest_other_annual" type="text" inputmode="decimal" value="0">
+                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Investment Income – Rent (gross)</td>
-                                <td class="num"><input id="rent_gross_annual" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="rent_gross_annual" type="text" inputmode="decimal" value="0">
+                                <input id="gross_annuall" class="none-edit" type="text" inputmode="decimal" value="0"></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Investment Income – Dividend <span class="muted">(Final Tax 15%)</span></td>
-                                <td class="num"><input id="dividend_gross_annual" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="dividend_gross_annual" type="text" inputmode="decimal" value="0">
+                                <input id="dividend_annuall" class="none-edit" type="text" inputmode="decimal" value="0"></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Other Income</td>
-                                <td class="num"><input id="other_income_annual" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="other_income_annual" type="text" inputmode="decimal" value="0">
+                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
                             </tr>
 
                             <tr class="band text-boldd">
@@ -872,7 +881,7 @@ Dividend income – subject to final tax at 15%.		</span>
 
 
 
-
+ <!-- ===== *12 ===== -->
 <script>
 
 const empInput = document.getElementById("emp_apit_annual");
@@ -889,4 +898,49 @@ const empInput = document.getElementById("emp_apit_annual");
   // Run once on page load
   updateAnnual();
 
+</script>
+
+ <!-- ===== Income Tax Calculator month Income*12 ===== -->
+
+ <script>
+function multiplyBy12(inputId, outputId) {
+  const input = document.getElementById(inputId);
+  const output = document.getElementById(outputId);
+
+  function update() {
+    let val = parseFloat(input.value) || 0;
+    output.value = (val * 12).toFixed(2);
+  }
+
+  input.addEventListener("input", update);
+  update(); // run once on load
+}
+
+// Call for each pair
+multiplyBy12("biz_profit_annual", "profit_annual");
+multiplyBy12("interest_gross_annual", "gross_annual");
+multiplyBy12("invest_other_annual", "other_annual");
+multiplyBy12("rent_gross_annual", "gross_annuall");
+multiplyBy12("dividend_gross_annual", "dividend_annuall");
+multiplyBy12("other_income_annual", "other_income_total");
+</script>
+
+
+ <!-- ===== Income Tax Calculator updateAnnualLKR *12 ===== -->
+
+<script>
+function updateAnnualLKR() {
+  const foreignValue = parseFloat(document.getElementById("foreign_lkr_annual").innerText) || 0;
+  document.getElementById("lkr_annual").innerText = (foreignValue * 12).toFixed(2);
+}
+
+// Call once on load
+updateAnnualLKR();
+
+// Example: If you want to update dynamically, call this again after changing foreign_lkr_annual
+// Example: Simulate update after 3 seconds
+setTimeout(() => {
+  document.getElementById("foreign_lkr_annual").innerText = "25000.50";
+  updateAnnualLKR();
+}, 3000);
 </script>
