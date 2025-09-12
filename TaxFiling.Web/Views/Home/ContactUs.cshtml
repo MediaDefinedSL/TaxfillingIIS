@@ -720,7 +720,7 @@
 
 $(document).ready(function () {
     $(document).on("show.bs.collapse", ".collapse", function () {
-        $(".collapse.show").not(this).collapse("hide");
+        $(".collapse.show").not(this).not("#Collapse055").collapse("hide");
     });
 });
 
