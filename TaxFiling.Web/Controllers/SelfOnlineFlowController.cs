@@ -1466,10 +1466,23 @@ public class SelfOnlineFlowController : Controller
             }
         }
 
+        List<SelfOnlineInvestmentIncomeDetailViewModel> investmentIncomeList = [];
+        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentincomedtail_list", queryUserParams);
+        var response3 = await _httpClient.GetAsync(investmentIncomeListUrl, ctx);
+        if (response3 != null && response3.IsSuccessStatusCode)
+        {
+            var responseContent = await response3.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                investmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineInvestmentIncomeDetailViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
         var model = new SelfOnlineAssets
         {
             selfonlineAssetsImmovablePropertyViewModel = immovablePropertyList,
-            selfonlineAssetsMotorVehicleViewModel = motorVehicleList
+            selfonlineAssetsMotorVehicleViewModel = motorVehicleList,
+            selfOnlineInvestmentIncomeDetailViewModel = investmentIncomeList
         };
 
         return PartialView("AssetsLiabilities/_Assets", model);

@@ -77,13 +77,13 @@
                                 <div class="row mb-2">
                                     <div class="col-3">Cost (Rs.)</div>
                                     <div class="col-5">
-                                        <input type="text" step="0.01" id="txtImmPropertiesCost" class="form-control" />
+                                        <input type="text" id="txtImmPropertiesCost" class="form-control numeric-input text-end" />
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-3">Market value (Rs.)</div>
                                     <div class="col-5">
-                                        <input type="text" step="0.01" id="txtImmPropertiesMarketValue" class="form-control" />
+                                        <input type="text" id="txtImmPropertiesMarketValue" class="form-control numeric-input text-end" />
                                     </div>
                                 </div>
 
@@ -193,7 +193,7 @@
                                 <div class="row mb-2">
                                     <div class="col-3">Cost/Market value (Rs.)</div>
                                     <div class="col-5">
-                                        <input type="number" step="0.01" id="txtMotorVehicleValue" name="txtMotorVehicleValue" class="form-control" />
+                                        <input type="text" id="txtMotorVehicleValue" name="txtMotorVehicleValue" class="form-control numeric-input text-end" />
                                     </div>
                                 </div>
 
@@ -263,6 +263,106 @@
                                     <i class="bi bi-bank"></i> &nbsp; Bank Balances Including Term Deposits as at 31.03.2025
                                 </h4>
                                 <hr>
+
+                                <h4 class="mb-3">
+                                    <i class="bi bi-piggy-bank"></i> Interest Income from Savings Accounts
+                                </h4>
+
+                                <div class="table-responsive" id="SavingsGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type Of Investment</th>
+                                                <th>Bank</th>
+                                                <th>Branch</th>
+                                                <th>Account No</th>
+                                                <th>Amount Invested</th>
+                                                <th>Interest Income</th>
+                                                <th>WHT Amount</th>
+                                               
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "Savings"))
+                                            {
+                                                var index = 0;
+                                                foreach (var savingsIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "Savings"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@savingsIncome.TypeOfInvestment</td>
+                                                        <td>@savingsIncome.BankName</td>
+                                                        <td>@savingsIncome.BankBranch</td>
+                                                        <td>@savingsIncome.AccountNo</td>
+                                                        <td>@String.Format("{0:N2}", @savingsIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}", @savingsIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}", @savingsIncome.WHTDeducted)</td>
+                                                       
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No Savings Income found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <h4 class="mb-3">
+                                    <i class="bi bi-cash-stack"></i> Interest Income from Fixed Deposit Accounts
+                                </h4>
+
+                                <div class="table-responsive" id="FDGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type Of Investment</th>
+                                                <th>Bank</th>
+                                                <th>Branch</th>
+                                                <th>Account No</th>
+                                                <th>Amount Invested</th>
+                                                <th>Interest Income</th>
+                                                <th>WHT Amount</th>
+                                              
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "FixedDeposit"))
+                                            {
+                                                var index = 0;
+                                                foreach (var fdIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "FixedDeposit"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@fdIncome.TypeOfInvestment</td>
+                                                        <td>@fdIncome.BankName</td>
+                                                        <td>@fdIncome.BankBranch</td>
+                                                        <td>@fdIncome.AccountNo</td>
+                                                        <td>@String.Format("{0:N2}", @fdIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}", @fdIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}", @fdIncome.WHTDeducted)</td>
+                                                       
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No Fixed Deposit Income found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                             @*   Shares/stocks/securities *@
