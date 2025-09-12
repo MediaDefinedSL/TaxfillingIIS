@@ -6977,3 +6977,8 @@ span.total-monti-over {
 td#kpi_assessable {
     text-align: left;
 }
+
+
+.form-outline.mb-4.col-sm-4 {
+    vertical-align: top;
+}
