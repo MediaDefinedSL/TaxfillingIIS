@@ -47,7 +47,7 @@
 
                             <div>
                                 <label for="monthlyIncome">Montly Gross Employment Income </label>
-                                <input id="monthlyIncome" class="input" inputmode="numeric" placeholder="e.g., 25000*12" />
+                                <input id="monthlyIncome" class="input" inputmode="decimal" placeholder="e.g., 25000*12" />
                                  <!-- <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div> -->
                             </div>
 
@@ -192,7 +192,7 @@ Your work is used outside Sri Lanka.
                <table>
   <tbody><tr>
     <td class="left">Monthly Salary Paid in Foreign Currency</td>
-    <td><input type="number" id="monthly_foreign" value="3000"></td>
+    <td><input type="number" inputmode="decimal"  id="monthly_foreign" value="3000"></td>
     <td class="left" style="
     width: 86px;
 ">Ex Rate</td>
@@ -202,7 +202,7 @@ Your work is used outside Sri Lanka.
 
   <tr>
     <td class="left">Personal Relief</td>
-    <td><input type="number" id="personal_relief" value="150000"></td>
+    <td><input type="number" inputmode="decimal"  id="personal_relief" value="150000"></td>
     <td>0%</td>
     <td colspan="2"><span id="relief_deduction">150,000</span></td>
   </tr>
@@ -328,12 +328,12 @@ Dividend income – subject to final tax at 15%.		</span>
                             </tr>
 
                             <tr>
-                                <td class="lbl">Investment Income – Interest<span class="muted"> (WHT dedcted) </span></td>
+                                <td class="lbl">Investment Income – Interest<span class="muted"> (WHT deducted) </span></td>
                                 <td class="num inline"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0.00">
                                 <input id="gross_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
                             <tr>
-                                <td class="lbl">Other Investment Income<span class="muted"> (WHT not dedcted)</span></td>
+                                <td class="lbl">Other Investment Income<span class="muted"> (WHT not deducted)</span></td>
                                 <td class="num inline"><input id="invest_other_annual" type="text" inputmode="decimal" value="0.00">
                                 <input id="other_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
@@ -376,7 +376,7 @@ Dividend income – subject to final tax at 15%.		</span>
                                 <td class="num"><span id="relief_rent_auto" class="mono">0.00</span></td>
                             </tr>
                             <tr>
-                                <td class="lbl">Relief for Solar Panel - <span class="muted">(Deductible up to Rs. 600,000 or Actual cost)</span></td>
+                                <td class="lbl">Relief for Solar Panel - <span class="muted">(Deductable up to Rs. 600,000 or Actual cost)</span></td>
                                 <td class="num"><input id="relief_solar" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
                             <tr>
