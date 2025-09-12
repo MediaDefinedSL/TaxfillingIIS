@@ -62,9 +62,14 @@
                                 <label class="form-label"> APIT Paid on Secondary Employment</label>
                                 <input type="text" class="form-control numeric-input"  id="txtAPITSecondaryEmployment" name="txtAPITSecondaryEmployment">
                             </div>
-                            <div class="col-md-6" id="divAPITSecondaryEmployment">
+                            <div class="col-md-6" id="divBenefitExcludedforTax">
                                 <label class="form-label"> Value of Benefit Excluded for Tax</label>
                                 <input type="text" class="form-control numeric-input" id="txtBenefitExcludedForTax" name="txtBenefitExcludedForTax">
+                            </div>
+                            <div class="col-md-6" id="divBenefitUpload">
+                                <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                <input type="file" class="form-control" id="fileEmploymentIncomeUpload" name="fileEmploymentIncomeUpload"
+                                       accept=".jpg,.jpeg,.png,.gif">
                             </div>
                         </div>
                         <br />
@@ -144,7 +149,8 @@
                                                             data-tin="@eploymentIncome.TINOfEmployer"
                                                             data-remuneration="@eploymentIncome.Remuneration"
                                                             data-primary="@eploymentIncome.APITPrimaryEmployment"
-                                                            data-secondary="@eploymentIncome.APITSecondaryEmployment">
+                                                            data-secondary="@eploymentIncome.APITSecondaryEmployment"
+                                                            data-benefitExcludedForTax="@eploymentIncome.BenefitExcludedForTax">
                                                         Edit
                                                     </button>
                                                     <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="EmploymentDetails">Delete</button>
