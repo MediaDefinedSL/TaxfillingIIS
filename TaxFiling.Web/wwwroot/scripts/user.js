@@ -186,6 +186,7 @@ $(function () {
         formData.append("TinNo", tinNO);
         formData.append("IsTin", 1);
         formData.append("BeforeProfileImagePath", beforeProfileImagePath);
+        formData.append("IRDPIN", irdPIN);
         if (imageFile) {
             formData.append("ProfileImage", imageFile);
         }
