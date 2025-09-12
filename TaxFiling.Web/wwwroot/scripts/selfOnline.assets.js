@@ -1,4 +1,51 @@
 ﻿$(function () {
+    document.querySelectorAll(".numeric-input").forEach(function (input) {
+        input.addEventListener("input", function (e) {
+            // Remove everything except digits and decimal point
+            let value = e.target.value.replace(/[^0-9.]/g, "");
+
+            // Only allow one decimal point
+            let parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts.slice(1).join("");
+            }
+
+            // Format integer part with commas
+            if (parts.length > 1) {
+                // Has decimals
+                let integerPart = parts[0];
+                let decimalPart = parts[1].substring(0, 2); // limit to 2 decimals
+                integerPart = integerPart ? parseInt(integerPart, 10).toLocaleString("en-US") : "0";
+                value = integerPart + "." + decimalPart;
+            } else {
+                // No decimals
+                if (value) {
+                    value = parseInt(value, 10).toLocaleString("en-US");
+                }
+            }
+
+            e.target.value = value;
+        });
+
+        input.addEventListener("blur", function (e) {
+            let value = e.target.value.replace(/,/g, "");
+            if (value) {
+                let num = parseFloat(value);
+                e.target.value = num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        });
+
+        // Prevent entering multiple dots directly
+        input.addEventListener("keypress", function (e) {
+            if (!/[0-9.]/.test(e.key)) {
+                e.preventDefault();
+            }
+            // Prevent typing a second dot
+            if (e.key === "." && e.target.value.includes(".")) {
+                e.preventDefault();
+            }
+        });
+    });
 
 
     //------------------ Immovable Properties 
