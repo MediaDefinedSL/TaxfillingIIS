@@ -5575,7 +5575,7 @@ td:last-child {
 }
 
 .foreing table#breakdown {
-    display: block !important;
+
     width: 100% !important;
 }
 
@@ -6790,4 +6790,45 @@ div#declarecapital {
 a#fileCountLink {
     color: #212529 !important;
     pointer-events: none !important;
+}
+
+.Domestic .tile .big {
+    width: 120px;
+}
+
+input[data-offlabel="සිංහල"] {
+    display: none;
+}
+
+
+.foreing table#breakdown td,
+.foreing table#breakdown th {
+    text-align: left;
+}
+
+.resett {
+    display: block;
+    width: 100% !important;
+    position: relative;
+    margin-top: 74px;
+    margin-left: 18%;
+}
+
+.grid.g-3.foring-last-cal div {
+    display: inline-flex;
+    width: 321px;
+}
+
+.Effective-rate {
+    float: right;
+    right: 0px;
+    position: absolute;
+}
+
+.grid.g-3.foring-last-cal {
+    margin-top: 13px;
+}
+
+#contact div#myTabContent.tab-content.mt-3 {
+    margin-top: 0px !important;
 }
