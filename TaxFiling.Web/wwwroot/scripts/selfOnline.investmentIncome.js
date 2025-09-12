@@ -378,7 +378,7 @@
             success: function (response) {
                 $btn.prop("disabled", false);
 
-                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentId ? "Updated successfully." : "Saved successfully", "success");
                 
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#SavingsGrid').html($(html).find('#SavingsGrid').html());
@@ -817,7 +817,7 @@
                 $btn.prop("disabled", false);
 
               //  notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentId ? "Updated successfully." : "Saved successfully", "success");
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#FDGrid').html($(html).find('#FDGrid').html());
                 });
@@ -977,7 +977,7 @@
                 $btn.prop("disabled", false);
 
               //  notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentId ? "Updated successfully." : "Saved successfully", "success");
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#DividentGrid').html($(html).find('#DividentGrid').html());
                 });
@@ -1135,7 +1135,7 @@
                 $btn.prop("disabled", false);
 
                // notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentId ? "Updated successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#RentGrid').html($(html).find('#RentGrid').html());
@@ -1276,7 +1276,7 @@
                 $btn.prop("disabled", false);
 
                 // notifySuccess("", selfOnlineInvestmentId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentId ? "Updated successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#OtherGrid').html($(html).find('#OtherGrid').html());

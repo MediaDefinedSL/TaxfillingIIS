@@ -79,11 +79,11 @@
         // === Validation ===
 
         if (!totalInvestment) {
-            $("#txtRProperty").after('<div class="text-danger validation-error">Total Investment Income is required.</div>');
+            $("#txtTotalInvestment").after('<div class="text-danger validation-error">Total Investment Income is required.</div>');
             isValid = false;
         }
         if (!partnershipName.trim()) {
-            $("#partnershipName").after('<div class="text-danger validation-error">Partnership Name is required.</div>');
+            $("#txtPartnershipName").after('<div class="text-danger validation-error">Partnership Name is required.</div>');
             isValid = false;
         }
 
@@ -119,7 +119,7 @@
                 $btn.prop("disabled", false);
 
                // notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentPartnerId ? "Updated successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_PartnerInvestment', function (html) {
                     $('#partnerInvestmentsGrid').html($(html).find('#partnerInvestmentsGrid').html());
@@ -320,7 +320,7 @@
                 $btn.prop("disabled", false);
 
                 //notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentPartnerId ? "Updated successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
                     $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
@@ -453,7 +453,7 @@
                 $btn.prop("disabled", false);
 
                // notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentPartnerId ? "Updated successfully." : "Saved successfully", "success");
                 $.get('/SelfOnlineFlow/LoadInvestment_ExemptAmounts', function (html) {
                     // refresh grid here if needed
                 });

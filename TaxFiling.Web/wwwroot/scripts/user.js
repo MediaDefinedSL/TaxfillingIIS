@@ -120,9 +120,12 @@ $(function () {
                             showMessage(response.responseResult.message, "success");
 
                             var userid = response.responseResult.resultGuid;
+                            sendRegistrationEmail(email, userid);
+                            
                             var name = response.responseResult.name;
                             var tinNo = response.responseResult.data.tinNo;
                             var nicno = response.responseResult.data.nicno;
+                            
                             console.log(response.responseResult.data);
                             console.log(userid);
                             $('#UserId').val(userid);
@@ -518,6 +521,35 @@ function validateTIN(tin) {
         return true; // valid TIN
     }
     return false; // invalid TIN
+}
+
+function sendRegistrationEmail(userEmail, userId) {
+    $.ajax({
+        url: "https://mail.taxfiling.lk/send-email",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            email: userEmail,
+            userId: userId,
+            emailType: "1"
+            // other required fields
+        }),
+        // If API uses Authorization, e.g.:
+        headers: {
+            // "Authorization": "Bearer SOME_TOKEN"
+        },
+        success: function (resp) {
+            console.log("API email send success:", resp);
+            if (resp.success) {
+                // maybe show a “check your email” message
+            } else {
+                console.error("Email API responded with error:", resp.message);
+            }
+        },
+        error: function (xhr, status, err) {
+            console.error("Error sending email API request:", status, err);
+        }
+    });
 }
 
 

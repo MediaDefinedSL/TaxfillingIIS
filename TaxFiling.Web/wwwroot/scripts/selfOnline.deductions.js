@@ -85,7 +85,7 @@
         let selfOnlineTotalId = $("#hiddenSelfOnlineTotalId").val();
         let reliefSolarPanel = $("#ReliefSolarPanel").val();
         let qualifyingPayments = $("#QualifyingPayments").val();
-        alert(reliefSolarPanel);
+        
 
         var selfOnlineTotal = {
             SelfOnlineTotalId: selfOnlineTotalId,
