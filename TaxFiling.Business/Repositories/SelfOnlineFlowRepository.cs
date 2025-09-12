@@ -504,7 +504,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             Residency = b.Residency,
                                             TerminalBenefits = b.TerminalBenefits,
                                             ExemptAmounts = b.ExemptAmounts,
-                                            Total = b.Total
+                                            Total = b.Total,
+                                            BenefitExcludedForTax = b.BenefitExcludedForTax
 
                                         })
                                         .AsNoTracking()
@@ -540,7 +541,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @APITPrimaryEmployment,
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
-                @Amount
+                @Amount,
+                @BenefitExcludedForTax
             )",
             new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
             new MySqlParameter("@UserId", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -558,7 +560,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             new MySqlParameter("@APITPrimaryEmployment", selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
-            new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value)
+            new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
+            new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value)
         );
 
 
@@ -717,7 +720,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                         APITSecondaryEmployment = e.APITSecondaryEmployment,
                         TerminalBenefits = e.TerminalBenefits,
                         Amount = e.Amount,
-                        Total = t.TaxTotal
+                        Total = t.TaxTotal,
+                        BenefitExcludedForTax = e.BenefitExcludedForTax
                     }
                 ).ToListAsync(ctx);
 
@@ -885,7 +889,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @APITPrimaryEmployment,
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
-                @Amount
+                @Amount,
+                @BenefitExcludedForTax
             )",
           new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
           new MySqlParameter("@UserId", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -903,7 +908,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
           new MySqlParameter("@APITPrimaryEmployment", selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? (object)DBNull.Value),
           new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
           new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
-          new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value)
+          new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
+          new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value)
       );
 
 

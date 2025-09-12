@@ -175,6 +175,7 @@ $(function () {
         let tinNO = $("#TinNo").val();
         let imageFile = $("#customFile2")[0]?.files[0];
         let beforeProfileImagePath = $("#BeforeProfileImagePath").val();
+        let irdPIN = $("IRDPIN").val();
 
         formData.append("UserId", userId);
         formData.append("FirstName", firstName);
@@ -203,7 +204,8 @@ $(function () {
         if (!nicNo) return showMessage("NIC No is required","error");
         if (!tinNO) return showMessage("TIN No is required","error");
         if (!validateNIC(nicNo)) return showMessage("Invalid NIC number.","error");
-        if (!validateTIN(tinNO)) return showMessage("Invalid TIN number","error");
+        if (!validateTIN(tinNO)) return showMessage("Invalid TIN number", "error");
+        if (!irdPIN) return showMessage("IRD PIN is required", "error");
 
         // === Passed validation, now disable button ===
         $btn.prop("disabled", true);
