@@ -531,4 +531,19 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpGet("assetsmotorvehicle_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetsMotorVehicle(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetsMotorVehicle(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
 }

@@ -159,7 +159,7 @@
                                 <div class="row mb-2">
                                     <div class="col-3">Type</div>
                                     <div class="col-5">
-                                        <select class="form-select" id="ddlImmovablePropertiesType" name="ddlImmovablePropertiesType">
+                                        <select class="form-select" id="ddlMType" name="ddlMType">
                                             <option value="">-- Select Type --</option>
                                             <option value="Local">Local</option>
                                             <option value="Foreign">Foreign</option>
@@ -202,21 +202,21 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
-                                            <button type="button" class="btn btn-primary mt-3" id="btnDeductionsSubmit">Submit</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnMotorVehicleSubmit">Submit</button>
                                         </div>
                                     </div>
                                 </div>
 
                                 <hr class="my-4">
 
-                                <div class="table-responsive" id="ImmovablePropertiesGrid">
+                                <div class="table-responsive" id="MotorVehicleGrid">
                                     <table class="table table-bordered table-striped mt-2">
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
                                                 <th>Type</th>
                                                 <th>S/N</th>
-                                                <th>Registration No.</th>
+                                                <th>Registration No</th>
                                                 <th>Date Acquisition</th>
                                                 <th>Cost/Market Value</th>
                                                 <th>Action</th>
@@ -224,6 +224,31 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if (Model.selfonlineAssetsMotorVehicleViewModel != null && Model.selfonlineAssetsMotorVehicleViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var motorVehicle in Model.selfonlineAssetsMotorVehicleViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@motorVehicle.Type</td>
+                                                        <td>@motorVehicle.SerialNumber</td>
+                                                        <td>@motorVehicle.RegistrationNo</td>  
+                                                        <td>@motorVehicle.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@motorVehicle.CostMarketValue?.ToString("N2")</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm edit-btn" data-id="@motorVehicle.SelfonlineMotorVehicleID">Edit</button>
+                                                            <button class="btn btn-danger btn-sm delete-btn" data-id="@motorVehicle.SelfonlineMotorVehicleID">Delete</button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>

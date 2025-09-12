@@ -12,7 +12,7 @@ public class SelfonlineAssetsMotorVehicle
     public int SelfonlineMotorVehicleID { get; set; }
 
     [Column("UserId")]
-    public int UserId { get; set; }  
+    public string UserId { get; set; }  
 
     [Column("Year")]
     public int Year { get; set; }

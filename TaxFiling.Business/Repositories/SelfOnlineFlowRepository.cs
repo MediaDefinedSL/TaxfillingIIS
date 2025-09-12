@@ -1541,9 +1541,6 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             })
             .ToListAsync(ctx);
 
-
-
-
         }
         catch (Exception e)
         {
@@ -1558,8 +1555,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         bool isSuccess = false;
         try
         {
+
             await _context.Database.ExecuteSqlRawAsync(
-                  @"CALL ADDEditSelfOnlineAdditionalDetails  (
+                  @"CALL ADDEdit_SelfOnlineMotorVehicle   (
                                         @loguser,
                                         @UserId,
                                         @Year,
@@ -1568,6 +1566,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                         @Type,
                                         @SerialNumber,
                                         @Description,
+                                        @RegistrationNo,
                                         @DateOfAcquisition,
                                         @CostMarketValue
                                         
@@ -1595,6 +1594,39 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
         return isSuccess;
     }
+
+    public async Task<List<SelfonlineAssetsMotorVehicleDto>> GetSelfOnlineAssetsMotorVehicle(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineAssetsMotorVehicleDto> mtorVehicleList = [];
+        try
+        {
+
+            mtorVehicleList = await _context.SelfonlineAssetsMotorVehicle
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineAssetsMotorVehicleDto
+            {
+                SelfonlineMotorVehicleID = t.SelfonlineMotorVehicleID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                RegistrationNo = t.RegistrationNo,
+                DateOfAcquisition = t.DateOfAcquisition,
+                CostMarketValue = t.CostMarketValue
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return mtorVehicleList;
+    }
+
 }
 
 
