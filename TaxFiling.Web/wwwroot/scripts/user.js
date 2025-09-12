@@ -175,7 +175,7 @@ $(function () {
         let tinNO = $("#TinNo").val();
         let imageFile = $("#customFile2")[0]?.files[0];
         let beforeProfileImagePath = $("#BeforeProfileImagePath").val();
-        let irdPIN = $("IRDPIN").val();
+        let irdPIN = $("#IRDPIN").val();
 
         formData.append("UserId", userId);
         formData.append("FirstName", firstName);
