@@ -54,6 +54,13 @@ $(function () {
             $btn.prop("disabled", false);
             isValid = false;
         }
+        else {
+            if (!emailPattern.test(email)) {
+                $("#Email").after('<div class="text-danger validation-error">Invalid Email!</div>');
+                $btn.prop("disabled", false);
+                isValid = false;
+            }
+        }
         if (!password.trim()) {
             $("#Password").after('<div class="text-danger validation-error">Password is required.</div>');
             $btn.prop("disabled", false);
@@ -67,7 +74,7 @@ $(function () {
             }
             else {
                 if (password !== confirmPassword) {
-                    $("#Password").after('<div class="text-danger validation-error">Passwords do not match.</div>');
+                    $("#Password").after('<div class="text-danger validation-error">Password and Confirm password not match</div>');
                     $btn.prop("disabled", false);
                     isValid = false;
                 }
@@ -85,6 +92,8 @@ $(function () {
                 isValid = false;
             }
         }
+
+        
  
         if (!confirmPassword) {
             $("#ConfirmPassword").after('<div class="text-danger validation-error">Confirm Password is required.</div>');
@@ -147,8 +156,9 @@ $(function () {
         e.preventDefault();
 
         var $btn = $(this);
-       // $btn.setButtonDisabled(true);
-        $btn.prop("disabled", true);
+
+        // If already disabled, just return (prevents double click spam)
+        if ($btn.prop("disabled")) return;
 
         let formData = new FormData();
 
@@ -160,7 +170,6 @@ $(function () {
         let password = $("#Password").val();
         let nicNo = $("#NICNO").val();
         let tinNO = $("#TinNo").val();
-        //let confirmPassword = $("#ConfirmPassword").val();
         let imageFile = $("#customFile2")[0]?.files[0];
         let beforeProfileImagePath = $("#BeforeProfileImagePath").val();
 
@@ -179,102 +188,45 @@ $(function () {
 
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var phonePattern = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
-        
-        console.log(formData);
-        if (firstName.length == 0) {
-            notifyError(false, "First Name is required");
-            $btn.prop("disabled", false);
-          //  $btn.setButtonDisabled(false);
-        }
-        else if (lastName.length == 0) {
-            notifyError(false, "Last Name is required");
-            $btn.prop("disabled", false);
-           // $btn.setButtonDisabled(false);
-        }
-        else if (email.length == 0) {
-            notifyError(false, "Email is required");
-            $btn.prop("disabled", false);
-           // $btn.setButtonDisabled(false);
-        }
-        else if (!emailPattern.test(email)) {
-            notifyError(false, "Ivalid email");
-            $btn.prop("disabled", false);
-          //  $btn.setButtonDisabled(false);
-        }
-        else if (phone.length == 0) {
-            notifyError(false, "Phone is required");
-            $btn.prop("disabled", false);
-           // $btn.setButtonDisabled(false);
-        }
-        else if (!phonePattern.test(phone)) {
-            notifyError(false, "Invalid phone number!");
-            $btn.prop("disabled", false);
-            //$btn.setButtonDisabled(false);
-        }
-        else if (password.length == 0) {
-            notifyError(false, "Password is required");
-            $btn.prop("disabled", false);
-           // $btn.setButtonDisabled(false);
-        }
-        else if (nicNo.length == 0) {
-            notifyError(false, "NIC No  is required");
-            $btn.prop("disabled", false);
-           // $btn.setButtonDisabled(false);
-        }
-        else if (tinNO.length == 0) {
-            notifyError(false, "Tin No  is required");
-            $btn.prop("disabled", false);
-           // $btn.setButtonDisabled(false);
-        }
-        else if (!validateNIC(nicNo)) {
-            notifyError(false, "Invalid NIC number.");
-            $btn.prop("disabled", false);
-           // $btn.setButtonDisabled(false);
-        }
-        else if (!validateTIN(tinNO)) {
-            notifyError(false, "Invalid TIN number");
-            $btn.prop("disabled", false);
-            // $btn.setButtonDisabled(false);
-        }
-        else {
 
-            $.ajax({
-                url: `${appUrl}/user/userupdate`,
-                type: "PUT",
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (response) {
-                    console.log(response);
-                    if (response.responseResult != null) {
-                        if (response.responseResult.success) {
-                           
-                            showMessage(response.responseResult.message, "success");
+        // === Validation (return immediately, do NOT disable/re-enable) ===
+        if (!firstName) return showMessage("First Name is required","error");
+        if (!lastName) return showMessage("Last Name is required","error");
+        if (!email) return showMessage("Email is required","error");
+        if (!emailPattern.test(email)) return showMessage("Invalid email","error");
+        if (!phone) return showMessage("Phone is required","error");
+        if (!phonePattern.test(phone)) return showMessage("Invalid phone number!","error");
+        if (!password) return showMessage("Password is required","error");
+        if (!nicNo) return showMessage("NIC No is required","error");
+        if (!tinNO) return showMessage("TIN No is required","error");
+        if (!validateNIC(nicNo)) return showMessage("Invalid NIC number.","error");
+        if (!validateTIN(tinNO)) return showMessage("Invalid TIN number","error");
 
-                            var imagePath = appUrl + response.user.profileImagePath;
-                          //  $("#btnprofileimage").css("background-image", "url('" + imagePath + "')");
-                            window.location.href = `${appUrl}/home/FileMyTaxes`;
-                           
+        // === Passed validation, now disable button ===
+        $btn.prop("disabled", true);
 
-                        } else {
-                          
-                            showMessage(response.responseResult.message, "error");
-                        }
-                    }
-                    else {
-                        notifyError(false, 'An error occurred while updating the User.');
-                    }
-
-                    $btn.prop("disabled", false);
-                },
-                error: function (xhr) {
-                    //  $btn.setButtonDisabled(false);
-                    $btn.prop("disabled", false);
-                    notifyError(false, 'An error occurred while updating the User.');
+        $.ajax({
+            url: `${appUrl}/user/userupdate`,
+            type: "PUT",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (response) {
+                if (response.responseResult?.success) {
+                    showMessage(response.responseResult.message, "success");
+                    window.location.href = `${appUrl}/home/FileMyTaxes`;
+                } else {
+                    showMessage(response.responseResult?.message || 'An error occurred.', "error");
                 }
-            });
-        }
-
+            },
+            error: function () {
+                notifyError(false, 'An error occurred while updating the User.');
+            },
+            complete: function () {
+                // Only re-enable if you want the user to try again after error
+                $btn.prop("disabled", false);
+            }
+        });
     });
 
     $(document).on("click", "#btnRegisterUserTinYesStatus", function (e) {
@@ -320,20 +272,24 @@ $(function () {
 
                                     window.location.href = `${appUrl}${signInResponse.returnUrl}`;
                                 } else {
-                                    notifyError(false, "Sign-in failed after TIN status update.");
+                                    //notifyError(false, "Sign-in failed after TIN status update.");
+                                    showMessage("Sign-in failed after TIN status update.","error")
                                 }
                             },
                             error: function () {
-                                notifyError(false, "Error occurred during sign-in.");
+                                //notifyError(false, "Error occurred during sign-in.");
+                                showMessage("Error occurred during sign-in.","error")
                             }
                         });
 
                     } else {
-                        notifyError(false, response.responseResult.message);
+                        //notifyError(false, response.responseResult.message);
+                        showMessage(response.responseResult.message,"error")
                     }
                 }
                 else {
-                    notifyError(false, 'An error occurred while updating the User.');
+                    //notifyError(false, 'An error occurred while updating the User.');
+                    showMessage("An error occurred while updating the User.", "error");
                 }
 
                 //$btn.setButtonDisabled(false);
@@ -342,7 +298,8 @@ $(function () {
             error: function (xhr) {
                 //$btn.setButtonDisabled(false);
                 $btn.prop("disabled", false); // disable button
-                notifyError(false, 'An error occurred while updating the User.');
+                //notifyError(false, 'An error occurred while updating the User.');
+                showMessage("An error occurred while updating the User.","error")
             }
         });
 
@@ -493,7 +450,8 @@ $(function () {
             success: function (response) {
                 if (response.responseResult != null) {
                     if (response.responseResult.success) {
-                        notifySuccess("", response.responseResult.message);
+                        //notifySuccess("", response.responseResult.message);
+                        showMessage(response.responseResult.message, "success");
                         // window.location.href = `${appUrl}/home/notinnumber`;
                         window.location.href = `${appUrl}${response.responseResult.returnUrl}`;
 
