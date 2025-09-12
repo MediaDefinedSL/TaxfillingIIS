@@ -5418,7 +5418,7 @@ span.field-validation-error {
 }
 
 .Domestic .tile {
-    background: #f1f5f9;
+    background: #d9d9d9;
     border: 1px solid var(--border);
     padding: 18px;
     border-radius: 12px;
@@ -6616,4 +6616,17 @@ td.num.inline input {
 
 span#foreign_lkr_annual {
     padding-right: 12px;
+}
+
+
+p.muted.text-changes-cal {
+    font-size: 12px;
+    line-height: 17px !important;
+    display: block;
+    margin-left: 10px !important;
+    margin-bottom: 9px;
+    padding-top: 4px;
+    margin-right: 10px !important;
+    margin-bottom: 8px !important;
+    text-transform: inherit;
 }

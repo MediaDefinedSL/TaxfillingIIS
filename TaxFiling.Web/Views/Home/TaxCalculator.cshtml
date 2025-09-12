@@ -33,13 +33,12 @@
                 <div class="wrap Domestic">
                     <h1 class="h1">APIT / PAYE Salary Tax Estimator <span style="white-space:nowrap">– Effective 01.04.2025</span></h1>
                     <!-- <p class="subtitle">Calculate <strong>PAYE / APIT</strong> on your <strong>Local Salary</strong> (Sri Lanka)</p>-->
-                    <p class="muted" style="text-align:center;max-width:760px;margin:0 auto 24px">
+                    <p class="muted text-changes-cal" style="text-align:center;max-width:760px;margin:0 auto 24px">
                         This calculator gives you an estimate of the Advance Personal Income Tax (APIT/PAYE) on your local salary in Sri Lanka. It is designed to give you a quick idea of the possible tax on your monthly or annual salary.
                     </p>
-                    <br>
-                              <p class="muted" style="text-align:center;max-width:760px;margin:0 auto 24px">
-                         Please note that this is only a guide. Your final tax liability may be different once other employment benefits such as bonuses, allowances, and non-cash benefits are included under Inland Revenue rules.
-                    </p>
+                    
+                      <div class="alert alert-warning cal-wa" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> Important: Please note that this is only a guide. Your final tax liability may be different once other employment benefits such as bonuses, allowances, and non-cash benefits are included under Inland Revenue rules.
+</div>
 
 
                     <div class="card">
@@ -52,19 +51,19 @@
                                  <!-- <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div> -->
                             </div>
 
-                            <div class="grid">
+                            <div class="grid md-domes">
                                 <div class="tile">
                                     <h4>Monthly Summary</h4>
                                     <div class="muted" style="margin-top:8px">Employment Income </div>
                                     <div class="big" id="outMonthlyIncome">Rs. 0</div>
-                                    <div class="muted" style="margin-top:8px">APIT/PAYE</div>
+                                    <div class="muted pl-4" style="margin-top:8px">APIT/PAYE</div>
                                     <div class="big" id="outMonthlyTax">Rs. 0.00</div>
                                 </div>
-                                <div class="tile">
+                                <div class="tile md-domes">
                                     <h4>Annual Summary</h4>
                                     <div class="muted" style="margin-top:8px">Employment Income </div>
                                     <div class="big" id="outAnnualIncome">Rs. 0</div>
-                                    <div class="muted" style="margin-top:8px">APIT/PAYE</div>
+                                    <div class="muted pl-4" style="margin-top:8px">APIT/PAYE</div>
                                     <div class="big" id="outAnnualTax">Rs. 0.00</div>
                                 </div>
                             </div>
@@ -101,7 +100,7 @@
                             <div style="text-align:center">
                                 <button id="resetBtn" class="btn" type="button" aria-label="Reset calculator">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
-                                    Reset Calculator
+                                    Reset
                                 </button>
                             </div>
 
@@ -112,11 +111,21 @@
             </div>
             <div class="tab-pane fade  cal-foreing" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="page foreing">
-                    <h1>Foreign Employment & Overseas Income – APIT Table 8 (Effective 01.04.2025)</h1>
+                    <h1>Foreign Employment Income Tax Calculator – APIT Table 08 (Sri Lanka)</h1>
+
+<span class="text-changes-cal">
+This calculator estimates your Advance Personal Income Tax (APIT) on foreign employment income under Table 08. Applicable only if:																
+You are a Sri Lankan resident employed by a foreign employer.															
+Your salary is paid in foreign currency and remitted through a bank in Sri Lanka.															
+Your work is used outside Sri Lanka.							
+</span>
+
+<div class="alert alert-warning cal-wa" role="alert"><i class="bi bi-exclamation-triangle-fill"></i>  Important: Tax must be calculated on a cumulative basis and paid monthly by the employee (within 15 days of the following month).
+</div>
 
                     <div class="grid g-2">
                         <!-- Inputs -->
-                        <div class="card">
+                        <div class="card" style="display: none;">
                             <div class="grid g-3">
                                 <div>
                                     <label>Period</label>
@@ -167,11 +176,11 @@
 
                         <!-- Slabs -->
                         <div class="card">
-                            <div class="right">
+                            <div class="right" style="display: none;">
                                 <button class="btn secondary" id="addSlab">+ Add slab</button>
                                 <button class="btn secondary" id="resetSlabs">Reset to Table 8</button>
                             </div>
-                            <div class="foot">Define slabs from lowest upwards. Last row “Above” applies to the balance.</div>
+                            <div class="foot" style="display: none;">Define slabs from lowest upwards. Last row “Above” applies to the balance.</div>
                             <table id="slabTable" style="margin-top:8px">
                                 <thead>
                                     <tr>
@@ -310,7 +319,7 @@ Dividend income – subject to final tax at 15%.		</span>
                             <tr>
                                 <td class="lbl">Other Income</td>
                                 <td class="num inline"><input id="other_income_annual" type="text" inputmode="decimal" value="0">
-                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
+                                <input id="other_annual2" class="none-edit" type="text" inputmode="decimal" value="0"></td>
                             </tr>
 
                             <tr class="band text-boldd">
@@ -410,7 +419,8 @@ Dividend income – subject to final tax at 15%.		</span>
                     <!-- ===== Controls at the very bottom ===== -->
                     <div class="controls" style="justify-content:center; margin-top:20px">
                        <!-- <button class="btn" id="btn_calc" type="button">Calculate</button>-->
-                        <button class="btn" id="btn_reset" type="button">Reset</button>
+                        <button class="btn" id="btn_reset" type="button">               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                                    Reset</button>
                     </div>
                 </div>
 
@@ -922,25 +932,9 @@ multiplyBy12("interest_gross_annual", "gross_annual");
 multiplyBy12("invest_other_annual", "other_annual");
 multiplyBy12("rent_gross_annual", "gross_annuall");
 multiplyBy12("dividend_gross_annual", "dividend_annuall");
-multiplyBy12("other_income_annual", "other_income_total");
+multiplyBy12("other_income_annual", "other_annual2");
 </script>
 
 
  <!-- ===== Income Tax Calculator updateAnnualLKR *12 ===== -->
 
-<script>
-function updateAnnualLKR() {
-  const foreignValue = parseFloat(document.getElementById("foreign_lkr_annual").innerText) || 0;
-  document.getElementById("lkr_annual").innerText = (foreignValue * 12).toFixed(2);
-}
-
-// Call once on load
-updateAnnualLKR();
-
-// Example: If you want to update dynamically, call this again after changing foreign_lkr_annual
-// Example: Simulate update after 3 seconds
-setTimeout(() => {
-  document.getElementById("foreign_lkr_annual").innerText = "25000.50";
-  updateAnnualLKR();
-}, 3000);
-</script>
