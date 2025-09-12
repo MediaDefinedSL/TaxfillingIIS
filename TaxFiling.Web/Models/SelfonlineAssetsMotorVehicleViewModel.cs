@@ -1,8 +1,6 @@
-﻿
+﻿namespace TaxFiling.Web.Models;
 
-namespace TaxFiling.Domain.Dtos;
-
-public class SelfonlineAssetsMotorVehicleDto
+public class SelfonlineAssetsMotorVehicleViewModel
 {
     public int SelfonlineMotorVehicleID { get; set; }
     public string UserId { get; set; }

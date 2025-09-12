@@ -1453,9 +1453,23 @@ public class SelfOnlineFlowController : Controller
                 immovablePropertyList = JsonSerializer.Deserialize<List<SelfonlineAssetsImmovablePropertyViewModel>>(responseContent, _jsonSerializerOptions)!;
             }
         }
+
+        List<SelfonlineAssetsMotorVehicleViewModel> motorVehicleList = [];
+        string motorVehicleListListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetsmotorvehicle_list", queryUserParams);
+        var response2 = await _httpClient.GetAsync(motorVehicleListListUrl, ctx);
+        if (response2 != null && response2.IsSuccessStatusCode)
+        {
+            var responseContent = await response2.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                motorVehicleList = JsonSerializer.Deserialize<List<SelfonlineAssetsMotorVehicleViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
         var model = new SelfOnlineAssets
         {
-            selfonlineAssetsImmovablePropertyViewModel = immovablePropertyList
+            selfonlineAssetsImmovablePropertyViewModel = immovablePropertyList,
+            selfonlineAssetsMotorVehicleViewModel = motorVehicleList
         };
 
         return PartialView("AssetsLiabilities/_Assets", model);
@@ -1476,6 +1490,29 @@ public class SelfOnlineFlowController : Controller
 
         // Update user data
         var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_immovableproperties", immovableProperty);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddEditSelfOnlineMotorVehicle(SelfonlineAssetsMotorVehicleViewModel motorVehicle)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        motorVehicle.UserId = userId;
+        motorVehicle.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_motorVehicles", motorVehicle);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
