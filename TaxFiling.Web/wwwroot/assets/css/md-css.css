@@ -6803,7 +6803,7 @@ input[data-offlabel="සිංහල"] {
 
 .foreing table#breakdown td,
 .foreing table#breakdown th {
-    text-align: left;
+    text-align: left !important;
 }
 
 .resett {
@@ -6832,3 +6832,74 @@ input[data-offlabel="සිංහල"] {
 #contact div#myTabContent.tab-content.mt-3 {
     margin-top: 0px !important;
 }
+
+
+/*foreing  changes*/
+.foreing table {
+    border-collapse: collapse;
+    min-width: 700px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.foreing td,
+.foreing th {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: right;
+}
+
+.foreing th {
+    background: #e8f4ff;
+    font-weight: bold;
+}
+
+.foreing .left {
+    text-align: left;
+    font-weight: bold;
+}
+
+.foreing input {
+    width: 100%;
+    border: none;
+    text-align: right;
+    font-size: 14px;
+    background: #fefefe;
+}
+
+.foreing input:focus {
+    outline: none;
+    background: #fff9cc;
+}
+
+.foreing .highlight {
+    background: #eafbea;
+    font-weight: bold;
+}
+
+.foreing .controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.foreing button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.foreing .btn-reset {
+    background: #ffdddd;
+    color: #b30000;
+}
+
+.foreing .btn-reset:hover {
+    background: #ffcccc;
+}
+
+/*END foreing changes*/
