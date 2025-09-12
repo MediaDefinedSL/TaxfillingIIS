@@ -107,6 +107,7 @@ $(function () {
         let APITSecondaryEmployment = $("#txtAPITSecondaryEmployment").val();
         let residency = $("input[name='Residency']:checked").val();
         let seniorCitizen = $("#rdbSeniorCitizen").prop("checked");
+        let benefitExcludedForTax = $("#txtBenefitExcludedForTax").val();
 
         let isValid = true;
 
@@ -146,7 +147,8 @@ $(function () {
             TINOfEmployer: TINEmployer,
             Remuneration: remuneration,
             APITPrimaryEmployment: APITPrimaryEmployment,
-            APITSecondaryEmployment: APITSecondaryEmployment
+            APITSecondaryEmployment: APITSecondaryEmployment,
+            BenefitExcludedForTax : benefitExcludedForTax
         }
         if (id) {
             $.ajax({
@@ -155,7 +157,7 @@ $(function () {
                 data: employIncome,
                 success: function (response) {
                     $btn.prop("disabled", false);
-                    showMessage("Employment income details updated successfully", "success");
+                    showMessage("Updated successfully", "success");
 
                     $.get('/SelfOnlineFlow/LoadEmploymentDetails', function (html) {
                         $('#employmentDetails1Grid').html($(html).find('#employmentDetails1Grid').html()); // Direct replace
@@ -174,6 +176,7 @@ $(function () {
                     $("#rdbSeniorCitizen").prop("checked", false);
                     $("input[name='Residency']").prop("checked", false);
                     $("#hiddenEmploymentDetailsId").val("");
+                    $("#txtBenefitExcludedForTax").val("");
                     $("#btnEmploymentDetails").text("Submit");
 
                 },
@@ -212,6 +215,7 @@ $(function () {
                     $("#txtAPITSecondaryEmployment").val("");
                     $("#hndSelfOnlineEmploymentIncomeId").val("");
                     $("#hiddenEmploymentDetailsId").val("");
+                    $("#txtBenefitExcludedForTax").val("");
                     $("#btnEmploymentDetails").text("Submit");
                    
 
@@ -237,6 +241,7 @@ $(function () {
         $("#hiddenEmploymentDetailsId").val(0);
         $("#btnEmploymentDetails").text("Submit");
         $("#hndSelfOnlineEmploymentIncomeId").val("");
+        $("#txtBenefitExcludedForTax").val("");
 
     });
 
@@ -558,6 +563,8 @@ $(function () {
         var primary = $(this).data("primary");
         var secondary = $(this).data("secondary");
         var seniorcitizen = String($(this).data("seniorcitizen")).toLowerCase() === "true";
+        var benefitexcludedfortax = $(this).data("benefitexcludedfortax");
+        
 
         $(".rdbresidency[value='" + residency + "']").prop("checked", true);
         $("#rdbSeniorCitizen").prop("checked", seniorcitizen);
@@ -567,6 +574,7 @@ $(function () {
         $("#txtRemuneration").val(remuneration);
         $("#txtAPITPrimaryEmployment").val(primary);
         $("#txtAPITSecondaryEmployment").val(secondary);
+        $("#txtBenefitExcludedForTax").val(benefitexcludedfortax);
 
         // Store id in hidden field for update
         $("#hiddenEmploymentDetailsId").val(id);
