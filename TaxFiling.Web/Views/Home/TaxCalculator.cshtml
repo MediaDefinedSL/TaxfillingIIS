@@ -322,7 +322,7 @@ Dividend income – subject to final tax at 15%.		</span>
                             </tr>
 
                             <tr>
-                                <td class="lbl">Business / Professional Income – <span class="muted"(Annual profit)</span></td>
+                                <td class="lbl">Business / Professional Income – <span class="muted">(Annual profit)</span></td>
                                 <td class="num inline"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0.00">
                                 <input id="profit_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
@@ -357,7 +357,7 @@ Dividend income – subject to final tax at 15%.		</span>
 
                             <tr class="band text-boldd">
                                 <td class="lbl text-bold">Total Assessable Income(excludes dividends)</td>
-                                <td class="num kpi" id="kpi_assessable">0.00<span class="total-monti-over"></span></td>
+                                <td class="num kpi" id="kpi_assessable">0.00</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -1023,21 +1023,3 @@ calculateTax();
 <!-- ===== END foring cal ===== -->
 
 
-<script>
-function calculateAnnualKPI() {
-  const kpiCell = document.getElementById("kpi_assessable");
-  const span = kpiCell.querySelector(".total-monti-over");
-
-  // Get numeric value from kpi_assessable (strip out non-numbers just in case)
-  const kpiValue = parseFloat(kpiCell.textContent) || 0;
-  
-  // Calculate annual total
-  const annualTotal = kpiValue * 12;
-
-  // Show result inside the span
-  span.textContent = " = " + annualTotal.toFixed(2);
-}
-
-// Run calculation on page load
-calculateAnnualKPI();
-</script>
