@@ -1426,6 +1426,10 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Self Filing Total Calculation update successfully" });
     }
 
+    //-------- Assets and Liabilities
+
+    //-------- Assets
+
     public async Task<IActionResult> LoadAssets(CancellationToken ctx)
     {
 
@@ -1437,11 +1441,49 @@ public class SelfOnlineFlowController : Controller
             { "year", year.ToString()}
         };
 
-       
 
-        return PartialView("AssetsLiabilities/_Assets");
+        List<SelfonlineAssetsImmovablePropertyViewModel> immovablePropertyList = [];
+        string immovablePropertyListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetsimmovableproperty_list", queryUserParams);
+        var response1 = await _httpClient.GetAsync(immovablePropertyListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                immovablePropertyList = JsonSerializer.Deserialize<List<SelfonlineAssetsImmovablePropertyViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+        var model = new SelfOnlineAssets
+        {
+            selfonlineAssetsImmovablePropertyViewModel = immovablePropertyList
+        };
+
+        return PartialView("AssetsLiabilities/_Assets", model);
     }
 
+
+    [HttpPost]
+    public async Task<IActionResult> AddEditSelfOnlineImmovableProperty(SelfonlineAssetsImmovablePropertyViewModel immovableProperty)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        immovableProperty.UserId = userId;
+        immovableProperty.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_immovableproperties", immovableProperty);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
 
 
 }

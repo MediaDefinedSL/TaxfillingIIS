@@ -47,5 +47,6 @@ public interface ISelfOnlineFlowRepository
     //-------- Assets and Liabilities
     //-------- Assets
     Task<bool> SaveSelfonlineAssetsImmovableProperty(SelfonlineAssetsImmovablePropertyDto immovableProperties);
+    Task<List<SelfonlineAssetsImmovablePropertyDto>> GetSelfOnlineAssetsImmovableProperty(string userId, int year, CancellationToken ctx);
     Task<bool> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles);
 }

@@ -1,7 +1,7 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Html
-@model List<TaxFiling.Web.Models.SelfOnlineInvestmentIncomeDetailViewModel>
+@model TaxFiling.Web.Models.SelfOnlineAssets
 
 <link href="~/assets/css/tree-container-css.css?v=3" rel="stylesheet">
 
@@ -44,7 +44,7 @@
                                     <i class="bi bi-building"></i> &nbsp;Immovable Properties
                                 </h4>
                                 <hr>
-
+                                <input type="hidden" id="hiddenSelfonlinePropertyId" name="hiddenSelfonlinePropertyId" value=""/> 
                                 <div class="row mb-2">
                                     <div class="col-3">Type</div>
                                     <div class="col-5">
@@ -92,7 +92,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
-                                            <button type="button" class="btn btn-primary mt-3" id="btnDeductionsSubmit">Submit</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnImmovablePropertiesSubmit">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           
+                                            @if (Model.selfonlineAssetsImmovablePropertyViewModel != null && Model.selfonlineAssetsImmovablePropertyViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var immovableProperties in Model.selfonlineAssetsImmovablePropertyViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@immovableProperties.Type</td>
+                                                        <td>@immovableProperties.SerialNumber</td>
+                                                        <td>@immovableProperties.Situation</td>   <!-- fixed -->
+                                                        <td>@immovableProperties.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@immovableProperties.Cost?.ToString("N2")</td>
+                                                        <td>@immovableProperties.MarketValue?.ToString("N2")</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm edit-btn" data-id="@immovableProperties.SelfonlinePropertyID">Edit</button>
+                                                            <button class="btn btn-danger btn-sm delete-btn" data-id="@immovableProperties.SelfonlinePropertyID">Delete</button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -268,3 +293,6 @@
     </div>
 
 </main>
+
+<script src="~/scripts/selfOnline.assets.js" asp-append-version="true"></script>
+                
