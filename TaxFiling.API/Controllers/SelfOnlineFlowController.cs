@@ -501,6 +501,21 @@ public class SelfOnlineFlowController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpGet("assetsimmovableproperty_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetsImmovableProperty(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetsImmovableProperty(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
     [HttpPost("saveassets_motorVehicles")]
     public async Task<IActionResult> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles)
     {

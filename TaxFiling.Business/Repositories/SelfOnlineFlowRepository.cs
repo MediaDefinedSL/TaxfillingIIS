@@ -1473,7 +1473,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
             {
             await _context.Database.ExecuteSqlRawAsync(
-                  @"CALL ADDEditSelfOnlineAdditionalDetails  (
+                  @"CALL ADDEditSelfOnlineImmovableProperties  (
                                         @loguser,
                                         @UserId,
                                         @Year,
@@ -1508,6 +1508,40 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         }
 
         return isSuccess;
+    }
+    public async Task<List<SelfonlineAssetsImmovablePropertyDto>> GetSelfOnlineAssetsImmovableProperty(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineAssetsImmovablePropertyDto> immovablePropertyList = [];
+        try
+        {
+
+            immovablePropertyList = await _context.SelfonlineAssetsImmovableProperty
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineAssetsImmovablePropertyDto
+            {
+                SelfonlinePropertyID = t.SelfonlinePropertyID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Situation = t.Situation,
+                DateOfAcquisition = t.DateOfAcquisition,
+                Cost = t.Cost,
+                MarketValue = t.MarketValue
+
+            })
+            .ToListAsync(ctx);
+
+
+
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return immovablePropertyList;
     }
 
     public async Task<bool> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles)
