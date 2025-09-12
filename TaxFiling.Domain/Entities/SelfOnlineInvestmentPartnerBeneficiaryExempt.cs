@@ -44,4 +44,6 @@ public class SelfOnlineInvestmentPartnerBeneficiaryExempt
 
     [Column("ExemptExcludedIncome")]
     public decimal? ExemptExcludedIncome { get; set; }
+    [Column("ExemptExcludedIncomeName")]
+    public string ExemptExcludedIncomeName { get; set; }
 }

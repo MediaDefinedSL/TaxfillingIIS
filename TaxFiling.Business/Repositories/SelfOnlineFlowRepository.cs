@@ -1335,7 +1335,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                         @TotalInvestmentIncomeTrust,
                         @IsExemptAmountA,
                         @IsExcludedAmountB,
-                        @ExemptExcludedIncome
+                        @ExemptExcludedIncome,
+                        @ExemptExcludedIncomeName
                     )",
                        new MySqlParameter("@loguser", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
                        new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
@@ -1353,7 +1354,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                        new MySqlParameter("@TotalInvestmentIncomeTrust", selfOnlineInvestment.TotalInvestmentIncomeTrust ?? (object)DBNull.Value),
                        new MySqlParameter("@IsExemptAmountA", selfOnlineInvestment.IsExemptAmountA ?? (object)DBNull.Value),
                        new MySqlParameter("@IsExcludedAmountB", selfOnlineInvestment.IsExcludedAmountB ?? (object)DBNull.Value),
-                       new MySqlParameter("@ExemptExcludedIncome", selfOnlineInvestment.ExemptExcludedIncome ?? (object)DBNull.Value)
+                       new MySqlParameter("@ExemptExcludedIncome", selfOnlineInvestment.ExemptExcludedIncome ?? (object)DBNull.Value),
+                       new MySqlParameter("@ExemptExcludedIncomeName", selfOnlineInvestment.ExemptExcludedIncomeName ?? (object)DBNull.Value)
                    );
 
             isSuccess = true;
@@ -1389,7 +1391,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 TotalInvestmentIncomeTrust = t.TotalInvestmentIncomeTrust,
                 IsExemptAmountA = t.IsExemptAmountA,
                 IsExcludedAmountB = t.IsExcludedAmountB,
-                ExemptExcludedIncome = t.ExemptExcludedIncome
+                ExemptExcludedIncome = t.ExemptExcludedIncome,
+                ExemptExcludedIncomeName = t.ExemptExcludedIncomeName
 
             })
             .ToListAsync(ctx);
