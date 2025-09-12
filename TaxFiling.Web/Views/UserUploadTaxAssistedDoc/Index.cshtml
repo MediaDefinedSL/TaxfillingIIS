@@ -4789,6 +4789,19 @@
                               }
                        });
 
+                      $(document).on("input", "input[name^='assets'][name$='Description']", function () {
+                        let val = $(this).val();
+                        if (val !== "" && !isNaN(val) && Number(val) < 0) {
+                            $(this).val(0); // reset if negative
+                        }
+                    });
+
+                    $(document).on("keydown", "input[name^='assets'][name$='Description']", function (e) {
+                        if (e.key === "-" || e.key === "Subtract") {
+                            e.preventDefault(); // stop minus key
+                        }
+                    });
+
 
             </script>
         </div>
