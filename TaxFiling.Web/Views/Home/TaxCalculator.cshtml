@@ -296,9 +296,9 @@ Dividend income – subject to final tax at 15%.		</span>
                                 <td class="lbl">Employment Income – <span class="muted">Local (APIT deducted)</span></td>
                                 <td class="num month-cal">
                                 <div class="monthly-div"><span style="">Monthly</span>
-                                    <input id="emp_apit_annual" type="text" inputmode="decimal" value="0"></div>
+                                    <input id="emp_apit_annual" type="text" inputmode="decimal" value="0.00"></div>
                                 <div class="annual-div">   <span style="">Annual</span>
-                                <input id="annual-money" class="none-edit" type="text" inputmode="decimal" value="0"></div>
+                                <input id="annual-money" class="none-edit" type="text" inputmode="decimal" value="0.00"></div>
                                 </td>
                             </tr>
 
@@ -309,7 +309,7 @@ Dividend income – subject to final tax at 15%.		</span>
                                     Employment Income – <span class="muted">Foreign</span></div>
                                     <div class="controls one-line" style="margin:6px 0 2px">
                                         
-                                        <input id="foreign_amount_annual" type="text" inputmode="decimal" value="0" style="max-width:200px">
+                                        <input id="foreign_amount_annual" type="text" inputmode="decimal" value="0.00" style="max-width:200px">
                                         <select id="foreign_currency" style="max-width:110px">
                                             <option>USD</option>  
                                         </select>
@@ -322,42 +322,42 @@ Dividend income – subject to final tax at 15%.		</span>
                             </tr>
 
                             <tr>
-                                <td class="lbl">Business / Professional Income – <span class="muted">Annual profit</span></td>
-                                <td class="num inline"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0">
-                                <input id="profit_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
+                                <td class="lbl">Business / Professional Income – <span class="muted"(Annual profit)</span></td>
+                                <td class="num inline"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0.00">
+                                <input id="profit_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Investment Income – Interest<span class="muted"> (WHT dedcted) </span></td>
-                                <td class="num inline"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0">
-                                <input id="gross_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0.00">
+                                <input id="gross_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Other Investment Income<span class="muted"> (WHT not dedcted)</span></td>
-                                <td class="num inline"><input id="invest_other_annual" type="text" inputmode="decimal" value="0">
-                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="invest_other_annual" type="text" inputmode="decimal" value="0.00">
+                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
                             <tr>
-                                <td class="lbl">Investment Income – Rent (gross)</td>
-                                <td class="num inline"><input id="rent_gross_annual" type="text" inputmode="decimal" value="0">
-                                <input id="gross_annuall" class="none-edit" type="text" inputmode="decimal" value="0"></td>
+                                <td class="lbl">Investment Income – Rent <span class="muted">(Gross)</span></td>
+                                <td class="num inline"><input id="rent_gross_annual" type="text" inputmode="decimal" value="0.00">
+                                <input id="gross_annuall" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Investment Income – Dividend <span class="muted">(Final Tax 15%)</span></td>
-                                <td class="num inline"><input id="dividend_gross_annual" type="text" inputmode="decimal" value="0">
-                                <input id="dividend_annuall" class="none-edit" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="dividend_gross_annual" type="text" inputmode="decimal" value="0.00">
+                                <input id="dividend_annuall" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Other Income</td>
-                                <td class="num inline"><input id="other_income_annual" type="text" inputmode="decimal" value="0">
-                                <input id="other_annual2" class="none-edit" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num inline"><input id="other_income_annual" type="text" inputmode="decimal" value="0.00">
+                                <input id="other_annual2" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
 
                             <tr class="band text-boldd">
                                 <td class="lbl text-bold">Total Assessable Income(excludes dividends)</td>
-                                <td class="num kpi" id="kpi_assessable">0.00</td>
+                                <td class="num kpi" id="kpi_assessable">0.00<span class="total-monti-over"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -377,11 +377,11 @@ Dividend income – subject to final tax at 15%.		</span>
                             </tr>
                             <tr>
                                 <td class="lbl">Relief for Solar Panel - <span class="muted">(Deductible up to Rs. 600,000 or Actual cost)</span></td>
-                                <td class="num"><input id="relief_solar" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num"><input id="relief_solar" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Qualifying Payments &amp; Other Deductions</td>
-                                <td class="num"><input id="relief_qualifying" type="text" inputmode="decimal" value="0"></td>
+                                <td class="num"><input id="relief_qualifying" type="text" inputmode="decimal" value="0.00"></td>
                             </tr>
 
                             <tr class="band-soft">
@@ -1021,3 +1021,23 @@ calculateTax();
 </script>
 
 <!-- ===== END foring cal ===== -->
+
+
+<script>
+function calculateAnnualKPI() {
+  const kpiCell = document.getElementById("kpi_assessable");
+  const span = kpiCell.querySelector(".total-monti-over");
+
+  // Get numeric value from kpi_assessable (strip out non-numbers just in case)
+  const kpiValue = parseFloat(kpiCell.textContent) || 0;
+  
+  // Calculate annual total
+  const annualTotal = kpiValue * 12;
+
+  // Show result inside the span
+  span.textContent = " = " + annualTotal.toFixed(2);
+}
+
+// Run calculation on page load
+calculateAnnualKPI();
+</script>
