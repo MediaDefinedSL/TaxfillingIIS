@@ -938,7 +938,7 @@
             isValid = false;
         }
         if (!dividendIncome.trim()) {
-            $("#dividendIncome").after('<div class="text-danger validation-error">Dividend Income is required.</div>');
+            $("#txtDDividendIncome").after('<div class="text-danger validation-error">Dividend Income is required.</div>');
             isValid = false;
         }
        
@@ -1330,6 +1330,27 @@
         $("#hiddenInvestmentIncomeId").val(id);
         $("#btnDetailsInvestmentOther").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
+
+    });
+
+    $(document).on("click", "#btnDetailsInvestmentDividentClear", function () {
+
+        resetFormDivident();
+        $("#btnDetailsInvestmentDivident").text("Submit");
+
+    });
+
+    $(document).on("click", "#btnDetailsInvestmentRentClear", function () {
+
+        resetFormRent();
+        $("#btnDetailsInvestmentRent").text("Submit");
+
+    });
+
+    $(document).on("click", "#btnDetailsInvestmentOtherClear", function () {
+
+        resetFormOther();
+        $("#btnDetailsInvestmentOther").text("Submit");
 
     });
 

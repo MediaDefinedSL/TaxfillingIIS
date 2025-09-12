@@ -341,6 +341,9 @@ public class UserRepository : IUserRepository
         bool userPhoneExists = await _context.Users
             .AnyAsync(u => u.Phone == User.Phone && u.UserId != User.UserId);
 
+        bool userTINExists = await _context.Users
+            .AnyAsync(u => u.TinNo == User.TinNo && u.UserId != User.UserId);
+
         if (userEmailExists)
         {
             Message = "A user with the same Email  already exists.";
@@ -349,6 +352,11 @@ public class UserRepository : IUserRepository
         if (userPhoneExists)
         {
             Message = "A user with the same Phone number already exists.";
+            return false; // Do not continue
+        }
+        if (userTINExists)
+        {
+            Message = "A user with the same TIN Number already exists.";
             return false; // Do not continue
         }
 

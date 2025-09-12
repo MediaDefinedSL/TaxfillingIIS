@@ -566,6 +566,17 @@ function sendRegistrationEmail(userEmail, userId) {
 function displaySelectedImage(event, elementId) {
     const selectedImage = document.getElementById(elementId);
     const fileInput = event.target;
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Allowed MIME types
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+
+    if (!allowedTypes.includes(file.type)) {
+        showMessage("Invalid file type! Only JPG, JPEG, PNG, GIF are allowed.","error");
+        event.target.value = ''; // Reset file input
+        return;
+    }
 
     if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
@@ -621,6 +632,8 @@ function showMessage(message, type = "success", autoClose = true, autoCloseTime 
     if (autoClose) {
         autoCloseTimer = setTimeout(closeModal, autoCloseTime);
     }
+
+    
 }
 
 
