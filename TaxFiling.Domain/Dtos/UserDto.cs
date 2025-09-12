@@ -26,4 +26,6 @@ public class UserDto
     public int? taxAssistedUserUploadDocsStatus { get; set; }
     public DateTime? taxAssistedUserUploadDocsStatusUpdateDate { get; set; }
 
+    public string IRDPIN {  get; set; }
+
 }

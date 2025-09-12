@@ -17,4 +17,6 @@ public class SelfOnlineEmploymentIncomeDetails
     public decimal? TerminalBenefits { get; set; }
     public decimal? Amount { get; set; }
     public decimal? Total { get; set; }
+
+    public decimal? BenefitExcludedForTax { get; set; }
 }

@@ -30,4 +30,6 @@ public class UserViewModel
     public IFormFile? ProfileImage { get; set; }
     public int? taxAssistedUserUploadDocsStatus { get; set; }
 
+    public string IRDPIN { get; set; }
+
 }

@@ -323,7 +323,8 @@ public class UserRepository : IUserRepository
                                 PackageId = user.PackageId,
                                 ProfileImagePath = user.ProfileImagePath,
                                 TaxTotal = user.TaxTotal,
-                                taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus
+                                taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus,
+                                IRDPIN = user.IRDPIN
                             })
                             .FirstOrDefaultAsync(ctx);
 
@@ -389,6 +390,7 @@ public class UserRepository : IUserRepository
             _user.TinNo = User.TinNo;
             _user.UpdatedBy = User.UserId.ToString();
             _user.UpdatedOn = DateTime.Now;
+            _user.IRDPIN = User.IRDPIN;
             
 
             await _context.SaveChangesAsync();
