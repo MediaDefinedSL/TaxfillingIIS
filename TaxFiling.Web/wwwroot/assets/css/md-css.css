@@ -6668,3 +6668,126 @@ p.muted.text-changes-cal {
 button#resetBtn {
     font-weight: 100;
 }
+
+
+#myAssetsTab li.nav-item.col-md-2 {
+    width: 15% !important;
+}
+
+ul#myAssetsTab {
+    column-gap: 2%;
+    border: none;
+}
+
+div#myAssetsTabContent {
+    padding: 0px;
+}
+
+button#immovableproperties-tab {
+    background-image: url(/assets/img/Immovable-Properties.png) !important;
+    background-size: cover;
+    background-size: 82px;
+
+}
+
+#myAssetsTab button {
+    height: 114px !important;
+}
+
+button#motorvehicle-tab {
+    background-image: url(/assets/img/Motor-Vehicle.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#bankbalances-tab {
+    background-image: url(/assets/img/Bank-Balances.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#sharesstockssecurities-tab {
+    background-image: url(/assets/img/shares-01.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#declarecapital-tab {
+    background-image: url(/assets/img/Declare-Capital.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+button#expensesbalances-tab {
+    background-image: url(/assets/img/Expenses-Balances.png) !important;
+    background-size: cover;
+    background-size: 82px;
+}
+
+#myAssetsTab .nav-link.active:before {
+    margin-top: 31px;
+}
+
+h4.mb-3 {
+    font-family: sans-serif;
+}
+
+
+div#immovableproperties {
+    background-image: url(/assets/img/Immovable-Properties.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 31%;
+}
+
+div#motorvehicle {
+    background-image: url(/assets/img/Motor-Vehicle.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 31%;
+}
+
+div#bankbalances {
+    background-image: url(/assets/img/Bank-Balances.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 31%;
+}
+
+div#sharesstockssecurities {
+    background-image: url(/assets/img/shares-01.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 31%;
+}
+
+div#expensesbalances {
+    background-image: url(/assets/img/Expenses-Balances.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 31%;
+}
+
+div#declarecapital {
+    background-image: url(/assets/img/Declare-Capital.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 31%;
+}
+
+a#fileCountLink {
+    color: #212529 !important;
+    pointer-events: none !important;
+}
