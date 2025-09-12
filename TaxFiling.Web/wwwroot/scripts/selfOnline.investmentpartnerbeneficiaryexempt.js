@@ -420,7 +420,7 @@
         let exempt = $("#txtTExempt").val();
         let exemptName = $("#txtTExemptName").val();
 
-        alert(exemptName);
+       
 
         let isValid = true;
         $(".validation-error").remove();
