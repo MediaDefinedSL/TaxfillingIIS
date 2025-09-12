@@ -5726,7 +5726,7 @@ div#myTabContent {
 }
 
 .Domestic .grid .tile {
-    width: 49% !important;
+    width: 100% !important;
 }
 
 
@@ -6564,6 +6564,7 @@ td#kpi_assessable {
 td.num.month-cal input {
     width: 132px;
     display: inline-block;
+        padding-right: 0px;
 }
 
 input#foreign_amount_annual {
@@ -6593,6 +6594,7 @@ td.num.inline {
 td.num.inline input {
     width: 132px;
     display: inline-block;
+        padding-right: 0px;
 }
 
 
@@ -6615,7 +6617,7 @@ td.num.inline input {
 }
 
 span#foreign_lkr_annual {
-    padding-right: 12px;
+    padding-right: 0px;
 }
 
 
@@ -6629,4 +6631,40 @@ p.muted.text-changes-cal {
     margin-right: 10px !important;
     margin-bottom: 8px !important;
     text-transform: inherit;
+}
+
+.grid.md-domes,
+.tile.md-domes {
+    display: block;
+    font-size: 14px !important;
+}
+
+.grid.md-domes div,
+.tile.md-domes div {
+    display: inline-block;
+    font-size: 15px !important;
+    margin-bottom: 10px;
+}
+
+
+.muted.pl-4 {
+    padding-left: 66px;
+}
+
+.md-domes h4 {
+    margin-bottom: 0px;
+}
+
+.grid.md-domes .muted,
+.tile.md-domes .muted {
+    color: #00276c !important;
+    font-weight: 600;
+}
+
+.page.foreing h1 {
+    text-transform: capitalize;
+}
+
+button#resetBtn {
+    font-weight: 100;
 }
