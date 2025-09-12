@@ -1,13 +1,39 @@
 ﻿$(function () {
 
+    $(document).on("keydown", "#NumberOfDependents", function (e) {
+        if (e.key === "-" || e.key === "Subtract") {
+            e.preventDefault(); // block minus key
+        }
+    });
+
+    $(document).on("input", "#NumberOfDependents", function () {
+        if ($(this).val() < 0) {
+            $(this).val(0);
+        }
+    });
+
     $('#linkMaritalNext').on('click', function () {
 
         var selectedId = $("input[name='imgbackground']:checked").val();
         var selectedName = $("input[name='imgbackground']:checked").data("name");
+        let spouseNic = $("#SpouseNIC").val().trim();
+        let spouseTIN = $("#SpouseTINNo").val().trim();
 
         if (!selectedId) {
             showMessage("Please select a Marital Status.","error");
             return;
+        }
+
+        if (spouseNic) {
+            if (!validateNIC(spouseNic)) {
+                return showMessage("Invalid NIC number.", "error");
+            }
+        }
+
+        if (spouseTIN) {
+            if (!validateTIN(spouseTIN)) {
+                return showMessage("Invalid TIN number.", "error");
+            }
         }
 
         var payload = {
@@ -78,6 +104,26 @@
         if (selectedName === "married") {
             spouseSection.style.display = "block";
         }
+    }
+
+    function validateNIC(nic) {
+        var oldNICPattern = /^[0-9]{9}[vVxX]$/;
+        var newNICPattern = /^[0-9]{12}$/;
+
+        if (oldNICPattern.test(nic) || newNICPattern.test(nic)) {
+            return true;
+        }
+        return false;
+    }
+
+    function validateTIN(tin) {
+        // Pattern: exactly 9 digits
+        var tinPattern = /^[0-9]{9}$/;
+
+        if (tinPattern.test(tin)) {
+            return true; // valid TIN
+        }
+        return false; // invalid TIN
     }
 
     radios.forEach(radio => {
