@@ -8,7 +8,7 @@ namespace TaxFiling.Domain.Entities;
 public class SelfonlineAssetsMotorVehicle
     {
     [Key]
-    [Column("SelfonlinePropertyID")]
+    [Column("SelfonlineMotorVehicleID")]
     public int SelfonlineMotorVehicleID { get; set; }
 
     [Column("UserId")]

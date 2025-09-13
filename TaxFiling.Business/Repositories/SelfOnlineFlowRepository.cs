@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -1537,6 +1538,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return isSuccess;
     }
 
+    //-------- Assets and Liabilities
+
+    //-------- Assets
+
     public async Task<bool> SaveSelfonlineAssetsImmovableProperty(SelfonlineAssetsImmovablePropertyDto immovableProperties)
     {
         bool isSuccess = false;
@@ -1617,34 +1622,34 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
 
-            await _context.Database.ExecuteSqlRawAsync(
-                  @"CALL ADDEdit_SelfOnlineMotorVehicle   (
-                                        @loguser,
-                                        @UserId,
-                                        @Year,
-                                        @transactionType,
-                                        @SelfonlineMotorVehicleID
-                                        @Type,
-                                        @SerialNumber,
-                                        @Description,
-                                        @RegistrationNo,
-                                        @DateOfAcquisition,
-                                        @CostMarketValue
-                                        
-                                    )",
-                            new MySqlParameter("@loguser", motorVehicles.UserId),
-                            new MySqlParameter("@UserId", motorVehicles.UserId),
-                            new MySqlParameter("@Year", motorVehicles.Year),
-                            new MySqlParameter("@transactionType", motorVehicles.TransactionType ?? (object)DBNull.Value),
-                            new MySqlParameter("@SelfonlineMotorVehicleID", motorVehicles.SelfonlineMotorVehicleID),
-                            new MySqlParameter("@Type", motorVehicles.Type ?? (object)DBNull.Value),
-                            new MySqlParameter("@SerialNumber", motorVehicles.SerialNumber ?? (object)DBNull.Value),
-                            new MySqlParameter("@Description", motorVehicles.Description ?? (object)DBNull.Value),
-                            new MySqlParameter("@RegistrationNo", motorVehicles.RegistrationNo ?? (object)DBNull.Value),
-                            new MySqlParameter("@DateOfAcquisition", motorVehicles.DateOfAcquisition ?? (object)DBNull.Value),
-                            new MySqlParameter("@CostMarketValue", motorVehicles.CostMarketValue ?? (object)DBNull.Value)
 
-              );
+                    await _context.Database.ExecuteSqlRawAsync(
+                                          @"CALL ADDEdit_SelfOnlineMotorVehicle (
+                                            @loguser,
+                                            @UserId,
+                                            @Year,
+                                            @transactionType,
+                                            @SelfonlineMotorVehicleID,
+                                            @Type,
+                                            @SerialNumber,
+                                            @Description,
+                                            @RegistrationNo,
+                                            @DateOfAcquisition,
+                                            @CostMarketValue
+                                        )",
+                                          new MySqlParameter("@loguser", motorVehicles.UserId),  // <-- you probably meant logUser, not UserId?
+                                          new MySqlParameter("@UserId", motorVehicles.UserId),
+                                          new MySqlParameter("@Year", motorVehicles.Year),
+                                          new MySqlParameter("@transactionType", motorVehicles.TransactionType ?? (object)DBNull.Value),
+                                          new MySqlParameter("@SelfonlineMotorVehicleID", motorVehicles.SelfonlineMotorVehicleID),
+                                          new MySqlParameter("@Type", motorVehicles.Type ?? (object)DBNull.Value),
+                                          new MySqlParameter("@SerialNumber", motorVehicles.SerialNumber ?? (object)DBNull.Value),
+                                          new MySqlParameter("@Description", motorVehicles.Description ?? (object)DBNull.Value),
+                                          new MySqlParameter("@RegistrationNo", motorVehicles.RegistrationNo ?? (object)DBNull.Value),
+                                          new MySqlParameter("@DateOfAcquisition", motorVehicles.DateOfAcquisition ?? (object)DBNull.Value),
+                                          new MySqlParameter("@CostMarketValue", motorVehicles.CostMarketValue ?? (object)DBNull.Value)
+          );
+
 
             isSuccess = true;
         }
@@ -1686,6 +1691,52 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         }
 
         return mtorVehicleList;
+    }
+
+    public async Task<bool> DeleteSelfOnlinAssetsDtails(string userId, int year, int deleteAssetsId, string categoryName)
+    {
+        bool isSuccess = false;
+        try
+        {
+            if(categoryName == "ImmovableProperty")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineImmovableProperty  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlinePropertyID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlinePropertyID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "MotorVehicle")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineMotorVehicle   (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlineMotorVehicleID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlineMotorVehicleID", deleteAssetsId)
+                );
+            }
+
+            isSuccess = true;
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error Delete  Detail");
+        }
+        return isSuccess;
     }
 
 }

@@ -546,4 +546,19 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpPost("delete_assetsdetails")]
+    public async Task<IActionResult> DeleteSelfOnlinAssetsDtails(string userId, int year, int deleteAssetsId, string categoryName)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.DeleteSelfOnlinAssetsDtails(userId, year, deleteAssetsId, categoryName);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }
