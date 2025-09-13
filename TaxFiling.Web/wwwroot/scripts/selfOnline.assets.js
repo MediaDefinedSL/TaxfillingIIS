@@ -81,9 +81,9 @@
             data: immovableProperty,
             success: function (response) {
                 $btn.prop("disabled", false);
-                showMessage("Saved successfully", "success");
+                showMessage(selfonlinePropertyId ? "Updated successfully." : "Saved successfully", "success");
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
-
+                resetImmovablePropertiesForm();
                 // Refresh grid so user sees latest data
                 $("#ImmovablePropertiesGrid").load("/SelfOnlineFlow/LoadAssets #ImmovablePropertiesGrid > *");
             },
@@ -94,6 +94,66 @@
         });
     });
 
+    function resetImmovablePropertiesForm() {
+
+        $("#hiddenSelfonlinePropertyId").val("");
+        $("#ddlImmovablePropertiesType").val("");
+        $("#txtImmPropertiesSN").val("");
+        $("#txtImmPropertiesSituation").val("");
+        $("#txtImmPropertiesDate").val("");
+        $("#txtImmPropertiesCost").val("");
+        $("#txtImmPropertiesMarketValue").val("");
+        $("#btnImmovablePropertiesSubmit").text("Submit");
+
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    }
+    $(document).on("click", "#btnImmovablePropertiesClear", function () {
+
+        resetImmovablePropertiesForm();
+        $("#btnImmovablePropertiesSubmit").text("Submit");
+
+    });
+
+    $(document).off("click", ".immovableiroperty-editbtn").on("click", ".immovableiroperty-editbtn", function () {
+      
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+        // Get the current row
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".immovableiroperty-deletebtn");
+
+        // Disable the delete button in this row
+        $deleteBtn.attr("data-disabled", "true");   // for persistence
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
+
+        // Read all data-* attributes from the Edit button
+        var id = $(this).data("id");
+        var type = $(this).data("type");
+        var serialNo = $(this).data("serialno");
+        var situation = $(this).data("situation");
+        var date = $(this).data("date");
+        var cost = $(this).data("cost");
+        var market = $(this).data("market");
+
+        // Fill form fields
+        $("#hiddenSelfonlinePropertyId").val(id);
+        $("#ddlImmovablePropertiesType").val(type);
+        $("#txtImmPropertiesSN").val(serialNo);
+        $("#txtImmPropertiesSituation").val(situation);
+        $("#txtImmPropertiesDate").val(date);
+        $("#txtImmPropertiesCost").val(cost);
+        $("#txtImmPropertiesMarketValue").val(market);
+
+        // Change submit button text to Update
+        $("#btnImmovablePropertiesSubmit").text("Update");
+
+        // Scroll to form
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    });
+
+    
     //------------------ Motor Vehicle
 
     $(document).off("click", "#btnMotorVehicleSubmit").on("click", "#btnMotorVehicleSubmit", function () {
@@ -142,4 +202,55 @@
             }
         })
     });
+});
+
+//----------- delete record
+
+let deleteAssetsId = null;
+let deleteCategoryName = null;
+
+$(document).on("click", ".immovableiroperty-deletebtn", function () {
+
+    if ($(this).data("disabled")) {
+        // Stop the modal from opening if disabled
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+    }
+    deleteAssetsId = $(this).data("id");
+    deleteCategoryName = $(this).data("name");
+
+    $('#selfonline_confirmDeleteModal').modal('show');
+
+});
+
+$(document).on("click", "#selfonline_confirmDeleteBtn", function () {
+
+    if (!deleteAssetsId) return;
+
+    var deleteData = {
+        deleteAssetsId: deleteAssetsId,
+        categoryName: deleteCategoryName
+    };
+
+   
+        $.ajax({
+            url: '/SelfOnlineFlow/DeleteSelfOnlineAssetsDetails',
+            type: 'POST',
+            data: deleteData,
+            success: function (response) {
+                $('#selfonline_confirmDeleteModal').modal('hide');
+                if (deleteCategoryName == "ImmovableProperty") {
+                    // Refresh grid so user sees latest data
+                    $("#ImmovablePropertiesGrid").load("/SelfOnlineFlow/LoadAssets #ImmovablePropertiesGrid > *");
+                }
+               
+            },
+            error: function () {
+                alert("Error deleting.");
+            }
+        });
+   
+
+   
 });

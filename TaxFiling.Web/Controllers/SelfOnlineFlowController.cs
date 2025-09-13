@@ -1513,6 +1513,35 @@ public class SelfOnlineFlowController : Controller
     }
 
     [HttpPost]
+    public async Task<IActionResult> DeleteSelfOnlineAssetsDetails(int deleteAssetsId, string categoryName, CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "investmentIncomeId", deleteAssetsId.ToString()},
+                { "categoryName", categoryName}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/delete_assetsdetails", queryUserParams);
+        var response = await _httpClient.PostAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Delete successfully" });
+    }
+
+
+    [HttpPost]
     public async Task<IActionResult> AddEditSelfOnlineMotorVehicle(SelfonlineAssetsMotorVehicleViewModel motorVehicle)
     {
 
