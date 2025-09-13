@@ -324,11 +324,12 @@
                 <option>INR</option>  
                                         </select>
                                         
-                                        <input id="fx_rate" type="text" inputmode="decimal" value="300" style="max-width:120px">
+                                        <input id="fx_rate" type="text" inputmode="decimal" value="300" style="max-width:120px" class="none-edit">
                                     </div>
                                     
                                 </td>
-                                <td class="num"><span id="foreign_lkr_annual" class="mono">0.00</span></td>
+                                <td class="num"><span id="foreign_lkr_annual" class="mono">0.00</span>
+                                <span id="lkr_annual_all" class="mono">0.00</span></td>
                             </tr>
 
                             <tr>
@@ -1097,5 +1098,21 @@ currencySelect.addEventListener("change", updateExchangeRate);
 // Initial load
 updateExchangeRate();
 
+
+</script>
+
+
+<script>
+
+const foreignLKR = document.getElementById("foreign_lkr_annual");
+const lkrAnnual = document.getElementById("lkr_annual_all");
+
+function updateAnnual() {
+    const value = parseFloat(foreignLKR.textContent) || 0;
+    lkrAnnual.textContent = (value * 12).toFixed(2);
+}
+
+// Call this whenever foreign_lkr_annual changes
+updateAnnual();
 
 </script>

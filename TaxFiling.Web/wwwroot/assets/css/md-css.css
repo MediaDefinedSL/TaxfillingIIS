@@ -7139,3 +7139,10 @@ label.text-changes-cal {
     margin-bottom: 9px;
    
 }
+
+
+td.num.inline {
+    border-radius: 0px !important;
+    height: 59.6px !important;
+    padding-left: 11px !important;
+}
