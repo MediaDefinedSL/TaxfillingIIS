@@ -1008,7 +1008,7 @@ public class SelfOnlineFlowController : Controller
                 { "year", year.ToString()}
             };
         List<SelfOnlineInvestmentIncomeDetailViewModel> investmentIncomeList = [];
-        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"https://localhost:7119/api/selfOnlineflow/investmentincomedtail_list", queryUserParams1);
+        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentincomedtail_list", queryUserParams1);
         var response1 = await _httpClient.GetAsync(investmentIncomeListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
@@ -1176,7 +1176,7 @@ public class SelfOnlineFlowController : Controller
         var responseResult = new ResponseResult<object>();
 
         // Update user data
-        var response = await _httpClient.PostAsJsonAsync($"https://localhost:7119/api/selfOnlineflow/saveinvestment_incomedetails", investmentIncome);
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveinvestment_incomedetails", investmentIncome);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
