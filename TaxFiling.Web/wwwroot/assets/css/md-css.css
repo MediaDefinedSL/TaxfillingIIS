@@ -7160,5 +7160,6 @@ span#lkr_annual_all {
 
 
 .foreing select#foreign_currency {
-    width: 100%;
+        width: 80px;
 }
+
