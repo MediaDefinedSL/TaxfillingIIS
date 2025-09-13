@@ -368,7 +368,8 @@
 
                             <tr class="band text-boldd">
                                 <td class="lbl text-bold">Total Assessable Income(excludes dividends)</td>
-                                <td class="num kpi" id="kpi_assessable">0.00</span></td>
+                                <td class="num kpi" id="kpi_assessable">0.00
+                                <span class="kpi_assessable_added"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -1102,17 +1103,20 @@ updateExchangeRate();
 </script>
 
 
+
 <script>
+const kpiCell = document.getElementById("kpi_assessable");
+const kpiAdded = kpiCell.querySelector(".kpi_assessable_added");
 
-const foreignLKR = document.getElementById("foreign_lkr_annual");
-const lkrAnnual = document.getElementById("lkr_annual_all");
+function updateKpiAnnual() {
+    // Get number from cell text (remove commas if any)
+    const value = parseFloat(kpiCell.textContent.replace(/,/g, '')) || 0;
+    const result = value * 12;
 
-function updateAnnual() {
-    const value = parseFloat(foreignLKR.textContent) || 0;
-    lkrAnnual.textContent = (value * 12).toFixed(2);
+    // Format with commas and 2 decimals
+    kpiAdded.textContent = " (" + result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ")";
 }
 
-// Call this whenever foreign_lkr_annual changes
-updateAnnual();
-
+// Run once on page load
+updateKpiAnnual();
 </script>
