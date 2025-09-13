@@ -318,7 +318,10 @@
                                         
                                         <input id="foreign_amount_annual" type="text" inputmode="decimal" value="0.00" style="max-width:200px">
                                         <select id="foreign_currency" style="max-width:110px">
-                                            <option>USD</option>  
+                                                                             <option>USD</option>
+                <option>EUR</option>
+                <option>GBP</option>
+                <option>INR</option>  
                                         </select>
                                         
                                         <input id="fx_rate" type="text" inputmode="decimal" value="300" style="max-width:120px">
@@ -1045,5 +1048,54 @@ document.getElementById("btn_resett").addEventListener("click", function () {
     }
   });
 });
+
+</script>
+
+
+
+<script>
+
+const apiKey = "811608e6a1eff21f32289138"; // Replace with your free API key
+const apiUrl = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/";
+
+const amountInput = document.getElementById("foreign_amount_annual");
+const currencySelect = document.getElementById("foreign_currency");
+const fxRateInput = document.getElementById("fx_rate");
+const lkrSpan = document.getElementById("foreign_lkr_annual");
+
+// Function to fetch latest exchange rate
+async function updateExchangeRate() {
+    const currency = currencySelect.value;
+    try {
+        const response = await fetch(`${apiUrl}${currency}`);
+        const data = await response.json();
+
+        if(data.result === "success") {
+            const rate = data.conversion_rates.LKR;
+            fxRateInput.value = rate.toFixed(2);
+            updateLKRAmount();
+        } else {
+            console.error("Failed to fetch exchange rate:", data['error-type']);
+        }
+    } catch (err) {
+        console.error("Error fetching exchange rate:", err);
+    }
+}
+
+// Function to update LKR amount
+function updateLKRAmount() {
+    const amount = parseFloat(amountInput.value) || 0;
+    const rate = parseFloat(fxRateInput.value) || 0;
+    const lkrAmount = amount * rate;
+    lkrSpan.textContent = lkrAmount.toFixed(2);
+}
+
+// Event listeners
+amountInput.addEventListener("input", updateLKRAmount);
+currencySelect.addEventListener("change", updateExchangeRate);
+
+// Initial load
+updateExchangeRate();
+
 
 </script>
