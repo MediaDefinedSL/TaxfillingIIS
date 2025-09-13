@@ -7146,3 +7146,19 @@ td.num.inline {
     height: 59.6px !important;
     padding-left: 11px !important;
 }
+
+span#foreign_lkr_annual {
+    float: left;
+    padding-left: 14px;
+    margin-top: 29px;
+}
+
+span#lkr_annual_all {
+    margin-top: 29px !important;
+    display: inline-block;
+}
+
+
+.foreing select#foreign_currency {
+    width: 100%;
+}
