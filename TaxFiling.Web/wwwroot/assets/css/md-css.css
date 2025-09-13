@@ -6912,9 +6912,10 @@ input[data-offlabel="සිංහල"] {
     padding: 0px;
 }
 
-.foreing table td {
+.foreing table td,
+.foreing input{
     border: none !important;
-    font-size: 14px;
+    font-size: 16px;
     text-align: left;
 }
 
@@ -7163,3 +7164,21 @@ span#lkr_annual_all {
         width: 80px;
 }
 
+.foreing input#exchange_rate {
+    text-align: left;
+    padding-left: 0;
+    font-size: 15px !important;
+}
+
+.foreing span {
+    color: #000000 !important;
+}
+
+
+button#btn_resett {
+    visibility: hidden;
+}
+
+button.btn-reset {
+    visibility: hidden;
+}
