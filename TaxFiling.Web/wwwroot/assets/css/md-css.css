@@ -2687,7 +2687,7 @@ section#Self-Online-Flow {
 }
 
 .cal .grid td.lbl {
-    width: 59%
+    width: 60%
 }
 
 .cal .grid td.num {
@@ -6568,7 +6568,7 @@ input#foreign_amount_annual {
 }
 
 td.num.month-cal {
-    padding-left: 0px;
+   /* padding-left: 0px;*/
 }
 
 tr.band-soft {
@@ -6584,7 +6584,7 @@ tr.band-soft {
 
 td.num.inline {
     display: inline-block;
-    padding-left: 0px;
+    /*padding-left: 0px;*/
 }
 
 td.num.inline input {
