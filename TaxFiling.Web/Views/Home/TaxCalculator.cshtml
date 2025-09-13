@@ -195,7 +195,7 @@
                <table>
   <tbody>
 
-
+<!--
   <tr>
   <td class="left" style="
     padding-bottom: 0px;
@@ -221,8 +221,8 @@
   </td>
 
   <td><span id="salary_lkr">0.00</span></td> 
-</tr>
-  <!--
+</tr>-->
+  
   <tr>
     <td class="left">Monthly Salary Paid in Foreign Currency</td>
     <td><input type="number" inputmode="decimal"  id="monthly_foreign" value="3000"></td>
@@ -232,7 +232,7 @@
     <td><input type="number" id="exchange_rate" value="305"></td>
     <td><span id="salary_lkr">122,000,000</span></td>
   </tr>
--->
+
   <tr>
     <td class="left">Personal Relief</td>
     <td colspan="2"><input type="number" inputmode="decimal"  id="personal_relief" value="150000"></td>
@@ -1138,56 +1138,7 @@ updateExchangeRate();
 </script>
 
 <!-- ===== foring income ===== -->
-<script>
 
-const apiKeyy = "9f7bdbdb1cd0ca90a08d9bfc"; 
-const apiUrll = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/";
-
-const amountInputt = document.getElementById("monthly_foreign");
-const currencySelectt = document.getElementById("foreign_currencyy");
-const fxRateInputt = document.getElementById("exchange_rate");
-const lkrSpant = document.getElementById("salary_lkr");
-
-// Fetch exchange rate when currency changes
-async function updateExchangeRate() {
-    const currency = currencySelectt.value;
-    try {
-        const response = await fetch(`${apiUrl}${currency}`);
-        const data = await response.json();
-
-        if (data.result === "success") {
-            const rate = data.conversion_rates.LKR;
-            fxRateInputt.value = rate.toFixed(2);
-            updateLKRAmount();
-        } else {
-            console.error("Failed to fetch exchange rate:", data['error-type']);
-        }
-    } catch (err) {
-        console.error("Error fetching exchange rate:", err);
-    }
-}
-
-// Calculate salary in LKR
-function updateLKRAmount() {
-    const amount = parseFloat(amountInputt.value) || 0;
-    const rate = parseFloat(fxRateInputt.value) || 0;
-    const lkrAmount = amount * rate;
-
-    lkrSpant.textContent = lkrAmount.toLocaleString(undefined, { 
-        minimumFractionDigits: 2, 
-        maximumFractionDigits: 2 
-    });
-}
-
-// Event listeners for live updates
-amountInputt.addEventListener("input", updateLKRAmount);
-fxRateInputt.addEventListener("input", updateLKRAmount);
-currencySelectt.addEventListener("change", updateExchangeRate);
-
-// Initial load
-updateExchangeRate();
-
-</script>
 
 <!-- ===== END  foring income ===== -->
 
