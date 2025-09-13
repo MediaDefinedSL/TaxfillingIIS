@@ -6491,11 +6491,7 @@ span.text-changes-cal {
     width: 100% !important;
 }
 
-td.lbl.inline-f {
-width: 407px !important;
-    display: block !important;
-    border-radius: 0;
-}
+
 
 .cal .section-title.nothi {
     background: none !important;
@@ -7125,4 +7121,8 @@ tr.color-change+tr+tr+tr+tr+tr td:first-child {
     background-repeat: no-repeat;
     background-position: center;
     margin-bottom: 15px;
+}
+
+.monthly-div {
+    float: left;
 }
