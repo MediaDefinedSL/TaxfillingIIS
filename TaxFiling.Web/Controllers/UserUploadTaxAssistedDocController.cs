@@ -98,6 +98,7 @@ public class UserUploadTaxAssistedDocController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         var packageId = User.FindFirst("PackageId")?.Value;
         int? latestDocStatus = -1;
+        int? personalInfoStatus = -1;
         PackagesViewModel package = new();
 
         if (packageId != null)
@@ -134,6 +135,19 @@ public class UserUploadTaxAssistedDocController : Controller
                     latestDocStatus = parsedStatus;
                 }
             }
+            string personalInfoStatusUrl = QueryHelpers.AddQueryString($"https://localhost:7119/api/Users/GetPersonalInformationCompleted", queryParamsDocs);
+            var responsepersonalInfo = await _httpClient.GetAsync(personalInfoStatusUrl, ctx);
+            if (responsepersonalInfo != null && responsepersonalInfo.IsSuccessStatusCode)
+            {
+                var responseContent = await responsepersonalInfo.Content.ReadAsStringAsync(ctx);
+
+                if (int.TryParse(responseContent, out var parsedPersonalStatus))
+                {
+                    personalInfoStatus = parsedPersonalStatus;
+                }
+            }
+
+
         }
 
         var uploadedFiles = UploadPage().Result;  // blocking call
@@ -143,6 +157,7 @@ public class UserUploadTaxAssistedDocController : Controller
         ViewBag.curancy = package.Curancy;
         ViewBag.price = package.Price;
         ViewBag.UploadedDocStatus = latestDocStatus;
+        ViewBag.personalInfoStatus = personalInfoStatus;
         return View();
     }
 

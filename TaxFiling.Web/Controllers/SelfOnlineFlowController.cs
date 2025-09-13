@@ -653,7 +653,7 @@ public class SelfOnlineFlowController : Controller
 
 
         //  string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
-        var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_contactinformation", user);
+        var response = await _httpClient.PutAsJsonAsync($"https://localhost:7119/api/selfOnlineflow/update_contactinformation", user);
 
         if (response != null && response.IsSuccessStatusCode)
         {

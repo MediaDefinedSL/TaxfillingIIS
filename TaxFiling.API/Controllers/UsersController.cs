@@ -210,6 +210,13 @@ namespace TaxFiling.API.Controllers
             return Ok(latestStatus);
         }
 
+        [HttpGet("GetPersonalInformationCompleted")]
+        public async Task<IActionResult> GetPersonalInformationCompleted([FromQuery] Guid userId)
+        {
+            var personalInfoStatus = await _userRepository.GetPersonalInformationCompleted(userId);
+            return Ok(personalInfoStatus);
+        }
+
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] TaxFiling.Domain.Dtos.ResetPasswordRequest request)
         {

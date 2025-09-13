@@ -27,5 +27,6 @@ public interface IUserRepository
     Task<int?> GetLatestUploadedDocumentStatusAsync(Guid userId);
 
     Task<bool> UpdatePasswordAsync(string email, string newPassword);
+    Task<int?> GetPersonalInformationCompleted(Guid userId);
 }
 

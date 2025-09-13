@@ -509,7 +509,14 @@ public class UserRepository : IUserRepository
             .Where(d => d.UserId == userId)
             .Select(d => d.taxAssistedUserUploadDocsStatus )
             .FirstOrDefaultAsync();
-    }    
+    }
+    public async Task<int?> GetPersonalInformationCompleted(Guid userId)
+    {
+        return await _context.Users
+            .Where(d => d.UserId == userId)
+            .Select(d => d.isPersonalInfoCompleted)
+            .FirstOrDefaultAsync();
+    }
 
     public async Task<bool> UpdatePasswordAsync(string email, string newPassword)
     {
