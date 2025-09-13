@@ -91,7 +91,7 @@ $(function () {
         });
     });
 
-    $(document).off("click", "#btnEmploymentDetails").on("click", "#btnEmploymentDetails", function () {
+    $(document).off("click", "#btnEmploymentDetails").on("click", "#btnEmploymentDetails", async function () {
     
         // e.preventDefault();
         var id = $("#hiddenEmploymentDetailsId").val();
@@ -131,12 +131,28 @@ $(function () {
             isValid = false;
         }
 
+        var response = "";
+        var fileInput = $("#fileEmploymentIncomeUpload")[0];
+
+        if (fileInput && fileInput.files.length == 0) {
+            $("#fileEmploymentIncomeUpload").after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
 
         if (!isValid) {
             return;
         }
+              
 
+        // attach file
+        
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
 
+        }
+        
         var employIncome = {
             SelfOnlineEmploymentDetailsId: id,
             Residency: residency,
@@ -148,8 +164,17 @@ $(function () {
             Remuneration: remuneration,
             APITPrimaryEmployment: APITPrimaryEmployment,
             APITSecondaryEmployment: APITSecondaryEmployment,
-            BenefitExcludedForTax : benefitExcludedForTax
-        }
+            BenefitExcludedForTax: benefitExcludedForTax,
+            UploadedFileName: response.originalName,
+            FileName: response.fileName,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime : response.uploadTime
+        }  
+
+
         if (id) {
             $.ajax({
                 url: '/SelfOnlineFlow/UpdateEmploymentIncomeDetails',
@@ -177,7 +202,8 @@ $(function () {
                     $("input[name='Residency']").prop("checked", false);
                     $("#hiddenEmploymentDetailsId").val("");
                     $("#txtBenefitExcludedForTax").val("");
-                    $("#btnEmploymentDetails").text("Submit");
+                    $("#btnEmploymentDetails").text("Submit");                    
+                    if (fileInput) fileInput.value = "";
 
                 },
                 error: function () {
@@ -217,6 +243,7 @@ $(function () {
                     $("#hiddenEmploymentDetailsId").val("");
                     $("#txtBenefitExcludedForTax").val("");
                     $("#btnEmploymentDetails").text("Submit");
+                    if (fileInput) fileInput.value = "";
                    
 
                 },
@@ -227,6 +254,36 @@ $(function () {
             });
         }
     });
+
+    async function UploadSuportingDocumenttoServer(selectedFile, userId, year) {
+        try {
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            formData.append("userId", userId);
+            formData.append("year", year);
+
+            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                method: "POST",
+                body: formData
+            });            
+
+            const uploadResult = await uploadRes.json();
+            if (!uploadResult.success || !uploadResult.data) {
+                showMessage("❌ Failed to upload document - " + uploadResult.error, "error");
+                selectedFile = null;
+                return;
+
+            }
+            const data = uploadResult.data;
+            //console.log(data);
+            return data;
+        }
+        catch(err)
+        {
+            console.error(err);
+            alert("Upload failed: " + err.message);
+        }
+    }
 
     $(document).on("click", "#btnEmploymentDetailsClear", function () {
 
