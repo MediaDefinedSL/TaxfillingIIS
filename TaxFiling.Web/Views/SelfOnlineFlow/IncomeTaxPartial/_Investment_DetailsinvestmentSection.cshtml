@@ -137,6 +137,17 @@
                                         <label class="form-label">Closing Balance (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtSBalance" name="txtSBalance">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadSavingsWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileSavingsUpload" name="fileSavingsUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif">
+                                            <div id="uploadedFileSavingsContainer"></div>
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
                                 <br />
                                 <div class="row">
@@ -196,8 +207,10 @@
                                                                     data-closingbalance="@savingsIncome.ClosingBalance"
                                                                     data-incomeamount="@savingsIncome.IncomeAmount"
                                                                     data-foreigntaxcredit="@savingsIncome.ForeignTaxCredit"
-                                                                   
-                                                                    data-amountinvested="@savingsIncome.AmountInvested">
+                                                                    data-amountinvested="@savingsIncome.AmountInvested"
+                                                                    data-filename="@savingsIncome.FileName"
+                                                                    data-decryptionkey="@savingsIncome.DecryptionKey"
+                                                                    data-originalfilename="@savingsIncome.OriginalName">
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -316,6 +329,16 @@
                                         <label class="form-label">Closing Balance (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtFDBalance" name="txtFDBalance">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadFDWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileFDUpload" name="fileFDUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif">
+                                            <div id="uploadedFileFDContainer"></div>
+
+                                        </div>
+
+                                    </div>
                                 </div>
                                 
                                 <br />
@@ -376,7 +399,11 @@
                                                                     data-closingbalance="@fdIncome.ClosingBalance"
                                                                     data-incomeamount="@fdIncome.IncomeAmount"
                                                                     data-foreigntaxcredit="@fdIncome.ForeignTaxCredit"
-                                                                    data-amountinvested="@fdIncome.AmountInvested">
+                                                                    data-amountinvested="@fdIncome.AmountInvested"
+                                                                    data-filename="@fdIncome.FileName"
+                                                                    data-decryptionkey="@fdIncome.DecryptionKey"
+                                                                    data-originalfilename="@fdIncome.OriginalName">
+
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -468,6 +495,16 @@
                                         <label class="form-label">Foreign Tax Credit (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtDForeignTaxCredit" name="txtDForeignTaxCredit">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadDVWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileDVUpload" name="fileDVUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif">
+                                            <div id="uploadedFileDVContainer"></div>
+
+                                        </div>
+
+                                    </div>
                                    
                                 </div>
                                 <br />
@@ -524,7 +561,10 @@
                                                                     data-cost="@dividendIncome.CostAcquisition"
                                                                     data-netdividend="@dividendIncome.NetDividendIncome"
                                                                     data-netwhtdeducted="@dividendIncome.WHTDeducted"
-                                                                    data-netforeigntaxcredit="@dividendIncome.ForeignTaxCredit">
+                                                                    data-netforeigntaxcredit="@dividendIncome.ForeignTaxCredit"
+                                                                    data-filename="@dividendIncome.FileName"
+                                                                    data-decryptionkey="@dividendIncome.DecryptionKey"
+                                                                    data-originalfilename="@dividendIncome.OriginalName">
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -617,7 +657,17 @@
                                         <label class="form-label">Foreign Tax Credit </label>
                                         <input type="text" class="form-control numeric-input" id="txtForeignTaxCredit" name="txtForeignTaxCredit">
                                     </div>
-                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadREWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileREUpload" name="fileREUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif">
+                                            <div id="uploadedFileREContainer"></div>
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
                                 <div class="row">
@@ -673,7 +723,10 @@
                                                                     data-rates="@rentIncome.RatesLocalAuthority"
                                                                     data-cost="@rentIncome.GiftOrInheritedCost"
                                                                     data-market="@rentIncome.MarketValue"
-                                                                    data-foreigntax="@rentIncome.ForeignTaxCredit">
+                                                                    data-foreigntax="@rentIncome.ForeignTaxCredit"
+                                                                    data-filename="@rentIncome.FileName"
+                                                                    data-decryptionkey="@rentIncome.DecryptionKey"
+                                                                    data-originalfilename="@rentIncome.OriginalName">
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -766,6 +819,17 @@
                                         <label class="form-label">Interest Income (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtOInterestIncome" name="txtOInterestIncome">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadOtherWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileOtherUpload" name="fileOtherUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif">
+                                            <div id="uploadedFileOtherContainer"></div>
+
+                                        </div>
+
+                                    </div>
+
                                     
                                 </div>
                                 <div class="row">
@@ -813,7 +877,11 @@
                                                                     data-activitycode="@otherIncome.ActivityCode"
                                                                     data-activity="@otherIncome.TypeOfInvestment"
                                                                     data-amount="@otherIncome.AmountInvested"
-                                                                    data-income="@otherIncome.IncomeAmount">
+                                                                    data-income="@otherIncome.IncomeAmount"
+                                                                    data-filename="@otherIncome.FileName"
+                                                                    data-decryptionkey="@otherIncome.DecryptionKey"
+                                                                    data-originalfilename="@otherIncome.OriginalName">
+
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -860,7 +928,7 @@
     </div>
 
 </main>
-
+<input type="hidden" id="hiddenUserId" value="@User.FindFirst("UserID")?.Value" />
 <script src="~/scripts/selfonline.investmentincome.js" asp-append-version="true"></script>
 
 <script>

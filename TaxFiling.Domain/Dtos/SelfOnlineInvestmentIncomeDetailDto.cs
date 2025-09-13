@@ -40,4 +40,12 @@ public class SelfOnlineInvestmentIncomeDetailDto
     public decimal? RatesLocalAuthority { get; set; }
     public decimal? GiftOrInheritedCost { get; set; }
     public decimal? MarketValue { get; set; }
+    public string UploadedFileName { get; set; }
+    public string FileName { get; set; }
+    public string Location { get; set; }
+    public string DecryptionKey { get; set; }
+    public string UploadId { get; set; }
+    public string OriginalName { get; set; }
+    public DateTime? UploadTime { get; set; }
+
 }
