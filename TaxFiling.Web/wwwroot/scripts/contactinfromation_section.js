@@ -135,6 +135,22 @@
                             // Set progress (example: 80%)
                             const newProgressBarValue = newProgress;
                             progressBar.style.width = newProgressBarValue + "%";
+                            const badge = document.getElementById("status-badge-2024");
+                            if (badge.textContent.trim() == "NEW") {
+                                const year = 2024;
+                                badge.classList.remove("bg-info", "text-dark");
+                                badge.classList.add("bg-warning", "text-white");
+                                badge.textContent = "DRAFT";
+                                const header = document.getElementById("progressHeader");
+                                // update text
+                                header.textContent = `${year}/${year + 1} – Draft`;
+                                // reset classes (keep "card-header")
+                                header.className = "card-header bg-warning";
+                                $("#statusBadge")
+                                    .text("DRAFT")
+                                    .removeClass("bg-info")
+                                    .addClass("bg-warning text-dark");
+                            }
                         }
                     }
                 }
