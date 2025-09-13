@@ -395,7 +395,20 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 _selfOnlineuser.WhatsApp = contactInfromation.WhatsApp;
                 _selfOnlineuser.PreferredCommunicationMethod = contactInfromation.PreferredCommunicationMethod;
 
+                var userEntity = await _context.Users
+                .FirstOrDefaultAsync(u => u.UserId.ToString() == contactInfromation.UserId);
+
+                if (userEntity != null)
+                {
+                    userEntity.isPersonalInfoCompleted = 1;
+                    userEntity.UpdatedOn = DateTime.Now;   // if you have audit fields
+                    userEntity.UpdatedBy = contactInfromation.UserId;
+                }
+
                 await _context.SaveChangesAsync();
+                isSuccess = true;   // mark success
+
+                //await _context.SaveChangesAsync();
             }
         }
         catch (Exception e)

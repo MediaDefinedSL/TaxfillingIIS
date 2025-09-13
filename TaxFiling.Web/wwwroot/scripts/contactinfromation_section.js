@@ -110,6 +110,34 @@
             contentType: "application/json",
             data: JSON.stringify(user),
             success: function (response) {
+                if (document.getElementById("docUploadStatus")) {
+                    document.getElementById("personalInfoCompleted").value = "1";
+                    const el = document.getElementById("personalInfoStatus");
+                    if (!el) return;
+
+                    if (document.getElementById("personalInfoCompleted").value == 1) {
+                        if (el.textContent == "Missing") { 
+                            el.textContent = "✓";
+                            el.className = "text-success";
+                            const bar = document.getElementById("progressBar");
+                            const widthValue = bar.style.width; // "54%"
+                            const progress = parseInt(widthValue, 10);
+                            const newProgress = progress + 18;
+
+                            if (bar) {
+                                bar.style.width = newProgress + "%";
+                                bar.textContent = newProgress + "%";
+                            }
+                            // Get the row
+                            const row = document.getElementById("assessment-row-2024");
+                            // Find the progress bar inside this row
+                            const progressBar = row.querySelector(".progress-bar");
+                            // Set progress (example: 80%)
+                            const newProgressBarValue = newProgress;
+                            progressBar.style.width = newProgressBarValue + "%";
+                        }
+                    }
+                }
                 $.ajax({
                     url: '/SelfOnlineFlow/LoadSummary',
                     type: 'GET',
@@ -117,6 +145,8 @@
                         $('#in-this-section-container').html(data);
                         $('.sub-link').removeClass('active');
                         $('#linkSummary').addClass('active');
+                         
+                        
                         $("html, body").animate({ scrollTop: 0 }, "smooth");
                     },
                     error: function () {

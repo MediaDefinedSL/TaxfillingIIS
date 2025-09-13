@@ -8,7 +8,7 @@
       bool isAuthenticated = !string.IsNullOrEmpty(userId);  
     var activePackageIdClaim = User.FindFirst("PackageId")?.Value;
     int? activePackageId = string.IsNullOrEmpty(activePackageIdClaim) ? (int?)null : int.Parse(activePackageIdClaim);
-    var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
+    var formattedName = userName != null ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower()) : "";
 }
 
 

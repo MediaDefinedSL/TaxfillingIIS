@@ -11,6 +11,7 @@
     // var userUploadDocStatus = User.FindFirst("UserUploadDocStatus")?.Value;
     //int docStatus = int.TryParse(userUploadDocStatus, out var parsedStatus) ? parsedStatus : -1;
     int docStatus = ViewBag.UploadedDocStatus ?? -1;
+    int personalInfoCompletedStatus = ViewBag.personalInfoStatus ?? -1;
     var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
 }
 <link href="~/assets/css/tree-container-taxassisted-css.css?v=3" rel="stylesheet">
@@ -363,7 +364,7 @@
                                             <ul class="list-group mb-3">
                                                 <li class="list-group-item d-flex justify-content-between">
                                                     Personal information completed
-                                                    <span id="personalInfoStatus" class="text-secondary"><span class="text-success">✓</span></span>
+                                                    <span id="personalInfoStatus" class="text-secondary">Checking...</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between">
                                                     Employment income added
@@ -1626,6 +1627,8 @@
                 <div class="load-text">Uploading, please wait...</div>
             </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
+            <input type="hidden" id="personalInfoCompleted" value="@personalInfoCompletedStatus" />
+
             <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
 
@@ -2780,8 +2783,10 @@
                              if (hasOther) completed++;
 
                        // personal info (dummy logic, adapt as needed)
-                       const hasPersonalInfo = docs.some(d => d.categoryName === "Personal Information");
-                          completed++;
+                       const PersonalInfoVal = document.getElementById("personalInfoCompleted").value;
+                       const hasPersonalInfo = PersonalInfoVal == 1 ? true : false;
+                                   setStatus("personalInfoStatus", hasPersonalInfo);
+                       if(hasPersonalInfo == 1) completed++;
                        //setStatus("personalInfoStatus", hasPersonalInfo);
 
                       let progress = 0;
