@@ -373,7 +373,7 @@
                                 <td class="lbl text-bold">Total Assessable Income(excludes dividends)</td>
                                 <td class="num kpi" id="kpi_assessable">0.00
                                </td>
-                               <td class="kpi_assessable_added"></td>
+                               
                                
                             </tr>
                         </tbody>
@@ -1109,22 +1109,3 @@ updateExchangeRate();
 
 
 
-<script>
-const kpiAssessable = document.getElementById("kpi_assessable");
-const kpiAddedd = document.querySelector(".kpi_assessable_added");
-
-function updateKpiAnnual() {
-    // Get value, remove commas
-    const value = parseFloat(kpiAssessable.textContent.replace(/,/g, '')) || 0;
-    const result = value * 12;
-
-    // Format result with commas & 2 decimals
-    kpiAddedd.textContent = " (" + result.toLocaleString(undefined, { 
-        minimumFractionDigits: 2, 
-        maximumFractionDigits: 2 
-    }) + ")";
-}
-
-// Run once on page load
-updateKpiAnnual();
-</script>
