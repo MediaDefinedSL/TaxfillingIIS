@@ -299,7 +299,7 @@
 
 
 
-        $(document).off("click", "#btnDetailsInvestmentSavings").on("click", "#btnDetailsInvestmentSavings", function () {
+        $(document).off("click", "#btnDetailsInvestmentSavings").on("click", "#btnDetailsInvestmentSavings", async function () {
 
         var $btn = $(this);
         $btn.prop("disabled", true);
@@ -341,11 +341,39 @@
             $("#txtSAmountInvested").after('<div class="text-danger validation-error">Amount Invested is required.</div>');
             isValid = false;
         }
-        
+
+            var response = "";
+            var fileInput = $("#fileSavingsUpload")[0];
+
+            // Check file input and if already uploaded file exists
+            var hasUploadedFile = $("#uploadedFileSavingsContainer").text().trim().length > 0;
+
+            if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+                // Remove old validation messages first
+                $("#fileUploadSavingsWrapper").siblings(".validation-error").remove();
+
+                // Show validation below upload wrapper
+                $("#fileUploadSavingsWrapper")
+                    .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
+                $btn.prop("disabled", false);
+                isValid = false;
+            } else {
+                // Remove validation if file exists or a new file is chosen
+                $("#fileUploadSavingsWrapper").siblings(".validation-error").remove();
+            }
+
+       
 
         if (!isValid) {
             $btn.prop("disabled", false);
             return;
+       }
+
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
+
         }
 
         // Prepare data for AJAX
@@ -364,7 +392,14 @@
             WHTDeducted: whtDeducted,
             ForeignTaxCredit: foreignTaxCredit,
             OpeningBalance: openingBalance,
-            ClosingBalance: closingBalance
+            ClosingBalance: closingBalance,
+            UploadedFileName: response.originalName,
+            FileName: response.filename,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime: response.uploadTime
         };
         // === AJAX URL ===
         var url = selfOnlineInvestmentId
@@ -385,6 +420,8 @@
                 });
 
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
+                if (fileInput) fileInput.value = "";
+                $("#uploadedFileSavingsContainer").hide();
                 resetForm();
             },
             error: function () {
@@ -396,7 +433,91 @@
   
 
     });
+    async function UploadSuportingDocumenttoServer(selectedFile, userId, year) {
+        try {
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            formData.append("userId", userId);
+            formData.append("year", year);
 
+            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const uploadResult = await uploadRes.json();
+            if (!uploadResult.success || !uploadResult.data) {
+                showMessage("❌ Failed to upload document - " + uploadResult.error, "error");
+                selectedFile = null;
+                return;
+
+            }
+            const data = uploadResult.data;
+            //console.log(data);
+            return data;
+        }
+        catch (err) {
+            console.error(err);
+            alert("Upload failed: " + err.message);
+        }
+    }
+
+    function showUploadedFile(fileName, decryptionKey, originalFileName, userId, element) {
+        const container = $(element);
+        container.show();
+        container.empty();
+
+        if (!fileName || !decryptionKey || !originalFileName) return;
+
+        // create a clickable link
+        const fileLink = $('<a>', {
+            href: "#",
+            text: originalFileName,
+            class: "uploaded-file-link",
+            click: function (e) {
+                e.preventDefault();
+                // call your async viewDoc function
+                viewDoc(fileName, decryptionKey, userId);
+            }
+        });
+
+        container.append(fileLink);
+    }
+
+    async function viewDoc(fileName, decryptionKey, userId) {
+        const width = 800;
+        const height = 600;
+        const left = (screen.width / 2) - (width / 2);
+        const top = (screen.height / 2) - (height / 2);
+
+        const response = await fetch("https://file.taxfiling.lk/view", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                filename: fileName,
+                decryptionKey: decryptionKey,
+                userId: userId,
+                year: new Date().getFullYear().toString()
+            })
+        });
+
+        if (!response.ok) {
+            const err = await response.text();
+            console.error("View API error:", err);
+            alert("Failed to load document: " + err);
+            return;
+        }
+
+        const blob = await response.blob();
+        const contentType = response.headers.get("Content-Type") || "application/octet-stream";
+        const fileURL = URL.createObjectURL(new Blob([blob], { type: contentType }));
+
+        window.open(
+            fileURL,
+            "_blank",
+            `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
+        );
+    }
     function resetForm() {
 
         $("#hiddenInvestmentIncomeId").val("");
@@ -413,6 +534,7 @@
         $("#txtSOpeningBalance").val("");
         $("#txtSBalance").val("");
         $("#btnDetailsInvestmentSavings").text("Submit");
+
         $("html, body").animate({ scrollTop: 0 }, "smooth");
     }
 
@@ -444,6 +566,9 @@
         var incomeAmount = $(this).data("incomeamount");
         var foreignTaxCredit = $(this).data("foreigntaxcredit");
         var amountInvested = $(this).data("amountinvested");
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
 
         // Fill your form fields (IDs must match your inputs in the form)
         $("#txtSActivityCode").val(activityCode);
@@ -460,6 +585,7 @@
         $("#txtSAmountInvested").val(amountInvested);
 
         $("#hiddenInvestmentIncomeId").val(id);
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileSavingsContainer");
         $("#btnDetailsInvestmentSavings").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
 
@@ -737,7 +863,7 @@
             highlightedBranchIndex = 0;
         });
     });
-    $(document).off("click", "#btnDetailsInvestmentFD").on("click", "#btnDetailsInvestmentFD", function () {
+    $(document).off("click", "#btnDetailsInvestmentFD").on("click", "#btnDetailsInvestmentFD", async function () {
    
         var $btn = $(this);
         $btn.prop("disabled", true);
@@ -781,9 +907,37 @@
         }
 
 
+        var response = "";
+        var fileInput = $("#fileFDUpload")[0];
+
+        // Check file input and if already uploaded file exists
+        var hasUploadedFile = $("#uploadedFileFDContainer").text().trim().length > 0;
+
+        if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+            // Remove old validation messages first
+            $("#fileUploadFDWrapper").siblings(".validation-error").remove();
+
+            // Show validation below upload wrapper
+            $("#fileUploadFDWrapper")
+                .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
+            $btn.prop("disabled", false);
+            isValid = false;
+        } else {
+            // Remove validation if file exists or a new file is chosen
+            $("#fileUploadFDWrapper").siblings(".validation-error").remove();
+        }
+
+
         if (!isValid) {
             $btn.prop("disabled", false);
             return;
+        }
+
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
+
         }
 
         // Prepare data for AJAX
@@ -802,7 +956,14 @@
             WHTDeducted: whtDeducted,
             ForeignTaxCredit: foreignTaxCredit,
             OpeningBalance: openingBalance,
-            ClosingBalance: closingBalance
+            ClosingBalance: closingBalance,
+            UploadedFileName: response.originalName,
+            FileName: response.filename,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime: response.uploadTime
         };
         // === AJAX URL ===
         var url = selfOnlineInvestmentId
@@ -821,6 +982,8 @@
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#FDGrid').html($(html).find('#FDGrid').html());
                 });
+                if (fileInput) fileInput.value = "";
+                $("#uploadedFileFDContainer").hide();
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetFormFD();
             },
@@ -859,6 +1022,10 @@
         var incomeAmount = $(this).data("incomeamount");
         var foreignTaxCredit = $(this).data("foreigntaxcredit");
         var amountInvested = $(this).data("amountinvested");
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
+
 
         // Fill your form fields (IDs must match your inputs in the form)
         $("#txtFDActivityCode").val(activityCode);
@@ -875,6 +1042,7 @@
         $("#txtFDAmountInvested").val(amountInvested);
 
         $("#hiddenInvestmentIncomeId").val(id);
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileFDContainer");
         $("#btnDetailsInvestmentFD").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
 
@@ -907,7 +1075,7 @@
 
 
     /* ============= Divident  =================*/
-    $(document).off("click", "#btnDetailsInvestmentDivident").on("click", "#btnDetailsInvestmentDivident", function () {
+    $(document).off("click", "#btnDetailsInvestmentDivident").on("click", "#btnDetailsInvestmentDivident", async function () {
    
         var $btn = $(this);
         $btn.prop("disabled", true);
@@ -941,11 +1109,38 @@
             $("#txtDDividendIncome").after('<div class="text-danger validation-error">Dividend Income is required.</div>');
             isValid = false;
         }
+
+        var response = "";
+        var fileInput = $("#fileDVUpload")[0];
+
+        // Check file input and if already uploaded file exists
+        var hasUploadedFile = $("#uploadedFileDVContainer").text().trim().length > 0;
+
+        if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+            // Remove old validation messages first
+            $("#fileUploadDVWrapper").siblings(".validation-error").remove();
+
+            // Show validation below upload wrapper
+            $("#fileUploadDVWrapper")
+                .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
+            $btn.prop("disabled", false);
+            isValid = false;
+        } else {
+            // Remove validation if file exists or a new file is chosen
+            $("#fileUploadDVWrapper").siblings(".validation-error").remove();
+        }
        
 
         if (!isValid) {
             $btn.prop("disabled", false);
             return;
+        }
+
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
+
         }
 
         let dividendData = {
@@ -961,7 +1156,14 @@
             AcquisitionDate: acquisitionDate,
             CostAcquisition: costAcquisitionMarket,
             WHTDeducted: whtDeducted,
-            ForeignTaxCredit: foreignTaxCredit
+            ForeignTaxCredit: foreignTaxCredit,
+            UploadedFileName: response.originalName,
+            FileName: response.filename,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime: response.uploadTime
 
         };
         // === AJAX URL ===
@@ -981,6 +1183,9 @@
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#DividentGrid').html($(html).find('#DividentGrid').html());
                 });
+
+                if (fileInput) fileInput.value = "";
+                $("#uploadedFileDVContainer").hide();
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetFormDivident();
             },
@@ -1034,6 +1239,9 @@
         var netdividend = $(this).data("netdividend");
         var netwhtdeducted = $(this).data("netwhtdeducted");
         var netforeigntaxcredit = $(this).data("netforeigntaxcredit");
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
 
         $("#txtDActivityCode").val(activityCode);
         $("#ddlDTypeInvestment").val(typeOfInvestment);
@@ -1057,13 +1265,14 @@
         }
 
         $("#hiddenInvestmentIncomeId").val(id);
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileDVContainer");
         $("#btnDetailsInvestmentDivident").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
 
     });
 
     /* ============= Rent  =================*/
-    $(document).off("click", "#btnDetailsInvestmentRent").on("click", "#btnDetailsInvestmentRent", function () {
+    $(document).off("click", "#btnDetailsInvestmentRent").on("click", "#btnDetailsInvestmentRent", async function () {
 
         var $btn = $(this);
         $btn.prop("disabled", true);
@@ -1099,10 +1308,40 @@
             isValid = false;
         }
 
+        var response = "";
+        var fileInput = $("#fileREUpload")[0];
+
+        // Check file input and if already uploaded file exists
+        var hasUploadedFile = $("#uploadedFileREContainer").text().trim().length > 0;
+
+        if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+            // Remove old validation messages first
+            $("#fileUploadREWrapper").siblings(".validation-error").remove();
+
+            // Show validation below upload wrapper
+            $("#fileUploadREWrapper")
+                .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
+            $btn.prop("disabled", false);
+            isValid = false;
+        } else {
+            // Remove validation if file exists or a new file is chosen
+            $("#fileUploadREWrapper").siblings(".validation-error").remove();
+        }
+
+
         if (!isValid) {
             $btn.prop("disabled", false);
             return;
         }
+
+        
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
+
+        }
+
 
         // === Data Object ===
         let rentData = {
@@ -1118,8 +1357,14 @@
             GiftOrInheritedCost: giftInhreted,
             AcquisitionDate: acquisitionDate,
             MarketValue: marketValue,
-            ForeignTaxCredit: freignTaxCredit
-          
+            ForeignTaxCredit: freignTaxCredit,
+            UploadedFileName: response.originalName,
+            FileName: response.filename,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime: response.uploadTime
         };
 
         // === AJAX URL ===
@@ -1140,6 +1385,8 @@
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#RentGrid').html($(html).find('#RentGrid').html());
                 });
+                if (fileInput) fileInput.value = "";
+                $("#uploadedFileREContainer").hide();
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetFormRent();
             },
@@ -1188,6 +1435,9 @@
         var market = $(this).data("market");
         var foreigntax = $(this).data("foreigntax");
         var acquisition = $(this).data("acquisition");
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
 
         // Set values back to form
         $("#txtRActivityCode").val(activitycode);
@@ -1212,13 +1462,14 @@
         }
 
         $("#hiddenInvestmentIncomeId").val(id);
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileREContainer");
         $("#btnDetailsInvestmentRent").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
 
     });
 
     /* ============= Other  =================*/
-    $(document).off("click", "#btnDetailsInvestmentOther").on("click", "#btnDetailsInvestmentOther", function () {
+    $(document).off("click", "#btnDetailsInvestmentOther").on("click", "#btnDetailsInvestmentOther", async function () {
 
         var $btn = $(this);
         $btn.prop("disabled", true);
@@ -1244,11 +1495,41 @@
             $("#txtOAmountInvested").after('<div class="text-danger validation-error">Amount Invested is required.</div>');
             isValid = false;
         }
+
+        var response = "";
+        var fileInput = $("#fileOtherUpload")[0];
+
+        // Check file input and if already uploaded file exists
+        var hasUploadedFile = $("#uploadedFileOtherContainer").text().trim().length > 0;
+
+        if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+            // Remove old validation messages first
+            $("#fileUploadOtherWrapper").siblings(".validation-error").remove();
+
+            // Show validation below upload wrapper
+            $("#fileUploadOtherWrapper")
+                .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
+            $btn.prop("disabled", false);
+            isValid = false;
+        } else {
+            // Remove validation if file exists or a new file is chosen
+            $("#fileUploadOtherWrapper").siblings(".validation-error").remove();
+        }
+
+       
+
         
 
         if (!isValid) {
             $btn.prop("disabled", false);
             return;
+        }
+
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
+
         }
 
         // === Data Object ===
@@ -1259,7 +1540,14 @@
             ActivityCode: activityCode,
             TypeOfInvestment: typeOfInvestment,
             AmountInvested: amountInvested,
-            IncomeAmount: incomeAmount
+            IncomeAmount: incomeAmount,
+            UploadedFileName: response.originalName,
+            FileName: response.filename,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime: response.uploadTime
 
         };
 
@@ -1281,6 +1569,9 @@
                 $.get('/SelfOnlineFlow/LoadInvestment_Detailsinvestment', function (html) {
                     $('#OtherGrid').html($(html).find('#OtherGrid').html());
                 });
+                if (fileInput) fileInput.value = "";
+                $("#uploadedFileContainer").hide();
+
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetFormOther();
             },
@@ -1318,7 +1609,9 @@
         var activity = $(this).data("activity");
         var amount = $(this).data("amount");
         var income = $(this).data("income");
-        
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
 
         // Set values back to form
         $("#txtOActivityCode").val(activitycode);
@@ -1328,6 +1621,7 @@
       
        
         $("#hiddenInvestmentIncomeId").val(id);
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileOtherContainer");
         $("#btnDetailsInvestmentOther").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
 

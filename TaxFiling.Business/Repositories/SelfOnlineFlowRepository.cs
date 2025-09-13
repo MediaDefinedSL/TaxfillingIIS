@@ -1207,7 +1207,14 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @DeedNo,
                 @RatesLocalAuthority,
                 @GiftOrInheritedCost,
-                @MarketValue
+                @MarketValue,
+                @uploadedFileName,
+                @fileName,
+                @location,
+                @uploadTime,
+                @decryptionKey,
+                @uploadId,
+                @originalName
             )",
                 new MySqlParameter("@loguser", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
                 new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
@@ -1237,7 +1244,14 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 new MySqlParameter("@DeedNo", selfOnlineInvestment.DeedNo ?? (object)DBNull.Value),
                 new MySqlParameter("@RatesLocalAuthority", selfOnlineInvestment.RatesLocalAuthority ?? (object)DBNull.Value),
                 new MySqlParameter("@GiftOrInheritedCost", selfOnlineInvestment.GiftOrInheritedCost ?? (object)DBNull.Value),
-                new MySqlParameter("@MarketValue", selfOnlineInvestment.MarketValue ?? (object)DBNull.Value)
+                new MySqlParameter("@MarketValue", selfOnlineInvestment.MarketValue ?? (object)DBNull.Value),
+                new MySqlParameter("@uploadedFileName", selfOnlineInvestment.UploadedFileName ?? (object)DBNull.Value),
+              new MySqlParameter("@fileName", selfOnlineInvestment.FileName ?? (object)DBNull.Value),
+              new MySqlParameter("@location", selfOnlineInvestment.Location ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadTime", selfOnlineInvestment.UploadTime ?? (object)DBNull.Value),
+              new MySqlParameter("@decryptionKey", selfOnlineInvestment.DecryptionKey ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadId", selfOnlineInvestment.UploadId ?? (object)DBNull.Value),
+              new MySqlParameter("@originalName", selfOnlineInvestment.OriginalName ?? (object)DBNull.Value)
             );
 
             isSuccess = true;
@@ -1290,7 +1304,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 DeedNo = t.DeedNo,
                 RatesLocalAuthority = t.RatesLocalAuthority,
                 GiftOrInheritedCost = t.GiftOrInheritedCost,
-                MarketValue = t.MarketValue
+                MarketValue = t.MarketValue,
+                FileName = t.FileName,
+                OriginalName = t.OriginalName,
+                DecryptionKey = t.DecryptionKey
             })
             .ToListAsync(ctx);
 
