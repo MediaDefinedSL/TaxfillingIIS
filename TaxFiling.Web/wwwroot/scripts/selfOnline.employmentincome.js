@@ -298,8 +298,8 @@ $(function () {
         }
     }
 
-    function showUploadedFile(fileName, decryptionKey, originalFileName, userId) {
-        const container = $("#uploadedFileContainer");
+    function showUploadedFile(fileName, decryptionKey, originalFileName, userId, element) {
+        const container = $(element);
         container.show();
         container.empty();
 
@@ -373,7 +373,7 @@ $(function () {
 
     });
 
-    $(document).off("click", "#btnTerminalSubmit").on("click", "#btnTerminalSubmit", function () {
+    $(document).off("click", "#btnTerminalSubmit").on("click", "#btnTerminalSubmit", async function () {
    
         // e.preventDefault();
         var id = $("#hiddenTerminalId").val();
@@ -408,8 +408,36 @@ $(function () {
             $btn.prop("disabled", false);
         }
 
+        var response = "";
+        var fileInput = $("#fileTerminalUpload")[0];
+
+        // Check file input and if already uploaded file exists
+        var hasUploadedFile = $("#uploadedFileTBContainer").text().trim().length > 0;
+
+        if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+            // Remove old validation messages first
+            $("#fileUploadTBWrapper").siblings(".validation-error").remove();
+
+            // Show validation below upload wrapper
+            $("#fileUploadTBWrapper")
+                .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
+            $btn.prop("disabled", false);
+            isValid = false;
+        } else {
+            // Remove validation if file exists or a new file is chosen
+            $("#fileUploadTBWrapper").siblings(".validation-error").remove();
+        }
+
+
         if (!isValid) {
             return;
+        }
+
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
+
         }
 
         var terminalIncome = {
@@ -418,7 +446,14 @@ $(function () {
             TypeOfName: typeTerminal,
             EmployerORCompanyName: terminalECName,
             TINOfEmployer: TINTerminal,
-            TerminalBenefits: terminalBenefits
+            TerminalBenefits: terminalBenefits,
+            UploadedFileName: response.originalName,
+            FileName: response.filename,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime: response.uploadTime
         }
         if (id) {
             $.ajax({
@@ -441,6 +476,9 @@ $(function () {
                     $("#txtTerminalBenefits").val("");
                     $("#btnTerminalSubmit").text("Submit");
                     $("#hiddenTerminalId").val("")
+
+                    if (fileInput) fileInput.value = "";
+                    $("#uploadedFileTBContainer").hide();
 
                 },
                 error: function () {
@@ -472,6 +510,8 @@ $(function () {
                     $("#txtTerminalBenefits").val("");
                     $("#btnTerminalSubmit").text("Submit");
                     $("#hiddenTerminalId").val("")
+                    if (fileInput) fileInput.value = "";
+                    $("#uploadedFileTBContainer").hide();
 
                 },
                 error: function () {
@@ -492,7 +532,7 @@ $(function () {
 
     });
 
-    $(document).off("click", "#btnExemptSubmit").on("click", "#btnExemptSubmit", function () {
+    $(document).off("click", "#btnExemptSubmit").on("click", "#btnExemptSubmit", async function () {
       // e.preventDefault();
         var id = $("#hiddenExemptId").val();
         var $btn = $(this);
@@ -525,8 +565,36 @@ $(function () {
             $btn.prop("disabled", false);
         }
 
+        var response = "";
+        var fileInput = $("#fileEAUpload")[0];
+
+        // Check file input and if already uploaded file exists
+        var hasUploadedFile = $("#uploadedFileEAContainer").text().trim().length > 0;
+
+        if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+            // Remove old validation messages first
+            $("#fileUploadEAWrapper").siblings(".validation-error").remove();
+
+            // Show validation below upload wrapper
+            $("#fileUploadEAWrapper")
+                .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
+            $btn.prop("disabled", false);
+            isValid = false;
+        } else {
+            // Remove validation if file exists or a new file is chosen
+            $("#fileUploadEAWrapper").siblings(".validation-error").remove();
+        }
+
+
         if (!isValid) {
             return;
+        }
+
+        if (fileInput && fileInput.files.length > 0) {
+            var userId = $("#hiddenUserId").val();
+            response = await UploadSuportingDocumenttoServer(fileInput.files[0], userId, new Date().getFullYear().toString());
+
         }
 
         var exemptIncome = {
@@ -535,7 +603,14 @@ $(function () {
             TypeOfName: exemptType,
             EmployerORCompanyName: exemptTinEmployerName,
             TINOfEmployer: TINExempt,
-            Amount: exemptAmount
+            Amount: exemptAmount,
+            UploadedFileName: response.originalName,
+            FileName: response.filename,
+            Location: response.location,
+            DecryptionKey: response.decryptionKey,
+            UploadId: response.uploadId,
+            OriginalName: response.originalName,
+            UploadTime: response.uploadTime
         }
         if (id) {
             $.ajax({
@@ -558,6 +633,8 @@ $(function () {
                     $("#txtExemptAmount").val("");
                     $("#btnExemptSubmit").text("Submit");
                     $("#hiddenExemptId").val("");
+                    if (fileInput) fileInput.value = "";
+                    $("#uploadedFileEAContainer").hide();
 
                 },
                 error: function () {
@@ -589,6 +666,8 @@ $(function () {
                     $("#txtExemptAmount").val("");
                     $("#btnExemptSubmit").text("Submit");
                     $("#hiddenExemptId").val("");
+                    if (fileInput) fileInput.value = "";
+                    $("#uploadedFileEAContainer").hide();
                     
 
                 },
@@ -706,7 +785,7 @@ $(function () {
         // Store id in hidden field for update
         $("#hiddenEmploymentDetailsId").val(id);
         //alert(fileName + "," + decryptionKey + "," + originalfilename + "," + $("#hiddenUserId").val())
-        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val());
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileContainer");
         
         $("#btnEmploymentDetails").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
@@ -728,6 +807,9 @@ $(function () {
         var name = $(this).data("name");
         var tin = $(this).data("tin");
         var benefit = $(this).data("benefit");
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
 
         // Fill form fields with selected row data
         $("#dpdTypeTerminal").val(type);
@@ -737,6 +819,9 @@ $(function () {
 
         // Store id in hidden field for update
         $("#hiddenTerminalId").val(id);
+       
+        //alert(fileName + "," + decryptionKey + "," + originalfilename + "," + $("#hiddenUserId").val())
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileTBContainer");
         $("#btnTerminalSubmit").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
     });
@@ -756,6 +841,9 @@ $(function () {
         var name = $(this).data("name");
         var tin = $(this).data("tin");
         var amount = $(this).data("amount");
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
 
         // Fill form fields with selected row data
         $("#dpdExemptType").val(type);
@@ -765,6 +853,7 @@ $(function () {
 
         // Store id in hidden field for update
         $("#hiddenExemptId").val(id);
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val(), "#uploadedFileEAContainer");
         $("#btnExemptSubmit").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
     });
