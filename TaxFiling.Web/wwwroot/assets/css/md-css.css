@@ -7126,3 +7126,16 @@ tr.color-change+tr+tr+tr+tr+tr td:first-child {
 .monthly-div {
     float: left;
 }
+
+.cal-foreing ul {
+    margin: 6px 0 0 0px;
+}
+
+label.text-changes-cal {
+    font-size: 12px;
+    line-height: 17px !important;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 9px;
+   
+}
