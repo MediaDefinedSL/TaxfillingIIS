@@ -135,7 +135,7 @@ public class UserUploadTaxAssistedDocController : Controller
                     latestDocStatus = parsedStatus;
                 }
             }
-            string personalInfoStatusUrl = QueryHelpers.AddQueryString($"https://localhost:7119/api/Users/GetPersonalInformationCompleted", queryParamsDocs);
+            string personalInfoStatusUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/Users/GetPersonalInformationCompleted", queryParamsDocs);
             var responsepersonalInfo = await _httpClient.GetAsync(personalInfoStatusUrl, ctx);
             if (responsepersonalInfo != null && responsepersonalInfo.IsSuccessStatusCode)
             {
