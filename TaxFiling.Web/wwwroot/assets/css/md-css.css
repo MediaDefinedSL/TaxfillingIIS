@@ -5508,8 +5508,8 @@ td:last-child {
 
 .Domestic tfoot td {
     font-weight: 800;
-    background: #eef6ff;
-    border-color: #dbeafe
+    background: #e0f2fe;
+        border-color: #e0f2fe;
 }
 
 .Domestic .btn {
@@ -6998,4 +6998,98 @@ td#kpi_assessable {
 
 #myAssetsTab button.nav-link.active:hover {
     scale: none !important;
+}
+
+.Domestic thead th {
+    background: #b7d9fb;
+}
+
+.Domestic td {
+    background: #eef6ff;
+}
+
+.Domestic .tile h4 {
+    border-bottom: solid 1px #bbbbbb;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+
+.Domestic .tile h4 {
+    border-bottom: solid 1px #bbbbbb;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+.foreing th {
+    background-color: #b7d9fb !important;
+    /* border-top-left-radius: 12px; */
+    /* border-bottom-left-radius: 12px; */
+}
+
+.foreing th:first-child,
+td:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    /* background: #eef6ff; */
+    /* padding-top: 14px; */
+    /* padding-bottom: 14px; */
+    height: 47px;
+}
+
+.foreing th:last-child,
+.foreing td:first-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    /* padding-left: 0px; */
+    /* padding-right: 0px; */
+}
+
+
+.tile.no-padding {
+    padding: 0px;
+}
+
+.foreing .card {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.foreing table th {
+    color: #000000 !important;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+
+
+tr.color-change+tr td,
+tr.color-change+tr+tr td,
+tr.color-change+tr+tr+tr td,
+tr.color-change+tr+tr+tr+tr td {
+    background-color: #eef6ff !important;
+}
+
+
+tr.color-change+tr+tr+tr+tr+tr td {
+    background-color: #e0f2fe !important;
+}
+
+tr.color-change+tr td:first-child,
+tr.color-change+tr+tr td:first-child,
+tr.color-change+tr+tr+tr td:first-child,
+tr.color-change+tr+tr+tr+tr td:first-child,
+tr.color-change+tr+tr+tr+tr+tr td:first-child {
+
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0;
+
+}
+
+
+
+.foreing table {
+    /* border-spacing: 5px 11px !important; */
+    border-collapse: separate;
+    border-spacing: 0px 10px;
 }
