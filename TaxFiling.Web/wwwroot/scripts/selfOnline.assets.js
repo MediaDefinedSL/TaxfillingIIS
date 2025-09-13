@@ -187,9 +187,9 @@
             success: function (response) {
                 $btn.prop("disabled", false);
                 if (response.success) {
-                    showMessage("Saved successfully", "success");
+                    showMessage(motorVehicleID ? "Updated successfully." : "Saved successfully", "success");
                     $("html, body").animate({ scrollTop: 0 }, "smooth");
-
+                    resetMotorVehicleForm();
                     // Refresh grid so user sees latest data
                     $("#MotorVehicleGrid").load("/SelfOnlineFlow/LoadAssets #MotorVehicleGrid > *");
                 } else {
@@ -204,12 +204,77 @@
     });
 });
 
+function resetMotorVehicleForm() {
+
+    $("#hiddenMotorVehicleID").val("");
+    $("#ddlMType").val("");
+    $("#txtMotorVehicleSN").val("");
+    $("#txtMotorVehicleDescription").val("");
+    $("#txtMotorVehicleRegNo").val("");
+    $("#txtMotorVehicleDate").val("");
+    $("#txtMotorVehicleValue").val("");
+    $("#btnMotorVehicleSubmit").text("Submit");
+
+    $("html, body").animate({ scrollTop: 0 }, "smooth");
+}
+
+$(document).on("click", "#btnMotorVehicleClear", function () {
+
+    resetMotorVehicleForm();
+    $("#btnMotorVehicleSubmit").text("Submit");
+
+});
+
+$(document).off("click", ".motorVehicle-editbtn").on("click", ".motorVehicle-editbtn", function () {
+
+    // Remove old validation messages
+    $(".validation-error").remove();
+
+    // Get the current row
+    var $row = $(this).closest("tr");
+    var $deleteBtn = $row.find(".immovableiroperty-deletebtn");
+
+    // Disable the delete button in this row
+    $deleteBtn.attr("data-disabled", "true");   // for persistence
+    $deleteBtn.addClass("disabled-btn");
+    $deleteBtn.prop("disabled", true);
+
+    $("#hiddenMotorVehicleID").val($(this).data("id"));
+    $("#ddlMType").val($(this).data("type"));
+    $("#txtMotorVehicleSN").val($(this).data("serial"));
+    $("#txtMotorVehicleRegNo").val($(this).data("registration"));
+    $("#txtMotorVehicleDate").val($(this).data("date"));
+    $("#txtMotorVehicleValue").val($(this).data("cost"));
+    $("#txtMotorVehicleDescription").val($(this).data("description"));
+
+    $("#btnMotorVehicleSubmit").text("Update");
+
+    // Scroll to form
+    $("html, body").animate({ scrollTop: 0 }, "smooth");
+});
+
 //----------- delete record
 
 let deleteAssetsId = null;
 let deleteCategoryName = null;
 
 $(document).on("click", ".immovableiroperty-deletebtn", function () {
+
+    if ($(this).data("disabled")) {
+        // Stop the modal from opening if disabled
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+    }
+    deleteAssetsId = $(this).data("id");
+    deleteCategoryName = $(this).data("name");
+
+    $('#selfonline_confirmDeleteModal').modal('show');
+
+});
+
+
+$(document).on("click", ".motorVehicle-deletebtn", function () {
 
     if ($(this).data("disabled")) {
         // Stop the modal from opening if disabled
@@ -243,6 +308,10 @@ $(document).on("click", "#selfonline_confirmDeleteBtn", function () {
                 if (deleteCategoryName == "ImmovableProperty") {
                     // Refresh grid so user sees latest data
                     $("#ImmovablePropertiesGrid").load("/SelfOnlineFlow/LoadAssets #ImmovablePropertiesGrid > *");
+                }
+                if (deleteCategoryName == "MotorVehicle") {
+                    // Refresh grid so user sees latest data
+                    $("#MotorVehicleGrid").load("/SelfOnlineFlow/LoadAssets #MotorVehicleGrid > *");
                 }
                
             },

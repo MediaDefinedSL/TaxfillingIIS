@@ -1524,7 +1524,7 @@ public class SelfOnlineFlowController : Controller
         var queryUserParams = new Dictionary<string, string?> {
                 { "userId", userId.ToString()},
                 { "year", year.ToString()},
-                { "investmentIncomeId", deleteAssetsId.ToString()},
+                { "deleteAssetsId", deleteAssetsId.ToString()},
                 { "categoryName", categoryName}
             };
 

@@ -170,6 +170,7 @@
                                     <i class="bi bi-truck"></i> &nbsp; Motor Vehicle
                                 </h4>
                                 <hr>
+                                <input type="hidden" id="hiddenMotorVehicleID" name="hiddenMotorVehicleID" value="" />
                                 <div class="row mb-2">
                                     <div class="col-3">Type</div>
                                     <div class="col-5">
@@ -216,6 +217,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnMotorVehicleClear">Clear</button>
                                             <button type="button" class="btn btn-primary mt-3" id="btnMotorVehicleSubmit">Submit</button>
                                         </div>
                                     </div>
@@ -251,8 +253,22 @@
                                                         <td>@motorVehicle.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
                                                         <td>@motorVehicle.CostMarketValue?.ToString("N2")</td>
                                                         <td>
-                                                            <button class="btn btn-primary btn-sm edit-btn" data-id="@motorVehicle.SelfonlineMotorVehicleID">Edit</button>
-                                                            <button class="btn btn-danger btn-sm delete-btn" data-id="@motorVehicle.SelfonlineMotorVehicleID">Delete</button>
+
+                                                            <button class="btn btn-primary btn-sm motorVehicle-editbtn" type="button"
+                                                                    data-id="@motorVehicle.SelfonlineMotorVehicleID"
+                                                                    data-type="@motorVehicle.Type"
+                                                                    data-serial="@motorVehicle.SerialNumber"
+                                                                    data-description="@motorVehicle.Description"
+                                                                    data-registration="@motorVehicle.RegistrationNo"
+                                                                    data-date="@motorVehicle.DateOfAcquisition?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@motorVehicle.CostMarketValue?.ToString("N2")">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm motorVehicle-deletebtn" type="button"
+                                                                    data-id="@motorVehicle.SelfonlineMotorVehicleID"
+                                                                    data-name="MotorVehicle">
+                                                                Delete
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 }
