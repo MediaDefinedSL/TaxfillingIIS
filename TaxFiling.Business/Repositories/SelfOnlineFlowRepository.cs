@@ -544,7 +544,14 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
                 @Amount,
-                @BenefitExcludedForTax
+                @BenefitExcludedForTax,
+                @uploadedFileName,
+                @fileName,
+                @location,
+                @uploadTime,
+                @decryptionKey,
+                @uploadId,
+                @originalName
             )",
             new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
             new MySqlParameter("@UserId", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -563,7 +570,14 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
             new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
-            new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value)
+            new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadedFileName", selfOnlineEmploymentIncomeDetails.UploadedFileName ?? (object)DBNull.Value),
+              new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
+              new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
+              new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
+              new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
         );
 
 
@@ -723,7 +737,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                         TerminalBenefits = e.TerminalBenefits,
                         Amount = e.Amount,
                         Total = t.TaxTotal,
-                        BenefitExcludedForTax = e.BenefitExcludedForTax
+                        BenefitExcludedForTax = e.BenefitExcludedForTax,
+                        FileName = e.FileName,
+                        OriginalName = e.OriginalName,
+                        DecryptionKey = e.DecryptionKey
                     }
                 ).ToListAsync(ctx);
 
