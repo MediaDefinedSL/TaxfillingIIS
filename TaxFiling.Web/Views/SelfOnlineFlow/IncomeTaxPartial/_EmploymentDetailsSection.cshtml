@@ -68,8 +68,13 @@
                             </div>
                             <div class="col-md-6" id="divBenefitUpload">
                                 <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
-                                <input type="file" class="form-control" id="fileEmploymentIncomeUpload" name="fileEmploymentIncomeUpload"
-                                       accept=".jpg,.jpeg,.png,.gif">
+                                <div id="fileUploadWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="file" class="form-control" id="fileEmploymentIncomeUpload" name="fileEmploymentIncomeUpload"
+                                           accept=".jpg,.jpeg,.png,.gif">
+                                    <div id="uploadedFileContainer"></div>
+                                    
+                                </div>
+                                
                             </div>
                         </div>
                         <br />
@@ -150,7 +155,10 @@
                                                             data-remuneration="@eploymentIncome.Remuneration"
                                                             data-primary="@eploymentIncome.APITPrimaryEmployment"
                                                             data-secondary="@eploymentIncome.APITSecondaryEmployment"
-                                                            data-benefitExcludedForTax="@eploymentIncome.BenefitExcludedForTax">
+                                                            data-benefitexcludedfortax="@eploymentIncome.BenefitExcludedForTax"
+                                                            data-filename="@eploymentIncome.FileName"
+                                                            data-decryptionkey="@eploymentIncome.DecryptionKey"
+                                                            data-originalfilename="@eploymentIncome.OriginalName">
                                                         Edit
                                                     </button>
                                                     <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="EmploymentDetails">Delete</button>

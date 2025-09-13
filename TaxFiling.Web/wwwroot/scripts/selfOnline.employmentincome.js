@@ -134,10 +134,22 @@ $(function () {
         var response = "";
         var fileInput = $("#fileEmploymentIncomeUpload")[0];
 
-        if (fileInput && fileInput.files.length == 0) {
-            $("#fileEmploymentIncomeUpload").after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+        // Check file input and if already uploaded file exists
+        var hasUploadedFile = $("#uploadedFileContainer").text().trim().length > 0;
+
+        if ((fileInput && fileInput.files.length === 0) && !hasUploadedFile) {
+            // Remove old validation messages first
+            $("#fileUploadWrapper").siblings(".validation-error").remove();
+
+            // Show validation below upload wrapper
+            $("#fileUploadWrapper")
+                .after('<div class="text-danger validation-error">Upload supporting doc is required</div>');
+
             $btn.prop("disabled", false);
             isValid = false;
+        } else {
+            // Remove validation if file exists or a new file is chosen
+            $("#fileUploadWrapper").siblings(".validation-error").remove();
         }
 
         if (!isValid) {
@@ -166,7 +178,7 @@ $(function () {
             APITSecondaryEmployment: APITSecondaryEmployment,
             BenefitExcludedForTax: benefitExcludedForTax,
             UploadedFileName: response.originalName,
-            FileName: response.fileName,
+            FileName: response.filename,
             Location: response.location,
             DecryptionKey: response.decryptionKey,
             UploadId: response.uploadId,
@@ -204,6 +216,7 @@ $(function () {
                     $("#txtBenefitExcludedForTax").val("");
                     $("#btnEmploymentDetails").text("Submit");                    
                     if (fileInput) fileInput.value = "";
+                    $("#uploadedFileContainer").hide();
 
                 },
                 error: function () {
@@ -284,6 +297,64 @@ $(function () {
             alert("Upload failed: " + err.message);
         }
     }
+
+    function showUploadedFile(fileName, decryptionKey, originalFileName, userId) {
+        const container = $("#uploadedFileContainer");
+        container.show();
+        container.empty();
+
+        if (!fileName || !decryptionKey || !originalFileName) return;
+        
+        // create a clickable link
+        const fileLink = $('<a>', {
+            href: "#",
+            text: originalFileName ,
+            class: "uploaded-file-link",
+            click: function (e) {
+                e.preventDefault();
+                // call your async viewDoc function
+                viewDoc(fileName, decryptionKey, userId);
+            }
+        });
+        
+        container.append(fileLink);
+    }
+
+    async function viewDoc(fileName, decryptionKey, userId) {
+        const width = 800;
+        const height = 600;
+        const left = (screen.width / 2) - (width / 2);
+        const top = (screen.height / 2) - (height / 2);
+
+        const response = await fetch("https://file.taxfiling.lk/view", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                filename: fileName,
+                decryptionKey: decryptionKey,
+                userId: userId,
+                year: new Date().getFullYear().toString()
+            })
+        });
+
+        if (!response.ok) {
+            const err = await response.text();
+            console.error("View API error:", err);
+            alert("Failed to load document: " + err);
+            return;
+        }
+
+        const blob = await response.blob();
+        const contentType = response.headers.get("Content-Type") || "application/octet-stream";
+        const fileURL = URL.createObjectURL(new Blob([blob], { type: contentType }));
+
+        window.open(
+            fileURL,
+            "_blank",
+            `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
+        );
+    }
+
 
     $(document).on("click", "#btnEmploymentDetailsClear", function () {
 
@@ -601,12 +672,8 @@ $(function () {
         // Set HTML attribute
         $deleteBtn.attr("data-disabled", "true");  // <-- persistent
         $deleteBtn.addClass("disabled-btn");
-        $deleteBtn.prop("disabled", true);
-       
-       
-        
-        
-
+        $deleteBtn.prop("disabled", true);    
+   
         $(".validation-error").remove();
         $("#rdbSeniorCitizen").prop("checked", false);
         $("input[name='Residency']").prop("checked", false);
@@ -621,6 +688,9 @@ $(function () {
         var secondary = $(this).data("secondary");
         var seniorcitizen = String($(this).data("seniorcitizen")).toLowerCase() === "true";
         var benefitexcludedfortax = $(this).data("benefitexcludedfortax");
+        var fileName = $(this).data("filename");
+        var decryptionKey = $(this).data("decryptionkey");
+        var originalfilename = $(this).data("originalfilename");
         
 
         $(".rdbresidency[value='" + residency + "']").prop("checked", true);
@@ -635,6 +705,9 @@ $(function () {
 
         // Store id in hidden field for update
         $("#hiddenEmploymentDetailsId").val(id);
+        //alert(fileName + "," + decryptionKey + "," + originalfilename + "," + $("#hiddenUserId").val())
+        showUploadedFile(fileName, decryptionKey, originalfilename, $("#hiddenUserId").val());
+        
         $("#btnEmploymentDetails").text("Update");
         $("html, body").animate({ scrollTop: 0 }, "smooth");
     });

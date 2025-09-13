@@ -881,6 +881,7 @@ public class SelfOnlineFlowController : Controller
                 { "year", year.ToString()}
             };
         List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        //string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
         string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
         var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
@@ -953,10 +954,11 @@ public class SelfOnlineFlowController : Controller
         employmentIncomeDetails.UserId = userId;
         employmentIncomeDetails.Year = year;
 
-        var responseResult = new ResponseResult<object>();
+        var responseResult = new ResponseResult<object>(); 
 
         // Update user data
         var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_employmentincomedetails", employmentIncomeDetails);
+        //var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_employmentincomedetails", employmentIncomeDetails);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
