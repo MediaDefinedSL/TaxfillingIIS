@@ -92,6 +92,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnImmovablePropertiesClear">Clear</button>
                                             <button type="button" class="btn btn-primary mt-3" id="btnImmovablePropertiesSubmit">Submit</button>
                                         </div>
                                     </div>
@@ -129,8 +130,21 @@
                                                         <td>@immovableProperties.Cost?.ToString("N2")</td>
                                                         <td>@immovableProperties.MarketValue?.ToString("N2")</td>
                                                         <td>
-                                                            <button class="btn btn-primary btn-sm edit-btn" data-id="@immovableProperties.SelfonlinePropertyID">Edit</button>
-                                                            <button class="btn btn-danger btn-sm delete-btn" data-id="@immovableProperties.SelfonlinePropertyID">Delete</button>
+                                                            <button class="btn btn-primary btn-sm immovableiroperty-editbtn" type="button"
+                                                                    data-id="@immovableProperties.SelfonlinePropertyID"
+                                                                    data-type="@immovableProperties.Type"
+                                                                    data-serialno="@immovableProperties.SerialNumber"
+                                                                    data-situation="@immovableProperties.Situation"
+                                                                    data-date="@immovableProperties.DateOfAcquisition?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@immovableProperties.Cost"
+                                                                    data-market="@immovableProperties.MarketValue">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm immovableiroperty-deletebtn" type="button"
+                                                                    data-id="@immovableProperties.SelfonlinePropertyID"
+                                                                    data-name="ImmovableProperty">
+                                                                Delete
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 }
