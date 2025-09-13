@@ -6752,7 +6752,7 @@ div#motorvehicle {
 }
 
 div#bankbalances {
-    background-image: url(/assets/img/Bank-Balances.png) !important;
+   /* background-image: url(/assets/img/Bank-Balances.png) !important;*/
     background-repeat: no-repeat;
     background-position: right;
     background-position: top right;
@@ -6761,7 +6761,7 @@ div#bankbalances {
 }
 
 div#sharesstockssecurities {
-    background-image: url(/assets/img/shares-01.png) !important;
+   /* background-image: url(/assets/img/shares-01.png) !important;*/
     background-repeat: no-repeat;
     background-position: right;
     background-position: top right;
@@ -6770,7 +6770,7 @@ div#sharesstockssecurities {
 }
 
 div#expensesbalances {
-    background-image: url(/assets/img/Expenses-Balances.png) !important;
+    /*background-image: url(/assets/img/Expenses-Balances.png) !important;*/
     background-repeat: no-repeat;
     background-position: right;
     background-position: top right;
@@ -6779,7 +6779,7 @@ div#expensesbalances {
 }
 
 div#declarecapital {
-    background-image: url(/assets/img/Declare-Capital.png) !important;
+    /*background-image: url(/assets/img/Declare-Capital.png) !important;*/
     background-repeat: no-repeat;
     background-position: right;
     background-position: top right;
@@ -6987,4 +6987,15 @@ td#kpi_assessable {
 .insvesment .dropdown {
     /* width: 46%; */
     position: relative;
+}
+
+
+#myAssetsTab .nav-link.active:before {
+    margin-top: 0px !important;
+    top: 117px !important;
+    position: absolute;
+}
+
+#myAssetsTab button.nav-link.active:hover {
+    scale: none !important;
 }
