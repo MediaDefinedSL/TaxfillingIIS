@@ -6982,3 +6982,9 @@ td#kpi_assessable {
 .form-outline.mb-4.col-sm-4 {
     vertical-align: top;
 }
+
+
+.insvesment .dropdown {
+    /* width: 46%; */
+    position: relative;
+}
