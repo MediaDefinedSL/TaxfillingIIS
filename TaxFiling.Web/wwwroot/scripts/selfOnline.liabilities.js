@@ -143,7 +143,7 @@
     });
 
     $(document).off("click", ".allliabilities-editbtn").on("click", ".allliabilities-editbtn", function () {
-
+        alert(12);
         // Remove old validation messages
         $(".validation-error").remove();
 
@@ -266,7 +266,7 @@
 
     });
 
-    $(document).off("click", ".allliabilities-editbtn").on("click", ".allliabilities-editbtn", function () {
+    $(document).off("click", ".otherAsset-editbtn").on("click", ".otherAsset-editbtn", function () {
 
         // Remove old validation messages
         $(".validation-error").remove();
@@ -290,10 +290,230 @@
         $("#txtASCost").val(cost);
 
         // Change button text
-        $("#btnLiabilitySubmit").text("Update");
+        $("#btnOtherAssetsSubmit").text("Update");
 
         // Scroll to form
         $("html, body").animate({ scrollTop: 0 }, "smooth");
     });
 
+    //------------------ Disposal Asets
+
+    $(document).off("click", "#btnDisposalAsetsSubmit").on("click", "#btnDisposalAsetsSubmit", function () {
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Collect values from form
+        let disposalAsetsId = $("#hiddenDisposalAsetsId").val();
+        let type = $("#ddlDAType").val();
+        let serialNumber = $("#txtDASN").val();
+        let description = $("#txtDADes").val();
+        let dateOfDisposal = $("#txtDADate").val();
+        let salesProceed = $("#txtDASales").val();
+        let dateAcquired = $("#txtDADateAcquired").val();
+        let cost = $("#txtDACost").val();
+
+        let isValid = true;
+
+        $(".validation-error").remove();
+
+        if (!type) {
+            $("#ddlDAType").after('<div class="text-danger validation-error">Please select Type .</div>');
+            isValid = false;
+        }
+        if (!serialNumber.trim()) {
+            $("#txtDASN").after('<div class="text-danger validation-error">S/N is required.</div>');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            $btn.prop("disabled", false);
+            return;
+        }
+
+        // Build object matching your ViewModel/DTO
+        var disposalAssets = {
+            SelfonlineDisposalAssetsID: disposalAsetsId,
+            TransactionType: disposalAsetsId ? "Edit" : "Add",
+            Type: type,
+            SerialNumber: serialNumber,
+            Description: description,
+            DateOfDisposal: dateOfDisposal,
+            SalesProceed: salesProceed,
+            DateAcquired: dateAcquired,
+            Cost: cost
+        };
+
+        // Ajax call to save
+        $.ajax({
+            url: '/SelfOnlineFlow/SaveEditSelfonlineLiabilitiesDisposalAssets',
+            type: 'POST',
+            data: disposalAssets,
+            success: function (response) {
+                $btn.prop("disabled", false);
+                showMessage(disposalAsetsId ? "Updated successfully." : "Saved successfully", "success");
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
+                resetDisposalAsetsForm();
+                // Refresh Disposal Assets grid
+                $("#DisposalAsetsGrid").load("/SelfOnlineFlow/LoadLiabilities #DisposalAsetsGrid > *");
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving immovable property.");
+            }
+        });
+    });
+
+    function resetDisposalAsetsForm() {
+
+        $("#hiddenDisposalAsetsId").val("");
+        $("#ddlDAType").val("");
+        $("#txtDASN").val("");
+        $("#txtDADes").val("");
+        $("#txtDADate").val("");
+        $("#txtDASales").val("");
+        $("#txtDADateAcquired").val("");
+        $("#txtDACost").val("");
+
+
+        $("#btnDisposalAsetsSubmit").text("Submit");
+        $(".validation-error").remove();
+
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    }
+    $(document).on("click", "#btnDisposalAsetsClear", function () {
+
+        resetDisposalAsetsForm();
+        $("#btnDisposalAsetsSubmit").text("Submit");
+
+    });
+
+    $(document).off("click", ".disposalAsets-editbtn").on("click", ".disposalAsets-editbtn", function () {
+
+        $(".validation-error").remove();
+
+        var id = $(this).data("id");
+        var type = $(this).data("type");
+        var serialNo = $(this).data("serialno");
+        var description = $(this).data("description");
+        var ddate = $(this).data("ddate");
+        var salesProceed = $(this).data("salesproceed");
+        var adate = $(this).data("adate");
+        var cost = $(this).data("cost");
+
+        // Fill form fields
+        $("#hiddenDisposalAsetsId").val(id);
+        $("#ddlDAType").val(type);
+        $("#txtDASN").val(serialNo);
+        $("#txtDADes").val(description);
+        $("#txtDADate").val(ddate);
+        $("#txtDASales").val(salesProceed);
+        $("#txtDADateAcquired").val(adate);
+        $("#txtDACost").val(cost);
+
+        $("#btnDisposalAsetsSubmit").text("Update");
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    });
+
+
+    //----------- delete record
+
+    let deleteLiabilitiesId = null;
+    let deleteCategoryName = null;
+
+    $(document).on("click", ".allliabilities-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteLiabilitiesId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+
+
+    $(document).on("click", ".allliabilities-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteLiabilitiesId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+    $(document).on("click", ".otherAsset-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteLiabilitiesId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+    $(document).on("click", ".disposalAsets-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteLiabilitiesId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+
+    $(document).on("click", "#selfonline_confirmDeleteBtn", function () {
+
+        if (!deleteLiabilitiesId) return;
+
+        var deleteData = {
+            deleteId: deleteLiabilitiesId,
+            categoryName: deleteCategoryName
+        };
+
+
+        $.ajax({
+            url: '/SelfOnlineFlow/DeleteSelfOnlineAssetsLiabilitiesDetails',
+            type: 'POST',
+            data: deleteData,
+            success: function (response) {
+                $('#selfonline_confirmDeleteModal').modal('hide');
+                if (deleteCategoryName == "AllLiabilities") {
+                    // Refresh grid so user sees latest data
+                    $("#LiabilityGrid").load("/SelfOnlineFlow/LoadLiabilities #LiabilityGrid > *");
+                }
+                if (deleteCategoryName == "OtherAssets") {
+                    // Refresh grid so user sees latest data
+                    $("#OtherAssetsGrid").load("/SelfOnlineFlow/LoadLiabilities #OtherAssetsGrid > *");
+                }
+                if (deleteCategoryName == "DisposalAsets") {
+                    // Refresh grid so user sees latest data
+                    $("#DisposalAsetsGrid").load("/SelfOnlineFlow/LoadLiabilities #DisposalAsetsGrid > *");
+                }
+                
+
+            },
+            error: function () {
+                alert("Error deleting.");
+            }
+        });
+
+    });
 });

@@ -1700,6 +1700,51 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             new MySqlParameter("@SelfonlineBusinessAccountID", deleteAssetsId)
                 );
             }
+            if (categoryName == "AllLiabilities")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineLiability  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlineLiabilityID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlineLiabilityID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "OtherAssets")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineAssetsGifts   (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @selfonlineAssetsGiftsID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@selfonlineAssetsGiftsID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "DisposalAsets")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineDisposalAssets    (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @selfonlineDisposalAssetsID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@selfonlineDisposalAssetsID", deleteAssetsId)
+                );
+            }
 
             isSuccess = true;
 
@@ -2031,7 +2076,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
            
 
                 await _context.Database.ExecuteSqlRawAsync(
-      @"CALL ADDEditSelfOnlineCapitalCurrentAccount  (
+      @"CALL ADDEditSelfOnlineDisposalAssets   (
                                         @loguser,
                                         @UserId,
                                         @Year,

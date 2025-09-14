@@ -1540,7 +1540,7 @@ public class SelfOnlineFlowController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteSelfOnlineAssetsDetails(int deleteAssetsId, string categoryName, CancellationToken ctx)
+    public async Task<IActionResult> DeleteSelfOnlineAssetsLiabilitiesDetails(int deleteId, string categoryName, CancellationToken ctx)
     {
 
         var userId = User.FindFirst("UserID")?.Value;
@@ -1551,7 +1551,7 @@ public class SelfOnlineFlowController : Controller
         var queryUserParams = new Dictionary<string, string?> {
                 { "userId", userId.ToString()},
                 { "year", year.ToString()},
-                { "deleteAssetsId", deleteAssetsId.ToString()},
+                { "deleteAssetsId", deleteId.ToString()},
                 { "categoryName", categoryName}
             };
 
@@ -1743,7 +1743,31 @@ public class SelfOnlineFlowController : Controller
 
         }
 
-        return Ok(new { success = true, message = "Capital Current Account save successfully" });
+        return Ok(new { success = true, message = "Other Assetss save successfully" });
+
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsViewModel disposalAssets)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        disposalAssets.UserId = userId;
+        disposalAssets.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/savelineLiabilities_disposalassets", disposalAssets);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Disposal Assets save successfully" });
 
     }
 }
