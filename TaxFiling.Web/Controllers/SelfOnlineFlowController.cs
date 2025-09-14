@@ -1435,6 +1435,7 @@ public class SelfOnlineFlowController : Controller
 
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
+        ViewBag.userId = userId;
 
         var queryUserParams = new Dictionary<string, string?> {
             { "userId", userId.ToString()},
