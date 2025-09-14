@@ -403,6 +403,7 @@
                                 <td class="lbl text-bold">Total Assessable Income(excludes dividends)</td>
                                 <td class="num kpi" id="kpi_assessable">0.00
                                </td>
+                               <span class="kpi_assessable_all">0.00</span>
                                
                                
                             </tr>
@@ -1136,6 +1137,59 @@ updateExchangeRate();
 
 
 </script>
+
+
+
+<!-- ====== foreign_lkr_annual * 12 ====== -->
+
+<script>
+function updateAnnualLKR() {
+  const monthly = parseFloat(document.getElementById("foreign_lkr_annual").textContent.replace(/,/g, "")) || 0;
+  const annual = monthly * 12;
+  document.getElementById("lkr_annual_all").textContent = annual.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+// Run once on page load
+updateAnnualLKR();
+
+// Optional: run every time monthly value changes
+// (If you update foreign_lkr_annual dynamically)
+setInterval(updateAnnualLKR, 500); // checks every 0.5s
+</script>
+<!-- ====== END foreign_lkr_annual * 12 ====== -->
+
+
+<!-- ======  kpi_assessable * 12 ====== -->
+
+<script>
+function updateKPIAnnual() {
+  // Get value from td
+  const monthly = parseFloat(document.getElementById("kpi_assessable").innerText.replace(/,/g, "")) || 0;
+
+  // Calculate annual value
+  const annual = monthly * 12;
+
+  // Update the span
+  document.querySelector(".kpi_assessable_all").innerText = annual.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+// Run once on page load
+updateKPIAnnual();
+
+// Optional: refresh every time td changes dynamically (if updated by JS)
+setInterval(updateKPIAnnual, 500);
+</script>
+
+
+<!-- ====== END kpi_assessable * 12 ====== -->
+
+
 
 <!-- ====== foring income ====== -->
 
