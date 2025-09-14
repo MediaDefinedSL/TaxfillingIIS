@@ -7365,3 +7365,13 @@ span.kpi_assessable_all {
 .foreing input#exchange_rate {
     border: none !important;
 }
+
+
+#bank-section #bankInput+div#bankDropdown {
+    position: relative;
+    width: 54% !important;
+}
+
+.profile .rounded-circle {
+    object-fit: contain !important;
+}
