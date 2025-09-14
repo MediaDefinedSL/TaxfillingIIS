@@ -45,5 +45,9 @@ public class Context : DbContext
     public DbSet<SelfonlineAssetsCapitalCurrentAccount> SelfonlineAssetsCapitalCurrentAccount { get; set; }
     public DbSet<SelfonlineAssetsSharesStocksSecurities> SelfonlineAssetsSharesStocksSecurities { get; set; }
 
+    public DbSet<SelfonlineLiabilitiesAllLiabilities> SelfonlineLiabilitiesAllLiabilities { get; set; }
+    public DbSet<SelfonlineLiabilitiesOtherAssetsGifts> SelfonlineLiabilitiesOtherAssetsGifts { get; set; }
+    public DbSet<SelfonlineLiabilitiesDisposalAssets> SelfonlineLiabilitiesDisposalAssets { get; set; }
+
 
 }

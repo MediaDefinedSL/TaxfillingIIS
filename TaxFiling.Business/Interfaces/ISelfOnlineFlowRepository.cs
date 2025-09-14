@@ -55,4 +55,12 @@ public interface ISelfOnlineFlowRepository
     Task<List<SelfonlineAssetsSharesStocksSecuritiesDto>> GetSelfOnlineAssetsSharesStocksSecurities(string userId, int year, CancellationToken ctx);
     Task<bool> SaveEditSelfonlineAssetsCapitalCurrentAccount(SelfonlineAssetsCapitalCurrentAccountDto capitalCurrentAccount);
     Task<List<SelfonlineAssetsCapitalCurrentAccountDto>> GetSelfOnlineAssetCapitalCurrentAccount(string userId, int year, CancellationToken ctx);
+
+    //-------- Liabilities
+    Task<bool> SaveEditSelfonlineLiabilitiesAllLiabilities(SelfonlineLiabilitiesAllLiabilitiesDto allLiabilities);
+    Task<List<SelfonlineLiabilitiesAllLiabilitiesDto>> GetSelfonlineLiabilitiesAllLiabilities(string userId, int year, CancellationToken ctx);
+    Task<bool> SaveEditSelfonlineLiabilitiesOtherAssetsGifts(SelfonlineLiabilitiesOtherAssetsGiftsDto otherAssetss);
+    Task<List<SelfonlineLiabilitiesOtherAssetsGiftsDto>> GetSelfonlineLiabilitiesOtherAssetsGifts(string userId, int year, CancellationToken ctx);
+    Task<bool> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsDto disposalAssets);
+    Task<List<SelfonlineLiabilitiesDisposalAssetsDto>> GetSelfonlineLiabilitiesDisposalAssets(string userId, int year, CancellationToken ctx);
 }

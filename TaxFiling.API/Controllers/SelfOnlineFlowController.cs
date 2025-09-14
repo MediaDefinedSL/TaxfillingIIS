@@ -621,4 +621,96 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+
+    //-------- Liabilities
+
+    [HttpPost("savelineLiabilities_allliabilities")]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesAllLiabilities(SelfonlineLiabilitiesAllLiabilitiesDto allLiabilities)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineLiabilitiesAllLiabilities(allLiabilities);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("liabilitiesallliabilities_list")]
+    public async Task<IActionResult> GetSelfonlineLiabilitiesAllLiabilities(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfonlineLiabilitiesAllLiabilities(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPost("savelineLiabilities_otherassetss")]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesOtherAssetsGifts(SelfonlineLiabilitiesOtherAssetsGiftsDto otherAssetss)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineLiabilitiesOtherAssetsGifts(otherAssetss);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("liabilitiesotherassetss_list")]
+    public async Task<IActionResult> GetSelfonlineLiabilitiesOtherAssetsGifts(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfonlineLiabilitiesOtherAssetsGifts(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPost("savelineLiabilities_disposalassets")]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsDto disposalAssets)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineLiabilitiesDisposalAssets(disposalAssets);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("liabilitiesdisposalassets_list")]
+    public async Task<IActionResult> GetSelfonlineLiabilitiesDisposalAssets(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfonlineLiabilitiesDisposalAssets(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
 }
