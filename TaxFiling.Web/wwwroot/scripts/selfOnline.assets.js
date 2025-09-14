@@ -734,13 +734,13 @@
         if (!deleteAssetsId) return;
 
         var deleteData = {
-            deleteAssetsId: deleteAssetsId,
+            deleteId: deleteAssetsId,
             categoryName: deleteCategoryName
         };
 
 
         $.ajax({
-            url: '/SelfOnlineFlow/DeleteSelfOnlineAssetsDetails',
+            url: '/SelfOnlineFlow/DeleteSelfOnlineAssetsLiabilitiesDetails',
             type: 'POST',
             data: deleteData,
             success: function (response) {

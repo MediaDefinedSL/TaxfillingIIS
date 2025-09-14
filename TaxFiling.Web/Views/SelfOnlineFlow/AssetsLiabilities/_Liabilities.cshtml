@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">Amount of liability, as at31.03.2025</div>
+                                    <div class="col-3">Amount of liability, as at 31.03.2025</div>
                                     <div class="col-5">
                                         <input type="text" id="txtLiabilityAmount" class="form-control numeric-input" />
                                     </div>
@@ -245,45 +245,46 @@
 
                                             </tr>
                                         </thead>
-                                        @if (Model.selfonlineLiabilitiesOtherAssetsGifts != null && Model.selfonlineLiabilitiesOtherAssetsGifts.Any())
-                                        {
-                                            var index = 0;
-                                            foreach (var otherAssets in Model.selfonlineLiabilitiesOtherAssetsGifts)
+                                       
+                                        <tbody>
+                                            @if (Model.selfonlineLiabilitiesOtherAssetsGifts != null && Model.selfonlineLiabilitiesOtherAssetsGifts.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var otherAssets in Model.selfonlineLiabilitiesOtherAssetsGifts)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@otherAssets.Type</td>
+                                                        <td>@otherAssets.SerialNumber</td>
+                                                        <td>@otherAssets.AcquisitionMode</td>   <!-- fixed -->
+                                                        <td>@otherAssets.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@otherAssets.CostMarketValue?.ToString("N2")</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm otherAsset-editbtn" type="button"
+                                                                    data-id="@otherAssets.SelfonlineAssetsGiftsID"
+                                                                    data-type="@otherAssets.Type"
+                                                                    data-serialno="@otherAssets.SerialNumber"
+                                                                    data-description="@otherAssets.Description"
+                                                                    data-security="@otherAssets.AcquisitionMode"
+                                                                    data-date="@otherAssets.DateOfAcquisition?.ToString("yyyy-MM-dd")"
+                                                                    data-oamount="@otherAssets.CostMarketValue">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm otherAsset-deletebtn" type="button"
+                                                                    data-id="@otherAssets.SelfonlineAssetsGiftsID"
+                                                                    data-name="OtherAssets">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
                                             {
                                                 <tr>
-                                                    <td>@(++index)</td>
-                                                    <td>@otherAssets.Type</td>
-                                                    <td>@otherAssets.SerialNumber</td>
-                                                    <td>@otherAssets.AcquisitionMode</td>   <!-- fixed -->
-                                                    <td>@otherAssets.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
-                                                    <td>@otherAssets.CostMarketValue?.ToString("N2")</td>
-                                                    <td>
-                                                        <button class="btn btn-primary btn-sm allliabilities-editbtn" type="button"
-                                                                data-id="@otherAssets.SelfonlineAssetsGiftsID"
-                                                                data-type="@otherAssets.Type"
-                                                                data-serialno="@otherAssets.SerialNumber"
-                                                                data-description="@otherAssets.Description"
-                                                                data-security="@otherAssets.AcquisitionMode"
-                                                                data-date="@otherAssets.DateOfAcquisition?.ToString("yyyy-MM-dd")"
-                                                                data-oamount="@otherAssets.CostMarketValue">
-                                                            Edit
-                                                        </button>
-                                                        <button class="btn btn-danger btn-sm allliabilities-deletebtn" type="button"
-                                                                data-id="@otherAssets.SelfonlineAssetsGiftsID"
-                                                                data-name="OtherAssets">
-                                                            Delete
-                                                        </button>
-                                                    </td>
+                                                    <td colspan="9" class="text-center">No Other Assets found.</td>
                                                 </tr>
                                             }
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td colspan="9" class="text-center">No Liabilities found.</td>
-                                            </tr>
-                                        }
-                                        <tbody>
                                         </tbody>
                                     </table>
                                 </div>
@@ -352,7 +353,7 @@
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
                                             <button type="button" class="btn btn-primary mt-3" id="btnDisposalAsetsClear">Clear</button>
-                                            <button type="button" class="btn btn-primary mt-3" id="btnDisposalAsetsClear">Submit</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDisposalAsetsSubmit">Submit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -374,6 +375,46 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if (Model.selfonlineLiabilitiesDisposalAssets != null && Model.selfonlineLiabilitiesDisposalAssets.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var disposalAsets in Model.selfonlineLiabilitiesDisposalAssets)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@disposalAsets.Type</td>
+                                                        <td>@disposalAsets.SerialNumber</td>
+                                                        <td>@disposalAsets.DateOfDisposal?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@disposalAsets.SalesProceed</td>
+                                                        <td>@disposalAsets.DateAcquired?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@disposalAsets.Cost</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm disposalAsets-editbtn" type="button"
+                                                                    data-id="@disposalAsets.SelfonlineDisposalAssetsID"
+                                                                    data-type="@disposalAsets.Type"
+                                                                    data-serialno="@disposalAsets.SerialNumber"
+                                                                    data-description="@disposalAsets.Description"
+                                                                    data-ddate="@disposalAsets.DateOfDisposal?.ToString("yyyy-MM-dd")"
+                                                                    data-salesproceed="@disposalAsets.SalesProceed"
+                                                                    data-adate="@disposalAsets.DateAcquired?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@disposalAsets.Cost">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm disposalAsets-deletebtn" type="button"
+                                                                    data-id="@disposalAsets.SelfonlineDisposalAssetsID"
+                                                                    data-name="DisposalAsets">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="9" class="text-center">No Disposal Assets found.</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
