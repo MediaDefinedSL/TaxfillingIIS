@@ -1521,7 +1521,7 @@ main.main {
 
 /*END mayu view-toggle */
 .page-title {
-    padding: 10px 0;
+    padding: 6px 0;
 }
 
 .page-title.accent-background .mb-2.mb-lg-0 {
@@ -5655,7 +5655,7 @@ div#taxtotalview {
     display: inline-block;
     float: right;
     margin-right: 18px;
-    margin-top: 10px;
+    margin-top: 4px;
     position: absolute;
     right: 0;
 }
@@ -6313,7 +6313,7 @@ div#taxtotalview {
 }
 
 #Self-Online-Flow .toggle-btn {
-    z-index: 999999 !important;
+    z-index: 9999999 !important;
 }
 
 div#in-this-section-container main.main-content.Personal-Information-summary .filling:first-child {
@@ -6326,7 +6326,7 @@ div#in-this-section-container main.main-content.Personal-Information-summary .fi
 
 
 .page-title.accent-background {
-    z-index: 9999999 !important;
+    z-index: 99999999 !important;
 }
 
 .container-fluid.not-padding.menubar-css {
@@ -6730,7 +6730,7 @@ h4.mb-3 {
 
 
 div#immovableproperties {
-    background-image: url(/assets/img/Immovable-Properties.png) !important;
+    background-image: url(/assets/img/Immovable-Properties-larg.png) !important;
     background-repeat: no-repeat;
     background-position: right;
     background-position: top right;
@@ -6739,12 +6739,13 @@ div#immovableproperties {
 }
 
 div#motorvehicle {
-    background-image: url(/assets/img/Motor-Vehicle.png) !important;
-    background-repeat: no-repeat;
-    background-position: right;
-    background-position: top right;
-    background-position-y: 25%;
-    background-size: 31%;
+    background-image: url(/assets/img/171239.png) !important;
+        background-repeat: no-repeat;
+        background-position: right;
+        background-position: top right;
+        background-position-y: 25%;
+        background-size: 24%;
+        background-position-x: 97%;
 }
 
 div#bankbalances {
@@ -6757,7 +6758,7 @@ div#bankbalances {
 }
 
 div#sharesstockssecurities {
-   /* background-image: url(/assets/img/shares-01.png) !important;*/
+    background-image: url(/assets/img/Share-form-larg.png) !important;
     background-repeat: no-repeat;
     background-position: right;
     background-position: top right;
@@ -6775,7 +6776,7 @@ div#expensesbalances {
 }
 
 div#declarecapital {
-    /*background-image: url(/assets/img/Declare-Capital.png) !important;*/
+    background-image: url(/assets/img/Declare-the-Capital.png) !important;
     background-repeat: no-repeat;
     background-position: right;
     background-position: top right;
@@ -7181,4 +7182,99 @@ button#btn_resett {
 
 button.btn-reset {
     visibility: hidden;
+
+}
+
+
+.bg-danger-subtle {
+    background-color: #ffffff !important;
+}
+
+.bg-danger-subtle {
+    border-top: solid 5px #dc3545;
+}
+
+.sidebar-main table.table.table-bordered tr th:last-child {
+    width: 120px !important;
+}
+
+
+.sidebar-main table.table.table-bordered tr td:last-child {
+    /* display: block; */
+    width: 133px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+
+div#bank-section {
+    background-color: #fff !important;
+}
+
+
+div#institutionTypeNoteContainer-7 .institution-note-group {
+    display: block !important;
+}
+
+.sidebar .sub-link {
+    font-size: 14px;
+}
+
+
+.navmenu button.dropdown-toggle {
+    padding-right: 13px;
+}
+
+.navmenu .dropdown+.dropdown .dropdown-toggle {
+    padding-right: 4px;
+}
+
+#bank-section #branchDropdown {
+    width: 54%;
+    position: relative;
+}
+
+.page-title.accent-background .col-lg-4.col-md-6 {
+    line-height: 20px !important;
+}
+
+
+.form-select {
+    height: 38px;
+
+}
+
+
+div#myLiabilitiesTabContent {
+    padding: 0;
+}
+
+ul#myLiabilitiesTab {
+    column-gap: 1%;
+}
+
+
+
+button#otherassets-tab {
+    background-image: url(/assets/img/Other-Assets.png) !important;
+    background-size: cover;
+    background-size: 82px;
+    background-size: 10;
+    background-size: 94px;
+}
+
+button#disposalasets-tab {
+    background-image: url(/assets/img/Disposal-Asets.png) !important;
+    background-size: cover;
+    background-size: 82px;
+    background-size: 10;
+    background-size: 94px;
+}
+
+button#allliabilities-tab {
+    background-image: url(/assets/img/Al-Liabilities.png) !important;
+    background-size: cover;
+    background-size: 82px;
+    background-size: 10;
+    background-size: 94px;
 }
