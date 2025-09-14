@@ -42,6 +42,8 @@ public class Context : DbContext
     public DbSet<SelfOnlineInvestmentPartnerBeneficiaryExempt> SelfOnlineInvestmentPartnerBeneficiaryExempt { get; set; }
     public DbSet<SelfonlineAssetsImmovableProperty> SelfonlineAssetsImmovableProperty { get; set; }
     public DbSet<SelfonlineAssetsMotorVehicle> SelfonlineAssetsMotorVehicle { get; set; }
+    public DbSet<SelfonlineAssetsCapitalCurrentAccount> SelfonlineAssetsCapitalCurrentAccount { get; set; }
+    public DbSet<SelfonlineAssetsSharesStocksSecurities> SelfonlineAssetsSharesStocksSecurities { get; set; }
 
 
 }

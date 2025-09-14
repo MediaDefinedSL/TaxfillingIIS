@@ -403,6 +403,129 @@
                                     <i class="bi bi-graph-up"></i> &nbsp; Shares/Stocks/Securities as at 31.03.2025
                                 </h4>
                                 <hr>
+                                <input type="hidden" id="hiddenSharesStocksID" name="hiddenSharesStocksID" value="" />
+                                <div class="row mb-2">
+                                    <div class="col-3">Type</div>
+                                    <div class="col-5">
+                                        <select class="form-select" id="ddlSType" name="ddlSType">
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Local">Local</option>
+                                            <option value="Foreign">Foreign</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">S/N</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtSSN" name="txtSSN" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Name of Company/Institution</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtNameCompanyInstitution" name="txtNameCompanyInstitution" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">No of Shares/Stocksetc
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtNoOfShares" name="txtNoOfShares" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Date of Acquisition</div>
+                                    <div class="col-5">
+                                        <input type="date" id="txtSSSDate" name="txtSSSDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Cost of Acquisition/Market value if not acquired (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtSCostOfAcquisition" name="txtSCostOfAcquisition" class="form-control numeric-input text-end" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Net dividend Income (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtSNetDvidend" name="txtSNetDvidend" class="form-control numeric-input text-end" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnSharesStocksClear">Clear</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnSharesStocksSubmit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <div class="table-responsive" id="SharesStocksGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>S/N</th>
+                                                <th>No Of Shares/Stocks</th>
+                                                <th>Date Acquisition</th>
+                                                <th>Cost Acquisition</th>
+                                                <th>Net dividend</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfonlineAssetsSharesStocksSecuritiesViewModel != null && Model.selfonlineAssetsSharesStocksSecuritiesViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var sharesStocksSecurities in Model.selfonlineAssetsSharesStocksSecuritiesViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@sharesStocksSecurities.Type</td>
+                                                        <td>@sharesStocksSecurities.SerialNumber</td>
+                                                        <td>@sharesStocksSecurities.NoOfSharesStocks</td>
+                                                        <td>@sharesStocksSecurities.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@sharesStocksSecurities.CostOfAcquisition?.ToString("N2")</td>
+                                                        <td>@sharesStocksSecurities.NetDividendIncome?.ToString("N2")</td>
+                                                        <td>
+
+                                                            <button class="btn btn-primary btn-sm sharesStocksSecurities-editbtn" type="button"
+                                                                    data-id="@sharesStocksSecurities.SelfonlineSharesStocksID"
+                                                                    data-type="@sharesStocksSecurities.Type"
+                                                                    data-serial="@sharesStocksSecurities.SerialNumber"
+                                                                    data-company="@sharesStocksSecurities.CompanyName"
+                                                                    data-nosharesstocks="@sharesStocksSecurities.NoOfSharesStocks"
+                                                                    data-date="@sharesStocksSecurities.DateOfAcquisition?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@sharesStocksSecurities.CostOfAcquisition?.ToString("N2")"
+                                                                    data-netdividend="@sharesStocksSecurities.NetDividendIncome?.ToString("N2")">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm sharesStocksSecurities-deletebtn" type="button"
+                                                                    data-id="@sharesStocksSecurities.SelfonlineSharesStocksID"
+                                                                    data-name="SharesStocksSecurities">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
 
                             @*     Expenses and Balances *@
@@ -413,6 +536,58 @@
                                     <i class="bi bi-cash-stack"></i> &nbsp; Expenses and Balances
                                 </h4>
                                 <hr>
+
+                                <!-- Expenses Section -->
+                                <div class=" border rounded bg-light shadow-sm ">
+                                    <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Annual Expenses </h6>
+                                    <div class="alert alert-info mt-3">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Note: Please provide your average annual expenses for the period from 1 April 2024 to 31 March 2025.
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6"><label class="form-label"><span style="color: red">*</span> Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
+                                        <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
+                                        <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="text" class="form-control numeric-input" name="FixedDeductions" /></div>
+                                        <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="text" class="form-control numeric-input" name="ChildrenEducation" /></div>
+                                        <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="text" class="form-control numeric-input" name="VehicleExpenses" /></div>
+                                        <div class="col-md-6"><label class="form-label">Medical Expenses</label><input type="text" class="form-control numeric-input" name="MedicalExpenses" /></div>
+                                        <div class="col-md-6"><label class="form-label">Loan Re-Payments</label><input type="text" class="form-control numeric-input" name="LoanRepayments" /></div>
+                                        <div class="col-md-6"><label class="form-label">Cash Payments for Credit Cards</label><input type="text" class="form-control numeric-input" name="CreditCardPayments" /></div>
+                                        <div class="col-md-6"><label class="form-label">House Rent</label><input type="text" class="form-control numeric-input" name="HouseRent" /></div>
+                                        <div class="col-md-6"><label class="form-label">Donation</label><input type="text" class="form-control numeric-input" name="Donations" /></div>
+                                        <div class="col-md-6"><label class="form-label">Life/Medical Insurance Premium</label><input type="text" class="form-control numeric-input" name="InsurancePremium" /></div>
+                                        <div class="col-md-6"><label class="form-label">Any Other Expenses</label><input type="text" class="form-control numeric-input" name="OtherExpenses" /></div>
+                                    </div>
+                                </div>
+
+                                <!-- Balances Section -->
+                                <div class="border rounded bg-light shadow-sm ">
+                                    <h6 class="mb-4 text-primary"><i class="fas fa-boxes me-2"></i> Balances as at 31.03.2025</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label"><span style="color: red">*</span> Cash in hand</label>
+                                            <input type="text" class="form-control numeric-input" name="CashInHand" required />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Loans given / Receivables</label>
+                                            <input type="text" class="form-control numeric-input" name="LoansGiven" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Value of Gold, Silver, Gems, Jewellery</label>
+                                            <input type="text" class="form-control numeric-input" name="JewelleryValue" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Disposal of assets</label>
+                                            <input type="text" class="form-control numeric-input" name="AssetDisposals" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 d-flex justify-content-end">
+                                    <button type="button" class="btn btn-success" id="saveFinancialDetailsBtn">
+                                        <i class="fas fa-check-circle me-1"></i> Save
+                                    </button>
+                                </div>
                             </div>
 
                             @*     Declare the Capital *@
@@ -423,6 +598,110 @@
                                     <i class="bi bi-briefcase"></i> &nbsp; Declare the Capital and Current Account (credit) Balances Held as a Part of Business, as at 31.03.2025
                                 </h4>
                                 <hr>
+                                <input type="hidden" id="hiddenDeclareCapitalID" name="hiddenDeclareCapitalID" value="" />
+                                <div class="row mb-2">
+                                    <div class="col-3">Type</div>
+                                    <div class="col-5">
+                                        <select class="form-select" id="ddlDeclareCapitalType" name="ddlDeclareCapitalType">
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Local">Local</option>
+                                            <option value="Foreign">Foreign</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">S/N</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtDeclareCapitalSN" name="txtDeclareCapitalSN" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Name of Business</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtBusinessName" name="txtBusinessName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Current Account Balance (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtCurrentAccountBalance" name="txtCurrentAccountBalance" class="form-control numeric-input text-end" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Capital account balance (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtCapitalAccountBalance" name="txtCapitalAccountBalance" class="form-control numeric-input text-end" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDeclareCapitalClear">Clear</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDeclareCapitalSubmit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4">
+                                <div class="table-responsive" id="DeclareCapitalGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>S/N</th>
+                                                <th>Business Name</th>
+                                                <th>Current Balance</th>
+                                                <th>Capital Balance</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfonlineAssetsCapitalCurrentAccountViewModel != null && Model.selfonlineAssetsCapitalCurrentAccountViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var capitalCurrentAccount in Model.selfonlineAssetsCapitalCurrentAccountViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@capitalCurrentAccount.Type</td>
+                                                        <td>@capitalCurrentAccount.SerialNumber</td>
+                                                        <td>@capitalCurrentAccount.BusinessName</td>
+                                                        <td>@capitalCurrentAccount.CurrentAccountBalance?.ToString("N2")</td>
+                                                        <td>@capitalCurrentAccount.CapitalAccountBalance?.ToString("N2")</td>
+                                                        <td>
+
+                                                            <button class="btn btn-primary btn-sm capitalCurrentAccount-editbtn" type="button"
+                                                                    data-id="@capitalCurrentAccount.SelfonlineBusinessAccountID"
+                                                                    data-type="@capitalCurrentAccount.Type"
+                                                                    data-serial="@capitalCurrentAccount.SerialNumber"
+                                                                    data-company="@capitalCurrentAccount.BusinessName"
+                                                                    data-currentaccount="@capitalCurrentAccount.CurrentAccountBalance?.ToString("N2")"
+                                                                    data-capitalaccount="@capitalCurrentAccount.CapitalAccountBalance?.ToString("N2")">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm capitalCurrentAccount-deletebtn" type="button"
+                                                                    data-id="@capitalCurrentAccount.SelfonlineBusinessAccountID"
+                                                                    data-name="CapitalCurrentAccount">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                         </div>
@@ -432,12 +711,12 @@
             </form>
             <br><br>
             <div class="d-lg-flex justify-content-between">
-                <div class="col-lg-6 col-md-6 btn-prv">
-                    <button class="btn btn-primary btn-lg" id="linContinue">
+                <div class="col-lg-6 col-md-6 btn-prv" id="linkDeductionsContinue">
+                    <button class="btn btn-primary btn-lg">
                         Back
                     </button>
                 </div>
-                <div class="col-lg-6 col-md-6 right next-btn" id="linkContinue">
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkLiabilitiesContinue">
                     <button class="btn btn-primary btn-lg">
                         Continue
                     </button>

@@ -51,4 +51,8 @@ public interface ISelfOnlineFlowRepository
     Task<bool> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles);
     Task<List<SelfonlineAssetsMotorVehicleDto>> GetSelfOnlineAssetsMotorVehicle(string userId, int year, CancellationToken ctx);
     Task<bool> DeleteSelfOnlinAssetsDtails(string userId, int year, int deleteAssetsId, string categoryName);
+    Task<bool> SaveEditSelfonlineAssetsSharesStocksSecurities(SelfonlineAssetsSharesStocksSecuritiesDto sharesStockStocksSecurities);
+    Task<List<SelfonlineAssetsSharesStocksSecuritiesDto>> GetSelfOnlineAssetsSharesStocksSecurities(string userId, int year, CancellationToken ctx);
+    Task<bool> SaveEditSelfonlineAssetsCapitalCurrentAccount(SelfonlineAssetsCapitalCurrentAccountDto capitalCurrentAccount);
+    Task<List<SelfonlineAssetsCapitalCurrentAccountDto>> GetSelfOnlineAssetCapitalCurrentAccount(string userId, int year, CancellationToken ctx);
 }
