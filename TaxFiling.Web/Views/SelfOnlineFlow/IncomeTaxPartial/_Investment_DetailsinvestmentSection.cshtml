@@ -93,7 +93,7 @@
                                     <!-- Account No -->
                                     <div class="col-md-6">
                                         <label class="form-label"><span style="color: red">*</span>Account No.</label>
-                                        <input type="text" class="form-control" id="txtSAccountNo" name="txtSAccountNo">
+                                        <input type="text" class="form-control" id="txtSAccountNo" name="txtSAccountNo" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                     </div>
 
                                     <!-- WHT Certificate No -->
@@ -285,7 +285,7 @@
                                     <!-- Account No -->
                                     <div class="col-md-6">
                                         <label class="form-label"><span style="color: red">*</span>Account No.</label>
-                                        <input type="text" class="form-control" id="txtFDAccountNo" name="txtFDAccountNo">
+                                        <input type="text" class="form-control" id="txtFDAccountNo" name="txtFDAccountNo" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                     </div>
 
                                     <!-- WHT Certificate No -->
