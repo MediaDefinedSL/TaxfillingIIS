@@ -7310,7 +7310,7 @@ span.kpi_assessable_all {
     color: #003995;
 }
 
-td.num.kpi {
+td.num.kpi.kpi-first {
     display: inline-block;
     width: 50% !important;
     height: 48px;
@@ -7336,4 +7336,32 @@ select#drpTypeEmployment {
 
 select#dpdTypeTerminal {
     height: 46px;
+}
+
+div#terminalDetailsGrid td[colspan="6"] {
+    display: table-cell !important;
+}
+
+
+span#kpi_assessable {
+    margin-top: 3px !important;
+    display: block;
+}
+
+span.kpi_assessable_all {
+    margin-top: 3px !important;
+    display: block;
+}
+
+.foreing input {
+    border: solid 1px #cfd9ee !important;
+}
+
+
+.foreing select#foreign_currencyy {
+    width: 80px;
+}
+
+.foreing input#exchange_rate {
+    border: none !important;
 }
