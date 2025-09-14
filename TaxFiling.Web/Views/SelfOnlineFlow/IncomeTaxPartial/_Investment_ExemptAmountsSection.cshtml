@@ -109,7 +109,7 @@
 
          $('#linkExemptAmountsContinue').on('click', function () {
                  $.ajax({
-                    url: '/AssetsLiabilities/LoadInvestment_BeneficiaryInvestment',
+                    url: '/SelfOnlineFlow/LoadAssets',
                     type: 'GET',
                     success: function (data) {
                         $('#in-this-section-container').html(data);
