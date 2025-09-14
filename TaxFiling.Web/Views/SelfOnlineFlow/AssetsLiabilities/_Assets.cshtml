@@ -1,7 +1,12 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Html
+@using System.Globalization
 @model TaxFiling.Web.Models.SelfOnlineAssets
+
+@{
+    var apiUrl = Configuration["BaseAPIUrl"];
+}
 
 <link href="~/assets/css/tree-container-css.css?v=3" rel="stylesheet">
 
@@ -11,6 +16,8 @@
         <div class="card card-body">
             <form method="post">
                 <div class=" mt-4 ">
+                    <input type="hidden" id="hndUserid" name="hndUserid" value="@ViewBag.userId" />
+                    <input type="hidden" id="hndapiUrl" name="hndapiUrl" value="@apiUrl" />
                     <div class="custom-tabs">
                         <ul class="nav nav-tabs col-md-12" id="myAssetsTab" role="tablist">
                             <li class="nav-item col-md-2" role="presentation">
@@ -46,7 +53,7 @@
                                 <hr>
                                 <input type="hidden" id="hiddenSelfonlinePropertyId" name="hiddenSelfonlinePropertyId" value=""/> 
                                 <div class="row mb-2">
-                                    <div class="col-3">Type</div>
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
                                     <div class="col-5">
                                         <select class="form-select" id="ddlImmovablePropertiesType" name="ddlImmovablePropertiesType">
                                             <option value="">-- Select Type --</option>
@@ -56,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">S/N</div>
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
                                     <div class="col-5">
                                         <input type="text" id="txtImmPropertiesSN" class="form-control" />
                                     </div>
@@ -75,7 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">Cost (Rs.)</div>
+                                    <div class="col-3"><span style="color: red">*</span>Cost (Rs.)</div>
                                     <div class="col-5">
                                         <input type="text" id="txtImmPropertiesCost" class="form-control numeric-input text-end" />
                                     </div>
@@ -172,7 +179,7 @@
                                 <hr>
                                 <input type="hidden" id="hiddenMotorVehicleID" name="hiddenMotorVehicleID" value="" />
                                 <div class="row mb-2">
-                                    <div class="col-3">Type</div>
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
                                     <div class="col-5">
                                         <select class="form-select" id="ddlMType" name="ddlMType">
                                             <option value="">-- Select Type --</option>
@@ -182,7 +189,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">S/N</div>
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
                                     <div class="col-5">
                                         <input type="text" id="txtMotorVehicleSN" name="txtMotorVehicleSN" class="form-control" />
                                     </div>
@@ -206,7 +213,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">Cost/Market value (Rs.)</div>
+                                    <div class="col-3"><span style="color: red">*</span>Cost/Market value (Rs.)</div>
                                     <div class="col-5">
                                         <input type="text" id="txtMotorVehicleValue" name="txtMotorVehicleValue" class="form-control numeric-input text-end" />
                                     </div>
@@ -405,7 +412,7 @@
                                 <hr>
                                 <input type="hidden" id="hiddenSharesStocksID" name="hiddenSharesStocksID" value="" />
                                 <div class="row mb-2">
-                                    <div class="col-3">Type</div>
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
                                     <div class="col-5">
                                         <select class="form-select" id="ddlSType" name="ddlSType">
                                             <option value="">-- Select Type --</option>
@@ -415,7 +422,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">S/N</div>
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
                                     <div class="col-5">
                                         <input type="text" id="txtSSN" name="txtSSN" class="form-control" />
                                     </div>
@@ -440,7 +447,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">Cost of Acquisition/Market value if not acquired (Rs.)</div>
+                                    <div class="col-3"><span style="color: red">*</span>Cost of Acquisition/Market value if not acquired (Rs.)</div>
                                     <div class="col-5">
                                         <input type="text" id="txtSCostOfAcquisition" name="txtSCostOfAcquisition" class="form-control numeric-input text-end" />
                                     </div>
@@ -584,7 +591,8 @@
                                 </div>
 
                                 <div class="mt-4 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-success" id="saveFinancialDetailsBtn">
+
+                                    <button type="button" class="btn btn-primary mt-3" id="saveFinancialDetailsBtn">
                                         <i class="fas fa-check-circle me-1"></i> Save
                                     </button>
                                 </div>
@@ -600,7 +608,7 @@
                                 <hr>
                                 <input type="hidden" id="hiddenDeclareCapitalID" name="hiddenDeclareCapitalID" value="" />
                                 <div class="row mb-2">
-                                    <div class="col-3">Type</div>
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
                                     <div class="col-5">
                                         <select class="form-select" id="ddlDeclareCapitalType" name="ddlDeclareCapitalType">
                                             <option value="">-- Select Type --</option>
@@ -610,7 +618,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">S/N</div>
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
                                     <div class="col-5">
                                         <input type="text" id="txtDeclareCapitalSN" name="txtDeclareCapitalSN" class="form-control" />
                                     </div>

@@ -1,4 +1,7 @@
 ﻿$(function () {
+
+    const baseApiUrl = $("#hndapiUrl").val(); 
+    console.log("Base API URL:", baseApiUrl);
     document.querySelectorAll(".numeric-input").forEach(function (input) {
         input.addEventListener("input", function (e) {
             // Remove everything except digits and decimal point
@@ -61,6 +64,30 @@
         let dateOfAcquisition = $("#txtImmPropertiesDate").val();
         let cost = $("#txtImmPropertiesCost").val();
         let marketValue = $("#txtImmPropertiesMarketValue").val();
+
+        let isValid = true;
+
+        $(".validation-error").remove();
+
+        if (!type) {
+            $("#ddlImmovablePropertiesType").after('<div class="text-danger validation-error">Please select Type .</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+        if (!serialNumber.trim()) {
+            $("#txtImmPropertiesSN").after('<div class="text-danger validation-error">S/N is required.</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+        if (!cost.trim()) {
+            $("#txtImmPropertiesCost").after('<div class="text-danger validation-error">Cost  is required.</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+
+        if (!isValid) {
+            return;
+        }
 
         // Build object matching your ViewModel/DTO
         var immovableProperty = {
@@ -179,6 +206,30 @@
             DateOfAcquisition: dateOfAcquisition,
             CostMarketValue: costMarketValue
         };
+
+        let isValid = true;
+
+        $(".validation-error").remove();
+
+        if (!type) {
+            $("#ddlMType").after('<div class="text-danger validation-error">Please select Type .</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+        if (!serialNumber.trim()) {
+            $("#txtMotorVehicleSN").after('<div class="text-danger validation-error">S/N is required.</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+        if (!costMarketValue.trim()) {
+            $("#txtMotorVehicleValue").after('<div class="text-danger validation-error">Cost/Market value  is required.</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+
+        if (!isValid) {
+            return;
+        }
         // AJAX POST
         $.ajax({
             url: '/SelfOnlineFlow/AddEditSelfOnlineMotorVehicle', // Replace with your controller action
@@ -255,8 +306,10 @@
 
     //--------------  Expenses & Balances
     document.getElementById('saveFinancialDetailsBtn').addEventListener('click', async () => {
-        const container = document.getElementById('income-expenses');
+        const container = document.getElementById('expensesbalances');
         const dataArray = [];
+
+        let userId = $("#hndUserid").val();
 
         // Validation: Check mandatory fields
         const requiredFields = ["Cash in hand", "Living Expenses"];
@@ -338,6 +391,30 @@
         let dateOfAcquisition = $("#txtSSSDate").val();
         let costOfAcquisition = $("#txtSCostOfAcquisition").val();
         let netDividendIncome = $("#txtSNetDvidend").val();
+
+        let isValid = true;
+
+        $(".validation-error").remove();
+
+        if (!type) {
+            $("#ddlSType").after('<div class="text-danger validation-error">Please select Type .</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+        if (!serialNumber.trim()) {
+            $("#txtSSN").after('<div class="text-danger validation-error">S/N is required.</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+        if (!costOfAcquisition.trim()) {
+            $("#txtSCostOfAcquisition").after('<div class="text-danger validation-error">Cost of Acquisition/Market value is required.</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+
+        if (!isValid) {
+            return;
+        }
 
 
         // Build object matching your ViewModel/DTO
@@ -436,7 +513,24 @@
         let currentAccountBalance = $("#txtCurrentAccountBalance").val();
         let capitalAccountBalance = $("#txtCapitalAccountBalance").val();
 
+        let isValid = true;
 
+        $(".validation-error").remove();
+
+        if (!type) {
+            $("#ddlDeclareCapitalType").after('<div class="text-danger validation-error">Please select Type .</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+        if (!serialNumber.trim()) {
+            $("#txtDeclareCapitalSN").after('<div class="text-danger validation-error">S/N is required.</div>');
+            isValid = false;
+            $btn.prop("disabled", false);
+        }
+       
+        if (!isValid) {
+            return;
+        }
 
         // Build object matching your ViewModel/DTO
         var businessAccount = {
@@ -629,17 +723,16 @@
 
 
     $('#linkLiabilitiesContinue').on('click', function () {
-        alert("LiabilitiesContinue");
-        //$.ajax({
-        //    url: '/SelfOnlineFlow/LoadExemptAmounts',
-        //    type: 'GET',
-        //    success: function (data) {
-        //        $('#in-this-section-container').html(data);
-        //    },
-        //    error: function () {
-        //        alert("Error loading section content.");
-        //    }
-        //});
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadLiabilities',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
     });
     $('#linkDeductionsContinue').on('click', function () {
         $.ajax({
