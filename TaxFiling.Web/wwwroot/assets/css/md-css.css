@@ -7301,15 +7301,39 @@ div#expensesbalances h6.mb-4.text-primary {
 
 
 span.kpi_assessable_all {
-    position: absolute;
-}
-
-span.kpi_assessable_all {
-    margin-left: -120px;
+    /* margin-left: -120px; */
     width: 119px;
     text-align: right;
-    padding-right: 8px;
+    /* padding-right: 8px; */
     font-weight: 600;
     margin-top: 11px;
     color: #003995;
+}
+
+td.num.kpi {
+    display: inline-block;
+    width: 50% !important;
+    height: 48px;
+    padding-left: 22px;
+        text-align: left !important;
+}
+
+td.num.aling-total {
+    display: inline-block;
+    width: 50%;
+    height: 48px;
+    text-align: right !important;
+    padding-right: 10px !important;
+}
+
+span#kpi_assessable {
+    font-weight: 600;
+}
+
+select#drpTypeEmployment {
+    height: 46px;
+}
+
+select#dpdTypeTerminal {
+    height: 46px;
 }
