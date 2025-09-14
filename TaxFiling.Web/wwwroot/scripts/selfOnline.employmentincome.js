@@ -1,5 +1,9 @@
 ﻿
 $(function () {
+
+    let currentlyEmploymentEditingRow = null;
+    let currentlyTerminalEditingRow = null;
+    let currentlyExemptEditingRow = null;
     document.querySelectorAll(".numeric-input").forEach(function (input) {
        
         input.addEventListener("input", function (e) {
@@ -186,7 +190,7 @@ $(function () {
             UploadTime : response.uploadTime
         }  
 
-
+        currentlyEmploymentEditingRow = null;
         if (id) {
             $.ajax({
                 url: '/SelfOnlineFlow/UpdateEmploymentIncomeDetails',
@@ -455,6 +459,7 @@ $(function () {
             OriginalName: response.originalName,
             UploadTime: response.uploadTime
         }
+        currentlyTerminalEditingRow = null;
         if (id) {
             $.ajax({
                 url: '/SelfOnlineFlow/UpdateEmploymentIncomeDetails',
@@ -612,7 +617,8 @@ $(function () {
             OriginalName: response.originalName,
             UploadTime: response.uploadTime
         }
-        if (id) {
+        currentlyExemptEditingRow = null;
+        if (id) { 
             $.ajax({
                 url: '/SelfOnlineFlow/UpdateEmploymentIncomeDetails',
                 type: 'POST',
@@ -740,12 +746,16 @@ $(function () {
             }
         });
     });
-
+  
     $(document).off("click", ".employmentDetails-editbtn").on("click", ".employmentDetails-editbtn", function () {
 
         
 
         var $row = $(this).closest("tr");
+        if (currentlyEmploymentEditingRow && currentlyEmploymentEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please save or cancel before editing a new one.", "error");
+        }
+        currentlyEmploymentEditingRow = $row;
         var $deleteBtn = $row.find(".employmentdetails-deletebtn");
 
         // Set HTML attribute
@@ -793,6 +803,10 @@ $(function () {
 
     $(document).off("click", ".terminalbenefits-editbtn").on("click", ".terminalbenefits-editbtn", function () {
         var $row = $(this).closest("tr");
+        if (currentlyTerminalEditingRow && currentlyTerminalEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please save or cancel before editing a new one.", "error");
+        }
+        currentlyTerminalEditingRow = $row;
         var $deleteBtn = $row.find(".employmentdetails-deletebtn");
 
         // Set HTML attribute
@@ -829,6 +843,10 @@ $(function () {
     $(document).off("click", ".exemptamounts-editbtn").on("click", ".exemptamounts-editbtn", function () {
    
         var $row = $(this).closest("tr");
+        if (currentlyExemptEditingRow && currentlyExemptEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please save or cancel before editing a new one.", "error");
+        }
+        currentlyExemptEditingRow = $row;
         var $deleteBtn = $row.find(".employmentdetails-deletebtn");
 
         // Set HTML attribute
