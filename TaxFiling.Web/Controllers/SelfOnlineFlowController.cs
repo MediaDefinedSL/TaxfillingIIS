@@ -1480,11 +1480,37 @@ public class SelfOnlineFlowController : Controller
             }
         }
 
+        List<SelfonlineAssetsSharesStocksSecuritiesViewModel> sharesStocksSecuritiesList = [];
+        string sharesStocksSecuritiesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetssharesstockssecurities_list", queryUserParams);
+        var response4 = await _httpClient.GetAsync(sharesStocksSecuritiesListUrl, ctx);
+        if (response4 != null && response4.IsSuccessStatusCode)
+        {
+            var responseContent = await response4.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                sharesStocksSecuritiesList = JsonSerializer.Deserialize<List<SelfonlineAssetsSharesStocksSecuritiesViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineAssetsCapitalCurrentAccountViewModel> capitalCurrentAccountList = [];
+        string capitalCurrentAccountListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetscapitalcurrentaccount_list", queryUserParams);
+        var response5 = await _httpClient.GetAsync(capitalCurrentAccountListUrl, ctx);
+        if (response5 != null && response5.IsSuccessStatusCode)
+        {
+            var responseContent = await response5.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                capitalCurrentAccountList = JsonSerializer.Deserialize<List<SelfonlineAssetsCapitalCurrentAccountViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
         var model = new SelfOnlineAssets
         {
             selfonlineAssetsImmovablePropertyViewModel = immovablePropertyList,
             selfonlineAssetsMotorVehicleViewModel = motorVehicleList,
-            selfOnlineInvestmentIncomeDetailViewModel = investmentIncomeList
+            selfOnlineInvestmentIncomeDetailViewModel = investmentIncomeList,
+            selfonlineAssetsSharesStocksSecuritiesViewModel = sharesStocksSecuritiesList,
+            selfonlineAssetsCapitalCurrentAccountViewModel = capitalCurrentAccountList
         };
 
         return PartialView("AssetsLiabilities/_Assets", model);
@@ -1564,6 +1590,53 @@ public class SelfOnlineFlowController : Controller
         }
 
         return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsSharesStocksSecurities(SelfonlineAssetsSharesStocksSecuritiesViewModel sharesStocksSecurities)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        sharesStocksSecurities.UserId = userId;
+        sharesStocksSecurities.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_sharesstockssecurities", sharesStocksSecurities);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Shares Stocks Securities save successfully" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsCapitalCurrentAccount(SelfonlineAssetsCapitalCurrentAccountViewModel capitalCurrentAccount)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        capitalCurrentAccount.UserId = userId;
+        capitalCurrentAccount.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_capitalcurrentaccount", capitalCurrentAccount);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Capital Current Account save successfully" });
     }
 
 

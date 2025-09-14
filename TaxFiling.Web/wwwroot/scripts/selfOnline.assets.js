@@ -76,7 +76,7 @@
 
         // Ajax call to save
         $.ajax({
-            url: '/SelfOnlineFlow/AddEditSelfOnlineImmovableProperty', 
+            url: '/SelfOnlineFlow/AddEditSelfOnlineImmovableProperty',
             type: 'POST',
             data: immovableProperty,
             success: function (response) {
@@ -115,7 +115,7 @@
     });
 
     $(document).off("click", ".immovableiroperty-editbtn").on("click", ".immovableiroperty-editbtn", function () {
-      
+
         // Remove old validation messages
         $(".validation-error").remove();
 
@@ -153,7 +153,7 @@
         $("html, body").animate({ scrollTop: 0 }, "smooth");
     });
 
-    
+
     //------------------ Motor Vehicle
 
     $(document).off("click", "#btnMotorVehicleSubmit").on("click", "#btnMotorVehicleSubmit", function () {
@@ -202,103 +202,397 @@
             }
         })
     });
-});
 
-function resetMotorVehicleForm() {
 
-    $("#hiddenMotorVehicleID").val("");
-    $("#ddlMType").val("");
-    $("#txtMotorVehicleSN").val("");
-    $("#txtMotorVehicleDescription").val("");
-    $("#txtMotorVehicleRegNo").val("");
-    $("#txtMotorVehicleDate").val("");
-    $("#txtMotorVehicleValue").val("");
-    $("#btnMotorVehicleSubmit").text("Submit");
+    function resetMotorVehicleForm() {
 
-    $("html, body").animate({ scrollTop: 0 }, "smooth");
-}
+        $("#hiddenMotorVehicleID").val("");
+        $("#ddlMType").val("");
+        $("#txtMotorVehicleSN").val("");
+        $("#txtMotorVehicleDescription").val("");
+        $("#txtMotorVehicleRegNo").val("");
+        $("#txtMotorVehicleDate").val("");
+        $("#txtMotorVehicleValue").val("");
+        $("#btnMotorVehicleSubmit").text("Submit");
 
-$(document).on("click", "#btnMotorVehicleClear", function () {
-
-    resetMotorVehicleForm();
-    $("#btnMotorVehicleSubmit").text("Submit");
-
-});
-
-$(document).off("click", ".motorVehicle-editbtn").on("click", ".motorVehicle-editbtn", function () {
-
-    // Remove old validation messages
-    $(".validation-error").remove();
-
-    // Get the current row
-    var $row = $(this).closest("tr");
-    var $deleteBtn = $row.find(".immovableiroperty-deletebtn");
-
-    // Disable the delete button in this row
-    $deleteBtn.attr("data-disabled", "true");   // for persistence
-    $deleteBtn.addClass("disabled-btn");
-    $deleteBtn.prop("disabled", true);
-
-    $("#hiddenMotorVehicleID").val($(this).data("id"));
-    $("#ddlMType").val($(this).data("type"));
-    $("#txtMotorVehicleSN").val($(this).data("serial"));
-    $("#txtMotorVehicleRegNo").val($(this).data("registration"));
-    $("#txtMotorVehicleDate").val($(this).data("date"));
-    $("#txtMotorVehicleValue").val($(this).data("cost"));
-    $("#txtMotorVehicleDescription").val($(this).data("description"));
-
-    $("#btnMotorVehicleSubmit").text("Update");
-
-    // Scroll to form
-    $("html, body").animate({ scrollTop: 0 }, "smooth");
-});
-
-//----------- delete record
-
-let deleteAssetsId = null;
-let deleteCategoryName = null;
-
-$(document).on("click", ".immovableiroperty-deletebtn", function () {
-
-    if ($(this).data("disabled")) {
-        // Stop the modal from opening if disabled
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return false;
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
     }
-    deleteAssetsId = $(this).data("id");
-    deleteCategoryName = $(this).data("name");
 
-    $('#selfonline_confirmDeleteModal').modal('show');
+    $(document).on("click", "#btnMotorVehicleClear", function () {
 
-});
+        resetMotorVehicleForm();
+        $("#btnMotorVehicleSubmit").text("Submit");
+
+    });
+
+    $(document).off("click", ".motorVehicle-editbtn").on("click", ".motorVehicle-editbtn", function () {
+
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+        // Get the current row
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".motorVehicle-deletebtn");
+
+        // Disable the delete button in this row
+        $deleteBtn.attr("data-disabled", "true");   // for persistence
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
+
+        $("#hiddenMotorVehicleID").val($(this).data("id"));
+        $("#ddlMType").val($(this).data("type"));
+        $("#txtMotorVehicleSN").val($(this).data("serial"));
+        $("#txtMotorVehicleRegNo").val($(this).data("registration"));
+        $("#txtMotorVehicleDate").val($(this).data("date"));
+        $("#txtMotorVehicleValue").val($(this).data("cost"));
+        $("#txtMotorVehicleDescription").val($(this).data("description"));
+
+        $("#btnMotorVehicleSubmit").text("Update");
+
+        // Scroll to form
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    });
+
+    //--------------  Expenses & Balances
+    document.getElementById('saveFinancialDetailsBtn').addEventListener('click', async () => {
+        const container = document.getElementById('income-expenses');
+        const dataArray = [];
+
+        // Validation: Check mandatory fields
+        const requiredFields = ["Cash in hand", "Living Expenses"];
+        let isValid = true;
+        let missingFields = [];
+
+        requiredFields.forEach(fieldLabel => {
+            const input = Array.from(container.querySelectorAll('label.form-label'))
+                .find(label => label.innerText.replace(/^\*\s*/, '').trim() === fieldLabel)
+                ?.closest('.col-md-6')
+                ?.querySelector('input');
+
+            if (!input || input.value.trim() === "") {
+                isValid = false;
+                missingFields.push(fieldLabel);
+            }
+        });
+
+        if (!isValid) {
+            //alert("Please fill in the required fields: " + missingFields.join(", "));
+            showMessage("Please fill in the required fields: " + missingFields.join(", "), "error")
+            return;
+        }
+
+        container.querySelectorAll('input').forEach(input => {
+            const parentDiv = input.closest('.col-md-6');
+            if (parentDiv) {
+                const label = parentDiv.querySelector('label.form-label');
+                if (label) {
+                    const value = input.value.trim();
+                    if (value !== "") {  // only add if not empty
+                        dataArray.push({
+                            Category: label.innerText.replace(/^\*\s*/, '').trim(), // remove leading * and spaces
+                            Value: value
+                        });
+                    }
+                }
+            }
+        });
+
+        // Add any other info you want, e.g., userId, assessmentYear
+        const payload = {
+            UserId: userId, // dynamically set
+            AssessmentYear: '2024/2025',
+            Details: dataArray
+        };
+
+        try {
+            const response = await fetch(`${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/SaveUserOtherTaxDetails`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                const err = await response.text();
+                alert('Error: ' + err);
+                return;
+            }
+            document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
+            showMessage("Data saved successfully!", "success");
+        } catch (err) {
+            alert('Failed to submit: ' + err.message);
+        }
+    });
+
+    //-----------------------------Shares Stocks Securities
+
+    $(document).off("click", "#btnSharesStocksSubmit").on("click", "#btnSharesStocksSubmit", function () {
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Collect values from form
+        let selfonlineSharesStocksID = $("#hiddenSharesStocksID").val();
+        let type = $("#ddlSType").val();
+        let serialNumber = $("#txtSSN").val();
+        let companyName = $("#txtNameCompanyInstitution").val();
+        let noOfSharesStocks = $("#txtNoOfShares").val();
+        let dateOfAcquisition = $("#txtSSSDate").val();
+        let costOfAcquisition = $("#txtSCostOfAcquisition").val();
+        let netDividendIncome = $("#txtSNetDvidend").val();
 
 
-$(document).on("click", ".motorVehicle-deletebtn", function () {
+        // Build object matching your ViewModel/DTO
+        var sharesStocks = {
+            SelfonlineSharesStocksID: selfonlineSharesStocksID,
+            TransactionType: selfonlineSharesStocksID ? "Edit" : "Add",
+            Type: type,
+            SerialNumber: serialNumber,
+            CompanyName: companyName,
+            NoOfSharesStocks: noOfSharesStocks,
+            DateOfAcquisition: dateOfAcquisition,
+            CostOfAcquisition: costOfAcquisition,
+            NetDividendIncome: netDividendIncome
+        };
 
-    if ($(this).data("disabled")) {
-        // Stop the modal from opening if disabled
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return false;
+        // Ajax call to save
+        $.ajax({
+            url: '/SelfOnlineFlow/SaveEditSelfonlineAssetsSharesStocksSecurities',
+            type: 'POST',
+            data: sharesStocks,
+            success: function (response) {
+                $btn.prop("disabled", false);
+                showMessage(selfonlineSharesStocksID ? "Updated successfully." : "Saved successfully", "success");
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
+                resetSharesStocksForm();
+                // Refresh grid so user sees latest data
+                $("#SharesStocksGrid").load("/SelfOnlineFlow/LoadAssets #SharesStocksGrid > *");
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving immovable property.");
+            }
+        });
+    });
+
+    function resetSharesStocksForm() {
+
+        $("#hiddenSharesStocksID").val("");
+        $("#ddlSType").val("");
+        $("#txtSSN").val("");
+        $("#txtNameCompanyInstitution").val("");
+        $("#txtNoOfShares").val("");
+        $("#txtSSSDate").val("");
+        $("#txtSCostOfAcquisition").val("");
+        $("#txtSNetDvidend").val("");
+        $("#btnSharesStocksSubmit").text("Submit");
+
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
     }
-    deleteAssetsId = $(this).data("id");
-    deleteCategoryName = $(this).data("name");
+    $(document).on("click", "#btnSharesStocksClear", function () {
 
-    $('#selfonline_confirmDeleteModal').modal('show');
+        resetSharesStocksForm();
+        $("#btnSharesStocksSubmit").text("Submit");
 
-});
+    });
 
-$(document).on("click", "#selfonline_confirmDeleteBtn", function () {
+    $(document).off("click", ".sharesStocksSecurities-editbtn").on("click", ".sharesStocksSecurities-editbtn", function () {
 
-    if (!deleteAssetsId) return;
+        // Remove old validation messages
+        $(".validation-error").remove();
 
-    var deleteData = {
-        deleteAssetsId: deleteAssetsId,
-        categoryName: deleteCategoryName
-    };
+        // Get the current row
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".sharesStocksSecurities-deletebtn");
 
-   
+        // Disable the delete button in this row
+        $deleteBtn.attr("data-disabled", "true");   // for persistence
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
+
+        $("#hiddenSharesStocksID").val($(this).data("id"));
+        $("#ddlSType").val($(this).data("type"));
+        $("#txtSSN").val($(this).data("serial"));
+        $("#txtNameCompanyInstitution").val($(this).data("company"));
+        $("#txtNoOfShares").val($(this).data("nosharesstocks"));
+        $("#txtSSSDate").val($(this).data("date"));
+        $("#txtSCostOfAcquisition").val($(this).data("cost"));
+        $("#txtSNetDvidend").val($(this).data("netdividend"));
+
+        $("#btnSharesStocksSubmit").text("Update");
+
+        // Scroll to form
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    });
+
+    //------------------- Capital and Current Account
+    $(document).off("click", "#btnDeclareCapitalSubmit").on("click", "#btnDeclareCapitalSubmit", function () {
+        var $btn = $(this);
+        $btn.prop("disabled", true);
+
+        // Collect values from form
+        let selfonlineBusinessAccountID = $("#hiddenDeclareCapitalID").val();
+        let type = $("#ddlDeclareCapitalType").val();
+        let serialNumber = $("#txtDeclareCapitalSN").val();
+        let businessName = $("#txtBusinessName").val();
+        let currentAccountBalance = $("#txtCurrentAccountBalance").val();
+        let capitalAccountBalance = $("#txtCapitalAccountBalance").val();
+
+
+
+        // Build object matching your ViewModel/DTO
+        var businessAccount = {
+            SelfonlineBusinessAccountID: selfonlineBusinessAccountID,
+            TransactionType: selfonlineBusinessAccountID ? "Edit" : "Add",
+            Type: type,
+            SerialNumber: serialNumber,
+            BusinessName: businessName,
+            CurrentAccountBalance: currentAccountBalance,
+            CapitalAccountBalance: capitalAccountBalance
+        };
+
+        // Ajax call to save
+        $.ajax({
+            url: '/SelfOnlineFlow/SaveEditSelfonlineAssetsCapitalCurrentAccount',
+            type: 'POST',
+            data: businessAccount,
+            success: function (response) {
+                $btn.prop("disabled", false);
+                showMessage(selfonlineBusinessAccountID ? "Updated successfully." : "Saved successfully", "success");
+                $("html, body").animate({ scrollTop: 0 }, "smooth");
+                resetBusinessAccountForm();
+                // Refresh grid so user sees latest data
+                $("#DeclareCapitalGrid").load("/SelfOnlineFlow/LoadAssets #DeclareCapitalGrid > *");
+            },
+            error: function () {
+                $btn.prop("disabled", false);
+                alert("Error saving immovable property.");
+            }
+        });
+    });
+
+    function resetBusinessAccountForm() {
+
+        $("#hiddenDeclareCapitalID").val("");
+        $("#ddlDeclareCapitalType").val("");
+        $("#txtDeclareCapitalSN").val("");
+        $("#txtBusinessName").val("");
+        $("#txtCurrentAccountBalance").val("");
+        $("#txtCapitalAccountBalance").val("");
+
+        $("#btnDeclareCapitalSubmit").text("Submit");
+
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    }
+    $(document).on("click", "#btnDeclareCapitalClear", function () {
+
+        resetBusinessAccountForm();
+        $("#btnDeclareCapitalSubmit").text("Submit");
+
+    });
+
+    $(document).off("click", ".capitalCurrentAccount-editbtn").on("click", ".capitalCurrentAccount-editbtn", function () {
+
+        // Remove old validation messages
+        $(".validation-error").remove();
+
+        // Get the current row
+        var $row = $(this).closest("tr");
+        var $deleteBtn = $row.find(".capitalCurrentAccount-deletebtn");
+
+        // Disable the delete button in this row
+        $deleteBtn.attr("data-disabled", "true");   // for persistence
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
+
+        $("#hiddenDeclareCapitalID").val($(this).data("id"));
+        $("#ddlDeclareCapitalType").val($(this).data("type"));
+        $("#txtDeclareCapitalSN").val($(this).data("serial"));
+        $("#txtBusinessName").val($(this).data("company"));
+        $("#txtCurrentAccountBalance").val($(this).data("currentaccount"));
+        $("#txtCapitalAccountBalance").val($(this).data("capitalaccount"));
+
+
+        $("#btnDeclareCapitalSubmit").text("Update");
+
+        // Scroll to form
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    });
+
+    //----------- delete record
+
+    let deleteAssetsId = null;
+    let deleteCategoryName = null;
+
+    $(document).on("click", ".immovableiroperty-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteAssetsId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+
+
+    $(document).on("click", ".motorVehicle-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteAssetsId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+
+    $(document).on("click", ".sharesStocksSecurities-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteAssetsId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+
+    $(document).on("click", ".capitalCurrentAccount-deletebtn", function () {
+
+        if ($(this).data("disabled")) {
+            // Stop the modal from opening if disabled
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+        deleteAssetsId = $(this).data("id");
+        deleteCategoryName = $(this).data("name");
+
+        $('#selfonline_confirmDeleteModal').modal('show');
+
+    });
+
+    $(document).on("click", "#selfonline_confirmDeleteBtn", function () {
+
+        if (!deleteAssetsId) return;
+
+        var deleteData = {
+            deleteAssetsId: deleteAssetsId,
+            categoryName: deleteCategoryName
+        };
+
+
         $.ajax({
             url: '/SelfOnlineFlow/DeleteSelfOnlineAssetsDetails',
             type: 'POST',
@@ -313,13 +607,51 @@ $(document).on("click", "#selfonline_confirmDeleteBtn", function () {
                     // Refresh grid so user sees latest data
                     $("#MotorVehicleGrid").load("/SelfOnlineFlow/LoadAssets #MotorVehicleGrid > *");
                 }
-               
+                if (deleteCategoryName == "SharesStocksSecurities") {
+                    // Refresh grid so user sees latest data
+                    $("#SharesStocksGrid").load("/SelfOnlineFlow/LoadAssets #SharesStocksGrid > *");
+                }
+                if (deleteCategoryName == "CapitalCurrentAccount") {
+                    // Refresh grid so user sees latest data
+                    $("#DeclareCapitalGrid").load("/SelfOnlineFlow/LoadAssets #DeclareCapitalGrid > *");
+                }
+
             },
             error: function () {
                 alert("Error deleting.");
             }
         });
-   
 
-   
+
+
+
+    });
+
+
+    $('#linkLiabilitiesContinue').on('click', function () {
+        alert("LiabilitiesContinue");
+        //$.ajax({
+        //    url: '/SelfOnlineFlow/LoadExemptAmounts',
+        //    type: 'GET',
+        //    success: function (data) {
+        //        $('#in-this-section-container').html(data);
+        //    },
+        //    error: function () {
+        //        alert("Error loading section content.");
+        //    }
+        //});
+    });
+    $('#linkDeductionsContinue').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadDeductions',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+        $("html, body").animate({ scrollTop: 0 }, "smooth");
+    });
 });

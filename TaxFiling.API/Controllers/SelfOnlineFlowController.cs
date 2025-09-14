@@ -561,4 +561,64 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpPost("saveassets_sharesstockssecurities")]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsSharesStocksSecurities(SelfonlineAssetsSharesStocksSecuritiesDto sharesStockStocksSecurities)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineAssetsSharesStocksSecurities(sharesStockStocksSecurities);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("assetssharesstockssecurities_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetsSharesStocksSecurities(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetsSharesStocksSecurities(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("saveassets_capitalcurrentaccount")]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsCapitalCurrentAccount(SelfonlineAssetsCapitalCurrentAccountDto capitalCurrentAccount)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineAssetsCapitalCurrentAccount(capitalCurrentAccount);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("assetscapitalcurrentaccount_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetCapitalCurrentAccount(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetCapitalCurrentAccount(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
 }
