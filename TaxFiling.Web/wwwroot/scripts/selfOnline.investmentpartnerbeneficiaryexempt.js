@@ -58,6 +58,8 @@
 
 
     //-----------------------------Partner Income
+    let currentlyPartnerEditingRow = null;
+    let currentlyBeneficiaryEditingRow = null;
     $(document).off("click", "#btnPartnerInvestmentSubmit").on("click", "#btnPartnerInvestmentSubmit", function () {
 
         var $btn = $(this);
@@ -105,7 +107,7 @@
             TotalInvestmentIncomePartnership: totalInvestmentPartnership
 
         };
-
+        currentlyPartnerEditingRow = null;
         // === AJAX URL ===
         var url = selfOnlineInvestmentPartnerId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
@@ -148,6 +150,21 @@
     $(document).off("click", ".partnerDetails-editbtn").on("click", ".partnerDetails-editbtn", function () {
 
         $(".validation-error").remove();
+
+        var $row = $(this).closest("tr");
+        // If already editing another row, block this action
+        if (currentlyPartnerEditingRow && currentlyPartnerEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyPartnerEditingRow = $row;
+
+        var $deleteBtn = $row.find(".PartnerBeneficiaryExemptDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
 
         let id = $(this).data("id");
         let category = $(this).data("category");
@@ -306,7 +323,7 @@
             TotalInvestmentIncomeTrust: totalInvestmenttrust
 
         };
-
+        currentlyBeneficiaryEditingRow = null;
         // === AJAX URL ===
         var url = selfOnlineInvestmentPartnerId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
@@ -356,6 +373,21 @@
     $(document).off("click", ".beneficiaryDetails-editbtn").on("click", ".beneficiaryDetails-editbtn", function () {
 
         $(".validation-error").remove();
+
+        var $row = $(this).closest("tr");
+        // If already editing another row, block this action
+        if (currentlyBeneficiaryEditingRow && currentlyBeneficiaryEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyBeneficiaryEditingRow = $row;
+
+        var $deleteBtn = $row.find(".PartnerBeneficiaryExemptDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
 
         let id = $(this).data("id");
         let category = $(this).data("category");

@@ -207,6 +207,14 @@ $(function () {
         if (!validateNIC(nicNo)) return showMessage("Invalid NIC number.","error");
         if (!validateTIN(tinNO)) return showMessage("Invalid TIN number", "error");
         if (!irdPIN) return showMessage("IRD PIN is required", "error");
+        // Length check
+        if (irdPIN.length !== 8) {
+            return showMessage("IRD PIN must be exactly 8 characters", "error");
+        }
+        // Allowed characters check (only letters & digits)
+        if (!/^[a-zA-Z0-9]{8}$/.test(irdPIN)) {
+            return showMessage("IRD PIN can only contain letters and numbers", "error");
+        }
 
         // === Passed validation, now disable button ===
         $btn.prop("disabled", true);

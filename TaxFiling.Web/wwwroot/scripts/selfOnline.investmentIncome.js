@@ -319,7 +319,11 @@
             highlightedBranchIndex = 0;
         });
     });
-
+    let currentlySavingsEditingRow = null;
+    let currentlyFDEditingRow = null;
+    let currentlyDividentEditingRow = null;
+    let currentlyRentEditingRow = null;
+    let currentlyOtherEditingRow = null;
 
 
         $(document).off("click", "#btnDetailsInvestmentSavings").on("click", "#btnDetailsInvestmentSavings", async function () {
@@ -424,7 +428,8 @@
             OriginalName: response.originalName,
             UploadTime: response.uploadTime
         };
-        // === AJAX URL ===
+            // === AJAX URL ===
+            currentlySavingsEditingRow = null;
         var url = selfOnlineInvestmentId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
             : '/SelfOnlineFlow/AddSelfOnlineInvestmentIncomeDetails';
@@ -561,11 +566,20 @@
         $("html, body").animate({ scrollTop: 0 }, "smooth");
     }
 
+  
+
     $(document).off("click", ".savingsDetails-editbtn").on("click", ".savingsDetails-editbtn", function () {
      
         $(".validation-error").remove();
 
         var $row = $(this).closest("tr");
+        // If already editing another row, block this action
+        if (currentlySavingsEditingRow && currentlySavingsEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlySavingsEditingRow = $row;
+
         var $deleteBtn = $row.find(".investmentDetails-deletebtn");
 
         // Set HTML attribute
@@ -614,6 +628,7 @@
 
     });
 
+   
     $(document).on("click", "#btnDetailsInvestmentClear", function () {
 
         resetForm();
@@ -1010,6 +1025,7 @@
             OriginalName: response.originalName,
             UploadTime: response.uploadTime
         };
+        currentlyFDEditingRow = null;
         // === AJAX URL ===
         var url = selfOnlineInvestmentId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
@@ -1045,6 +1061,12 @@
         $(".validation-error").remove();
 
         var $row = $(this).closest("tr");
+        if (currentlyFDEditingRow && currentlyFDEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyFDEditingRow = $row;
+
         var $deleteBtn = $row.find(".investmentDetails-deletebtn");
 
         // Set HTML attribute
@@ -1212,6 +1234,7 @@
 
         };
         // === AJAX URL ===
+        currentlyDividentEditingRow = null;
         var url = selfOnlineInvestmentId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
             : '/SelfOnlineFlow/AddSelfOnlineInvestmentIncomeDetails';
@@ -1265,6 +1288,12 @@
         $(".validation-error").remove();
 
         var $row = $(this).closest("tr");
+        if (currentlyDividentEditingRow && currentlyDividentEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyDividentEditingRow = $row;
+
         var $deleteBtn = $row.find(".investmentDetails-deletebtn");
 
         // Set HTML attribute
@@ -1411,7 +1440,7 @@
             OriginalName: response.originalName,
             UploadTime: response.uploadTime
         };
-
+        currentlyRentEditingRow = null;
         // === AJAX URL ===
         var url = selfOnlineInvestmentId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
@@ -1463,6 +1492,12 @@
         $(".validation-error").remove();
         // Get row data from button attributes
         var $row = $(this).closest("tr");
+        if (currentlyRentEditingRow && currentlyRentEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyRentEditingRow = $row;
+
         var $deleteBtn = $row.find(".investmentDetails-deletebtn");
 
         // Set HTML attribute
@@ -1595,7 +1630,7 @@
             UploadTime: response.uploadTime
 
         };
-
+        currentlyOtherEditingRow = null;
         // === AJAX URL ===
         var url = selfOnlineInvestmentId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentIncomeDetails'
@@ -1643,6 +1678,12 @@
         $(".validation-error").remove();
         // Get row data from button attributes
         var $row = $(this).closest("tr");
+        if (currentlyOtherEditingRow && currentlyOtherEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyOtherEditingRow = $row;
+
         var $deleteBtn = $row.find(".investmentDetails-deletebtn");
 
         // Set HTML attribute

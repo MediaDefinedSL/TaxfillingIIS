@@ -145,7 +145,12 @@
                             <div data-mdb-input-init="" class="form-outline mb-4 col-sm-4 mr-10">
                                 <span class="text-danger"> *</span>
                                 <label class="form-label" for="form2Example28">IRD PIN</label>
-                                @Html.TextBoxFor(m => m.IRDPIN, new { @class = "form-control form-control-lg" })
+                                @Html.TextBoxFor(m => m.IRDPIN, new
+                                    {
+                                        @class = "form-control form-control-lg",
+                                        maxlength = "8",
+                                        oninput = "this.value = this.value.replace(/[^a-zA-Z0-9]/g,'');"
+                                    })
 
                             </div>
 
