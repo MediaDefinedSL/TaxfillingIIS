@@ -2,6 +2,11 @@
 
     const baseApiUrl = $("#hndapiUrl").val(); 
     console.log("Base API URL:", baseApiUrl);
+    let userId = $("#hndUserid").val();
+
+   
+    loadFinancialDetails(userId, '2024/2025');
+
     document.querySelectorAll(".numeric-input").forEach(function (input) {
         input.addEventListener("input", function (e) {
             // Remove everything except digits and decimal point
@@ -50,6 +55,55 @@
         });
     });
 
+    async function loadFinancialDetails(userId, assessmentYear) {
+        try {
+            const url = `${baseApiUrl}api/UserTaxAssistedOtherAssetsDetails/GetUserOtherTaxDetails?userId=${encodeURIComponent(userId)}&assessmentYear=${encodeURIComponent(assessmentYear)}`;
+            const response = await fetch(url);
+
+            //  if (!response.ok) {
+            //     alert('Failed to load data');
+            //     return;
+            // }
+            const data = await response.json();
+
+            if (data && data.details && data.details.length > 0) {
+                document.getElementById('saveFinancialDetailsBtn').innerText = "Update"; // change to update
+            } else {
+                document.getElementById('saveFinancialDetailsBtn').innerText = "Save";
+            }
+
+           
+
+            // Clear all inputs first
+            document.querySelectorAll('#expensesbalances .col-md-6 input').forEach(input => {
+                input.value = '';      // clear old values
+                input.disabled = false; // re-enable unless docStatus disables again later
+            });
+
+            // Populate inputs by matching label text with category
+            data.details.forEach(detail => {
+                document.querySelectorAll('#expensesbalances .col-md-6').forEach(div => {
+                    const label = div.querySelector('label.form-label');
+                    const input = div.querySelector('input');
+                    if (label && input) {
+                        const labelText = label.innerText.replace("*", "").trim(); // remove * if present
+                        if (labelText === detail.category) {
+                            if (!isNaN(detail.value)) {
+                                input.value = Number(detail.value).toLocaleString('en-US');
+                            } else {
+                                input.value = detail.value;
+                            }
+
+                            
+                        } 
+                    }
+
+                });
+            });
+        } catch (err) {
+            alert('Error loading data: ' + err.message);
+        }
+    }
 
     //------------------ Immovable Properties 
     $(document).off("click", "#btnImmovablePropertiesSubmit").on("click", "#btnImmovablePropertiesSubmit", function () {
@@ -308,8 +362,6 @@
     document.getElementById('saveFinancialDetailsBtn').addEventListener('click', async () => {
         const container = document.getElementById('expensesbalances');
         const dataArray = [];
-
-        let userId = $("#hndUserid").val();
 
         // Validation: Check mandatory fields
         const requiredFields = ["Cash in hand", "Living Expenses"];
