@@ -3559,27 +3559,49 @@
                        $.getJSON("https://mail.taxfiling.lk/getallbank", function (data) {
                            allBanks = data;
                        });
+                 $("#bankInput").on("focus", function () {
+                    // Show all banks on focus
+                    renderBanks(allBanks, true);
+                });
 
-                      $("#bankInput").on("input focus", function () {
-                       const q = $(this).val().toLowerCase();
-                       let results = allBanks;
+                $("#bankInput").on("input", function () {
+                    const q = $(this).val().toLowerCase();
+                    let results = allBanks;
 
-                       if (q) {
-                           results = results.filter(b =>
-                                     (b.bankName && b.bankName.toLowerCase().startsWith(q))
-                              );
-                       }
+                    if (q) {
+                        results = results.filter(b =>
+                            b.bankName && b.bankName.toLowerCase().startsWith(q)
+                        );
+                    }
 
-                       let html = "";
-                       if (results.length === 0) html = "<div>No banks match.</div>";
-                       results.forEach(b => {
-                              html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">
-                                             ${b.bankName}
-                                    </div>`;
-                       });
+                    renderBanks(results, true);
+                });
 
-                       $("#bankDropdown").html(html).show();
-                   });
+                    function renderBanks(results, highlightSelected) {
+                    let html = results.length === 0 ? "<div>No banks match.</div>" : "";
+                    results.forEach(b => {
+                        html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">${b.bankName}</div>`;
+                    });
+
+                    $("#bankDropdown").html(html).show();
+
+                    // Highlight previously selected bank if present
+                    highlightedIndex = -1;
+                    
+                    if (highlightSelected && selectedBank) {
+                                   
+                        $("#bankDropdown div").each(function (i) {
+                            if ($(this).data("id") == selectedBank) {
+                                            console.log($(this).data("id"))
+                                $(this).addClass("highlight");
+                                highlightedIndex = i;
+                                            this.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                                return false; // stop loop
+                            }
+                        });
+                    }
+                }
+
 
 
                    $("#bankDropdown").on("mousedown", "div", function () {
@@ -3613,30 +3635,7 @@
                        highlightedBranchIndex = 0; // first item highlighted
                    });
 
-                   });
-
-                   //  $("#branchInput").on("input focus", function() {
-                   //     if (!selectedBank) return;
-
-                   //     const q = $(this).val().toLowerCase();
-
-                   //        $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
-                   //         const results = q
-                   //             ? branches.filter(br =>
-                   //                    br.BranchName.toLowerCase().startsWith(q) )
-                   //             : branches;
-
-                   //         if (!results.length) return $("#branchDropdown").hide();
-
-                   //         const html = results.map(br =>
-                   //                   `<div data-code="${br.BranchCode}" data-name="${br.BranchName}">
-                   //                    ${br.BranchName} </span>
-                   //             </div>`
-                   //         ).join("");
-
-                   //         $("#branchDropdown").html(html).show();
-                   //     });
-                   // });
+                   });                   
 
 
                    $("#branchDropdown").on("mousedown", "div", function() {

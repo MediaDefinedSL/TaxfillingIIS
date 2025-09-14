@@ -98,26 +98,49 @@
         allBanks = data;
     });
   
-    $("#bankInput").on("input focus", function () {
+    $("#bankInput").on("focus", function () {
+        // Show all banks on focus
+        renderBanks(allBanks, true);
+    });
+
+    $("#bankInput").on("input", function () {
         const q = $(this).val().toLowerCase();
         let results = allBanks;
 
         if (q) {
             results = results.filter(b =>
-                (b.bankName && b.bankName.toLowerCase().startsWith(q))
+                b.bankName && b.bankName.toLowerCase().startsWith(q)
             );
         }
 
-        let html = "";
-        if (results.length === 0) html = "<div>No banks match.</div>";
+        renderBanks(results, true);
+    });
+
+    function renderBanks(results, highlightSelected) {
+        let html = results.length === 0 ? "<div>No banks match.</div>" : "";
         results.forEach(b => {
-            html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">
-                                          ${b.bankName} 
-                                 </div>`;
+            html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">${b.bankName}</div>`;
         });
 
         $("#bankDropdown").html(html).show();
-    });
+
+        // Highlight previously selected bank if present
+        highlightedIndex = -1;
+
+        if (highlightSelected && selectedBank) {
+
+            $("#bankDropdown div").each(function (i) {
+                if ($(this).data("id") == selectedBank) {
+                    console.log($(this).data("id"))
+                    $(this).addClass("highlight");
+                    highlightedIndex = i;
+                    this.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                    return false; // stop loop
+                }
+            });
+        }
+    }
+
 
     $("#bankDropdown").on("mousedown", "div", function () {
         const bankId = $(this).data("id");
@@ -664,27 +687,49 @@
     //==============  FD ============
 
 
-    $("#FDbankInput").on("input focus", function () {
-    
+    $("#FDbankInput").on("focus", function () {
+        // Show all banks on focus
+        renderFDBanks(allBanks, true);
+    });
+
+    $("#FDbankInput").on("input", function () {
         const q = $(this).val().toLowerCase();
         let results = allBanks;
 
         if (q) {
             results = results.filter(b =>
-                (b.bankName && b.bankName.toLowerCase().startsWith(q))
+                b.bankName && b.bankName.toLowerCase().startsWith(q)
             );
         }
 
-        let html = "";
-        if (results.length === 0) html = "<div>No banks match.</div>";
+        renderFDBanks(results, true);
+    });
+
+    function renderFDBanks(results, highlightSelected) {
+        let html = results.length === 0 ? "<div>No banks match.</div>" : "";
         results.forEach(b => {
-            html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">
-                                          ${b.bankName} 
-                                 </div>`;
+            html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">${b.bankName}</div>`;
         });
 
         $("#FDbankDropdown").html(html).show();
-    });
+
+        // Highlight previously selected bank if present
+        highlightedIndex = -1;
+
+        if (highlightSelected && selectedBank) {
+
+            $("#FDbankDropdown div").each(function (i) {
+                if ($(this).data("id") == selectedBank) {
+                    console.log($(this).data("id"))
+                    $(this).addClass("highlight");
+                    highlightedIndex = i;
+                    this.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                    return false; // stop loop
+                }
+            });
+        }
+    }
+
 
     $("#FDbankDropdown").on("mousedown", "div", function () {
         const bankId = $(this).data("id");
