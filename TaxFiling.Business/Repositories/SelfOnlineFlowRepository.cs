@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using System;
 using System.Diagnostics.Metrics;
 using System.Security.Principal;
 using System.Threading;
@@ -1859,6 +1861,246 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         return assetsCapitalCurrentAccountList;
     }
 
+    //-------- Liabilities
+
+    public async Task<bool> SaveEditSelfonlineLiabilitiesAllLiabilities(SelfonlineLiabilitiesAllLiabilitiesDto allLiabilities)
+    {
+        bool isSuccess = false;
+        try
+        {
+        
+
+                await _context.Database.ExecuteSqlRawAsync(
+              @"CALL ADDEditSelfOnlineCapitalCurrentAccount  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Description,
+                                        @SecurityOnLiability,
+                                        @DateOfCommencement,
+                                        @OriginalAmount,
+                                        @AmountAsAt,
+                                        @AmountRepaid,
+                                        @transactionType,
+                                        @SelfonlineLiabilityID
+                                    )",
+                     new MySqlParameter("@loguser", allLiabilities.UserId ?? (object)DBNull.Value),
+                    new MySqlParameter("@UserId", allLiabilities.UserId ?? (object)DBNull.Value),
+                    new MySqlParameter("@Year", allLiabilities.Year),
+                    new MySqlParameter("@Type", allLiabilities.Type ?? (object)DBNull.Value),
+                    new MySqlParameter("@SerialNumber", allLiabilities.SerialNumber ?? (object)DBNull.Value),
+                    new MySqlParameter("@Description", allLiabilities.Description ?? (object)DBNull.Value),
+                    new MySqlParameter("@SecurityOnLiability", allLiabilities.SecurityOnLiability ?? (object)DBNull.Value),
+                    new MySqlParameter("@DateOfCommencement", allLiabilities.DateOfCommencement ?? (object)DBNull.Value),
+                    new MySqlParameter("@OriginalAmount", allLiabilities.OriginalAmount ?? (object)DBNull.Value),
+                    new MySqlParameter("@AmountAsAt", allLiabilities.AmountAsAt ?? (object)DBNull.Value),
+                    new MySqlParameter("@AmountRepaid", allLiabilities.AmountRepaid ?? (object)DBNull.Value),
+                     new MySqlParameter("@transactionType", allLiabilities.TransactionType ?? (object)DBNull.Value),
+                    new MySqlParameter("@SelfonlineLiabilityID", allLiabilities.SelfonlineLiabilityID)
+
+          );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveEditSelfonlineAssetsCapitalCurrentAccount");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineLiabilitiesAllLiabilitiesDto>> GetSelfonlineLiabilitiesAllLiabilities(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineLiabilitiesAllLiabilitiesDto> assetsCapitalCurrentAccountList = [];
+        try
+        {
+
+            assetsCapitalCurrentAccountList = await _context.SelfonlineLiabilitiesAllLiabilities
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineLiabilitiesAllLiabilitiesDto
+            {
+                SelfonlineLiabilityID = t.SelfonlineLiabilityID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                SecurityOnLiability = t.SecurityOnLiability,
+                DateOfCommencement = t.DateOfCommencement,
+                OriginalAmount = t.OriginalAmount,
+                AmountAsAt = t.AmountAsAt,
+                AmountRepaid = t.AmountRepaid,
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return assetsCapitalCurrentAccountList;
+    }
+
+    public async Task<bool> SaveEditSelfonlineLiabilitiesOtherAssetsGifts(SelfonlineLiabilitiesOtherAssetsGiftsDto otherAssetss)
+    {
+        bool isSuccess = false;
+        try
+        {
+
+            
+
+                await _context.Database.ExecuteSqlRawAsync(
+          @"CALL ADDEditSelfOnlineCapitalCurrentAccount  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Description,
+                                        @AcquisitionMode,
+                                        @DateOfAcquisition,
+                                        @CostMarketValue,
+                                        @transactionType,
+                                        @selfonlineAssetsGiftsID
+                                    )",
+                 new MySqlParameter("@loguser", otherAssetss.UserId ?? (object)DBNull.Value),
+                new MySqlParameter("@UserId", otherAssetss.UserId ?? (object)DBNull.Value),
+                new MySqlParameter("@Year", otherAssetss.Year),
+                new MySqlParameter("@Type", otherAssetss.Type ?? (object)DBNull.Value),
+                new MySqlParameter("@SerialNumber", otherAssetss.SerialNumber ?? (object)DBNull.Value),
+                new MySqlParameter("@Description", otherAssetss.Description ?? (object)DBNull.Value),
+                new MySqlParameter("@AcquisitionMode", otherAssetss.AcquisitionMode ?? (object)DBNull.Value),
+                new MySqlParameter("@DateOfAcquisition", otherAssetss.DateOfAcquisition ?? (object)DBNull.Value),
+                new MySqlParameter("@CostMarketValue", otherAssetss.CostMarketValue ?? (object)DBNull.Value),
+                 new MySqlParameter("@transactionType", otherAssetss.TransactionType ?? (object)DBNull.Value),
+                new MySqlParameter("@selfonlineAssetsGiftsID", otherAssetss.SelfonlineAssetsGiftsID)
+
+      );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveEditSelfonlineLiabilitiesOtherAssetsGifts");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineLiabilitiesOtherAssetsGiftsDto>> GetSelfonlineLiabilitiesOtherAssetsGifts(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineLiabilitiesOtherAssetsGiftsDto> assetsCapitalCurrentAccountList = [];
+        try
+        {
+
+            assetsCapitalCurrentAccountList = await _context.SelfonlineLiabilitiesOtherAssetsGifts
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineLiabilitiesOtherAssetsGiftsDto
+            {
+                SelfonlineAssetsGiftsID = t.SelfonlineAssetsGiftsID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                AcquisitionMode = t.AcquisitionMode,
+                DateOfAcquisition = t.DateOfAcquisition,
+                CostMarketValue = t.CostMarketValue
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return assetsCapitalCurrentAccountList;
+    }
+
+    public async Task<bool> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsDto disposalAssets)
+    {
+        bool isSuccess = false;
+        try
+        {
+
+           
+
+                await _context.Database.ExecuteSqlRawAsync(
+      @"CALL ADDEditSelfOnlineCapitalCurrentAccount  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Description,
+                                        @DateOfDisposal,
+                                        @SalesProceed,
+                                        @DateAcquired,
+                                        @Cost,
+                                        @transactionType,
+                                        @selfonlineDisposalAssetsID
+                                    )",
+             new MySqlParameter("@loguser", disposalAssets.UserId ?? (object)DBNull.Value),
+            new MySqlParameter("@UserId", disposalAssets.UserId ?? (object)DBNull.Value),
+            new MySqlParameter("@Year", disposalAssets.Year),
+            new MySqlParameter("@Type", disposalAssets.Type ?? (object)DBNull.Value),
+            new MySqlParameter("@SerialNumber", disposalAssets.SerialNumber ?? (object)DBNull.Value),
+            new MySqlParameter("@Description", disposalAssets.Description ?? (object)DBNull.Value),
+            new MySqlParameter("@DateOfDisposal", disposalAssets.DateOfDisposal ?? (object)DBNull.Value),
+            new MySqlParameter("@SalesProceed", disposalAssets.SalesProceed ?? (object)DBNull.Value),
+            new MySqlParameter("@DateAcquired", disposalAssets.DateAcquired ?? (object)DBNull.Value),
+            new MySqlParameter("@Cost", disposalAssets.Cost ?? (object)DBNull.Value),
+             new MySqlParameter("@transactionType", disposalAssets.TransactionType ?? (object)DBNull.Value),
+            new MySqlParameter("@selfonlineDisposalAssetsID", disposalAssets.SelfonlineDisposalAssetsID)
+
+  );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveEditSelfonlineLiabilitiesOtherAssetsGifts");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineLiabilitiesDisposalAssetsDto>> GetSelfonlineLiabilitiesDisposalAssets(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineLiabilitiesDisposalAssetsDto> assetsCapitalCurrentAccountList = [];
+        try
+        {
+
+            assetsCapitalCurrentAccountList = await _context.SelfonlineLiabilitiesDisposalAssets
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineLiabilitiesDisposalAssetsDto
+            {
+                SelfonlineDisposalAssetsID = t.SelfonlineDisposalAssetsID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                DateOfDisposal = t.DateOfDisposal,
+                SalesProceed = t.SalesProceed,
+                DateAcquired = t.DateAcquired,
+                Cost = t.Cost
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return assetsCapitalCurrentAccountList;
+    }
 
 }
 
