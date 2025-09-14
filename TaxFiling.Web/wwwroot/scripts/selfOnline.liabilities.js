@@ -143,7 +143,7 @@
     });
 
     $(document).off("click", ".allliabilities-editbtn").on("click", ".allliabilities-editbtn", function () {
-        alert(12);
+     
         // Remove old validation messages
         $(".validation-error").remove();
 
@@ -276,18 +276,18 @@
         var type = $(this).data("type");
         var serialNo = $(this).data("serialno");
         var description = $(this).data("description");
-        var acquisitionMode = $(this).data("acquisitionmode");
+        var security = $(this).data("security");
         var date = $(this).data("date");
-        var cost = $(this).data("cost");
+        var oamount = $(this).data("oamount");
 
         // Fill form fields
         $("#hiddenOtherAssetsId").val(id);
         $("#ddlASType").val(type);
         $("#txtASSN").val(serialNo);
         $("#txtASDes").val(description);
-        $("#txtASPurchase").val(acquisitionMode);
+        $("#txtASPurchase").val(security);
         $("#txtASDate").val(date);
-        $("#txtASCost").val(cost);
+        $("#txtASCost").val(oamount);
 
         // Change button text
         $("#btnOtherAssetsSubmit").text("Update");
@@ -516,4 +516,31 @@
         });
 
     });
+});
+
+$('#linkSummaryContinue').on('click', function () {
+    $.ajax({
+        url: '/SelfOnlineFlow/LoadSummarySection',
+        type: 'GET',
+        success: function (data) {
+            $('#in-this-section-container').html(data);
+        },
+        error: function () {
+            alert("Error loading section content.");
+        }
+    });
+    $("html, body").animate({ scrollTop: 0 }, "smooth");
+});
+$('#linkAssetsContinue').on('click', function () {
+    //$.ajax({
+    //    url: '/SelfOnlineFlow/LoadAssets',
+    //    type: 'GET',
+    //    success: function (data) {
+    //        $('#in-this-section-container').html(data);
+    //    },
+    //    error: function () {
+    //        alert("Error loading section content.");
+    //    }
+    //});
+    $("html, body").animate({ scrollTop: 0 }, "smooth");
 });
