@@ -4,7 +4,7 @@
     console.log("Base API URL:", baseApiUrl);
     let userId = $("#hndUserid").val();
 
-    alert(userId);
+   
     loadFinancialDetails(userId, '2024/2025');
 
     document.querySelectorAll(".numeric-input").forEach(function (input) {
