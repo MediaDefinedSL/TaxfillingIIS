@@ -6,7 +6,7 @@
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
     var tinNo = User.Claims.FirstOrDefault(c => c.Type == "TinNo")?.Value;
-    int personalInfoCompletedStatus = 1;//ViewBag.personalInfoStatus ?? -1;
+    int personalInfoCompletedStatus = ViewBag.personalInfoSelfFilingStatus ?? 0;
 }
 
 
@@ -127,15 +127,16 @@
                                             "RESUBMITTED" => "bg-info text-dark",
                                             _ => "bg-dark"
                                         };
-
-                                        <tr>
+                                        var rowId = $"assessment-row-{year}";
+                                        var badgeId = $"status-badge-{year}";
+                                        <tr id="@rowId">
                                             <td class="text-center">
                                                 <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "disabled") />
                                             </td>
                                             <td>@year/@(year + 1)</td>
                                             <td>@dueDate</td>
                                             <td class="text-center">
-                                                <span class="badge @badgeClass px-3 py-2">@status</span>
+                                                <span id="@badgeId" class="badge @badgeClass px-3 py-2">@status</span>
                                             </td>
                                         </tr>
                                     }
@@ -161,7 +162,7 @@
         </div>
 
     </div>
-
+    <input type="hidden" id="personalInfoSelfFilingDashCompleted" value="@personalInfoCompletedStatus" />
 </main>
 
 <!-- Extra Styling -->
@@ -224,6 +225,30 @@
                 }
             });
         });
+
+       $(document).on("statusUpdated", function (e, newStatus) {
+          
+            if(document.getElementById("statusBadge"))
+            {
+                
+                var statusText = document.getElementById("statusBadge").textContent;
+            
+                if (statusText == "New") {
+
+                    const row = document.getElementById("assessment-row-2024");
+                    const badge = document.getElementById("status-badge-2024");
+                    badge.classList.remove("bg-info", "text-dark");
+                    badge.classList.add("bg-warning", "text-white");
+                    badge.textContent = "DRAFT";
+                    $("#statusBadge")
+                        .text("DRAFT")
+                        .removeClass("bg-info")
+                        .addClass("bg-warning text-dark");
+
+
+                }
+            }
+    });
     })();
 </script>
 
