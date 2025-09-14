@@ -1935,7 +1935,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         
 
                 await _context.Database.ExecuteSqlRawAsync(
-              @"CALL ADDEditSelfOnlineCapitalCurrentAccount  (
+              @"CALL ADDEditSelfOnlineLiability  (
                                         @loguser,
                                         @UserId,
                                         @Year,
@@ -2018,7 +2018,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             
 
                 await _context.Database.ExecuteSqlRawAsync(
-          @"CALL ADDEditSelfOnlineCapitalCurrentAccount  (
+          @"CALL ADDEditSelfOnlineAssetsGifts  (
                                         @loguser,
                                         @UserId,
                                         @Year,

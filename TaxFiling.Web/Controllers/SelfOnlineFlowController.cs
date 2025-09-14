@@ -32,7 +32,7 @@ public class SelfOnlineFlowController : Controller
         _httpClient = httpClientFactory.CreateClient("ApiClient");
         _baseApiUrl = _configuration.GetValue<string>("BaseAPIUrl") ?? string.Empty;
 
-        _viewRenderService = viewRenderService;      
+        _viewRenderService = viewRenderService;
     }
     public IActionResult Index()
     {
@@ -82,7 +82,7 @@ public class SelfOnlineFlowController : Controller
         UserViewModel user = new();
         ViewBag.TaxTotal = "";
 
-       SelfOnlineFlowPersonalInformation personalInformation = new();
+        SelfOnlineFlowPersonalInformation personalInformation = new();
 
 
         if (packageId != null)
@@ -148,7 +148,7 @@ public class SelfOnlineFlowController : Controller
             SelfFilingTotalCalculationViewModel totalCalculation = new();
 
 
-           
+
 
             string url1 = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryUserParams);
             var response1 = await _httpClient.GetAsync(url1, ctx);
@@ -160,7 +160,7 @@ public class SelfOnlineFlowController : Controller
                     totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent1, _jsonSerializerOptions) ?? new();
                 }
             }
-           
+
         }
 
         ViewBag.TaxTotal = user.TaxTotal;
@@ -402,7 +402,7 @@ public class SelfOnlineFlowController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
         UserViewModel user = new();
-        
+
         ContactInfromationViewModel contactInfromation = new();
         SelfOnlineFlowPersonalInformation personalInformation = new();
 
@@ -501,7 +501,7 @@ public class SelfOnlineFlowController : Controller
         List<MaritalStatus> maritalStatuses = [];
 
         string maritalStatus = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", queryUserParams);
-        
+
         var response1 = await _httpClient.GetAsync(maritalStatus, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
@@ -1676,6 +1676,97 @@ public class SelfOnlineFlowController : Controller
             { "year", year.ToString()}
         };
 
-        return PartialView("AssetsLiabilities/_Liabilities");
+        List<SelfonlineLiabilitiesAllLiabilitiesViewModel> liabilitiesList = [];
+        string liabilitiesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesallliabilities_list", queryUserParams);
+        var response1 = await _httpClient.GetAsync(liabilitiesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                liabilitiesList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesAllLiabilitiesViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineLiabilitiesOtherAssetsGiftsViewModel> otherAssetList = [];
+        string OtherAssetListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesotherassetss_list", queryUserParams);
+        var response2 = await _httpClient.GetAsync(OtherAssetListUrl, ctx);
+        if (response2 != null && response2.IsSuccessStatusCode)
+        {
+            var responseContent = await response2.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                otherAssetList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesOtherAssetsGiftsViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineLiabilitiesDisposalAssetsViewModel> disposalAssetsList = [];
+        string disposalAssetsListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesdisposalassets_list", queryUserParams);
+        var response3 = await _httpClient.GetAsync(disposalAssetsListUrl, ctx);
+        if (response3 != null && response3.IsSuccessStatusCode)
+        {
+            var responseContent = await response3.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                disposalAssetsList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesDisposalAssetsViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        var model = new SelfOnlineLiabilities
+        {
+            selfonlineLiabilitiesAllLiabilities = liabilitiesList,
+            selfonlineLiabilitiesOtherAssetsGifts = otherAssetList,
+            selfonlineLiabilitiesDisposalAssets = disposalAssetsList
+        };
+
+        return PartialView("AssetsLiabilities/_Liabilities", model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesAllLiabilities(SelfonlineLiabilitiesAllLiabilitiesViewModel liabilities)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        liabilities.UserId = userId;
+        liabilities.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/savelineLiabilities_allliabilities", liabilities);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Capital Current Account save successfully" });
+
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesOtherAssetsGifts(SelfonlineLiabilitiesOtherAssetsGiftsViewModel otherAssets)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        otherAssets.UserId = userId;
+        otherAssets.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/savelineLiabilities_otherassetss", otherAssets);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Capital Current Account save successfully" });
+
     }
 }
