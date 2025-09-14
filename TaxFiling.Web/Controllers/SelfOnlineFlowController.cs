@@ -77,7 +77,7 @@ public class SelfOnlineFlowController : Controller
         var packageId = User.FindFirst("PackageId")?.Value;
         int year = DateTime.Now.Year;
         var responseResult = false;
-
+        
         // PackagesViewModel package = new();
         UserViewModel user = new();
         ViewBag.TaxTotal = "";
@@ -143,6 +143,8 @@ public class SelfOnlineFlowController : Controller
                 }
             }
 
+            
+
             SelfFilingTotalCalculationViewModel totalCalculation = new();
 
 
@@ -162,13 +164,32 @@ public class SelfOnlineFlowController : Controller
         }
 
         ViewBag.TaxTotal = user.TaxTotal;
+        
 
 
         return View();
     }
-    public IActionResult LoadDashboardSection()
+    public async Task<IActionResult> LoadDashboardSection(CancellationToken ctx)
     {
+        int? personalInfoStatus = -1;
+        var userId = User.FindFirst("UserID")?.Value;
+        var queryParamsDocs = new Dictionary<string, string?>
+            {
+                { "userId", userId.ToString() }
+            };
 
+        string personalInfoStatusUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/Users/GetPersonalInformationCompleted", queryParamsDocs);
+        var responsepersonalInfo = await _httpClient.GetAsync(personalInfoStatusUrl, ctx);
+        if (responsepersonalInfo != null && responsepersonalInfo.IsSuccessStatusCode)
+        {
+            var responseContent = await responsepersonalInfo.Content.ReadAsStringAsync(ctx);
+
+            if (int.TryParse(responseContent, out var parsedPersonalStatus))
+            {
+                personalInfoStatus = parsedPersonalStatus;
+            }
+        }
+        ViewBag.personalInfoSelfFilingStatus = personalInfoStatus;
         return PartialView("Partial/_DashboardSection");
     }
     public IActionResult LoadInThisSection()

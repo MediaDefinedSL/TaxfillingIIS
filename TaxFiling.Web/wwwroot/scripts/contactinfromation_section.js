@@ -116,7 +116,7 @@
                     if (!el) return;
 
                     if (document.getElementById("personalInfoCompleted").value == 1) {
-                        if (el.textContent == "Missing") { 
+                        if (el.textContent == "Missing") {
                             el.textContent = "✓";
                             el.className = "text-success";
                             const bar = document.getElementById("progressBar");
@@ -153,6 +153,11 @@
                             }
                         }
                     }
+                }
+                else {
+                    document.getElementById("personalInfoSelfFilingCompleted").value = "1";
+                    $(document).trigger("statusUpdated", 1);
+                    
                 }
                 $.ajax({
                     url: '/SelfOnlineFlow/LoadSummary',

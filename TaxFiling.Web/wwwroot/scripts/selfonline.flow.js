@@ -30,6 +30,10 @@ $(function () {
             type: 'GET',
             success: function (data) {
                 $('#in-this-section-container').html(data);
+                if (document.getElementById("personalInfoSelfFilingCompleted").value == "1") {
+                    $(document).trigger("statusUpdated", 1);
+                }
+                
             },
             error: function () {
                 alert("Error loading section content.");
