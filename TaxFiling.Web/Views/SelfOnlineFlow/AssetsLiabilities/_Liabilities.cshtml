@@ -1,0 +1,78 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+
+
+<link href="~/assets/css/tree-container-css.css?v=3" rel="stylesheet">
+
+<main class="main-content">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+            <form method="post">
+                <div class=" mt-4 ">
+                    <div class="custom-tabs">
+                        <ul class="nav nav-tabs col-md-12" id="myLiabilitiesTab" role="tablist">
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link all_liabilities active" id="allliabilities-tab" data-bs-toggle="tab" data-bs-target="#allliabilities" type="button" role="tab" aria-controls="allliabilities" aria-selected="true" data-target="bank-section">All Liabilities</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link other_assets" id="otherassets-tab" data-bs-toggle="tab" data-bs-target="#otherassets" type="button" role="tab" aria-controls="otherassets" aria-selected="false" tabindex="-1">Other Assets</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link disposal_asets" id="disposalasets-tab" data-bs-toggle="tab" data-bs-target="#disposalasets" type="button" role="tab" aria-controls="disposalasets" aria-selected="false" tabindex="-1">Disposal Asets</button>
+                            </li>
+                           
+                        </ul>
+                        <div class="tab-content" id="myLiabilitiesTabContent">
+                            @*    All Liabilities *@
+
+                            <div aria-labelledby="allliabilities-tab" role="tabpanel" id="allliabilities" class="tab-pane insvesment fade fade-in active show">
+
+                                <h4 class="mb-3">
+                                    <i class="bi bi-credit-card-2-front"></i> &nbsp;All liabilities including any debit balance of a business capital, current or credit card account
+                                </h4>
+                                <hr>
+                            </div>
+                            @*    Other Assets *@
+
+                            <div aria-labelledby="otherassets-tab" role="tabpanel" id="otherassets" class="tab-pane insvesment fade">
+
+                                <h4 class="mb-3">
+                                    <i class="bi bi-box-seam"></i> &nbsp;Any other assets acquired or gifts received during the year
+                                </h4>
+                                <hr>
+                            </div>
+                            @*    Disposal Asets *@
+
+                            <div aria-labelledby="disposalasets-tab" role="tabpanel" id="disposalasets" class="tab-pane insvesment fade">
+
+                                <h4 class="mb-3">
+                                    <i class="bi bi-arrow-left-right"></i> &nbsp;Disposal of assets including shares (sale/transfer/gift) during the year
+                                </h4>
+                                <hr>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <br><br>
+            <div class="d-lg-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv" id="linkDeductionsContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Back
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkLiabilitiesContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>

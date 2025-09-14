@@ -1640,4 +1640,19 @@ public class SelfOnlineFlowController : Controller
     }
 
 
+    //-------- Liabilities
+
+    public async Task<IActionResult> LoadLiabilities(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
+
+        return PartialView("AssetsLiabilities/_Liabilities");
+    }
 }
