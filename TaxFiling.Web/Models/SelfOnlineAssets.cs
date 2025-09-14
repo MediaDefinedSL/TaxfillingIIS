@@ -8,5 +8,4 @@ public class SelfOnlineAssets
     public List<SelfonlineAssetsSharesStocksSecuritiesViewModel> selfonlineAssetsSharesStocksSecuritiesViewModel { get; set; }
     public List<SelfonlineAssetsCapitalCurrentAccountViewModel> selfonlineAssetsCapitalCurrentAccountViewModel { get; set; }
 
-
 }
