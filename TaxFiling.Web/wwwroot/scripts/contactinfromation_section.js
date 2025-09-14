@@ -110,12 +110,14 @@
             contentType: "application/json",
             data: JSON.stringify(user),
             success: function (response) {
-                if (document.getElementById("docUploadStatus")) {
+                if (document.getElementById("docUploadStatus")) {                   
+                    $(document).trigger("personalInfoCompleted", 1);
                     document.getElementById("personalInfoCompleted").value = "1";
                     const el = document.getElementById("personalInfoStatus");
                     if (!el) return;
 
                     if (document.getElementById("personalInfoCompleted").value == 1) {
+                       
                         if (el.textContent == "Missing") {
                             el.textContent = "✓";
                             el.className = "text-success";

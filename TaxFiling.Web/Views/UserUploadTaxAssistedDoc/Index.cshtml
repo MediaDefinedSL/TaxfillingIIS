@@ -3109,6 +3109,7 @@
 
                        submitDeclareBtn.addEventListener("click", function () {
                               if (acceptCheckbox.checked) {
+
                                       const userId = '@userId';
                                       const status = 2; // SUBMITTED
                                       const currentYear = new Date().getFullYear()-1;
@@ -3319,12 +3320,36 @@
 
                    }
 
+                  function updateSidebar(status) {
+                    if (status === 0 ) { // incomplete
+                        $(".sidebar-link").not("#btnLoadSection").addClass("disabled-link").off("click").on("click", function(e){
+                            e.preventDefault();
+                            showMessage("Please complete Personal Information before accessing other sections.","error");
+                        });
 
+                        $("#documents-submenu a").addClass("disabled-link").off("click").on("click", function(e){
+                            e.preventDefault();
+                            showMessage("Please complete Personal Information first.","error");
+                        });
+                    } else { // complete
+                        $(".sidebar-link").removeClass("disabled-link").off("click");
+                        $("#documents-submenu a").removeClass("disabled-link").off("click");
+                    }
+                }
+
+                
 
                         //page load
                    document.addEventListener("DOMContentLoaded", function () {
 
 
+                    $(document).on("personalInfoCompleted", function(e, newStatus) {                        
+                        updateSidebar(newStatus);
+                    });
+
+                            var status = parseInt($("#personalInfoCompleted").val() || 0);
+                                        updateSidebar(status);
+                    
 
                       const checkboxes = document.querySelectorAll(".checkbox-lg");
                       const removeBtn = document.getElementById("btnRemoveDraft");
@@ -4820,3 +4845,10 @@
     <!-- /File my taxes -->
 
 </main>
+<style>
+.disabled-link {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>
