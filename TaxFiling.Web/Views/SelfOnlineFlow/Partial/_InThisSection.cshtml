@@ -46,7 +46,16 @@
 <script>
     $(function () {
          $('#linkTaxPayerNext').on('click', function () {
-                window.location.href = '/SelfOnlineFlow/SelfOnlineDashboard';
+               $.ajax({
+                url: '/SelfOnlineFlow/LoadDashboardSection',
+                type: 'GET',
+                success: function (data) {
+                    $('#in-this-section-container').html(data);
+                },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+        });
          });
 
          $('#linkTaxPayerContinue').on('click', function () {

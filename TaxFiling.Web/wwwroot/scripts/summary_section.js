@@ -43,6 +43,7 @@
     $('#divSummaryAssistedNext').on('click', function () {
 
         var docUploadStatus = $('#docUploadStatus').val();
+        alert(docUploadStatus);
         if (docUploadStatus) {
            
             $('#in-this-section-container').hide();

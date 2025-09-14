@@ -1,4 +1,4 @@
-@using System.Security.Claims
+﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Html
 
 @{
@@ -6,100 +6,224 @@
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
     var tinNo = User.Claims.FirstOrDefault(c => c.Type == "TinNo")?.Value;
+    int personalInfoCompletedStatus = 1;//ViewBag.personalInfoStatus ?? -1;
 }
 
 
-<main class="main-content">
+<main class="main-content py-4">
     <div class="container-fluid">
 
         <div id="dashboard-section" class="content-panel p-4 bg-light rounded shadow-sm">
-            <h4 class="mb-3"><i class="fas fa-table text-primary me-2"></i> Individual Income Tax Filing Summary</h4>
 
-            <div class="mb-3 ">
-                <table class="table table-borderless site-color">
+            <!-- Header -->
+            <div class="d-flex align-items-center mb-4">
+                <h4 class="mb-0 mx-auto">Individual Income Tax Filing Summary</h4>
+            </div>
+
+            <!-- User details -->
+            <div class="user-details-section mb-4">
+                <table class="table table-borderless site-color mx-auto" style="width: auto;">
                     <thead>
                         <tr>
-                            <th scope="col"><strong>Taxpayer Identification Number (TIN)  </strong></th>
-                            <th scope="col">@tinNo</th>
+                            <th scope="col"><strong>Taxpayer Identification Number (TIN)</strong></th>
+                            <td class="text-center">@tinNo</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row"><strong>Name of taxpayer</strong></th>
-                            <td>@userName</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><strong>Year of assessment </strong></th>
-                            <td> 2024/2025</td>
+                            <td class="text-center">@userName</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        
-          
+
+            <!-- Info boxes -->
+            <div class="row row-cols-1 row-cols-md-4 g-3 mb-4">
+                <div class="col">
+                    <div class="card text-center shadow-sm h-100 border-primary border-2 rounded-3 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted">Year of Assessment</h6>
+                            <p class="fs-4 fw-bold text-primary">2024/2025</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center shadow-sm h-100 border-danger border-2 rounded-3 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted">Due Date</h6>
+                            <p class="fs-4 fw-bold text-danger">11/30/2025</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center shadow-sm h-100 border-success border-2 rounded-3 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted">Status</h6>
+                            <span id="statusBadge" class="badge px-3 py-2 fs-6"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center shadow-sm h-100 border-info border-2 rounded-3 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted">Reviewer / Assigned Officer</h6>
+                            <p class="fs-6 fw-bold text-primary">Not Assigned</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instruction -->
+            <p >
+                Select a year to start or continue your return. Past years are read-only.
+            </p>
+
+            <!-- Yearly summary table -->
             @{
                 int startYear = 2019;
                 int endYear = DateTime.Now.Month >= 4 ? DateTime.Now.Year - 1 : DateTime.Now.Year - 2;
             }
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped mt-3">
-                    <thead class="table-light">
-                        <tr>
-                            <th width="64"></th>
-                            <th>Year of assessment</th>
-                            <th>Due date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int year = endYear; year >= startYear; year--)
-                        {
-                            var dueDate = new DateTime(year + 1, 11, 30).ToString("yyyy-MM-dd");
-                            var isCurrentAssessmentYear = year == endYear;
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-0">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th></th>
+                                        <th>Year of Assessment</th>
+                                        <th>Due Date</th>
+                                        <th class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int year = endYear; year >= startYear; year--)
+                                    {
+                                        var dueDate = new DateTime(year + 1, 11, 30).ToString("yyyy-MM-dd");
+                                        var isCurrentAssessmentYear = year == endYear;
 
-                            string status = "SUBMITTED"; // default for past years
-                            if (isCurrentAssessmentYear)
-                            {
-                                status = 0 switch
-                                {
-                                    0 => "NEW",
-                                    1 => "DRAFT",
-                                    2 => "SUBMITTED",
-                                    3 => "REUPLOAD",
-                                    4 => "RESUBMITTED",
-                                    _ => "UNKNOWN"
-                                };
-                            }
+                                        int numericStatus = isCurrentAssessmentYear ? personalInfoCompletedStatus : 2;
 
-                            var badgeClass = status switch
-                            {
-                                "NEW" => "bg-secondary",
-                                "DRAFT" => "bg-warning text-dark",
-                                "SUBMITTED" => "bg-success",
-                                "REUPLOAD" => "bg-danger-subtle text-danger",
-                                "RESUBMITTED" => "bg-info-subtle text-info",
-                                _ => "bg-dark"
-                            };
-                            // Unique ID for row and badge
-                            var rowId = $"assessment-row-{year}";
-                            var badgeId = $"status-badge-{year}";
-                            <tr id="@rowId">
-                                <td width="64" align="center">
-                                    <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "") />
-                                </td>
-                                <td>@year/@(year + 1)</td>
-                                <td>@dueDate</td>
-                                <td>
-                                    <span id="@badgeId" class="badge @badgeClass">@status</span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                        string status = isCurrentAssessmentYear
+                                        ? personalInfoCompletedStatus switch
+                                        {
+                                            0 => "NEW",
+                                            1 => "DRAFT",
+                                            2 => "SUBMITTED",
+                                            3 => "REUPLOAD",
+                                            4 => "RESUBMITTED",
+                                            _ => "UNKNOWN"
+                                        }
+                                        : "SUBMITTED";
+
+                                        string badgeClass = status switch
+                                        {
+                                            "NEW" => "bg-info text-dark",
+                                            "DRAFT" => "bg-warning text-dark",
+                                            "SUBMITTED" => "bg-success",
+                                            "REUPLOAD" => "bg-danger",
+                                            "RESUBMITTED" => "bg-info text-dark",
+                                            _ => "bg-dark"
+                                        };
+
+                                        <tr>
+                                            <td class="text-center">
+                                                <input class="checkbox-lg" type="checkbox" @(isCurrentAssessmentYear ? "checked" : "disabled") />
+                                            </td>
+                                            <td>@year/@(year + 1)</td>
+                                            <td>@dueDate</td>
+                                            <td class="text-center">
+                                                <span class="badge @badgeClass px-3 py-2">@status</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-        
         </div>
+    </div>
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-3 mt-4">
+
+        <!-- Back Button (hidden by default) -->
+        <div class="btn-prv" style="display:none;">
+            <button class="btn btn-primary btn-lg w-100 w-lg-auto">Back</button>
         </div>
-        </main>
+
+        <!-- Start Button -->
+        <div id="btnSelfOnlinePersonal" class="text-lg-end w-100 w-lg-auto">
+            <button class="btn btn-primary btn-lg " id="btnSelfOnlinePersonal">Start</button>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Extra Styling -->
+<style>
+    .card-hover {
+        transition: all 0.2s ease-in-out;
+    }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+<script>
+    (function() {
+        // local scoped variable, safe even if script runs multiple times
+        const selfFilingStatus = @personalInfoCompletedStatus;
+        const badge = document.getElementById("statusBadge");
+
+        switch (selfFilingStatus) {
+            case 1:
+                badge.className = "badge bg-warning text-dark px-3 py-2";
+                badge.textContent = "Draft";
+                break;
+            case 2:
+                badge.className = "badge bg-success text-light px-3 py-2";
+                badge.textContent = "Submitted";
+                break;
+            case 0:
+                badge.className = "badge bg-info text-dark px-3 py-2";
+                badge.textContent = "New";
+                break;
+            case 3:
+                badge.className = "badge bg-danger text-light px-3 py-2";
+                badge.textContent = "Reupload";
+                break;
+            case 4:
+                badge.className = "badge bg-info text-dark px-3 py-2";
+                badge.textContent = "Resubmitted";
+                break;
+            default:
+                badge.className = "badge bg-secondary text-light px-3 py-2";
+                badge.textContent = selfFilingStatus;
+        }
+
+        // Click handler
+        $('#btnSelfOnlinePersonal').off('click').on('click', function () {
+            $.ajax({
+                url: '/SelfOnlineFlow/LoadInThisSection',
+                type: 'GET',
+                success: function (data) {
+                    $('#in-this-section-container').html(data);
+                },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        });
+    })();
+</script>
+

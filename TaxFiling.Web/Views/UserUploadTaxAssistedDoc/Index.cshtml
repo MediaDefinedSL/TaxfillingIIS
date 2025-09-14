@@ -1,4 +1,5 @@
-﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+﻿﻿
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Html
 @using System.Globalization
@@ -164,31 +165,36 @@
                             <!-- Current Year Info -->
                             <!-- Four separate info boxes -->
                             <!-- Four equal-sized info boxes -->
-                            <div class="row mb-4 align-items-stretch">
-                                <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h6 class="card-title">Year of Assesement</h6>
-                                            <p class="fs-5 fw-bold">2024/2025</p>
-                                        </div>
+                        <div class="row mb-4 align-items-stretch">
+                            <div class="col-md-3">
+                                <div class="card text-center shadow-sm h-100 border-primary border-2 rounded-3 card-hover">
+                                    <div class="card-body d-flex flex-column justify-content-center">
+                                        <h6 class="card-title">Year of Assessment</h6>
+                                        <p class="fs-5 fw-bold">2024/2025</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h6 class="card-title">Due date</h6>
-                                            <p class="fs-5 fw-bold">11/30/2025</p>
-                                        </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="card text-center shadow-sm h-100 border-danger border-2 rounded-3 card-hover">
+                                    <div class="card-body d-flex flex-column justify-content-center">
+                                        <h6 class="card-title">Due Date</h6>
+                                        <p class="fs-5 fw-bold">11/30/2025</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h6 class="card-title">Status</h6>
-                                            <span id="statusBadge" class="badge px-2 py-1"></span>
-                                        </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="card text-center shadow-sm h-100 border-success border-2 rounded-3 card-hover">
+                                    <div class="card-body d-flex flex-column justify-content-center">
+                                        <h6 class="card-title">Status</h6>
+                                        <span id="statusBadge" class="badge px-2 py-1"></span>
                                     </div>
                                 </div>
+                            </div>
+
+                           
+
                                 <script>
                                      const docStatus = @docStatus;
                                      const badge = document.getElementById("statusBadge");
@@ -214,7 +220,7 @@
                                     // }
                                 </script>
                                 <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
+                                    <div class="card text-center shadow-sm h-100 border-info border-2 rounded-3 card-hover">
                                         <div class="card-body d-flex flex-column justify-content-center">
                                             <h6 class="card-title">Uploads</h6>
                                             <a href="#" id="fileCountLink" class="fs-6 fw-bold text-decoration-none"></a>
@@ -460,7 +466,7 @@
                     <div class="uplode-parts">
                         <div class="row ">
 
-                            <div class="col-md-6 guid-line">
+                            <div class="col-md-8 guid-line">
 
                                 <div class="uplode-text">Ensure the following documents are available for upload, as relevant to your case.</div>
                                 <ul>
@@ -492,7 +498,7 @@
                     <div class="mt-4 document-guidelines">
                         <h5><i class="fas fa-info-circle text-secondary me-2"></i>Document Guidelines</h5>
                         <ul class="text-muted">
-                            <li><strong>Accepted formats: <strong>PDF, JPG, PNG</strong></strong></li>
+                            <li><strong>Accepted formats: <strong>PDF, JPG, PNG, PDF, DOC</strong></strong></li>
                             <li><strong>Maximum size per file: <strong>5MB</strong></strong></li>
                            
 
@@ -837,7 +843,7 @@
                             </div>-->
                             <!-- Upload method selection -->
                             <!-- Upload method selection -->
-                            <h5 class="mb-3">
+                            <h5 class="mb-3 col-md-10">
                                 Please provide your Asset and Liability details as at 31.03.2025 by selecting one of the following options:</h5>
                             <div class="btn-group p-4" role="group">
                                 <input type="radio" class="btn-check" name="assetInputOption" id="optionExcel" value="1" autocomplete="off" checked>
@@ -1406,7 +1412,7 @@
                         <div class="tab-pane fade" id="income-expenses" role="tabpanel" aria-labelledby="income-expenses-tab">
 
                             <!-- Expenses Section -->
-                            <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                            <div class=" border rounded bg-light shadow-sm ">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Annual Expenses </h6>
                                 <div class="alert alert-info mt-3">
                                     <i class="fas fa-info-circle me-2"></i>
@@ -1429,7 +1435,7 @@
                             </div>
 
                             <!-- Balances Section -->
-                            <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                            <div class=" border rounded bg-light shadow-sm ">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-boxes me-2"></i> Balances as at 31.03.2025</h6>
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -4814,7 +4820,3 @@
     <!-- /File my taxes -->
 
 </main>
-
-
-
-
