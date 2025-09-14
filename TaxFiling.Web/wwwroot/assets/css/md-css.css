@@ -5418,7 +5418,7 @@ span.field-validation-error {
 }
 
 .Domestic .tile {
-    background: #d9d9d9;
+    background: #b7d9fb;
     border: 1px solid var(--border);
     padding: 18px;
     border-radius: 12px;
@@ -6476,7 +6476,7 @@ span.text-changes-cal {
 }
 
 .alert.alert-warning.cal-wa {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 17px !important;
     display: block;
     margin-left: 10px;
@@ -6531,7 +6531,7 @@ tr.band-soft.tax-boldd td {
 
 .cal .section-title.nothi {
     border-bottom: solid 1px #a1bacf;
-    color: #262626;
+   
 }
 
 
@@ -6618,7 +6618,7 @@ span#foreign_lkr_annual {
 
 
 p.muted.text-changes-cal {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 17px !important;
     display: block;
     margin-left: 10px !important;
@@ -7374,4 +7374,47 @@ span.kpi_assessable_all {
 
 .profile .rounded-circle {
     object-fit: contain !important;
+}
+
+span.text-changes-cal ul {
+    letter-spacing: 0.3px;
+}
+
+td.lbl.text-bold,
+.text-boldd td,
+tr.band-soft.tax-boldd td {
+    background-color: #52acf6;
+    /* color: #fff !important; */
+}
+
+
+input#relief_personal {
+    text-align: right;
+}
+
+input#relief_personal {
+    margin-right: -10px;
+}
+
+input#relief_solar {
+    text-align: right;
+    margin-right: -10px;
+}
+
+input#relief_qualifying {
+    text-align: right;
+    margin-right: -10px;
+}
+
+
+span.text-changes-cal ul {
+    font-size: 14px;
+}
+
+.cal-foreing ul {
+    font-size: 14px;
+}
+
+label.text-changes-cal p {
+    font-size: 14px;
 }
