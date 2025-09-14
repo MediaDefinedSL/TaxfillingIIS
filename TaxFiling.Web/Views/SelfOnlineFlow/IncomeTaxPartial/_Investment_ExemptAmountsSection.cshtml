@@ -78,7 +78,7 @@
                     </button>
                 </div>
                 <div class="col-lg-6 col-md-6 right next-btn" id="linkExemptAmountsContinue" disabled>
-                    <button class="btn btn-primary btn-lg" disabled>
+                    <button class="btn btn-primary btn-lg" >
                         Continue
                     </button>
                 </div>
@@ -90,4 +90,37 @@
 </main>
 
 <script src="~/scripts/selfOnline.investmentpartnerbeneficiaryexempt.js" asp-append-version="true"></script>
+<script>
+    $(function () {
+
+         $('#linkExemptAmountsBack').on('click', function () {
+                $.ajax({
+                url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
+                type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                          $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        });
+
+         $('#linkExemptAmountsContinue').on('click', function () {
+                 $.ajax({
+                    url: '/AssetsLiabilities/LoadInvestment_BeneficiaryInvestment',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                         $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                    error: function () {
+                        alert("Error loading section content.");
+                    }
+                });
+
+        });
+    });
+</script>
 

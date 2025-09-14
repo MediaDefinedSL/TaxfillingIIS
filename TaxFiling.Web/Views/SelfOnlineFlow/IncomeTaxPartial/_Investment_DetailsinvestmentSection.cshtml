@@ -932,42 +932,35 @@
 <script src="~/scripts/selfonline.investmentincome.js" asp-append-version="true"></script>
 
 <script>
+    $(function () {
 
-    //  // Load all branches once
-    // $.getJSON("https://mail.taxfiling.lk/bank-branches", function (data) {
-    //     allBranches = data.map(branch => ({
-    //         id: branch.BranchCode,
-    //         // text: branch.BranchName + " (" + branch.bankName + ")" // show both branch and bank
-    //         text: branch.BranchName
-    //     }));
+         $('#linkExemptAmountsContinue').on('click', function () {
+                $.ajax({
+                url: '/SelfOnlineFlow/LoadInvestment_PartnerInvestment',
+                type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                          $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        });
 
-    //     $('#dpdBankInstitution').select2({
-    //         placeholder: "Select bank",
-    //         minimumInputLength: 0, // allow opening full list without typing
-    //         data: allBranches,
-    //         matcher: function (params, data) {
-    //             // If no search term, show all
-    //             if ($.trim(params.term) === '') {
-    //                 return data;
-    //             }
+         $('#linkEmploymentDetailsContinue').on('click', function () {
+                 $.ajax({
+                    url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                         $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                    error: function () {
+                        alert("Error loading section content.");
+                    }
+                });
 
-    //             // Match text anywhere (contains match, not just startsWith)
-    //             if (data.text.toLowerCase().startsWith(params.term.toLowerCase())) {
-    //                 return data;
-    //             }
-
-    //             return null;
-    //         },
-    //         dropdownAutoWidth: true,
-    //         width: 'resolve',
-    //         allowClear: true
-    //     });
-    // });
-
-    // $('#dpdBankInstitution').on('select2:open', function () {
-    //     let searchBox = document.querySelector('.select2-container--open .select2-search__field');
-    //     if (searchBox) {
-    //         searchBox.setAttribute('placeholder', 'Filter your choice');
-    //     }
-    // });
+        });
+    });
 </script>
