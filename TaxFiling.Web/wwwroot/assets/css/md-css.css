@@ -6313,7 +6313,7 @@ div#taxtotalview {
 }
 
 #Self-Online-Flow .toggle-btn {
-    z-index: 9999999 !important;
+    z-index: 99999 !important;
 }
 
 div#in-this-section-container main.main-content.Personal-Information-summary .filling:first-child {
@@ -6326,7 +6326,7 @@ div#in-this-section-container main.main-content.Personal-Information-summary .fi
 
 
 .page-title.accent-background {
-    z-index: 99999999 !important;
+    z-index: 999999 !important;
 }
 
 .container-fluid.not-padding.menubar-css {
@@ -7277,4 +7277,39 @@ button#allliabilities-tab {
     background-size: 82px;
     background-size: 10;
     background-size: 94px;
+}
+
+
+div#expensesbalances .border.rounded.bg-light.shadow-sm {
+    border: none !important;
+}
+
+div#expensesbalances h6.mb-4.text-primary {
+    margin-bottom: 14px !important;
+}
+
+
+#Self-Online-Flow .collapsed+div .main-content {
+
+    z-index: 9999 !important;
+
+}
+
+#bankInput+div#bankDropdown {
+    width: 100% !important;
+}
+
+
+span.kpi_assessable_all {
+    position: absolute;
+}
+
+span.kpi_assessable_all {
+    margin-left: -120px;
+    width: 119px;
+    text-align: right;
+    padding-right: 8px;
+    font-weight: 600;
+    margin-top: 11px;
+    color: #003995;
 }
