@@ -434,10 +434,10 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">No of Shares/Stocksetc
+                                    <div class="col-3">No. of Shares/Stocks
                                     </div>
                                     <div class="col-5">
-                                        <input type="text" id="txtNoOfShares" name="txtNoOfShares" class="form-control" />
+                                        <input type="text" id="txtNoOfShares" name="txtNoOfShares" class="form-control" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"> />
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -526,7 +526,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                    <td colspan="8" class="text-center">No stock share securies found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -636,7 +636,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
-                                    <div class="col-3">Capital account balance (Rs.)</div>
+                                    <div class="col-3">Capital Account Balance (Rs.)</div>
                                     <div class="col-5">
                                         <input type="text" id="txtCapitalAccountBalance" name="txtCapitalAccountBalance" class="form-control numeric-input" />
                                     </div>
@@ -704,7 +704,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                    <td colspan="8" class="text-center">No declare the capital found.</td>
                                                 </tr>
                                             }
                                         </tbody>
