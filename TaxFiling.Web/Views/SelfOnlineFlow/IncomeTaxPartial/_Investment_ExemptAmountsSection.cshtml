@@ -95,7 +95,7 @@
 
          $('#linkExemptAmountsBack').on('click', function () {
                 $.ajax({
-                url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
+                url: '/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment',
                 type: 'GET',
                     success: function (data) {
                         $('#in-this-section-container').html(data);
@@ -109,7 +109,7 @@
 
          $('#linkExemptAmountsContinue').on('click', function () {
                  $.ajax({
-                    url: '/SelfOnlineFlow/LoadAssets',
+                    url: '/SelfOnlineFlow/LoadDeductions',
                     type: 'GET',
                     success: function (data) {
                         $('#in-this-section-container').html(data);

@@ -114,9 +114,55 @@
 
                 </div>
             </form>
+            <br><br>
+            <div class="d-lg-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv">
+                    <button class="btn btn-primary btn-lg" id="linkExemptAmountsBack">
+                        Back
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkAssetsContinue" disabled>
+                    <button class="btn btn-primary btn-lg">
+                        Continue
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
 </main>
 
 <script src="~/scripts/selfonline.deductions.js" asp-append-version="true"></script>
+<script>
+    $(function () {
+
+         $('#linkExemptAmountsBack').on('click', function () {
+                $.ajax({
+                url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
+                type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                          $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        });
+
+         $('#linkAssetsContinue').on('click', function () {
+                 $.ajax({
+                    url: '/SelfOnlineFlow/LoadAssets',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                         $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                    error: function () {
+                        alert("Error loading section content.");
+                    }
+                });
+
+        });
+    });
+</script>

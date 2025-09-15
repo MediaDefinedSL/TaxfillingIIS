@@ -950,7 +950,7 @@
 
          $('#linkEmploymentDetailsContinue').on('click', function () {
                  $.ajax({
-                    url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+                    url: '/SelfOnlineFlow/LoadEmploymentIncome',
                     type: 'GET',
                     success: function (data) {
                         $('#in-this-section-container').html(data);
