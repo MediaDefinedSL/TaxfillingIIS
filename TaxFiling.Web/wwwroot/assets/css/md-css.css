@@ -7307,7 +7307,7 @@ span.kpi_assessable_all {
     /* padding-right: 8px; */
     font-weight: 600;
     margin-top: 11px;
-    color: #003995;
+    color: #fff;
 }
 
 td.num.kpi.kpi-first {
@@ -7474,4 +7474,81 @@ div#disposalasets {
     background-position-y: 25%;
     background-size: 24%;
     background-position-x: 97%;
+}
+
+
+span.text-changes-cal ul {
+    line-height: 19px;
+}
+
+.calu .alert.alert-warning.cal-wa {
+    line-height: 19px !important;
+    display: flex;
+    --bs-alert-color: #664d03 !important;
+    color: #664d03 !important;
+}
+
+p.muted.text-changes-cal {
+    line-height: 19px !important;
+}
+
+label.text-changes-cal p {
+    line-height: 19px !important;
+}
+
+.cal-foreing ul {
+    line-height: 19px !important;
+}
+
+span.importent-text {
+    display: inline-block;
+}
+
+span.importent-text.twoo {
+    width: 86% !important;
+    margin-left: 4px;
+}
+
+.calu .alert.alert-warning.cal-wa span {
+    color: #664d03 !important;
+}
+
+
+td.lbl.text-bold,
+.text-boldd td,
+tr.band-soft.tax-boldd td {
+    color: #fff !important;
+}
+
+.none-edit {
+    box-shadow: none !important;
+}
+
+.cal .band-soft td.lbl {
+    border-radius: 0;
+}
+
+.cal .section-title {}
+
+h3.section-title.nothi {
+    font-size: 16px;
+    text-align: center !important;
+    margin-bottom: 0px;
+}
+
+input#relief_personal,
+input#relief_qualifying,
+input#relief_solar {
+    width: 132px;
+}
+
+
+
+.Domestic .tile h4 {
+    text-align: center;
+}
+
+.foreing .none-edit {
+
+    box-shadow: none !important;
 }
