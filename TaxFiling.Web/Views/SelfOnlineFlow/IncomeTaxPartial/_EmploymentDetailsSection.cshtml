@@ -18,9 +18,9 @@
                         <hr>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="col-sm-3 col-form-label font-weight-bold">Residency</label>
+                                <label class="col-sm-2 col-form-label font-weight-bold">Residency</label>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input rdbresidency" id="resident" name="Residency" value="1" />
+                                    <input type="radio" class="form-check-input rdbresidency" id="resident" name="Residency" value="1" checked />
                                     <label class="form-check-label" for="resident">Resident</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -33,7 +33,7 @@
                                @*  <input type="radio" name="rdbSeniorCitizen" id="rdbSeniorCitizen" /> *@
                                 <input type="checkbox" class="form-check-input"
                                        id="rdbSeniorCitizen"
-                                       name="rdbSeniorCitizen" />
+                                       name="rdbSeniorCitizen" style="border: 2px solid #007bff; width: 20px; height: 20px;" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Type of Employment</label>
@@ -43,16 +43,17 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span style="color: red">*</span>Annual Remuneration (Rs.)</label>
-                                <input type="text" class="form-control numeric-input"  id="txtRemuneration" name="txtRemuneration">
+                                <label class="form-label"> TIN of Employer</label>
+                                <input type="text" class="form-control" maxlength="9" id="txtTINEmployer" name="txtTINEmployer">
                             </div>
+                            
                             <div class="col-md-6">
                                 <label class="form-label"><span style="color: red">*</span>Employer/Company Name</label>
                                 <input type="text" class="form-control" id="txtEmpDetailsECName" name="txtEmpDetailsECName">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"> TIN of Employer</label>
-                                <input type="text" class="form-control" maxlength="9" id="txtTINEmployer" name="txtTINEmployer">
+                                <label class="form-label"><span style="color: red">*</span>Annual Remuneration (Rs.)</label>
+                                <input type="text" class="form-control numeric-input" id="txtRemuneration" name="txtRemuneration">
                             </div>
                             <div class="col-md-6" id="divAPITPrimaryEmployment">
                                 <label class="form-label"> APIT Paid on Primary Employment</label>
