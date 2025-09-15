@@ -11,7 +11,7 @@
             <div class="text-">
                 <h2 style="
     text-align: left;
-">
+                ">
                     Personal Information — Review
                 </h2>
                 <br>
@@ -19,7 +19,7 @@
     text-align: left;
     width: 100% !important;
     display: block; margin-bottom: 11px;
-">Carefully check your details. If anything is wrong, go back and edit before continuing.</h7><br>
+                ">Carefully check your details. If anything is wrong, go back and edit before continuing.</h7><br>
 
                 <div class="alert alert-warning col-md-7" role="alert">
                     Important: We will use the information exactly as shown below for your filing with the Inland Revenue Department.
@@ -28,17 +28,31 @@
         </div>
 
         <h4 style="
-">
+        ">
             Filing Context
         </h4>
 
         <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
             <div class="row"><div class="col-md-4">Year of Assessment</div><div class="col-md-6 tex-box-css" id="ctx_yoa">2024/2025</div></div>
             <div class="row"><div class="col-md-4">Preparing For</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.TaxPayerName</div></div>
-            <div class="row"><div class="col-md-4">Other Person Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneName</div></div>
-            <div class="row"><div class="col-md-4">Relationship</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Relationship</div></div>
-            <div class="row"><div class="col-md-4">Other Person TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneTINNo</div></div>
+            @if (ViewBag.TaxPayerName != null && ViewBag.TaxPayerName.ToString() == "Someone else")
+            {
+                <div class="row"><div class="col-md-4">Other Person Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneName</div></div>
+                <div class="row"><div class="col-md-4">Relationship</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Relationship</div></div>
+                <div class="row"><div class="col-md-4">Other Person TIN</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SomeoneTINNo</div></div>
+            }
             <div class="row"><div class="col-md-4">Marital Status (as at 31 Mar)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.MaritalStatusName</div></div>
+            @if (ViewBag.MaritalStatusName != null && ViewBag.MaritalStatusName.ToString() == "Married")
+            {
+                <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.SpouseName) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Spouse Full Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SpouseName</div></div>
+                <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.SpouseTINNo) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Spouse TIN Number</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SpouseTINNo</div></div>
+                <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.SpouseNIC) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Spouse NIC</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.SpouseNIC</div></div>
+            }
+            @if (Model.NumberOfDependents != null)
+            {
+                <div class="row"><div class="col-md-4">Number Of Dependents</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.NumberOfDependents</div></div>
+            }
+
             <div class="row"><div class="col-md-4">Last Year Filing Method</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@ViewBag.LastyearsName</div></div>
 
         </div>
@@ -51,9 +65,11 @@
 
 
         <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
-            <div class="row"><div class="col-md-4">Title</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Title</div></div>
+            
+            <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.Title) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Title</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Title</div></div>
             <div class="row"><div class="col-md-4">First Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.FirstName</div></div>
-            <div class="row"><div class="col-md-4">Middle Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.MiddleName</div></div>
+            <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.MiddleName) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Middle Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.MiddleName</div>
+        </div>
             <div class="row"><div class="col-md-4">Last Name</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.LastName</div></div>
             <div class="row"><div class="col-md-4">Gender</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Gender</div></div>
             <div class="row"><div class="col-md-4">Date of Birth</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("MM/dd/yyyy") : "") </div></div>
@@ -68,20 +84,20 @@
         </div><br>
         <h4>Your Contact Information</h4>
         <div class=" card shadow-sm border-1 rounded-3 p-3 mb-3 mt-4 filling">
-            <div class="row"><div class="col-md-4">Care of</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.CareOf</div></div>
-            <div class="row"><div class="col-md-4">Apartment / Unit</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Apt</div></div>
+        <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.CareOf) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Care of</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.CareOf</div></div>
+    <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.Apt) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Apartment / Unit</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Apt</div></div>
             <div class="row"><div class="col-md-4">Street Number</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.StreetNumber</div></div>
             <div class="row"><div class="col-md-4">Street</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Street</div></div>
             <div class="row"><div class="col-md-4">City</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.City</div></div>
-            <div class="row"><div class="col-md-4">District / Province</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.District</div></div>
-            <div class="row"><div class="col-md-4">Postal Code</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PostalCode</div></div>
-            <div class="row"><div class="col-md-4">Country</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Country</div></div>
+    <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.District) ? "display:none;" : "display:flex;"))"><div class="col-md-4">District / Province</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.District</div></div>
+    <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.PostalCode) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Postal Code</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PostalCode</div></div>
+    <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.Country) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Country</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.Country</div></div>
             <div class="row"><div class="col-md-4">Email (Primary)</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.EmailPrimary</div></div>
-            <div class="row"><div class="col-md-4">Secondary Email</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.EmailSecondary</div></div>
+    <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.EmailSecondary) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Secondary Email</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.EmailSecondary</div></div>
             <div class="row"><div class="col-md-4">Mobile Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.MobilePhone</div></div>
-            <div class="row"><div class="col-md-4">Home Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.HomePhone</div></div>
-            <div class="row"><div class="col-md-4">Work Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa"></div></div>
-            <div class="row"><div class="col-md-4">Preferred Communication</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PreferredCommunicationMethod</div></div>
+    <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.HomePhone) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Home Phone</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.HomePhone</div></div>
+
+    <div class="row" style="@((string.IsNullOrWhiteSpace(Model?.PreferredCommunicationMethod) ? "display:none;" : "display:flex;"))"><div class="col-md-4">Preferred Communication</div><div class="col-md-6 tex-box-css" id="ctx_yoa">@Model.PreferredCommunicationMethod</div></div>
 
         </div>
 

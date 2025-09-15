@@ -22,7 +22,8 @@ public class SelfFilingTotalCalculationViewModel
     public decimal? InvIncome_Beneficiary { get; set; }
     public decimal? InvIncome_ExemptAmounts { get; set; }
     public decimal? InvIncome_Other { get; set; }
-
+    public decimal? ReliefSolarPanel {  get; set; }
+   
     // Tax
     public decimal? TaxTotal { get; set; }
 
@@ -49,5 +50,35 @@ public class SelfFilingTotalCalculationViewModel
             return (EmploymentIncomeTotal ?? 0) + (InvestmentIncome ?? 0);
         }
     }
+    public decimal? RentRelief25
+    {
+        get
+        {
+            return (InvIncome_Rent ?? 0) * 0.25m;
+        }
+    }
+
+    public decimal? PersonalRelief
+    {
+        get
+        {
+            var totalIncome = (EmploymentIncomeTotal ?? 0) + (InvestmentIncomeTotal ?? 0);
+
+            if (totalIncome <= 1_800_000)
+            {
+                // If income is less than or equal to 1,800,000 → entire amount as relief
+                return totalIncome;
+            }
+            else
+            {
+                // If income is greater → fixed 1,800,000
+                return 1_800_000;
+            }
+        }
+    }
+
+    public decimal? QualifyingPayments { get; set; }
+   
+
 }
 

@@ -19,7 +19,7 @@
                                 <input type="text" class="form-control" id="txtBActivityCode" name="txtBActivityCode">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Trust Name</label>
+                                <label class="form-label"><span style="color: red">*</span>Trust Name</label>
                                 <input type="text" class="form-control" id="txtBTrustName" name="txtBTrustName">
                             </div>
                             <div class="col-md-6">
@@ -28,15 +28,15 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Gains and Profits (Rs.) – Trust</label>
-                                <input type="number" class="form-control" id="txtBGainsProfits" name="txtBGainsProfits">
+                                <input type="text" class="form-control numeric-input" id="txtBGainsProfits" name="txtBGainsProfits">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Total Investment Income from Trust</label>
-                                <input type="number" class="form-control" id="txtBTotalInvestmentTrust" name="txtBTotalInvestmentTrust">
+                                <input type="text" class="form-control numeric-input" id="txtBTotalInvestmentTrust" name="txtBTotalInvestmentTrust">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Total Investment Income</label>
-                                <input type="number" class="form-control" id="txtBTotalInvestment" name="txtBTotalInvestment">
+                                <label class="form-label"><span style="color: red">*</span>Total Investment Income</label>
+                                <input type="text" class="form-control numeric-input" id="txtBTotalInvestment" name="txtBTotalInvestment">
                             </div>
                         </div>
                         <br />
@@ -132,3 +132,37 @@
 </main>
 
 <script src="~/scripts/selfOnline.investmentpartnerbeneficiaryexempt.js" asp-append-version="true"></script>
+<script>
+    $(function () {
+
+         $('#linkExemptContinue').on('click', function () {
+                $.ajax({
+                url: '/SelfOnlineFlow/LoadInvestment_ExemptAmounts',
+                type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                          $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        });
+
+         $('#linkPartnerDetailsContinue').on('click', function () {
+                 $.ajax({
+                    url: '/SelfOnlineFlow/LoadInvestment_PartnerInvestment',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                         $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                    error: function () {
+                        alert("Error loading section content.");
+                    }
+                });
+
+        });
+    });
+</script>
+

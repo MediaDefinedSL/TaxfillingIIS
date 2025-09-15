@@ -1,7 +1,8 @@
-﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+﻿﻿
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Html
-
+@using System.Globalization
 @{
     var userName = User.FindFirst(ClaimTypes.Name)?.Value;
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
@@ -11,6 +12,8 @@
     // var userUploadDocStatus = User.FindFirst("UserUploadDocStatus")?.Value;
     //int docStatus = int.TryParse(userUploadDocStatus, out var parsedStatus) ? parsedStatus : -1;
     int docStatus = ViewBag.UploadedDocStatus ?? -1;
+    int personalInfoCompletedStatus = ViewBag.personalInfoStatus ?? -1;
+    var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
 }
 <link href="~/assets/css/tree-container-taxassisted-css.css?v=3" rel="stylesheet">
 <main class="main">
@@ -21,7 +24,7 @@
             <div class="col-lg-4 col-md-6">
                 <h2 class="mb-2 mb-lg-0 font-weight-bold">Tax Assisted Filing</h2></br>
 
-                <h1 class="mb-2 mb-lg-0">Welcome <span>@userName</span></h1>
+                <h1 class="mb-2 mb-lg-0">Welcome <span>@formattedName</span></h1>
             </div>
             <div class="col-lg-2 col-md-4">
                 <nav class="breadcrumbs">
@@ -162,31 +165,36 @@
                             <!-- Current Year Info -->
                             <!-- Four separate info boxes -->
                             <!-- Four equal-sized info boxes -->
-                            <div class="row mb-4 align-items-stretch">
-                                <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h6 class="card-title">Year of Assesement</h6>
-                                            <p class="fs-5 fw-bold">2024/2025</p>
-                                        </div>
+                        <div class="row mb-4 align-items-stretch">
+                            <div class="col-md-3">
+                                <div class="card text-center shadow-sm h-100 border-primary border-2 rounded-3 card-hover">
+                                    <div class="card-body d-flex flex-column justify-content-center">
+                                        <h6 class="card-title">Year of Assessment</h6>
+                                        <p class="fs-5 fw-bold">2024/2025</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h6 class="card-title">Due date</h6>
-                                            <p class="fs-5 fw-bold">11/30/2025</p>
-                                        </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="card text-center shadow-sm h-100 border-danger border-2 rounded-3 card-hover">
+                                    <div class="card-body d-flex flex-column justify-content-center">
+                                        <h6 class="card-title">Due Date</h6>
+                                        <p class="fs-5 fw-bold">11/30/2025</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h6 class="card-title">Status</h6>
-                                            <span id="statusBadge" class="badge px-2 py-1"></span>
-                                        </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="card text-center shadow-sm h-100 border-success border-2 rounded-3 card-hover">
+                                    <div class="card-body d-flex flex-column justify-content-center">
+                                        <h6 class="card-title">Status</h6>
+                                        <span id="statusBadge" class="badge px-2 py-1"></span>
                                     </div>
                                 </div>
+                            </div>
+
+                           
+
                                 <script>
                                      const docStatus = @docStatus;
                                      const badge = document.getElementById("statusBadge");
@@ -212,7 +220,7 @@
                                     // }
                                 </script>
                                 <div class="col-md-3">
-                                    <div class="card text-center shadow-sm h-100">
+                                    <div class="card text-center shadow-sm h-100 border-info border-2 rounded-3 card-hover">
                                         <div class="card-body d-flex flex-column justify-content-center">
                                             <h6 class="card-title">Uploads</h6>
                                             <a href="#" id="fileCountLink" class="fs-6 fw-bold text-decoration-none"></a>
@@ -362,7 +370,7 @@
                                             <ul class="list-group mb-3">
                                                 <li class="list-group-item d-flex justify-content-between">
                                                     Personal information completed
-                                                    <span id="personalInfoStatus" class="text-secondary"><span class="text-success">✓</span></span>
+                                                    <span id="personalInfoStatus" class="text-secondary">Checking...</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between">
                                                     Employment income added
@@ -490,7 +498,7 @@
                     <div class="mt-4 document-guidelines">
                         <h5><i class="fas fa-info-circle text-secondary me-2"></i>Document Guidelines</h5>
                         <ul class="text-muted">
-                            <li><strong>Accepted formats: <strong>PDF, JPG, PNG</strong></strong></li>
+                            <li><strong>Accepted formats: <strong>PDF, JPG, PNG, PDF, DOC</strong></strong></li>
                             <li><strong>Maximum size per file: <strong>5MB</strong></strong></li>
                            
 
@@ -553,7 +561,64 @@
                                         </a>
                                     </div>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="t10Modal" tabindex="-1" aria-labelledby="t10ModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="t10Modal" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Sample T10 Certificate</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body p-0 text-center">
+                                                    <canvas id="pdfCanvas"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- PDF.js -->
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+                                    <script>
+                                        const url = "/assets/files/T10.pdf";  // your PDF path
+                                        let pdfRendered = false;
+
+                                        function loadPdf() {
+                                          const loadingTask = pdfjsLib.getDocument(url);
+                                          loadingTask.promise.then(function (pdf) {
+                                            // Load first page (you can loop if you want all pages)
+                                            pdf.getPage(1).then(function (page) {
+                                              const scale = 1.3;
+                                              const viewport = page.getViewport({ scale });
+
+                                              const canvas = document.getElementById("pdfCanvas");
+                                              const context = canvas.getContext("2d");
+
+                                              canvas.height = viewport.height;
+                                              canvas.width = viewport.width;
+
+                                              page.render({
+                                                canvasContext: context,
+                                                viewport: viewport
+                                              });
+                                            });
+                                          });
+                                        }
+
+                                        // Load only once when modal opens
+                                        document.getElementById("t10Modal").addEventListener("shown.bs.modal", function () {
+                                          if (!pdfRendered) {
+                                            loadPdf();
+                                            pdfRendered = true;
+                                          }
+                                        });
+
+                                        // Optional: Reset when modal closes
+                                        document.getElementById("t10Modal").addEventListener("hidden.bs.modal", function () {
+                                          document.getElementById("pdfCanvas").getContext("2d").clearRect(0, 0, pdfCanvas.width, pdfCanvas.height);
+                                          pdfRendered = false; // if you want to reload fresh each time
+                                        });
+                                    </script>
+                                    @* <div class="modal fade" id="t10Modal" tabindex="-1" aria-labelledby="t10ModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -565,25 +630,25 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> *@
                                     <label>Employer Name</label>
                                     <input type="text" name="T10EmployerName" class="form-control" id="T10EmployerName" />
                                     <form method="post" enctype="multipart/form-data" class="mt-3">
                                         <label>Upload File</label>
-                                        <input type="file" id="fileInput" name="UploadedFile" class="form-control" />
+                                        <input type="file" id="fileInput" name="UploadedFile" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                     </form>
                                 </div>
                             </div>
 
                             <!-- Terminal Benefit Form -->
-                            <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+                            <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab"> 
                                 <input type="hidden" name="CategoryName" value="TerminalBenefit" />
                                 <div class="mb-3">
                                     <label>Employer Name</label>
                                     <input type="text" name="TerminalEmployerName" class="form-control" id="TerminalEmployerName" />
                                     <form method="post" enctype="multipart/form-data" class="mt-3">
                                         <label>Upload File</label>
-                                        <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control" />
+                                        <input type="file" id="fileInputTerminal" name="UploadedFile" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                     </form>
                                 </div>
                             </div>
@@ -605,7 +670,7 @@
                                     </div>
                                     <form method="post" enctype="multipart/form-data" class="mt-3">
                                         <label>Upload File</label>
-                                        <input type="file" id="fileInputAnyOther" name="UploadedFile" class="form-control" />
+                                        <input type="file" id="fileInputAnyOther" name="UploadedFile" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                     </form>
                                 </div>
                             </div>
@@ -678,7 +743,7 @@
                                 <option value="">-- Select Bank --</option>
                             </select> *@                           
 
-                            <input type="text" id="bankInput" class="form-control" placeholder="Type Bank Name" autocomplete="off" />
+                            <input type="text" id="bankInput" class="form-control form-select" placeholder="Type Bank Name" autocomplete="off" />
                             <div id="bankDropdown" class="dropdown"></div>
 
 
@@ -707,7 +772,7 @@
                         <form method="post" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label>Upload File</label>
-                                <input type="file" id="fileInputBank" name="UploadedFile" class="form-control" />
+                                <input type="file" id="fileInputBank" name="UploadedFile" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                             </div>
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary submit-btn" id="submitBankBtn"><i class="fas fa-save me-1"></i>Upload</button>
@@ -909,7 +974,7 @@
                                                                     <input type="file"
                                                                            name="assets[0].Files"
                                                                            class="form-control form-control-sm"
-                                                                           aria-label="Upload file for asset 1" />
+                                                                           aria-label="Upload file for asset 1" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                             </div> <!-- Closing div was missing -->
                                                         </td>
@@ -944,7 +1009,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[1].Files" class="form-control" />
+                                                                    <input type="file" name="assets[1].Files" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -982,7 +1047,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[2].Files" class="form-control" />
+                                                                    <input type="file" name="assets[2].Files" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                         </td>
                                                         <td class="text-center" style="width: 110px; vertical-align: middle;">
@@ -1007,7 +1072,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[3].Files" class="form-control" />
+                                                                    <input type="file" name="assets[3].Files" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -1036,7 +1101,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[4].Files" class="form-control" />
+                                                                    <input type="file" name="assets[4].Files" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -1082,7 +1147,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[5].Files" class="form-control" />
+                                                                    <input type="file" name="assets[5].Files" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -1118,7 +1183,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[6].Files" class="form-control" />
+                                                                    <input type="file" name="assets[6].Files" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -1155,7 +1220,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[7].Files" class="form-control" />
+                                                                    <input type="file" name="assets[7].Files" class="form-control form-select" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -1181,7 +1246,7 @@
                                                         <td>
                                                             <div class="file-upload-wrapper">
                                                                 <div class="file-input-group mb-2">
-                                                                    <input type="file" name="assets[8].Files" class="form-control" />
+                                                                    <input type="file" name="assets[8].Files" class="form-control form-select" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                                                 </div>
 
                                                             </div>
@@ -1303,13 +1368,13 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Name of the Document</label>
-                                    <input type="text" class="form-control" name="docName" id="otherDocName" />
+                                        <input type="text" class="form-control" name="docName" id="otherDocName" />
                                 </div>
 
                                 <form method="post" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label>Upload File</label>
-                                        <input type="file" id="fileInputOther" name="UploadedFile" class="form-control" />
+                                            <input type="file" id="fileInputOther" name="UploadedFile" class="form-control" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt" />
                                     </div>
                                     <div class="d-flex justify-content-end">
                                         <button type="button" class="btn btn-primary submit-btn" id="submitOtherBtn">
@@ -1347,18 +1412,18 @@
                         <div class="tab-pane fade" id="income-expenses" role="tabpanel" aria-labelledby="income-expenses-tab">
 
                             <!-- Expenses Section -->
-                            <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                            <div class=" border rounded bg-light shadow-sm ">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Annual Expenses </h6>
                                 <div class="alert alert-info mt-3">
                                     <i class="fas fa-info-circle me-2"></i>
                                     Note: Please provide your average annual expenses for the period from 1 April 2024 to 31 March 2025.
                                 </div>
                                 <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label"><span style="color: red">*</span> Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
-                                    <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
+                                        <div class="col-md-6"><label class="form-label"><span style="color: red">*</span> Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
+                                        <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
                                     <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="text" class="form-control numeric-input" name="FixedDeductions" /></div>
                                     <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="text" class="form-control numeric-input" name="ChildrenEducation" /></div>
-                                    <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="text" class="form-control numeric-input" name="VehicleExpenses" /></div>
+                                        <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="text" class="form-control numeric-input" name="VehicleExpenses" /></div>
                                     <div class="col-md-6"><label class="form-label">Medical Expenses</label><input type="text" class="form-control numeric-input" name="MedicalExpenses" /></div>
                                     <div class="col-md-6"><label class="form-label">Loan Re-Payments</label><input type="text" class="form-control numeric-input" name="LoanRepayments" /></div>
                                     <div class="col-md-6"><label class="form-label">Cash Payments for Credit Cards</label><input type="text" class="form-control numeric-input" name="CreditCardPayments" /></div>
@@ -1370,7 +1435,7 @@
                             </div>
 
                             <!-- Balances Section -->
-                            <div class="p-4 border rounded bg-light shadow-sm mb-4">
+                            <div class=" border rounded bg-light shadow-sm ">
                                 <h6 class="mb-4 text-primary"><i class="fas fa-boxes me-2"></i> Balances as at 31.03.2025</h6>
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -1544,11 +1609,32 @@
                 </div>
             </div>
 
+            <!-- Confirmation Modal -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #cce5ff;">
+                            <h5 class="modal-title">Confirmation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            No file uploaded. Do you want to proceed?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" id="confirmYes">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="loadMask" class="load-mask" style="display:none">
                 <div class="spinner"></div>
                 <div class="load-text">Uploading, please wait...</div>
             </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
+            <input type="hidden" id="personalInfoCompleted" value="@personalInfoCompletedStatus" />
+
             <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
 
@@ -2703,8 +2789,10 @@
                              if (hasOther) completed++;
 
                        // personal info (dummy logic, adapt as needed)
-                       const hasPersonalInfo = docs.some(d => d.categoryName === "Personal Information");
-                          completed++;
+                       const PersonalInfoVal = document.getElementById("personalInfoCompleted").value;
+                       const hasPersonalInfo = PersonalInfoVal == 1 ? true : false;
+                                   setStatus("personalInfoStatus", hasPersonalInfo);
+                       if(hasPersonalInfo == 1) completed++;
                        //setStatus("personalInfoStatus", hasPersonalInfo);
 
                       let progress = 0;
@@ -3021,6 +3109,7 @@
 
                        submitDeclareBtn.addEventListener("click", function () {
                               if (acceptCheckbox.checked) {
+
                                       const userId = '@userId';
                                       const status = 2; // SUBMITTED
                                       const currentYear = new Date().getFullYear()-1;
@@ -3231,12 +3320,36 @@
 
                    }
 
+                  function updateSidebar(status) {
+                    if (status === 0 ) { // incomplete
+                        $(".sidebar-link").not("#btnLoadSection").addClass("disabled-link").off("click").on("click", function(e){
+                            e.preventDefault();
+                            showMessage("Please complete Personal Information before accessing other sections.","error");
+                        });
 
+                        $("#documents-submenu a").addClass("disabled-link").off("click").on("click", function(e){
+                            e.preventDefault();
+                            showMessage("Please complete Personal Information first.","error");
+                        });
+                    } else { // complete
+                        $(".sidebar-link").removeClass("disabled-link").off("click");
+                        $("#documents-submenu a").removeClass("disabled-link").off("click");
+                    }
+                }
+
+                
 
                         //page load
                    document.addEventListener("DOMContentLoaded", function () {
 
 
+                    $(document).on("personalInfoCompleted", function(e, newStatus) {                        
+                        updateSidebar(newStatus);
+                    });
+
+                            var status = parseInt($("#personalInfoCompleted").val() || 0);
+                                        updateSidebar(status);
+                    
 
                       const checkboxes = document.querySelectorAll(".checkbox-lg");
                       const removeBtn = document.getElementById("btnRemoveDraft");
@@ -3477,27 +3590,49 @@
                        $.getJSON("https://mail.taxfiling.lk/getallbank", function (data) {
                            allBanks = data;
                        });
+                 $("#bankInput").on("focus", function () {
+                    // Show all banks on focus
+                    renderBanks(allBanks, true);
+                });
 
-                      $("#bankInput").on("input focus", function () {
-                       const q = $(this).val().toLowerCase();
-                       let results = allBanks;
+                $("#bankInput").on("input", function () {
+                    const q = $(this).val().toLowerCase();
+                    let results = allBanks;
 
-                       if (q) {
-                           results = results.filter(b =>
-                                     (b.bankName && b.bankName.toLowerCase().startsWith(q))
-                              );
-                       }
+                    if (q) {
+                        results = results.filter(b =>
+                            b.bankName && b.bankName.toLowerCase().startsWith(q)
+                        );
+                    }
 
-                       let html = "";
-                       if (results.length === 0) html = "<div>No banks match.</div>";
-                       results.forEach(b => {
-                              html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">
-                                             ${b.bankName}
-                                    </div>`;
-                       });
+                    renderBanks(results, true);
+                });
 
-                       $("#bankDropdown").html(html).show();
-                   });
+                    function renderBanks(results, highlightSelected) {
+                    let html = results.length === 0 ? "<div>No banks match.</div>" : "";
+                    results.forEach(b => {
+                        html += `<div data-id="${b.BankCode}" data-long="${b.bankName}">${b.bankName}</div>`;
+                    });
+
+                    $("#bankDropdown").html(html).show();
+
+                    // Highlight previously selected bank if present
+                    highlightedIndex = -1;
+                    
+                    if (highlightSelected && selectedBank) {
+                                   
+                        $("#bankDropdown div").each(function (i) {
+                            if ($(this).data("id") == selectedBank) {
+                                            console.log($(this).data("id"))
+                                $(this).addClass("highlight");
+                                highlightedIndex = i;
+                                            this.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                                return false; // stop loop
+                            }
+                        });
+                    }
+                }
+
 
 
                    $("#bankDropdown").on("mousedown", "div", function () {
@@ -3531,30 +3666,7 @@
                        highlightedBranchIndex = 0; // first item highlighted
                    });
 
-                   });
-
-                   //  $("#branchInput").on("input focus", function() {
-                   //     if (!selectedBank) return;
-
-                   //     const q = $(this).val().toLowerCase();
-
-                   //        $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
-                   //         const results = q
-                   //             ? branches.filter(br =>
-                   //                    br.BranchName.toLowerCase().startsWith(q) )
-                   //             : branches;
-
-                   //         if (!results.length) return $("#branchDropdown").hide();
-
-                   //         const html = results.map(br =>
-                   //                   `<div data-code="${br.BranchCode}" data-name="${br.BranchName}">
-                   //                    ${br.BranchName} </span>
-                   //             </div>`
-                   //         ).join("");
-
-                   //         $("#branchDropdown").html(html).show();
-                   //     });
-                   // });
+                   });                   
 
 
                    $("#branchDropdown").on("mousedown", "div", function() {
@@ -3772,6 +3884,25 @@
                             $("html, body").animate({ scrollTop: 0 }, "smooth");
                        });
 
+                       function checkUploadedFileExists(tableName) {
+                        let uploadedTable = document.getElementById(tableName);
+
+                        // Check if table has any rows in tbody
+                        let rows = uploadedTable.querySelectorAll("tbody tr");
+
+                                    let validRows = Array.from(rows).filter(row => {
+                    let text = row.innerText.trim();
+                    return text !== "" && text !== "No Assets/Liabilities uploaded.";
+                });
+
+                if (validRows.length === 0) {
+        //alert("Please upload at least one file before proceeding.");
+        return false;
+    }
+
+                        return true;
+                    }
+
                        const startBtn = document.getElementById("start-btn");
                        const btnContinue = document.getElementById("btnContinue");
                        [startBtn, btnContinue].forEach(btn => {
@@ -3783,43 +3914,118 @@
                        }
                    });
 
+                   const confirmModal = new bootstrap.Modal(document.getElementById("confirmModal"));
+                    let confirmCallback = null; // store callback for Yes button
 
+                    // Show modal with optional callback
+                    function showConfirmModal(callback) {
+                        confirmCallback = callback;
+                        confirmModal.show();
+                    }
+
+                     document.getElementById("confirmYes").addEventListener("click", function() {
+                        confirmModal.hide();
+                        if (confirmCallback) confirmCallback();
+                    });
 
                        const  nextBtn= document.getElementById("btnNext");
                        if (nextBtn) {
-                           nextBtn.addEventListener("click", function () {
+                           nextBtn.addEventListener("click", function (e) {
+                           
+                           if (!checkUploadedFileExists("documentsTableBody")) {
+                            e.preventDefault(); // stop default action
+                             showConfirmModal(function() {
+                                
                                selectedCategoryName = 'Bank Confirmation';
                                showPanel("bank-section");
                               loadUploadedDocs(userId,'Bank Confirmation');
+                            });
+                        } else {
+                            // Proceed normally if file uploaded
+                            selectedCategoryName = 'Bank Confirmation';
+                               showPanel("bank-section");
+                              loadUploadedDocs(userId,'Bank Confirmation');
+                        }
+                               
                            });
-                       }
+                       }                       
 
                        const  nextAssestBtn= document.getElementById("btnAssestsNext");
                        if (nextAssestBtn) {
-                           nextAssestBtn.addEventListener("click", function () {
+                           nextAssestBtn.addEventListener("click", function (e) {
+                           
+                           if (!checkUploadedFileExists("documentsTableBankBody")) {
+                            e.preventDefault(); // stop default action
+                            showConfirmModal(function() {
 
+                            showPanel("assets-section");
+                                    loadExcelAssestsUploadedFiles(userId);
+                                   loadAssestsUploadedFiles(userId);
+                            });
+                        } else {
                                showPanel("assets-section");
                                     loadExcelAssestsUploadedFiles(userId);
                                    loadAssestsUploadedFiles(userId);
+                        }
 
                            });
                        }
 
                        const  nextOtherBtn= document.getElementById("btnOtherNext");
                        if (nextOtherBtn) {
-                           nextOtherBtn.addEventListener("click", function () {
+                           nextOtherBtn.addEventListener("click", function (e) {
+                               
+                           if (!checkUploadedFileExists("uploadedExcelAssetsTable") && !checkUploadedFileExists("uploadedAssetsTable")) {
+                            e.preventDefault(); // stop default action
+                            showConfirmModal(function() {
+
+                             selectedCategoryName = 'Other Documents';
+                               showPanel("other-section");
+                               loadUploadedDocs(userId,'Other Documents');
+                                     loadFinancialDetails(userId,'2024/2025');
+                            });
+                        } else {
                                selectedCategoryName = 'Other Documents';
                                showPanel("other-section");
                                loadUploadedDocs(userId,'Other Documents');
                                      loadFinancialDetails(userId,'2024/2025');
+                        }
                            });
                        }
 
                        const  nextDeclareBtn= document.getElementById("btnDeclareNext");
                        if (nextDeclareBtn) {
-                           nextDeclareBtn.addEventListener("click", function () {
+                           nextDeclareBtn.addEventListener("click", function (e) {
+                               const container = document.getElementById('income-expenses');
+                               // const dataArray = [];
+
+                           // Validation: Check mandatory fields
+                           const requiredFields = ["Cash in hand", "Living Expenses"];
+                           let isValid = true;
+                          // let missingFields = [];
+
+                           requiredFields.forEach(fieldLabel => {
+                            const input = Array.from(container.querySelectorAll('label.form-label'))
+                                .find(label => label.innerText.replace(/^\*\s*/, '').trim() === fieldLabel)
+                                ?.closest('.col-md-6')
+                                ?.querySelector('input');
+
+                             if (!input || input.value.trim() === "") {
+                               isValid = false;
+                               //missingFields.push(fieldLabel);
+                             }
+                           });
+                               if (!checkUploadedFileExists("documentsTableOtherBody") && !isValid  ) {
+                                   e.preventDefault(); // stop default action
+                            showConfirmModal(function() {
+
+                              showPanel("declaration-section");
+                               loadDeclarationDocs(userId) ;
+                            });
+                        } else {
                                showPanel("declaration-section");
                                loadDeclarationDocs(userId) ;
+                        }
 
                            });
                        }
@@ -4618,6 +4824,19 @@
                               }
                        });
 
+                      $(document).on("input", "input[name^='assets'][name$='Description']", function () {
+                        let val = $(this).val();
+                        if (val !== "" && !isNaN(val) && Number(val) < 0) {
+                            $(this).val(0); // reset if negative
+                        }
+                    });
+
+                    $(document).on("keydown", "input[name^='assets'][name$='Description']", function (e) {
+                        if (e.key === "-" || e.key === "Subtract") {
+                            e.preventDefault(); // stop minus key
+                        }
+                    });
+
 
             </script>
         </div>
@@ -4626,7 +4845,10 @@
     <!-- /File my taxes -->
 
 </main>
-
-
-
-
+<style>
+.disabled-link {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>

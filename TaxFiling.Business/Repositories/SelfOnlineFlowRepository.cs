@@ -1,12 +1,21 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using System;
 using System.Diagnostics.Metrics;
+using System.Security.Principal;
+using System.Threading;
+using System.Xml.Linq;
 using TaxFiling.Business.Interfaces;
 using TaxFiling.Data;
 using TaxFiling.Domain.Dtos;
 using TaxFiling.Domain.Entities;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TaxFiling.Business.Repositories;
 
@@ -393,7 +402,20 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 _selfOnlineuser.WhatsApp = contactInfromation.WhatsApp;
                 _selfOnlineuser.PreferredCommunicationMethod = contactInfromation.PreferredCommunicationMethod;
 
+                var userEntity = await _context.Users
+                .FirstOrDefaultAsync(u => u.UserId.ToString() == contactInfromation.UserId);
+
+                if (userEntity != null)
+                {
+                    userEntity.isPersonalInfoCompleted = 1;
+                    userEntity.UpdatedOn = DateTime.Now;   // if you have audit fields
+                    userEntity.UpdatedBy = contactInfromation.UserId;
+                }
+
                 await _context.SaveChangesAsync();
+                isSuccess = true;   // mark success
+
+                //await _context.SaveChangesAsync();
             }
         }
         catch (Exception e)
@@ -423,7 +445,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                 InvIncome_Partner = p.InvIncome_Partner,
                                 InvIncome_Beneficiary = p.InvIncome_Beneficiary,
                                 InvIncome_ExemptAmounts = p.InvIncome_ExemptAmounts,
-                                InvIncome_Other = p.InvIncome_Other
+                                InvIncome_Other = p.InvIncome_Other,
+                                ReliefSolarPanel = p.ReliefSolarPanel,
+                                QualifyingPayments =p.QualifyingPayments
                             })
                             .FirstOrDefaultAsync(ctx);
 
@@ -502,7 +526,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                             Residency = b.Residency,
                                             TerminalBenefits = b.TerminalBenefits,
                                             ExemptAmounts = b.ExemptAmounts,
-                                            Total = b.Total
+                                            Total = b.Total,
+                                            BenefitExcludedForTax = b.BenefitExcludedForTax
 
                                         })
                                         .AsNoTracking()
@@ -538,7 +563,15 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @APITPrimaryEmployment,
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
-                @Amount
+                @Amount,
+                @BenefitExcludedForTax,
+                @uploadedFileName,
+                @fileName,
+                @location,
+                @uploadTime,
+                @decryptionKey,
+                @uploadId,
+                @originalName
             )",
             new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
             new MySqlParameter("@UserId", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -556,7 +589,15 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             new MySqlParameter("@APITPrimaryEmployment", selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
-            new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value)
+            new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
+            new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadedFileName", selfOnlineEmploymentIncomeDetails.UploadedFileName ?? (object)DBNull.Value),
+              new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
+              new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
+              new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
+              new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
         );
 
 
@@ -715,7 +756,11 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                         APITSecondaryEmployment = e.APITSecondaryEmployment,
                         TerminalBenefits = e.TerminalBenefits,
                         Amount = e.Amount,
-                        Total = t.TaxTotal
+                        Total = t.TaxTotal,
+                        BenefitExcludedForTax = e.BenefitExcludedForTax,
+                        FileName = e.FileName,
+                        OriginalName = e.OriginalName,
+                        DecryptionKey = e.DecryptionKey
                     }
                 ).ToListAsync(ctx);
 
@@ -883,7 +928,16 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @APITPrimaryEmployment,
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
-                @Amount
+                @Amount,
+                @BenefitExcludedForTax,
+                @uploadedFileName,
+                @fileName,
+                @location,
+                @uploadTime,
+                @decryptionKey,
+                @uploadId,
+                @originalName
+
             )",
           new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
           new MySqlParameter("@UserId", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -901,7 +955,14 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
           new MySqlParameter("@APITPrimaryEmployment", selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? (object)DBNull.Value),
           new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
           new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
-          new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value)
+          new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
+          new MySqlParameter("@uploadedFileName", selfOnlineEmploymentIncomeDetails.UploadedFileName ?? (object)DBNull.Value),
+          new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
+          new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
+          new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
+          new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
+          new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
+          new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
       );
 
 
@@ -1168,7 +1229,14 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @DeedNo,
                 @RatesLocalAuthority,
                 @GiftOrInheritedCost,
-                @MarketValue
+                @MarketValue,
+                @uploadedFileName,
+                @fileName,
+                @location,
+                @uploadTime,
+                @decryptionKey,
+                @uploadId,
+                @originalName
             )",
                 new MySqlParameter("@loguser", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
                 new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
@@ -1198,7 +1266,14 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 new MySqlParameter("@DeedNo", selfOnlineInvestment.DeedNo ?? (object)DBNull.Value),
                 new MySqlParameter("@RatesLocalAuthority", selfOnlineInvestment.RatesLocalAuthority ?? (object)DBNull.Value),
                 new MySqlParameter("@GiftOrInheritedCost", selfOnlineInvestment.GiftOrInheritedCost ?? (object)DBNull.Value),
-                new MySqlParameter("@MarketValue", selfOnlineInvestment.MarketValue ?? (object)DBNull.Value)
+                new MySqlParameter("@MarketValue", selfOnlineInvestment.MarketValue ?? (object)DBNull.Value),
+                new MySqlParameter("@uploadedFileName", selfOnlineInvestment.UploadedFileName ?? (object)DBNull.Value),
+              new MySqlParameter("@fileName", selfOnlineInvestment.FileName ?? (object)DBNull.Value),
+              new MySqlParameter("@location", selfOnlineInvestment.Location ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadTime", selfOnlineInvestment.UploadTime ?? (object)DBNull.Value),
+              new MySqlParameter("@decryptionKey", selfOnlineInvestment.DecryptionKey ?? (object)DBNull.Value),
+              new MySqlParameter("@uploadId", selfOnlineInvestment.UploadId ?? (object)DBNull.Value),
+              new MySqlParameter("@originalName", selfOnlineInvestment.OriginalName ?? (object)DBNull.Value)
             );
 
             isSuccess = true;
@@ -1251,7 +1326,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 DeedNo = t.DeedNo,
                 RatesLocalAuthority = t.RatesLocalAuthority,
                 GiftOrInheritedCost = t.GiftOrInheritedCost,
-                MarketValue = t.MarketValue
+                MarketValue = t.MarketValue,
+                FileName = t.FileName,
+                OriginalName = t.OriginalName,
+                DecryptionKey = t.DecryptionKey
             })
             .ToListAsync(ctx);
 
@@ -1325,7 +1403,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                         @TotalInvestmentIncomeTrust,
                         @IsExemptAmountA,
                         @IsExcludedAmountB,
-                        @ExemptExcludedIncome
+                        @ExemptExcludedIncome,
+                        @ExemptExcludedIncomeName
                     )",
                        new MySqlParameter("@loguser", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
                        new MySqlParameter("@UserId", selfOnlineInvestment.UserId ?? (object)DBNull.Value),
@@ -1343,7 +1422,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                        new MySqlParameter("@TotalInvestmentIncomeTrust", selfOnlineInvestment.TotalInvestmentIncomeTrust ?? (object)DBNull.Value),
                        new MySqlParameter("@IsExemptAmountA", selfOnlineInvestment.IsExemptAmountA ?? (object)DBNull.Value),
                        new MySqlParameter("@IsExcludedAmountB", selfOnlineInvestment.IsExcludedAmountB ?? (object)DBNull.Value),
-                       new MySqlParameter("@ExemptExcludedIncome", selfOnlineInvestment.ExemptExcludedIncome ?? (object)DBNull.Value)
+                       new MySqlParameter("@ExemptExcludedIncome", selfOnlineInvestment.ExemptExcludedIncome ?? (object)DBNull.Value),
+                       new MySqlParameter("@ExemptExcludedIncomeName", selfOnlineInvestment.ExemptExcludedIncomeName ?? (object)DBNull.Value)
                    );
 
             isSuccess = true;
@@ -1379,7 +1459,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 TotalInvestmentIncomeTrust = t.TotalInvestmentIncomeTrust,
                 IsExemptAmountA = t.IsExemptAmountA,
                 IsExcludedAmountB = t.IsExcludedAmountB,
-                ExemptExcludedIncome = t.ExemptExcludedIncome
+                ExemptExcludedIncome = t.ExemptExcludedIncome,
+                ExemptExcludedIncomeName = t.ExemptExcludedIncomeName
 
             })
             .ToListAsync(ctx);
@@ -1420,7 +1501,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                             new MySqlParameter("@CategoryName", categoryName),
                             new MySqlParameter("@SelfOnlineInvestmentIncomePBEId", investmentIncomeId)
                 );
-
+            isSuccess = true;
 
         }
         catch (Exception e)
@@ -1428,6 +1509,706 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             _logger.LogError(e, "Error Delete Investment Partner Beneficiary Exempt Income Detail");
         }
         return isSuccess;
+    }
+
+    public async Task<bool> UpdateSelfFilingTotalCalculation(SelfFilingTotalCalculationDto totalCalculation)
+    {
+        bool isSuccess = false;
+
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineAdditionalDetails  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @CategoryName,
+                                        @ReliefSolarPanel,
+                                        @QualifyingPayments
+                                    )",
+                          new MySqlParameter("@loguser", totalCalculation.UserId ?? (object)DBNull.Value),
+                          new MySqlParameter("@UserId", totalCalculation.UserId ?? (object)DBNull.Value),
+                          new MySqlParameter("@Year", totalCalculation.Year),
+                          new MySqlParameter("@CategoryName", "Deductions"),
+                          new MySqlParameter("@ReliefSolarPanel", totalCalculation.ReliefSolarPanel),
+                          new MySqlParameter("@QualifyingPayments", totalCalculation.QualifyingPayments)
+              );
+            isSuccess = true;
+            
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error update UpdateSelfFilingTotalCalculation");
+        }
+        return isSuccess;
+    }
+
+    //-------- Assets and Liabilities
+
+    //-------- Assets
+
+    public async Task<bool> SaveSelfonlineAssetsImmovableProperty(SelfonlineAssetsImmovablePropertyDto immovableProperties)
+    {
+        bool isSuccess = false;
+        try
+            {
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineImmovableProperties  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Situation,
+                                        @DateOfAcquisition,
+                                        @Cost,
+                                        @MarketValue,
+                                        @transactionType,
+                                        @SelfonlinePropertyID
+                                    )",
+                          new MySqlParameter("@loguser", immovableProperties.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@UserId", immovableProperties.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@Year", immovableProperties.Year),
+                        new MySqlParameter("@Type", immovableProperties.Type ?? (object)DBNull.Value),
+                        new MySqlParameter("@SerialNumber", immovableProperties.SerialNumber ?? (object)DBNull.Value),
+                        new MySqlParameter("@Situation", immovableProperties.Situation ?? (object)DBNull.Value),
+                        new MySqlParameter("@DateOfAcquisition", immovableProperties.DateOfAcquisition ?? (object)DBNull.Value),
+                        new MySqlParameter("@Cost", immovableProperties.Cost ?? (object)DBNull.Value),
+                        new MySqlParameter("@MarketValue", immovableProperties.MarketValue ?? (object)DBNull.Value),
+                        new MySqlParameter("@transactionType", immovableProperties.TransactionType ?? (object)DBNull.Value),
+                        new MySqlParameter("@SelfonlinePropertyID", immovableProperties.SelfonlinePropertyID)
+
+              );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveSelfonlineAssetsMotorVehicle");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineAssetsImmovablePropertyDto>> GetSelfOnlineAssetsImmovableProperty(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineAssetsImmovablePropertyDto> immovablePropertyList = [];
+        try
+        {
+
+            immovablePropertyList = await _context.SelfonlineAssetsImmovableProperty
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineAssetsImmovablePropertyDto
+            {
+                SelfonlinePropertyID = t.SelfonlinePropertyID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Situation = t.Situation,
+                DateOfAcquisition = t.DateOfAcquisition,
+                Cost = t.Cost,
+                MarketValue = t.MarketValue
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return immovablePropertyList;
+    }
+
+    public async Task<bool> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles)
+    {
+        bool isSuccess = false;
+        try
+        {
+
+
+                    await _context.Database.ExecuteSqlRawAsync(
+                                          @"CALL ADDEdit_SelfOnlineMotorVehicle (
+                                            @loguser,
+                                            @UserId,
+                                            @Year,
+                                            @transactionType,
+                                            @SelfonlineMotorVehicleID,
+                                            @Type,
+                                            @SerialNumber,
+                                            @Description,
+                                            @RegistrationNo,
+                                            @DateOfAcquisition,
+                                            @CostMarketValue
+                                        )",
+                                          new MySqlParameter("@loguser", motorVehicles.UserId),  // <-- you probably meant logUser, not UserId?
+                                          new MySqlParameter("@UserId", motorVehicles.UserId),
+                                          new MySqlParameter("@Year", motorVehicles.Year),
+                                          new MySqlParameter("@transactionType", motorVehicles.TransactionType ?? (object)DBNull.Value),
+                                          new MySqlParameter("@SelfonlineMotorVehicleID", motorVehicles.SelfonlineMotorVehicleID),
+                                          new MySqlParameter("@Type", motorVehicles.Type ?? (object)DBNull.Value),
+                                          new MySqlParameter("@SerialNumber", motorVehicles.SerialNumber ?? (object)DBNull.Value),
+                                          new MySqlParameter("@Description", motorVehicles.Description ?? (object)DBNull.Value),
+                                          new MySqlParameter("@RegistrationNo", motorVehicles.RegistrationNo ?? (object)DBNull.Value),
+                                          new MySqlParameter("@DateOfAcquisition", motorVehicles.DateOfAcquisition ?? (object)DBNull.Value),
+                                          new MySqlParameter("@CostMarketValue", motorVehicles.CostMarketValue ?? (object)DBNull.Value)
+          );
+
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveSelfonlineAssetsMotorVehicle");
+        }
+
+        return isSuccess;
+    }
+
+    public async Task<List<SelfonlineAssetsMotorVehicleDto>> GetSelfOnlineAssetsMotorVehicle(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineAssetsMotorVehicleDto> mtorVehicleList = [];
+        try
+        {
+
+            mtorVehicleList = await _context.SelfonlineAssetsMotorVehicle
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineAssetsMotorVehicleDto
+            {
+                SelfonlineMotorVehicleID = t.SelfonlineMotorVehicleID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                RegistrationNo = t.RegistrationNo,
+                DateOfAcquisition = t.DateOfAcquisition,
+                CostMarketValue = t.CostMarketValue
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return mtorVehicleList;
+    }
+
+    public async Task<bool> DeleteSelfOnlinAssetsDtails(string userId, int year, int deleteAssetsId, string categoryName)
+    {
+        bool isSuccess = false;
+        try
+        {
+            if(categoryName == "ImmovableProperty")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineImmovableProperty  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlinePropertyID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlinePropertyID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "MotorVehicle")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineMotorVehicle   (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlineMotorVehicleID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlineMotorVehicleID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "SharesStocksSecurities")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineSharesStocksSecurities   (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlineSharesStocksID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlineSharesStocksID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "CapitalCurrentAccount")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineCapitalCurrentAccount (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlineBusinessAccountID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlineBusinessAccountID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "AllLiabilities")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineLiability  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @SelfonlineLiabilityID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@SelfonlineLiabilityID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "OtherAssets")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineAssetsGifts   (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @selfonlineAssetsGiftsID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@selfonlineAssetsGiftsID", deleteAssetsId)
+                );
+            }
+            if (categoryName == "DisposalAsets")
+            {
+                await _context.Database.ExecuteSqlRawAsync(
+                    @"CALL DeleteSelfOnlineDisposalAssets    (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @selfonlineDisposalAssetsID
+                                    )",
+                            new MySqlParameter("@loguser", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@UserId", userId ?? (object)DBNull.Value),
+                            new MySqlParameter("@Year", year),
+                            new MySqlParameter("@selfonlineDisposalAssetsID", deleteAssetsId)
+                );
+            }
+
+            isSuccess = true;
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error Delete  Detail");
+        }
+        return isSuccess;
+    }
+
+    public async Task<bool> SaveEditSelfonlineAssetsSharesStocksSecurities(SelfonlineAssetsSharesStocksSecuritiesDto sharesStockStocksSecurities)
+    {
+        bool isSuccess = false;
+        try
+        {
+ 
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineSharesStocks  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @CompanyName,
+                                        @NoOfSharesStocks,
+                                        @DateOfAcquisition,
+                                        @CostOfAcquisition,
+                                        @NetDividendIncome,
+                                        @transactionType,
+                                        @SelfonlineSharesStocksID
+                                    )",
+                         new MySqlParameter("@loguser", sharesStockStocksSecurities.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@UserId", sharesStockStocksSecurities.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@Year", sharesStockStocksSecurities.Year),
+                        new MySqlParameter("@Type", sharesStockStocksSecurities.Type ?? (object)DBNull.Value),
+                        new MySqlParameter("@SerialNumber", sharesStockStocksSecurities.SerialNumber ?? (object)DBNull.Value),
+                        new MySqlParameter("@CompanyName", sharesStockStocksSecurities.CompanyName ?? (object)DBNull.Value),
+                        new MySqlParameter("@NoOfSharesStocks", sharesStockStocksSecurities.NoOfSharesStocks ?? (object)DBNull.Value),
+                        new MySqlParameter("@DateOfAcquisition", sharesStockStocksSecurities.DateOfAcquisition ?? (object)DBNull.Value),
+                        new MySqlParameter("@CostOfAcquisition", sharesStockStocksSecurities.CostOfAcquisition ?? (object)DBNull.Value),
+                        new MySqlParameter("@NetDividendIncome", sharesStockStocksSecurities.NetDividendIncome ?? (object)DBNull.Value),
+                         new MySqlParameter("@transactionType", sharesStockStocksSecurities.TransactionType ?? (object)DBNull.Value),
+                        new MySqlParameter("@SelfonlineSharesStocksID", sharesStockStocksSecurities.SelfonlineSharesStocksID)
+
+              );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveSelfonlineAssetsMotorVehicle");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineAssetsSharesStocksSecuritiesDto>> GetSelfOnlineAssetsSharesStocksSecurities(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineAssetsSharesStocksSecuritiesDto> sharesStocksSecuritiesList = [];
+        try
+        {
+
+            sharesStocksSecuritiesList = await _context.SelfonlineAssetsSharesStocksSecurities
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineAssetsSharesStocksSecuritiesDto
+            {
+                SelfonlineSharesStocksID = t.SelfonlineSharesStocksID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                CompanyName = t.CompanyName,
+                NoOfSharesStocks = t.NoOfSharesStocks,
+                DateOfAcquisition = t.DateOfAcquisition,
+                CostOfAcquisition = t.CostOfAcquisition,
+                NetDividendIncome = t.NetDividendIncome
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return sharesStocksSecuritiesList;
+    }
+
+    public async Task<bool> SaveEditSelfonlineAssetsCapitalCurrentAccount(SelfonlineAssetsCapitalCurrentAccountDto capitalCurrentAccount)
+    {
+        bool isSuccess = false;
+        try
+        {
+  
+                await _context.Database.ExecuteSqlRawAsync(
+                  @"CALL ADDEditSelfOnlineCapitalCurrentAccount  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @BusinessName,
+                                        @CurrentAccountBalance,
+                                        @CapitalAccountBalance,
+                                        @transactionType,
+                                        @SelfonlineBusinessAccountID
+                                    )",
+                         new MySqlParameter("@loguser", capitalCurrentAccount.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@UserId", capitalCurrentAccount.UserId ?? (object)DBNull.Value),
+                        new MySqlParameter("@Year", capitalCurrentAccount.Year),
+                        new MySqlParameter("@Type", capitalCurrentAccount.Type ?? (object)DBNull.Value),
+                        new MySqlParameter("@SerialNumber", capitalCurrentAccount.SerialNumber ?? (object)DBNull.Value),
+                        new MySqlParameter("@BusinessName", capitalCurrentAccount.BusinessName ?? (object)DBNull.Value),
+                        new MySqlParameter("@CurrentAccountBalance", capitalCurrentAccount.CurrentAccountBalance ?? (object)DBNull.Value),
+                        new MySqlParameter("@CapitalAccountBalance", capitalCurrentAccount.CapitalAccountBalance ?? (object)DBNull.Value),
+                         new MySqlParameter("@transactionType", capitalCurrentAccount.TransactionType ?? (object)DBNull.Value),
+                        new MySqlParameter("@SelfonlineBusinessAccountID", capitalCurrentAccount.SelfonlineBusinessAccountID)
+
+              );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveEditSelfonlineAssetsCapitalCurrentAccount");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineAssetsCapitalCurrentAccountDto>> GetSelfOnlineAssetCapitalCurrentAccount(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineAssetsCapitalCurrentAccountDto> assetsCapitalCurrentAccountList = [];
+        try
+        {
+
+            assetsCapitalCurrentAccountList = await _context.SelfonlineAssetsCapitalCurrentAccount
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineAssetsCapitalCurrentAccountDto
+            {
+                SelfonlineBusinessAccountID = t.SelfonlineBusinessAccountID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                BusinessName = t.BusinessName,
+                CurrentAccountBalance = t.CurrentAccountBalance,
+                CapitalAccountBalance = t.CapitalAccountBalance
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return assetsCapitalCurrentAccountList;
+    }
+
+    //-------- Liabilities
+
+    public async Task<bool> SaveEditSelfonlineLiabilitiesAllLiabilities(SelfonlineLiabilitiesAllLiabilitiesDto allLiabilities)
+    {
+        bool isSuccess = false;
+        try
+        {
+        
+
+                await _context.Database.ExecuteSqlRawAsync(
+              @"CALL ADDEditSelfOnlineLiability  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Description,
+                                        @SecurityOnLiability,
+                                        @DateOfCommencement,
+                                        @OriginalAmount,
+                                        @AmountAsAt,
+                                        @AmountRepaid,
+                                        @transactionType,
+                                        @SelfonlineLiabilityID
+                                    )",
+                     new MySqlParameter("@loguser", allLiabilities.UserId ?? (object)DBNull.Value),
+                    new MySqlParameter("@UserId", allLiabilities.UserId ?? (object)DBNull.Value),
+                    new MySqlParameter("@Year", allLiabilities.Year),
+                    new MySqlParameter("@Type", allLiabilities.Type ?? (object)DBNull.Value),
+                    new MySqlParameter("@SerialNumber", allLiabilities.SerialNumber ?? (object)DBNull.Value),
+                    new MySqlParameter("@Description", allLiabilities.Description ?? (object)DBNull.Value),
+                    new MySqlParameter("@SecurityOnLiability", allLiabilities.SecurityOnLiability ?? (object)DBNull.Value),
+                    new MySqlParameter("@DateOfCommencement", allLiabilities.DateOfCommencement ?? (object)DBNull.Value),
+                    new MySqlParameter("@OriginalAmount", allLiabilities.OriginalAmount ?? (object)DBNull.Value),
+                    new MySqlParameter("@AmountAsAt", allLiabilities.AmountAsAt ?? (object)DBNull.Value),
+                    new MySqlParameter("@AmountRepaid", allLiabilities.AmountRepaid ?? (object)DBNull.Value),
+                     new MySqlParameter("@transactionType", allLiabilities.TransactionType ?? (object)DBNull.Value),
+                    new MySqlParameter("@SelfonlineLiabilityID", allLiabilities.SelfonlineLiabilityID)
+
+          );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveEditSelfonlineAssetsCapitalCurrentAccount");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineLiabilitiesAllLiabilitiesDto>> GetSelfonlineLiabilitiesAllLiabilities(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineLiabilitiesAllLiabilitiesDto> assetsCapitalCurrentAccountList = [];
+        try
+        {
+
+            assetsCapitalCurrentAccountList = await _context.SelfonlineLiabilitiesAllLiabilities
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineLiabilitiesAllLiabilitiesDto
+            {
+                SelfonlineLiabilityID = t.SelfonlineLiabilityID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                SecurityOnLiability = t.SecurityOnLiability,
+                DateOfCommencement = t.DateOfCommencement,
+                OriginalAmount = t.OriginalAmount,
+                AmountAsAt = t.AmountAsAt,
+                AmountRepaid = t.AmountRepaid,
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return assetsCapitalCurrentAccountList;
+    }
+
+    public async Task<bool> SaveEditSelfonlineLiabilitiesOtherAssetsGifts(SelfonlineLiabilitiesOtherAssetsGiftsDto otherAssetss)
+    {
+        bool isSuccess = false;
+        try
+        {
+
+            
+
+                await _context.Database.ExecuteSqlRawAsync(
+          @"CALL ADDEditSelfOnlineAssetsGifts  (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Description,
+                                        @AcquisitionMode,
+                                        @DateOfAcquisition,
+                                        @CostMarketValue,
+                                        @transactionType,
+                                        @selfonlineAssetsGiftsID
+                                    )",
+                 new MySqlParameter("@loguser", otherAssetss.UserId ?? (object)DBNull.Value),
+                new MySqlParameter("@UserId", otherAssetss.UserId ?? (object)DBNull.Value),
+                new MySqlParameter("@Year", otherAssetss.Year),
+                new MySqlParameter("@Type", otherAssetss.Type ?? (object)DBNull.Value),
+                new MySqlParameter("@SerialNumber", otherAssetss.SerialNumber ?? (object)DBNull.Value),
+                new MySqlParameter("@Description", otherAssetss.Description ?? (object)DBNull.Value),
+                new MySqlParameter("@AcquisitionMode", otherAssetss.AcquisitionMode ?? (object)DBNull.Value),
+                new MySqlParameter("@DateOfAcquisition", otherAssetss.DateOfAcquisition ?? (object)DBNull.Value),
+                new MySqlParameter("@CostMarketValue", otherAssetss.CostMarketValue ?? (object)DBNull.Value),
+                 new MySqlParameter("@transactionType", otherAssetss.TransactionType ?? (object)DBNull.Value),
+                new MySqlParameter("@selfonlineAssetsGiftsID", otherAssetss.SelfonlineAssetsGiftsID)
+
+      );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveEditSelfonlineLiabilitiesOtherAssetsGifts");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineLiabilitiesOtherAssetsGiftsDto>> GetSelfonlineLiabilitiesOtherAssetsGifts(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineLiabilitiesOtherAssetsGiftsDto> assetsCapitalCurrentAccountList = [];
+        try
+        {
+
+            assetsCapitalCurrentAccountList = await _context.SelfonlineLiabilitiesOtherAssetsGifts
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineLiabilitiesOtherAssetsGiftsDto
+            {
+                SelfonlineAssetsGiftsID = t.SelfonlineAssetsGiftsID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                AcquisitionMode = t.AcquisitionMode,
+                DateOfAcquisition = t.DateOfAcquisition,
+                CostMarketValue = t.CostMarketValue
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return assetsCapitalCurrentAccountList;
+    }
+
+    public async Task<bool> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsDto disposalAssets)
+    {
+        bool isSuccess = false;
+        try
+        {
+
+           
+
+                await _context.Database.ExecuteSqlRawAsync(
+      @"CALL ADDEditSelfOnlineDisposalAssets   (
+                                        @loguser,
+                                        @UserId,
+                                        @Year,
+                                        @Type,
+                                        @SerialNumber,
+                                        @Description,
+                                        @DateOfDisposal,
+                                        @SalesProceed,
+                                        @DateAcquired,
+                                        @Cost,
+                                        @transactionType,
+                                        @selfonlineDisposalAssetsID
+                                    )",
+             new MySqlParameter("@loguser", disposalAssets.UserId ?? (object)DBNull.Value),
+            new MySqlParameter("@UserId", disposalAssets.UserId ?? (object)DBNull.Value),
+            new MySqlParameter("@Year", disposalAssets.Year),
+            new MySqlParameter("@Type", disposalAssets.Type ?? (object)DBNull.Value),
+            new MySqlParameter("@SerialNumber", disposalAssets.SerialNumber ?? (object)DBNull.Value),
+            new MySqlParameter("@Description", disposalAssets.Description ?? (object)DBNull.Value),
+            new MySqlParameter("@DateOfDisposal", disposalAssets.DateOfDisposal ?? (object)DBNull.Value),
+            new MySqlParameter("@SalesProceed", disposalAssets.SalesProceed ?? (object)DBNull.Value),
+            new MySqlParameter("@DateAcquired", disposalAssets.DateAcquired ?? (object)DBNull.Value),
+            new MySqlParameter("@Cost", disposalAssets.Cost ?? (object)DBNull.Value),
+             new MySqlParameter("@transactionType", disposalAssets.TransactionType ?? (object)DBNull.Value),
+            new MySqlParameter("@selfonlineDisposalAssetsID", disposalAssets.SelfonlineDisposalAssetsID)
+
+  );
+
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while saving SaveEditSelfonlineLiabilitiesOtherAssetsGifts");
+        }
+
+        return isSuccess;
+    }
+    public async Task<List<SelfonlineLiabilitiesDisposalAssetsDto>> GetSelfonlineLiabilitiesDisposalAssets(string userId, int year, CancellationToken ctx)
+    {
+        List<SelfonlineLiabilitiesDisposalAssetsDto> assetsCapitalCurrentAccountList = [];
+        try
+        {
+
+            assetsCapitalCurrentAccountList = await _context.SelfonlineLiabilitiesDisposalAssets
+            .Where(b => b.UserId == userId && b.Year == year)
+            .Select(t => new SelfonlineLiabilitiesDisposalAssetsDto
+            {
+                SelfonlineDisposalAssetsID = t.SelfonlineDisposalAssetsID,
+                UserId = t.UserId,
+                Year = t.Year,
+                Type = t.Type,
+                SerialNumber = t.SerialNumber,
+                Description = t.Description,
+                DateOfDisposal = t.DateOfDisposal,
+                SalesProceed = t.SalesProceed,
+                DateAcquired = t.DateAcquired,
+                Cost = t.Cost
+
+            })
+            .ToListAsync(ctx);
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "");
+        }
+
+        return assetsCapitalCurrentAccountList;
     }
 
 }

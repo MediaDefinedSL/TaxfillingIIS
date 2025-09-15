@@ -49,4 +49,8 @@ public class User : Entity
     public int? taxAssistedUserUploadDocsStatus { get; set; }
     [Column("taxAssistedUserUploadDocsStatusUpdateDate")]
     public DateTime? taxAssistedUserUploadDocsStatusUpdateDate { get; set; }
+    [Column("IRDPIN")]
+    public string IRDPIN {  get; set; }
+    [Column("isPersonalInfoCompleted")]
+    public int? isPersonalInfoCompleted { get; set; }
 }

@@ -25,7 +25,7 @@
                                 <button class="nav-link fixed-deposit" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" tabindex="-1">Fixed Deposit</button>
                             </li>
                             <li class="nav-item col-md-2" role="presentation">
-                                <button class="nav-link divident" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false" tabindex="-1">Divident</button>
+                                <button class="nav-link divident" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false" tabindex="-1">Dividend</button>
                             </li>
                             <li class="nav-item col-md-2" role="presentation">
                                 <button class="nav-link rent" id="rent-tab" data-bs-toggle="tab" data-bs-target="#rent" type="button" role="tab" aria-controls="rent" aria-selected="false" tabindex="-1"> Rent</button>
@@ -55,29 +55,30 @@
                                 </div>
                                 <br />
                                 <div class="row g-3">
-
-                                    <!-- Activity Code -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">Activity Code</label>
-                                        <input type="text" id="txtSActivityCode" class="form-control" />
-                                    </div>
-
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlSTypeInvestment" name="ddlSTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="121">121 - Interest Income – Local</option>
                                             <option value="122">122 - Interest Income – Foreign</option>
                                         </select>
-                                       
+
                                     </div>
+
+                                    <!-- Activity Code -->
+                                    <div class="col-md-6">
+                                        <label class="form-label" >Activity Code</label>
+                                        <input type="text" id="txtSActivityCode" class="form-control" readonly />
+                                    </div>
+
+                                    
                                 </div>
                                 <hr>
                                 <div class="row g-3">
                                     <!-- Bank Name -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Bank Name</label>
+                                        <label class="form-label"><span style="color: red">*</span>Bank Name</label>
                                         <input type="text" id="bankInput" class="form-select" placeholder="Type Bank Name" autocomplete="off" />
                                         <div id="bankDropdown" class="dropdown"></div>
                                     </div>
@@ -91,8 +92,8 @@
 
                                     <!-- Account No -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Account No.</label>
-                                        <input type="text" class="form-control" id="txtSAccountNo" name="txtSAccountNo">
+                                        <label class="form-label"><span style="color: red">*</span>Account No.</label>
+                                        <input type="text" class="form-control" id="txtSAccountNo" name="txtSAccountNo" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                     </div>
 
                                     <!-- WHT Certificate No -->
@@ -103,7 +104,7 @@
 
                                     <!-- Amount Invested -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtSAmountInvested" name="txtSAmountInvested">
                                     </div>
 
@@ -136,6 +137,17 @@
                                         <label class="form-label">Closing Balance (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtSBalance" name="txtSBalance">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadSavingsWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileSavingsUpload" name="fileSavingsUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt">
+                                            <div id="uploadedFileSavingsContainer"></div>
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
                                 <br />
                                 <div class="row">
@@ -156,7 +168,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                               <th>Type Investment</th>
+                                               <th>Type Of Investment</th>
                                                 <th>Bank</th>
                                                 <th>Branch</th>
                                                 <th>Account No</th>
@@ -178,8 +190,8 @@
                                                         <td>@savingsIncome.BankName</td>
                                                         <td>@savingsIncome.BankBranch</td>
                                                         <td>@savingsIncome.AccountNo</td>
-                                                        <td>@savingsIncome.IncomeAmount</td>
-                                                        <td>@savingsIncome.WHTDeducted</td>
+                                                        <td>@String.Format("{0:N2}",@savingsIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}",@savingsIncome.WHTDeducted)</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm savingsDetails-editbtn" type="button"
                                                                     data-id="@savingsIncome.InvestmentIncomeDetailId"
@@ -195,8 +207,10 @@
                                                                     data-closingbalance="@savingsIncome.ClosingBalance"
                                                                     data-incomeamount="@savingsIncome.IncomeAmount"
                                                                     data-foreigntaxcredit="@savingsIncome.ForeignTaxCredit"
-                                                                   
-                                                                    data-amountinvested="@savingsIncome.AmountInvested">
+                                                                    data-amountinvested="@savingsIncome.AmountInvested"
+                                                                    data-filename="@savingsIncome.FileName"
+                                                                    data-decryptionkey="@savingsIncome.DecryptionKey"
+                                                                    data-originalfilename="@savingsIncome.OriginalName">
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -237,15 +251,9 @@
                                 </div>
                                 <div class="row g-3">
 
-                                    <!-- Activity Code -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">Activity Code</label>
-                                        <input type="text" id="txtFDActivityCode" class="form-control" />
-                                    </div>
-
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlFDTypeInvestment" name="ddlFDTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="121">121 - Interest Income – Local</option>
@@ -253,11 +261,19 @@
                                         </select>
 
                                     </div>
+
+                                    <!-- Activity Code -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtFDActivityCode" class="form-control" readonly />
+                                    </div>
+
+                                    
                                 </div>
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Bank Name</label>
+                                        <label class="form-label"><span style="color: red">*</span>Bank Name</label>
                                         <input type="text" id="FDbankInput" class="form-select" placeholder="Type Bank Name" autocomplete="off" />
                                         <div id="FDbankDropdown" class="dropdown"></div>
                                     </div>
@@ -268,8 +284,8 @@
                                     </div>
                                     <!-- Account No -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Account No.</label>
-                                        <input type="text" class="form-control" id="txtFDAccountNo" name="txtFDAccountNo">
+                                        <label class="form-label"><span style="color: red">*</span>Account No.</label>
+                                        <input type="text" class="form-control" id="txtFDAccountNo" name="txtFDAccountNo" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                     </div>
 
                                     <!-- WHT Certificate No -->
@@ -280,7 +296,7 @@
 
                                     <!-- Amount Invested -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtFDAmountInvested" name="txtFDAmountInvested">
                                     </div>
 
@@ -313,6 +329,16 @@
                                         <label class="form-label">Closing Balance (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtFDBalance" name="txtFDBalance">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadFDWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileFDUpload" name="fileFDUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt">
+                                            <div id="uploadedFileFDContainer"></div>
+
+                                        </div>
+
+                                    </div>
                                 </div>
                                 
                                 <br />
@@ -334,7 +360,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Bank</th>
                                                 <th>Branch</th>
                                                 <th>Account No</th>
@@ -356,8 +382,8 @@
                                                         <td>@fdIncome.BankName</td>
                                                         <td>@fdIncome.BankBranch</td>
                                                         <td>@fdIncome.AccountNo</td>
-                                                        <td>@fdIncome.IncomeAmount</td>
-                                                        <td>@fdIncome.WHTDeducted</td>
+                                                        <td>@String.Format("{0:N2}",@fdIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}",@fdIncome.WHTDeducted)</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm fixedDepositDetails-editbtn" type="button"
                                                                     data-id="@fdIncome.InvestmentIncomeDetailId"
@@ -373,7 +399,11 @@
                                                                     data-closingbalance="@fdIncome.ClosingBalance"
                                                                     data-incomeamount="@fdIncome.IncomeAmount"
                                                                     data-foreigntaxcredit="@fdIncome.ForeignTaxCredit"
-                                                                    data-amountinvested="@fdIncome.AmountInvested">
+                                                                    data-amountinvested="@fdIncome.AmountInvested"
+                                                                    data-filename="@fdIncome.FileName"
+                                                                    data-decryptionkey="@fdIncome.DecryptionKey"
+                                                                    data-originalfilename="@fdIncome.OriginalName">
+
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -388,7 +418,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="8" class="text-center">No FixedDeposit Income found.</td>
+                                                    <td colspan="8" class="text-center">No Fixed Deposit Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -412,15 +442,9 @@
                                 </div>
                                 <div class="row g-3">
 
-                                    <!-- Activity Code -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">Activity Code</label>
-                                        <input type="text" id="txtDActivityCode" class="form-control" />
-                                    </div>
-
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlDTypeInvestment" name="ddlDTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="111">111 - Dividend Income – Local</option>
@@ -428,15 +452,23 @@
                                         </select>
 
                                     </div>
+
+                                    <!-- Activity Code -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtDActivityCode" class="form-control" readonly />
+                                    </div>
+
+                                   
                                 </div>
                                 <hr>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtDAmountInvested" name="txtDAmountInvested">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Dividend Income (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Dividend Income (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtDDividendIncome" name="txtDDividendIncome">
                                     </div>
                                     <div class="col-md-6">
@@ -445,7 +477,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">No. of Shares/Stocks</label>
-                                        <input type="number" class="form-control" id="txtDSharesStocks" name="txtDSharesStocks">
+                                        <input type="number" class="form-control" id="txtDSharesStocks" name="txtDSharesStocks" onkeydown="return event.key !== 'e' && event.key !== 'E' && event.key !== '+' && event.key !== '-';">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Date of Acquisition</label>
@@ -463,6 +495,16 @@
                                         <label class="form-label">Foreign Tax Credit (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtDForeignTaxCredit" name="txtDForeignTaxCredit">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadDVWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileDVUpload" name="fileDVUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt">
+                                            <div id="uploadedFileDVContainer"></div>
+
+                                        </div>
+
+                                    </div>
                                    
                                 </div>
                                 <br />
@@ -471,7 +513,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
-                                            <button type="submit" class="btn btn-primary mt-3" id="btnDetailsInvestmentDivident">Submit</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentDividentClear">Clear</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentDivident">Submit</button>
                                         </div>
                                     </div>
 
@@ -482,7 +525,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Amount Invested </th>
                                                 <th>Dividend Income </th>
                                                 <th>Company/Institution</th>
@@ -500,11 +543,11 @@
                                                     <tr>
                                                         <td>@(++index)</td>
                                                         <td>@dividendIncome.TypeOfInvestment</td>
-                                                        <td>@dividendIncome.AmountInvested</td>
-                                                        <td>@dividendIncome.NetDividendIncome</td>
+                                                        <td>@String.Format("{0:N2}",@dividendIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}",@dividendIncome.NetDividendIncome)</td>
                                                         <td>@dividendIncome.CompanyInstitution</td>
                                                         <td>@dividendIncome.SharesStocks</td>
-                                                        <td>@dividendIncome.CostAcquisition</td>
+                                                        <td>@String.Format("{0:N2}",@dividendIncome.CostAcquisition)</td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm dividend-editbtn" type="button"
                                                                     data-id="@dividendIncome.InvestmentIncomeDetailId"
@@ -518,7 +561,10 @@
                                                                     data-cost="@dividendIncome.CostAcquisition"
                                                                     data-netdividend="@dividendIncome.NetDividendIncome"
                                                                     data-netwhtdeducted="@dividendIncome.WHTDeducted"
-                                                                    data-netforeigntaxcredit="@dividendIncome.ForeignTaxCredit">
+                                                                    data-netforeigntaxcredit="@dividendIncome.ForeignTaxCredit"
+                                                                    data-filename="@dividendIncome.FileName"
+                                                                    data-decryptionkey="@dividendIncome.DecryptionKey"
+                                                                    data-originalfilename="@dividendIncome.OriginalName">
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -557,15 +603,10 @@
                                     </div>
                                 </div>
                                 <div class="row g-3">
-                                    <!-- Activity Code -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">Activity Code</label>
-                                        <input type="text" id="txtRActivityCode" class="form-control" />
-                                    </div>
 
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlRTypeInvestment" name="ddlRTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="311">311 - Rent Income – Local</option>
@@ -573,12 +614,19 @@
                                         </select>
 
                                     </div>
+                                    <!-- Activity Code -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtRActivityCode" class="form-control"  readonly/>
+                                    </div>
+
+                                    
                                 </div>
                                 <hr>
                                 <div class="row g-3">
                                     
                                     <div class="col-md-6">
-                                        <label class="form-label">Situation of property</label>
+                                        <label class="form-label"><span style="color: red">*</span>Situation of property</label>
                                         <input type="text" class="form-control" id="txtRProperty" name="txtRProperty">
                                     </div>
                                     <div class="col-md-6">
@@ -586,7 +634,7 @@
                                         <input type="text" class="form-control" id="txtRAddess" name="txtRAddess">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Total Rent Income </label>
+                                        <label class="form-label"><span style="color: red">*</span>Total Rent Income </label>
                                         <input type="text" class="form-control numeric-input" id="txtRTotalRentIncome" name="txtRTotalRentIncome">
                                     </div>
                                     <div class="col-md-6">
@@ -598,7 +646,7 @@
                                         <input type="date" class="form-control" id="txtRAcquisitionDate" name="txtRAcquisitionDate">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Cost (Rs.) / Gift/ Inhreted</label>
+                                        <label class="form-label">Cost (Rs.) / Gift/ Inherited</label>
                                         <input type="text" class="form-control numeric-input" id="txtRCostGiftInhreted" name="txtRCostGiftInhreted">
                                     </div>
                                     <div class="col-md-6">
@@ -609,7 +657,17 @@
                                         <label class="form-label">Foreign Tax Credit </label>
                                         <input type="text" class="form-control numeric-input" id="txtForeignTaxCredit" name="txtForeignTaxCredit">
                                     </div>
-                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadREWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileREUpload" name="fileREUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt">
+                                            <div id="uploadedFileREContainer"></div>
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
                                 <div class="row">
@@ -617,6 +675,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentRentClear">Clear</button>
                                             <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentRent">Submit</button>
                                         </div>
                                     </div>
@@ -628,7 +687,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Situation property Deed No</th>
                                                 <th>Total Rent Income </th>
                                                 <th>Cost Gift/ Inhreted</th>
@@ -647,9 +706,9 @@
                                                         <td>@(++index)</td>
                                                         <td>@rentIncome.TypeOfInvestment</td>
                                                         <td>@rentIncome.PropertySituation</td>
-                                                        <td>@rentIncome.IncomeAmount</td>
-                                                        <td>@rentIncome.GiftOrInheritedCost</td>
-                                                        <td>@rentIncome.MarketValue</td>
+                                                        <td>@String.Format("{0:N2}",@rentIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}",@rentIncome.GiftOrInheritedCost)</td>
+                                                        <td>@String.Format("{0:N2}",@rentIncome.MarketValue)</td>
                                                         
                                                         <td>
                                                             <button class="btn btn-primary btn-sm rent-editbtn" type="button"
@@ -664,7 +723,10 @@
                                                                     data-rates="@rentIncome.RatesLocalAuthority"
                                                                     data-cost="@rentIncome.GiftOrInheritedCost"
                                                                     data-market="@rentIncome.MarketValue"
-                                                                    data-foreigntax="@rentIncome.ForeignTaxCredit">
+                                                                    data-foreigntax="@rentIncome.ForeignTaxCredit"
+                                                                    data-filename="@rentIncome.FileName"
+                                                                    data-decryptionkey="@rentIncome.DecryptionKey"
+                                                                    data-originalfilename="@rentIncome.OriginalName">
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -679,7 +741,7 @@
                                             else
                                             {
                                                 <tr>
-                                                    <td colspan="7" class="text-center">No Dividend Income found.</td>
+                                                    <td colspan="7" class="text-center">No Rent Income found.</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -717,14 +779,9 @@
                                 <br />
                                 <div class="row g-3">
 
-                                    <!-- Activity Code -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">Activity Code</label>
-                                        <input type="text" id="txtOActivityCode" class="form-control" />
-                                    </div>
                                     <!-- Type of Investment -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Type of Investment</label>
+                                        <label class="form-label"><span style="color: red">*</span>Type of Investment</label>
                                         <select class="form-select" id="ddlOTypeInvestment" name="ddlOTypeInvestment">
                                             <option value="">-- Select Activity Code --</option>
                                             <option value="211">211 - GAIN FROM THE REALIZATION OF ASSETS - Local</option>
@@ -743,18 +800,36 @@
                                             <option value="912">912 - OTHER INVESTMENT INCOME - Foreign</option>
                                         </select>
                                     </div>
+
+                                    <!-- Activity Code -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Activity Code</label>
+                                        <input type="text" id="txtOActivityCode" class="form-control" readonly />
+                                    </div>
+                                   
                                 </div>
                                 <hr>
                                 <div class="row g-3">
 
                                     <div class="col-md-6">
-                                        <label class="form-label">Amount Invested (Rs.)</label>
+                                        <label class="form-label"><span style="color: red">*</span>Amount Invested (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtOAmountInvested" name="txtOAmountInvested">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Interest Income (Rs.)</label>
                                         <input type="text" class="form-control numeric-input" id="txtOInterestIncome" name="txtOInterestIncome">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                        <div id="fileUploadOtherWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="file" class="form-control" id="fileOtherUpload" name="fileOtherUpload"
+                                                   accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt">
+                                            <div id="uploadedFileOtherContainer"></div>
+
+                                        </div>
+
+                                    </div>
+
                                     
                                 </div>
                                 <div class="row">
@@ -762,6 +837,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentOtherClear">Clear</button>
                                             <button type="button" class="btn btn-primary mt-3" id="btnDetailsInvestmentOther">Submit</button>
                                         </div>
                                     </div>
@@ -774,7 +850,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th>Type Investment</th>
+                                                <th>Type Of Investment</th>
                                                 <th>Amount Invested</th>
                                                 <th>Interest Income </th>
                                                 <th>Action</th>
@@ -790,8 +866,8 @@
                                                     <tr>
                                                         <td>@(++index)</td>
                                                         <td>@otherIncome.TypeOfInvestment</td>
-                                                        <td>@otherIncome.AmountInvested</td>
-                                                        <td>@otherIncome.IncomeAmount</td>
+                                                        <td>@String.Format("{0:N2}",@otherIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}",@otherIncome.IncomeAmount)</td>
                                                         
 
                                                         <td>
@@ -801,7 +877,11 @@
                                                                     data-activitycode="@otherIncome.ActivityCode"
                                                                     data-activity="@otherIncome.TypeOfInvestment"
                                                                     data-amount="@otherIncome.AmountInvested"
-                                                                    data-income="@otherIncome.IncomeAmount">
+                                                                    data-income="@otherIncome.IncomeAmount"
+                                                                    data-filename="@otherIncome.FileName"
+                                                                    data-decryptionkey="@otherIncome.DecryptionKey"
+                                                                    data-originalfilename="@otherIncome.OriginalName">
+
                                                                 Edit
                                                             </button>
                                                             <button class="btn btn-danger btn-sm investmentDetails-deletebtn" type="button"
@@ -848,46 +928,39 @@
     </div>
 
 </main>
-
+<input type="hidden" id="hiddenUserId" value="@User.FindFirst("UserID")?.Value" />
 <script src="~/scripts/selfonline.investmentincome.js" asp-append-version="true"></script>
 
 <script>
+    $(function () {
 
-    //  // Load all branches once
-    // $.getJSON("https://mail.taxfiling.lk/bank-branches", function (data) {
-    //     allBranches = data.map(branch => ({
-    //         id: branch.BranchCode,
-    //         // text: branch.BranchName + " (" + branch.bankName + ")" // show both branch and bank
-    //         text: branch.BranchName
-    //     }));
+         $('#linkExemptAmountsContinue').on('click', function () {
+                $.ajax({
+                url: '/SelfOnlineFlow/LoadInvestment_PartnerInvestment',
+                type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                          $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                error: function () {
+                    alert("Error loading section content.");
+                }
+            });
+        });
 
-    //     $('#dpdBankInstitution').select2({
-    //         placeholder: "Select bank",
-    //         minimumInputLength: 0, // allow opening full list without typing
-    //         data: allBranches,
-    //         matcher: function (params, data) {
-    //             // If no search term, show all
-    //             if ($.trim(params.term) === '') {
-    //                 return data;
-    //             }
+         $('#linkEmploymentDetailsContinue').on('click', function () {
+                 $.ajax({
+                    url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#in-this-section-container').html(data);
+                         $("html, body").animate({ scrollTop: 0 }, "smooth");
+                    },
+                    error: function () {
+                        alert("Error loading section content.");
+                    }
+                });
 
-    //             // Match text anywhere (contains match, not just startsWith)
-    //             if (data.text.toLowerCase().startsWith(params.term.toLowerCase())) {
-    //                 return data;
-    //             }
-
-    //             return null;
-    //         },
-    //         dropdownAutoWidth: true,
-    //         width: 'resolve',
-    //         allowClear: true
-    //     });
-    // });
-
-    // $('#dpdBankInstitution').on('select2:open', function () {
-    //     let searchBox = document.querySelector('.select2-container--open .select2-search__field');
-    //     if (searchBox) {
-    //         searchBox.setAttribute('placeholder', 'Filter your choice');
-    //     }
-    // });
+        });
+    });
 </script>

@@ -690,7 +690,7 @@
                                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required="">
                             </div>
                             <div class="col-md-6 form-group mt-3 mt-md-0">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="">
+                                <input type="email" class="form-control" name="email" id="contatUsemail" placeholder="Your Email" required="">
                             </div>
                         </div>
                         <div class="form-group mt-3">
@@ -722,11 +722,24 @@ $(document).ready(function () {
     $(document).on("show.bs.collapse", ".collapse", function () {
         $(".collapse.show").not(this).not("#Collapse055").not("#Collapse0555").collapse("hide");
     });
+        const params = new URLSearchParams(window.location.search);
+        const fromNoTin = params.get("fromNoTin");
+
+
+            if (fromNoTin) {
+            $("#name").val(localStorage.getItem("contact_name"));
+            $("#contatUsemail").val(localStorage.getItem("contact_email"));
+            $("#subject").val(localStorage.getItem("contact_subject"));
+        } else {
+            $("#name").val("");
+            $("#contatUsemail").val("");
+            $("#subject").val("");
+        }
 });
 
-	</script>
 
-    <script>
+   
+	
     document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', function (e) {
 

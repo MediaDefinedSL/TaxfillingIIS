@@ -339,6 +339,49 @@ public class PaymentController : Controller
         var writer = PdfWriter.GetInstance(document, memoryStream);
         document.Open();
 
+        PdfPTable headerTable = new PdfPTable(2)
+        {
+            WidthPercentage = 100
+        };
+        headerTable.SetWidths(new float[] { 1, 3 }); // adjust column ratio
+
+        // Left cell: Logo
+        string logoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "img", "Tax-new-8-edit-one.png");
+        if (System.IO.File.Exists(logoPath))
+        {
+            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
+            logo.ScaleToFit(80f, 80f); // adjust size
+            PdfPCell logoCell = new PdfPCell(logo)
+            {
+                Border = Rectangle.NO_BORDER,
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            headerTable.AddCell(logoCell);
+        }
+        else
+        {
+            // Empty cell if logo missing
+            headerTable.AddCell(new PdfPCell(new Phrase("")) { Border = Rectangle.NO_BORDER });
+        }
+
+        // Right cell: Company Name
+        var companyFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, BaseColor.Black);
+        PdfPCell nameCell = new PdfPCell(new Phrase("TaxFilling (PVT) Ltd", companyFont))
+        {
+            Border = Rectangle.NO_BORDER,
+            HorizontalAlignment = Element.ALIGN_RIGHT,
+            VerticalAlignment = Element.ALIGN_MIDDLE
+        };
+        headerTable.AddCell(nameCell);
+
+        // Add header table to document
+        document.Add(headerTable);
+
+        // Add spacing after header
+        document.Add(new Paragraph("\n"));
+
+
         // Add title
         var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 20);
         var heading = new Paragraph("Payment Receipt", titleFont) { Alignment = Element.ALIGN_CENTER };

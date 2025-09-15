@@ -323,7 +323,8 @@ public class UserRepository : IUserRepository
                                 PackageId = user.PackageId,
                                 ProfileImagePath = user.ProfileImagePath,
                                 TaxTotal = user.TaxTotal,
-                                taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus
+                                taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus,
+                                IRDPIN = user.IRDPIN
                             })
                             .FirstOrDefaultAsync(ctx);
 
@@ -336,10 +337,13 @@ public class UserRepository : IUserRepository
         bool isSuccess = false;
         // Check if email or phone already exists
         bool userEmailExists = await _context.Users
-            .AnyAsync(u => u.Email == User.Email);
+     .AnyAsync(u => u.Email == User.Email && u.UserId != User.UserId);
 
         bool userPhoneExists = await _context.Users
-           .AnyAsync(u => u.Phone == User.Phone);
+            .AnyAsync(u => u.Phone == User.Phone && u.UserId != User.UserId);
+
+        bool userTINExists = await _context.Users
+            .AnyAsync(u => u.TinNo == User.TinNo && u.UserId != User.UserId);
 
         if (userEmailExists)
         {
@@ -349,6 +353,11 @@ public class UserRepository : IUserRepository
         if (userPhoneExists)
         {
             Message = "A user with the same Phone number already exists.";
+            return false; // Do not continue
+        }
+        if (userTINExists)
+        {
+            Message = "A user with the same TIN Number already exists.";
             return false; // Do not continue
         }
 
@@ -381,6 +390,7 @@ public class UserRepository : IUserRepository
             _user.TinNo = User.TinNo;
             _user.UpdatedBy = User.UserId.ToString();
             _user.UpdatedOn = DateTime.Now;
+            _user.IRDPIN = User.IRDPIN;
             
 
             await _context.SaveChangesAsync();
@@ -499,7 +509,14 @@ public class UserRepository : IUserRepository
             .Where(d => d.UserId == userId)
             .Select(d => d.taxAssistedUserUploadDocsStatus )
             .FirstOrDefaultAsync();
-    }    
+    }
+    public async Task<int?> GetPersonalInformationCompleted(Guid userId)
+    {
+        return await _context.Users
+            .Where(d => d.UserId == userId)
+            .Select(d => d.isPersonalInfoCompleted)
+            .FirstOrDefaultAsync();
+    }
 
     public async Task<bool> UpdatePasswordAsync(string email, string newPassword)
     {

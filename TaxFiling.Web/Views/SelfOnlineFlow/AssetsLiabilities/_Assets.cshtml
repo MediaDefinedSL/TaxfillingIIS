@@ -1,0 +1,740 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Html
+@using System.Globalization
+@model TaxFiling.Web.Models.SelfOnlineAssets
+
+@{
+    var apiUrl = Configuration["BaseAPIUrl"];
+}
+
+<link href="~/assets/css/tree-container-css.css?v=3" rel="stylesheet">
+
+<main class="main-content">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+            <form method="post">
+                <div class=" mt-4 ">
+                    <input type="hidden" id="hndUserid" name="hndUserid" value="@ViewBag.userId" />
+                    <input type="hidden" id="hndapiUrl" name="hndapiUrl" value="@apiUrl" />
+                    <div class="custom-tabs">
+                        <ul class="nav nav-tabs col-md-12" id="myAssetsTab" role="tablist">
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link immovable_properties active" id="immovableproperties-tab" data-bs-toggle="tab" data-bs-target="#immovableproperties" type="button" role="tab" aria-controls="immovableproperties" aria-selected="true" data-target="bank-section">Immovable Properties</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link motor_vehicle" id="motorvehicle-tab" data-bs-toggle="tab" data-bs-target="#motorvehicle" type="button" role="tab" aria-controls="motorvehicle" aria-selected="false" tabindex="-1">Motor Vehicle</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link bank_balances" id="bankbalances-tab" data-bs-toggle="tab" data-bs-target="#bankbalances" type="button" role="tab" aria-controls="bankbalances" aria-selected="false" tabindex="-1">Bank Balances</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link shares_stocks_securities" id="sharesstockssecurities-tab" data-bs-toggle="tab" data-bs-target="#sharesstockssecurities" type="button" role="tab" aria-controls="sharesstockssecurities" aria-selected="false" tabindex="-1">
+                                    Share/Stock/Security
+                                </button>
+                            </li>
+
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link expenses_balances" id="expensesbalances-tab" data-bs-toggle="tab" data-bs-target="#expensesbalances" type="button" role="tab" aria-controls="expensesbalances" aria-selected="false" tabindex="-1">Expenses & Balances</button>
+                            </li>
+                            <li class="nav-item col-md-2" role="presentation">
+                                <button class="nav-link declare_capital" id="declarecapital-tab" data-bs-toggle="tab" data-bs-target="#declarecapital" type="button" role="tab" aria-controls="declarecapital" aria-selected="false" tabindex="-1">Declare the Capital</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myAssetsTabContent">
+                         @*    Immovable Properties *@
+
+                            <div aria-labelledby="immovableproperties-tab" role="tabpanel" id="immovableproperties" class="tab-pane insvesment fade fade-in active show">
+                               
+                                <h4 class="mb-3">
+                                    <i class="bi bi-building"></i> &nbsp;Immovable Properties
+                                </h4>
+                                <hr>
+                                <input type="hidden" id="hiddenSelfonlinePropertyId" name="hiddenSelfonlinePropertyId" value=""/> 
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
+                                    <div class="col-5">
+                                        <select class="form-select" id="ddlImmovablePropertiesType" name="ddlImmovablePropertiesType">
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Local">Local</option>
+                                            <option value="Foreign">Foreign</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtImmPropertiesSN" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Situation of property</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtImmPropertiesSituation" class="form-control" />
+                                    </div>
+                                </div>
+                               
+                                <div class="row mb-2">
+                                    <div class="col-3">Date of Acquisition</div>
+                                    <div class="col-5">
+                                        <input type="date" id="txtImmPropertiesDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>Cost (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtImmPropertiesCost" class="form-control numeric-input" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Market value (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtImmPropertiesMarketValue" class="form-control numeric-input" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnImmovablePropertiesClear">Clear</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnImmovablePropertiesSubmit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <div class="table-responsive" id="ImmovablePropertiesGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>S/N</th>
+                                                <th>Situation Property</th>
+                                                <th>Date Acquisition  </th>
+                                                <th>Cost</th>
+                                                <th>Market value</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfonlineAssetsImmovablePropertyViewModel != null && Model.selfonlineAssetsImmovablePropertyViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var immovableProperties in Model.selfonlineAssetsImmovablePropertyViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@immovableProperties.Type</td>
+                                                        <td>@immovableProperties.SerialNumber</td>
+                                                        <td>@immovableProperties.Situation</td>   <!-- fixed -->
+                                                        <td>@immovableProperties.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@immovableProperties.Cost?.ToString("N2")</td>
+                                                        <td>@immovableProperties.MarketValue?.ToString("N2")</td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm immovableiroperty-editbtn" type="button"
+                                                                    data-id="@immovableProperties.SelfonlinePropertyID"
+                                                                    data-type="@immovableProperties.Type"
+                                                                    data-serialno="@immovableProperties.SerialNumber"
+                                                                    data-situation="@immovableProperties.Situation"
+                                                                    data-date="@immovableProperties.DateOfAcquisition?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@immovableProperties.Cost"
+                                                                    data-market="@immovableProperties.MarketValue">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm immovableiroperty-deletebtn" type="button"
+                                                                    data-id="@immovableProperties.SelfonlinePropertyID"
+                                                                    data-name="ImmovableProperty">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                            @*    Motor Vehicle *@
+
+                            <div aria-labelledby="motorvehicle-tab" role="tabpanel" id="motorvehicle" class="tab-pane insvesment fade">
+                                
+                                <h4 class="mb-3">
+                                    <i class="bi bi-truck"></i> &nbsp; Motor Vehicle
+                                </h4>
+                                <hr>
+                                <input type="hidden" id="hiddenMotorVehicleID" name="hiddenMotorVehicleID" value="" />
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
+                                    <div class="col-5">
+                                        <select class="form-select" id="ddlMType" name="ddlMType">
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Local">Local</option>
+                                            <option value="Foreign">Foreign</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtMotorVehicleSN" name="txtMotorVehicleSN" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Description</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtMotorVehicleDescription" name="txtMotorVehicleDescription" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Registration No.</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtMotorVehicleRegNo" name="txtMotorVehicleRegNo" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Date of acquisition</div>
+                                    <div class="col-5">
+                                        <input type="date" id="txtMotorVehicleDate" name="txtMotorVehicleDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>Cost/Market value (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtMotorVehicleValue" name="txtMotorVehicleValue" class="form-control numeric-input" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnMotorVehicleClear">Clear</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnMotorVehicleSubmit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <div class="table-responsive" id="MotorVehicleGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>S/N</th>
+                                                <th>Registration No</th>
+                                                <th>Date Acquisition</th>
+                                                <th>Cost/Market Value</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfonlineAssetsMotorVehicleViewModel != null && Model.selfonlineAssetsMotorVehicleViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var motorVehicle in Model.selfonlineAssetsMotorVehicleViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@motorVehicle.Type</td>
+                                                        <td>@motorVehicle.SerialNumber</td>
+                                                        <td>@motorVehicle.RegistrationNo</td>  
+                                                        <td>@motorVehicle.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@motorVehicle.CostMarketValue?.ToString("N2")</td>
+                                                        <td>
+
+                                                            <button class="btn btn-primary btn-sm motorVehicle-editbtn" type="button"
+                                                                    data-id="@motorVehicle.SelfonlineMotorVehicleID"
+                                                                    data-type="@motorVehicle.Type"
+                                                                    data-serial="@motorVehicle.SerialNumber"
+                                                                    data-description="@motorVehicle.Description"
+                                                                    data-registration="@motorVehicle.RegistrationNo"
+                                                                    data-date="@motorVehicle.DateOfAcquisition?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@motorVehicle.CostMarketValue?.ToString("N2")">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm motorVehicle-deletebtn" type="button"
+                                                                    data-id="@motorVehicle.SelfonlineMotorVehicleID"
+                                                                    data-name="MotorVehicle">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No immovable properties found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            @*    Bank Balances *@
+
+                            <div aria-labelledby="bankbalances-tab" role="tabpanel" id="bankbalances" class="tab-pane insvesment fade">
+                                
+                                <h4 class="mb-3">
+                                    <i class="bi bi-bank"></i> &nbsp; Bank Balances Including Term Deposits as at 31.03.2025
+                                </h4>
+                                <hr>
+
+                                <h4 class="mb-3">
+                                    <i class="bi bi-piggy-bank"></i> Interest Income from Savings Accounts
+                                </h4>
+
+                                <div class="table-responsive" id="SavingsGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type Of Investment</th>
+                                                <th>Bank</th>
+                                                <th>Branch</th>
+                                                <th>Account No</th>
+                                                <th>Amount Invested</th>
+                                                <th>Interest Income</th>
+                                                <th>WHT Amount</th>
+                                               
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "Savings"))
+                                            {
+                                                var index = 0;
+                                                foreach (var savingsIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "Savings"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@savingsIncome.TypeOfInvestment</td>
+                                                        <td>@savingsIncome.BankName</td>
+                                                        <td>@savingsIncome.BankBranch</td>
+                                                        <td>@savingsIncome.AccountNo</td>
+                                                        <td>@String.Format("{0:N2}", @savingsIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}", @savingsIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}", @savingsIncome.WHTDeducted)</td>
+                                                       
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No Savings Income found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <h4 class="mb-3">
+                                    <i class="bi bi-cash-stack"></i> Interest Income from Fixed Deposit Accounts
+                                </h4>
+
+                                <div class="table-responsive" id="FDGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type Of Investment</th>
+                                                <th>Bank</th>
+                                                <th>Branch</th>
+                                                <th>Account No</th>
+                                                <th>Amount Invested</th>
+                                                <th>Interest Income</th>
+                                                <th>WHT Amount</th>
+                                              
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "FixedDeposit"))
+                                            {
+                                                var index = 0;
+                                                foreach (var fdIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "FixedDeposit"))
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@fdIncome.TypeOfInvestment</td>
+                                                        <td>@fdIncome.BankName</td>
+                                                        <td>@fdIncome.BankBranch</td>
+                                                        <td>@fdIncome.AccountNo</td>
+                                                        <td>@String.Format("{0:N2}", @fdIncome.AmountInvested)</td>
+                                                        <td>@String.Format("{0:N2}", @fdIncome.IncomeAmount)</td>
+                                                        <td>@String.Format("{0:N2}", @fdIncome.WHTDeducted)</td>
+                                                       
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No Fixed Deposit Income found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            @*   Shares/stocks/securities *@
+
+                            <div aria-labelledby="sharesstockssecurities-tab" role="tabpanel" id="sharesstockssecurities" class="tab-pane insvesment fade">
+                              
+                                <h4 class="mb-3">
+                                    <i class="bi bi-graph-up"></i> &nbsp; Shares/Stocks/Securities as at 31.03.2025
+                                </h4>
+                                <hr>
+                                <input type="hidden" id="hiddenSharesStocksID" name="hiddenSharesStocksID" value="" />
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
+                                    <div class="col-5">
+                                        <select class="form-select" id="ddlSType" name="ddlSType">
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Local">Local</option>
+                                            <option value="Foreign">Foreign</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtSSN" name="txtSSN" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Name of Company/Institution</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtNameCompanyInstitution" name="txtNameCompanyInstitution" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">No. of Shares/Stocks
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtNoOfShares" name="txtNoOfShares" class="form-control" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"> />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Date of Acquisition</div>
+                                    <div class="col-5">
+                                        <input type="date" id="txtSSSDate" name="txtSSSDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>Cost of Acquisition/Market value if not acquired (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtSCostOfAcquisition" name="txtSCostOfAcquisition" class="form-control numeric-input" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Net dividend Income (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtSNetDvidend" name="txtSNetDvidend" class="form-control numeric-input" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnSharesStocksClear">Clear</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnSharesStocksSubmit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <div class="table-responsive" id="SharesStocksGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>S/N</th>
+                                                <th>No Of Shares/Stocks</th>
+                                                <th>Date Acquisition</th>
+                                                <th>Cost Acquisition</th>
+                                                <th>Net dividend</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfonlineAssetsSharesStocksSecuritiesViewModel != null && Model.selfonlineAssetsSharesStocksSecuritiesViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var sharesStocksSecurities in Model.selfonlineAssetsSharesStocksSecuritiesViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@sharesStocksSecurities.Type</td>
+                                                        <td>@sharesStocksSecurities.SerialNumber</td>
+                                                        <td>@sharesStocksSecurities.NoOfSharesStocks</td>
+                                                        <td>@sharesStocksSecurities.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                                                        <td>@sharesStocksSecurities.CostOfAcquisition?.ToString("N2")</td>
+                                                        <td>@sharesStocksSecurities.NetDividendIncome?.ToString("N2")</td>
+                                                        <td>
+
+                                                            <button class="btn btn-primary btn-sm sharesStocksSecurities-editbtn" type="button"
+                                                                    data-id="@sharesStocksSecurities.SelfonlineSharesStocksID"
+                                                                    data-type="@sharesStocksSecurities.Type"
+                                                                    data-serial="@sharesStocksSecurities.SerialNumber"
+                                                                    data-company="@sharesStocksSecurities.CompanyName"
+                                                                    data-nosharesstocks="@sharesStocksSecurities.NoOfSharesStocks"
+                                                                    data-date="@sharesStocksSecurities.DateOfAcquisition?.ToString("yyyy-MM-dd")"
+                                                                    data-cost="@sharesStocksSecurities.CostOfAcquisition?.ToString("N2")"
+                                                                    data-netdividend="@sharesStocksSecurities.NetDividendIncome?.ToString("N2")">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm sharesStocksSecurities-deletebtn" type="button"
+                                                                    data-id="@sharesStocksSecurities.SelfonlineSharesStocksID"
+                                                                    data-name="SharesStocksSecurities">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No stock share securies found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            @*     Expenses and Balances *@
+
+                            <div aria-labelledby="expensesbalances-tab" role="tabpanel" id="expensesbalances" class="tab-pane insvesment fade">
+                              
+                                <h4 class="mb-3">
+                                    <i class="bi bi-cash-stack"></i> &nbsp; Expenses and Balances
+                                </h4>
+                                <hr>
+
+                                <!-- Expenses Section -->
+                                <div class=" border rounded bg-light shadow-sm ">
+                                    <h6 class="mb-4 text-primary"><i class="fas fa-wallet me-2"></i> Annual Expenses </h6>
+                                    <div class="alert alert-info mt-3">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Note: Please provide your average annual expenses for the period from 1 April 2024 to 31 March 2025.
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6"><label class="form-label"><span style="color: red">*</span> Living Expenses</label><input type="text" class="form-control numeric-input" name="LivingExpenses" required /></div>
+                                        <div class="col-md-6"><label class="form-label">EPF 8%</label><input type="text" class="form-control numeric-input" name="EPF8Percent" /></div>
+                                        <div class="col-md-6"><label class="form-label">Fixed Salary Deductions</label><input type="text" class="form-control numeric-input" name="FixedDeductions" /></div>
+                                        <div class="col-md-6"><label class="form-label">Children Education Expenses</label><input type="text" class="form-control numeric-input" name="ChildrenEducation" /></div>
+                                        <div class="col-md-6"><label class="form-label">Vehicle Expenses</label><input type="text" class="form-control numeric-input" name="VehicleExpenses" /></div>
+                                        <div class="col-md-6"><label class="form-label">Medical Expenses</label><input type="text" class="form-control numeric-input" name="MedicalExpenses" /></div>
+                                        <div class="col-md-6"><label class="form-label">Loan Re-Payments</label><input type="text" class="form-control numeric-input" name="LoanRepayments" /></div>
+                                        <div class="col-md-6"><label class="form-label">Cash Payments for Credit Cards</label><input type="text" class="form-control numeric-input" name="CreditCardPayments" /></div>
+                                        <div class="col-md-6"><label class="form-label">House Rent</label><input type="text" class="form-control numeric-input" name="HouseRent" /></div>
+                                        <div class="col-md-6"><label class="form-label">Donation</label><input type="text" class="form-control numeric-input" name="Donations" /></div>
+                                        <div class="col-md-6"><label class="form-label">Life/Medical Insurance Premium</label><input type="text" class="form-control numeric-input" name="InsurancePremium" /></div>
+                                        <div class="col-md-6"><label class="form-label">Any Other Expenses</label><input type="text" class="form-control numeric-input" name="OtherExpenses" /></div>
+                                    </div>
+                                </div>
+
+                                <!-- Balances Section -->
+                                <div class="border rounded bg-light shadow-sm ">
+                                    <h6 class="mb-4 text-primary"><i class="fas fa-boxes me-2"></i> Balances as at 31.03.2025</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label"><span style="color: red">*</span> Cash in hand</label>
+                                            <input type="text" class="form-control numeric-input" name="CashInHand" required />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Loans given / Receivables</label>
+                                            <input type="text" class="form-control numeric-input" name="LoansGiven" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Value of Gold, Silver, Gems, Jewellery</label>
+                                            <input type="text" class="form-control numeric-input" name="JewelleryValue" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Disposal of assets</label>
+                                            <input type="text" class="form-control numeric-input" name="AssetDisposals" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 d-flex justify-content-end">
+
+                                    <button type="button" class="btn btn-primary mt-3" id="saveFinancialDetailsBtn">
+                                        <i class="fas fa-check-circle me-1"></i> Save
+                                    </button>
+                                </div>
+                            </div>
+
+                            @*     Declare the Capital *@
+
+                            <div aria-labelledby="declarecapital-tab" role="tabpanel" id="declarecapital" class="tab-pane insvesment fade">
+                               
+                                <h4 class="mb-3">
+                                    <i class="bi bi-briefcase"></i> &nbsp; Declare the Capital and Current Account (credit) Balances Held as a Part of Business, as at 31.03.2025
+                                </h4>
+                                <hr>
+                                <input type="hidden" id="hiddenDeclareCapitalID" name="hiddenDeclareCapitalID" value="" />
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>Type</div>
+                                    <div class="col-5">
+                                        <select class="form-select" id="ddlDeclareCapitalType" name="ddlDeclareCapitalType">
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Local">Local</option>
+                                            <option value="Foreign">Foreign</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3"><span style="color: red">*</span>S/N</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtDeclareCapitalSN" name="txtDeclareCapitalSN" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Name of Business</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtBusinessName" name="txtBusinessName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Current Account Balance (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtCurrentAccountBalance" name="txtCurrentAccountBalance" class="form-control numeric-input" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">Capital Account Balance (Rs.)</div>
+                                    <div class="col-5">
+                                        <input type="text" id="txtCapitalAccountBalance" name="txtCapitalAccountBalance" class="form-control numeric-input" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class=" align-items-right" style="text-align: right;">
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDeclareCapitalClear">Clear</button>
+                                            <button type="button" class="btn btn-primary mt-3" id="btnDeclareCapitalSubmit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4">
+                                <div class="table-responsive" id="DeclareCapitalGrid">
+                                    <table class="table table-bordered table-striped mt-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Type</th>
+                                                <th>S/N</th>
+                                                <th>Business Name</th>
+                                                <th>Current Balance</th>
+                                                <th>Capital Balance</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.selfonlineAssetsCapitalCurrentAccountViewModel != null && Model.selfonlineAssetsCapitalCurrentAccountViewModel.Any())
+                                            {
+                                                var index = 0;
+                                                foreach (var capitalCurrentAccount in Model.selfonlineAssetsCapitalCurrentAccountViewModel)
+                                                {
+                                                    <tr>
+                                                        <td>@(++index)</td>
+                                                        <td>@capitalCurrentAccount.Type</td>
+                                                        <td>@capitalCurrentAccount.SerialNumber</td>
+                                                        <td>@capitalCurrentAccount.BusinessName</td>
+                                                        <td>@capitalCurrentAccount.CurrentAccountBalance?.ToString("N2")</td>
+                                                        <td>@capitalCurrentAccount.CapitalAccountBalance?.ToString("N2")</td>
+                                                        <td>
+
+                                                            <button class="btn btn-primary btn-sm capitalCurrentAccount-editbtn" type="button"
+                                                                    data-id="@capitalCurrentAccount.SelfonlineBusinessAccountID"
+                                                                    data-type="@capitalCurrentAccount.Type"
+                                                                    data-serial="@capitalCurrentAccount.SerialNumber"
+                                                                    data-company="@capitalCurrentAccount.BusinessName"
+                                                                    data-currentaccount="@capitalCurrentAccount.CurrentAccountBalance?.ToString("N2")"
+                                                                    data-capitalaccount="@capitalCurrentAccount.CapitalAccountBalance?.ToString("N2")">
+                                                                Edit
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm capitalCurrentAccount-deletebtn" type="button"
+                                                                    data-id="@capitalCurrentAccount.SelfonlineBusinessAccountID"
+                                                                    data-name="CapitalCurrentAccount">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" class="text-center">No declare the capital found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <br><br>
+            <div class="d-lg-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv" id="linkDeductionsContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Back
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right next-btn" id="linkLiabilitiesContinue">
+                    <button class="btn btn-primary btn-lg">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<script src="~/scripts/selfOnline.assets.js" asp-append-version="true"></script>
+                

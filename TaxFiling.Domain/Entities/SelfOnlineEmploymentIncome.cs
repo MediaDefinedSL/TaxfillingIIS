@@ -23,6 +23,7 @@ public class SelfOnlineEmploymentIncome : Entity
     [Column("Total")]
     public decimal? Total { get; set; }
 
+    public decimal? BenefitExcludedForTax { get; set; }
 
 
 }

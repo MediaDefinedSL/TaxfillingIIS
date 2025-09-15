@@ -12,5 +12,6 @@ public class SelfOnlineEmploymentIncomeDto
     public bool? TerminalBenefits { get; set; }
     public bool? ExemptAmounts { get; set; }
     public decimal? Total { get; set; }
+    public decimal? BenefitExcludedForTax { get; set; }
 
 }

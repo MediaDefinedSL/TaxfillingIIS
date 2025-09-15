@@ -30,6 +30,10 @@ $(function () {
             type: 'GET',
             success: function (data) {
                 $('#in-this-section-container').html(data);
+                if (document.getElementById("personalInfoSelfFilingCompleted").value == "1") {
+                    $(document).trigger("statusUpdated", 1);
+                }
+                
             },
             error: function () {
                 alert("Error loading section content.");
@@ -168,6 +172,23 @@ $(function () {
        
         $.ajax({
             url: '/SelfOnlineFlow/PersonalData',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+    $('#btnIncomeTaxCredits').on('click', function () {
+        $('.sub-link').removeClass('active');
+
+        $('#linkEmploymentIncome').addClass('active');
+
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadEmploymentIncome',
             type: 'GET',
             success: function (data) {
                 $('#in-this-section-container').html(data);
@@ -328,6 +349,45 @@ $(function () {
             }
         });
     });
+
+    $('#linkDeductions').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadDeductions',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+    $('#linkAssets').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadAssets',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+
+    $('#linkLiabilities').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadLiabilities',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
+    
 
    
 });

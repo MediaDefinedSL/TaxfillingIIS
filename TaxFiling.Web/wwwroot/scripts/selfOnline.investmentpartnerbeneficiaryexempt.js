@@ -1,5 +1,54 @@
 ﻿$(function () {
 
+    document.querySelectorAll(".numeric-input").forEach(function (input) {
+        input.addEventListener("input", function (e) {
+            // Remove everything except digits and decimal point
+            let value = e.target.value.replace(/[^0-9.]/g, "");
+
+            // Only allow one decimal point
+            let parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts.slice(1).join("");
+            }
+
+            // Format integer part with commas
+            if (parts.length > 1) {
+                // Has decimals
+                let integerPart = parts[0];
+                let decimalPart = parts[1].substring(0, 2); // limit to 2 decimals
+                integerPart = integerPart ? parseInt(integerPart, 10).toLocaleString("en-US") : "0";
+                value = integerPart + "." + decimalPart;
+            } else {
+                // No decimals
+                if (value) {
+                    value = parseInt(value, 10).toLocaleString("en-US");
+                }
+            }
+
+            e.target.value = value;
+        });
+
+        input.addEventListener("blur", function (e) {
+            let value = e.target.value.replace(/,/g, "");
+            if (value) {
+                let num = parseFloat(value);
+                e.target.value = num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+        });
+
+        // Prevent entering multiple dots directly
+        input.addEventListener("keypress", function (e) {
+            if (!/[0-9.]/.test(e.key)) {
+                e.preventDefault();
+            }
+            // Prevent typing a second dot
+            if (e.key === "." && e.target.value.includes(".")) {
+                e.preventDefault();
+            }
+        });
+    });
+
+
     $(document).on("input", "#txtSActivityCode", function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
@@ -9,6 +58,8 @@
 
 
     //-----------------------------Partner Income
+    let currentlyPartnerEditingRow = null;
+    let currentlyBeneficiaryEditingRow = null;
     $(document).off("click", "#btnPartnerInvestmentSubmit").on("click", "#btnPartnerInvestmentSubmit", function () {
 
         var $btn = $(this);
@@ -30,11 +81,11 @@
         // === Validation ===
 
         if (!totalInvestment) {
-            $("#txtRProperty").after('<div class="text-danger validation-error">Total Investment Income is required.</div>');
+            $("#txtTotalInvestment").after('<div class="text-danger validation-error">Total Investment Income is required.</div>');
             isValid = false;
         }
         if (!partnershipName.trim()) {
-            $("#partnershipName").after('<div class="text-danger validation-error">Partnership Name is required.</div>');
+            $("#txtPartnershipName").after('<div class="text-danger validation-error">Partnership Name is required.</div>');
             isValid = false;
         }
 
@@ -56,7 +107,7 @@
             TotalInvestmentIncomePartnership: totalInvestmentPartnership
 
         };
-
+        currentlyPartnerEditingRow = null;
         // === AJAX URL ===
         var url = selfOnlineInvestmentPartnerId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
@@ -70,7 +121,7 @@
                 $btn.prop("disabled", false);
 
                // notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentPartnerId ? "Updated successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_PartnerInvestment', function (html) {
                     $('#partnerInvestmentsGrid').html($(html).find('#partnerInvestmentsGrid').html());
@@ -99,6 +150,21 @@
     $(document).off("click", ".partnerDetails-editbtn").on("click", ".partnerDetails-editbtn", function () {
 
         $(".validation-error").remove();
+
+        var $row = $(this).closest("tr");
+        // If already editing another row, block this action
+        if (currentlyPartnerEditingRow && currentlyPartnerEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyPartnerEditingRow = $row;
+
+        var $deleteBtn = $row.find(".PartnerBeneficiaryExemptDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
 
         let id = $(this).data("id");
         let category = $(this).data("category");
@@ -257,7 +323,7 @@
             TotalInvestmentIncomeTrust: totalInvestmenttrust
 
         };
-
+        currentlyBeneficiaryEditingRow = null;
         // === AJAX URL ===
         var url = selfOnlineInvestmentPartnerId
             ? '/SelfOnlineFlow/UpdateSelfOnlineInvestmentPartnerBeneficiaryExemptDetails'
@@ -271,7 +337,7 @@
                 $btn.prop("disabled", false);
 
                 //notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentPartnerId ? "Updated successfully." : "Saved successfully", "success");
                 // Reload rent grid
                 $.get('/SelfOnlineFlow/LoadInvestment_BeneficiaryInvestment', function (html) {
                     $('#beneficiaryDetailsGrid').html($(html).find('#beneficiaryDetailsGrid').html());
@@ -307,6 +373,21 @@
     $(document).off("click", ".beneficiaryDetails-editbtn").on("click", ".beneficiaryDetails-editbtn", function () {
 
         $(".validation-error").remove();
+
+        var $row = $(this).closest("tr");
+        // If already editing another row, block this action
+        if (currentlyBeneficiaryEditingRow && currentlyBeneficiaryEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyBeneficiaryEditingRow = $row;
+
+        var $deleteBtn = $row.find(".PartnerBeneficiaryExemptDetails-deletebtn");
+
+        // Set HTML attribute
+        $deleteBtn.attr("data-disabled", "true");  // <-- persistent
+        $deleteBtn.addClass("disabled-btn");
+        $deleteBtn.prop("disabled", true);
 
         let id = $(this).data("id");
         let category = $(this).data("category");
@@ -369,9 +450,16 @@
         let profitsInvestment = $("#rdbTProfitsInvestment").is(":checked");
         let excludedAmount = $("#rdbTExcludedAmount").is(":checked");
         let exempt = $("#txtTExempt").val();
+        let exemptName = $("#txtTExemptName").val();
+
+       
 
         let isValid = true;
         $(".validation-error").remove();
+        if (!exemptName.trim()) {
+            $("#txtTExemptName").after('<div class="text-danger validation-error">Exempt/Excluded Income Name is required.</div>');
+            isValid = false;
+        }
 
         if (!exempt.trim()) {
             $("#txtTExempt").after('<div class="text-danger validation-error">Exempt/Excluded Income is required.</div>');
@@ -389,7 +477,8 @@
             Category: "Exempt",
             IsExemptAmountA: profitsInvestment,
             IsExcludedAmountB: excludedAmount,
-            ExemptExcludedIncome: exempt
+            ExemptExcludedIncome: exempt,
+            ExemptExcludedIncomeName: exemptName
         };
 
         var url = selfOnlineInvestmentPartnerId
@@ -404,7 +493,7 @@
                 $btn.prop("disabled", false);
 
                // notifySuccess("", selfOnlineInvestmentPartnerId ? "Update successfully" : "Saved successfully");
-                showMessage(selfOnlineInvestmentPartnerId ? "Update successfully." : "Saved successfully", "success");
+                showMessage(selfOnlineInvestmentPartnerId ? "Updated successfully." : "Saved successfully", "success");
                 $.get('/SelfOnlineFlow/LoadInvestment_ExemptAmounts', function (html) {
                     // refresh grid here if needed
                 });

@@ -469,4 +469,248 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    [HttpPut("update_selfFilingtotalcalculation")]
+    public async Task<IActionResult> UpdateSelfFilingTotalCalculation(SelfFilingTotalCalculationDto totalCalculation)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.UpdateSelfFilingTotalCalculation(totalCalculation);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    //-------- Assets and Liabilities
+
+    //-------- Assets
+    [HttpPost("saveassets_immovableproperties")]
+    public async Task<IActionResult> SaveSelfonlineAssetsImmovableProperty(SelfonlineAssetsImmovablePropertyDto immovableProperties)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfonlineAssetsImmovableProperty(immovableProperties);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("assetsimmovableproperty_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetsImmovableProperty(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetsImmovableProperty(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPost("saveassets_motorVehicles")]
+    public async Task<IActionResult> SaveSelfonlineAssetsMotorVehicle(SelfonlineAssetsMotorVehicleDto motorVehicles)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveSelfonlineAssetsMotorVehicle(motorVehicles);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("assetsmotorvehicle_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetsMotorVehicle(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetsMotorVehicle(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("delete_assetsdetails")]
+    public async Task<IActionResult> DeleteSelfOnlinAssetsDtails(string userId, int year, int deleteAssetsId, string categoryName)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.DeleteSelfOnlinAssetsDtails(userId, year, deleteAssetsId, categoryName);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("saveassets_sharesstockssecurities")]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsSharesStocksSecurities(SelfonlineAssetsSharesStocksSecuritiesDto sharesStockStocksSecurities)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineAssetsSharesStocksSecurities(sharesStockStocksSecurities);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("assetssharesstockssecurities_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetsSharesStocksSecurities(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetsSharesStocksSecurities(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("saveassets_capitalcurrentaccount")]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsCapitalCurrentAccount(SelfonlineAssetsCapitalCurrentAccountDto capitalCurrentAccount)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineAssetsCapitalCurrentAccount(capitalCurrentAccount);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("assetscapitalcurrentaccount_list")]
+    public async Task<IActionResult> GetSelfOnlineAssetCapitalCurrentAccount(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfOnlineAssetCapitalCurrentAccount(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
+    //-------- Liabilities
+
+    [HttpPost("savelineLiabilities_allliabilities")]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesAllLiabilities(SelfonlineLiabilitiesAllLiabilitiesDto allLiabilities)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineLiabilitiesAllLiabilities(allLiabilities);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("liabilitiesallliabilities_list")]
+    public async Task<IActionResult> GetSelfonlineLiabilitiesAllLiabilities(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfonlineLiabilitiesAllLiabilities(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPost("savelineLiabilities_otherassetss")]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesOtherAssetsGifts(SelfonlineLiabilitiesOtherAssetsGiftsDto otherAssetss)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineLiabilitiesOtherAssetsGifts(otherAssetss);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("liabilitiesotherassetss_list")]
+    public async Task<IActionResult> GetSelfonlineLiabilitiesOtherAssetsGifts(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfonlineLiabilitiesOtherAssetsGifts(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPost("savelineLiabilities_disposalassets")]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsDto disposalAssets)
+    {
+        try
+        {
+            var isSuccess = await _selfOnlineFlowRepository.SaveEditSelfonlineLiabilitiesDisposalAssets(disposalAssets);
+
+            return Ok(isSuccess);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("liabilitiesdisposalassets_list")]
+    public async Task<IActionResult> GetSelfonlineLiabilitiesDisposalAssets(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var immovablePropertyList = await _selfOnlineFlowRepository.GetSelfonlineLiabilitiesDisposalAssets(userId, year, ctx);
+
+            return Ok(immovablePropertyList);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
 }

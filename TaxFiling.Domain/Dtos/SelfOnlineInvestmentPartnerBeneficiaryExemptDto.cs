@@ -20,4 +20,6 @@ public class SelfOnlineInvestmentPartnerBeneficiaryExemptDto
     public bool? IsExemptAmountA { get; set; }
     public bool? IsExcludedAmountB { get; set; }
     public decimal? ExemptExcludedIncome { get; set; }
+
+    public string ExemptExcludedIncomeName { get; set; }
 }

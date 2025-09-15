@@ -35,4 +35,22 @@ public class SelfOnlineEmploymentIncomeDetails : Entity
     public decimal? TerminalBenefits { get; set; }
     [Column("Amount")]
     public decimal? Amount { get; set; }
+    [Column("BenefitExcludedForTax")]
+    public decimal? BenefitExcludedForTax { get; set; }
+    [Column("uploadedFileName")]
+    public string UploadedFileName { get; set; }
+    [Column("fileName")]
+    public string FileName { get; set; }
+    [Column("location")]
+    public string Location { get; set; }
+    [Column("decryptionKey")]
+    public string DecryptionKey { get; set; }
+    [Column("uploadId")]
+    public string UploadId { get; set; }
+    [Column("originalName")]
+    public string OriginalName { get; set; }
+    [Column("uploadTime")]
+    public DateTime? UploadTime { get; set; }
+
+
 }

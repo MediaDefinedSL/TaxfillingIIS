@@ -27,7 +27,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Employer/Company Name</label>
+                                <label class="form-label"><span style="color: red">*</span>Employer/Company Name</label>
                                 <input type="text" class="form-control" id="txtExemptTinEmployerName" name="txtExemptTinEmployerName">
                             </div>
                             <div class="col-md-6">
@@ -35,8 +35,18 @@
                                 <input type="text" class="form-control" maxlength="9" id="txtExemptTin" name="txtExemptTin">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Amount (Rs.)</label>
+                                <label class="form-label"><span style="color: red">*</span>Amount (Rs.)</label>
                                 <input type="text" class="form-control numeric-input" id="txtExemptAmount" name="txtExemptAmount">
+                            </div>
+                            <div class="col-md-6" id="divEenefitUpload">
+                                <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                <div id="fileUploadEAWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="file" class="form-control" id="fileEAUpload" name="fileEAUpload"
+                                           accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt">
+                                    <div id="uploadedFileEAContainer"></div>
+
+                                </div>
+
                             </div>
                         </div>
                         <br />
@@ -87,7 +97,11 @@
                                                             data-type="@eploymentIncome.TypeOfName"
                                                             data-name="@eploymentIncome.EmployerORCompanyName"
                                                             data-tin="@eploymentIncome.TINOfEmployer"
-                                                            data-amount="@eploymentIncome.Amount">
+                                                            data-amount="@String.Format("{0:N2}",@eploymentIncome.Amount)"
+                                                            data-filename="@eploymentIncome.FileName"
+                                                            data-decryptionkey="@eploymentIncome.DecryptionKey"
+                                                            data-originalfilename="@eploymentIncome.OriginalName">
+
                                                         Edit
                                                     </button>
                                                     <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="ExemptAmounts">Delete</button>
@@ -125,7 +139,7 @@
             </div>
         </div> *@
     </div>
-
+    <input type="hidden" id="hiddenUserId" value="@User.FindFirst("UserID")?.Value" />
 </main>
 
 <script src="~/scripts/selfonline.employmentincome.js" asp-append-version="true"></script>

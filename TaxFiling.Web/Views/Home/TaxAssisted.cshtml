@@ -1,13 +1,14 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Html
 @model List<TaxFiling.Web.Models.PackagesViewModel>
+@using System.Globalization
 @{
       var userName = User.FindFirst(ClaimTypes.Name)?.Value;
       var  userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
       bool isAuthenticated = !string.IsNullOrEmpty(userId);  
     var activePackageIdClaim = User.FindFirst("PackageId")?.Value;
     int? activePackageId = string.IsNullOrEmpty(activePackageIdClaim) ? (int?)null : int.Parse(activePackageIdClaim);
-   
+    var formattedName = userName != null ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower()) : "";
 }
 
 
@@ -47,7 +48,7 @@
         <div class="container d-lg-flex justify-content-between align-items-center">
             <div class="col-lg-4 col-md-6">
                 <h2 class="mb-2 mb-lg-0 font-weight-bold">Assisted Filing</h2></br>
-                <h1 class="mb-2 mb-lg-0" style="display:@(string.IsNullOrEmpty(userId) ? "none" : "block");">Welcome <span>@userName</span></h1>
+                <h1 class="mb-2 mb-lg-0" style="display:@(string.IsNullOrEmpty(userId) ? "none" : "block");">Welcome <span>@formattedName</span></h1>
             </div>
             <div class="col-lg-2 col-md-4">
                 <nav class="breadcrumbs">
@@ -78,7 +79,7 @@
 
                                     <div class="post-img position-relative overflow-hidden rounded-md-image">
                                         <img src="@packageses.ImageUrl" class="img-fluid rounded-md-image" alt="">
-                                        <span class="post-date"><span>@packageses.Curancy</span> @packageses.Price.ToString("N0")</span>
+                                        <span class="post-date"><span>@packageses.Curancy</span> @packageses.Price.ToString("N2")</span>
                                     </div>
 
                                     <div class="post-content d-flex flex-column">

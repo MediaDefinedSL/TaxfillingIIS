@@ -32,7 +32,7 @@ public class SelfOnlineFlowController : Controller
         _httpClient = httpClientFactory.CreateClient("ApiClient");
         _baseApiUrl = _configuration.GetValue<string>("BaseAPIUrl") ?? string.Empty;
 
-        _viewRenderService = viewRenderService;      
+        _viewRenderService = viewRenderService;
     }
     public IActionResult Index()
     {
@@ -77,12 +77,12 @@ public class SelfOnlineFlowController : Controller
         var packageId = User.FindFirst("PackageId")?.Value;
         int year = DateTime.Now.Year;
         var responseResult = false;
-
+        
         // PackagesViewModel package = new();
         UserViewModel user = new();
         ViewBag.TaxTotal = "";
 
-       SelfOnlineFlowPersonalInformation personalInformation = new();
+        SelfOnlineFlowPersonalInformation personalInformation = new();
 
 
         if (packageId != null)
@@ -143,10 +143,12 @@ public class SelfOnlineFlowController : Controller
                 }
             }
 
+            
+
             SelfFilingTotalCalculationViewModel totalCalculation = new();
 
 
-           
+
 
             string url1 = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryUserParams);
             var response1 = await _httpClient.GetAsync(url1, ctx);
@@ -158,17 +160,36 @@ public class SelfOnlineFlowController : Controller
                     totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent1, _jsonSerializerOptions) ?? new();
                 }
             }
-           
+
         }
 
         ViewBag.TaxTotal = user.TaxTotal;
+        
 
 
         return View();
     }
-    public IActionResult LoadDashboardSection()
+    public async Task<IActionResult> LoadDashboardSection(CancellationToken ctx)
     {
+        int? personalInfoStatus = -1;
+        var userId = User.FindFirst("UserID")?.Value;
+        var queryParamsDocs = new Dictionary<string, string?>
+            {
+                { "userId", userId.ToString() }
+            };
 
+        string personalInfoStatusUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/Users/GetPersonalInformationCompleted", queryParamsDocs);
+        var responsepersonalInfo = await _httpClient.GetAsync(personalInfoStatusUrl, ctx);
+        if (responsepersonalInfo != null && responsepersonalInfo.IsSuccessStatusCode)
+        {
+            var responseContent = await responsepersonalInfo.Content.ReadAsStringAsync(ctx);
+
+            if (int.TryParse(responseContent, out var parsedPersonalStatus))
+            {
+                personalInfoStatus = parsedPersonalStatus;
+            }
+        }
+        ViewBag.personalInfoSelfFilingStatus = personalInfoStatus;
         return PartialView("Partial/_DashboardSection");
     }
     public IActionResult LoadInThisSection()
@@ -380,6 +401,7 @@ public class SelfOnlineFlowController : Controller
 
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
+        UserViewModel user = new();
 
         ContactInfromationViewModel contactInfromation = new();
         SelfOnlineFlowPersonalInformation personalInformation = new();
@@ -421,6 +443,32 @@ public class SelfOnlineFlowController : Controller
             PreferredCommunicationMethod = personalInformation.PreferredCommunicationMethod
         };
 
+        if (personalInformation.EmailPrimary == null)
+        {
+            var queryParams = new Dictionary<string, string?> {
+                { "Id", userId.ToString()}
+            };
+
+            string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
+            var response = await _httpClient.GetAsync(url, ctx);
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    user = JsonSerializer.Deserialize<UserViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+
+                    contactInfromation = new ContactInfromationViewModel
+                    {
+                        UserId = userId,
+                        Year = year,
+                        EmailPrimary = user.Email,
+                        MobilePhone = user.Phone
+                    };
+                }
+            }
+        }
+
         return PartialView("Partial/_ContactInformation", contactInfromation);
     }
 
@@ -451,7 +499,10 @@ public class SelfOnlineFlowController : Controller
         }
 
         List<MaritalStatus> maritalStatuses = [];
-        var response1 = await _httpClient.GetAsync($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", ctx);
+
+        string maritalStatus = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/maritalStatus_list", queryUserParams);
+
+        var response1 = await _httpClient.GetAsync(maritalStatus, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
         {
             var responseContent = await response1.Content.ReadAsStringAsync(ctx);
@@ -851,6 +902,7 @@ public class SelfOnlineFlowController : Controller
                 { "year", year.ToString()}
             };
         List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        //string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
         string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryUserParams1);
         var response1 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
         if (response1 != null && response1.IsSuccessStatusCode)
@@ -923,10 +975,11 @@ public class SelfOnlineFlowController : Controller
         employmentIncomeDetails.UserId = userId;
         employmentIncomeDetails.Year = year;
 
-        var responseResult = new ResponseResult<object>();
+        var responseResult = new ResponseResult<object>(); 
 
         // Update user data
         var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_employmentincomedetails", employmentIncomeDetails);
+        //var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_employmentincomedetails", employmentIncomeDetails);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -1346,6 +1399,398 @@ public class SelfOnlineFlowController : Controller
 
     }
 
+    public async Task<IActionResult> LoadDeductions(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
+
+        SelfFilingTotalCalculationViewModel totalCalculation = new();
+
+        string url1 = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryUserParams);
+        var response1 = await _httpClient.GetAsync(url1, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent1 = await response1.Content.ReadAsStringAsync(ctx);
+            if (!string.IsNullOrWhiteSpace(responseContent1))
+            {
+                totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent1, _jsonSerializerOptions) ?? new();
+            }
+        }
+
+        return PartialView("IncomeTaxPartial/_Deductions", totalCalculation);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateSelfFilingTotalCalculation([FromForm] SelfFilingTotalCalculationViewModel totalCalculation)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        totalCalculation.Year = year;
+        totalCalculation.UserId = userId;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PutAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/update_selfFilingtotalcalculation", totalCalculation);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Self Filing Total Calculation update successfully" });
+    }
+
+    //-------- Assets and Liabilities
+
+    //-------- Assets
+
+    public async Task<IActionResult> LoadAssets(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+        ViewBag.userId = userId;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
 
 
+        List<SelfonlineAssetsImmovablePropertyViewModel> immovablePropertyList = [];
+        string immovablePropertyListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetsimmovableproperty_list", queryUserParams);
+        var response1 = await _httpClient.GetAsync(immovablePropertyListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                immovablePropertyList = JsonSerializer.Deserialize<List<SelfonlineAssetsImmovablePropertyViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineAssetsMotorVehicleViewModel> motorVehicleList = [];
+        string motorVehicleListListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetsmotorvehicle_list", queryUserParams);
+        var response2 = await _httpClient.GetAsync(motorVehicleListListUrl, ctx);
+        if (response2 != null && response2.IsSuccessStatusCode)
+        {
+            var responseContent = await response2.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                motorVehicleList = JsonSerializer.Deserialize<List<SelfonlineAssetsMotorVehicleViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfOnlineInvestmentIncomeDetailViewModel> investmentIncomeList = [];
+        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentincomedtail_list", queryUserParams);
+        var response3 = await _httpClient.GetAsync(investmentIncomeListUrl, ctx);
+        if (response3 != null && response3.IsSuccessStatusCode)
+        {
+            var responseContent = await response3.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                investmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineInvestmentIncomeDetailViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineAssetsSharesStocksSecuritiesViewModel> sharesStocksSecuritiesList = [];
+        string sharesStocksSecuritiesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetssharesstockssecurities_list", queryUserParams);
+        var response4 = await _httpClient.GetAsync(sharesStocksSecuritiesListUrl, ctx);
+        if (response4 != null && response4.IsSuccessStatusCode)
+        {
+            var responseContent = await response4.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                sharesStocksSecuritiesList = JsonSerializer.Deserialize<List<SelfonlineAssetsSharesStocksSecuritiesViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineAssetsCapitalCurrentAccountViewModel> capitalCurrentAccountList = [];
+        string capitalCurrentAccountListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetscapitalcurrentaccount_list", queryUserParams);
+        var response5 = await _httpClient.GetAsync(capitalCurrentAccountListUrl, ctx);
+        if (response5 != null && response5.IsSuccessStatusCode)
+        {
+            var responseContent = await response5.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                capitalCurrentAccountList = JsonSerializer.Deserialize<List<SelfonlineAssetsCapitalCurrentAccountViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        var model = new SelfOnlineAssets
+        {
+            selfonlineAssetsImmovablePropertyViewModel = immovablePropertyList,
+            selfonlineAssetsMotorVehicleViewModel = motorVehicleList,
+            selfOnlineInvestmentIncomeDetailViewModel = investmentIncomeList,
+            selfonlineAssetsSharesStocksSecuritiesViewModel = sharesStocksSecuritiesList,
+            selfonlineAssetsCapitalCurrentAccountViewModel = capitalCurrentAccountList
+        };
+
+        return PartialView("AssetsLiabilities/_Assets", model);
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AddEditSelfOnlineImmovableProperty(SelfonlineAssetsImmovablePropertyViewModel immovableProperty)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        immovableProperty.UserId = userId;
+        immovableProperty.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_immovableproperties", immovableProperty);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteSelfOnlineAssetsLiabilitiesDetails(int deleteId, string categoryName, CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        var responseResult = new ResponseResult<object>();
+
+        var queryUserParams = new Dictionary<string, string?> {
+                { "userId", userId.ToString()},
+                { "year", year.ToString()},
+                { "deleteAssetsId", deleteId.ToString()},
+                { "categoryName", categoryName}
+            };
+
+        string urluser = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/delete_assetsdetails", queryUserParams);
+        var response = await _httpClient.PostAsync(urluser, null);
+
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Delete successfully" });
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> AddEditSelfOnlineMotorVehicle(SelfonlineAssetsMotorVehicleViewModel motorVehicle)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        motorVehicle.UserId = userId;
+        motorVehicle.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_motorVehicles", motorVehicle);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Investment Income selected successfully" });
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsSharesStocksSecurities(SelfonlineAssetsSharesStocksSecuritiesViewModel sharesStocksSecurities)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        sharesStocksSecurities.UserId = userId;
+        sharesStocksSecurities.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_sharesstockssecurities", sharesStocksSecurities);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Shares Stocks Securities save successfully" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineAssetsCapitalCurrentAccount(SelfonlineAssetsCapitalCurrentAccountViewModel capitalCurrentAccount)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        capitalCurrentAccount.UserId = userId;
+        capitalCurrentAccount.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/saveassets_capitalcurrentaccount", capitalCurrentAccount);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Capital Current Account save successfully" });
+    }
+
+
+    //-------- Liabilities
+
+    public async Task<IActionResult> LoadLiabilities(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+        ViewBag.userId = userId;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
+
+        List<SelfonlineLiabilitiesAllLiabilitiesViewModel> liabilitiesList = [];
+        string liabilitiesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesallliabilities_list", queryUserParams);
+        var response1 = await _httpClient.GetAsync(liabilitiesListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                liabilitiesList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesAllLiabilitiesViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineLiabilitiesOtherAssetsGiftsViewModel> otherAssetList = [];
+        string OtherAssetListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesotherassetss_list", queryUserParams);
+        var response2 = await _httpClient.GetAsync(OtherAssetListUrl, ctx);
+        if (response2 != null && response2.IsSuccessStatusCode)
+        {
+            var responseContent = await response2.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                otherAssetList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesOtherAssetsGiftsViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineLiabilitiesDisposalAssetsViewModel> disposalAssetsList = [];
+        string disposalAssetsListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesdisposalassets_list", queryUserParams);
+        var response3 = await _httpClient.GetAsync(disposalAssetsListUrl, ctx);
+        if (response3 != null && response3.IsSuccessStatusCode)
+        {
+            var responseContent = await response3.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                disposalAssetsList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesDisposalAssetsViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        var model = new SelfOnlineLiabilities
+        {
+            selfonlineLiabilitiesAllLiabilities = liabilitiesList,
+            selfonlineLiabilitiesOtherAssetsGifts = otherAssetList,
+            selfonlineLiabilitiesDisposalAssets = disposalAssetsList
+        };
+
+        return PartialView("AssetsLiabilities/_Liabilities", model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesAllLiabilities(SelfonlineLiabilitiesAllLiabilitiesViewModel liabilities)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        liabilities.UserId = userId;
+        liabilities.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/savelineLiabilities_allliabilities", liabilities);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Capital Current Account save successfully" });
+
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesOtherAssetsGifts(SelfonlineLiabilitiesOtherAssetsGiftsViewModel otherAssets)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        otherAssets.UserId = userId;
+        otherAssets.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/savelineLiabilities_otherassetss", otherAssets);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Other Assetss save successfully" });
+
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsViewModel disposalAssets)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        disposalAssets.UserId = userId;
+        disposalAssets.Year = year;
+
+        var responseResult = new ResponseResult<object>();
+
+        // Update user data
+        var response = await _httpClient.PostAsJsonAsync($"{_baseApiUrl}api/selfOnlineflow/savelineLiabilities_disposalassets", disposalAssets);
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+        }
+
+        return Ok(new { success = true, message = "Disposal Assets save successfully" });
+
+    }
 }

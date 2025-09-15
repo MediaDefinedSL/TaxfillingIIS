@@ -43,11 +43,11 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Remuneration (Rs.)</label>
+                                <label class="form-label"><span style="color: red">*</span>Annual Remuneration (Rs.)</label>
                                 <input type="text" class="form-control numeric-input"  id="txtRemuneration" name="txtRemuneration">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Employer/Company Name</label>
+                                <label class="form-label"><span style="color: red">*</span>Employer/Company Name</label>
                                 <input type="text" class="form-control" id="txtEmpDetailsECName" name="txtEmpDetailsECName">
                             </div>
                             <div class="col-md-6">
@@ -62,7 +62,20 @@
                                 <label class="form-label"> APIT Paid on Secondary Employment</label>
                                 <input type="text" class="form-control numeric-input"  id="txtAPITSecondaryEmployment" name="txtAPITSecondaryEmployment">
                             </div>
-
+                            <div class="col-md-6" id="divBenefitExcludedforTax">
+                                <label class="form-label"> Value of Benefit Excluded for Tax</label>
+                                <input type="text" class="form-control numeric-input" id="txtBenefitExcludedForTax" name="txtBenefitExcludedForTax">
+                            </div>
+                            <div class="col-md-6" id="divBenefitUpload">
+                                <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
+                                <div id="fileUploadWrapper" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="file" class="form-control" id="fileEmploymentIncomeUpload" name="fileEmploymentIncomeUpload"
+                                           accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt">
+                                    <div id="uploadedFileContainer"></div>
+                                    
+                                </div>
+                                
+                            </div>
                         </div>
                         <br />
                         <div class="row">
@@ -128,7 +141,7 @@
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>
-                                                <td>@eploymentIncome.Remuneration</td>
+                                                <td>@String.Format("{0:N2}", eploymentIncome.Remuneration)</td>
                                                 <td>@eploymentIncome.APITPrimaryEmployment</td>
                                                 <td>@eploymentIncome.APITSecondaryEmployment</td>
                                                 <td>
@@ -141,7 +154,11 @@
                                                             data-tin="@eploymentIncome.TINOfEmployer"
                                                             data-remuneration="@eploymentIncome.Remuneration"
                                                             data-primary="@eploymentIncome.APITPrimaryEmployment"
-                                                            data-secondary="@eploymentIncome.APITSecondaryEmployment">
+                                                            data-secondary="@eploymentIncome.APITSecondaryEmployment"
+                                                            data-benefitexcludedfortax="@eploymentIncome.BenefitExcludedForTax"
+                                                            data-filename="@eploymentIncome.FileName"
+                                                            data-decryptionkey="@eploymentIncome.DecryptionKey"
+                                                            data-originalfilename="@eploymentIncome.OriginalName">
                                                         Edit
                                                     </button>
                                                     <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="EmploymentDetails">Delete</button>
@@ -152,7 +169,7 @@
                                     else
                                     {
                                         <tr>
-                                            <td colspan="8" class="text-center">No Employment Details found.</td>
+                                            <td colspan="10" class="text-center">No Employment Details found.</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -176,7 +193,7 @@
         </div>
 
     </div>
-
+    <input type="hidden" id="hiddenUserId" value="@User.FindFirst("UserID")?.Value" />
 </main>
 
-<script src="~/scripts/selfonline.employmentincome.js" asp-append-version="true"></script>
+<script src="~/scripts/selfonline.employmentincome.js?v=2" asp-append-version="true"></script>

@@ -1,0 +1,122 @@
+﻿@model TaxFiling.Web.Models.SelfFilingTotalCalculationViewModel
+
+
+<main class="main-content Deductions ">
+
+    <div class=" mt-4">
+        <div class="card card-body">
+            <form method="post">
+                <div class=" mt-4 ">
+                    <input type="hidden" id="hndAssessableIncome" name="hndAssessableIncome" value="@Model.AssessableIncome" />
+                    <input type="hidden" id="hiddenSelfOnlineTotalId" name="hiddenSelfOnlineTotalId" value="@Model.SelfOnlineTotalId" />
+                    <div class="mt-4">
+                        
+                        <h5 class="mb-3 Deductions-head"> <i class="fas fa-folder-open text-primary me-2"></i>Deductions from Assessable Income</h5>
+                        <hr>
+                        <!-- Relief for rent income -->
+                        <div class="row mb-2">
+
+                            <div class="col-3">Relief for Rent Income</div>
+                            <div class="col-5">
+                                @Html.TextBox(
+                                         "RentRelief25",              
+                                         String.Format("{0:N2}", Model.RentRelief25), 
+                                         new
+                                         {
+                                             @class = "form-control text-end",
+                                             disabled = "disabled"
+                                         })
+                            </div>
+                           
+                        </div>
+
+                        <!-- Relief on solar panel -->
+                        <div class="row mb-2">
+
+                            <div class="col-3">Relief on Solar Panel</div>
+                             <div class="col-5">
+                                @Html.TextBox(
+                                         "ReliefSolarPanel",
+                                         String.Format("{0:N2}", Model.ReliefSolarPanel),
+                                         new
+                                         {
+                                             @class = "form-control text-end numeric-format",
+                                             @autocomplete = "off"
+                                         })
+                             </div>
+                        </div>
+
+                        <!-- Personal relief -->
+                        <div class="row mb-2">
+                            <div class="col-3">Personal Relief</div>
+                            <div class="col-5">
+                                @Html.TextBox(
+                                         "PersonalRelief",
+                                         String.Format("{0:N2}", Model.PersonalRelief),
+                                         new
+                                         {
+                                             @class = "form-control text-end",
+                                             disabled = "disabled"
+                                         })
+                            </div>
+                        </div>
+
+                        <!-- Total reliefs -->
+                        <div class="row mb-2  fw-bold">
+
+                            <div class="col-3">Total Reliefs</div>
+                            <div class="col-5">
+                                <input type="text" class="form-control totak-relif text-end" id="txtTotalReliefs" name="txtTotalReliefs" disabled>
+                            
+                            </div>
+                        </div>
+
+                        <!-- Qualifying payments -->
+                        <div class="row mb-2">
+
+                            <div class="col-3">Qualifying Payments</div>
+                            <div class="col-5"> 
+                                @Html.TextBox(
+                                         "QualifyingPayments",
+                                         String.Format("{0:N2}", Model.QualifyingPayments),
+                                         new
+                                         {
+                                             @class = "form-control text-end numeric-format",
+                                             @autocomplete = "off"
+                                         })
+                             </div>
+                        </div>
+
+                      
+                        <!-- Total deductions -->
+                        <div class="row mb-2 bg-light fw-bold">
+
+                            <div class="col-3">Total Deductions</div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTotalDeductions" name="txtTotalDeductions" disabled> </div>
+                        </div>
+
+                        <!-- Taxable income -->
+                        <div class="row mb-2 bg-light fw-bold">
+
+                            <div class="col-3">Taxable Income</div>
+                            <div class="col-5"> <input type="text" class="form-control totak-relif text-end" id="txtTaxableIncome" name="txtTaxableIncome" disabled> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class=" align-items-right" style="text-align: right;">
+                                <button type="button" class="btn btn-primary mt-3" id="btnDeductionsSubmit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<script src="~/scripts/selfonline.deductions.js" asp-append-version="true"></script>
