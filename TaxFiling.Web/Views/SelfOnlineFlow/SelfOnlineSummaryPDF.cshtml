@@ -1,4 +1,4 @@
-﻿@model TaxFiling.Web.Models.SelfFilingTotalCalculationViewModel
+﻿@model TaxFiling.Web.Models.SelfFilingSummaryCalculationViewModel
 
 
 <html lang="en">
@@ -270,19 +270,19 @@
                     <td class="indent">+ Other Income</td>
                     <td></td>
                     <td class="num">@Model.InvIncome_Other</td>
-                    <td class="num">@Model.InvestmentIncome</td>
+                    <td class="num">@Model.InterestIncome</td>
                 </tr>
                 <tr>
                     <td>Other Income</td>
                     <td class="num">40</td>
                     <td></td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.OtherIncomeTotal</td>
                 </tr>
 
                 <tr class="section">
                     <td>Assessable Income</td>
                     <td class="num">50</td>
-                    <td class="muted">(10+20+30+40)</td>
+                    <td class="muted"></td>
                     <td class="num">@Model.AssessableIncome</td>
                 </tr>
 
@@ -292,50 +292,50 @@
                 <tr>
                     <td>Personal relief</td>
                     <td class="num">60</td>
-                    <td></td>
+                    <td class="num">@Model.PersonalRelief</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td>Relief for rent income</td>
+                    <td>Relief for rent income (25% Max)</td>
                     <td class="num">80</td>
-                    <td>25% Max</td>
+                    <td class="num">@Model.RentIncomeRelief</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Solar Relief</td>
                     <td></td>
-                    <td></td>
+                    <td class="num">@Model.SolarRelief</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Relief for foreign service income</td>
                     <td class="num">90</td>
-                    <td></td>
+                    <td class="num">@Model.ForeignServiceRelief</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="totals">
                     <td>Total relief</td>
                     <td class="num">100</td>
-                    <td class="muted">(60+70+80+90)</td>
+                    <td class="num">@Model.TotalRelief</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Qualifying payments</td>
                     <td class="num">110</td>
-                    <td></td>
+                    <td class="num">@Model.QualifyingPayments</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="totals">
                     <td>Total deduction from assessable income</td>
                     <td class="num">120</td>
-                    <td class="muted">(100+110)</td>
+                    <td class="num">@Model.TotalDeductions</td>
                     <td class="num">&nbsp;</td>
                 </tr>
 
                 <tr class="section">
                     <td>Taxable income</td>
                     <td class="num">130</td>
-                    <td class="muted">(50-120)</td>
+                    <td class="num">@Model.TaxableIncome</td>
                     <td class="num">&nbsp;</td>
                 </tr>
 
@@ -345,74 +345,74 @@
                 <tr>
                     <td>Tax on terminal benefits</td>
                     <td class="num">140</td>
-                    <td></td>
+                    <td class="num">@Model.TaxOnTerminalBenefits</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Tax on gain on realization of investment assets</td>
                     <td class="num">150</td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.TaxOnInvestmentGains</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Tax on balance taxable income</td>
                     <td class="num">160</td>
-                    <td></td>
+                    <td class="num">@Model.TaxOnBalanceIncome</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 6%</td>
                     <td></td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.TaxBracket1</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 12%</td>
                     <td></td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.TaxBracket2</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 18%</td>
                     <td></td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.TaxBracket3</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 24%</td>
                     <td></td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.TaxBracket4</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 30%</td>
                     <td></td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.TaxBracket5</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">Balance @@ 36%</td>
                     <td></td>
-                    <td class="num">&nbsp;</td>
+                    <td class="num">@Model.TaxBracket6</td>
                     <td class="num">&nbsp;</td>
                 </tr>
 
                 <tr class="footer-row">
                     <td>Total Tax Payable</td>
                     <td class="num">170</td>
-                    <td class="muted">(140+150+160)</td>
+                    <td class="num">@Model.TotalTaxPayable</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Less: Tax Credits</td>
                     <td class="num">180</td>
-                    <td></td>
+                    <td class="num">@Model.TaxCredits</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="section">
                     <td>Balance Tax Payable / (Refund)</td>
                     <td class="num">190</td>
-                    <td class="muted">(170-180)</td>
+                    <td class="num">@Model.BalanceTaxPayable</td>
                     <td class="num">&nbsp;</td>
                 </tr>
             </tbody>

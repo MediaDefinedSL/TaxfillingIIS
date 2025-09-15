@@ -1314,21 +1314,21 @@ public class SelfOnlineFlowController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
 
-        SelfFilingTotalCalculationViewModel totalCalculation = new();
+        SelfFilingSummaryCalculationViewModel totalCalculation = new();
 
         var queryParams = new Dictionary<string, string?> {
                 { "userId", userId.ToString()},
                 { "year", year.ToString()}
             };
 
-        string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryParams);
+        string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/summarycalculation", queryParams);
         var response = await _httpClient.GetAsync(url, ctx);
         if (response != null && response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadAsStringAsync(ctx);
             if (!string.IsNullOrWhiteSpace(responseContent))
             {
-                totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(responseContent, _jsonSerializerOptions) ?? new();
+                totalCalculation = JsonSerializer.Deserialize<SelfFilingSummaryCalculationViewModel>(responseContent, _jsonSerializerOptions) ?? new();
             }
         }
 
