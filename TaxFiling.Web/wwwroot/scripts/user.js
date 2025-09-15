@@ -156,12 +156,16 @@ $(function () {
     });
 
     $(document).on("click", "#btnUpdateUser", function (e) {
-        e.preventDefault();
-
         var $btn = $(this);
 
-        // If already disabled, just return (prevents double click spam)
-        if ($btn.prop("disabled")) return;
+        // Check if button is already disabled
+        if ($btn.prop('disabled')) {
+            e.preventDefault(); // prevent further action
+            return;
+        }
+
+        // Disable button to prevent double-click
+        $btn.prop('disabled', true);
 
         let formData = new FormData();
 
