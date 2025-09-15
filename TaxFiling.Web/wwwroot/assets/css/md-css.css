@@ -5931,9 +5931,7 @@ h3.c-dis {
 }
 
 
-.client-single.inactive.position-9 {
-    display: none;
-}
+
 
 .tax-about-o .post-img.position-relative.overflow-hidden.rounded-md-image {
     height: 200px;
@@ -7551,4 +7549,18 @@ input#relief_solar {
 .foreing .none-edit {
 
     box-shadow: none !important;
+}
+
+.cal input {
+    background-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+input#personal_relief {
+    width: 130px;
+}
+
+input#monthly_foreign {
+    width: 130px;
 }
