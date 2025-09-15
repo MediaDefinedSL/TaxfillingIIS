@@ -1332,8 +1332,116 @@ public class SelfOnlineFlowController : Controller
             }
         }
 
+        List<SelfonlineAssetsImmovablePropertyViewModel> immovablePropertyList = [];
+        string immovablePropertyListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetsimmovableproperty_list", queryParams);
+        var response1 = await _httpClient.GetAsync(immovablePropertyListUrl, ctx);
+        if (response1 != null && response1.IsSuccessStatusCode)
+        {
+            var responseContent = await response1.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                immovablePropertyList = JsonSerializer.Deserialize<List<SelfonlineAssetsImmovablePropertyViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
 
-        return PartialView("SelfOnlineSummary", totalCalculation);
+        List<SelfonlineAssetsMotorVehicleViewModel> motorVehicleList = [];
+        string motorVehicleListListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetsmotorvehicle_list", queryParams);
+        var response2 = await _httpClient.GetAsync(motorVehicleListListUrl, ctx);
+        if (response2 != null && response2.IsSuccessStatusCode)
+        {
+            var responseContent = await response2.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                motorVehicleList = JsonSerializer.Deserialize<List<SelfonlineAssetsMotorVehicleViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfOnlineInvestmentIncomeDetailViewModel> investmentIncomeList = [];
+        string investmentIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentincomedtail_list", queryParams);
+        var response3 = await _httpClient.GetAsync(investmentIncomeListUrl, ctx);
+        if (response3 != null && response3.IsSuccessStatusCode)
+        {
+            var responseContent = await response3.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                investmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineInvestmentIncomeDetailViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineAssetsSharesStocksSecuritiesViewModel> sharesStocksSecuritiesList = [];
+        string sharesStocksSecuritiesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetssharesstockssecurities_list", queryParams);
+        var response4 = await _httpClient.GetAsync(sharesStocksSecuritiesListUrl, ctx);
+        if (response4 != null && response4.IsSuccessStatusCode)
+        {
+            var responseContent = await response4.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                sharesStocksSecuritiesList = JsonSerializer.Deserialize<List<SelfonlineAssetsSharesStocksSecuritiesViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineAssetsCapitalCurrentAccountViewModel> capitalCurrentAccountList = [];
+        string capitalCurrentAccountListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/assetscapitalcurrentaccount_list", queryParams);
+        var response5 = await _httpClient.GetAsync(capitalCurrentAccountListUrl, ctx);
+        if (response5 != null && response5.IsSuccessStatusCode)
+        {
+            var responseContent = await response5.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                capitalCurrentAccountList = JsonSerializer.Deserialize<List<SelfonlineAssetsCapitalCurrentAccountViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineLiabilitiesAllLiabilitiesViewModel> liabilitiesList = [];
+        string liabilitiesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesallliabilities_list", queryParams);
+        var response6 = await _httpClient.GetAsync(liabilitiesListUrl, ctx);
+        if (response6 != null && response6.IsSuccessStatusCode)
+        {
+            var responseContent = await response6.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                liabilitiesList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesAllLiabilitiesViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineLiabilitiesOtherAssetsGiftsViewModel> otherAssetList = [];
+        string OtherAssetListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesotherassetss_list", queryParams);
+        var response7 = await _httpClient.GetAsync(OtherAssetListUrl, ctx);
+        if (response7 != null && response7.IsSuccessStatusCode)
+        {
+            var responseContent = await response7.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                otherAssetList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesOtherAssetsGiftsViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        List<SelfonlineLiabilitiesDisposalAssetsViewModel> disposalAssetsList = [];
+        string disposalAssetsListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/liabilitiesdisposalassets_list", queryParams);
+        var response8 = await _httpClient.GetAsync(disposalAssetsListUrl, ctx);
+        if (response8 != null && response8.IsSuccessStatusCode)
+        {
+            var responseContent = await response8.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                disposalAssetsList = JsonSerializer.Deserialize<List<SelfonlineLiabilitiesDisposalAssetsViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+        var model = new SelfOnlineSummary
+        {
+            selfFilingSummaryCalculationViewModel = totalCalculation,
+            selfonlineAssetsImmovablePropertyViewModel = immovablePropertyList,
+            selfonlineAssetsMotorVehicleViewModel = motorVehicleList,
+            selfOnlineInvestmentIncomeDetailViewModel = investmentIncomeList,
+            selfonlineAssetsSharesStocksSecuritiesViewModel = sharesStocksSecuritiesList,
+            selfonlineAssetsCapitalCurrentAccountViewModel = capitalCurrentAccountList,
+            selfonlineLiabilitiesAllLiabilities = liabilitiesList,
+            selfonlineLiabilitiesOtherAssetsGifts = otherAssetList,
+            selfonlineLiabilitiesDisposalAssets = disposalAssetsList
+        };
+
+        return PartialView("SelfOnlineSummary", model);
     }
 
     [HttpPost]
@@ -1343,14 +1451,14 @@ public class SelfOnlineFlowController : Controller
         var userId = User.FindFirst("UserID")?.Value;
         int year = DateTime.Now.Year;
 
-        SelfFilingTotalCalculationViewModel totalCalculation = new();
+        SelfFilingSummaryCalculationViewModel totalCalculation = new();
 
         var queryParams = new Dictionary<string, string?> {
         { "userId", userId },
         { "year", year.ToString() }
     };
 
-        string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/get_selfFilingyotalcalculation", queryParams);
+        string url = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/summarycalculation", queryParams);
         var response = await _httpClient.GetAsync(url, ctx);
 
         if (response != null && response.IsSuccessStatusCode)
@@ -1358,7 +1466,7 @@ public class SelfOnlineFlowController : Controller
             var responseContent = await response.Content.ReadAsStringAsync(ctx);
             if (!string.IsNullOrWhiteSpace(responseContent))
             {
-                totalCalculation = JsonSerializer.Deserialize<SelfFilingTotalCalculationViewModel>(
+                totalCalculation = JsonSerializer.Deserialize<SelfFilingSummaryCalculationViewModel>(
                     responseContent, _jsonSerializerOptions
                 ) ?? new();
             }
