@@ -140,22 +140,22 @@
                                 </div>
                                 <div>
                                     <label>Salary in Foreign Currency</label>
-                                    <input id="salaryFC" type="number" step="0.01" value="3000">
+                                    <input id="salaryFC" type="text" step="0.01" value="3000">
                                 </div>
                                 <div>
                                     <label>FX Rate (LKR per 1 FC unit)</label>
-                                    <input id="fx" type="number" step="0.0001" value="305">
+                                    <input id="fx" type="text" step="0.0001" value="305">
                                 </div>
                             </div>
 
                             <div class="grid g-3" style="margin-top:12px">
                                 <div>
                                     <label>Salary in LKR (auto)</label>
-                                    <input id="salaryLKR" type="number" step="0.01" value="915000" disabled="">
+                                    <input id="salaryLKR" type="text" step="0.01" value="915000" disabled="">
                                 </div>
                                 <div>
                                     <label>Personal Relief (LKR)</label>
-                                    <input id="relief" type="number" step="0.01" value="150000">
+                                    <input id="relief" type="text" step="0.01" value="150000">
                                     <div class="foot">Tip: Monthly 150,000 → Annual 1,800,000.</div>
                                 </div>
                                 <div>
@@ -217,7 +217,7 @@
 
   <td class="left" style=""></td>
   <td>
-    <input type="number" id="exchange_rate" value="305" class="none-edit">
+    <input type="text" id="exchange_rate" value="305" class="none-edit">
   </td>
 
   <td><span id="salary_lkr">0.00</span></td> 
@@ -235,9 +235,9 @@
 
   <tr>
     <td class="left">Personal Relief</td>
-    <td colspan="2"><input type="number" inputmode="decimal"  id="personal_relief" value="150000"></td>
+    <td colspan="1"><input type="text" inputmode="decimal"  id="personal_relief" value="150000"></td>
     <td>0%</td>
-    <td colspan="1"><span id="relief_deduction">150,000</span></td>
+    <td colspan="3"><span id="relief_deduction" style="text-align: right;">150,000</span></td>
   </tr>
 
   <tr class="color-change"><th class="left"></th>
@@ -324,7 +324,7 @@
 
 
 
-<div class="alert alert-warning cal-wa" role="alert"><span class="importent-text"><i class="bi bi-exclamation-triangle-fill"></i> Important:</span><span class="importent-text two"> This tool only gives a rough estimate. Your final tax liability may differ based on credits, deductions, and reliefs available under the Inland Revenue Act, No. 24 of 2017 (as amended).
+<div class="alert alert-warning cal-wa" role="alert"><span class="importent-text"><i class="bi bi-exclamation-triangle-fill"></i> Important:</span><span class="importent-text twoo"> This tool only gives a rough estimate. Your final tax liability may differ based on credits, deductions, and reliefs available under the Inland Revenue Act, No. 24 of 2017 (as amended).
 </span></div>
 
                     <!-- ================= 1) INCOME SOURCES ================= -->
@@ -335,9 +335,9 @@
                                 <td class="lbl">Employment Income – <span class="muted">Local (APIT deducted)</span></td>
                                 <td class="num month-cal">
                                 <div class="monthly-div"><span style="">Monthly</span>
-                                    <input id="emp_apit_annual" type="text" inputmode="decimal" value="0.00"></div>
+                                    <input id="emp_apit_annual" type="text" inputmode="decimal" value=""></div>
                                 <div class="annual-div">   <span style="">Annual</span>
-                                <input id="annual-money" class="none-edit" type="text" inputmode="decimal" value="0.00"></div>
+                                <input id="annual-money" class="none-edit" type="text" inputmode="decimal" value=""></div>
                                 </td>
                             </tr>
 
@@ -348,7 +348,7 @@
                                     Employment Income – <span class="muted">Foreign</span></div>
                                     <div class="controls one-line" style="margin:6px 0 2px">
                                         
-                                        <input id="foreign_amount_annual" type="text" inputmode="decimal" value="0.00" style="max-width:200px">
+                                        <input id="foreign_amount_annual" type="text" inputmode="decimal" value="" style="max-width:200px">
                                         <select id="foreign_currency" style="max-width:110px">
                                                                              <option>USD</option>
                 <option>EUR</option>
@@ -366,36 +366,36 @@
 
                             <tr>
                                 <td class="lbl">Business / Professional Income – <span class="muted">(Annual profit)</span></td>
-                                <td class="num inline"><input id="biz_profit_annual" type="text" inputmode="decimal" value="0.00">
-                                <input id="profit_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num inline"><input id="biz_profit_annual" type="text" inputmode="decimal" value="">
+                                <input id="profit_annual" class="none-edit" type="text" inputmode="decimal" value=""></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Investment Income – Interest<span class="muted"> (WHT deducted) </span></td>
-                                <td class="num inline"><input id="interest_gross_annual" type="text" inputmode="decimal" value="0.00">
-                                <input id="gross_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num inline"><input id="interest_gross_annual" type="text" inputmode="decimal" value="">
+                                <input id="gross_annual" class="none-edit" type="text" inputmode="decimal" value=""></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Other Investment Income<span class="muted"> (WHT not deducted)</span></td>
-                                <td class="num inline"><input id="invest_other_annual" type="text" inputmode="decimal" value="0.00">
-                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num inline"><input id="invest_other_annual" type="text" inputmode="decimal" value="">
+                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal"  value=""></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Investment Income – Rent <span class="muted">(Gross)</span></td>
-                                <td class="num inline"><input id="rent_gross_annual" type="text" inputmode="decimal" value="0.00">
-                                <input id="gross_annuall" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num inline"><input id="rent_gross_annual" type="text" inputmode="decimal"  value="">
+                                <input id="gross_annuall" class="none-edit" type="text" inputmode="decimal"  value=""></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Investment Income – Dividend <span class="muted">(Final Tax 15%)</span></td>
-                                <td class="num inline"><input id="dividend_gross_annual" type="text" inputmode="decimal" value="0.00">
-                                <input id="dividend_annuall" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num inline"><input id="dividend_gross_annual" type="text" inputmode="decimal"  value="">
+                                <input id="dividend_annuall" class="none-edit" type="text" inputmode="decimal"  value=""></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Other Income</td>
-                                <td class="num inline"><input id="other_income_annual" type="text" inputmode="decimal" value="0.00">
-                                <input id="other_annual2" class="none-edit" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num inline"><input id="other_income_annual" type="text" inputmode="decimal"  value="">
+                                <input id="other_annual2" class="none-edit" type="text" inputmode="decimal"  value=""></td>
                             </tr>
 <!--
                             <tr class="band text-boldd">
@@ -435,11 +435,11 @@
                             </tr>
                             <tr>
                                 <td class="lbl">Relief for Solar Panel - <span class="muted">(Deductable up to Rs. 600,000 or Actual cost)</span></td>
-                                <td class="num"><input id="relief_solar" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num"><input id="relief_solar" type="text" inputmode="decimal"  value=""></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Qualifying Payments &amp; Other Deductions</td>
-                                <td class="num"><input id="relief_qualifying" type="text" inputmode="decimal" value="0.00"></td>
+                                <td class="num"><input id="relief_qualifying" type="text" inputmode="decimal"  value=""></td>
                             </tr>
 
                             <tr class="band-soft">
@@ -1154,10 +1154,159 @@ setInterval(updateKPIAnnual, 500);
 <!-- ====== END kpi_assessable * 12 ====== -->
 
 
+<script>
+
+const apiKey = "811608e6a1eff21f32289138"; // Replace with your free API key
+const apiUrl = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/";
+
+const amountInput = document.getElementById("foreign_amount_annual");
+const currencySelect = document.getElementById("foreign_currency");
+const fxRateInput = document.getElementById("fx_rate");
+const lkrSpan = document.getElementById("foreign_lkr_annual");
+
+// Function to fetch latest exchange rate
+async function updateExchangeRate() {
+    const currency = currencySelect.value;
+    try {
+        const response = await fetch(`${apiUrl}${currency}`);
+        const data = await response.json();
+
+        if(data.result === "success") {
+            const rate = data.conversion_rates.LKR;
+            fxRateInput.value = rate.toFixed(2);
+            updateLKRAmount();
+        } else {
+            console.error("Failed to fetch exchange rate:", data['error-type']);
+        }
+    } catch (err) {
+        console.error("Error fetching exchange rate:", err);
+    }
+}
+
+// Function to update LKR amount
+function updateLKRAmount() {
+    const amount = parseFloat(amountInput.value) || 0;
+    const rate = parseFloat(fxRateInput.value) || 0;
+    const lkrAmount = amount * rate;
+    lkrSpan.textContent = lkrAmount.toFixed(2);
+}
+
+// Event listeners
+amountInput.addEventListener("input", updateLKRAmount);
+currencySelect.addEventListener("change", updateExchangeRate);
+
+// Initial load
+updateExchangeRate();
+
+
+</script>
+
+
+
+<!-- ====== foreign_lkr_annual * 12 ====== -->
+
+<script>
+function updateAnnualLKR() {
+  const monthly = parseFloat(document.getElementById("foreign_lkr_annual").textContent.replace(/,/g, "")) || 0;
+  const annual = monthly * 12;
+  document.getElementById("lkr_annual_all").textContent = annual.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+// Run once on page load
+updateAnnualLKR();
+
+// Optional: run every time monthly value changes
+// (If you update foreign_lkr_annual dynamically)
+setInterval(updateAnnualLKR, 500); // checks every 0.5s
+</script>
+<!-- ====== END foreign_lkr_annual * 12 ====== -->
+
+
+<!-- ======  kpi_assessable * 12 ====== -->
+
+<script>
+function updateKPIAnnual() {
+  // Get value from td
+  const monthly = parseFloat(document.getElementById("kpi_assessable").innerText.replace(/,/g, "")) || 0;
+
+  // Calculate annual value
+  const annual = monthly * 12;
+
+  // Update the span
+  document.querySelector(".kpi_assessable_all").innerText = annual.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+// Run once on page load
+updateKPIAnnual();
+
+// Optional: refresh every time td changes dynamically (if updated by JS)
+setInterval(updateKPIAnnual, 500);
+</script>
+
+
+<!-- ====== END kpi_assessable * 12 ====== -->
+
+
 
 <!-- ====== foring income ====== -->
+<!-- =====<script>
 
+const apiKeyy = "9f7bdbdb1cd0ca90a08d9bfc"; 
+const apiUrll = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/";
+
+const amountInputt = document.getElementById("monthly_foreign");
+const currencySelectt = document.getElementById("foreign_currencyy");
+const fxRateInputt = document.getElementById("exchange_rate");
+const lkrSpant = document.getElementById("salary_lkr");
+
+// Fetch exchange rate when currency changes
+async function updateExchangeRate() {
+    const currency = currencySelectt.value;
+    try {
+        const response = await fetch(`${apiUrl}${currency}`);
+        const data = await response.json();
+
+        if (data.result === "success") {
+            const rate = data.conversion_rates.LKR;
+            fxRateInputt.value = rate.toFixed(2);
+            updateLKRAmount();
+        } else {
+            console.error("Failed to fetch exchange rate:", data['error-type']);
+        }
+    } catch (err) {
+        console.error("Error fetching exchange rate:", err);
+    }
+}
+
+// Calculate salary in LKR
+function updateLKRAmount() {
+    const amount = parseFloat(amountInputt.value) || 0;
+    const rate = parseFloat(fxRateInputt.value) || 0;
+    const lkrAmount = amount * rate;
+
+    lkrSpant.textContent = lkrAmount.toLocaleString(undefined, { 
+        minimumFractionDigits: 2, 
+        maximumFractionDigits: 2 
+    });
+}
+
+// Event listeners for live updates
+amountInputt.addEventListener("input", updateLKRAmount);
+fxRateInputt.addEventListener("input", updateLKRAmount);
+currencySelectt.addEventListener("change", updateExchangeRate);
+
+// Initial load
+updateExchangeRate();
+
+</script>-->
 
 <!-- ===== END  foring income ===== -->
+
 
 
