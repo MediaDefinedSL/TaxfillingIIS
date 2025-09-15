@@ -54,24 +54,24 @@
                                 <div class="tile">
                                     <h4>Monthly Summary</h4>
                                     <div class="muted" style="margin-top:8px">Employment Income </div>
-                                    <div class="big" id="outMonthlyIncome">Rs. 0</div>
+                                    <div class="big" id="outMonthlyIncome">Rs. </div>
                                     <div class="muted pl-4" style="margin-top:8px">APIT/PAYE</div>
-                                    <div class="big" id="outMonthlyTax">Rs. 0.00</div>
+                                    <div class="big" id="outMonthlyTax">Rs. </div>
                                 </div>
                                 <div class="tile md-domes">
                                     <h4>Annual Summary</h4>
                                     <div class="muted" style="margin-top:8px">Employment Income </div>
                                     <div class="big" id="outAnnualIncome">Rs. 0</div>
                                     <div class="muted pl-4" style="margin-top:8px">APIT/PAYE</div>
-                                    <div class="big" id="outAnnualTax">Rs. 0.00</div>
+                                    <div class="big" id="outAnnualTax">Rs. </div>
                                 </div>
                             </div>
 
                             <div class="tile no-padding" style="background:#fff">
-                                <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px">
+                                <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:10px; display:none;">
                                     <div>
-                                        <!--<strong>Monthly Salary (Annual / 12)</strong>
-                                        <span class="tag" title="Tax-free monthly relief">Relief: Rs <span id="reliefTag">150,000</span></span>-->
+                                        <strong>Monthly Salary (Annual / 12)</strong>
+                                        <span class="tag" title="Tax-free monthly relief">Relief: Rs <span id="reliefTag">150,000</span></span>
                                     </div>
                                 </div>
 
@@ -89,7 +89,7 @@
                                         <tfoot>
                                             <tr>
                                                 <td colspan="3">Monthly APIT</td>
-                                                <td id="monthlyTotal">Rs. 0.00</td>
+                                                <td id="monthlyTotal">Rs. </td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -217,10 +217,10 @@
 
   <td class="left" style=""></td>
   <td>
-    <input type="text" id="exchange_rate" value="305" class="none-edit">
+    <input type="text" id="exchange_rate" value="305" class="none-edit" tabindex="-1">
   </td>
 
-  <td><span id="salary_lkr">0.00</span></td> 
+  <td><span id="salary_lkr"></span></td> 
 </tr>
   <!--
   <tr>
@@ -235,9 +235,9 @@
 
   <tr>
     <td class="left">Personal Relief</td>
-    <td colspan="1"><input type="text" inputmode="decimal"  id="personal_relief" value="150000"></td>
+    <td colspan="1"><input type="text" inputmode="decimal"  id="personal_relief" value="150000" class="none-edit" tabindex="-1" ></td>
     <td>0%</td>
-    <td colspan="3"><span id="relief_deduction" style="text-align: right;">150,000</span></td>
+    <td colspan="3" style="text-align: right;"><span id="relief_deduction" style="text-align: right;">150,000</span></td>
   </tr>
 
   <tr class="color-change"><th class="left"></th>
@@ -337,7 +337,7 @@
                                 <div class="monthly-div"><span style="">Monthly</span>
                                     <input id="emp_apit_annual" type="text" inputmode="decimal" value=""></div>
                                 <div class="annual-div">   <span style="">Annual</span>
-                                <input id="annual-money" class="none-edit" type="text" inputmode="decimal" value=""></div>
+                                <input id="annual-money" class="none-edit" tabindex="-1" type="text" inputmode="decimal" value=""></div>
                                 </td>
                             </tr>
 
@@ -356,46 +356,46 @@
                 <option>INR</option>  
                                         </select>
                                         
-                                        <input id="fx_rate" type="text" inputmode="decimal" value="" style="max-width:120px" class="none-edit">
+                                        <input id="fx_rate" type="text" inputmode="decimal" value="" style="max-width:120px" class="none-edit" tabindex="-1">
                                     </div>
                                     
                                 </td>
-                                <td class="num"><span id="foreign_lkr_annual" class="mono">0.00</span>
-                                <span id="lkr_annual_all" class="mono">0.00</span></td>
+                                <td class="num"><span id="foreign_lkr_annual" class="mono"></span>
+                                <span id="lkr_annual_all" class="mono"></span></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Business / Professional Income – <span class="muted">(Annual profit)</span></td>
                                 <td class="num inline"><input id="biz_profit_annual" type="text" inputmode="decimal" value="">
-                                <input id="profit_annual" class="none-edit" type="text" inputmode="decimal" value=""></td>
+                                <input id="profit_annual" class="none-edit" tabindex="-1" type="text" inputmode="decimal" value=""></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Investment Income – Interest<span class="muted"> (WHT deducted) </span></td>
                                 <td class="num inline"><input id="interest_gross_annual" type="text" inputmode="decimal" value="">
-                                <input id="gross_annual" class="none-edit" type="text" inputmode="decimal" value=""></td>
+                                <input id="gross_annual" class="none-edit" tabindex="-1" type="text" inputmode="decimal" value=""></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Other Investment Income<span class="muted"> (WHT not deducted)</span></td>
                                 <td class="num inline"><input id="invest_other_annual" type="text" inputmode="decimal" value="">
-                                <input id="other_annual" class="none-edit" type="text" inputmode="decimal"  value=""></td>
+                                <input id="other_annual" class="none-edit" tabindex="-1" type="text" inputmode="decimal"  value=""></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Investment Income – Rent <span class="muted">(Gross)</span></td>
                                 <td class="num inline"><input id="rent_gross_annual" type="text" inputmode="decimal"  value="">
-                                <input id="gross_annuall" class="none-edit" type="text" inputmode="decimal"  value=""></td>
+                                <input id="gross_annuall" class="none-edit"  tabindex="-1" type="text" inputmode="decimal"  value=""></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Investment Income – Dividend <span class="muted">(Final Tax 15%)</span></td>
                                 <td class="num inline"><input id="dividend_gross_annual" type="text" inputmode="decimal"  value="">
-                                <input id="dividend_annuall" class="none-edit" type="text" inputmode="decimal"  value=""></td>
+                                <input id="dividend_annuall" class="none-edit" tabindex="-1" type="text" inputmode="decimal"  value=""></td>
                             </tr>
 
                             <tr>
                                 <td class="lbl">Other Income</td>
                                 <td class="num inline"><input id="other_income_annual" type="text" inputmode="decimal"  value="">
-                                <input id="other_annual2" class="none-edit" type="text" inputmode="decimal"  value=""></td>
+                                <input id="other_annual2" class="none-edit" tabindex="-1" type="text" inputmode="decimal"  value=""></td>
                             </tr>
 <!--
                             <tr class="band text-boldd">
@@ -410,11 +410,11 @@
   <td rowspan="3" class="lbl text-bold">Total Assessable Income (excludes dividends)</td>
   <td class="num kpi kpi-first" rowspan="3" style="
 ">
-    <span id="kpi_assessable">0.00</span>
+    <span id="kpi_assessable"></span>
   </td>
   <td class="num aling-total" style="
 ">
-    <span class="kpi_assessable_all">0.00</span>
+    <span class="kpi_assessable_all"></span>
   </td>
 </tr>
                         </tbody>
@@ -427,11 +427,11 @@
                         <tbody>
                             <tr>
                                 <td class="lbl">Personal Relief</td>
-                                <td class="num"><input id="relief_personal" class="none-edit" type="text" inputmode="decimal" value="1800000"></td>
+                                <td class="num"><input id="relief_personal" class="none-edit" tabindex="-1" type="text" inputmode="decimal" value="1800000"></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Relief for Rent Income – <span class="muted">(25% of Gross Rent)</span></td>
-                                <td class="num"><span id="relief_rent_auto" class="mono">0.00</span></td>
+                                <td class="num"><span id="relief_rent_auto" class="mono"></span></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Relief for Solar Panel - <span class="muted">(Deductable up to Rs. 600,000 or Actual cost)</span></td>
@@ -448,7 +448,7 @@
                             </tr>
                             <tr class="band text-boldd">
                                 <td class="lbl text-bold">Taxable Income</td>
-                                <td class="num kpi" id="kpi_taxable">0.00</td>
+                                <td class="num kpi" id="kpi_taxable"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -463,7 +463,7 @@
                                 <td class="lbl tax-bold">Total Tax Liability</td>
                                 <td></td>
                                 <td></td>
-                                <td class="num kpi" id="kpi_tax_liability">0.00</td>
+                                <td class="num kpi" id="kpi_tax_liability"></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -474,15 +474,15 @@
                         <tbody>
                             <tr>
                                 <td class="lbl">Less: APIT Deducted by Employer </td>
-                                <td class="num"><span id="credit_apit_auto" class="mono">0.00</span></td>
+                                <td class="num"><span id="credit_apit_auto" class="mono"></span></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Less: WHT on Interest <span class="muted">(10% of interest income)</span></td>
-                                <td class="num"><span id="credit_wht_interest_auto" class="mono">0.00</span></td>
+                                <td class="num"><span id="credit_wht_interest_auto" class="mono"></span></td>
                             </tr>
                             <tr class="band text-boldd">
                                 <td class="lbl totals">Final Income Tax Payable / (Refundable)</td>
-                                <td class="num totals pos" id="sum_net">0.00</td>
+                                <td class="num totals pos" id="sum_net"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -492,7 +492,7 @@
                         <tbody>
                             <tr>
                                 <td class="lbl">Dividend Final Tax (15%)</td>
-                                <td class="num" id="sum_div15">0.00</td>
+                                <td class="num" id="sum_div15"></td>
                             </tr>
                         </tbody>
                     </table>

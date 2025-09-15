@@ -7564,3 +7564,14 @@ input#personal_relief {
 input#monthly_foreign {
     width: 130px;
 }
+
+.Domestic input#monthlyIncome {
+    width: 230px;
+}
+
+
+.foreing .none-edit {
+    border: none !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+}
