@@ -2248,9 +2248,16 @@
                             alert('Error: ' + err);
                             return;
                           }
-                             document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
-                           showMessage("Data saved successfully!", "success");
-                        } catch (err) {
+                             
+                         if (document.getElementById('saveFinancialDetailsBtn').innerText == "Save") {
+                            showMessage("Saved successfully!", "success");
+                            document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
+                        }
+                        else {
+                            showMessage("Updated Successfully!", "success");
+                        }
+                        }
+                        catch (err) {
                           alert('Failed to submit: ' + err.message);
                         }
                       });

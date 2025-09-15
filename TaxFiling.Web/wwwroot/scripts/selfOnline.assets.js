@@ -441,8 +441,15 @@
                 return;
             }
             currentlyExEditingRow = null;
-            document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
-            showMessage("Data saved successfully!", "success");
+            if (document.getElementById('saveFinancialDetailsBtn').innerText == "Save") {
+                showMessage("Saved successfully!", "success");
+                document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
+            }
+            else {
+                showMessage("Updated Successfully!", "success");
+            }
+            
+            
         } catch (err) {
             alert('Failed to submit: ' + err.message);
         }
