@@ -712,5 +712,22 @@ public class SelfOnlineFlowController : ControllerBase
         }
     }
 
+    //---- Calculation 
+    [HttpGet("summarycalculation")]
+    public async Task<IActionResult> GetSelfFilingSummaryCalculationAsync(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            var summarycalculation = await _selfOnlineFlowRepository.GetSelfFilingSummaryCalculationAsync(userId, year, ctx);
+
+            return Ok(summarycalculation);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
 
 }

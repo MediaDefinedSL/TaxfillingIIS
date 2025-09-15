@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System;
+using System.Data;
 using System.Diagnostics.Metrics;
 using System.Security.Principal;
 using System.Threading;
@@ -2210,6 +2211,94 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
         return assetsCapitalCurrentAccountList;
     }
+
+    public async Task<SelfFilingSummaryCalculationDto?> GetSelfFilingSummaryCalculationAsync(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            SelfFilingSummaryCalculationDto? dto = null;
+
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "sp_GetSelfFilingSummaryCalculation";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    var p1 = command.CreateParameter();
+                    p1.ParameterName = "@p_userId";
+                    p1.Value = userId;
+                    command.Parameters.Add(p1);
+
+                    var p2 = command.CreateParameter();
+                    p2.ParameterName = "@p_year";
+                    p2.Value = year;
+                    command.Parameters.Add(p2);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            dto = new SelfFilingSummaryCalculationDto
+                            {
+                                UserId = reader["UserId"].ToString(),
+
+                                EmploymentIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("EmploymentIncomeTotal")),
+                                BusinessIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("BusinessIncomeTotal")),
+                                InvestmentIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvestmentIncomeTotal")),
+
+                                InterestIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("InterestIncome")),
+                                InvIncome_Dividend = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvIncome_Dividend")),
+                                InvIncome_Rent = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvIncome_Rent")),
+                                InvIncome_Other = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvIncome_Other")),
+
+                                OtherIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("OtherIncomeTotal")),
+                                AssessableIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("AssessableIncome")),
+
+                                PersonalRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("PersonalRelief")),
+                                RentIncomeRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("RentIncomeRelief")),
+                                SolarRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("SolarRelief")),
+                                ForeignServiceRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("ForeignServiceRelief")),
+
+                                TotalRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("TotalRelief")),
+                                QualifyingPayments = reader.GetFieldValue<decimal>(reader.GetOrdinal("QualifyingPayments")),
+                                TotalDeductions = reader.GetFieldValue<decimal>(reader.GetOrdinal("TotalDeductions")),
+
+                                TaxableIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxableIncome")),
+
+                                TaxOnTerminalBenefits = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxOnTerminalBenefits")),
+                                TaxOnInvestmentGains = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxOnInvestmentGains")),
+
+                                TaxBracket1 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket1")),
+                                TaxBracket2 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket2")),
+                                TaxBracket3 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket3")),
+                                TaxBracket4 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket4")),
+                                TaxBracket5 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket5")),
+                                TaxBracket6 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket6")),
+
+                                TotalTaxPayable = reader.GetFieldValue<decimal>(reader.GetOrdinal("TotalTaxPayable")),
+                                TaxOnBalanceIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxOnBalanceIncome")),
+
+                                TaxCredits = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxCredits")),
+                                BalanceTaxPayable = reader.GetFieldValue<decimal>(reader.GetOrdinal("BalanceTaxPayable"))
+                            };
+                        }
+                    }
+                }
+            }
+
+            return dto;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while executing sp_GetSelfFilingSummaryCalculation for UserId {UserId}, Year {Year}", userId, year);
+            return null; // or throw; depending on your preference
+        }
+    }
+
+
 
 }
 
