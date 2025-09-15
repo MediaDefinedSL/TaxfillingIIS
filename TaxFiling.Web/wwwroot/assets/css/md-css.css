@@ -7409,12 +7409,34 @@ input#relief_qualifying {
 
 span.text-changes-cal ul {
     font-size: 14px;
+    color: var(--default-color);
 }
 
 .cal-foreing ul {
     font-size: 14px;
+    color: var(--default-color);
 }
 
 label.text-changes-cal p {
     font-size: 14px;
+    color: var(--default-color);
+}
+
+th.num.Amount-table {
+    text-align: right;
+}
+
+
+div#income-expenses .border.rounded.bg-light.shadow-sm {
+    border: none !important;
+}
+
+div#expensesbalances .border.rounded.bg-light.shadow-sm {
+    background: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.sidebar {
+    padding-top: 13px;
 }
