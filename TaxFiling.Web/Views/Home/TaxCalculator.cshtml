@@ -36,8 +36,8 @@
                         This calculator gives you an estimate of the Advance Personal Income Tax (APIT/PAYE) on your local salary in Sri Lanka. It is designed to give you a quick idea of the possible tax on your monthly or annual salary.
                     </p>
                     
-                      <div class="alert alert-warning cal-wa" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> Important: Please note that this is only a guide. Your final tax liability may be different once other employment benefits such as bonuses, allowances, and non-cash benefits are included under Inland Revenue rules.
-</div>
+                     <div class="alert alert-warning cal-wa" role="alert"><span class="importent-text"><i class="bi bi-exclamation-triangle-fill"></i> Important:</span><span class="importent-text twoo"> Please note that this is only a guide. Your final tax liability may be different once other employment benefits such as bonuses, allowances, and non-cash benefits are included under Inland Revenue rules.
+</span></div>
 
 
                     <div class="card">
@@ -46,7 +46,7 @@
 
                             <div>
                                 <label for="monthlyIncome">Montly Gross Employment Income </label>
-                                <input id="monthlyIncome" class="input" inputmode="decimal" placeholder="e.g., 25000*12" />
+                                <input id="monthlyIncome" class="input" inputmode="decimal" placeholder="" />
                                  <!-- <div class="note" style="margin-top:8px">Formatting with commas is OK. Calculator updates as you type.</div> -->
                             </div>
 
@@ -116,7 +116,7 @@
 <label class="text-changes-cal">
 <p style="
     margin-bottom: 3px;
-">This calculator estimates your Advance Personal Income Tax (APIT) on foreign employment income under Table 08. Applicable only if:		</p>
+">This calculator estimates your Advance Personal Income Tax (APIT) on foreign employment <br>income under Table 08. <br> Applicable only if:		</p>
     <ul>
 <li>You are a Sri Lankan resident employed by a foreign employer.</li>															
 <li>Your salary is paid in foreign currency and remitted through a bank in Sri Lanka.</li>															
@@ -124,8 +124,8 @@
         </ul>
 </label>
 
-<div class="alert alert-warning cal-wa" role="alert"><i class="bi bi-exclamation-triangle-fill"></i>  Important: Tax must be calculated on a cumulative basis and paid monthly by the employee (within 15 days of the following month).
-</div>
+<div class="alert alert-warning cal-wa" role="alert"><span class="importent-text"><i class="bi bi-exclamation-triangle-fill"></i> Important:</span><span class="importent-text twoo"> Tax must be calculated on a cumulative basis and paid monthly by the employee (within 15 days of the following month).
+</span></div>
 
                     <div class="grid g-2">
                         <!-- Inputs -->
@@ -215,7 +215,7 @@
     </select>
   </td>
 
-  <td class="left" style="width: 86px;">Ex Rate</td>
+  <td class="left" style=""></td>
   <td>
     <input type="number" id="exchange_rate" value="305" class="none-edit">
   </td>
@@ -324,9 +324,8 @@
 
 
 
-<div class="alert alert-warning cal-wa" role="alert"><i class="bi bi-exclamation-triangle-fill"></i> Important: This tool only gives a rough estimate. Your final tax liability may differ based on credits, deductions, and reliefs available under the Inland Revenue Act, No. 24 of 2017 (as amended).
-</div>
-
+<div class="alert alert-warning cal-wa" role="alert"><span class="importent-text"><i class="bi bi-exclamation-triangle-fill"></i> Important:</span><span class="importent-text two"> This tool only gives a rough estimate. Your final tax liability may differ based on credits, deductions, and reliefs available under the Inland Revenue Act, No. 24 of 2017 (as amended).
+</span></div>
 
                     <!-- ================= 1) INCOME SOURCES ================= -->
                     <table class="grid" id="tblIncome">
@@ -428,7 +427,7 @@
                         <tbody>
                             <tr>
                                 <td class="lbl">Personal Relief</td>
-                                <td class="num"><input id="relief_personal" type="text" inputmode="decimal" value="1800000"></td>
+                                <td class="num"><input id="relief_personal" class="none-edit" type="text" inputmode="decimal" value="1800000"></td>
                             </tr>
                             <tr>
                                 <td class="lbl">Relief for Rent Income – <span class="muted">(25% of Gross Rent)</span></td>
