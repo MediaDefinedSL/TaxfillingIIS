@@ -7440,3 +7440,38 @@ div#expensesbalances .border.rounded.bg-light.shadow-sm {
 .sidebar {
     padding-top: 13px;
 }
+
+ul#myLiabilitiesTab {
+    border: none;
+}
+
+
+div#otherassets {
+    background-image: url(/assets/img/Other-Assets-2025.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 24%;
+    background-position-x: 97%;
+}
+
+div#allliabilities {
+    background-image: url(/assets/img/All-Liabilities.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 24%;
+    background-position-x: 97%;
+}
+
+div#disposalasets {
+    background-image: url(/assets/img/Disposal-Asets2025.png) !important;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position: top right;
+    background-position-y: 25%;
+    background-size: 24%;
+    background-position-x: 97%;
+}
