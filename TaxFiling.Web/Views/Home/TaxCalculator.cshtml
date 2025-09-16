@@ -360,7 +360,7 @@
                                     </div>
                                     
                                 </td>
-                                <td class="num"><span id="foreign_lkr_annual" class="mono"></span>
+                                <td class="num"><span id="foreign_lkr_annual" style="border-radius: 0px !important;" class="mono"></span>
                                 <span id="lkr_annual_all" class="mono"></span></td>
                             </tr>
 
@@ -509,7 +509,7 @@
 
                     <!-- ===== Controls at the very bottom ===== -->
                     <div class="controls" style="justify-content:center; margin-top:20px">
-                       <!-- <button class="btn" id="btn_calc" type="button">Calculate</button>-->
+                       <button class="btn" id="btn_calc" type="button">Calculate</button>
                         <button class="btn" id="btn_resett" type="button">               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
                                     Reset</button>
                     </div>
@@ -1156,7 +1156,7 @@ setInterval(updateKPIAnnual, 500);
 
 
 <script>
-
+$(document).ready(function () {
 const apiKey = "811608e6a1eff21f32289138"; // Replace with your free API key
 const apiUrl = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/";
 
@@ -1198,7 +1198,7 @@ currencySelect.addEventListener("change", updateExchangeRate);
 
 // Initial load
 updateExchangeRate();
-
+});
 
 </script>
 
