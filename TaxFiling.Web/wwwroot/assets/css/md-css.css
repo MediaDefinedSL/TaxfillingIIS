@@ -6284,7 +6284,7 @@ div#manualTableSection:before {
 }
 
 #Self-Online-Flow .logo-text {
-    font-size: 16px;
+    font-size: 14px;
     color: #000 !important;
     /* background: linear-gradient(45deg, #4f4f4f, #4b4b4b) !important; */
     background: linear-gradient(45deg, #010101, #000000) !important;
@@ -6293,7 +6293,7 @@ div#manualTableSection:before {
 }
 
 span#taxTotal {
-    font-size: 16px;
+    font-size: 20px;
 }
 
 
@@ -6394,9 +6394,10 @@ div#bank-section {
 
 main.main-content.Deductions .card-body {
     background-image: url(https://taxfiling.lk/assets/img/Deductionss.png) !important;
-    background-size: 32%;
+    background-size: 24%;
     background-repeat: no-repeat;
     background-position: right;
+        background-position-x: 91%;
 }
 
 #contact #Collapse0555 .card.card-body.border {
@@ -7574,4 +7575,27 @@ input#monthly_foreign {
     border: none !important;
     box-shadow: none !important;
     pointer-events: none !important;
+}
+
+
+div#income-expenses {
+    background-color: #fff !important;
+}
+
+div#income-expenses .border.rounded.bg-light.shadow-sm {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+div#income-expenses .border.rounded.bg-light.shadow-sm {
+    padding-bottom: 40px;
+}
+
+.Deductions .col-3 {
+    width: 20%;
+}
+
+.modal-header.bg-danger.text-white {
+    background: none !important;
+    border-top: solid 4px #dc3545 !important;
 }
