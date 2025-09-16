@@ -1186,11 +1186,12 @@ async function updateExchangeRate() {
 
 // Function to update LKR amount
 function updateLKRAmount() {
-    const amount = parseFloat(amountInput.value) || 0;
+    const amount = parseFloat(amountInput.value.replace(/,/g, '')) || 0;
     const rate = parseFloat(fxRateInput.value) || 0;
     const lkrAmount = amount * rate;
     lkrSpan.textContent = lkrAmount.toFixed(2);
 }
+
 
 // Event listeners
 amountInput.addEventListener("input", updateLKRAmount);
