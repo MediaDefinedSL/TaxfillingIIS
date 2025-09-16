@@ -107,7 +107,8 @@
                                         <th>Type Employment</th>
                                         <th>Company/Employer Name</th>
                                         <th>TIN of Employer</th>
-                                        <th>Remuneration</th>
+                                        <th>Cash Benefit</th>
+                                        <th>Non Cash Benefit</th>
                                         <th>APIT Primary</th>
                                         <th>APIT Secondary</th>
                                         <th>Action</th>
@@ -146,7 +147,8 @@
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>
-                                                <td>@String.Format("{0:N2}", eploymentIncome.Remuneration)</td>
+                                                <td>@String.Format("{0:N2}", eploymentIncome.CashBenefit)</td>
+                                                <td>@String.Format("{0:N2}", eploymentIncome.NonCashBenefit)</td>
                                                 <td>@eploymentIncome.APITPrimaryEmployment</td>
                                                 <td>@eploymentIncome.APITSecondaryEmployment</td>
                                                 <td>
