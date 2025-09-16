@@ -350,7 +350,7 @@ public sealed class AccountController : Controller
 
             if (result != null)
             {
-                return Ok(new { success = true, message = "Password reset successful! Redirecting to dashboard...", redirectUrl = Url.Action("Account", "Login") });
+                return Ok(new { success = true, message = "Password reset successful! Redirecting to dashboard..." });
             }
 
             return Ok(new { success = true, message = "Password reset successful, but auto-login failed. Please login manually."  });
