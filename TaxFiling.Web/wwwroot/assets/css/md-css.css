@@ -7809,4 +7809,8 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
     }
 }
 
+button.btn-reset {
+    visibility: hidden;
+}
+
 /*Responsive changes added */
