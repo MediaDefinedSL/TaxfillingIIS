@@ -1157,7 +1157,7 @@ setInterval(updateKPIAnnual, 500);
 
 <script>
 $(document).ready(function () {
-const apiKey = "811608e6a1eff21f32289138"; // Replace with your free API key
+const apiKey = "17f3362860b8346a3277e82d"; // Replace with your free API key
 const apiUrl = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/";
 
 const amountInput = document.getElementById("foreign_amount_annual");
@@ -1186,11 +1186,12 @@ async function updateExchangeRate() {
 
 // Function to update LKR amount
 function updateLKRAmount() {
-    const amount = parseFloat(amountInput.value) || 0;
+    const amount = parseFloat(amountInput.value.replace(/,/g, '')) || 0;
     const rate = parseFloat(fxRateInput.value) || 0;
     const lkrAmount = amount * rate;
     lkrSpan.textContent = lkrAmount.toFixed(2);
 }
+
 
 // Event listeners
 amountInput.addEventListener("input", updateLKRAmount);
