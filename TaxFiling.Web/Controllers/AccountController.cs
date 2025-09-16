@@ -198,7 +198,7 @@ public sealed class AccountController : Controller
     #region Log Out...
 
     [HttpPost]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout(string returnUrl = null)
     {
         await HttpContext.SignOutAsync("AuthCookie");
 
@@ -206,7 +206,17 @@ public sealed class AccountController : Controller
         Response.Cookies.Delete("refresh_token");
         Response.Cookies.Delete("userId");
 
-        return RedirectToAction("Login");
+        if (string.IsNullOrEmpty(returnUrl))
+        {
+            return RedirectToAction("Login");
+        }
+        else
+        {
+            // Pass returnUrl as a route value to Login
+            return RedirectToAction("Login", "Account", new { returnUrl = returnUrl });
+        }
+
+        
     }
 
     #endregion

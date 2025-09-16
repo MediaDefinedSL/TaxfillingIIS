@@ -548,8 +548,8 @@ $(function () {
         };
 
         // Call your ASP.NET Core API
-        //fetch(`${appUrl}/api/users/reset-password`, {
-        fetch(`https://localhost:7119/api/users/reset-password`, {
+        fetch(`${appUrl}/users/reset-password`, {
+        //fetch(`https://localhost:7119/api/users/reset-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -567,9 +567,12 @@ $(function () {
                 $('#resetPasswordModal').modal('hide');
                     // Build the encoded returnUrl
                     showMessage("Reset password successful and redirect to Login ...", "success")
-                    const returnUrl = encodeURIComponent('/User/UserProfile?userId=' + userId);
-                    // Redirect to Login page with returnUrl
-                    window.location.href = `/Account/Login?returnUrl=${returnUrl}`;
+                    const returnUrl = '/User/UserProfile?userId=' + userId;
+
+                    fetch(`/Account/Logout?returnUrl=${encodeURIComponent(returnUrl)}`, {
+                        method: 'POST',
+                        
+                    })
                
             })
             .catch(error => console.error('Error resetting password:', error));
