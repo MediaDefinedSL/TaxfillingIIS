@@ -502,19 +502,79 @@ $(function () {
 
     $('#resetPasswordForm').on('submit', function (e) {
         e.preventDefault();
+        var $btn = $(this);
 
         var newPassword = $('#newPassword').val();
         var confirmPassword = $('#confirmPassword').val();
         var userId = $('#resetUserId').val();
-        alert(userId);
+        var isValid = true;
+       // alert(userId);
 
         if (!userId) {
-            alert('User identification error. Please try again.');
+            showMessage("User identification error. Please try again.","error");
             return;
         }
+        if (!newPassword.trim()) {
+            $("#newPassword").after('<div class="text-danger validation-error">New Password is required.</div>');
+            $btn.prop("disabled", false);
+            isValid = false;
+        }
+        else {
+            if (newPassword.length < 6) {
+                $("#newPassword").after('<div class="text-danger validation-error">Password must be at least 6 characters.</div>');
+                $btn.prop("disabled", false);
+                isValid = false;
+            }
+            else {
+                if (newPassword !== confirmPassword) {
+                    $("#newPassword").after('<div class="text-danger validation-error">Password and Confirm password not match</div>');
+                    $btn.prop("disabled", false);
+                    isValid = false;
+                }
+            }
+        }
 
+        if (!isValid)
+            return;
 
+        // Replace these with the real values collected from your form
+        const email = document.getElementById('Email').value;
+        const newResetPassword = $('#newPassword').val();
+
+        // Build the body object
+        const body = {
+            email: email,
+            newPassword: newResetPassword
+        };
+
+        // Call your ASP.NET Core API
+        //fetch(`${appUrl}/api/users/reset-password`, {
+        fetch(`https://localhost:7119/api/users/reset-password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+            .then(response => {
+                // Ensure we only call .json() if it's actually JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json();
+                }
+                // fallback: if server accidentally returns plain text
+                return response.text().then(text => ({ success: false, message: text }));
+            })
+            .then(data => {
+                $('#resetPasswordModal').modal('hide');
+                    // Build the encoded returnUrl
+                    showMessage("Reset password successful and redirect to Login ...", "success")
+                    const returnUrl = encodeURIComponent('/User/UserProfile?userId=' + userId);
+                    // Redirect to Login page with returnUrl
+                    window.location.href = `/Account/Login?returnUrl=${returnUrl}`;
+               
+            })
+            .catch(error => console.error('Error resetting password:', error));
     });
+
 
 });
 
