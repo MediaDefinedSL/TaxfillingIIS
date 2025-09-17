@@ -5,6 +5,7 @@
 
 @{
     var apiUrl = Configuration["BaseAPIUrl"];
+    int SubmitStatus = ViewBag.SubmitStatus ?? -1;
 }
 
 <main class="main-content">
@@ -13,78 +14,85 @@
         <div class="card card-body">
 
 
-<div id="selfdeclaration-section" class="content-panel p-4 bg-light rounded shadow-sm" >
+            <div id="selfdeclaration-section" class="content-panel p-4 bg-light rounded shadow-sm">
                 <input type="hidden" id="hndUserid" name="hndUserid" value="@ViewBag.UserId" />
                 <input type="hidden" id="hndapiUrl" name="hndapiUrl" value="@apiUrl" />
-    <h4 class="mb-3">Declaration of the Tax Payer</h4>
+                <input type="hidden" id="hndSubmitStatus" name="hndSubmitStatus" value="@SubmitStatus" />
+                <h4 class="mb-3">Declaration of the Tax Payer</h4>
 
-    <div class="border rounded p-3 bg-light">
-        <p>
-            I declare to the best of my knowledge and belief that all particulars furnished in the Return of Income are
-            true, correct, and complete. I am aware that making an incorrect, false, or misleading statement is an offence.
-        </p>
-        <div class="alert alert-info d-flex align-items-center mt-3" role="alert" style="font-size: 0.95rem;">
-            <i class="bi bi-info-circle-fill me-2"></i>
-            <div>
+                <div class="border rounded p-3 bg-light">
+                    <p>
+                        I declare to the best of my knowledge and belief that all particulars furnished in the Return of Income are
+                        true, correct, and complete. I am aware that making an incorrect, false, or misleading statement is an offence.
+                    </p>
+                    <div class="alert alert-info d-flex align-items-center mt-3" role="alert" style="font-size: 0.95rem;">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <div>
                             <strong>Note:</strong> All documents filled in previous sections (such as <em>Personal Information</em>, <em>Employment Income</em>, etc.) will be listed below for your final review before submission.
+                        </div>
+                    </div>
+
+                    <div class="form-check my-3">
+                        <input class="form-check-input no-print" type="checkbox" id="acceptDeclaration">
+                        <label class="form-check-label no-print" for="acceptDeclaration">
+                            I accept the above declaration.
+                        </label>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary no-print" id="submitSelfonlineDeclarationBtn">
+                            Accept and Submit
+                        </button>
+
+                    </div>
+
+
+                </div>
             </div>
-        </div>
-      
-        <div class="form-check my-3">
-            <input class="form-check-input no-print" type="checkbox" id="acceptDeclaration">
-            <label class="form-check-label no-print" for="acceptDeclaration">
-                I accept the above declaration.
-            </label>
-        </div>
+            <div class="d-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 btn-prv">
+                    <!-- Previous Button -->
+                    <button class="btn btn-primary btn-lg" id="btnOtherPrevious">
+                        Previous
+                    </button>
+                </div>
+                <div class="col-lg-6 col-md-6 right ">
+                    <button class="btn btn-primary btn-lg" id="btnMainDashboardNext" style="display:none;">
+                        Finish
+                    </button>
+                </div>
 
-        <div class="mt-4 d-flex justify-content-end">
-            <button type="button" class="btn btn-primary no-print" id="submitSelfonlineDeclarationBtn" >
-                Accept and Submit
-            </button>
-          
-        </div>
-
-
-    </div>
             </div>
-    <div class="d-flex justify-content-between">
-        <div class="col-lg-6 col-md-6 btn-prv">
-            <!-- Previous Button -->
-            <button class="btn btn-primary btn-lg" id="btnOtherPrevious">
-                Previous
-            </button>
-        </div>
-        <div class="col-lg-6 col-md-6 right ">
-            <button class="btn btn-primary btn-lg" id="btnMainDashboardNext" style="display:none;">
-                Finish
-            </button>
+
+
         </div>
 
-    </div>
 
-
-</div>
-
-   
 
     </div>
 
 </main>
 
-    <script>
+<script>
     $(function () {
          const submitDeclareBtn = document.getElementById("submitSelfonlineDeclarationBtn");
           const acceptCheckbox = document.getElementById("acceptDeclaration");
-          const baseApiUrl = $("#hndapiUrl").val();
+          const baseApiUrl = $("#hndapiUrl").val
+           const submitStatus = $("#hndSubmitStatus").val();
+          
+           if (submitStatus ==2){
+              acceptCheckbox.disabled = true;
+              submitDeclareBtn.disabled = true;
+           }
 
          submitDeclareBtn.addEventListener("click", function () {
-                             
+
                               if (acceptCheckbox.checked )  {
 
                                       const userId = $("#hndUserid").val();
-                                      const status = 2; 
+                                      const status = 2;
                                       const currentYear = new Date().getFullYear()-1;
-                                     
+
                                      const payload = {
                                           userId: userId,
                                           uploadedDocumentStatus: 2
@@ -100,7 +108,7 @@
                                       .then(res => res.json())
                                       .then(data => {
                                             if(data.success){
-                                                   
+
                                                  acceptCheckbox.disabled = true;
                                                  showMessage("Your filling Documents submitted successfully", "success");
                                                  this.disabled = true;
@@ -121,4 +129,4 @@
                            }
                        });
         });
-    </script>
+</script>

@@ -7,6 +7,7 @@
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
     var tinNo = User.Claims.FirstOrDefault(c => c.Type == "TinNo")?.Value;
     int personalInfoCompletedStatus = ViewBag.personalInfoSelfFilingStatus ?? 0;
+    int SubmitStatus = ViewBag.SubmitStatus ?? 0;
 }
 
 
@@ -105,6 +106,9 @@
                                         var isCurrentAssessmentYear = year == endYear;
 
                                         int numericStatus = isCurrentAssessmentYear ? personalInfoCompletedStatus : 2;
+                                        if (SubmitStatus ==2){
+                                            personalInfoCompletedStatus = 2;
+                                        }
 
                                         string status = isCurrentAssessmentYear
                                         ? personalInfoCompletedStatus switch

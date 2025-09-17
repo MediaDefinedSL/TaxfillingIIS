@@ -44,4 +44,22 @@ public class SelfFilingSummaryCalculationDto
 
     public decimal TaxCredits { get; set; }
     public decimal BalanceTaxPayable { get; set; }
+
+    public decimal CashInHandStart { get; set; }
+    public decimal CashAtBankStart { get; set; }
+
+    public decimal EPFContribution { get; set; }
+    public decimal TaxPayments { get; set; }
+    public decimal LivingEducationExpenses { get; set; }
+    public decimal ChildrenEducationExpenses { get; set; }
+    public decimal VehicleExpenses { get; set; }
+    public decimal LifeMedicalInsurance { get; set; }
+    public decimal LoanInstallments { get; set; }
+    public decimal CreditCardExpenses { get; set; }
+    public decimal PurchaseEquitySecurities { get; set; }
+    public decimal AnyOtherExpenses { get; set; }
+    public decimal TotalCashOutflow { get; set; }
+
+    public decimal CashInHandEnd { get; set; }
+    public decimal CashAtBankEnd { get; set; }
 }
