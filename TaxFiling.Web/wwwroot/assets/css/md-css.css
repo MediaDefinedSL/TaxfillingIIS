@@ -7957,7 +7957,7 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
 
 #hero-carousel .btn.btn-primary.btn-lg,
 #hero-carousel .btn-get-started {
-    width: 200px;
+    width: 186px;
     margin-top: 10px;
 }
 
@@ -8068,10 +8068,31 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
     text-align: left;
 }
 
+.ui-hide-menu{
+        pointer-events: none;
+}
+
 }
 
 .row.position-relative.abiu-s-one h2.inner-title {
     color: #0d6efd !important;
+}
+
+
+td.num.kpi.kpi-first {
+    width: 49% !important;
+}
+
+td.num.aling-total {
+    width: 49% !important;
+}
+
+.band.text-boldd {
+    background-color: #52acf6 !important;
+}
+
+div#in-this-section-container .main-content {
+    min-height: auto !important;
 }
 /*Responsive changes added */
 
