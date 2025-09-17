@@ -8103,10 +8103,13 @@ div#in-this-section-container .main-content {
 button.btn-reset {
     visibility: hidden;
 }
-/*Responsive changes added */
+
+/*Responsive changes added **/
+
 
 .locked {
     pointer-events: none; /* disables mouse/keyboard events   */
     opacity: 0.5; /* faded look so user sees it's off */
     cursor: not-allowed;
 }
+
