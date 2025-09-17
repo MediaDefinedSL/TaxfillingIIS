@@ -683,7 +683,7 @@
     }
 
     function resetAll(){
-      [ 'emp_apit_annual','foreign_amount_annual','biz_profit_annual','interest_gross_annual','rent_gross_annual','dividend_gross_annual','invest_other_annual','other_income_annual','relief_solar','relief_qualifying','annual-money','profit_annual','profit_annual' ].forEach(id=> q(id).value = money(0));
+      [ 'emp_apit_annual','foreign_amount_annual','biz_profit_annual','interest_gross_annual','rent_gross_annual','dividend_gross_annual','invest_other_annual','other_income_annual','relief_solar','relief_qualifying','annual-money','profit_annual','profit_annual' ].forEach(id=> q(id).value = money());
       q('relief_personal').value = money(1800000);
       q('foreign_currency').value = 'LKR';
       q('fx_rate').value = money(300);
