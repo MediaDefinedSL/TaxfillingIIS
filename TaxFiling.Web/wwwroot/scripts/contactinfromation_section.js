@@ -113,6 +113,9 @@
                 if (document.getElementById("docUploadStatus")) {                   
                     $(document).trigger("personalInfoCompleted", 1);
                     document.getElementById("personalInfoCompleted").value = "1";
+                    $('#btnIncomeTaxCredits, #linkEmploymentIncome, #linkInvestmentIncome, #linkDetailsinvestment, #linkPartnerInvestment, #linkBeneficiaryInvestment, #linkInvestmentExemptAmounts, #linkDeductions')
+                        .removeClass('locked')
+                        .removeAttr('disabled');
                     const el = document.getElementById("personalInfoStatus");
                     if (!el) return;
 

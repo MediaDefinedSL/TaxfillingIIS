@@ -14,6 +14,8 @@
     int docStatus = ViewBag.UploadedDocStatus ?? -1;
     int personalInfoCompletedStatus = ViewBag.personalInfoStatus ?? -1;
     var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
+    var personalTaxAssistedComplete = Context.Session.GetString("PersonalInfoComplete") == "true";
+    
 }
 <link href="~/assets/css/tree-container-taxassisted-css.css?v=3" rel="stylesheet">
 <main class="main">
@@ -87,8 +89,13 @@
                         </a>
                     </div>
 
-                    <a href="#documents-submenu" class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center"
-                       data-bs-toggle="collapse" aria-expanded="false" data-target="documents-section">
+                    <a href="#documents-submenu"
+                       class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center @(personalTaxAssistedComplete ? "" : "locked")"
+                       data-bs-toggle="collapse"
+                       aria-expanded="false"
+                       data-bs-target="#documents-section">
+                        
+                    
                         <span>
                             <i class="fas fa-chart-bar me-3"></i>
                             <span>Documents</span>
@@ -1633,7 +1640,7 @@
                 <div class="load-text">Uploading, please wait...</div>
             </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
-            <input type="hidden" id="personalInfoCompleted" value="@personalInfoCompletedStatus" />
+            <input type="hidden" id="personalInfoCompleted" value="@personalTaxAssistedComplete" />
 
             <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
@@ -3341,10 +3348,10 @@
 
                   function updateSidebar(status) {
                     if (status === -1 ) { // incomplete
-                        $(".sidebar-link").not("#btnLoadSection").addClass("disabled-link").off("click").on("click", function(e){
-                            e.preventDefault();
-                            showMessage("Please complete Personal Information before accessing other sections.","error");
-                        });
+                        // $(".sidebar-link").not("#btnLoadSection").addClass("disabled-link").off("click").on("click", function(e){
+                        //     e.preventDefault();
+                        //     showMessage("Please complete Personal Information before accessing other sections.","error");
+                        // });
 
                         $("#documents-submenu a").addClass("disabled-link").off("click").on("click", function(e){
                             e.preventDefault();
@@ -3363,12 +3370,12 @@
                        
                        
 
-                    $(document).on("personalInfoCompleted", function(e, newStatus) {                        
-                        updateSidebar(newStatus);
-                    });
+                    //$(document).on("personalInfoCompleted", function(e, newStatus) {                        
+                        //updateSidebar(newStatus);
+                    //});
 
-                            var status = parseInt($("#personalInfoCompleted").val() || 0);
-                                        updateSidebar(status);
+                            //var status = parseInt($("#personalInfoCompleted").val() || 0);
+                                        //updateSidebar(status);
                     
 
                       const checkboxes = document.querySelectorAll(".checkbox-lg");
