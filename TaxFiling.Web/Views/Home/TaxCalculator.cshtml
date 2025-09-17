@@ -1069,7 +1069,7 @@ function resetCalculator() {
   document.getElementById("monthly_foreign").value = "";
   document.getElementById("exchange_rate").value = "";
   document.getElementById("personal_relief").value = "";
-  document.querySelectorAll("span").forEach(span => span.innerText = "0.00");
+  document.querySelectorAll("div.cls-test-div span").forEach(span => span.innerText = "0.00");
   document.getElementById("effective_rate").innerText = "0.00%";
 }
 

@@ -8072,6 +8072,10 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
         pointer-events: none;
 }
 
+.col-lg-4.aos-init.aos-animates.aos-animate {
+    pointer-events: none;
+}
+
 }
 
 .row.position-relative.abiu-s-one h2.inner-title {
