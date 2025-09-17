@@ -152,8 +152,8 @@ public class UserUploadTaxAssistedDocController : Controller
                 { "Id", userId.ToString() }
             }; https://localhost:7119/
 
-            // string userUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
-            string userUrl = QueryHelpers.AddQueryString("https://localhost:7119/api/users/getuser", queryUserParams);
+             string userUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryUserParams);
+            //string userUrl = QueryHelpers.AddQueryString("https://localhost:7119/api/users/getuser", queryUserParams);
             var responseUser = await _httpClient.GetAsync(userUrl, ctx);
             if (responseUser != null && responseUser.IsSuccessStatusCode)
             {
