@@ -150,7 +150,7 @@ public class UserUploadTaxAssistedDocController : Controller
 
             var queryUserParams = new Dictionary<string, string?> {
                 { "Id", userId.ToString() }
-            }; https://localhost:7119/
+            }; 
 
              string userUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryUserParams);
             //string userUrl = QueryHelpers.AddQueryString("https://localhost:7119/api/users/getuser", queryUserParams);
