@@ -12,5 +12,6 @@ public class SelfOnlineSummary
     public List<SelfonlineLiabilitiesOtherAssetsGiftsViewModel> selfonlineLiabilitiesOtherAssetsGifts { get; set; }
     public List<SelfonlineLiabilitiesAllLiabilitiesViewModel> selfonlineLiabilitiesAllLiabilities { get; set; }
     public List<SelfOnlineEmploymentIncomeDetails> selfOnlineEmploymentIncomeDetails { get; set; }
-    
+    public List<SelfOnlineInvestmentPartnerBeneficiaryExemptViewModel> selfOnlineInvestmentPartnerBeneficiaryExemptViewModel { get; set; }
+
 }

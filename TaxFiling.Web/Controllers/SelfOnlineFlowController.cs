@@ -1462,6 +1462,19 @@ public class SelfOnlineFlowController : Controller
                 employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
             }
         }
+        List<SelfOnlineInvestmentPartnerBeneficiaryExemptViewModel> investmentPBEIncomeList = [];
+        string investmentPBEIncomeListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/investmentpartnerbeneficiaryexempt_list", queryParams);
+        var response10 = await _httpClient.GetAsync(investmentPBEIncomeListUrl, ctx);
+        if (response10 != null && response10.IsSuccessStatusCode)
+        {
+            var responseContent = await response10.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                investmentPBEIncomeList = JsonSerializer.Deserialize<List<SelfOnlineInvestmentPartnerBeneficiaryExemptViewModel>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
+
 
         var model = new SelfOnlineSummary
         {
@@ -1474,7 +1487,8 @@ public class SelfOnlineFlowController : Controller
             selfonlineLiabilitiesAllLiabilities = liabilitiesList,
             selfonlineLiabilitiesOtherAssetsGifts = otherAssetList,
             selfonlineLiabilitiesDisposalAssets = disposalAssetsList,
-            selfOnlineEmploymentIncomeDetails = employmentIncomeList
+            selfOnlineEmploymentIncomeDetails = employmentIncomeList,
+            selfOnlineInvestmentPartnerBeneficiaryExemptViewModel = investmentPBEIncomeList
         };
 
         return PartialView("SelfOnlineSummary", model);
