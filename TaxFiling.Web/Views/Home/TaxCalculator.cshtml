@@ -1312,5 +1312,55 @@ updateExchangeRate();
 
 <!-- ===== END  foring income ===== -->
 
+<script>
 
+const apiKey = "17f3362860b8346a3277e82d"; 
+const apiUrl = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/";
+
+const amountInput = document.getElementById("monthly_foreign");
+const currencySelect = document.getElementById("foreign_currencyy");
+const fxRateInput = document.getElementById("exchange_rate");
+const lkrSpan = document.getElementById("salary_lkr");
+
+// Fetch exchange rate when currency changes
+async function updateExchangeRate() {
+    const currency = currencySelect.value;
+    try {
+        const response = await fetch(`${apiUrl}${currency}`);
+        const data = await response.json();
+
+        if (data.result === "success") {
+            const rate = data.conversion_rates.LKR;
+            fxRateInput.value = rate.toFixed(2);
+            updateLKRAmount();
+calc();
+        } else {
+            console.error("Failed to fetch exchange rate:", data['error-type']);
+        }
+    } catch (err) {
+        console.error("Error fetching exchange rate:", err);
+    }
+}
+
+// Calculate salary in LKR
+function updateLKRAmount() {
+    const amount = parseFloat(amountInput.value.replace(/,/g, '')) || 0;
+    const rate = parseFloat(fxRateInput.value) || 0;
+    const lkrAmount = amount * rate;
+
+    lkrSpan.textContent = lkrAmount.toLocaleString(undefined, { 
+        minimumFractionDigits: 2, 
+        maximumFractionDigits: 2 
+    });
+}
+
+// Event listeners for live updates
+amountInput.addEventListener("input", updateLKRAmount);
+fxRateInput.addEventListener("input", updateLKRAmount);
+currencySelect.addEventListener("change", updateExchangeRate);
+
+// Initial load
+updateExchangeRate();
+
+</script>
 
