@@ -8107,9 +8107,16 @@ button.btn-reset {
 /*Responsive changes added **/
 
 
+
+#preloader {
+    background-color: #fff !important;
+}
+
 .locked {
-    pointer-events: none; /* disables mouse/keyboard events   */
-    opacity: 0.5; /* faded look so user sees it's off */
+    pointer-events: none;
+    /* disables mouse/keyboard events   */
+    opacity: 0.5;
+    /* faded look so user sees it's off */
     cursor: not-allowed;
 }
 
