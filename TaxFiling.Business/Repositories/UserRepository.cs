@@ -367,7 +367,10 @@ public class UserRepository : IUserRepository
                                 ProfileImagePath = user.ProfileImagePath,
                                 TaxTotal = user.TaxTotal,
                                 taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus,
-                                IRDPIN = user.IRDPIN
+                                IRDPIN = user.IRDPIN,
+                                isPersonalInfoCompleted = user.isPersonalInfoCompleted,
+                                isIncomeTaxCreditsCompleted = user.isIncomeTaxCreditsCompleted
+
                             })
                             .FirstOrDefaultAsync(ctx);
 
