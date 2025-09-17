@@ -701,7 +701,7 @@
     document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); }); });
     document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); calc(); }); });
     q('btn_calc').addEventListener('click', ()=>{ formatMoneyInputs(); calc(); });
-    q('btn_reset').addEventListener('click', ()=>{ resetAll(); formatMoneyInputs(); calc(); });
+    q('btn_resett').addEventListener('click', ()=>{ resetAll(); formatMoneyInputs(); calc(); });
 
     // Init
     formatMoneyInputs();
