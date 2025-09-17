@@ -168,6 +168,7 @@ $(function () {
         $btn.prop('disabled', true);
 
         let formData = new FormData();
+        var isValid = true;
 
         let userId = $("#UserId").val();
         let firstName = $("#FirstName").val();
@@ -199,29 +200,96 @@ $(function () {
         var phonePattern = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
 
         // === Validation (return immediately, do NOT disable/re-enable) ===
-        if (!firstName) return showMessage("First Name is required", "error");
-        if (!lastName) return showMessage("Last Name is required", "error");
-        if (!email) return showMessage("Email is required", "error");
-        if (!emailPattern.test(email)) return showMessage("Invalid email", "error");
-        if (!phone) return showMessage("Phone is required", "error");
-        if (!phonePattern.test(phone)) return showMessage("Invalid phone number!", "error");
-        if (!password) return showMessage("Password is required", "error");
-        if (!nicNo) return showMessage("NIC No is required", "error");
-        if (!tinNO) return showMessage("TIN No is required", "error");
-        if (!validateNIC(nicNo)) return showMessage("Invalid NIC number.", "error");
-        if (!validateTIN(tinNO)) return showMessage("Invalid TIN number", "error");
-        if (!irdPIN) return showMessage("IRD PIN is required", "error");
+        if (!firstName) {
+            showMessage("First Name is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!lastName) {
+            showMessage("Last Name is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!email) {
+            showMessage("Email is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!emailPattern.test(email)) {
+            showMessage("Invalid email", "error");
+            $btn.prop("disabled", false);
+            isValid = false;
+            return false;
+        }
+        if (!phone) {
+            showMessage("Phone is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!phonePattern.test(phone)) {
+            showMessage("Invalid phone number!", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!password) {
+            showMessage("Password is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!nicNo) {
+            showMessage("NIC No is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!tinNO) { 
+            showMessage("TIN No is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!validateNIC(nicNo)) {
+            showMessage("Invalid NIC number.", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!validateTIN(tinNO)) {
+            showMessage("Invalid TIN number", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
+        if (!irdPIN) {
+            showMessage("IRD PIN is required", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
+        }
         // Length check
         if (irdPIN.length !== 8) {
-            return showMessage("IRD PIN must be exactly 8 characters", "error");
+            showMessage("IRD PIN must be exactly 8 characters", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
         }
         // Allowed characters check (only letters & digits)
         if (!/^[a-zA-Z0-9]{8}$/.test(irdPIN)) {
-            return showMessage("IRD PIN can only contain letters and numbers", "error");
+            showMessage("IRD PIN can only contain letters and numbers", "error");
+            isValid = false;
+            $btn.prop("disabled", false);
+            return false;
         }
 
         // === Passed validation, now disable button ===
         $btn.prop("disabled", true);
+
 
         $.ajax({
             url: `${appUrl}/user/userupdate`,
