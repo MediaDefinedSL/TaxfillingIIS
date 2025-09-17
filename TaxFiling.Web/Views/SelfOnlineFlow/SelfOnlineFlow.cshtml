@@ -6,8 +6,8 @@
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
     var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
-    var personalComplete = Context.Session.GetString("PersonalInfoComplete") == "true";
-    var incomeTaxCreditComplete = Context.Session.GetString("IncomeTaxCreditsCompleted") == "true";
+    var personalComplete = Context.Session.GetString("PersonalInfoComplete") == "1";
+    var incomeTaxCreditComplete = Context.Session.GetString("IncomeTaxCreditsCompleted") == "1";
 
 }
 

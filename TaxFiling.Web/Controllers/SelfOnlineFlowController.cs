@@ -165,6 +165,7 @@ public class SelfOnlineFlowController : Controller
         }
 
         ViewBag.TaxTotal = user.TaxTotal;
+        HttpContext.Session.SetString("PersonalInfoComplete", user.isPersonalInfoCompleted.ToString());
         HttpContext.Session.SetString("IncomeTaxCreditsCompleted", user.isIncomeTaxCreditsCompleted.ToString());
 
 
@@ -191,7 +192,7 @@ public class SelfOnlineFlowController : Controller
             }
         }
         ViewBag.personalInfoSelfFilingStatus = personalInfoStatus;
-        HttpContext.Session.SetString("PersonalInfoComplete", personalInfoStatus.ToString());
+        
         return PartialView("Partial/_DashboardSection");
     }
     public IActionResult LoadInThisSection()

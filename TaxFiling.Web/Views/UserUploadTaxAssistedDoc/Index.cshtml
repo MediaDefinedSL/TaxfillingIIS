@@ -14,7 +14,7 @@
     int docStatus = ViewBag.UploadedDocStatus ?? -1;
     int personalInfoCompletedStatus = ViewBag.personalInfoStatus ?? -1;
     var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
-    var personalTaxAssistedComplete = Context.Session.GetString("PersonalInfoComplete") == "true";
+    var personalTaxAssistedComplete = Context.Session.GetString("personalTaxAssistedComplete") == "1";
     
 }
 <link href="~/assets/css/tree-container-taxassisted-css.css?v=3" rel="stylesheet">
@@ -162,7 +162,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row"><strong>Name of taxpayer</strong></th>
+                                            <th scope="row"><strong>Name of Taxpayer</strong></th>
                                             <td class="text-center">@userName</td>
                                         </tr>
                                     </tbody>
