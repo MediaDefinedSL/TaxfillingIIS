@@ -8098,4 +8098,9 @@ td.num.aling-total {
 div#in-this-section-container .main-content {
     min-height: auto !important;
 }
+
+
+button.btn-reset {
+    visibility: hidden;
+}
 /*Responsive changes added */

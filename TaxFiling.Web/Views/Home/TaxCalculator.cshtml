@@ -1366,29 +1366,3 @@ updateExchangeRate();
 </script>
 
 
-<script>
-function resetCalculator() {
-  // ✅ Find the currently active tab (Bootstrap example)
-  const activeTab = document.querySelector(".nav-link.active");
-  if (activeTab) {
-    sessionStorage.setItem("activeTab", activeTab.getAttribute("profile-tab"));
-  }
-
-  // ✅ Refresh the page
-  window.location.reload();
-}
-
-// ✅ On page load, reactivate the last tab
-window.addEventListener("DOMContentLoaded", function () {
-  const activeTabId = sessionStorage.getItem("activeTab");
-  if (activeTabId) {
-    const tabToActivate = document.getElementById(activeTabId);
-    if (tabToActivate) {
-      // Trigger Bootstrap tab activation
-      const tabTrigger = new bootstrap.Tab(tabToActivate);
-      tabTrigger.show();
-    }
-    sessionStorage.removeItem("activeTab"); // Clear storage
-  }
-});
-</script>
