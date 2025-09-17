@@ -8103,7 +8103,9 @@ div#in-this-section-container .main-content {
 button.btn-reset {
     visibility: hidden;
 }
+
 /*Responsive changes added **/
+
 
 
 #preloader {
@@ -8117,3 +8119,4 @@ button.btn-reset {
     /* faded look so user sees it's off */
     cursor: not-allowed;
 }
+

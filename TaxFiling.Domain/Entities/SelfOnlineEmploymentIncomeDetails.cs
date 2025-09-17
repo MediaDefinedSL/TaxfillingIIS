@@ -35,6 +35,10 @@ public class SelfOnlineEmploymentIncomeDetails : Entity
     public decimal? TerminalBenefits { get; set; }
     [Column("Amount")]
     public decimal? Amount { get; set; }
+    [Column("CashBenefit")]
+    public decimal? CashBenefit { get; set; }
+    [Column("NonCashBenefit")]
+    public decimal? NonCashBenefit { get; set; }
     [Column("BenefitExcludedForTax")]
     public decimal? BenefitExcludedForTax { get; set; }
     [Column("uploadedFileName")]

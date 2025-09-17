@@ -105,6 +105,11 @@
         }
     }
 
+    let currentlyImmovablePropertiesEditingRow = null;
+    let currentlyMVEditingRow = null;
+    let currentlySSEditingRow = null;    
+    let currentlyDeclareEditingRow = null;
+
     //------------------ Immovable Properties 
     $(document).off("click", "#btnImmovablePropertiesSubmit").on("click", "#btnImmovablePropertiesSubmit", function () {
         var $btn = $(this);
@@ -163,6 +168,7 @@
             success: function (response) {
                 $btn.prop("disabled", false);
                 showMessage(selfonlinePropertyId ? "Updated successfully." : "Saved successfully", "success");
+                currentlyImmovablePropertiesEditingRow = null;
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetImmovablePropertiesForm();
                 // Refresh grid so user sees latest data
@@ -202,12 +208,19 @@
 
         // Get the current row
         var $row = $(this).closest("tr");
+        if (currentlyImmovablePropertiesEditingRow && currentlyImmovablePropertiesEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyImmovablePropertiesEditingRow = $row;
         var $deleteBtn = $row.find(".immovableiroperty-deletebtn");
 
         // Disable the delete button in this row
         $deleteBtn.attr("data-disabled", "true");   // for persistence
         $deleteBtn.addClass("disabled-btn");
         $deleteBtn.prop("disabled", true);
+
+
 
         // Read all data-* attributes from the Edit button
         var id = $(this).data("id");
@@ -292,6 +305,7 @@
             success: function (response) {
                 $btn.prop("disabled", false);
                 if (response.success) {
+                    currentlyMVEditingRow = null;
                     showMessage(motorVehicleID ? "Updated successfully." : "Saved successfully", "success");
                     $("html, body").animate({ scrollTop: 0 }, "smooth");
                     resetMotorVehicleForm();
@@ -337,6 +351,11 @@
 
         // Get the current row
         var $row = $(this).closest("tr");
+        if (currentlyMVEditingRow && currentlyMVEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyMVEditingRow = $row;
         var $deleteBtn = $row.find(".motorVehicle-deletebtn");
 
         // Disable the delete button in this row
@@ -421,8 +440,16 @@
                 alert('Error: ' + err);
                 return;
             }
-            document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
-            showMessage("Data saved successfully!", "success");
+            currentlyExEditingRow = null;
+            if (document.getElementById('saveFinancialDetailsBtn').innerText == "Save") {
+                showMessage("Saved successfully!", "success");
+                document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
+            }
+            else {
+                showMessage("Updated Successfully!", "success");
+            }
+            
+            
         } catch (err) {
             alert('Failed to submit: ' + err.message);
         }
@@ -489,6 +516,7 @@
             data: sharesStocks,
             success: function (response) {
                 $btn.prop("disabled", false);
+                currentlySSEditingRow = null;
                 showMessage(selfonlineSharesStocksID ? "Updated successfully." : "Saved successfully", "success");
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetSharesStocksForm();
@@ -530,6 +558,12 @@
 
         // Get the current row
         var $row = $(this).closest("tr");
+
+        if (currentlySSEditingRow && currentlySSEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlySSEditingRow = $row;
         var $deleteBtn = $row.find(".sharesStocksSecurities-deletebtn");
 
         // Disable the delete button in this row
@@ -602,6 +636,7 @@
             data: businessAccount,
             success: function (response) {
                 $btn.prop("disabled", false);
+                currentlyDeclareEditingRow = null;
                 showMessage(selfonlineBusinessAccountID ? "Updated successfully." : "Saved successfully", "success");
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                 resetBusinessAccountForm();
@@ -642,6 +677,11 @@
 
         // Get the current row
         var $row = $(this).closest("tr");
+        if (currentlyDeclareEditingRow && currentlyDeclareEditingRow[0] !== $row[0]) {
+            return showMessage("You are already editing another row. Please update before editing a new one.", "error");
+        }
+        // Mark this row as currently editing
+        currentlyDeclareEditingRow = $row;
         var $deleteBtn = $row.find(".capitalCurrentAccount-deletebtn");
 
         // Disable the delete button in this row

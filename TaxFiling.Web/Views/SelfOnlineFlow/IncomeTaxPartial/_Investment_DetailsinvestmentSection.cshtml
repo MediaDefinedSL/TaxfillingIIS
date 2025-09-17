@@ -748,7 +748,7 @@
                                     </table>
                                 </div>
 
-                                <hr class="my-4">
+                                @* <hr class="my-4">
                                 <h5 class="mb-3"> <i class="fas fa-wallet me-2"></i> Reliefs for investment income</h5>
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -756,7 +756,7 @@
                                         <input type="text" class="form-control" id="txtReliefRentIncome" name="txtReliefRentIncome">
                                     </div>
                                  </div>
-                                 <br />
+                                 <br /> *@
                             </div>
 
                             <div class="tab-pane fade" id="otherincome" role="tabpanel" aria-labelledby="otherincome-tab">
@@ -950,7 +950,7 @@
 
          $('#linkEmploymentDetailsContinue').on('click', function () {
                  $.ajax({
-                    url: '/SelfOnlineFlow/LoadInvestment_Detailsinvestment',
+                    url: '/SelfOnlineFlow/LoadEmploymentIncome',
                     type: 'GET',
                     success: function (data) {
                         $('#in-this-section-container').html(data);

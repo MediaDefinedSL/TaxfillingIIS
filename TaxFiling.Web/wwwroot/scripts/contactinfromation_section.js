@@ -113,6 +113,9 @@
                 if (document.getElementById("docUploadStatus")) {                   
                     $(document).trigger("personalInfoCompleted", 1);
                     document.getElementById("personalInfoCompleted").value = "1";
+                    $('#btnIncomeTaxCredits, #linkEmploymentIncome, #linkInvestmentIncome, #linkDetailsinvestment, #linkPartnerInvestment, #linkBeneficiaryInvestment, #linkInvestmentExemptAmounts, #linkDeductions')
+                        .removeClass('locked')
+                        .removeAttr('disabled');
                     const el = document.getElementById("personalInfoStatus");
                     if (!el) return;
 
@@ -159,7 +162,9 @@
                 else {
                     document.getElementById("personalInfoSelfFilingCompleted").value = "1";
                     $(document).trigger("statusUpdated", 1);
-                    
+                    $('#btnIncomeTaxCredits, #linkEmploymentIncome, #linkInvestmentIncome, #linkDetailsinvestment, #linkPartnerInvestment, #linkBeneficiaryInvestment, #linkInvestmentExemptAmounts, #linkDeductions')
+                        .removeClass('locked')
+                        .removeAttr('disabled');
                 }
                 $.ajax({
                     url: '/SelfOnlineFlow/LoadSummary',
@@ -168,18 +173,22 @@
                         $('#in-this-section-container').html(data);
                         $('.sub-link').removeClass('active');
                         $('#linkSummary').addClass('active');
-                         
-                        
+
+
                         $("html, body").animate({ scrollTop: 0 }, "smooth");
                     },
                     error: function () {
                         alert("Error loading section content.");
                     }
                 });
+
+                    
             },
-            error: function () {
+
+             error: function () {
                 alert("Error saving taxpayer.");
-            }
+                }
+                      
         });
    
 

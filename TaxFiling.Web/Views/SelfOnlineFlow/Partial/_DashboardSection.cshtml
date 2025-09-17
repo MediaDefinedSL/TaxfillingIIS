@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row"><strong>Name of taxpayer</strong></th>
+                            <th scope="row"><strong>Name of Taxpayer</strong></th>
                             <td class="text-center">@userName</td>
                         </tr>
                     </tbody>
@@ -110,6 +110,7 @@
                                         ? personalInfoCompletedStatus switch
                                         {
                                             0 => "NEW",
+                                            -1 => "NEW",
                                             1 => "DRAFT",
                                             2 => "SUBMITTED",
                                             3 => "REUPLOAD",
@@ -196,6 +197,10 @@
                 badge.textContent = "Submitted";
                 break;
             case 0:
+                badge.className = "badge bg-info text-dark px-3 py-2";
+                badge.textContent = "New";
+                break;
+            case -1:
                 badge.className = "badge bg-info text-dark px-3 py-2";
                 badge.textContent = "New";
                 break;

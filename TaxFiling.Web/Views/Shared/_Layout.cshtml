@@ -12,7 +12,7 @@
     <script type="importmap"></script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-   
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
     <!-- FontAwesome CDN -->
@@ -26,15 +26,14 @@
     <script src="~/js/datatables.min.js" asp-append-version="true"></script>
 
     <!-- Toastr Alert -->
-    <link href="~/css/toastr.min.css" rel="stylesheet" asp-append-version="true"  />
+    <link href="~/css/toastr.min.css" rel="stylesheet" asp-append-version="true" />
     <script src="~/js/toastr.min.js" asp-append-version="true"></script>
 
     <script src="~/scripts/notification.js" asp-append-version="true"></script>
     <link href="~/css/site.css" rel="stylesheet" />
     <!--  <link href="~/css/style.css" rel="stylesheet" />-->
-
     <!-- jQuery Confirm Plugin -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js" defer></script>
 
     <script src="https://cdn.tiny.cloud/1/dwrtt5rx0kh9pupwi1rz3thqhutp18y7n9i0rvmz0vgz81zv/tinymce/6/tinymce.min.js" referrerpolicy="origin" defer></script>
@@ -72,7 +71,7 @@
 
 
 
-  <link href="~/assets/css/md-css.css?v=172" rel="stylesheet">
+    <link href="~/assets/css/md-css.css?v=172" rel="stylesheet">
 
 
 
@@ -86,10 +85,10 @@
 
     <link href="~/assets/css/bootstrap-switch-button.min.css" rel="stylesheet">
     <script src="~/assets/js/bootstrap-switch-button.min.js" defer></script>
-   <!-- <script src="~/assets/js/jquery-2.2.0.min.js"></script>-->
+    <!-- <script src="~/assets/js/jquery-2.2.0.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-migrate-3.3.2.min.js" defer></script>
-   <!-- <script src="~/assets/js/slick.js"></script>-->
+    <!-- <script src="~/assets/js/slick.js"></script>-->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" defer></script>
@@ -102,18 +101,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" defer></script>
 
 </head>
-<body>   
+<body>
     <div class="container-fluid not-padding menubar-css">
         @await Html.PartialAsync("_Header")
     </div>
 
-@*     <div class="container-fluid body-content"> *@
-        @RenderBody()
-  @*   </div> *@
+    @*     <div class="container-fluid body-content"> *@
+    @RenderBody()
+    @*   </div> *@
     @Html.AntiForgeryToken()
     @await Html.PartialAsync("_Footer") <!-- Add this here -->
-
-
     @await RenderSectionAsync("Scripts", required: false)
 
     @section Scripts {
@@ -150,22 +147,22 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         const currentPath = window.location.pathname.toLowerCase();
-        
+
         document.querySelectorAll("#navmenu a").forEach(link => {
             link.classList.remove("active");
         });
-        
+
         document.querySelectorAll("#navmenu a").forEach(link => {
             const href = link.getAttribute("href");
             if (!href || href === "#") return;
 
             const linkPath = href.toLowerCase();
-            
-            
-            
+
+
+
             if (currentPath === linkPath ) {
                 link.classList.add("active");
-               
+
                 const parentDropdown = link.closest(".dropdown");
                 if (parentDropdown) {
                     const dropdownToggle = parentDropdown.querySelector(":scope > a");
@@ -179,7 +176,7 @@
 
     $(function () {
 
-       
+
         $(document).on("click", "#btnLogout", function (e) {
             e.preventDefault();
 

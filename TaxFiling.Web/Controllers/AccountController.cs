@@ -12,6 +12,7 @@ using TaxFiling.Web.Models.Auth;
 using TaxFiling.Web.Models.Common;
 using TaxFiling.Web.Models.User;
 
+
 namespace TaxFiling.Web.Controllers;
 
 public sealed class AccountController : Controller
@@ -197,7 +198,7 @@ public sealed class AccountController : Controller
     #region Log Out...
 
     [HttpPost]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout(string returnUrl = null)
     {
         await HttpContext.SignOutAsync("AuthCookie");
 
@@ -205,7 +206,17 @@ public sealed class AccountController : Controller
         Response.Cookies.Delete("refresh_token");
         Response.Cookies.Delete("userId");
 
-        return RedirectToAction("Login");
+        if (string.IsNullOrEmpty(returnUrl))
+        {
+            return RedirectToAction("Login");
+        }
+        else
+        {
+            // Pass returnUrl as a route value to Login
+            return RedirectToAction("Login", "Account", new { returnUrl = returnUrl });
+        }
+
+        
     }
 
     #endregion
@@ -352,7 +363,7 @@ public sealed class AccountController : Controller
                 return Ok(new { success = true, message = "Password reset successful! Redirecting to dashboard..." });
             }
 
-            return Ok(new { success = true, message = "Password reset successful, but auto-login failed. Please login manually." });
+            return Ok(new { success = true, message = "Password reset successful, but auto-login failed. Please login manually."  });
         }
 
         var errorContent = await response.Content.ReadAsStringAsync();
