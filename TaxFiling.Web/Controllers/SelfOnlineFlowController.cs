@@ -1,6 +1,7 @@
 using iText.Html2pdf;
 using iText.Kernel.Pdf;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Json;
@@ -164,7 +165,7 @@ public class SelfOnlineFlowController : Controller
         }
 
         ViewBag.TaxTotal = user.TaxTotal;
-        
+        HttpContext.Session.SetString("IncomeTaxCreditsCompleted", user.isIncomeTaxCreditsCompleted.ToString());
 
 
         return View();
@@ -190,6 +191,7 @@ public class SelfOnlineFlowController : Controller
             }
         }
         ViewBag.personalInfoSelfFilingStatus = personalInfoStatus;
+        HttpContext.Session.SetString("PersonalInfoComplete", personalInfoStatus.ToString());
         return PartialView("Partial/_DashboardSection");
     }
     public IActionResult LoadInThisSection()

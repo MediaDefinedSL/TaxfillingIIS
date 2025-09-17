@@ -54,4 +54,6 @@ public class User : Entity
     public string IRDPIN {  get; set; }
     [Column("isPersonalInfoCompleted")]
     public int? isPersonalInfoCompleted { get; set; }
+    [Column("isIncomeTaxCreditsCompleted")]
+    public int isIncomeTaxCreditsCompleted{ get; set; }
 }

@@ -31,5 +31,8 @@ public class UserViewModel
     public int? taxAssistedUserUploadDocsStatus { get; set; }
 
     public string IRDPIN { get; set; }
+    public int? isPersonalInfoCompleted { get; set; }
+
+    public int isIncomeTaxCreditsCompleted { get; set; }
 
 }

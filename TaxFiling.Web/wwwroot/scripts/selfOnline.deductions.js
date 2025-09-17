@@ -99,6 +99,9 @@
             data: selfOnlineTotal,
             success: function (response) {
                 $btn.prop("disabled", false);
+                $('#btnAssetsLiabilities, #linkAssets, #linkLiabilities')
+                    .removeClass('locked')
+                    .removeAttr('disabled');
                 showMessage( "Saved successfully", "success");
                 $("html, body").animate({ scrollTop: 0 }, "smooth");
                
