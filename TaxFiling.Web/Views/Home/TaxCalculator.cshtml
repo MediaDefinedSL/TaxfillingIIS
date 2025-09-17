@@ -1176,6 +1176,7 @@ async function updateExchangeRate() {
             const rate = data.conversion_rates.LKR;
             fxRateInput.value = rate.toFixed(2);
             updateLKRAmount();
+            calc();
         } else {
             console.error("Failed to fetch exchange rate:", data['error-type']);
         }
@@ -1199,7 +1200,7 @@ currencySelect.addEventListener("change", updateExchangeRate);
 
 // Initial load
 updateExchangeRate();
-calc();
+
 });
 
 </script>
