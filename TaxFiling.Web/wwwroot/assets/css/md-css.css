@@ -7649,7 +7649,7 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
         }
 
         &.position-2 {
-            left: -41px;
+            left: -31px;
             top: 130px;
         }
 
@@ -7669,13 +7669,13 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
 
         &.position-5 {
             top: -5px;
-            right: 5px;
+            right: -34px;
             scale: 0.7;
         }
 
         &.position-6 {
             top: 119px;
-            right: -40px;
+            right: -34px;
         }
 
         &.position-7 {
@@ -7709,20 +7709,72 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
         }
 
         &.active .client-img {
-            width: 174px;
-            height: 174px;
+            width: 142px;
+            height: 135px;
             margin: 0 auto 24px;
             position: relative;
-
             /* box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1); */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             &:before {
                 border-radius: 100%;
                 content: '';
                 background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(157, 91, 254)), to(rgb(56, 144, 254)));
                 background-image: linear-gradient(180deg, rgb(157, 91, 254) 0%, rgb(56, 144, 254) 100%);
                 padding: 5px;
-                width: 174px;
-                height: 174px;
+                width: 144px;
+                height: 143px;
                 top: -4px;
                 left: 0px;
                 position: absolute;
@@ -7758,13 +7810,14 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
     ul.police.col-lg-6.col-md-6 {
         display: inline-block;
         margin-top: 254px !important;
-        width: auto !important;
+        width: 81% !important;
         float: unset;
         top: 0px;
         position: absolute;
         width: auto;
         text-align: center;
-        margin-left: 33%;
+        /* margin-left: 33%; */
+        text-align: center !important;
     }
 
 
@@ -7807,10 +7860,97 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
     .navmenu a {
         font-size: 16px !important;
     }
+
+    button.btn-reset {
+        visibility: hidden;
+    }
+
+    .client-img img {
+        width: 134px !important;
+    }
+
+    .row.position-relative.abiu-s-one .col-lg-6.aos-init.aos-animate {
+        height: auto !important;
+        max-height: unset !important;
+    }
+
+    .row.position-relative.abiu-s-one {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: unset !important;
+    }
+
+    section#about .container .abiu-s-one {
+        width: 91% !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .row.position-relative.abiu-s-one:after {
+        width: 82%;
+    }
+
+    .about .about-img img {
+        /* object-fit: contain !important; */
+    }
+
+    .col-lg-6.about-img.aos-init.aos-animate {
+        background-size: cover;
+        min-height: unset !important;
+        min-height: 20vh !important;
+        background-repeat: no-repeat !important;
+    }
+
+    .about.section .container {
+        text-align: center;
+    }
+
+    button.btn.btn-secondary.dropdown-toggle {
+        margin-right: 50px !important;
+    }
+
+    div#drplogout {
+        margin-right: 5px;
+    }
+
+    button.btn.btn-secondary.dropdown-toggle {
+        /* margin-right: 59px !important; */
+    }
+
+    button.btn.btn-secondary.dropdown-toggle:after {
+        margin-left: 0px !important;
+    }
+
+
+    .container.col-sm-3.shadow.mb-5.bg-white.rounded.Sign-in-col {
+        width: 84% !important;
+    }
+
+    #Forgot-password p.pb-sm-0 {
+        text-align: center;
+    }
+
+    .register-section .container.shadow {
+        width: 87%;
+        padding: 17px !important;
+    }
+
+
+    section#File-my-taxes.blog-posts.section.selfOnline-dashboard {
+        margin-top: 20%;
+    }
+        @-moz-document url-prefix() {
+            td.num.kpi.kpi-first {
+                width: 48% !important;
+    
+            }
+    
+            .band.text-boldd {
+                background-color: #52acf6 !important;
+            }
+        }
 }
 
-button.btn-reset {
-    visibility: hidden;
-}
+
 
 /*Responsive changes added */
