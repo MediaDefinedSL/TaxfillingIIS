@@ -29,4 +29,6 @@ public class UserDto
     public string IRDPIN {  get; set; }
     public int? isPersonalInfoCompleted { get; set; }
 
+    public int isIncomeTaxCreditsCompleted { get; set; }
+
 }

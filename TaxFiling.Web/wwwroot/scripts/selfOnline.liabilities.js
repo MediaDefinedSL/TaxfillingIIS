@@ -532,15 +532,15 @@ $('#linkSummaryContinue').on('click', function () {
     $("html, body").animate({ scrollTop: 0 }, "smooth");
 });
 $('#linkAssetsContinue').on('click', function () {
-    //$.ajax({
-    //    url: '/SelfOnlineFlow/LoadAssets',
-    //    type: 'GET',
-    //    success: function (data) {
-    //        $('#in-this-section-container').html(data);
-    //    },
-    //    error: function () {
-    //        alert("Error loading section content.");
-    //    }
-    //});
+    $.ajax({
+        url: '/SelfOnlineFlow/LoadAssets',
+        type: 'GET',
+        success: function (data) {
+            $('#in-this-section-container').html(data);
+        },
+        error: function () {
+            alert("Error loading section content.");
+        }
+    });
     $("html, body").animate({ scrollTop: 0 }, "smooth");
 });

@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using System.Net.NetworkInformation;
+using System.ComponentModel;
 
 namespace TaxFiling.Business.Repositories;
 
@@ -198,20 +199,62 @@ public class UserRepository : IUserRepository
                 return (isValid, accessTokenData);
             }
 
-            var role = await _context.UserRoles
+            var role = await _context.Users
                             .Where(u => u.UserId == accessTokenData.UserId)
                             .Join(_context.Roles,
-                                userRole => userRole.RoleId,
+                                Users => Users.UserRoleId,
                                 role => role.Code,
-                                (userRole, role) => new
+                                (Users, role) => new
                                 {
                                     role.Code,
                                     role.RoleName,
-                                    role.Acronym
+                                    role.Acronym,
+                                    Users.UserId,
+                                    Users.FirstName,
+                                    Users.LastName,
+                                    Users.Email,
+                                    Users.IsTin,
+                                    Users.IsActivePayment,
+                                    Users.NICNO,
+                                    Users.TinNo,
+                                    Users.PackageId,
+                                    Users.ProfileImagePath,
+                                    Users.taxAssistedUserUploadDocsStatus
                                 })
                             .FirstOrDefaultAsync();
 
             accessTokenData.RoleId = role.Code;
+            accessTokenData.UserId = role.UserId;
+            accessTokenData.FirstName = role.FirstName;
+            accessTokenData.LastName = role.LastName;
+            accessTokenData.Email = role.Email;
+            accessTokenData.IsTin = role.IsTin;
+            accessTokenData.IsActivePayment = role.IsActivePayment;
+            accessTokenData.NICNO = role.NICNO;
+            accessTokenData.TinNo = role.TinNo;
+            accessTokenData.PackageId = role.PackageId;
+            accessTokenData.ProfileImagePath = role.ProfileImagePath;
+            accessTokenData.UploadedDocumentStatus = role.taxAssistedUserUploadDocsStatus;
+
+            //var tokenModel = new TokenModel
+            //{
+            //    AccessToken = accessToken,
+            //    RefreshToken = refreshToken,
+            //    UserId = role.UserId,
+            //    RoleID = role.Code,
+            //    FirstName = role.FirstName,
+            //    LastName = role.LastName,
+            //    Email = user.Email,
+            //    IsTin = user.IsTin,
+            //    IsActivePayment = user.IsActivePayment,
+            //    NICNO = user.NICNO ?? string.Empty,
+            //    TinNo = user.TinNo ?? string.Empty,
+            //    PackageId = user.PackageId,
+            //    ProfileImagePath = user.ProfileImagePath,
+            //    UploadedDocumentStatus = user.taxAssistedUserUploadDocsStatus
+            //};
+
+
         }
 
         return (isValid, accessTokenData);
@@ -324,7 +367,10 @@ public class UserRepository : IUserRepository
                                 ProfileImagePath = user.ProfileImagePath,
                                 TaxTotal = user.TaxTotal,
                                 taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus,
-                                IRDPIN = user.IRDPIN
+                                IRDPIN = user.IRDPIN,
+                                isPersonalInfoCompleted = user.isPersonalInfoCompleted,
+                                isIncomeTaxCreditsCompleted = user.isIncomeTaxCreditsCompleted
+
                             })
                             .FirstOrDefaultAsync(ctx);
 

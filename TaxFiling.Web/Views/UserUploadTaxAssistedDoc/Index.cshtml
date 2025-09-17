@@ -1,4 +1,4 @@
-﻿﻿
+﻿
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Html
@@ -14,6 +14,8 @@
     int docStatus = ViewBag.UploadedDocStatus ?? -1;
     int personalInfoCompletedStatus = ViewBag.personalInfoStatus ?? -1;
     var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
+    var personalTaxAssistedComplete = Context.Session.GetString("personalTaxAssistedComplete") == "1";
+    
 }
 <link href="~/assets/css/tree-container-taxassisted-css.css?v=3" rel="stylesheet">
 <main class="main">
@@ -87,8 +89,13 @@
                         </a>
                     </div>
 
-                    <a href="#documents-submenu" class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center"
-                       data-bs-toggle="collapse" aria-expanded="false" data-target="documents-section">
+                    <a href="#documents-submenu"
+                       class="sidebar-link text-decoration-none p-3 d-flex justify-content-between align-items-center @(personalTaxAssistedComplete ? "" : "locked")"
+                       data-bs-toggle="collapse"
+                       aria-expanded="false"
+                       data-target="documents-section">
+                        
+                    
                         <span>
                             <i class="fas fa-chart-bar me-3"></i>
                             <span>Documents</span>
@@ -155,7 +162,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row"><strong>Name of taxpayer</strong></th>
+                                            <th scope="row"><strong>Name of Taxpayer</strong></th>
                                             <td class="text-center">@userName</td>
                                         </tr>
                                     </tbody>
@@ -1514,7 +1521,7 @@
                                     <!-- Rows will be inserted dynamically -->
                                 </tbody>
                             </table>
-                            <h5 class="mb-3">Other Tax Payment Details</h5>
+                            <h5 class="mb-3" id="otherTaxHeader">Other Tax Payment Details</h5>
                             <table id="otherTaxPaymentsTable" class="table table-bordered table-striped mt-2">
                                 <thead class="table-light">
                                     <tr>
@@ -1633,7 +1640,7 @@
                 <div class="load-text">Uploading, please wait...</div>
             </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
-            <input type="hidden" id="personalInfoCompleted" value="@personalInfoCompletedStatus" />
+            <input type="hidden" id="personalInfoCompleted" value="@personalTaxAssistedComplete" />
 
             <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
@@ -2248,9 +2255,16 @@
                             alert('Error: ' + err);
                             return;
                           }
-                             document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
-                           showMessage("Data saved successfully!", "success");
-                        } catch (err) {
+                             
+                         if (document.getElementById('saveFinancialDetailsBtn').innerText == "Save") {
+                            showMessage("Saved successfully!", "success");
+                            document.getElementById('saveFinancialDetailsBtn').innerText = "Update";
+                        }
+                        else {
+                            showMessage("Updated Successfully!", "success");
+                        }
+                        }
+                        catch (err) {
                           alert('Failed to submit: ' + err.message);
                         }
                       });
@@ -3108,7 +3122,10 @@
                        });
 
                        submitDeclareBtn.addEventListener("click", function () {
-                              if (acceptCheckbox.checked) {
+                              const bar = document.getElementById("progressBar");
+                              const widthValue = progressBar.style.width; // "54%"
+                              const progress = parseInt(widthValue, 10);
+                              if (acceptCheckbox.checked && progress == 90)  {
 
                                       const userId = '@userId';
                                       const status = 2; // SUBMITTED
@@ -3198,6 +3215,13 @@
                                        .catch(err => alert('Error updating status.'));
 
                            }
+                           else
+                           {
+                               showMessage("Please check all sections and upload all relevant files before submit","error")
+                               acceptCheckbox.checked = false;
+                               this.disabled = true;
+
+                           }
                        });
 
                        printBtn.addEventListener("click", function () {
@@ -3274,6 +3298,7 @@
                            if (resOtherAssets.ok) {
                                    const otherAssets = await resOtherAssets.json();
                                if (otherAssets && otherAssets.details.length > 0) {
+                                   document.getElementById("otherTaxHeader").style.display = "block";
                                      // $("#uploadedDeclarationDocs").show();
                                    $("#otherTaxPaymentsTable").show();
                                    otherAssets.details.forEach((doc, index) => {
@@ -3288,6 +3313,7 @@
                                        otherTbody.append(row);
                                    });
                                } else {
+                                   document.getElementById("otherTaxHeader").style.display = "none";
                                    $("#otherTaxPaymentsTable").hide();
                                }
                            } else {
@@ -3321,11 +3347,11 @@
                    }
 
                   function updateSidebar(status) {
-                    if (status === 0 ) { // incomplete
-                        $(".sidebar-link").not("#btnLoadSection").addClass("disabled-link").off("click").on("click", function(e){
-                            e.preventDefault();
-                            showMessage("Please complete Personal Information before accessing other sections.","error");
-                        });
+                    if (status === -1 ) { // incomplete
+                        // $(".sidebar-link").not("#btnLoadSection").addClass("disabled-link").off("click").on("click", function(e){
+                        //     e.preventDefault();
+                        //     showMessage("Please complete Personal Information before accessing other sections.","error");
+                        // });
 
                         $("#documents-submenu a").addClass("disabled-link").off("click").on("click", function(e){
                             e.preventDefault();
@@ -3341,14 +3367,15 @@
 
                         //page load
                    document.addEventListener("DOMContentLoaded", function () {
+                       
+                       
 
+                    //$(document).on("personalInfoCompleted", function(e, newStatus) {                        
+                        //updateSidebar(newStatus);
+                    //});
 
-                    $(document).on("personalInfoCompleted", function(e, newStatus) {                        
-                        updateSidebar(newStatus);
-                    });
-
-                            var status = parseInt($("#personalInfoCompleted").val() || 0);
-                                        updateSidebar(status);
+                            //var status = parseInt($("#personalInfoCompleted").val() || 0);
+                                        //updateSidebar(status);
                     
 
                       const checkboxes = document.querySelectorAll(".checkbox-lg");
@@ -4015,7 +4042,11 @@
                                //missingFields.push(fieldLabel);
                              }
                            });
-                               if (!checkUploadedFileExists("documentsTableOtherBody") && !isValid  ) {
+
+                                if(!isValid){
+                                    showMessage("Please enter Living Expenses and Cash In Hand in Expenses and Balances","error")
+                                }
+                               else if (!checkUploadedFileExists("documentsTableOtherBody") ) {
                                    e.preventDefault(); // stop default action
                             showConfirmModal(function() {
 
@@ -4846,9 +4877,24 @@
 
 </main>
 <style>
-.disabled-link {
-    pointer-events: none;
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+    .disabled-link {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    
+    .card-hover {
+        transition: all 0.2s ease-in-out;
+    }
+
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
 </style>

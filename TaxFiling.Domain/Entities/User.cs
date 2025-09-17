@@ -13,6 +13,7 @@ public class User : Entity
     [Column("username")]
     public required string UserName { get; set; }
 
+
     [Column("password")]
     public required string Password { get; set; }
     [Column("first_name")]
@@ -53,4 +54,6 @@ public class User : Entity
     public string IRDPIN {  get; set; }
     [Column("isPersonalInfoCompleted")]
     public int? isPersonalInfoCompleted { get; set; }
+    [Column("isIncomeTaxCreditsCompleted")]
+    public int isIncomeTaxCreditsCompleted{ get; set; }
 }

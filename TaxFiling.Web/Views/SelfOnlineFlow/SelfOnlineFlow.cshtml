@@ -6,6 +6,9 @@
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
     var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(userName.ToLower());
+    var personalComplete = Context.Session.GetString("PersonalInfoComplete") == "1";
+    var incomeTaxCreditComplete = Context.Session.GetString("IncomeTaxCreditsCompleted") == "1";
+
 }
 
 <main class="main">
@@ -69,36 +72,37 @@
                         
                     </div>
 
-                    <button id="btnIncomeTaxCredits" class="dropdown-btn sidebar-link text-decoration-none p-3">
+                    <button id="btnIncomeTaxCredits" class="dropdown-btn sidebar-link text-decoration-none p-3 @(personalComplete ? "" : "locked")"
+                    @(personalComplete ? "" : "disabled")>
                         <i class="bi bi-cash-coin me-2"></i> &nbsp;&nbsp; Income and Tax Credits
                     </button>
                     <div class="dropdown-container" style="display: none;">
 
                             <!-- Employment Income -->
-                            <a class="sub-link" id="linkEmploymentIncome">
+                        <a class="sub-link @(personalComplete ? "" : "locked")" id="linkEmploymentIncome">
                                 <i class="bi bi-briefcase-fill"></i> &nbsp; Employment Income
                             </a>
                           
                             <!-- Investment Income -->
-                            <a class="sub-link dropdown-btn" id="linkInvestmentIncome">
+                        <a class="sub-link dropdown-btn @(personalComplete ? "" : "locked")" id="linkInvestmentIncome">
                                 <i class="bi bi-bar-chart-line"></i> &nbsp; Investment Income
                             </a>
                             <div class="dropdown-container" style="display: none; margin-left: 20px;">
-                                <a class="sub-link" id="linkDetailsinvestment">
+                            <a class="sub-link @(personalComplete ? "" : "locked")" id="linkDetailsinvestment">
                                     <i class="bi bi-journal-text"></i> &nbsp; Details Investment
                                 </a>
-                                <a class="sub-link" id="linkPartnerInvestment">
+                            <a class="sub-link @(personalComplete ? "" : "locked")" id="linkPartnerInvestment">
                                     <i class="bi bi-people"></i> &nbsp; Partner Investment
                                 </a>
-                                <a class="sub-link" id="linkBeneficiaryInvestment">
+                            <a class="sub-link @(personalComplete ? "" : "locked")" id="linkBeneficiaryInvestment">
                                     <i class="bi bi-person-badge"></i> &nbsp; Beneficiary Investment
                                 </a>
-                                <a class="sub-link" id="linkInvestmentExemptAmounts">
+                            <a class="sub-link @(personalComplete ? "" : "locked")" id="linkInvestmentExemptAmounts">
                                     <i class="bi bi-shield-check"></i> &nbsp; Exempt Amounts
                                 </a>
                             </div>
                             <!-- Deductions -->
-                            <a class="sub-link" id="linkDeductions">
+                        <a class="sub-link @(personalComplete ? "" : "locked")" id="linkDeductions">
                                 <i class="bi bi-briefcase-fill"></i> &nbsp; Deductions
                             </a>
                        
@@ -106,16 +110,17 @@
                     </div>
 
                     <!-- Assets & Liabilities main button -->
-                    <button id="btnAssetsLiabilities" class="dropdown-btn sidebar-link text-decoration-none p-3">
+                    <button id="btnAssetsLiabilities" class="dropdown-btn sidebar-link text-decoration-none p-3 @(personalComplete && incomeTaxCreditComplete ? "" : "locked")"
+                    @(personalComplete && incomeTaxCreditComplete ? "" : "disabled")>
                         <i class="fas fa-balance-scale me-2"></i> &nbsp;&nbsp; Assets and Liabilities
                     </button>
 
                     <!-- Submenu -->
                     <div class="dropdown-container" style="display: none;">
-                        <a class="sub-link" id="linkAssets">
+                        <a class="sub-link @(personalComplete && incomeTaxCreditComplete ? "" : "locked")" id="linkAssets">
                             <i class="bi bi-piggy-bank"></i> &nbsp; Assets
                         </a>
-                        <a class="sub-link" id="linkLiabilities">
+                        <a class="sub-link @(personalComplete && incomeTaxCreditComplete ? "" : "locked")" id="linkLiabilities">
                             <i class="bi bi-cash-stack"></i> &nbsp; Liabilities
                         </a>
                     </div>
@@ -123,8 +128,14 @@
                     <!-- Summary main button -->
                     <button id="btnSummarySection" class="dropdown-btn sidebar-link text-decoration-none p-3">
                         <i class="bi bi-file-earmark-text me-2"></i> &nbsp;&nbsp;
-                    Summary
+                        Summary
                     </button>
+
+                    <button id="btnDeclaration" class="dropdown-btn  sidebar-link text-decoration-none p-3">
+                        <i class="bi bi-cash-coin me-2"></i> &nbsp;&nbsp; Declaration
+                    </button>
+
+                    
 
                 </div>
 

@@ -7,6 +7,7 @@ using TaxFiling.Domain.Dtos;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TaxFiling.Domain.Entities;
 
 namespace TaxFiling.API.Controllers;
 
@@ -73,7 +74,18 @@ public class AuthController : ControllerBase
         var tokenModel = new TokenModel
         {
             AccessToken = accessToken,
-            RefreshToken = refreshToken
+            RefreshToken = refreshToken,
+            UserId = accessTokenData.UserId,
+            FirstName = accessTokenData.FirstName,
+            LastName = accessTokenData.LastName,
+            RoleID = accessTokenData.RoleId,
+            Email = accessTokenData.Email,
+            IsTin = accessTokenData.IsTin,
+            IsActivePayment = accessTokenData.IsActivePayment,
+            NICNO = accessTokenData.NICNO,
+            TinNo = accessTokenData.TinNo,
+            ProfileImagePath = accessTokenData.ProfileImagePath,
+            UploadedDocumentStatus = accessTokenData.UploadedDocumentStatus
         };
 
         return Ok(tokenModel);

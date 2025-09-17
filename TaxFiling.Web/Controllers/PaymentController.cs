@@ -125,11 +125,11 @@ public class PaymentController : Controller
 
         var client = _httpClientFactory.CreateClient();
 
-        string appId = "3EMG1190963FE17A92690";
+        string appId = "VGRS11909631724BFBDFC";
         string currency = "LKR";
         string amount = Price.ToString();
-        string hashSalt = "DLCY1190963FE17A926B9"; // provided by OnePay
-        string authorization = "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE";
+        string hashSalt = "4FMB11909631724BFBE29"; // provided by OnePay
+        string authorization = "e7f6d2508b9db5dca64cbafc38310b7d0b44e298327b5a0c650b37bff3e825d9428a1399a03607da.HDJY11909631724BFBE3E";
 
 
         string input = appId + currency + amount + hashSalt;
@@ -215,8 +215,8 @@ public class PaymentController : Controller
 
         // Prepare OnePay request
         string url = "https://api.onepay.lk/v3/transaction/status/";
-        string appId = "3EMG1190963FE17A92690";
-        string authorization = "930953613e49f29d11c6560e2aecc8e663bc6d392863764d770ae6cbba0c2cd32418cabd2d865ea0.EUHO1190963FE17A926CE";
+        string appId = "VGRS11909631724BFBDFC";
+        string authorization = "e7f6d2508b9db5dca64cbafc38310b7d0b44e298327b5a0c650b37bff3e825d9428a1399a03607da.HDJY11909631724BFBE3E";
 
         var requestBody = new
         {

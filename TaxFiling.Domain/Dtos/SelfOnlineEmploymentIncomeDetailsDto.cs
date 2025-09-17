@@ -19,6 +19,8 @@ public class SelfOnlineEmploymentIncomeDetailsDto
     public decimal? APITSecondaryEmployment { get; set; }
     public decimal? TerminalBenefits { get; set; }
     public decimal? Amount { get; set; }
+    public decimal? CashBenefit { get; set; }
+    public decimal? NonCashBenefit { get; set; }
     public decimal? Total { get; set; }
     public decimal? BenefitExcludedForTax { get; set; }
     public string UploadedFileName { get; set; }    

@@ -63,4 +63,8 @@ public interface ISelfOnlineFlowRepository
     Task<List<SelfonlineLiabilitiesOtherAssetsGiftsDto>> GetSelfonlineLiabilitiesOtherAssetsGifts(string userId, int year, CancellationToken ctx);
     Task<bool> SaveEditSelfonlineLiabilitiesDisposalAssets(SelfonlineLiabilitiesDisposalAssetsDto disposalAssets);
     Task<List<SelfonlineLiabilitiesDisposalAssetsDto>> GetSelfonlineLiabilitiesDisposalAssets(string userId, int year, CancellationToken ctx);
+
+
+    //---- Calculation 
+    Task<SelfFilingSummaryCalculationDto?> GetSelfFilingSummaryCalculationAsync(string userId, int year, CancellationToken ctx);
 }

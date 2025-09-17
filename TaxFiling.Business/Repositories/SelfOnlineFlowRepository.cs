@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System;
+using System.Data;
 using System.Diagnostics.Metrics;
 using System.Security.Principal;
 using System.Threading;
@@ -559,7 +560,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @TypeOfName,
                 @EmployerORCompanyName,
                 @TINOfEmployer,
-                @Remuneration,
+                @CashBenefit,
+                @NonCashBenefit ,
                 @APITPrimaryEmployment,
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
@@ -585,137 +587,25 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             new MySqlParameter("@TypeOfName", selfOnlineEmploymentIncomeDetails.TypeOfName ?? (object)DBNull.Value),
             new MySqlParameter("@EmployerORCompanyName", selfOnlineEmploymentIncomeDetails.EmployerORCompanyName ?? (object)DBNull.Value),
             new MySqlParameter("@TINOfEmployer", selfOnlineEmploymentIncomeDetails.TINOfEmployer ?? (object)DBNull.Value),
-            new MySqlParameter("@Remuneration", selfOnlineEmploymentIncomeDetails.Remuneration ?? (object)DBNull.Value),
+            new MySqlParameter("@CashBenefit", selfOnlineEmploymentIncomeDetails.CashBenefit ?? (object)DBNull.Value),
+            new MySqlParameter("@NonCashBenefit", selfOnlineEmploymentIncomeDetails.NonCashBenefit ?? (object)DBNull.Value),
             new MySqlParameter("@APITPrimaryEmployment", selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
             new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
             new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value),
             new MySqlParameter("@uploadedFileName", selfOnlineEmploymentIncomeDetails.UploadedFileName ?? (object)DBNull.Value),
-              new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
-              new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
-              new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
-              new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
-              new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
-              new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
+            new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
+            new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
+            new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
+            new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
+              
         );
 
 
 
-
-            /* decimal? addToTotal = 0;
-
-             if (selfOnlineEmploymentIncomeDetails.CategoryName == "EmploymentDetails")
-             {
-
-
-                 var _employmentDetailsIncome = new SelfOnlineEmploymentIncomeDetails
-                 {
-
-                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
-                     Year = selfOnlineEmploymentIncomeDetails.Year,
-                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
-                     Residency = selfOnlineEmploymentIncomeDetails.Residency,
-                     SeniorCitizen = selfOnlineEmploymentIncomeDetails.SeniorCitizen,
-                     TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName,
-                     EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
-                     TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer,
-                     Remuneration = selfOnlineEmploymentIncomeDetails.Remuneration,
-                     APITPrimaryEmployment = selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment,
-                     APITSecondaryEmployment = selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment,
-                     CreatedBy = selfOnlineEmploymentIncomeDetails.UserId,
-                     CreatedOn = DateTime.Now
-
-                 };
-
-                 _context.SelfOnlineEmploymentIncomeDetails.Add(_employmentDetailsIncome);
-                 await _context.SaveChangesAsync();
-
-
-                 addToTotal = (selfOnlineEmploymentIncomeDetails.Remuneration ?? 0)
-                        + (selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? 0)
-                        + (selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? 0);
-
-                 //await _context.Database.ExecuteSqlRawAsync(
-                 //         "CALL UpdateSelfFilingTotalCalculation({0}, {1}, {2},{3},{4},{5},{6})",
-                 //         selfOnlineEmploymentIncomeDetails.UserId,
-                 //         selfOnlineEmploymentIncomeDetails.UserId,
-                 //         selfOnlineEmploymentIncomeDetails.Year,
-                 //         "EmploymentIncome",
-                 //         "EmploymentDetails",
-                 //         "add",
-                 //         addToTotal
-
-                 //     );
-
-             }
-             else if (selfOnlineEmploymentIncomeDetails.CategoryName == "TerminalBenefits")
-             {
-                 var _terminalBenefits = new SelfOnlineEmploymentIncomeDetails
-                 {
-
-                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
-                     Year = selfOnlineEmploymentIncomeDetails.Year,
-                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
-                     TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName,
-                     EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
-                     TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer,
-                     TerminalBenefits = selfOnlineEmploymentIncomeDetails.TerminalBenefits,
-                     CreatedBy = selfOnlineEmploymentIncomeDetails.UserId,
-                     CreatedOn = DateTime.Now
-
-                 };
-
-                 _context.SelfOnlineEmploymentIncomeDetails.Add(_terminalBenefits);
-                 await _context.SaveChangesAsync();
-
-                 addToTotal = (selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? 0);
-
-
-             }
-             else if (selfOnlineEmploymentIncomeDetails.CategoryName == "ExemptAmounts")
-             {
-                 var _exemptAmounts = new SelfOnlineEmploymentIncomeDetails
-                 {
-
-                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
-                     Year = selfOnlineEmploymentIncomeDetails.Year,
-                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
-                     TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName,
-                     EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
-                     TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer,
-                     Amount = selfOnlineEmploymentIncomeDetails.Amount,
-                     CreatedBy = selfOnlineEmploymentIncomeDetails.UserId,
-                     CreatedOn = DateTime.Now
-
-                 };
-
-                 _context.SelfOnlineEmploymentIncomeDetails.Add(_exemptAmounts);
-                 await _context.SaveChangesAsync();
-
-                 addToTotal = (selfOnlineEmploymentIncomeDetails.Amount ?? 0);
-
-
-             }
-
-             // var mainIncome = await _context.SelfOnlineEmploymentIncomes
-             //.FirstOrDefaultAsync(x => x.SelfOnlineEmploymentIncomeId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId);
-
-             var mainTaxIncome = await _context.Users
-            .FirstOrDefaultAsync(x => x.UserId.ToString() == selfOnlineEmploymentIncomeDetails.UserId);
-
-             //if (mainIncome != null)
-             //{
-             //    mainIncome.Total = (mainIncome.Total ?? 0) + addToTotal;
-             //    _context.SelfOnlineEmploymentIncomes.Update(mainIncome);
-             //    await _context.SaveChangesAsync();
-             //}
-             if (mainTaxIncome != null)
-             {
-                 mainTaxIncome.TaxTotal = (mainTaxIncome.TaxTotal ?? 0) + addToTotal;
-                 _context.Users.Update(mainTaxIncome);
-                 await _context.SaveChangesAsync();
-             }*/
 
             isSuccess = true;
 
@@ -760,8 +650,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                         BenefitExcludedForTax = e.BenefitExcludedForTax,
                         FileName = e.FileName,
                         OriginalName = e.OriginalName,
-                        DecryptionKey = e.DecryptionKey
-                    }
+                        DecryptionKey = e.DecryptionKey,
+                       CashBenefit = e.CashBenefit,
+                       NonCashBenefit = e.NonCashBenefit
+                   }
                 ).ToListAsync(ctx);
 
 
@@ -936,7 +828,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @uploadTime,
                 @decryptionKey,
                 @uploadId,
-                @originalName
+                @originalName,
+                @CashBenefit,
+                @NonCashBenefit
 
             )",
           new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -962,7 +856,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
           new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
           new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
           new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
-          new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
+          new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value),
+          new MySqlParameter("@CashBenefit", selfOnlineEmploymentIncomeDetails.CashBenefit ?? (object)DBNull.Value),
+          new MySqlParameter("@NonCashBenefit", selfOnlineEmploymentIncomeDetails.NonCashBenefit ?? (object)DBNull.Value)
       );
 
 
@@ -2060,8 +1956,6 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         try
         {
 
-            
-
                 await _context.Database.ExecuteSqlRawAsync(
           @"CALL ADDEditSelfOnlineAssetsGifts  (
                                         @loguser,
@@ -2210,6 +2104,94 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
         return assetsCapitalCurrentAccountList;
     }
+
+    public async Task<SelfFilingSummaryCalculationDto?> GetSelfFilingSummaryCalculationAsync(string userId, int year, CancellationToken ctx)
+    {
+        try
+        {
+            SelfFilingSummaryCalculationDto? dto = null;
+
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "sp_GetSelfFilingSummaryCalculation";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    var p1 = command.CreateParameter();
+                    p1.ParameterName = "@p_userId";
+                    p1.Value = userId;
+                    command.Parameters.Add(p1);
+
+                    var p2 = command.CreateParameter();
+                    p2.ParameterName = "@p_year";
+                    p2.Value = year;
+                    command.Parameters.Add(p2);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            dto = new SelfFilingSummaryCalculationDto
+                            {
+                                UserId = reader["UserId"].ToString(),
+
+                                EmploymentIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("EmploymentIncomeTotal")),
+                                BusinessIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("BusinessIncomeTotal")),
+                                InvestmentIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvestmentIncomeTotal")),
+
+                                InterestIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("InterestIncome")),
+                                InvIncome_Dividend = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvIncome_Dividend")),
+                                InvIncome_Rent = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvIncome_Rent")),
+                                InvIncome_Other = reader.GetFieldValue<decimal>(reader.GetOrdinal("InvIncome_Other")),
+
+                                OtherIncomeTotal = reader.GetFieldValue<decimal>(reader.GetOrdinal("OtherIncomeTotal")),
+                                AssessableIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("AssessableIncome")),
+
+                                PersonalRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("PersonalRelief")),
+                                RentIncomeRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("RentIncomeRelief")),
+                                SolarRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("SolarRelief")),
+                                ForeignServiceRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("ForeignServiceRelief")),
+
+                                TotalRelief = reader.GetFieldValue<decimal>(reader.GetOrdinal("TotalRelief")),
+                                QualifyingPayments = reader.GetFieldValue<decimal>(reader.GetOrdinal("QualifyingPayments")),
+                                TotalDeductions = reader.GetFieldValue<decimal>(reader.GetOrdinal("TotalDeductions")),
+
+                                TaxableIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxableIncome")),
+
+                                TaxOnTerminalBenefits = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxOnTerminalBenefits")),
+                                TaxOnInvestmentGains = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxOnInvestmentGains")),
+
+                                TaxBracket1 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket1")),
+                                TaxBracket2 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket2")),
+                                TaxBracket3 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket3")),
+                                TaxBracket4 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket4")),
+                                TaxBracket5 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket5")),
+                                TaxBracket6 = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxBracket6")),
+
+                                TotalTaxPayable = reader.GetFieldValue<decimal>(reader.GetOrdinal("TotalTaxPayable")),
+                                TaxOnBalanceIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxOnBalanceIncome")),
+
+                                TaxCredits = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxCredits")),
+                                BalanceTaxPayable = reader.GetFieldValue<decimal>(reader.GetOrdinal("BalanceTaxPayable"))
+                            };
+                        }
+                    }
+                }
+            }
+
+            return dto;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while executing sp_GetSelfFilingSummaryCalculation for UserId {UserId}, Year {Year}", userId, year);
+            return null; // or throw; depending on your preference
+        }
+    }
+
+
 
 }
 
