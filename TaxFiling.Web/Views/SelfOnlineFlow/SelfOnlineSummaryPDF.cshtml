@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Calculation of Income Tax Liability – Year of Assessment</title>
-<style>
+    <style>
         /* ====== Page + Typography ====== */
         :root {
             --blue: #7cc7f0;
@@ -27,27 +27,26 @@
             background: #f8fafc;
         }
 
-      .sheet {
-    /* width: 210mm; */
-    min-height: 297mm;
-    /* margin: 20px auto; */
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-    /* padding: 22mm 18mm; */
-    box-sizing: border-box;
-    margin-top: 14px;
-}
+        .sheet {
+            /* width: 210mm; */
+            min-height: 297mm;
+            /* margin: 20px auto; */
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+            /* padding: 22mm 18mm; */
+            box-sizing: border-box;
+            margin-top: 14px;
+        }
 
         /* ====== Header ====== */
-    .header.pdf {
-    display: flex
-;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 16px;
-    padding-right: 16px;
-}
+        .header.pdf {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-right: 16px;
+        }
 
         .brand {
             display: flex;
@@ -183,19 +182,19 @@
             }
         }
 
-   .logo.pdf {
-    background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
-    width: 274px;
-    height: 100px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-left: auto;
-    margin-right: auto;
-    background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
-    background-size: 244px !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-}
+        .logo.pdf {
+            background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
+            width: 274px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-left: auto;
+            margin-right: auto;
+            background-image: url(https://taxfiling.lk/assets/img/footer-logo-new.png) !important;
+            background-size: 244px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
 
         .right {
             text-align: right;
@@ -212,12 +211,12 @@
 
     <script>
         $(function () {
-             document.querySelectorAll(".numeric-input").forEach(function (input) {
-            let value = input.textContent.replace(/,/g, "");
-            if (value && !isNaN(value)) {
-                let num = parseFloat(value);
-                input.textContent = num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }
+        document.querySelectorAll(".numeric-input").forEach(function (input) {
+        let value = input.textContent.replace(/,/g, "");
+        if (value && !isNaN(value)) {
+        let num = parseFloat(value);
+        input.textContent = num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
         });
         });
     </script>
@@ -346,7 +345,7 @@
                 <tr>
                     <td>Qualifying payments</td>
                     <td class="num">110</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}",Model.selfFilingSummaryCalculationViewModel.QualifyingPayments)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.QualifyingPayments)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="totals">
@@ -442,7 +441,7 @@
             </tbody>
         </table>
 
-       @*  <p class="subtitle" style="margin-top:18px">This HTML is a clean, print‑ready reproduction of the provided image. Adjust numbers/labels as needed.</p> *@
+        @*  <p class="subtitle" style="margin-top:18px">This HTML is a clean, print‑ready reproduction of the provided image. Adjust numbers/labels as needed.</p> *@
     </div>
 
     <br />
@@ -452,200 +451,573 @@
     </h2>
 
     <h3> Employment Income</h3>
-   
+    <br />
+    <h4> Employment Details</h4>
+    <br />
+    @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+    Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "EmploymentDetails"))
+    {
+        <div class="table-responsive" id="employmentDetails1Grid">
+            <table class="table table-bordered table-striped mt-2">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Residency</th>
+                        <th>Senior Citizen</th>
+                        <th>Type Employment</th>
+                        <th>Company/Employer Name</th>
+                        <th>TIN of Employer</th>
+                        <th>Cash Benefit</th>
+                        <th>Non Cash Benefit</th>
+                        <th>APIT Primary</th>
+                        <th>APIT Secondary</th>
 
-    <div class="table-responsive" id="employmentDetails1Grid">
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        var index = 0;
+                        foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                        .Where(d => d.CategoryName == "EmploymentDetails"))
+                        {
+                            var Residency = "";
+                            var SeniorCitizen = "";
+                            if (@eploymentIncome.Residency == 1)
+                            {
+                                Residency = "Resident";
+                            }
+                            if (@eploymentIncome.Residency == 0)
+                            {
+                                Residency = "Non-resident";
+                            }
+                            if (@eploymentIncome.SeniorCitizen)
+                            {
+                                SeniorCitizen = "Yes";
+                            }
+                            if (!@eploymentIncome.SeniorCitizen)
+                            {
+                                SeniorCitizen = "No";
+                            }
+                            <tr>
+                                <td>@(++index)</td>
+                                <td>@Residency</td>
+                                <td>@SeniorCitizen</td>
+                                <td>@eploymentIncome.TypeOfName</td>
+                                <td>@eploymentIncome.EmployerORCompanyName</td>
+                                <td>@eploymentIncome.TINOfEmployer</td>
+                                <td>@String.Format("{0:N2}", eploymentIncome.CashBenefit)</td>
+                                <td>@String.Format("{0:N2}", eploymentIncome.NonCashBenefit)</td>
+                                <td>@eploymentIncome.APITPrimaryEmployment</td>
+                                <td>@eploymentIncome.APITSecondaryEmployment</td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="nodata">No Employment Details found.</div>
+
+    }
+    <br />
+    <h4>Terminal Benefits (Gratuity, ETF, EPF, Compensation)</h4>
+    <br />
+    @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+    Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "TerminalBenefits"))
+    {
+        <div class="table-responsive" id="terminalDetailsGrid">
+            <table class="table table-bordered table-striped mt-2">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Type Employment</th>
+                        <th>Company/Employer Name</th>
+                        <th>TIN of Employer</th>
+                        <th>Terminal Benefits</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @{
+                        var indexT = 0;
+                        foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                        .Where(d => d.CategoryName == "TerminalBenefits"))
+                        {
+                            <tr>
+                                <td>@(++indexT)</td>
+                                <td>@eploymentIncome.TypeOfName</td>
+                                <td>@eploymentIncome.EmployerORCompanyName</td>
+                                <td>@eploymentIncome.TINOfEmployer</td>
+                                <td>@String.Format("{0:N2}", @eploymentIncome.TerminalBenefits)</td>
+                                <td>
+
+                                    <button class="btn btn-primary btn-sm terminalbenefits-editbtn" type="button"
+                                            data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
+                                            data-type="@eploymentIncome.TypeOfName"
+                                            data-name="@eploymentIncome.EmployerORCompanyName"
+                                            data-tin="@eploymentIncome.TINOfEmployer"
+                                            data-benefit="@eploymentIncome.TerminalBenefits"
+                                            data-filename="@eploymentIncome.FileName"
+                                            data-decryptionkey="@eploymentIncome.DecryptionKey"
+                                            data-originalfilename="@eploymentIncome.OriginalName">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="TerminalBenefits">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="nodata">No Terminal Benefits found.</div>
+
+    }
+    <br />
+    <h4>Exempt Amounts</h4>
+    <br />
+    @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+    Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "ExemptAmounts"))
+    {
+        <div class="table-responsive" id="exemptDetailsGrid">
+            <table class="table table-bordered table-striped mt-2">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Type Employment</th>
+                        <th>Company/Employer Name</th>
+                        <th>TIN of Employer</th>
+                        <th>Amount </th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @{
+                        var indexT = 0;
+                        foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                        .Where(d => d.CategoryName == "ExemptAmounts"))
+                        {
+                            <tr>
+                                <td>@(++indexT)</td>
+                                <td>@eploymentIncome.TypeOfName</td>
+                                <td>@eploymentIncome.EmployerORCompanyName</td>
+                                <td>@eploymentIncome.TINOfEmployer</td>
+                                <td>@eploymentIncome.Amount</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm exemptamounts-editbtn" type="button"
+                                            data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
+                                            data-type="@eploymentIncome.TypeOfName"
+                                            data-name="@eploymentIncome.EmployerORCompanyName"
+                                            data-tin="@eploymentIncome.TINOfEmployer"
+                                            data-amount="@String.Format("{0:N2}", @eploymentIncome.Amount)"
+                                            data-filename="@eploymentIncome.FileName"
+                                            data-decryptionkey="@eploymentIncome.DecryptionKey"
+                                            data-originalfilename="@eploymentIncome.OriginalName">
+
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="ExemptAmounts">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    }
+    else
+    {
+        <div class="nodata">No Exempt Amounts found.</div>
+
+    }
+    <br />
+
+    <h3> Investment Income </h3>
+    <br />
+    <h4> Interest Income from Savings Accounts</h4>
+    <br />
+    @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "Savings"))
+    {
+        <div class="table-responsive" id="SavingsGrid">
+            <table class="table table-bordered table-striped mt-2">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Type Of Investment</th>
+                        <th>Bank</th>
+                        <th>Branch</th>
+                        <th>Account No</th>
+                        <th>Interest Income</th>
+                        <th>WHT Deducted Amount</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        var index = 0;
+                        foreach (var savingsIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "Savings"))
+                        {
+                            <tr>
+                                <td>@(++index)</td>
+                                <td>@savingsIncome.TypeOfInvestment</td>
+                                <td>@savingsIncome.BankName</td>
+                                <td>@savingsIncome.BankBranch</td>
+                                <td>@savingsIncome.AccountNo</td>
+                                <td>@String.Format("{0:N2}", @savingsIncome.IncomeAmount)</td>
+                                <td>@String.Format("{0:N2}", @savingsIncome.WHTDeducted)</td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="nodata">No Savings Income found.</div>
+
+    }
+    <br />
+    <h4> Interest Income from Fixed Deposit Accounts</h4>
+    <br />
+
+    @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "FixedDeposit"))
+    {
+        <div class="table-responsive" id="FDGrid">
+            <table class="table table-bordered table-striped mt-2">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Type Of Investment</th>
+                        <th>Bank</th>
+                        <th>Branch</th>
+                        <th>Account No</th>
+                        <th>Interest Income</th>
+                        <th>WHT Deducted Amount</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        var index = 0;
+                        foreach (var fdIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "FixedDeposit"))
+                        {
+                            <tr>
+                                <td>@(++index)</td>
+                                <td>@fdIncome.TypeOfInvestment</td>
+                                <td>@fdIncome.BankName</td>
+                                <td>@fdIncome.BankBranch</td>
+                                <td>@fdIncome.AccountNo</td>
+                                <td>@String.Format("{0:N2}", @fdIncome.IncomeAmount)</td>
+                                <td>@String.Format("{0:N2}", @fdIncome.WHTDeducted)</td>
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="nodata">No Fixed Deposit Income found.</div>
+
+    }
+
+    <br />
+    <h4> Dividend Income</h4>
+    <br />
+    @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "Dividend"))
+                {
+                  
+    <div class="table-responsive" id="DividentGrid">
         <table class="table table-bordered table-striped mt-2">
             <thead class="table-light">
                 <tr>
                     <th>No</th>
-                    <th>Residency</th>
-                    <th>Senior Citizen</th>
-                    <th>Type Employment</th>
-                    <th>Company/Employer Name</th>
-                    <th>TIN of Employer</th>
-                    <th>Cash Benefit</th>
-                    <th>Non Cash Benefit</th>
-                    <th>APIT Primary</th>
-                    <th>APIT Secondary</th>
+                    <th>Type Of Investment</th>
+                    <th>Amount Invested </th>
+                    <th>Dividend Income </th>
+                    <th>Company/Institution</th>
+                    <th>Shares/Stocks</th>
+                    <th>Cost Acquisition</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                 @{var index = 0;
+                        foreach (var dividendIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "Dividend"))
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@dividendIncome.TypeOfInvestment</td>
+                            <td>@String.Format("{0:N2}", @dividendIncome.AmountInvested)</td>
+                            <td>@String.Format("{0:N2}", @dividendIncome.NetDividendIncome)</td>
+                            <td>@dividendIncome.CompanyInstitution</td>
+                            <td>@dividendIncome.SharesStocks</td>
+                            <td>@String.Format("{0:N2}", @dividendIncome.CostAcquisition)</td>
+                            
+                        </tr>
+                    }
+                    }
+               
+            </tbody>
+        </table>
+    </div>
+    }
+    else
+    {
+        <div class="nodata">No Dividend Income found.</div>
+        
+    }
+    <br />
+    <h4> Rent Income</h4>
+    <br />
+    @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "Rent"))
+                {
+                  
+    <div class="table-responsive" id="RentGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type Of Investment</th>
+                    <th>Situation property Deed No</th>
+                    <th>Total Rent Income </th>
+                    <th>Cost Gift/ Inhreted</th>
+                    <th>Market value</th>
                    
 
                 </tr>
             </thead>
             <tbody>
-                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
-                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "EmploymentDetails"))
-                {
-                    var index = 0;
-                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
-                    .Where(d => d.CategoryName == "EmploymentDetails"))
+                  @{var index = 0;
+                    foreach (var rentIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "Rent"))
                     {
-                        var Residency = "";
-                        var SeniorCitizen = "";
-                        if (@eploymentIncome.Residency == 1)
-                        {
-                            Residency = "Resident";
-                        }
-                        if (@eploymentIncome.Residency == 0)
-                        {
-                            Residency = "Non-resident";
-                        }
-                        if (@eploymentIncome.SeniorCitizen)
-                        {
-                            SeniorCitizen = "Yes";
-                        }
-                        if (!@eploymentIncome.SeniorCitizen)
-                        {
-                            SeniorCitizen = "No";
-                        }
                         <tr>
                             <td>@(++index)</td>
-                            <td>@Residency</td>
-                            <td>@SeniorCitizen</td>
-                            <td>@eploymentIncome.TypeOfName</td>
-                            <td>@eploymentIncome.EmployerORCompanyName</td>
-                            <td>@eploymentIncome.TINOfEmployer</td>
-                            <td>@String.Format("{0:N2}", eploymentIncome.CashBenefit)</td>
-                            <td>@String.Format("{0:N2}", eploymentIncome.NonCashBenefit)</td>
-                            <td>@eploymentIncome.APITPrimaryEmployment</td>
-                            <td>@eploymentIncome.APITSecondaryEmployment</td>
+                            <td>@rentIncome.TypeOfInvestment</td>
+                            <td>@rentIncome.PropertySituation</td>
+                            <td>@String.Format("{0:N2}", @rentIncome.IncomeAmount)</td>
+                            <td>@String.Format("{0:N2}", @rentIncome.GiftOrInheritedCost)</td>
+                            <td>@String.Format("{0:N2}", @rentIncome.MarketValue)</td>
+
+                        </tr>
+                    }
+                    }
+               
+            </tbody>
+        </table>
+    </div>
+    }
+    else
+    {
+        <div class="nodata">No Rent Income found.</div>
+     
+    }
+    <br />
+    <h4> Other Income</h4>
+    <br />
+    @if (Model.selfOnlineInvestmentIncomeDetailViewModel != null && Model.selfOnlineInvestmentIncomeDetailViewModel.Any(d => d.Category == "Other"))
+                {
+                  
+    <div class="table-responsive" id="OtherGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type Of Investment</th>
+                    <th>Amount Invested</th>
+                    <th>Interest Income </th>
+                   
+
+                </tr>
+            </thead>
+            <tbody>
+                 @{var index = 0;
+                        foreach (var otherIncome in Model.selfOnlineInvestmentIncomeDetailViewModel.Where(d => d.Category == "Other"))
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@otherIncome.TypeOfInvestment</td>
+                            <td>@String.Format("{0:N2}", @otherIncome.AmountInvested)</td>
+                            <td>@String.Format("{0:N2}", @otherIncome.IncomeAmount)</td>
+
+                        </tr>
+                        }
+                    }
+               
+            </tbody>
+        </table>
+    </div>
+    }
+    else
+    {
+        <div class="nodata">No Other Income found.</div>
+      
+    }
+    <br />
+    <h4>Partner's investment income from partnership (Both local & foreign)</h4>
+    <br />
+     @if (Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel != null && Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel.Any(d => d.Category == "Partner"))
+                {
+    <div class="table-responsive" id="partnerInvestmentsGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Total Investment Individual</th>
+                    <th>Partnership Name</th>
+                    <th>Gains and Profits</th>
+                    <th>Total Investment Partnership</th>
+                
+
+                </tr>
+            </thead>
+            <tbody>
+               
+                    @{var index = 0;
+                    foreach (var fdIncome in Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel.Where(d => d.Category == "Partner"))
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@fdIncome.TotalInvestmentIncome</td>
+                            <td>@fdIncome.PartnershipName</td>
+                            <td>@fdIncome.GainsProfits</td>
+                            <td>@fdIncome.TotalInvestmentIncomePartnership</td>
+                        </tr>
+                    }
+                    }
+               
+            </tbody>
+        </table>
+    </div>
+    }
+    else
+    {
+        <div class="nodata">No Partner's investment Income found.</div>
+        
+    }
+
+    <br />
+    <h4>Beneficiary's investment income from trust (Both local & foreign)</h4>
+    <br />
+
+    @if (Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel != null && Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel.Any(d => d.Category == "Beneficiary"))
+                {
+    <div class="table-responsive" id="beneficiaryDetailsGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Total Investment</th>
+                    <th>Partnership Name</th>
+                    <th>Gains and Profits</th>
+                    <th>Total Investment Trust</th>
+                   
+
+                </tr>
+            </thead>
+            <tbody>
+                
+                    @{var index = 0;
+                        foreach (var fdIncome in Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel.Where(d => d.Category == "Beneficiary"))
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@fdIncome.TotalInvestmentIncome</td>
+                            <td>@fdIncome.TrustName</td>
+                            <td>@fdIncome.GainsProfits</td>
+                            <td>@fdIncome.TotalInvestmentIncomeTrust</td>
                           
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="10" class="text-center">No Employment Details found.</td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-    </div>
-
-    <br />
-
-    <div class="table-responsive" id="terminalDetailsGrid">
-        <table class="table table-bordered table-striped mt-2">
-            <thead class="table-light">
-                <tr>
-                    <th>No</th>
-                    <th>Type Employment</th>
-                    <th>Company/Employer Name</th>
-                    <th>TIN of Employer</th>
-                    <th>Terminal Benefits</th>
-                    <th>Action</th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
-                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "TerminalBenefits"))
-                {
-                    var indexT = 0;
-                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
-                    .Where(d => d.CategoryName == "TerminalBenefits"))
-                    {
-                        <tr>
-                            <td>@(++indexT)</td>
-                            <td>@eploymentIncome.TypeOfName</td>
-                            <td>@eploymentIncome.EmployerORCompanyName</td>
-                            <td>@eploymentIncome.TINOfEmployer</td>
-                            <td>@String.Format("{0:N2}", @eploymentIncome.TerminalBenefits)</td>
-                            <td>
-
-                                <button class="btn btn-primary btn-sm terminalbenefits-editbtn" type="button"
-                                        data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
-                                        data-type="@eploymentIncome.TypeOfName"
-                                        data-name="@eploymentIncome.EmployerORCompanyName"
-                                        data-tin="@eploymentIncome.TINOfEmployer"
-                                        data-benefit="@eploymentIncome.TerminalBenefits"
-                                        data-filename="@eploymentIncome.FileName"
-                                        data-decryptionkey="@eploymentIncome.DecryptionKey"
-                                        data-originalfilename="@eploymentIncome.OriginalName">
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="TerminalBenefits">Delete</button>
-                            </td>
-                        </tr>
                     }
-                }
-                else
-                {
-                    <tr class="table-light">
-                        <td colspan="6" class="text-center">No Terminal Benefits found.</td>
-                    </tr>
-                }
-
+              
             </tbody>
         </table>
     </div>
+    }
+    else
+    {
+        <div class="nodata">No Beneficiary's investment income found.</div>
+        
+    }
 
     <br />
+    <h4>Exempt Amounts/Gains and Profits for Investment Income A Excluded amount</h4>
+    <br />
+    <div class="row g-3">
+        @{
+            var exemptRecord = Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel.FirstOrDefault(d => d.Category == "Exempt");
+          //  var IsExemptAmountA = Model.selfOnlineInvestmentPartnerBeneficiaryExemptViewModel.FirstOrDefault()?.IsExemptAmountA;
+            }
+        <div class="col-md-6">
+            <label class="col-sm-11 col-form-label font-weight-bold">
+                Exempt amounts/gains and profits for Investment Income A
+            </label>
+            <input type="checkbox" class="form-check-input"
+                   id="rdbTProfitsInvestment"
+                   name="IsExemptAmountA"
+                   value="true"
+            @(exemptRecord?.IsExemptAmountA == true ? "checked" : "") disabled />
+           
+        </div>
 
-    <div class="table-responsive" id="exemptDetailsGrid">
-        <table class="table table-bordered table-striped mt-2">
-            <thead class="table-light">
-                <tr>
-                    <th>No</th>
-                    <th>Type Employment</th>
-                    <th>Company/Employer Name</th>
-                    <th>TIN of Employer</th>
-                    <th>Amount </th>
-                    <th>Action</th>
+        <div class="col-md-6">
+            <label class="col-sm-5 col-form-label font-weight-bold">Excluded Amount B</label>
+            <input type="checkbox" class="form-check-input"
+                   id="rdbTExcludedAmount"
+                   name="IsExcludedAmountB"
+                   value="true"
+           @(exemptRecord?.IsExcludedAmountB == true ? "checked" : "") disabled />
+           
+        </div>
 
-                </tr>
-            </thead>
-            <tbody>
+        <div class="col-md-6">
+            <label class="form-label"><span style="color: red">*</span>Exempt / Excluded Investment Income Name</label>
+            <input type="text" class="form-control" id="txtTExemptName" name="txtTExemptName"
+                   value="@exemptRecord?.ExemptExcludedIncomeName" disabled>
+        </div>
 
-                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
-                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "ExemptAmounts"))
-                {
-                    var indexT = 0;
-                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
-                    .Where(d => d.CategoryName == "ExemptAmounts"))
-                    {
-                        <tr>
-                            <td>@(++indexT)</td>
-                            <td>@eploymentIncome.TypeOfName</td>
-                            <td>@eploymentIncome.EmployerORCompanyName</td>
-                            <td>@eploymentIncome.TINOfEmployer</td>
-                            <td>@eploymentIncome.Amount</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm exemptamounts-editbtn" type="button"
-                                        data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
-                                        data-type="@eploymentIncome.TypeOfName"
-                                        data-name="@eploymentIncome.EmployerORCompanyName"
-                                        data-tin="@eploymentIncome.TINOfEmployer"
-                                        data-amount="@String.Format("{0:N2}", @eploymentIncome.Amount)"
-                                        data-filename="@eploymentIncome.FileName"
-                                        data-decryptionkey="@eploymentIncome.DecryptionKey"
-                                        data-originalfilename="@eploymentIncome.OriginalName">
-
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="ExemptAmounts">Delete</button>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="6" class="text-center">No Exempt Amounts found.</td>
-                    </tr>
-                }
-
-            </tbody>
-        </table>
+        <div class="col-md-6">
+            <label class="form-label"><span style="color: red">*</span>Exempt / Excluded Investment Income</label>
+            <input type="text" class="form-control numeric-input" maxlength="9" id="txtTExempt" name="txtTExempt"
+                   value="@exemptRecord?.ExemptExcludedIncome" disabled>
+        </div>
     </div>
-    <br />
 
-   @*  --------------------------- *@
-  @*   <h2>Sudarshana Prashad</h2> *@
-    <h3>RECEIPTS & PAYMENT ACCOUNT</h3>
+
+
+    @*  --------------------------- *@
+    @*   <h2>Sudarshana Prashad</h2> *@
+    <h3 class="mb-3 center">RECEIPTS & PAYMENT ACCOUNT</h3>
     <p>
         <b>YEAR OF ASSESSMENT 2024/2025</b><br>
         (All Amounts Are In Sri Lanka Rupees)
@@ -684,30 +1056,36 @@
             <td></td>
         </tr>
         <tr>
-            <td rowspan="3">Investment Income</td>
+            <td rowspan="4">Investment Income</td>
             <td>Interest Income</td>
             <td></td>
-            <td></td>
-            <td class="right">2,834</td>
+            <td class ="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InterestIncome)</td>
+            <td class="right"></td>
         </tr>
         <tr>
             <td>Dividend Income</td>
             <td></td>
-            <td></td>
-            <td class="right">25,553</td>
+            <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InvIncome_Dividend)</td>
+            <td class="right"></td>
         </tr>
         <tr>
             <td>Rent Income</td>
             <td></td>
-            <td></td>
-            <td class="right">9,835</td>
+            <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InvIncome_Rent)</td>
+            <td class="right"></td>
         </tr>
         <tr>
-            <td class="bold">Total Receipts</td>
+            <td>Other Income</td>
+            <td></td>
+            <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InvIncome_Other)</td>
+            <td class="right"></td>
+        </tr>
+        <tr>
+            <td class="bold"></td>
             <td></td>
             <td></td>
             <td></td>
-            <td class="right">490,769</td>
+            <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InterestIncome)</td>
         </tr>
 
         <tr><td colspan="5" class="bold">Less: Expenses</td></tr>
@@ -731,7 +1109,7 @@
     </table>
 
 
-  @*   ---------------------------- *@
+    @*   ---------------------------- *@
 
     <br />
     <h2 class="mb-3 center">
