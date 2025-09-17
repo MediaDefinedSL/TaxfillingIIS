@@ -104,7 +104,9 @@ $(function () {
 
         let selfOnlineEmploymentIncomeId = $("#hndSelfOnlineEmploymentIncomeId").val();
         let typeEmployment = $("#drpTypeEmployment").val();
-        let remuneration = $("#txtRemuneration").val();
+       // let remuneration = $("#txtRemuneration").val();
+        let cshBenefit = $("#txtCashBenefit").val();
+        let nonCashBenefit = $("#txtNonCashBenefit").val();
         let empDetailsECName = $("#txtEmpDetailsECName").val();
         let APITPrimaryEmployment = $("#txtAPITPrimaryEmployment").val();
         let TINEmployer = $("#txtTINEmployer").val();
@@ -112,6 +114,7 @@ $(function () {
         let residency = $("input[name='Residency']:checked").val();
         let seniorCitizen = $("#rdbSeniorCitizen").prop("checked");
         let benefitExcludedForTax = $("#txtBenefitExcludedForTax").val();
+
 
         let isValid = true;
 
@@ -129,11 +132,11 @@ $(function () {
             $btn.prop("disabled", false);
             isValid = false;
         }
-        if (!remuneration.trim()) {
-            $("#txtRemuneration").after('<div class="text-danger validation-error">Remuneration is required.</div>');
-            $btn.prop("disabled", false);
-            isValid = false;
-        }
+        //if (!remuneration.trim()) {
+        //    $("#txtRemuneration").after('<div class="text-danger validation-error">Remuneration is required.</div>');
+        //    $btn.prop("disabled", false);
+        //    isValid = false;
+        //}
 
         var response = "";
         var fileInput = $("#fileEmploymentIncomeUpload")[0];
@@ -177,7 +180,8 @@ $(function () {
             TypeOfName: typeEmployment,
             EmployerORCompanyName: empDetailsECName,
             TINOfEmployer: TINEmployer,
-            Remuneration: remuneration,
+            CashBenefit: cshBenefit,
+            NonCashBenefit: nonCashBenefit,
             APITPrimaryEmployment: APITPrimaryEmployment,
             APITSecondaryEmployment: APITSecondaryEmployment,
             BenefitExcludedForTax: benefitExcludedForTax,
@@ -208,7 +212,8 @@ $(function () {
                     });
 
                     $("#drpTypeEmployment").val("Primary");
-                    $("#txtRemuneration").val("");
+                    $("#txtCashBenefit").val("");
+                    $("#txtNonCashBenefit").val("");
                     $("#txtEmpDetailsECName").val("");
                     $("#txtAPITPrimaryEmployment").val("");
                     $("#txtTINEmployer").val("");
@@ -249,7 +254,8 @@ $(function () {
 
 
                     $("#drpTypeEmployment").val("Primary");
-                    $("#txtRemuneration").val("");
+                    $("#txtCashBenefit").val("");
+                    $("#txtNonCashBenefit").val("");
                     $("#rdbSeniorCitizen").prop("checked", false);
                     $("input[name='Residency']").prop("checked", false);
                     $("#txtEmpDetailsECName").val("");
@@ -363,7 +369,8 @@ $(function () {
     $(document).on("click", "#btnEmploymentDetailsClear", function () {
 
         $("#drpTypeEmployment").val("Primary");
-        $("#txtRemuneration").val("");
+        $("#txtCashBenefit").val("");
+        $("#txtNonCashBenefit").val("");
         $("#rdbSeniorCitizen").prop("checked", false);
         $("input[name='Residency']").prop("checked", false);
         $("#txtEmpDetailsECName").val("");
@@ -772,7 +779,8 @@ $(function () {
         var type = $(this).data("type");
         var name = $(this).data("name");
         var tin = $(this).data("tin");
-        var remuneration = $(this).data("remuneration");
+        var cashbenefit = $(this).data("cashbenefit");
+        var noncashbenefit = $(this).data("noncashbenefit");
         var primary = $(this).data("primary");
         var secondary = $(this).data("secondary");
         var seniorcitizen = String($(this).data("seniorcitizen")).toLowerCase() === "true";
@@ -787,7 +795,8 @@ $(function () {
         $("#drpTypeEmployment").val(type);
         $("#txtEmpDetailsECName").val(name);
         $("#txtTINEmployer").val(tin);
-        $("#txtRemuneration").val(remuneration);
+        $("#txtCashBenefit").val(cashbenefit);
+        $("#txtNonCashBenefit").val(noncashbenefit);
         $("#txtAPITPrimaryEmployment").val(primary);
         $("#txtAPITSecondaryEmployment").val(secondary);
         $("#txtBenefitExcludedForTax").val(benefitexcludedfortax);

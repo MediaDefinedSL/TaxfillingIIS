@@ -52,8 +52,12 @@
                                 <input type="text" class="form-control" id="txtEmpDetailsECName" name="txtEmpDetailsECName">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label"><span style="color: red">*</span>Annual Remuneration (Rs.)</label>
-                                <input type="text" class="form-control numeric-input" id="txtRemuneration" name="txtRemuneration">
+                                <label class="form-label">Cash Benefit</label>
+                                <input type="text" class="form-control numeric-input" id="txtCashBenefit" name="txtCashBenefit">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Non Cash Benefit</label>
+                                <input type="text" class="form-control numeric-input" id="txtNonCashBenefit" name="txtNonCashBenefit">
                             </div>
                             <div class="col-md-6" id="divAPITPrimaryEmployment">
                                 <label class="form-label"> APIT Paid on Primary Employment</label>
@@ -66,6 +70,10 @@
                             <div class="col-md-6" id="divBenefitExcludedforTax">
                                 <label class="form-label"> Value of Benefit Excluded for Tax</label>
                                 <input type="text" class="form-control numeric-input" id="txtBenefitExcludedForTax" name="txtBenefitExcludedForTax">
+                            </div>
+                            <div class="col-md-6" id="divBenefitExcludedforTax">
+                                <label class="form-label"> </label>
+                                
                             </div>
                             <div class="col-md-6" id="divBenefitUpload">
                                 <label class="form-label"><span style="color: red">*</span>Upload Supporting Document</label>
@@ -103,7 +111,8 @@
                                         <th>Type Employment</th>
                                         <th>Company/Employer Name</th>
                                         <th>TIN of Employer</th>
-                                        <th>Remuneration</th>
+                                        <th>Cash Benefit</th>
+                                        <th>Non Cash Benefit</th>
                                         <th>APIT Primary</th>
                                         <th>APIT Secondary</th>
                                         <th>Action</th>
@@ -142,7 +151,8 @@
                                                 <td>@eploymentIncome.TypeOfName</td>
                                                 <td>@eploymentIncome.EmployerORCompanyName</td>
                                                 <td>@eploymentIncome.TINOfEmployer</td>
-                                                <td>@String.Format("{0:N2}", eploymentIncome.Remuneration)</td>
+                                                <td>@String.Format("{0:N2}", eploymentIncome.CashBenefit)</td>
+                                                <td>@String.Format("{0:N2}", eploymentIncome.NonCashBenefit)</td>
                                                 <td>@eploymentIncome.APITPrimaryEmployment</td>
                                                 <td>@eploymentIncome.APITSecondaryEmployment</td>
                                                 <td>
@@ -153,7 +163,8 @@
                                                             data-type="@eploymentIncome.TypeOfName"
                                                             data-name="@eploymentIncome.EmployerORCompanyName"
                                                             data-tin="@eploymentIncome.TINOfEmployer"
-                                                            data-remuneration="@eploymentIncome.Remuneration"
+                                                            data-cashbenefit="@eploymentIncome.CashBenefit"
+                                                            data-noncashbenefit="@eploymentIncome.NonCashBenefit"
                                                             data-primary="@eploymentIncome.APITPrimaryEmployment"
                                                             data-secondary="@eploymentIncome.APITSecondaryEmployment"
                                                             data-benefitexcludedfortax="@eploymentIncome.BenefitExcludedForTax"

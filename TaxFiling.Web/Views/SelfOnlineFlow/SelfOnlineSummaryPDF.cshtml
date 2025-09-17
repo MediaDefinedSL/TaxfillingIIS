@@ -1,4 +1,4 @@
-﻿@model TaxFiling.Web.Models.SelfFilingSummaryCalculationViewModel
+﻿@model TaxFiling.Web.Models.SelfOnlineSummary
 
 
 <html lang="en">
@@ -196,6 +196,18 @@
     background-position: center !important;
     background-repeat: no-repeat !important;
 }
+
+        .right {
+            text-align: right;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
     </style>
 
     <script>
@@ -246,7 +258,7 @@
                     <td>Employment Income</td>
                     <td class="num">10</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.EmploymentIncomeTotal)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.EmploymentIncomeTotal)</td>
                 </tr>
                 <tr>
                     <td>Business Income</td>
@@ -263,39 +275,39 @@
                 <tr>
                     <td class="indent">+ Interest Income</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.InterestIncome)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InterestIncome)</td>
                     <td class="num right-merge">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">+ Dividend Income <span class="red">(Final Tax)</span></td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.InvIncome_Dividend)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InvIncome_Dividend)</td>
                     <td class="num right-merge">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">+ Rent Income</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.InvIncome_Rent)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InvIncome_Rent)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">+ Other Income</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.InvIncome_Other)</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.InterestIncome)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InvIncome_Other)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.InterestIncome)</td>
                 </tr>
                 <tr>
                     <td>Other Income</td>
                     <td class="num">40</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.OtherIncomeTotal)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.OtherIncomeTotal)</td>
                 </tr>
 
                 <tr class="section">
                     <td>Assessable Income</td>
                     <td class="num">50</td>
                     <td class="muted"></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.AssessableIncome)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.AssessableIncome)</td>
                 </tr>
 
                 <tr>
@@ -304,50 +316,50 @@
                 <tr>
                     <td>Personal relief</td>
                     <td class="num">60</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.PersonalRelief)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.PersonalRelief)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Relief for rent income (25% Max)</td>
                     <td class="num">80</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.RentIncomeRelief)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.RentIncomeRelief)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Solar Relief</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.SolarRelief)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.SolarRelief)</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Relief for foreign service income</td>
                     <td class="num">90</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.ForeignServiceRelief)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.ForeignServiceRelief)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="totals">
                     <td>Total relief</td>
                     <td class="num">100</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TotalRelief)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TotalRelief)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Qualifying payments</td>
                     <td class="num">110</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}",Model.QualifyingPayments)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}",Model.selfFilingSummaryCalculationViewModel.QualifyingPayments)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="totals">
                     <td>Total deduction from assessable income</td>
                     <td class="num">120</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TotalDeductions)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TotalDeductions)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
 
                 <tr class="section">
                     <td>Taxable income</td>
                     <td class="num">130</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxableIncome)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxableIncome)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
 
@@ -357,81 +369,690 @@
                 <tr>
                     <td>Tax on terminal benefits</td>
                     <td class="num">140</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxOnTerminalBenefits)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxOnTerminalBenefits)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Tax on gain on realization of investment assets</td>
                     <td class="num">150</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxOnInvestmentGains)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxOnInvestmentGains)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Tax on balance taxable income</td>
                     <td class="num">160</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxOnBalanceIncome)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxOnBalanceIncome)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 6%</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxBracket1)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxBracket1)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 12%</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxBracket2)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxBracket2)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 18%</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxBracket3)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxBracket3)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 24%</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxBracket4)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxBracket4)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">500,000 @@ 30%</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxBracket5)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxBracket5)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="indent">Balance @@ 36%</td>
                     <td></td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxBracket6)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxBracket6)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
 
                 <tr class="footer-row">
                     <td>Total Tax Payable</td>
                     <td class="num">170</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TotalTaxPayable)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TotalTaxPayable)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr>
                     <td>Less: Tax Credits</td>
                     <td class="num">180</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.TaxCredits)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TaxCredits)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
                 <tr class="section">
                     <td>Balance Tax Payable / (Refund)</td>
                     <td class="num">190</td>
-                    <td class="num numeric-input">@string.Format("{0:N2}", Model.BalanceTaxPayable)</td>
+                    <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.BalanceTaxPayable)</td>
                     <td class="num">&nbsp;</td>
                 </tr>
             </tbody>
         </table>
 
-        <p class="subtitle" style="margin-top:18px">This HTML is a clean, print‑ready reproduction of the provided image. Adjust numbers/labels as needed.</p>
+       @*  <p class="subtitle" style="margin-top:18px">This HTML is a clean, print‑ready reproduction of the provided image. Adjust numbers/labels as needed.</p> *@
     </div>
+
+    <br />
+    <br />
+    <h2 class="mb-3 center">
+        &nbsp;Income and Tax Credits
+    </h2>
+
+    <h3> Employment Income</h3>
+   
+
+    <div class="table-responsive" id="employmentDetails1Grid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Residency</th>
+                    <th>Senior Citizen</th>
+                    <th>Type Employment</th>
+                    <th>Company/Employer Name</th>
+                    <th>TIN of Employer</th>
+                    <th>Cash Benefit</th>
+                    <th>Non Cash Benefit</th>
+                    <th>APIT Primary</th>
+                    <th>APIT Secondary</th>
+                   
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "EmploymentDetails"))
+                {
+                    var index = 0;
+                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                    .Where(d => d.CategoryName == "EmploymentDetails"))
+                    {
+                        var Residency = "";
+                        var SeniorCitizen = "";
+                        if (@eploymentIncome.Residency == 1)
+                        {
+                            Residency = "Resident";
+                        }
+                        if (@eploymentIncome.Residency == 0)
+                        {
+                            Residency = "Non-resident";
+                        }
+                        if (@eploymentIncome.SeniorCitizen)
+                        {
+                            SeniorCitizen = "Yes";
+                        }
+                        if (!@eploymentIncome.SeniorCitizen)
+                        {
+                            SeniorCitizen = "No";
+                        }
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@Residency</td>
+                            <td>@SeniorCitizen</td>
+                            <td>@eploymentIncome.TypeOfName</td>
+                            <td>@eploymentIncome.EmployerORCompanyName</td>
+                            <td>@eploymentIncome.TINOfEmployer</td>
+                            <td>@String.Format("{0:N2}", eploymentIncome.CashBenefit)</td>
+                            <td>@String.Format("{0:N2}", eploymentIncome.NonCashBenefit)</td>
+                            <td>@eploymentIncome.APITPrimaryEmployment</td>
+                            <td>@eploymentIncome.APITSecondaryEmployment</td>
+                          
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="text-center">No Employment Details found.</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <br />
+
+    <div class="table-responsive" id="terminalDetailsGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type Employment</th>
+                    <th>Company/Employer Name</th>
+                    <th>TIN of Employer</th>
+                    <th>Terminal Benefits</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "TerminalBenefits"))
+                {
+                    var indexT = 0;
+                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                    .Where(d => d.CategoryName == "TerminalBenefits"))
+                    {
+                        <tr>
+                            <td>@(++indexT)</td>
+                            <td>@eploymentIncome.TypeOfName</td>
+                            <td>@eploymentIncome.EmployerORCompanyName</td>
+                            <td>@eploymentIncome.TINOfEmployer</td>
+                            <td>@String.Format("{0:N2}", @eploymentIncome.TerminalBenefits)</td>
+                            <td>
+
+                                <button class="btn btn-primary btn-sm terminalbenefits-editbtn" type="button"
+                                        data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
+                                        data-type="@eploymentIncome.TypeOfName"
+                                        data-name="@eploymentIncome.EmployerORCompanyName"
+                                        data-tin="@eploymentIncome.TINOfEmployer"
+                                        data-benefit="@eploymentIncome.TerminalBenefits"
+                                        data-filename="@eploymentIncome.FileName"
+                                        data-decryptionkey="@eploymentIncome.DecryptionKey"
+                                        data-originalfilename="@eploymentIncome.OriginalName">
+                                    Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="TerminalBenefits">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="table-light">
+                        <td colspan="6" class="text-center">No Terminal Benefits found.</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <br />
+
+    <div class="table-responsive" id="exemptDetailsGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type Employment</th>
+                    <th>Company/Employer Name</th>
+                    <th>TIN of Employer</th>
+                    <th>Amount </th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.selfOnlineEmploymentIncomeDetails != null &&
+                Model.selfOnlineEmploymentIncomeDetails.Any(d => d.CategoryName == "ExemptAmounts"))
+                {
+                    var indexT = 0;
+                    foreach (var eploymentIncome in Model.selfOnlineEmploymentIncomeDetails
+                    .Where(d => d.CategoryName == "ExemptAmounts"))
+                    {
+                        <tr>
+                            <td>@(++indexT)</td>
+                            <td>@eploymentIncome.TypeOfName</td>
+                            <td>@eploymentIncome.EmployerORCompanyName</td>
+                            <td>@eploymentIncome.TINOfEmployer</td>
+                            <td>@eploymentIncome.Amount</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm exemptamounts-editbtn" type="button"
+                                        data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId"
+                                        data-type="@eploymentIncome.TypeOfName"
+                                        data-name="@eploymentIncome.EmployerORCompanyName"
+                                        data-tin="@eploymentIncome.TINOfEmployer"
+                                        data-amount="@String.Format("{0:N2}", @eploymentIncome.Amount)"
+                                        data-filename="@eploymentIncome.FileName"
+                                        data-decryptionkey="@eploymentIncome.DecryptionKey"
+                                        data-originalfilename="@eploymentIncome.OriginalName">
+
+                                    Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm employmentdetails-deletebtn" type="button" data-id="@eploymentIncome.SelfOnlineEmploymentDetailsId" data-name="ExemptAmounts">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No Exempt Amounts found.</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <br />
+
+   @*  --------------------------- *@
+  @*   <h2>Sudarshana Prashad</h2> *@
+    <h3>RECEIPTS & PAYMENT ACCOUNT</h3>
+    <p>
+        <b>YEAR OF ASSESSMENT 2024/2025</b><br>
+        (All Amounts Are In Sri Lanka Rupees)
+    </p>
+    <p><b>TIN:</b> 123456789</p>
+
+    <table>
+        <tr>
+            <td class="bold">Cash in Hand as at 01.04.2024</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="right">125,000</td>
+        </tr>
+        <tr>
+            <td class="bold">Cash at Bank as at 01.04.2024</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="right">251,148</td>
+        </tr>
+
+        <tr><td colspan="5" class="bold">Add: Receipts</td></tr>
+        <tr>
+            <td>Employment Income</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Business Income</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td rowspan="3">Investment Income</td>
+            <td>Interest Income</td>
+            <td></td>
+            <td></td>
+            <td class="right">2,834</td>
+        </tr>
+        <tr>
+            <td>Dividend Income</td>
+            <td></td>
+            <td></td>
+            <td class="right">25,553</td>
+        </tr>
+        <tr>
+            <td>Rent Income</td>
+            <td></td>
+            <td></td>
+            <td class="right">9,835</td>
+        </tr>
+        <tr>
+            <td class="bold">Total Receipts</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="right">490,769</td>
+        </tr>
+
+        <tr><td colspan="5" class="bold">Less: Expenses</td></tr>
+        <tr><td>EPF Contribution</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Tax Payments</td><td></td><td></td><td class="center">12</td><td class="right">3,000,000</td></tr>
+        <tr><td>Living/ Education Expenses</td><td></td><td class="center">50,000</td><td></td><td class="right">1,200,000</td></tr>
+        <tr><td>Children Education Expenses</td><td></td><td class="center">25,000</td><td></td><td class="right">600,000</td></tr>
+        <tr><td>Vehicle Expenses</td><td></td><td class="center">37,500</td><td></td><td class="right">450,000</td></tr>
+        <tr><td>Life/ Medical Insurance Premium</td><td></td><td class="center">20,728</td><td></td><td class="right">216,486</td></tr>
+        <tr><td>Loan Installments</td><td></td><td class="center">85,000</td><td></td><td class="right">1,020,000</td></tr>
+        <tr><td>Credit card expenses</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Purchase of equity or securities</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>Any other Expenses</td><td></td><td></td><td class="center">12</td><td class="right">3,000,000</td></tr>
+        <tr><td class="bold">Total Cash Outflow</td><td></td><td></td><td class="center">12</td><td class="right">9,486,486</td></tr>
+
+        <tr><td class="bold">Excess / (Deficit)</td><td></td><td></td><td></td><td class="right">(8,995,695)</td></tr>
+
+        <tr><td>Cash in hand as at 31.03.2025</td><td></td><td></td><td></td><td class="right">50,000</td></tr>
+        <tr><td>Cash at Bank as at 31.03.2025</td><td></td><td></td><td></td><td class="right">440,074</td></tr>
+        <tr><td class="bold">Total Closing Cash</td><td></td><td></td><td></td><td class="right">490,074</td></tr>
+    </table>
+
+
+  @*   ---------------------------- *@
+
+    <br />
+    <h2 class="mb-3 center">
+        &nbsp;Assets and Liabilities
+    </h2>
+    <br />
+    <h4 class="mb-3">
+        &nbsp;Immovable Properties
+    </h4>
+    <div class="table-responsive" id="ImmovablePropertiesGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>S/N</th>
+                    <th>Situation Property</th>
+                    <th>Date Acquisition  </th>
+                    <th>Cost</th>
+                    <th>Market value</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.selfonlineAssetsImmovablePropertyViewModel != null && Model.selfonlineAssetsImmovablePropertyViewModel.Any())
+                {
+                    var index = 0;
+                    foreach (var immovableProperties in Model.selfonlineAssetsImmovablePropertyViewModel)
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@immovableProperties.Type</td>
+                            <td>@immovableProperties.SerialNumber</td>
+                            <td>@immovableProperties.Situation</td>   <!-- fixed -->
+                            <td>@immovableProperties.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                            <td>@immovableProperties.Cost?.ToString("N2")</td>
+                            <td>@immovableProperties.MarketValue?.ToString("N2")</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">No immovable properties found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="mb-3">
+        &nbsp; Motor Vehicle
+    </h4>
+    <div class="table-responsive" id="MotorVehicleGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>S/N</th>
+                    <th>Registration No</th>
+                    <th>Date Acquisition</th>
+                    <th>Cost/Market Value</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.selfonlineAssetsMotorVehicleViewModel != null && Model.selfonlineAssetsMotorVehicleViewModel.Any())
+                {
+                    var index = 0;
+                    foreach (var motorVehicle in Model.selfonlineAssetsMotorVehicleViewModel)
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@motorVehicle.Type</td>
+                            <td>@motorVehicle.SerialNumber</td>
+                            <td>@motorVehicle.RegistrationNo</td>
+                            <td>@motorVehicle.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                            <td>@motorVehicle.CostMarketValue?.ToString("N2")</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No immovable properties found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <h4 class="mb-3">
+        &nbsp; Shares/Stocks/Securities as at 31.03.2025
+    </h4>
+    <div class="table-responsive" id="SharesStocksGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>S/N</th>
+                    <th>No Of Shares/Stocks</th>
+                    <th>Date Acquisition</th>
+                    <th>Cost Acquisition</th>
+                    <th>Net dividend</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.selfonlineAssetsSharesStocksSecuritiesViewModel != null && Model.selfonlineAssetsSharesStocksSecuritiesViewModel.Any())
+                {
+                    var index = 0;
+                    foreach (var sharesStocksSecurities in Model.selfonlineAssetsSharesStocksSecuritiesViewModel)
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@sharesStocksSecurities.Type</td>
+                            <td>@sharesStocksSecurities.SerialNumber</td>
+                            <td>@sharesStocksSecurities.NoOfSharesStocks</td>
+                            <td>@sharesStocksSecurities.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                            <td>@sharesStocksSecurities.CostOfAcquisition?.ToString("N2")</td>
+                            <td>@sharesStocksSecurities.NetDividendIncome?.ToString("N2")</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No immovable properties found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <h4 class="mb-3">
+        &nbsp; Declare the Capital and Current Account (credit) Balances Held as a Part of Business, as at 31.03.2025
+    </h4>
+    <div class="table-responsive" id="DeclareCapitalGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>S/N</th>
+                    <th>Business Name</th>
+                    <th>Current Balance</th>
+                    <th>Capital Balance</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.selfonlineAssetsCapitalCurrentAccountViewModel != null && Model.selfonlineAssetsCapitalCurrentAccountViewModel.Any())
+                {
+                    var index = 0;
+                    foreach (var capitalCurrentAccount in Model.selfonlineAssetsCapitalCurrentAccountViewModel)
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@capitalCurrentAccount.Type</td>
+                            <td>@capitalCurrentAccount.SerialNumber</td>
+                            <td>@capitalCurrentAccount.BusinessName</td>
+                            <td>@capitalCurrentAccount.CurrentAccountBalance?.ToString("N2")</td>
+                            <td>@capitalCurrentAccount.CapitalAccountBalance?.ToString("N2")</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No immovable properties found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <h4 class="mb-3">
+        &nbsp;All liabilities including any debit balance of a business capital, current or credit card account
+    </h4>
+    <div class="table-responsive" id="LiabilityGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>S/N</th>
+                    <th>Security Liability</th>
+                    <th>Date Commencement  </th>
+                    <th>Original Amount</th>
+                    <th>Amount</th>
+                    <th>Amount Repaid Y/A</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.selfonlineLiabilitiesAllLiabilities != null && Model.selfonlineLiabilitiesAllLiabilities.Any())
+                {
+                    var index = 0;
+                    foreach (var liabilities in Model.selfonlineLiabilitiesAllLiabilities)
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@liabilities.Type</td>
+                            <td>@liabilities.SerialNumber</td>
+                            <td>@liabilities.SecurityOnLiability</td>   <!-- fixed -->
+                            <td>@liabilities.DateOfCommencement?.ToString("yyyy-MM-dd")</td>
+                            <td>@liabilities.OriginalAmount?.ToString("N2")</td>
+                            <td>@liabilities.AmountAsAt?.ToString("N2")</td>
+                            <td>@liabilities.AmountRepaid?.ToString("N2")</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="text-center">No Liabilities found.</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <h4 class="mb-3">
+        &nbsp;Any other assets acquired or gifts received during the year
+    </h4>
+    <div class="table-responsive" id="OtherAssetsGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>S/N</th>
+                    <th>Gift/Exchange/Purchase</th>
+                    <th>Date Acquisition  </th>
+                    <th>Cost</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.selfonlineLiabilitiesOtherAssetsGifts != null && Model.selfonlineLiabilitiesOtherAssetsGifts.Any())
+                {
+                    var index = 0;
+                    foreach (var otherAssets in Model.selfonlineLiabilitiesOtherAssetsGifts)
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@otherAssets.Type</td>
+                            <td>@otherAssets.SerialNumber</td>
+                            <td>@otherAssets.AcquisitionMode</td>   <!-- fixed -->
+                            <td>@otherAssets.DateOfAcquisition?.ToString("yyyy-MM-dd")</td>
+                            <td>@otherAssets.CostMarketValue?.ToString("N2")</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="text-center">No Other Assets found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <h4 class="mb-3">
+        &nbsp;Disposal of assets including shares (sale/transfer/gift) during the year
+    </h4>
+    <div class="table-responsive" id="DisposalAsetsGrid">
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Type</th>
+                    <th>S/N</th>
+                    <th>Date Disposal</th>
+                    <th>Sales Proceed</th>
+                    <th>Date Acquired</th>
+                    <th>Cost</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.selfonlineLiabilitiesDisposalAssets != null && Model.selfonlineLiabilitiesDisposalAssets.Any())
+                {
+                    var index = 0;
+                    foreach (var disposalAsets in Model.selfonlineLiabilitiesDisposalAssets)
+                    {
+                        <tr>
+                            <td>@(++index)</td>
+                            <td>@disposalAsets.Type</td>
+                            <td>@disposalAsets.SerialNumber</td>
+                            <td>@disposalAsets.DateOfDisposal?.ToString("yyyy-MM-dd")</td>
+                            <td>@disposalAsets.SalesProceed</td>
+                            <td>@disposalAsets.DateAcquired?.ToString("yyyy-MM-dd")</td>
+                            <td>@disposalAsets.Cost</td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="text-center">No Disposal Assets found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 
 </body>
 </html>

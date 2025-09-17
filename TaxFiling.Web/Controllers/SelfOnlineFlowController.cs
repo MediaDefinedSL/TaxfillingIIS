@@ -1451,6 +1451,18 @@ public class SelfOnlineFlowController : Controller
             }
         }
 
+        List<SelfOnlineEmploymentIncomeDetails> employmentIncomeList = [];
+        string employmentIncomesListUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/selfOnlineflow/employmentincome_list", queryParams);
+        var response9 = await _httpClient.GetAsync(employmentIncomesListUrl, ctx);
+        if (response9 != null && response9.IsSuccessStatusCode)
+        {
+            var responseContent = await response9.Content.ReadAsStringAsync(ctx);
+            if (responseContent is not null)
+            {
+                employmentIncomeList = JsonSerializer.Deserialize<List<SelfOnlineEmploymentIncomeDetails>>(responseContent, _jsonSerializerOptions)!;
+            }
+        }
+
         var model = new SelfOnlineSummary
         {
             selfFilingSummaryCalculationViewModel = totalCalculation,
@@ -1461,7 +1473,8 @@ public class SelfOnlineFlowController : Controller
             selfonlineAssetsCapitalCurrentAccountViewModel = capitalCurrentAccountList,
             selfonlineLiabilitiesAllLiabilities = liabilitiesList,
             selfonlineLiabilitiesOtherAssetsGifts = otherAssetList,
-            selfonlineLiabilitiesDisposalAssets = disposalAssetsList
+            selfonlineLiabilitiesDisposalAssets = disposalAssetsList,
+            selfOnlineEmploymentIncomeDetails = employmentIncomeList
         };
 
         return PartialView("SelfOnlineSummary", model);

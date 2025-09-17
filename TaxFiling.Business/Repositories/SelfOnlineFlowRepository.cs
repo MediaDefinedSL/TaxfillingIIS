@@ -560,7 +560,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @TypeOfName,
                 @EmployerORCompanyName,
                 @TINOfEmployer,
-                @Remuneration,
+                @CashBenefit,
+                @NonCashBenefit ,
                 @APITPrimaryEmployment,
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
@@ -586,137 +587,25 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             new MySqlParameter("@TypeOfName", selfOnlineEmploymentIncomeDetails.TypeOfName ?? (object)DBNull.Value),
             new MySqlParameter("@EmployerORCompanyName", selfOnlineEmploymentIncomeDetails.EmployerORCompanyName ?? (object)DBNull.Value),
             new MySqlParameter("@TINOfEmployer", selfOnlineEmploymentIncomeDetails.TINOfEmployer ?? (object)DBNull.Value),
-            new MySqlParameter("@Remuneration", selfOnlineEmploymentIncomeDetails.Remuneration ?? (object)DBNull.Value),
+            new MySqlParameter("@CashBenefit", selfOnlineEmploymentIncomeDetails.CashBenefit ?? (object)DBNull.Value),
+            new MySqlParameter("@NonCashBenefit", selfOnlineEmploymentIncomeDetails.NonCashBenefit ?? (object)DBNull.Value),
             new MySqlParameter("@APITPrimaryEmployment", selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
             new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
             new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value),
             new MySqlParameter("@uploadedFileName", selfOnlineEmploymentIncomeDetails.UploadedFileName ?? (object)DBNull.Value),
-              new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
-              new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
-              new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
-              new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
-              new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
-              new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
+            new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
+            new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
+            new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
+            new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
+              
         );
 
 
 
-
-            /* decimal? addToTotal = 0;
-
-             if (selfOnlineEmploymentIncomeDetails.CategoryName == "EmploymentDetails")
-             {
-
-
-                 var _employmentDetailsIncome = new SelfOnlineEmploymentIncomeDetails
-                 {
-
-                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
-                     Year = selfOnlineEmploymentIncomeDetails.Year,
-                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
-                     Residency = selfOnlineEmploymentIncomeDetails.Residency,
-                     SeniorCitizen = selfOnlineEmploymentIncomeDetails.SeniorCitizen,
-                     TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName,
-                     EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
-                     TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer,
-                     Remuneration = selfOnlineEmploymentIncomeDetails.Remuneration,
-                     APITPrimaryEmployment = selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment,
-                     APITSecondaryEmployment = selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment,
-                     CreatedBy = selfOnlineEmploymentIncomeDetails.UserId,
-                     CreatedOn = DateTime.Now
-
-                 };
-
-                 _context.SelfOnlineEmploymentIncomeDetails.Add(_employmentDetailsIncome);
-                 await _context.SaveChangesAsync();
-
-
-                 addToTotal = (selfOnlineEmploymentIncomeDetails.Remuneration ?? 0)
-                        + (selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? 0)
-                        + (selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? 0);
-
-                 //await _context.Database.ExecuteSqlRawAsync(
-                 //         "CALL UpdateSelfFilingTotalCalculation({0}, {1}, {2},{3},{4},{5},{6})",
-                 //         selfOnlineEmploymentIncomeDetails.UserId,
-                 //         selfOnlineEmploymentIncomeDetails.UserId,
-                 //         selfOnlineEmploymentIncomeDetails.Year,
-                 //         "EmploymentIncome",
-                 //         "EmploymentDetails",
-                 //         "add",
-                 //         addToTotal
-
-                 //     );
-
-             }
-             else if (selfOnlineEmploymentIncomeDetails.CategoryName == "TerminalBenefits")
-             {
-                 var _terminalBenefits = new SelfOnlineEmploymentIncomeDetails
-                 {
-
-                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
-                     Year = selfOnlineEmploymentIncomeDetails.Year,
-                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
-                     TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName,
-                     EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
-                     TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer,
-                     TerminalBenefits = selfOnlineEmploymentIncomeDetails.TerminalBenefits,
-                     CreatedBy = selfOnlineEmploymentIncomeDetails.UserId,
-                     CreatedOn = DateTime.Now
-
-                 };
-
-                 _context.SelfOnlineEmploymentIncomeDetails.Add(_terminalBenefits);
-                 await _context.SaveChangesAsync();
-
-                 addToTotal = (selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? 0);
-
-
-             }
-             else if (selfOnlineEmploymentIncomeDetails.CategoryName == "ExemptAmounts")
-             {
-                 var _exemptAmounts = new SelfOnlineEmploymentIncomeDetails
-                 {
-
-                     UserId = selfOnlineEmploymentIncomeDetails.UserId,
-                     Year = selfOnlineEmploymentIncomeDetails.Year,
-                     CategoryName = selfOnlineEmploymentIncomeDetails.CategoryName,
-                     TypeOfName = selfOnlineEmploymentIncomeDetails.TypeOfName,
-                     EmployerORCompanyName = selfOnlineEmploymentIncomeDetails.EmployerORCompanyName,
-                     TINOfEmployer = selfOnlineEmploymentIncomeDetails.TINOfEmployer,
-                     Amount = selfOnlineEmploymentIncomeDetails.Amount,
-                     CreatedBy = selfOnlineEmploymentIncomeDetails.UserId,
-                     CreatedOn = DateTime.Now
-
-                 };
-
-                 _context.SelfOnlineEmploymentIncomeDetails.Add(_exemptAmounts);
-                 await _context.SaveChangesAsync();
-
-                 addToTotal = (selfOnlineEmploymentIncomeDetails.Amount ?? 0);
-
-
-             }
-
-             // var mainIncome = await _context.SelfOnlineEmploymentIncomes
-             //.FirstOrDefaultAsync(x => x.SelfOnlineEmploymentIncomeId == selfOnlineEmploymentIncomeDetails.SelfOnlineEmploymentIncomeId);
-
-             var mainTaxIncome = await _context.Users
-            .FirstOrDefaultAsync(x => x.UserId.ToString() == selfOnlineEmploymentIncomeDetails.UserId);
-
-             //if (mainIncome != null)
-             //{
-             //    mainIncome.Total = (mainIncome.Total ?? 0) + addToTotal;
-             //    _context.SelfOnlineEmploymentIncomes.Update(mainIncome);
-             //    await _context.SaveChangesAsync();
-             //}
-             if (mainTaxIncome != null)
-             {
-                 mainTaxIncome.TaxTotal = (mainTaxIncome.TaxTotal ?? 0) + addToTotal;
-                 _context.Users.Update(mainTaxIncome);
-                 await _context.SaveChangesAsync();
-             }*/
 
             isSuccess = true;
 
@@ -761,8 +650,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                         BenefitExcludedForTax = e.BenefitExcludedForTax,
                         FileName = e.FileName,
                         OriginalName = e.OriginalName,
-                        DecryptionKey = e.DecryptionKey
-                    }
+                        DecryptionKey = e.DecryptionKey,
+                       CashBenefit = e.CashBenefit,
+                       NonCashBenefit = e.NonCashBenefit
+                   }
                 ).ToListAsync(ctx);
 
 
@@ -937,7 +828,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @uploadTime,
                 @decryptionKey,
                 @uploadId,
-                @originalName
+                @originalName,
+                @CashBenefit,
+                @NonCashBenefit
 
             )",
           new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -963,7 +856,9 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
           new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
           new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
           new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
-          new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
+          new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value),
+          new MySqlParameter("@CashBenefit", selfOnlineEmploymentIncomeDetails.CashBenefit ?? (object)DBNull.Value),
+          new MySqlParameter("@NonCashBenefit", selfOnlineEmploymentIncomeDetails.NonCashBenefit ?? (object)DBNull.Value)
       );
 
 
@@ -2060,8 +1955,6 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
         bool isSuccess = false;
         try
         {
-
-            
 
                 await _context.Database.ExecuteSqlRawAsync(
           @"CALL ADDEditSelfOnlineAssetsGifts  (
