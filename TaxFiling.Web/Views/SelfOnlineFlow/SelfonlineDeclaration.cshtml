@@ -101,13 +101,9 @@
                                       .then(data => {
                                             if(data.success){
                                                    
-                                                      acceptCheckbox.disabled = true;
-                                                     
-                                                   showMessage("Your filling Documents submitted successfully", "success");
-                                                
-
-
-
+                                                 acceptCheckbox.disabled = true;
+                                                 showMessage("Your filling Documents submitted successfully", "success");
+                                                 this.disabled = true;
 
                                             }
                                             else
