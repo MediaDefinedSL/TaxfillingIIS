@@ -150,13 +150,14 @@ public class UserUploadTaxAssistedDocController : Controller
 
             var queryUserParams = new Dictionary<string, string?> {
                 { "Id", userId.ToString() }
-            };
+            }; https://localhost:7119/
 
-            string userUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
-            var responseUser = await _httpClient.GetAsync(url, ctx);
-            if (response != null && response.IsSuccessStatusCode)
+            // string userUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
+            string userUrl = QueryHelpers.AddQueryString("https://localhost:7119/api/users/getuser", queryUserParams);
+            var responseUser = await _httpClient.GetAsync(userUrl, ctx);
+            if (responseUser != null && responseUser.IsSuccessStatusCode)
             {
-                var responseContent = await response.Content.ReadAsStringAsync(ctx);
+                var responseContent = await responseUser.Content.ReadAsStringAsync(ctx);
                 if (!string.IsNullOrWhiteSpace(responseContent))
                 {
                     user = JsonSerializer.Deserialize<UserViewModel>(responseContent, _jsonSerializerOptions) ?? new();
