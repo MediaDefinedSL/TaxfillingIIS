@@ -175,6 +175,8 @@ public class SelfOnlineFlowController : Controller
     {
         int? personalInfoStatus = -1;
         var userId = User.FindFirst("UserID")?.Value;
+        int? latestStatus = -1;
+
         var queryParamsDocs = new Dictionary<string, string?>
             {
                 { "userId", userId.ToString() }
@@ -191,6 +193,20 @@ public class SelfOnlineFlowController : Controller
                 personalInfoStatus = parsedPersonalStatus;
             }
         }
+      
+        string docStatusUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/Users/GetUploadedDocStatus", queryParamsDocs);
+        var responseDocs = await _httpClient.GetAsync(docStatusUrl, ctx);
+        if (responseDocs != null && responseDocs.IsSuccessStatusCode)
+        {
+            var responseContent = await responseDocs.Content.ReadAsStringAsync(ctx);
+
+            if (int.TryParse(responseContent, out var parsedStatus))
+            {
+                latestStatus = parsedStatus;
+            }
+        }
+
+        ViewBag.SubmitStatus = latestStatus;
         ViewBag.personalInfoSelfFilingStatus = personalInfoStatus;
         
         return PartialView("Partial/_DashboardSection");
@@ -1939,13 +1955,28 @@ public class SelfOnlineFlowController : Controller
         int year = DateTime.Now.Year;
 
         ViewBag.UserId = userId;
+        int? latestStatus = -1;
 
-        var queryUserParams = new Dictionary<string, string?> {
-            { "userId", userId.ToString()},
-            { "year", year.ToString()}
-        };
+        var queryParams = new Dictionary<string, string?>
+            {
+                { "userId", userId.ToString() }
+            };
 
-       
+
+        string docStatusUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/Users/GetUploadedDocStatus", queryParams);
+        var responseDocs = await _httpClient.GetAsync(docStatusUrl, ctx);
+        if (responseDocs != null && responseDocs.IsSuccessStatusCode)
+        {
+            var responseContent = await responseDocs.Content.ReadAsStringAsync(ctx);
+
+            if (int.TryParse(responseContent, out var parsedStatus))
+            {
+                latestStatus = parsedStatus;
+            }
+        }
+
+        ViewBag.SubmitStatus = latestStatus;
+
 
         return PartialView("SelfonlineDeclaration");
     }

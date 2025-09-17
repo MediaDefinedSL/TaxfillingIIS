@@ -2175,7 +2175,25 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                                 TaxOnBalanceIncome = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxOnBalanceIncome")),
 
                                 TaxCredits = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxCredits")),
-                                BalanceTaxPayable = reader.GetFieldValue<decimal>(reader.GetOrdinal("BalanceTaxPayable"))
+                                BalanceTaxPayable = reader.GetFieldValue<decimal>(reader.GetOrdinal("BalanceTaxPayable")),
+
+                                CashInHandStart = reader.GetFieldValue<decimal>(reader.GetOrdinal("CashInHandStart")),
+                                CashAtBankStart = reader.GetFieldValue<decimal>(reader.GetOrdinal("CashAtBankStart")),
+
+                                EPFContribution = reader.GetFieldValue<decimal>(reader.GetOrdinal("EPFContribution")),
+                                TaxPayments = reader.GetFieldValue<decimal>(reader.GetOrdinal("TaxPayments")),
+                                LivingEducationExpenses = reader.GetFieldValue<decimal>(reader.GetOrdinal("LivingEducationExpenses")),
+                                ChildrenEducationExpenses = reader.GetFieldValue<decimal>(reader.GetOrdinal("ChildrenEducationExpenses")),
+                                VehicleExpenses = reader.GetFieldValue<decimal>(reader.GetOrdinal("VehicleExpenses")),
+                                LifeMedicalInsurance = reader.GetFieldValue<decimal>(reader.GetOrdinal("LifeMedicalInsurance")),
+                                LoanInstallments = reader.GetFieldValue<decimal>(reader.GetOrdinal("LoanInstallments")),
+                                CreditCardExpenses = reader.GetFieldValue<decimal>(reader.GetOrdinal("CreditCardExpenses")),
+                                PurchaseEquitySecurities = reader.GetFieldValue<decimal>(reader.GetOrdinal("PurchaseEquitySecurities")),
+                                AnyOtherExpenses = reader.GetFieldValue<decimal>(reader.GetOrdinal("AnyOtherExpenses")),
+                                TotalCashOutflow = reader.GetFieldValue<decimal>(reader.GetOrdinal("TotalCashOutflow")),
+
+                                CashInHandEnd = reader.GetFieldValue<decimal>(reader.GetOrdinal("CashInHandEnd")),
+                                CashAtBankEnd = reader.GetFieldValue<decimal>(reader.GetOrdinal("CashAtBankEnd"))
                             };
                         }
                     }
