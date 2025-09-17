@@ -560,7 +560,8 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @TypeOfName,
                 @EmployerORCompanyName,
                 @TINOfEmployer,
-                @Remuneration,
+                @CashBenefit,
+                @NonCashBenefit ,
                 @APITPrimaryEmployment,
                 @APITSecondaryEmployment,
                 @TerminalBenefits,
@@ -572,9 +573,7 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 @uploadTime,
                 @decryptionKey,
                 @uploadId,
-                @originalName,
-                @CashBenefit,
-                @NonCashBenefit
+                @originalName
             )",
             new MySqlParameter("@loguser", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
             new MySqlParameter("@UserId", selfOnlineEmploymentIncomeDetails.UserId ?? (object)DBNull.Value),
@@ -588,21 +587,21 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
             new MySqlParameter("@TypeOfName", selfOnlineEmploymentIncomeDetails.TypeOfName ?? (object)DBNull.Value),
             new MySqlParameter("@EmployerORCompanyName", selfOnlineEmploymentIncomeDetails.EmployerORCompanyName ?? (object)DBNull.Value),
             new MySqlParameter("@TINOfEmployer", selfOnlineEmploymentIncomeDetails.TINOfEmployer ?? (object)DBNull.Value),
-            new MySqlParameter("@Remuneration", selfOnlineEmploymentIncomeDetails.Remuneration ?? (object)DBNull.Value),
+            new MySqlParameter("@CashBenefit", selfOnlineEmploymentIncomeDetails.CashBenefit ?? (object)DBNull.Value),
+            new MySqlParameter("@NonCashBenefit", selfOnlineEmploymentIncomeDetails.NonCashBenefit ?? (object)DBNull.Value),
             new MySqlParameter("@APITPrimaryEmployment", selfOnlineEmploymentIncomeDetails.APITPrimaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@APITSecondaryEmployment", selfOnlineEmploymentIncomeDetails.APITSecondaryEmployment ?? (object)DBNull.Value),
             new MySqlParameter("@TerminalBenefits", selfOnlineEmploymentIncomeDetails.TerminalBenefits ?? (object)DBNull.Value),
             new MySqlParameter("@Amount", selfOnlineEmploymentIncomeDetails.Amount ?? (object)DBNull.Value),
             new MySqlParameter("@BenefitExcludedForTax", selfOnlineEmploymentIncomeDetails.BenefitExcludedForTax ?? (object)DBNull.Value),
             new MySqlParameter("@uploadedFileName", selfOnlineEmploymentIncomeDetails.UploadedFileName ?? (object)DBNull.Value),
-              new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
-              new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
-              new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
-              new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
-              new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
-              new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value),
-               new MySqlParameter("@CashBenefit", selfOnlineEmploymentIncomeDetails.CashBenefit ?? (object)DBNull.Value),
-              new MySqlParameter("@NonCashBenefit", selfOnlineEmploymentIncomeDetails.NonCashBenefit ?? (object)DBNull.Value)
+            new MySqlParameter("@fileName", selfOnlineEmploymentIncomeDetails.FileName ?? (object)DBNull.Value),
+            new MySqlParameter("@location", selfOnlineEmploymentIncomeDetails.Location ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadTime", selfOnlineEmploymentIncomeDetails.UploadTime ?? (object)DBNull.Value),
+            new MySqlParameter("@decryptionKey", selfOnlineEmploymentIncomeDetails.DecryptionKey ?? (object)DBNull.Value),
+            new MySqlParameter("@uploadId", selfOnlineEmploymentIncomeDetails.UploadId ?? (object)DBNull.Value),
+            new MySqlParameter("@originalName", selfOnlineEmploymentIncomeDetails.OriginalName ?? (object)DBNull.Value)
+              
         );
 
 
