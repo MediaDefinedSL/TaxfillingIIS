@@ -8049,6 +8049,25 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
     display: inline-grid !important;
 }
 
+#refound ul.list-check {
+    text-align: left;
+    line-height: 20px;
+}
+
+#refound ul.list-check {
+    text-align: left;
+    display: block !important;
+}
+
+.about ul li {
+    display: block;
+    line-height: 20px;
+}
+
+.contact-box {
+    text-align: left;
+}
+
 }
 
 .row.position-relative.abiu-s-one h2.inner-title {
