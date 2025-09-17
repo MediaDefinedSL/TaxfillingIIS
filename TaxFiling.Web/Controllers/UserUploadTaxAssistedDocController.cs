@@ -100,6 +100,7 @@ public class UserUploadTaxAssistedDocController : Controller
         int? latestDocStatus = -1;
         int? personalInfoStatus = -1;
         PackagesViewModel package = new();
+        UserViewModel user = new();
 
         if (packageId != null)
         {
@@ -135,15 +136,30 @@ public class UserUploadTaxAssistedDocController : Controller
                     latestDocStatus = parsedStatus;
                 }
             }
-            string personalInfoStatusUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/Users/GetPersonalInformationCompleted", queryParamsDocs);
-            var responsepersonalInfo = await _httpClient.GetAsync(personalInfoStatusUrl, ctx);
-            if (responsepersonalInfo != null && responsepersonalInfo.IsSuccessStatusCode)
-            {
-                var responseContent = await responsepersonalInfo.Content.ReadAsStringAsync(ctx);
+            //string personalInfoStatusUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/Users/GetPersonalInformationCompleted", queryParamsDocs);
+            //var responsepersonalInfo = await _httpClient.GetAsync(personalInfoStatusUrl, ctx);
+            //if (responsepersonalInfo != null && responsepersonalInfo.IsSuccessStatusCode)
+            //{
+            //    var responseContent = await responsepersonalInfo.Content.ReadAsStringAsync(ctx);
 
-                if (int.TryParse(responseContent, out var parsedPersonalStatus))
+            //    if (int.TryParse(responseContent, out var parsedPersonalStatus))
+            //    {
+            //        personalInfoStatus = parsedPersonalStatus;
+            //    }
+            //}
+
+            var queryUserParams = new Dictionary<string, string?> {
+                { "Id", userId.ToString() }
+            };
+
+            string userUrl = QueryHelpers.AddQueryString($"{_baseApiUrl}api/users/getuser", queryParams);
+            var responseUser = await _httpClient.GetAsync(url, ctx);
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync(ctx);
+                if (!string.IsNullOrWhiteSpace(responseContent))
                 {
-                    personalInfoStatus = parsedPersonalStatus;
+                    user = JsonSerializer.Deserialize<UserViewModel>(responseContent, _jsonSerializerOptions) ?? new();
                 }
             }
 
@@ -157,7 +173,10 @@ public class UserUploadTaxAssistedDocController : Controller
         ViewBag.curancy = package.Curancy;
         ViewBag.price = package.Price;
         ViewBag.UploadedDocStatus = latestDocStatus;
-        ViewBag.personalInfoStatus = personalInfoStatus;
+        ViewBag.personalInfoStatus = user.isPersonalInfoCompleted;
+
+        //HttpContext.Session.SetString("IncomeTaxCreditsCompleted", user.isIncomeTaxCreditsCompleted.ToString());
+        HttpContext.Session.SetString("personalTaxAssistedComplete", user.isPersonalInfoCompleted.ToString());
         return View();
     }
 
