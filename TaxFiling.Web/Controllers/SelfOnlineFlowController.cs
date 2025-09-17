@@ -1928,4 +1928,22 @@ public class SelfOnlineFlowController : Controller
         return Ok(new { success = true, message = "Disposal Assets save successfully" });
 
     }
+
+    public async Task<IActionResult> LoadDeclaration(CancellationToken ctx)
+    {
+
+        var userId = User.FindFirst("UserID")?.Value;
+        int year = DateTime.Now.Year;
+
+        ViewBag.UserId = userId;
+
+        var queryUserParams = new Dictionary<string, string?> {
+            { "userId", userId.ToString()},
+            { "year", year.ToString()}
+        };
+
+       
+
+        return PartialView("SelfonlineDeclaration");
+    }
 }

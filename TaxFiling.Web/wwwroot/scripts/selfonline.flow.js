@@ -1,6 +1,7 @@
 $(function () {
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
+    console.log(document.getElementsByClassName("dropdown-btn"));
 
     for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function () {
@@ -388,7 +389,18 @@ $(function () {
         });
     });
     
-
+    $('#btnDeclaration').on('click', function () {
+        $.ajax({
+            url: '/SelfOnlineFlow/LoadDeclaration',
+            type: 'GET',
+            success: function (data) {
+                $('#in-this-section-container').html(data);
+            },
+            error: function () {
+                alert("Error loading section content.");
+            }
+        });
+    });
    
 });
 
