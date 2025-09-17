@@ -15,47 +15,52 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 
-    <!-- ✅ Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Raleway&family=Nunito&display=swap" rel="stylesheet" />
+    <!-- Fonts (deferred using media=print trick) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Raleway&family=Nunito&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Raleway&family=Nunito&display=swap" /></noscript>
 
-    <!-- ✅ Defer heavy stylesheets -->
-    <link rel="preload" href="~/assets/vendor/bootstrap/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="~/assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="~/assets/css/md-css.css?v=173" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript>
-        <link rel="stylesheet" href="~/assets/vendor/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/assets/css/main.css" />
-        <link rel="stylesheet" href="~/assets/css/md-css.css?v=173" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     </noscript>
 
-    <!-- ✅ Inline critical CSS manually or use Critical CSS tools -->
-    <!-- ✅ Icons & FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Preload and load critical styles -->
+    <link rel="preload" href="@Url.Content("~/assets/vendor/bootstrap/css/bootstrap.min.css")" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="@Url.Content("~/assets/vendor/bootstrap/css/bootstrap.min.css")" />
 
-    <!-- ✅ Other vendor CSS (deferred) -->
-    <link rel="stylesheet" href="~/assets/vendor/glightbox/css/glightbox.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="~/assets/vendor/aos/aos.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="~/assets/vendor/swiper/swiper-bundle.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="~/assets/css/Self-Online-Flow.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="~/css/datatables.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="~/css/toastr.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="preload" href="@Url.Content("~/assets/css/main.css")" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/main.css")" />
 
-    <!-- ✅ CDN & 3rd-party CSS -->
+    <link rel="preload" href="@Url.Content("~/assets/css/md-css.css?v=173")" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/md-css.css?v=173")" />
+
+    <!-- Non-critical CSS (deferred with media=print) -->
+    <link rel="stylesheet" href="@Url.Content("~/assets/vendor/aos/aos.css")" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="@Url.Content("~/assets/vendor/glightbox/css/glightbox.min.css")" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="@Url.Content("~/assets/vendor/swiper/swiper-bundle.min.css")" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/Self-Online-Flow.css")" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="@Url.Content("~/css/datatables.min.css")" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="@Url.Content("~/css/toastr.min.css")" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
+
+    <!-- 3rd Party CDN CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css" />
 
-    <!-- ✅ JavaScript: Always use defer -->
-    <script src="~/lib/jquery/dist/jquery.min.js" defer></script>
-    <script src="~/scripts/config.js" asp-append-version="true" defer></script>
-    <script src="~/scripts/function.js" asp-append-version="true" defer></script>
-    <script src="~/js/datatables.min.js" asp-append-version="true" defer></script>
-    <script src="~/js/toastr.min.js" asp-append-version="true" defer></script>
-    <script src="~/scripts/notification.js" asp-append-version="true" defer></script>
+    <!-- Defer all JavaScript -->
+    <script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")" defer></script>
+    <script src="@Url.Content("~/scripts/config.js")" asp-append-version="true" defer></script>
+    <script src="@Url.Content("~/scripts/function.js")" asp-append-version="true" defer></script>
+    <script src="@Url.Content("~/js/datatables.min.js")" asp-append-version="true" defer></script>
+    <script src="@Url.Content("~/js/toastr.min.js")" asp-append-version="true" defer></script>
+    <script src="@Url.Content("~/scripts/notification.js")" asp-append-version="true" defer></script>
+
+    <!-- 3rd Party JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js" defer></script>
     <script src="https://cdn.tiny.cloud/1/YOUR_KEY/tinymce/6/tinymce.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
