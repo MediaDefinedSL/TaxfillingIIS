@@ -793,7 +793,7 @@
       return Math.round(value);
     }
 
-    function calc(){
+    function calcdomestic(){
       // Salary in LKR
       const salaryFC = parseFloat(els.salaryFC.value)||0;
       const fx = parseFloat(els.fx.value)||0;
@@ -851,13 +851,13 @@
           if(isMonthly && currentRelief===1800000) els.relief.value = 150000;
           if(!isMonthly && currentRelief===150000) els.relief.value = 1800000;
         }
-        calc();
+        calcdomestic();
       });
     });
     document.getElementById('recalc').onclick = calc;
 
     // Init
-    renderSlabs(); calc();
+    renderSlabs(); calcdomestic();
 </script>
 
 
@@ -1199,6 +1199,7 @@ currencySelect.addEventListener("change", updateExchangeRate);
 
 // Initial load
 updateExchangeRate();
+calc();
 });
 
 </script>
