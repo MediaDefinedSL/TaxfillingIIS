@@ -8076,6 +8076,10 @@ div#income-expenses .border.rounded.bg-light.shadow-sm {
     pointer-events: none;
 }
 
+.home-about ul.list-group.price-list {
+    height: 194px;
+}
+
 }
 
 .row.position-relative.abiu-s-one h2.inner-title {
