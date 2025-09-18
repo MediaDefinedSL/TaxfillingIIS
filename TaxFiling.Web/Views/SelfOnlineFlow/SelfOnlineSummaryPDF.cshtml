@@ -1,5 +1,7 @@
 ﻿@model TaxFiling.Web.Models.SelfOnlineSummary
-
+@{
+    var ExcessAmount = (Model.selfFilingSummaryCalculationViewModel.InterestIncome - Model.selfFilingSummaryCalculationViewModel.TotalCashOutflow);
+}
 
 <html lang="en">
 <head>
@@ -1124,7 +1126,7 @@
             <td>Any Other Expenses</td>
             <td></td>
             <td></td>
-            <td class="text-center">/td>
+            <td class="text-center"></td>
             <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.AnyOtherExpenses)</td>
         </tr>
 
@@ -1136,12 +1138,12 @@
             <td class="num numeric-input">@string.Format("{0:N2}", Model.selfFilingSummaryCalculationViewModel.TotalCashOutflow)</td>
         </tr>
 
-        <tr class="fw-bold text-danger">
+        <tr class="fw-bold ">
             <td>Excess / (Deficit)</td>
             <td></td>
             <td></td>
             <td></td>
-            <td class="num numeric-input"></td>
+            <td class="num numeric-input">@string.Format("{0:N2}", @ExcessAmount) </td>
         </tr>
 
         <tr>
