@@ -1366,3 +1366,30 @@ updateExchangeRate();
 </script>
 
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Clear all input fields EXCEPT foreign_currency and fx_rate
+  document.querySelectorAll("input").forEach(input => {
+    if (input.id !== "fx_rate") {
+      input.value = "";
+    }
+  });
+
+  // Clear all <span> and <td> text that show calculated values
+  document.querySelectorAll("span, td").forEach(el => {
+    // Do not clear currency select text or fx_rate
+    if (!el.closest("select") && el.id !== "foreign_currency" && el.id !== "fx_rate") {
+      if (el.tagName === "SPAN" || el.tagName === "TD") {
+        if (!el.querySelector("input")) el.textContent = ""; // clear only if no input inside
+      }
+    }
+  });
+
+  // Optionally reset selects except foreign_currency
+  document.querySelectorAll("select").forEach(select => {
+    if (select.id !== "foreign_currency") {
+      select.selectedIndex = 0; // set to first option
+    }
+  });
+});
+</script>
