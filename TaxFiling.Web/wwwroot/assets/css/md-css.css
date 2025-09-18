@@ -8121,3 +8121,6 @@ button.btn-reset {
     cursor: not-allowed;
 }
 
+button#btnDeclaration {
+    display: block !important;
+}
