@@ -8124,3 +8124,8 @@ button.btn-reset {
 button#btnDeclaration {
     display: block !important;
 }
+
+strong#focus Specificity {
+    margin-top: 10px !important;
+    display: block;
+}
