@@ -111,9 +111,9 @@
             data: JSON.stringify(user),
             success: function (response) {
                 if (document.getElementById("docUploadStatus")) {                   
-                    $(document).trigger("personalInfoCompleted", 1);
+                    //$(document).trigger("personalInfoCompleted", 1);
                     document.getElementById("personalInfoCompleted").value = "1";
-                    $('#btnIncomeTaxCredits, #linkEmploymentIncome, #linkInvestmentIncome, #linkDetailsinvestment, #linkPartnerInvestment, #linkBeneficiaryInvestment, #linkInvestmentExemptAmounts, #linkDeductions')
+                    $('#linkDocuments')
                         .removeClass('locked')
                         .removeAttr('disabled');
                     const el = document.getElementById("personalInfoStatus");
