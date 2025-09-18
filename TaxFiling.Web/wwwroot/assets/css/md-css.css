@@ -8110,6 +8110,7 @@ button.btn-reset {
 
 #preloader {
     background-color: #fff !important;
+    display: none !important;
 }
 
 .locked {
