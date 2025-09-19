@@ -85,7 +85,7 @@ jobs:
           Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingAPI\api.zip" -DestinationPath "C:\TaxFilingUAT\TaxfilingAPI" -Force
           Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingWeb\web.zip" -DestinationPath "C:\TaxFilingUAT\TaxfilingWeb" -Force
 
-          $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
+          $appPools = @("api.taxfilinglk", "taxfilinglk.com")
           foreach ($appPool in $appPools) {
               Start-WebAppPool -Name $appPool
           }
