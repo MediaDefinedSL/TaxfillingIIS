@@ -578,7 +578,18 @@
     const q = id => document.getElementById(id);
     const fmt = (n) => (n??0).toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2});
     const money = fmt;
-    const fromMoney = (s) => { const v = (typeof s==='number')? s : Number(String(s).replace(/[^0-9.-]/g,'')); return isNaN(v)?0:v; };
+    // const fromMoney = (s) => { 
+    //     const v = (typeof s==='number')? s : Number(String(s).replace(/[^0-9.-]/g,'')); 
+    //     return isNaN(v)?0:v; };
+
+     const fromMoney = (s) => {
+        if (typeof s === 'number') return s;
+        if (!s || !s.toString().trim()) return ''; // keep empty string
+        // remove commas
+        const v = Number(String(s).replace(/,/g, '').trim());
+        return isNaN(v) ? '' : v; // return '' if not a number
+    };
+
     const getN = id => fromMoney(q(id)?.value||0);
     const getAnnual = id => getN(id) * 12;
 
@@ -602,18 +613,21 @@
       return {tax, rows};
     }
 
-     function limitTo99MillionPlain(inputId) {
+    function limitTo99MillionPlain(inputId) {
       const input = document.getElementById(inputId);
 
       input.addEventListener("input", () => {
         // Remove non-digit characters
         let val = input.value.replace(/\D/g, "");
 
-        // Cap at 99,000,000
+        // Limit to 8 digits
+        if (val.length > 8) val = val.slice(0, 8);
+
         let num = parseInt(val) || 0;
+
+        // Cap at 99,000,000
         if (num > 99000000) num = 99000000;
 
-        // Update input
         input.value = num;
       });
     }
@@ -807,9 +821,24 @@
       if (el.tagName === 'INPUT') el.addEventListener('keyup', calc);
     });
     // Format money on blur for all text inputs
-    function formatMoneyInputs(){ document.querySelectorAll('input[type="text"]').forEach(el=>{ el.value = money(fromMoney(el.value)); }); }
-    document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); }); });
-    document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); calc(); }); });
+    function formatMoneyInputs(){
+        document.querySelectorAll('input[type="text"]').forEach(el=>{ el.value = money(fromMoney(el.value)); }); 
+    }
+
+    //document.querySelectorAll('input[type="text"]').forEach(el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); }); });
+    // document.querySelectorAll('input[type="text"]').forEach(
+    //     el=>{ el.addEventListener('blur', ()=>{ el.value = money(fromMoney(el.value)); calc(); }); });
+     document.querySelectorAll('input[type="text"]').forEach(el => {
+        el.addEventListener('focus', () => {
+            const raw = fromMoney(el.value);
+            el.value = raw === '' ? '' : raw; // keep empty fields empty
+        });
+        el.addEventListener('blur', () => {
+            const raw = fromMoney(el.value);
+            if (raw !== '') el.value = money(raw);
+            calc();
+        });
+    });
     q('btn_calc').addEventListener('click', ()=>{ formatMoneyInputs(); calc(); });
     q('btn_resett').addEventListener('click', ()=>{ resetAll(); formatMoneyInputs(); calc(); });
 
