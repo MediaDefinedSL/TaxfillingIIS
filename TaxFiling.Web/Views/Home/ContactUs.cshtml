@@ -684,7 +684,7 @@
                 </div>
 
                 <div class="col-lg-12">
-                    <form action="" method="post" role="form" class="php-email-form">
+                    <form id="contactForm" role="form" class="php-email-form">
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required="">
@@ -699,7 +699,7 @@
                         <div class="form-group mt-3">
                             <textarea class="form-control" name="message" placeholder="Message" required=""></textarea>
                         </div>
-                        <div class="my-3">
+                        <div class="my-3" style="display:none">
                             <div class="loading">Loading</div>
                           @*   <div class="error-message"></div> *@
                             <div class="sent-message">Your message has been sent. Thank you!</div>
@@ -714,7 +714,12 @@
 
     </section>
 </main>
-
+<div id="enhancedModal" class="enhanced-modal" style="display:none;">
+    <div class="enhanced-modal-content">
+        <span id="enhancedModalClose" class="enhanced-close">&times;</span>
+        <p id="enhancedModalMessage"></p>
+    </div>
+</div>
 
 	<script>
 
@@ -749,4 +754,83 @@ document.querySelectorAll('.collapse').forEach(div => {
 
   });
 });
+
+     function showMessage(message, type = "success", autoClose = true, autoCloseTime = 5000) {
+    const modal = document.getElementById("enhancedModal");
+    const modalContent = modal.querySelector(".enhanced-modal-content");
+    const msgElem = document.getElementById("enhancedModalMessage");
+    const closeBtn = document.getElementById("enhancedModalClose");
+
+    // Set message text
+    msgElem.textContent = message;
+
+    // Remove previous type classes
+    modalContent.classList.remove("modal-success", "modal-error", "modal-info");
+
+    // Add current type class
+    if (type === "success") modalContent.classList.add("modal-success");
+    else if (type === "error") modalContent.classList.add("modal-error");
+    else modalContent.classList.add("modal-info");
+
+    // Show modal
+    modal.style.display = "flex";
+
+    // Close function
+    function closeModal() {
+        modal.style.display = "none";
+        // Cleanup event listeners to avoid duplicates if called again
+        closeBtn.removeEventListener("click", closeModal);
+        window.removeEventListener("click", outsideClick);
+        if (autoCloseTimer) clearTimeout(autoCloseTimer);
+    }
+
+    // Close when clicking close button
+    closeBtn.addEventListener("click", closeModal);
+
+    // Close when clicking outside modal content
+    function outsideClick(e) {
+        if (e.target === modal) closeModal();
+    }
+    window.addEventListener("click", outsideClick);
+
+    // Auto-close timer if enabled
+    let autoCloseTimer;
+    if (autoClose) {
+        autoCloseTimer = setTimeout(closeModal, autoCloseTime);
+    }
+    }
+
+     document.getElementById("contactForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = {
+          name: form.name.value,
+          email: form.email.value,
+          body: form.message.value,
+          subject: form.subject.value
+        };
+
+        try {
+               const resp = await fetch("https://mail.taxfiling.lk/ContactUs", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // Add authentication header if needed, e.g. Authorization: "Bearer <token>"
+            },
+            body: JSON.stringify(formData)
+          });
+          const data = await resp.json();
+               // Check both HTTP status and the JSON success flag
+          if (resp.ok && data.success) {
+            showMessage(data.message || "Message sent successfully!");
+            form.reset();
+          } else {
+            const errMsg = data.message || data.error || resp.statusText;
+            alert("Error sending message: " + errMsg);
+          }
+        } catch (err) {
+          console.error("Network error:", err);
+          alert("Failed to send message.");
+        }
+      });
     </script>
