@@ -58,7 +58,7 @@ jobs:
             -Authentication Basic `
             -ScriptBlock {
               Import-Module WebAdministration
-              $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
+              $appPools = @("api.taxfilinglk", "taxfilinglk.com")
               foreach ($appPool in $appPools) {
                   if ((Get-WebAppPoolState -Name $appPool).Value -eq "Started") {
                       Stop-WebAppPool -Name $appPool
@@ -80,8 +80,8 @@ jobs:
           @'
           Import-Module WebAdministration
 
-          Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
-          Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
+          Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
+          Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
 
           $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
           foreach ($appPool in $appPools) {
