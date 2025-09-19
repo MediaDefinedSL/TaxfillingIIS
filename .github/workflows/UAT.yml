@@ -68,7 +68,9 @@ jobs:
 
       - name: 📤 Copy ZIPs and Deploy Script to IIS Server
         shell: powershell
+        
         run: |
+          echo "Server is $env:SERVER"
           net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
           net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
 
