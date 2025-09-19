@@ -12,6 +12,7 @@ using DinkToPdf;
 using Rotativa.AspNetCore;
 
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog
