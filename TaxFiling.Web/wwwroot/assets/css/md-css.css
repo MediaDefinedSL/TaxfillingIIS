@@ -8133,3 +8133,11 @@ strong#focus Specificity {
     margin-top: 10px !important;
     display: block;
 }
+
+#contact .tab-panel-contact .tab-pane .mt-4 {
+    font-size: 16px !important;
+}
+
+button#btn_resett {
+    visibility: hidden !important;
+}
