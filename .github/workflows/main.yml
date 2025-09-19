@@ -1,0 +1,113 @@
+name: Build and Deploy .NET 9 App to IIS (Web + API)
+
+on:
+  push:
+    branches:
+      - UAT
+
+jobs:
+  build_and_copy:
+    runs-on: windows-latest
+
+    env:
+      USERNAME: ${{ secrets.UAT_IIS_USER }}
+      PASSWORD: ${{ secrets.UAT_IIS_PASSWORD }}
+      SERVER: ${{ secrets.UAT_IIS_SERVER }}
+
+    steps:
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup .NET 9 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: 📦 Restore packages
+        run: dotnet restore TaxFiling.sln
+
+      - name: 🛠️ Build solution
+        run: dotnet build TaxFiling.sln --configuration Release --no-restore
+
+      - name: 🚀 Publish API
+        run: dotnet publish ./TaxFiling.API/TaxFiling.API.csproj -c Release -o ./publish/API
+
+      - name: 🚀 Publish Web (without web.config)
+        run: dotnet publish ./TaxFiling.Web/TaxFiling.Web.csproj -c Release -o ./publish/Web /p:UseAppHost=false /p:PublishWebConfig=false
+     
+      - name: 📄 Copy custom web.config
+        run: Copy-Item ./TaxFiling.Web/web.config ./publish/Web/web.config -Force
+        
+      - name: 🗜️ Compress Published Folders
+        run: |
+          Compress-Archive -Path ./publish/API/* -DestinationPath api.zip
+          Compress-Archive -Path ./publish/Web/* -DestinationPath web.zip
+
+      - name: 🛑 Stop IIS App Pools before deployment
+        shell: pwsh
+        run: |
+          # Allow unencrypted WinRM and trust remote server
+          Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true
+          Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value "$env:SERVER" -Force
+
+          $secpass = ConvertTo-SecureString "${{ secrets.UAT_IIS_PASSWORD }}" -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.UAT_IIS_USER }}", $secpass)
+
+          Invoke-Command -ComputerName $env:SERVER `
+            -Credential $cred `
+            -Authentication Basic `
+            -ScriptBlock {
+              Import-Module WebAdministration
+              $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
+              foreach ($appPool in $appPools) {
+                  if ((Get-WebAppPoolState -Name $appPool).Value -eq "Started") {
+                      Stop-WebAppPool -Name $appPool
+                  }
+              }
+            }
+
+      - name: 📤 Copy ZIPs and Deploy Script to IIS Server
+        shell: powershell
+        run: |
+          net use \\$env:SERVER\TaxfilingAPI /user:$env:USERNAME $env:PASSWORD
+          net use \\$env:SERVER\TaxfilingWeb /user:$env:USERNAME $env:PASSWORD
+
+          # Copy files
+          Copy-Item api.zip "\\$env:SERVER\TaxfilingAPI\" -Force
+          Copy-Item web.zip "\\$env:SERVER\TaxfilingWeb\" -Force
+
+          # Write deploy script and copy
+          @'
+          Import-Module WebAdministration
+
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
+          Expand-Archive -Path "C:\Taxfiling\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
+
+          $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
+          foreach ($appPool in $appPools) {
+              Start-WebAppPool -Name $appPool
+          }
+
+          "Deploy script executed at $(Get-Date)" | Out-File C:\Taxfiling\deploy-log.txt -Append
+          '@ | Out-File deploy.ps1 -Encoding utf8
+
+          Copy-Item deploy.ps1 "\\$env:SERVER\TaxfilingWeb\" -Force
+
+      - name: ▶️ Execute deploy script remotely
+        shell: pwsh
+        run: |
+          $secpass = ConvertTo-SecureString "${{ secrets.IIS_PASSWORD }}" -AsPlainText -Force
+          $cred = New-Object System.Management.Automation.PSCredential("${{ secrets.IIS_USER }}", $secpass)
+
+          Invoke-Command -ComputerName $env:SERVER `
+            -Credential $cred `
+            -Authentication Basic `
+            -ScriptBlock {
+              powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
+            }
+
+      - name: 🔌 Disconnect network shares
+        shell: powershell
+        run: |
+          net use \\$env:SERVER\TaxfilingAPI /delete
+          net use \\$env:SERVER\TaxfilingWeb /delete
