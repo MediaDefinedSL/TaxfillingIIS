@@ -82,15 +82,15 @@ jobs:
           @'
           Import-Module WebAdministration
 
-          Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingAPI\api.zip" -DestinationPath "C:\Taxfiling\TaxfilingAPI" -Force
-          Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingWeb\web.zip" -DestinationPath "C:\Taxfiling\TaxfilingWeb" -Force
+          Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingAPI\api.zip" -DestinationPath "C:\TaxFilingUAT\TaxfilingAPI" -Force
+          Expand-Archive -Path "C:\TaxFilingUAT\TaxfilingWeb\web.zip" -DestinationPath "C:\TaxFilingUAT\TaxfilingWeb" -Force
 
           $appPools = @("Taxfilingapi", "taxfilinf.lk", "TexfilingWeb")
           foreach ($appPool in $appPools) {
               Start-WebAppPool -Name $appPool
           }
 
-          "Deploy script executed at $(Get-Date)" | Out-File C:\Taxfiling\deploy-log.txt -Append
+          "Deploy script executed at $(Get-Date)" | Out-File C:\TaxFilingUAT\deploy-log.txt -Append
           '@ | Out-File deploy.ps1 -Encoding utf8
 
           Copy-Item deploy.ps1 "\\$env:SERVER\TaxfilingWeb\" -Force
