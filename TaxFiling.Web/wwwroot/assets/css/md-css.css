@@ -8143,6 +8143,31 @@ strong#focus Specificity {
     font-size: 16px !important;
 }
 
-button#btn_resett {
-    visibility: hidden !important;
+
+
+strong#focus {
+    margin-top: 10px !important;
+    display: block;
+}
+
+
+button#resetBtn {
+    visibility: hidden;
+}
+
+.foreing input#monthly_foreign {
+    width: 138px;
+}
+
+.foreing span#salary_lkr {
+    width: 136px;
+    display: block;
+}
+
+.foreing select#foreign_currencyy {
+    width: 80px !important;
+}
+
+.foreing input#exchange_rate {
+    width: 60px;
 }

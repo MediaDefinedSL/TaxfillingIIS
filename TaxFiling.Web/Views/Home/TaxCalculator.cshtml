@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 <main class="cal">
     <div class="page-title accent-background">
         <div class="container d-lg-flex justify-content-between align-items-center">
@@ -211,7 +211,7 @@
                                         Monthly Salary Paid in Foreign Currency
                                     </td>
                                     <td>
-                                        <input type="text" inputmode="decimal" id="monthly_foreign" value="3000">
+                                        <input type="text" inputmode="decimal" id="monthly_foreign" value="">
                                     </td>
                                     <td>
                                         <select id="foreign_currencyy">
@@ -806,7 +806,7 @@
 
       // Set defaults
       q('relief_personal').value = money(1800000);
-      q('foreign_currency').value = "LKR";
+      q('foreign_currency').value = "USD";
       q('fx_rate').value = money(300);  // or money(300) if you want to keep 300 as default
 
       // Recalculate if needed
@@ -858,6 +858,11 @@
     limitTo99MillionPlain('other_income_annual');
     limitTo99MillionPlain('relief_solar');
     limitTo99MillionPlain('relief_qualifying');
+    limitTo99MillionPlain('monthlyIncome');
+	limitTo99MillionPlain('monthly_foreign');
+	limitTo99MillionPlain('personal_relief');
+	limitTo99MillionPlain('salary_lkr');
+    
    // limitTo99MillionPlain('annual-money');
    // limitTo99MillionPlain('profit_annual');
 
@@ -1150,7 +1155,7 @@
     });
 
     // Demo value
-    input.value = '250,000';
+    input.value = '';
     updateUI();
 </script>
 
@@ -1253,11 +1258,24 @@
 
 
     function resetCalculator() {
-      document.getElementById("monthly_foreign").value = "";
-      document.getElementById("exchange_rate").value = "";
-      document.getElementById("personal_relief").value = "";
-      document.querySelectorAll("div.cls-test-div span").forEach(span => span.innerText = "0.00");
-      document.getElementById("effective_rate").innerText = "0.00%";
+document.getElementById("monthly_foreign").value = "";
+		 document.getElementById("salary_lkr").innerText = "";
+		 document.getElementById("first_slab").innerText = "";
+     document.getElementById("first_tax").innerText = "";
+     document.getElementById("balance_slab").innerText = "";
+     document.getElementById("taxable_income").innerText = "";
+     document.getElementById("first_tax").innerText = "";
+     document.getElementById("balance_tax").innerText = "";
+     document.getElementById("monthly_tax").innerText = "";
+     document.getElementById("annual_tax").innerText = "";
+     document.getElementById("annual_tax").innerText = "";
+     document.getElementById("salary_lkr").innerText = "";
+     document.getElementById("salary_lkr").innerText = "";
+     document.getElementById("salary_lkr").innerText = "";
+     document.getElementById("personal_relief").value = "";
+		 document.getElementById("relief_deduction").innerText = "";
+     document.querySelectorAll("div.cls-test-div span").forEach(span => span.innerText = "");
+     document.getElementById("effective_rate").innerText = "%";
     }
 
     document.querySelectorAll("#monthly_foreign,#exchange_rate,#personal_relief")
