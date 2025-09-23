@@ -103,7 +103,7 @@ jobs:
             -Credential $cred `
             -Authentication Basic `
             -ScriptBlock {
-              powershell -ExecutionPolicy Bypass -File "C:\Taxfiling\TaxfilingWeb\deploy.ps1"
+              powershell -ExecutionPolicy Bypass -File "C:\TaxFilingUAT\TaxfilingWeb\deploy.ps1"
             }
 
       - name: 🔌 Disconnect network shares
