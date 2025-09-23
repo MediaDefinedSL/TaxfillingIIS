@@ -149,9 +149,13 @@
 
     window.AppConfig = {
         fileSiteUrl: "@Configuration["FileSiteUrl"]",
-        mailUrl: "@Configuration["MailUrl"]"
+        mailUrl: "@Configuration["MailUrl"]",
+        baseApiUrl: "@Configuration["BaseAPIUrl"]",
+        userId: @Html.Raw(Json.Serialize(User.FindFirst("UserID")?.Value))
         
     };
+
+    console.log(window.AppConfig);
 
     document.addEventListener("DOMContentLoaded", function () {
         const currentPath = window.location.pathname.toLowerCase();

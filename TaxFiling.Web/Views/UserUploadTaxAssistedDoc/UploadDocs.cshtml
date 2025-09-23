@@ -346,7 +346,7 @@
             else
             {
                 showMessage("✅ Document deleted successfully.", "success");
-                const userId = '@User.FindFirst("UserID")?.Value';
+                const userId = userId;//'@User.FindFirst("UserID")?.Value';
                 loadUploadedDocs(userId);                
             }
             
@@ -358,7 +358,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        const userId = '@User.FindFirst("UserID")?.Value';
+        const userId = userId;//'@User.FindFirst("UserID")?.Value';
         loadUploadedDocs(userId);
         const buttons = document.querySelectorAll(".category-btn");
         const sections = document.querySelectorAll(".form-section");
