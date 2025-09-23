@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Mvc.Authorization
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 
 <!DOCTYPE html>
 <html lang="en">
@@ -144,6 +145,13 @@
 </html>
 
 <script>
+
+
+    window.AppConfig = {
+        fileSiteUrl: "@Configuration["FileSiteUrl"]",
+        mailUrl: "@Configuration["MailUrl"]"
+        
+    };
 
     document.addEventListener("DOMContentLoaded", function () {
         const currentPath = window.location.pathname.toLowerCase();

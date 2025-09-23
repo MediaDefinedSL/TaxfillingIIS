@@ -49,5 +49,7 @@ public class Context : DbContext
     public DbSet<SelfonlineLiabilitiesOtherAssetsGifts> SelfonlineLiabilitiesOtherAssetsGifts { get; set; }
     public DbSet<SelfonlineLiabilitiesDisposalAssets> SelfonlineLiabilitiesDisposalAssets { get; set; }
 
+    public DbSet<UserUploadDocStatus> UserUploadDocStatus { get; set; }
+
 
 }

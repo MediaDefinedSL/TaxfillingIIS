@@ -809,9 +809,9 @@ document.querySelectorAll('.collapse').forEach(div => {
           body: form.message.value,
           subject: form.subject.value
         };
-
+            
         try {
-               const resp = await fetch("https://mail.taxfiling.lk/ContactUs", {
+          const resp = await fetch(`${window.AppConfig.mailUrl}ContactUs`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

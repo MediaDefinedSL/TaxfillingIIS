@@ -96,8 +96,37 @@ namespace TaxFiling.Business.Repositories
             {
                 transaction.User.IsActivePayment = 1;
                 transaction.User.PackageId = PackageId;
+                //if (PackageId == 4 || PackageId == 5 || PackageId == 6)
+                //transaction.User.taxAssistedUserUploadDocsStatus = 0;
                 if (PackageId == 4 || PackageId == 5 || PackageId == 6)
-                    transaction.User.taxAssistedUserUploadDocsStatus = 0;
+                {
+                    int currentYear = DateTime.UtcNow.Year;
+                    var userDocStatus = await _context.UserUploadDocStatus
+                        .FirstOrDefaultAsync(u => u.UserId == transaction.User.UserId.ToString() && u.Year == currentYear);
+
+                    if (userDocStatus != null)
+                    {
+                        // Update existing row
+                        userDocStatus.DocStatus = 0;
+                        userDocStatus.IsPersonalInfoCompleted = 0;
+                        userDocStatus.IsIncomeTaxCreditsCompleted = 0;
+                        userDocStatus.UpdatedDate = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        // Create a new row for the current year
+                        userDocStatus = new UserUploadDocStatus
+                        {
+                            UserId = transaction.User.UserId.ToString(),
+                            Year = currentYear,
+                            DocStatus = 0,
+                            IsPersonalInfoCompleted = 0,
+                            IsIncomeTaxCreditsCompleted = 0,
+                            UpdatedDate = DateTime.UtcNow
+                        };
+                        _context.UserUploadDocStatus.Add(userDocStatus);
+                    }
+                }
             }
             //_context.UserTransactions.Update(transaction);
             await _context.SaveChangesAsync();

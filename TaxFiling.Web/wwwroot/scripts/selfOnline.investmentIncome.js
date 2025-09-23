@@ -94,7 +94,7 @@
     let highlightedIndex = -1;
     let highlightedBranchIndex = -1;
 
-    $.getJSON("https://mail.taxfiling.lk/getallbank", function (data) {
+    $.getJSON(`${window.AppConfig.mailUrl}getallbank`, function (data) {
         allBanks = data;
     });
   
@@ -161,7 +161,7 @@
         //$("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
         $("#branch_code, #branch_name").val("");
         $("#bankDropdown").hide();
-        $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+        $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
             if (!branches.length) return $("#branchDropdown").hide();
 
             const html = branches.map(br =>
@@ -231,7 +231,7 @@
 
                 $("#bankDropdown").hide();
 
-                $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
                     if (!branches.length) return $("#branchDropdown").hide();
 
                     const html = branches.map(br =>
@@ -298,7 +298,7 @@
 
         const q = $(this).val().toLowerCase();
 
-        $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+        $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
             if (!branches.length) return $("#branchDropdown").hide();
 
             // Filter if user typed something
@@ -467,8 +467,9 @@
             formData.append("file", selectedFile);
             formData.append("userId", userId);
             formData.append("year", year);
+            const uploadUrl = `${window.AppConfig.fileSiteUrl}/upload`;
 
-            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+            const uploadRes = await fetch(uploadUrl, {
                 method: "POST",
                 body: formData
             });
@@ -518,7 +519,9 @@
         const left = (screen.width / 2) - (width / 2);
         const top = (screen.height / 2) - (height / 2);
 
-        const response = await fetch("https://file.taxfiling.lk/view", {
+        const uploadUrl = `${window.AppConfig.fileSiteUrl}/upload`;
+
+        const response = await fetch(uploadUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -765,7 +768,7 @@
         //$("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
         $("#branch_code, #branch_name").val("");
         $("#FDbankDropdown").hide();
-        $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+        $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
             if (!branches.length) return $("#FDbranchDropdown").hide();
 
             const html = branches.map(br =>
@@ -835,7 +838,7 @@
 
                 $("#FDbankDropdown").hide();
 
-                $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
                     if (!branches.length) return $("#FDbranchDropdown").hide();
 
                     const html = branches.map(br =>
@@ -902,7 +905,7 @@
 
         const q = $(this).val().toLowerCase();
 
-        $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+        $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
             if (!branches.length) return $("#FDbranchDropdown").hide();
 
             // Filter if user typed something
