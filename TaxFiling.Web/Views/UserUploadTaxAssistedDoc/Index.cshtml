@@ -8,6 +8,8 @@
     var userId = User.Claims.FirstOrDefault(mbox => mbox.Type == "UserID")?.Value;
     bool isAuthenticated = !string.IsNullOrEmpty(userId);
     var apiUrl = Configuration["BaseAPIUrl"];
+    var fileSiteUrl = Configuration["FileSiteUrl"];
+    var mailUrl = Configuration["MailUrl"];
     var tinNo = User.Claims.FirstOrDefault(c => c.Type == "TinNo")?.Value;
     // var userUploadDocStatus = User.FindFirst("UserUploadDocStatus")?.Value;
     //int docStatus = int.TryParse(userUploadDocStatus, out var parsedStatus) ? parsedStatus : -1;
@@ -1640,7 +1642,7 @@
                 <div class="load-text">Uploading, please wait...</div>
             </div>
             <input type="hidden" id="docUploadStatus" value="@docStatus" />
-            <input type="hidden" id="personalInfoCompleted" value="@personalTaxAssistedComplete" />
+            <input type="hidden" id="personalInfoCompleted" value="@personalInfoCompletedStatus" />
 
             <script src="~/scripts/taxassistedselfonline.js?v=6" asp-append-version="true"></script>
             <script>
@@ -1649,6 +1651,8 @@
                         const sidebarLinks = document.querySelectorAll(".sidebar-link");
                         const contentPanels = document.querySelectorAll(".content-panel");
                         const baseApiUrl = "@apiUrl";
+                        const fileSiteUrl = "@fileSiteUrl";
+                        const mailUrl = "@mailUrl";
                         console.log("Base API URL:", baseApiUrl);
                         const userId = '@userId';
 
@@ -1725,56 +1729,69 @@
 
                        if(globalUploadCount > 0)
                        {
-                              const payload = {
-                                   userId: userId,
-                                   uploadedDocumentStatus: 1
-                               };
-                                   fetch(`${baseApiUrl}api/users/update-document-status`, {
-                                   method: 'PUT',
-                                   headers: {
-                                       'Content-Type': 'application/json'
-                                   },
-                                   body: JSON.stringify(payload)
-                               })
-                               .then(res => res.json())
-                               .then(data => {
-                                       if(data.success){
-                                               // Update status to NEW
-                                            const row = document.querySelector('#assessment-row-2024');
-                                            // Find the badge by ID
-                                           const badgeRow = document.querySelector('#status-badge-2024');
-                                              const badge = document.querySelector('#statusBadge');
-                                              //const removeBtn = document.getElementById("btnRemoveDraft");
-                                                 const removeBtn = document.getElementById("btnRemoveDft");
-                                           // Update text and classes
-                                           if (badge) {
-                                             badge.textContent = 'DRAFT';
-                                             badge.classList.remove('bg-info');   // remove old status color
-                                             badge.classList.add('bg-warning');   // example new color
+                              // const payload = {
+                              //      userId: userId,
+                              //      uploadedDocumentStatus: 1
+                                   
+                              //  };
+                            const payload = {
+                                userId: userId,
+                                year: new Date().getFullYear(),
+                                docStatus: 1,
+                                isPersonalInfoCompleted: null,
+                                isIncomeTaxCreditsCompleted: null,
+                                updatedDate: new Date().toISOString()
+
+                             };
 
 
-                                           }
-                                               if (badgeRow) {
-                                                badgeRow.textContent = 'DRAFT';
-                                                badgeRow.classList.remove('bg-info');   // remove old status color
-                                                   badgeRow.classList.add('bg-warning');   // example new color
+                                   //fetch(`${baseApiUrl}api/users/update-document-status`, {
+                            fetch(`${baseApiUrl}api/users/update-user-document-status`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                if(data.success){
+                                        // Update status to NEW
+                                    const row = document.querySelector('#assessment-row-2024');
+                                    // Find the badge by ID
+                                    const badgeRow = document.querySelector('#status-badge-2024');
+                                        const badge = document.querySelector('#statusBadge');
+                                        //const removeBtn = document.getElementById("btnRemoveDraft");
+                                            const removeBtn = document.getElementById("btnRemoveDft");
+                                    // Update text and classes
+                                    if (badge) {
+                                        badge.textContent = 'DRAFT';
+                                        badge.classList.remove('bg-info');   // remove old status color
+                                        badge.classList.add('bg-warning');   // example new color
 
-                                              }
 
-                                              if (removeBtn) {
-                                                    removeBtn.style.display = "block";
-                                              }
-                                              updateProgressHeader(2024, "DRAFT", "bg-warning");
+                                    }
+                                        if (badgeRow) {
+                                        badgeRow.textContent = 'DRAFT';
+                                        badgeRow.classList.remove('bg-info');   // remove old status color
+                                            badgeRow.classList.add('bg-warning');   // example new color
+
+                                        }
+
+                                        if (removeBtn) {
+                                            removeBtn.style.display = "block";
+                                        }
+                                        updateProgressHeader(2024, "DRAFT", "bg-warning");
 
 
 
-                                       }
-                                       else
-                                           alert(data.message);
-                               })
-                               .catch(err => alert('Error updating status.'));
-                   }
-                }
+                                }
+                                else
+                                    alert(data.message);
+                        })
+                        .catch(err => alert('Error updating status.'));
+            }
+        }
 
                  function decrementUploadCount() {
                        globalUploadCount--;
@@ -1800,7 +1817,7 @@
 
                              try {
                                    let year = new Date().getFullYear();
-                                      const response = await fetch(`https://file.taxfiling.lk/delete-all/${userId}/${year}`, {
+                                                  const response = await fetch(`${fileSiteUrl}delete-all/${userId}/${year}`, {
                                      method: "DELETE"
                                  });
 
@@ -1849,11 +1866,22 @@
 
                                    deleteAllFilefromServer();
 
+                                     // const payload = {
+                                     //        userId: userId,
+                                     //        uploadedDocumentStatus: 0
+                                     //    };
+
                                      const payload = {
-                                            userId: userId,
-                                            uploadedDocumentStatus: 0
-                                        };
-                                           fetch(`${baseApiUrl}api/users/update-document-status`, {
+                                       userId: userId,
+                                       year: new Date().getFullYear(),
+                                       docStatus: 0,
+                                       isPersonalInfoCompleted: null,
+                                       isIncomeTaxCreditsCompleted: null,
+                                       updatedDate: new Date().toISOString()
+
+                                    };
+                                          // fetch(`${baseApiUrl}api/users/update-document-status`, {
+                                        fetch(`${baseApiUrl}api/users/update-user-document-status`, {
                                             method: 'PUT',
                                              headers: {
                                                  'Content-Type': 'application/json'
@@ -2805,7 +2833,7 @@
                        // personal info (dummy logic, adapt as needed)
                        const PersonalInfoVal = document.getElementById("personalInfoCompleted").value;
                        const hasPersonalInfo = PersonalInfoVal == 1 ? true : false;
-                                   setStatus("personalInfoStatus", hasPersonalInfo);
+                       setStatus("personalInfoStatus", hasPersonalInfo);
                        if(hasPersonalInfo == 1) completed++;
                        //setStatus("personalInfoStatus", hasPersonalInfo);
 
@@ -2953,7 +2981,7 @@
                            formData.append("decryptionKey", decryptionKey);
                            formData.append("year", new Date().getFullYear().toString());
 
-                           const viewRes = await fetch("https://file.taxfiling.lk/view", {
+                                                   const viewRes = await fetch(`${fileSiteUrl}view`, {
                                method: "POST",
                                headers: {
                                "Content-Type": "application/json"
@@ -3057,7 +3085,7 @@
 
                              try {
                                    let year = new Date().getFullYear();
-                                   const response = await fetch(`https://file.taxfiling.lk/file/${uploadId}/${userId}/${year}`, {
+                                               const response = await fetch(`${fileSiteUrl}file/${uploadId}/${userId}/${year}`, {
                                      method: "DELETE"
                                  });
 
@@ -3132,11 +3160,22 @@
                                       const currentYear = new Date().getFullYear()-1;
                                       const badgeId = `status-badge-${currentYear}`;
                                       const badge = document.getElementById(badgeId);
-                                     const payload = {
-                                          userId: userId,
-                                          uploadedDocumentStatus: 2
-                                      };
-                                         fetch(`${baseApiUrl}api/users/update-document-status`, {
+                                    // const payload = {
+                                    //     userId: userId,
+                                    //     uploadedDocumentStatus: 2
+                                    // };
+                                       const payload = {
+                                           userId: userId,
+                                           year: new Date().getFullYear(),
+                                           docStatus: 2,
+                                           isPersonalInfoCompleted: null,
+                                           isIncomeTaxCreditsCompleted: null,
+                                           updatedDate: new Date().toISOString()
+
+                                       };
+
+                                         //fetch(`${baseApiUrl}api/users/update-document-status`, {
+                                       fetch(`${baseApiUrl}api/users/update-user-document-status`, {
                                           method: 'PUT',
                                            headers: {
                                                'Content-Type': 'application/json'
@@ -3614,7 +3653,7 @@
                      let highlightedIndex = -1;
                         let highlightedBranchIndex = -1;
 
-                       $.getJSON("https://mail.taxfiling.lk/getallbank", function (data) {
+                    $.getJSON(`${window.AppConfig.mailUrl}getallbank`, function (data) {
                            allBanks = data;
                        });
                  $("#bankInput").on("focus", function () {
@@ -3681,7 +3720,7 @@
                                    //$("#branchInput").val("").prop("disabled", false).attr("placeholder", "Type branch name or code");
                        $("#branch_code, #branch_name").val("");
                           $("#bankDropdown").hide();
-                       $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                       $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
                        if (!branches.length) return $("#branchDropdown").hide();
 
                        const html = branches.map(br =>
@@ -3754,7 +3793,7 @@
 
                                $("#bankDropdown").hide();
 
-                                  $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                               $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
                                   if (!branches.length) return $("#branchDropdown").hide();
 
                                   const html = branches.map(br =>
@@ -3821,7 +3860,7 @@
 
                        const q = $(this).val().toLowerCase();
 
-                       $.getJSON(`https://mail.taxfiling.lk/getbranches/${selectedBank}`, (branches) => {
+                       $.getJSON(`${window.AppConfig.mailUrl}getbranches/${selectedBank}`, (branches) => {
                            if (!branches.length) return $("#branchDropdown").hide();
 
                            // Filter if user typed something
@@ -4263,8 +4302,8 @@
                                formData.append("file", selectedFile);
                                formData.append("userId", userId);
                                formData.append("year", new Date().getFullYear().toString());
-
-                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                                                      
+                               const uploadRes = await fetch(`${fileSiteUrl}upload`, {
                                    method: "POST",
                                    body: formData
                                });
@@ -4461,7 +4500,7 @@
                                formData.append("userId", userId);
                                formData.append("year", new Date().getFullYear().toString());
 
-                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                               const uploadRes = await fetch(`${fileSiteUrl}upload`, {
                                    method: "POST",
                                    body: formData
                                });
@@ -4615,7 +4654,7 @@
                                   formData.append("userId", userId);
                                   formData.append("year", new Date().getFullYear().toString());
 
-                                  const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                                  const uploadRes = await fetch(`${fileSiteUrl}upload`, {
                                       method: "POST",
                                       body: formData
                                   });
@@ -4743,7 +4782,7 @@
                                formData.append("userId", userId);
                                formData.append("year", new Date().getFullYear().toString());
 
-                               const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+                                           const uploadRes = await fetch(`${fileSiteUrl}upload`, {
                                    method: "POST",
                                    body: formData
                                });

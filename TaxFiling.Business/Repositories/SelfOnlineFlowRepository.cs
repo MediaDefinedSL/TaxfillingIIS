@@ -382,9 +382,10 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
 
         try
         {
+            // 1?? Update SelfOnlineFlowPersonalInformation
             var _selfOnlineuser = await _context.SelfOnlineFlowPersonalInformation
-                               .Where(p => p.UserId == contactInfromation.UserId && p.Year == contactInfromation.Year)
-                               .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(p => p.UserId == contactInfromation.UserId
+                                       && p.Year == contactInfromation.Year);
 
             if (_selfOnlineuser != null)
             {
@@ -403,26 +404,40 @@ public class SelfOnlineFlowRepository : ISelfOnlineFlowRepository
                 _selfOnlineuser.WhatsApp = contactInfromation.WhatsApp;
                 _selfOnlineuser.PreferredCommunicationMethod = contactInfromation.PreferredCommunicationMethod;
 
-                var userEntity = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserId.ToString() == contactInfromation.UserId);
+                
+                var userUploadDoc = await _context.UserUploadDocStatus
+                    .FirstOrDefaultAsync(u => u.UserId == contactInfromation.UserId
+                                           && u.Year == contactInfromation.Year);
 
-                if (userEntity != null)
+                if (userUploadDoc != null)
                 {
-                    userEntity.isPersonalInfoCompleted = 1;
-                    userEntity.UpdatedOn = DateTime.Now;   // if you have audit fields
-                    userEntity.UpdatedBy = contactInfromation.UserId;
+                    userUploadDoc.IsPersonalInfoCompleted = 1;
+                    userUploadDoc.UpdatedDate = DateTime.Now;
+                }
+                else
+                {
+                    // Optional: If no record exists, create one
+                    _context.UserUploadDocStatus.Add(new UserUploadDocStatus
+                    {
+                        UserId = contactInfromation.UserId,
+                        Year = contactInfromation.Year,
+                        IsPersonalInfoCompleted = 1,
+                        DocStatus = 0,
+                        IsIncomeTaxCreditsCompleted = 0,
+                        UpdatedDate = DateTime.Now
+                    });
                 }
 
+                
                 await _context.SaveChangesAsync();
-                isSuccess = true;   // mark success
-
-                //await _context.SaveChangesAsync();
+                isSuccess = true;
             }
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error update Contact Information");
+            _logger.LogError(e, "Error updating Contact Information");
         }
+
         return isSuccess;
     }
 

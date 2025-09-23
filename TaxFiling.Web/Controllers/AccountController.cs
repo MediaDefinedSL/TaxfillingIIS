@@ -23,6 +23,7 @@ public sealed class AccountController : Controller
     private readonly HttpClient _httpClient;
 
     private readonly string _baseApiUrl;
+    private readonly string _mailAPIUrl;
 
     public AccountController(IConfiguration configuration, IHttpClientFactory httpClientFactory, JsonSerializerOptions jsonSerializerOptions)
     {
@@ -31,6 +32,7 @@ public sealed class AccountController : Controller
         _jsonSerializerOptions = jsonSerializerOptions;
         _httpClient = httpClientFactory.CreateClient("ApiClient");
         _baseApiUrl = _configuration.GetValue<string>("BaseAPIUrl") ?? string.Empty;
+        _mailAPIUrl = _configuration.GetValue<string>("MailUrl") ?? string.Empty;
     }
 
     #region Login...
@@ -268,7 +270,7 @@ public sealed class AccountController : Controller
         using var client = new HttpClient();
 
         // API endpoint
-        var apiUrl = "https://mail.taxfiling.lk/generate-reset-link";
+        var apiUrl = $"{_mailAPIUrl}generate-reset-link";
 
         // API body (must match your expected parameter name: username)
         var body = new { username = model.Email };
@@ -305,7 +307,7 @@ public sealed class AccountController : Controller
         }
 
         using var client = new HttpClient();
-        var apiUrl = $"https://mail.taxfiling.lk/validatetoken/{token}";
+        var apiUrl = $"{_mailAPIUrl}validatetoken/{token}";
 
         // Call API to validate token
         var response = await client.GetAsync(apiUrl);

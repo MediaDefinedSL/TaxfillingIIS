@@ -230,6 +230,21 @@ namespace TaxFiling.API.Controllers
             return Ok("Password reset successful.");
         }
 
+        [HttpPut("update-user-document-status")]
+        public async Task<IActionResult> UpdateUserUploadedDocStatus(UserUploadDocStatusDto userDocStatus)
+        {
+            if (userDocStatus.UserId == string.Empty)
+                return BadRequest("Invalid userId.");
+
+            var result = await _userRepository.UpdateUserUploadedDocStatus(userDocStatus.UserId, userDocStatus.Year, userDocStatus.DocStatus,
+                userDocStatus.IsPersonalInfoCompleted, userDocStatus.IsIncomeTaxCreditsCompleted);
+
+            if (result)
+                return Ok(new { success = true, message = "Status updated successfully." });
+            else
+                return BadRequest(new { success = false, message = "Failed to update status." });
+        }
+
 
     }
 }

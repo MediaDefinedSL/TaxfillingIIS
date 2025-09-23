@@ -100,8 +100,14 @@ public class UserRepository : IUserRepository
             var result = hasher.VerifyHashedPassword(new object(), userEntity.Password, loginModel.Password);
 
             if (result == PasswordVerificationResult.Success)
-            {  
-                
+            {
+                int currentYear = DateTime.UtcNow.Year;
+
+                var docStatus = await _context.UserUploadDocStatus
+                .AsNoTracking()
+                .Where(x => x.UserId == userEntity.UserId.ToString() && x.Year == currentYear)
+                .Select(x => x.DocStatus)
+                .FirstOrDefaultAsync();
 
                 accessTokenData = new AccessTokenData
                 {
@@ -118,7 +124,9 @@ public class UserRepository : IUserRepository
                     TinNo = userEntity.TinNo ?? string.Empty,
                     PackageId = userEntity.PackageId,
                     ProfileImagePath = userEntity.ProfileImagePath,
-                    UploadedDocumentStatus = userEntity.taxAssistedUserUploadDocsStatus
+                    //UploadedDocumentStatus = userEntity.taxAssistedUserUploadDocsStatus
+
+                    UploadedDocumentStatus = docStatus
 
                 };
 
@@ -218,10 +226,16 @@ public class UserRepository : IUserRepository
                                     Users.NICNO,
                                     Users.TinNo,
                                     Users.PackageId,
-                                    Users.ProfileImagePath,
-                                    Users.taxAssistedUserUploadDocsStatus
+                                    Users.ProfileImagePath
+                                    //Users.taxAssistedUserUploadDocsStatus
                                 })
                             .FirstOrDefaultAsync();
+
+                            int currentYear = DateTime.UtcNow.Year;
+                            var docStatus = await _context.UserUploadDocStatus
+                                .Where(d => d.UserId == userid.ToString() && d.Year == currentYear)
+                                .Select(d => d.DocStatus)
+                                .FirstOrDefaultAsync();
 
             accessTokenData.RoleId = role.Code;
             accessTokenData.UserId = role.UserId;
@@ -234,7 +248,8 @@ public class UserRepository : IUserRepository
             accessTokenData.TinNo = role.TinNo;
             accessTokenData.PackageId = role.PackageId;
             accessTokenData.ProfileImagePath = role.ProfileImagePath;
-            accessTokenData.UploadedDocumentStatus = role.taxAssistedUserUploadDocsStatus;
+            //accessTokenData.UploadedDocumentStatus = role.taxAssistedUserUploadDocsStatus;
+            accessTokenData.UploadedDocumentStatus = docStatus;
 
             //var tokenModel = new TokenModel
             //{
@@ -344,37 +359,78 @@ public class UserRepository : IUserRepository
         return isSuccess;
     }
 
+    //public async Task<UserDto?> GetUser(Guid id, CancellationToken ctx)
+    //{
+    //    var user = await _context.Users
+    //                        .AsNoTracking()
+    //                        .Where(user => user.UserId == id)
+    //                        .Select(user => new UserDto
+    //                        {
+    //                            UserId = user.UserId,
+    //                            UserName = user.Email,
+    //                            Password = user.Password,
+    //                            Email = user.Email,
+    //                            FirstName = user.FirstName,
+    //                            LastName = user.LastName,
+    //                            UserRoleId = 3,
+    //                            Phone = user.Phone,
+    //                            TinNo = user.TinNo,
+    //                            NICNO = user.NICNO,
+    //                            IsTin = user.IsTin,
+    //                            IsActivePayment = user.IsActivePayment,
+    //                            PackageId = user.PackageId,
+    //                            ProfileImagePath = user.ProfileImagePath,
+    //                            TaxTotal = user.TaxTotal,
+    //                            taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus,
+    //                            IRDPIN = user.IRDPIN,
+    //                            isPersonalInfoCompleted = user.isPersonalInfoCompleted,
+    //                            isIncomeTaxCreditsCompleted = user.isIncomeTaxCreditsCompleted
+
+    //                        })
+    //                        .FirstOrDefaultAsync(ctx);
+
+
+
+    //    return user;
+    //}
+
     public async Task<UserDto?> GetUser(Guid id, CancellationToken ctx)
     {
-        var user = await _context.Users
-                            .AsNoTracking()
-                            .Where(user => user.UserId == id)
-                            .Select(user => new UserDto
-                            {
-                                UserId = user.UserId,
-                                UserName = user.Email,
-                                Password = user.Password,
-                                Email = user.Email,
-                                FirstName = user.FirstName,
-                                LastName = user.LastName,
-                                UserRoleId = 3,
-                                Phone = user.Phone,
-                                TinNo = user.TinNo,
-                                NICNO = user.NICNO,
-                                IsTin = user.IsTin,
-                                IsActivePayment = user.IsActivePayment,
-                                PackageId = user.PackageId,
-                                ProfileImagePath = user.ProfileImagePath,
-                                TaxTotal = user.TaxTotal,
-                                taxAssistedUserUploadDocsStatus = user.taxAssistedUserUploadDocsStatus,
-                                IRDPIN = user.IRDPIN,
-                                isPersonalInfoCompleted = user.isPersonalInfoCompleted,
-                                isIncomeTaxCreditsCompleted = user.isIncomeTaxCreditsCompleted
+        var currentYear = DateTime.UtcNow.Year;
+        var user = await
+            (from u in _context.Users.AsNoTracking()
+             join uds in _context.UserUploadDocStatus.AsNoTracking()
+                 on u.UserId.ToString() equals uds.UserId
+                 into g
+             from docStatus in g
+                 .Where(d => d.Year == currentYear)       
+                 .DefaultIfEmpty()                        
+             where u.UserId == id
+             select new UserDto
+             {
+                 UserId = u.UserId,
+                 UserName = u.Email,
+                 Password = u.Password,
+                 Email = u.Email,
+                 FirstName = u.FirstName,
+                 LastName = u.LastName,
+                 UserRoleId = 3,
+                 Phone = u.Phone,
+                 TinNo = u.TinNo,
+                 NICNO = u.NICNO,
+                 IsTin = u.IsTin,
+                 IsActivePayment = u.IsActivePayment,
+                 PackageId = u.PackageId,
+                 ProfileImagePath = u.ProfileImagePath,
+                 TaxTotal = u.TaxTotal,                 
+                 IRDPIN = u.IRDPIN,
 
-                            })
-                            .FirstOrDefaultAsync(ctx);
-
-       
+                 // Pull these from userUploadDocStatus (fall back to 0 if no record)
+                 taxAssistedUserUploadDocsStatus = docStatus.DocStatus,
+                 isPersonalInfoCompleted = docStatus.IsPersonalInfoCompleted,
+                 isIncomeTaxCreditsCompleted = docStatus.IsIncomeTaxCreditsCompleted
+             })
+            .FirstOrDefaultAsync(ctx);
 
         return user;
     }
@@ -551,18 +607,31 @@ public class UserRepository : IUserRepository
     }
     public async Task<int?> GetLatestUploadedDocumentStatusAsync(Guid userId)
     {
-        return await _context.Users
-            .Where(d => d.UserId == userId)
-            .Select(d => d.taxAssistedUserUploadDocsStatus )
-            .FirstOrDefaultAsync();
+        //return await _context.Users
+        //    .Where(d => d.UserId == userId)
+        //    .Select(d => d.taxAssistedUserUploadDocsStatus )
+        //    .FirstOrDefaultAsync();
+        var currentYear = DateTime.UtcNow.Year;
+        return await _context.UserUploadDocStatus
+        .Where(d => d.UserId == userId.ToString() && d.Year == currentYear)
+        .Select(d => d.DocStatus)
+        .FirstOrDefaultAsync();
     }
     public async Task<int?> GetPersonalInformationCompleted(Guid userId)
     {
-        return await _context.Users
-            .Where(d => d.UserId == userId)
-            .Select(d => d.isPersonalInfoCompleted)
+        //return await _context.Users
+        //    .Where(d => d.UserId == userId)
+        //    .Select(d => d.isPersonalInfoCompleted)
+        //    .FirstOrDefaultAsync();
+
+        var currentYear = DateTime.UtcNow.Year;
+
+        return await _context.UserUploadDocStatus
+            .Where(d => d.UserId == userId.ToString() && d.Year == currentYear)
+            .Select(d => d.IsPersonalInfoCompleted)
             .FirstOrDefaultAsync();
     }
+    
 
     public async Task<bool> UpdatePasswordAsync(string email, string newPassword)
     {
@@ -582,5 +651,66 @@ public class UserRepository : IUserRepository
         return true;
     }
 
-    
+    public async Task<bool> UpdateUserUploadedDocStatus(
+    string userId,
+    int year,
+    int? userUploadedDocStatus,
+    int? isPersonalInfoCompleted,
+    int? isIncomeTaxCreditsCompleted)
+    {
+        bool isSuccess = false;
+
+        try
+        {
+            if (userUploadedDocStatus == null)
+                return false;
+
+            var userExists = await _context.Users
+                .AnyAsync(u => u.UserId.ToString() == userId);
+
+            if (!userExists)
+                return false;
+            
+            var existingStatus = await _context.UserUploadDocStatus
+                .FirstOrDefaultAsync(s => s.UserId == userId && s.Year == year);
+
+            if (existingStatus != null)
+            {
+                if (isPersonalInfoCompleted != null) existingStatus.IsPersonalInfoCompleted = isPersonalInfoCompleted.Value;
+                if (isIncomeTaxCreditsCompleted != null) existingStatus.IsIncomeTaxCreditsCompleted = isIncomeTaxCreditsCompleted.Value;
+                if (userUploadedDocStatus != null) existingStatus.DocStatus = userUploadedDocStatus.Value;
+
+                existingStatus.UpdatedDate = DateTime.UtcNow;
+                _context.UserUploadDocStatus.Update(existingStatus);
+            }
+            else
+            {
+
+                var newStatus = new UserUploadDocStatus
+                {
+                    UserId = userId,
+                    Year = year,
+                    UpdatedDate = DateTime.UtcNow
+                };
+
+                // assign only when not null
+                if (userUploadedDocStatus != null) newStatus.DocStatus = userUploadedDocStatus.Value;
+                if (isPersonalInfoCompleted != null) newStatus.IsPersonalInfoCompleted = isPersonalInfoCompleted.Value;
+                if (isIncomeTaxCreditsCompleted != null) newStatus.IsIncomeTaxCreditsCompleted = isIncomeTaxCreditsCompleted.Value;
+
+                await _context.UserUploadDocStatus.AddAsync(newStatus);
+            }
+
+            await _context.SaveChangesAsync();
+            isSuccess = true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error saving or updating UserUploadDocStatus");
+        }
+
+        return isSuccess;
+    }
+
+
 }

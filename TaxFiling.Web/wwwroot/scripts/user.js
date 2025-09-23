@@ -675,7 +675,7 @@ function validateTIN(tin) {
 
 function sendRegistrationEmail(userEmail, userId) {
     $.ajax({
-        url: "https://mail.taxfiling.lk/send-email",
+        url: `${ window.AppConfig.mailUrl }send-email`,
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify({

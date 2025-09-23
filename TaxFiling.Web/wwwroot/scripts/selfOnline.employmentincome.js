@@ -285,7 +285,9 @@ $(function () {
             formData.append("userId", userId);
             formData.append("year", year);
 
-            const uploadRes = await fetch("https://file.taxfiling.lk/upload", {
+            const uploadUrl = `${window.AppConfig.fileSiteUrl}/upload`;
+
+            const uploadRes = await fetch(uploadUrl, {
                 method: "POST",
                 body: formData
             });            
@@ -336,7 +338,9 @@ $(function () {
         const left = (screen.width / 2) - (width / 2);
         const top = (screen.height / 2) - (height / 2);
 
-        const response = await fetch("https://file.taxfiling.lk/view", {
+        const uploadUrl = `${window.AppConfig.fileSiteUrl}/view`;
+
+        const response = await fetch(uploadUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

@@ -28,5 +28,10 @@ public interface IUserRepository
 
     Task<bool> UpdatePasswordAsync(string email, string newPassword);
     Task<int?> GetPersonalInformationCompleted(Guid userId);
+    Task<bool> UpdateUserUploadedDocStatus(string userId,
+            int year,
+            int? userUploadedDocStatus,
+            int? isPersonalInfoCompleted,
+            int? isIncomeTaxCreditsCompleted);
 }
 

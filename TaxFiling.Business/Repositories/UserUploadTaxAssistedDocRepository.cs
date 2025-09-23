@@ -16,11 +16,19 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
 {
     private readonly Context _context;
     private readonly ILogger<PackagesRepository> _logger;
-    private readonly IConfiguration _configuration;
-    public UserUploadTaxAssistedDocRepository(Context context, ILogger<PackagesRepository> logger)
+    private readonly IConfiguration _configuration;   
+   
+
+    public UserUploadTaxAssistedDocRepository(Context context, ILogger<PackagesRepository> logger, IConfiguration config)
     {
         _context = context;
         _logger = logger;
+        _configuration = config;
+    }
+
+    public string GetFileSiteUrl()
+    {
+        return _configuration["FileSiteUrl"];
     }
 
     public async Task<List<UserUploadTaxAssistedDocDto>> GetUploadUserList(CancellationToken cancellationToken)
@@ -539,7 +547,9 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
                     content.Add(new StringContent(asset.UserId.ToString()), "userId");
                     content.Add(new StringContent(DateTime.Now.Year.ToString()), "year");
 
-                    var response = await httpClient.PostAsync("https://file.taxfiling.lk/upload", content);
+                    var fileSiteUrl = GetFileSiteUrl(); // e.g. https://file.taxfiling.lk/
+                    var uploadUrl = $"{fileSiteUrl.TrimEnd('/')}/upload";
+                    var response = await httpClient.PostAsync(uploadUrl, content);
 		
                     response.EnsureSuccessStatusCode();
 
@@ -677,4 +687,7 @@ public class UserUploadTaxAssistedDocRepository : IUserUploadTaxAssistedDocRepos
 
         return true;
     }
+
+    
+
 }
