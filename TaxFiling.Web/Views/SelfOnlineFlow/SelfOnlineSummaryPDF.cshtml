@@ -209,6 +209,10 @@
         .bold {
             font-weight: bold;
         }
+
+        body h4 {
+    font-size: 17px !important;
+}
     </style>
 
     <script>
@@ -220,7 +224,7 @@
         input.textContent = num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
         });
-        });
+        }); Disposal of assets including shares (sale/transfer/gift) during the year
     </script>
 </head>
 <body>
@@ -447,11 +451,11 @@
     </div>
 
     <br />
-    <br />
+    
     <h2 class="mb-3 center">
         &nbsp;Income and Tax Credits
     </h2>
-
+<br />
     <h3> Employment Income</h3>
     
     @if (Model.selfOnlineEmploymentIncomeDetails != null &&
@@ -978,7 +982,9 @@
 
     @*  --------------------------- *@
     @*   <h2>Sudarshana Prashad</h2> *@
-    <h3 class="mb-3 center">RECEIPTS & PAYMENT ACCOUNT</h3>
+    <br />
+    <h2 class="mb-3 center">RECEIPTS & PAYMENT ACCOUNT</h2>
+    <br />
     <p>
         <b>YEAR OF ASSESSMENT 2024/2025</b><br>
         (All Amounts Are In Sri Lanka Rupees)
@@ -1182,7 +1188,7 @@
                 {
     <br />
     <h4 class="mb-3">
-        &nbsp;Immovable Properties
+        Immovable Properties
     </h4>
     <div class="table-responsive" id="ImmovablePropertiesGrid">
         <table class="table table-bordered table-striped mt-2">
@@ -1225,8 +1231,9 @@
 
     @if (Model.selfonlineAssetsMotorVehicleViewModel != null && Model.selfonlineAssetsMotorVehicleViewModel.Any())
                 {
+                    <br />
     <h4 class="mb-3">
-        &nbsp; Motor Vehicle
+     Motor Vehicle
     </h4>
     <div class="table-responsive" id="MotorVehicleGrid">
         <table class="table table-bordered table-striped mt-2">
@@ -1266,8 +1273,9 @@
     
      @if (Model.selfonlineAssetsSharesStocksSecuritiesViewModel != null && Model.selfonlineAssetsSharesStocksSecuritiesViewModel.Any())
                 {
+                    <br />
     <h4 class="mb-3">
-        &nbsp; Shares/Stocks/Securities as at 31.03.2025
+         Shares/Stocks/Securities as at 31.03.2025
     </h4>
     <div class="table-responsive" id="SharesStocksGrid">
         <table class="table table-bordered table-striped mt-2">
@@ -1310,8 +1318,9 @@
 
      @if (Model.selfonlineAssetsCapitalCurrentAccountViewModel != null && Model.selfonlineAssetsCapitalCurrentAccountViewModel.Any())
                 {
+                    <br />
     <h4 class="mb-3">
-        &nbsp; Declare the Capital and Current Account (credit) Balances Held as a Part of Business, as at 31.03.2025
+     Declare the Capital and Current Account (credit) Balances Held as a Part of Business, as at 31.03.2025
     </h4>
     <div class="table-responsive" id="DeclareCapitalGrid">
         <table class="table table-bordered table-striped mt-2">
@@ -1399,6 +1408,7 @@
    
      @if (Model.selfonlineLiabilitiesOtherAssetsGifts != null && Model.selfonlineLiabilitiesOtherAssetsGifts.Any())
                 {
+                    <br />
     <h4 class="mb-3">
         &nbsp;Any other assets acquired or gifts received during the year
     </h4>
@@ -1440,6 +1450,7 @@
    
     @if (Model.selfonlineLiabilitiesDisposalAssets != null && Model.selfonlineLiabilitiesDisposalAssets.Any())
                 {
+                   <br />
     <h4 class="mb-3">
         &nbsp;Disposal of assets including shares (sale/transfer/gift) during the year
     </h4>
